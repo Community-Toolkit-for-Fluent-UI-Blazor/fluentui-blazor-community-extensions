@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <!-- Independent from TargetFrameWorks-->
+  <ItemGroup>
+    <!-- For Sample Apps -->
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0-preview.4.25258.110" />
+    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.9" />
+    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.9" />
+    <!-- Test dependencies -->
+    <!-- Shared dependencies -->
+  </ItemGroup>
+</Project>
