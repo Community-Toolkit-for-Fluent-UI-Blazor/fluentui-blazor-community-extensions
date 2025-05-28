@@ -1,1 +1,9 @@
-﻿<FluentLabel>Hello World</FluentLabel>
+﻿@namespace FluentUI.Blazor.Community.Components
+@using Microsoft.AspNetCore.Components.Forms
+@inherits InputTextArea
+@inject Microsoft.JSInterop.IJSRuntime jsRuntime
+
+<textarea @attributes="AdditionalAttributes"
+          id="@($"ckeditor-{_guid}")"
+          class="@CssClass"
+          value="@CurrentValue"></textarea>
