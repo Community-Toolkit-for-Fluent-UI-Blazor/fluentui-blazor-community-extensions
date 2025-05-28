@@ -28,6 +28,7 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
+    .AddAdditionalAssemblies([typeof(FluentUI.Demo.Shared._Imports).Assembly])
     .AddInteractiveServerRenderMode();
 
 app.Run();
