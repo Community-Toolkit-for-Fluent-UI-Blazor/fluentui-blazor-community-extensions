@@ -66,7 +66,7 @@ export function setup(id, dotNetReference) {
 
 
   ClassicEditor
-    .create(document.querySelector('#' + id), {
+    .create(document.getElementById(id), {
       language: 'en',
       licenseKey: '',
     })
