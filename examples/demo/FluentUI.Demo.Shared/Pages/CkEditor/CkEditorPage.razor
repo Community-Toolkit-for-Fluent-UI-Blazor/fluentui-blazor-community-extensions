@@ -1,8 +1,11 @@
 ﻿@page "/ckeditor"
 <h3>CkEditorSample</h3>
 
-<FluentCCkEditor @bind-Value="Value" />
 
+<FluentCCkEditor @bind-Value="Value" Label="Test" />
+
+Value:
+@Value
 @code {
     public string Value { get; set; } = "This is a sample text for CKEditor.";
 }

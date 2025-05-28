@@ -66,7 +66,7 @@ export function setup(id, dotNetReference) {
 
 
   ClassicEditor
-    .create(document.querySelector('#ckeditor-' + id), {
+    .create(document.querySelector('#' + id), {
       language: 'en',
       licenseKey: '',
     })
@@ -123,7 +123,7 @@ export function setup(id, dotNetReference) {
 export function update(id, data) {
   var editors = document.querySelectorAll('.ck-editor__editable');
   for (var i = 0; i < editors.length; i++) {
-    if (editors[i].ckeditorInstance != null && editors[i].ckeditorInstance.sourceElement.id == "ckeditor-" + id) {
+    if (editors[i].ckeditorInstance != null && editors[i].ckeditorInstance.sourceElement.id == id) {
       editors[i].ckeditorInstance.setData(data);
     }
   }
@@ -132,7 +132,7 @@ export function update(id, data) {
 export function destroy(id) {
   var editors = document.querySelectorAll('.ck-editor__editable');
   for (var i = 0; i < editors.length; i++) {
-    if (editors[i].ckeditorInstance != null && editors[i].ckeditorInstance.sourceElement.id == "ckeditor-" + id) {
+    if (editors[i].ckeditorInstance != null && editors[i].ckeditorInstance.sourceElement.id == id) {
       editors[i].ckeditorInstance.destroy();
     }
   }

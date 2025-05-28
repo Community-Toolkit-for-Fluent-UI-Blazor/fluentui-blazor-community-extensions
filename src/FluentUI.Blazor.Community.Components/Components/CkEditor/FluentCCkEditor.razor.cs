@@ -1,10 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
-public partial class FluentCCkEditor
+public partial class FluentCCkEditor : FluentInputBase<string?>
 {
-    private readonly Guid _guid = Guid.NewGuid();
+
     private readonly DotNetObjectReference<FluentCCkEditor> _reference;
     private IJSObjectReference? _jsModule;
     public const int MAX_HEIGHT = 400;
@@ -24,7 +26,7 @@ public partial class FluentCCkEditor
         if (firstRender)
         {
             _jsModule = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/FluentUI.Blazor.Community.Components/Components/CkEditor/FluentCCkEditor.razor.js");
-            await _jsModule.InvokeVoidAsync("setup", [_guid, _reference]);
+            await _jsModule.InvokeVoidAsync("setup", [Id, _reference]);
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -96,7 +98,7 @@ public partial class FluentCCkEditor
 
         if (isCompleted)
         {
-            string value = _sb.ToString();
+            var value = _sb.ToString();
             _sb.Clear();
             Value = value;
             await ValueChanged.InvokeAsync(Value);
@@ -107,7 +109,7 @@ public partial class FluentCCkEditor
     {
         if (_jsModule is not null)
         {
-            await _jsModule.InvokeVoidAsync("update", _guid, data);
+            await _jsModule.InvokeVoidAsync("update", Id, data);
         }
     }
     public async ValueTask DisposeAsync()
@@ -116,7 +118,7 @@ public partial class FluentCCkEditor
         {
             if (_jsModule is not null)
             {
-                await _jsModule.InvokeVoidAsync("destroy", _guid);
+                await _jsModule.InvokeVoidAsync("destroy", Id);
                 await _jsModule.DisposeAsync();
             }
         }
@@ -127,5 +129,12 @@ public partial class FluentCCkEditor
             // the client disconnected. This is not an error.
         }
 
+    }
+
+    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
     }
 }

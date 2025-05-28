@@ -1,9 +1,12 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @using Microsoft.AspNetCore.Components.Forms
-@inherits InputTextArea
-@inject Microsoft.JSInterop.IJSRuntime jsRuntime
+@inherits FluentInputBase<string?>
 
-<textarea @attributes="AdditionalAttributes"
-          id="@($"ckeditor-{_guid}")"
-          class="@CssClass"
+@inject Microsoft.JSInterop.IJSRuntime jsRuntime
+<FluentInputLabel ForId="@Id" Label="@Label" AriaLabel="@AriaLabel" ChildContent="@LabelTemplate" Required="@Required" />
+<textarea @ref=Element
+          @attributes="AdditionalAttributes"
+          class="@ClassValue"
+          style="@StyleValue"
+          id="@Id"
           value="@CurrentValue"></textarea>
