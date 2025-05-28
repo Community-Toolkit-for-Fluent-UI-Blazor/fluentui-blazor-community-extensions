@@ -5,10 +5,12 @@
   <!-- Independent from TargetFrameWorks-->
   <ItemGroup>
     <!-- For Sample Apps -->
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0-preview.4.25258.110" />
-    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.9" />
-    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.9" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" />
     <!-- Test dependencies -->
     <!-- Shared dependencies -->
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.9" />
+    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.9" />
   </ItemGroup>
 </Project>
