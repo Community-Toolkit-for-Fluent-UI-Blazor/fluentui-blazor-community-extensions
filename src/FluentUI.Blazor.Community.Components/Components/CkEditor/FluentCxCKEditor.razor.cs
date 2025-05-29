@@ -4,10 +4,10 @@ using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
-public partial class FluentCCkEditor : FluentInputBase<string?>
+public partial class FluentCxCKEditor : FluentInputBase<string?>
 {
 
-    private readonly DotNetObjectReference<FluentCCkEditor> _reference;
+    private readonly DotNetObjectReference<FluentCxCKEditor> _reference;
     private IJSObjectReference? _jsModule;
     public const int MAX_HEIGHT = 400;
 
@@ -16,7 +16,7 @@ public partial class FluentCCkEditor : FluentInputBase<string?>
 
     public StringBuilder _sb = new();
 
-    public FluentCCkEditor()
+    public FluentCxCKEditor()
     {
         _reference = DotNetObjectReference.Create(this);
     }
@@ -25,7 +25,7 @@ public partial class FluentCCkEditor : FluentInputBase<string?>
     {
         if (firstRender)
         {
-            _jsModule = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/FluentUI.Blazor.Community.Components/Components/CkEditor/FluentCCkEditor.razor.js");
+            _jsModule = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/FluentUI.Blazor.Community.Components/Components/CkEditor/FluentCxCKEditor.razor.js");
             await _jsModule.InvokeVoidAsync("setup", [Id, _reference]);
         }
 
