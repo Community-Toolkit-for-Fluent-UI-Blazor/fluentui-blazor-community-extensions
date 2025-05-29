@@ -1,0 +1,284 @@
+﻿@page "/tilegrid"
+
+
+<h1>TileGrid</h1>
+
+<p>
+    The tile grid component is based on the two-dimensional CSS grid and is able to display content in tiles. 
+    The tiles can be rearranged by the user. 
+    The tiles can also be resized to change the way they span across the rows and columns.
+</p>
+
+<h2 id="example">Examples</h2>
+
+    <h3>Default</h3>
+    <FluentMessageBar AllowDismiss=false Intent="MessageIntent.Warning" FadeIn=false Title="Issue with dynamic spacing">
+        There is an issue with the Spacing property. It doesn't work dynamically (issue with css ? with rendering ? Do I forgot something in the config ?)
+    </FluentMessageBar>
+
+    <FluentStack Style="margin-bottom: 24px;" VerticalAlignment="VerticalAlignment.Center">
+        <FluentLabel>Spacing</FluentLabel>
+        <FluentSlider @bind-Value="Spacing" Min="0" Max="10" Step="1" Style="max-width: 300px; margin-top: 18px;" />
+    </FluentStack>
+
+    <div style="height: 400px">
+    <FluentCxTileGrid Spacing="@Spacing"
+                    Style="background-color: var(--neutral-layer-3); padding: 4px"
+                    Columns="5"
+                    RowHeight="75px">
+        <FluentCxTileGridItem>
+            CS : 1 | RS : 1
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="3">
+            CS : 3 | RS : 1
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            CS : 1 | RS : 1
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="5" RowSpan="2">
+            CS : 5 | RS : 2
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="3">
+            CS : 2 | RS : 3
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem RowSpan="2">
+            CS : 1 | RS : 2
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="3">
+            CS : 2 | RS : 3
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+    </div>
+
+    <h3>Reorder</h3>
+    <p>The Tile Grid can reorder its items.</p>
+
+    <FluentMessageBar AllowDismiss=false FadeIn=false Intent="MessageIntent.Warning" Title="Issue with reorder">
+        There is an issue with the reorder. I don't know why but in this demo, the drag and drop seems to "fail" without any reason.
+        And with this "failure", the component doesn't refresh :(
+        And sadly, this failure forces us to press F5 to reload the page.
+    </FluentMessageBar>
+
+    <div style="height: 400px">
+    <FluentCxTileGrid Spacing="3"
+                    Style="background-color: var(--neutral-layer-3); padding: 4px"
+                    Columns="3"
+                    RowHeight="150px"
+                    CanReorder>
+        <FluentCxTileGridItem Header="Header 1">
+            Some data
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Header 2">
+            Some chart
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Header 3">
+            An another item
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" Header="Header 4">
+            A big chart
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" Header="Header 5">
+            An another big chart
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem RowSpan="2" Header="Header 6">
+            A last big item
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+    </div>
+
+    <h3>Resize</h3>
+
+    <p>The Tile Grid can resize its items.</p>
+
+    <div style="height: 400px">
+    <FluentCxTileGrid Spacing="3"
+                    Style="background-color: var(--neutral-layer-3); padding: 4px"
+                    Columns="6"
+                    ColumnWidth="350px"
+                    RowHeight="75px"
+                    CanResize>
+        <FluentCxTileGridItem>
+            Item 1
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 2
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 3
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 4
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 5
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 6
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+            Item 7
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+            Item 8
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+            Item 9
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+    </div>
+
+    <h3>Column & Row spans</h3>
+
+    <p>Each item of a tile grid can have its own columnspan and rowspan.</p>
+
+<div style="height: 400px">
+    <FluentCxTileGrid Spacing="3"
+                    Style="background-color: var(--neutral-layer-3); padding: 4px"
+                    Columns="4"
+                    ColumnWidth="350px"
+                    RowHeight="75px"
+                    CanResize>
+        <FluentCxTileGridItem RowSpan="1" ColumnSpan="1">
+            Item 1
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="3">
+            Item 2
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2">
+            Item 3
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2">
+            Item 4
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem RowSpan="3">
+            Item 5
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem RowSpan="4">
+            Item 6
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+            Item 7
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="3" RowSpan="2">
+            Item 8
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="4" RowSpan="2">
+            Item 9
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+    </div>
+
+    <h3>Header</h3>
+
+    <p>An item of the tile grid can have an header. This header can be templated.</p>
+
+<div style="height: 200px">
+    <FluentCxTileGrid Spacing="3"
+                    Style="background-color: var(--neutral-layer-3); padding: 4px"
+                    Columns="3"
+                    ColumnWidth="350px"
+                    RowHeight="150px">
+        <FluentCxTileGridItem Header="With header">
+            Item 1
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            <HeaderTemplate>
+                <FluentLabel Weight="FontWeight.Bold">With a templated header</FluentLabel>
+            </HeaderTemplate>
+            <ChildContent>
+                Item 2
+
+            </ChildContent>
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Without header
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+    </div>
+    <h3>Dashboard</h3>
+
+    <p>A tile grid could be very useful to create some views like dashboard or profile of an user.</p>
+
+<div style="height: 800px">
+    <FluentCxTileGrid Spacing="5"
+                    Style="background-color: var(--neutral-layer-3); padding: 4px"
+                    Columns="4"
+                    ColumnWidth="350px"
+                    RowHeight="200px"
+                    CanResize>
+        <FluentCxTileGridItem Header="Number of users">
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                123
+            </FluentStack>
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Number of queries">
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                1 230
+            </FluentStack>
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Number of new users by day">
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                12
+            </FluentStack>
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Number of deleted users">
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                73
+            </FluentStack>
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="4" RowSpan="3" Header="Evolution of fees">
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                Big chart with statistics
+            </FluentStack>
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan=2 RowSpan="2" Header="Chart of the best-selling products">
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                Chart of the best selling product
+            </FluentStack>
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" Header="Chart of the evolution of ...">
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                Chart of the best selling product
+            </FluentStack>
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+</div>
+
+@code {
+    private int Spacing = 3;
+}
