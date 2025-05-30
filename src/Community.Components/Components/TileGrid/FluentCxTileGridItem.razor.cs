@@ -63,8 +63,6 @@ public partial class FluentCxTileGridItem
 
     private string HeaderClass => !Parent.CanReorder && !Parent.CanResize ? string.Empty : "touch-action-none";
 
-    private string TitleId { get; } = Guid.NewGuid().ToString();
-
     private bool HasHeader => HeaderTemplate is not null || !string.IsNullOrEmpty(Header);
 
     protected override void OnInitialized()
