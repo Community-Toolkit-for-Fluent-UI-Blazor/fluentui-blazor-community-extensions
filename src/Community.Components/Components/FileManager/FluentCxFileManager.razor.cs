@@ -38,7 +38,6 @@ public partial class FluentCxFileManager<TItem>
     private bool _isDisabled;
     private readonly Dictionary<int, MemoryStream> _fileBufferDictionary = [];
     private readonly List<FileNavigationItem> _navigationItems = [];
-    private readonly List<FileManagerEntry<TItem>> _flattenItems = [];
     private readonly FileManagerEntry<TItem> _flattenEntry;
     private IJSObjectReference? _module;
     private const string JavascriptFilename = "./_content/FluentUI.Blazor.Community.Components/Components/FileManager/FluentCxFileManager.razor.js";
@@ -235,34 +234,31 @@ public partial class FluentCxFileManager<TItem>
 
     private void BuildFlatView()
     {
-        _flattenItems.Clear();
+        _flattenEntry.Clear();
 
         foreach (var item in Root.Enumerate())
         {
             if (!item.IsDirectory)
             {
-                _flattenItems.Add(item);
+                _flattenEntry.Add(item);
             }
             else
             {
-                BuildFlatViewItem(_flattenItems, item);
+                BuildFlatViewItem(_flattenEntry, item);
             }
         }
-
-        _flattenEntry.Clear();
-        _flattenEntry.AddRange(_flattenItems);
     }
 
-    private static void BuildFlatViewItem(List<FileManagerEntry<TItem>> list, FileManagerEntry<TItem> item)
+    private static void BuildFlatViewItem(FileManagerEntry<TItem> entry, FileManagerEntry<TItem> item)
     {
         foreach (var f in item.GetFiles())
         {
-            list.Add(f);
+            entry.Add(f);
         }
 
         foreach (var d in item.GetDirectories())
         {
-            BuildFlatViewItem(list, d);
+            BuildFlatViewItem(entry, d);
         }
     }
 
@@ -742,6 +738,7 @@ public partial class FluentCxFileManager<TItem>
     private void RemoveSelectedItemFromMainEntries(string id, IEnumerable<FileManagerEntry<TItem>> items)
     {
         var internalEntry = FileManagerEntry<TItem>.Find(Root.Enumerate(), id);
+        _flattenEntry.Remove(items);
 
         if (internalEntry is null)
         {
@@ -749,7 +746,6 @@ public partial class FluentCxFileManager<TItem>
         }
 
         internalEntry.Remove(items);
-        _flattenItems.RemoveAll(x => items.Contains(x));
     }
 
     private void OnSearchEntries()
@@ -832,7 +828,7 @@ public partial class FluentCxFileManager<TItem>
             data.Length);
 
         _currentEntry?.Add(newEntry);
-        _flattenItems.Add(newEntry);
+        _flattenEntry.Add(newEntry);
 
         if (OnFileUploaded.HasDelegate)
         {
