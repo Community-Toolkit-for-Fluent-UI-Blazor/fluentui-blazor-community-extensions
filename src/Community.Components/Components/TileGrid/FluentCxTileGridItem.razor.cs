@@ -52,8 +52,6 @@ public partial class FluentCxTileGridItem<TItem>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    internal RenderFragment ItemTemplate { get; }
-
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 

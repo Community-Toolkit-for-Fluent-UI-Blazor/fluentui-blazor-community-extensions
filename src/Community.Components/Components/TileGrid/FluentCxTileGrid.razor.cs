@@ -211,5 +211,15 @@ public partial class FluentCxTileGrid<TItem>
     {
         _children.Clear();
     }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (ChildContent is not null && Items.Any())
+        {
+            throw new NotSupportedException("The FluentCxTileGrid cannot use both ChildContent and Items properties at the same time. Use ChildContent or Items");
+        }
+    }
 }
 

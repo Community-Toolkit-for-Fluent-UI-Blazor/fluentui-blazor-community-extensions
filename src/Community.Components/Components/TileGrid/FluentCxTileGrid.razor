@@ -3,11 +3,6 @@
 @typeparam TItem where TItem : class, new()
 
 <CascadingValue Value="this" IsFixed>
-    @if (ChildContent is not null)
-    {
-        @ChildContent
-    }
-
     <FluentDragContainer Style="height: 100%; overflow-y: auto; overflow-x: hidden; width: 100%"
                          OnDropEnd=@OnDropEnd
                          TItem="FluentCxTileGridItem<TItem>">
@@ -25,12 +20,9 @@
                     @ItemTemplate(item)
                 }
             }
-            else if (ChildContent is not null && _children.Count > 0)
+            else if (ChildContent is not null)
             {
-                foreach (var item in _children)
-                {
-                    @item.ItemTemplate
-                }
+                @ChildContent
             }
         </div>
     </FluentDragContainer>
