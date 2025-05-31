@@ -13,12 +13,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\FluentUI.Blazor.Community.Components\FluentUI.Blazor.Community.Components.csproj" />
+    <ProjectReference Include="..\..\..\src\Community.Components\FluentUI.Blazor.Community.Components.csproj" />
   </ItemGroup>
 
 </Project>

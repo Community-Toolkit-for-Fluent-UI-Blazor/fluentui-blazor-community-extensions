@@ -1,0 +1,223 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem where TItem : class, new()
+
+@if (Entries.Any())
+{
+    var count = Entries.Count();
+
+    @if (count == 1)
+    {
+        var entry = Entries.First();
+
+        if (entry!.IsDirectory &&
+            entry.TotalEntriesCount == 0)
+        {
+            if (EmptyContent is null)
+            {
+                <FluentStack Style="height: 100%"
+                             Orientation=Orientation.Vertical
+                             HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalAlignment="VerticalAlignment.Top">
+                    <div style="width:100%; height: 320px; background-color: var(--neutral-layer-2)">
+                        <FluentStack Style="height: 100%" 
+                                     VerticalAlignment="VerticalAlignment.Center"
+                                     HorizontalAlignment="HorizontalAlignment.Center">
+                            <FluentIcon Width="128px" Value="@FileManagerIcons.GetIconForDetails(entry.Extension, true)" />
+                        </FluentStack>
+                    </div>
+
+                    <FluentStack Orientation="Orientation.Vertical">
+                         <FluentLabel Weight=FontWeight.Bold 
+                                      Typo="Typography.Header"
+                                      Style="margin-top: 20px; margin-bottom: 20px" 
+                                      Color="Color.Neutral">
+                            @entry.Name (@($"{entry.TotalEntriesCount} {(entry.TotalEntriesCount > 1 ? DetailsLabel.ElementPlural : DetailsLabel.ElementSingular)}"))
+                        </FluentLabel>
+
+                        <FluentMessageBar AllowDismiss=false>
+                            @DetailsLabel.NoEntryFoundDescription
+                        </FluentMessageBar>
+                    </FluentStack>               
+                </FluentStack>
+            }
+            else
+            {
+                @EmptyContent
+            }
+        }
+        else
+        {
+            <FluentStack Style="height: 100%"
+                         Orientation=Orientation.Vertical
+                         HorizontalAlignment="HorizontalAlignment.Center"
+                         VerticalAlignment="VerticalAlignment.Top">
+                <div style="align-items: center; justify-content: center; width:100%; height: 320px; background-color: var(--neutral-layer-2)">
+                    @if (_entryDataContent is not null &&
+                         _entryDataContent.Length > 0)
+                    {
+                        @if (_isImage)
+                        {
+                            <img src="@GetBase64Content(_entryDataContent, _contentType)"
+                                 style="width: 100%; height: 100%; object-fit: contain" />
+                        }
+                    }
+                    else
+                    {
+                        <FluentStack Style="height: 100%"
+                                     VerticalAlignment="VerticalAlignment.Center" 
+                                     HorizontalAlignment="HorizontalAlignment.Center">
+                            <FluentIcon Width="128px" Value="@FileManagerIcons.GetIconForDetails(entry.Extension, false)" />
+                        </FluentStack>
+                    }
+                </div>
+
+                <FluentStack Width="95%" Orientation="Orientation.Vertical">
+                    @if (entry.IsDirectory)
+                    {
+                        <FluentLabel Weight=FontWeight.Bold 
+                                     Typo=Typography.Header
+                                     Style="margin-top: 20px; margin-bottom: 20px" 
+                                     Color="Color.Neutral">
+                            @entry.Name (@($"{entry.TotalEntriesCount} {(entry.TotalEntriesCount > 1 ? DetailsLabel.ElementPlural : DetailsLabel.ElementSingular)}"))
+                        </FluentLabel>
+
+                        @if (entry.Size > 0)
+                        {
+                            <FluentLabel Weight="FontWeight.Bold"
+                                         Style="margin-bottom: 10px"
+                                         Color="Color.Neutral">
+                                Détails         
+                            </FluentLabel>
+
+  
+                            <FluentStack>
+                                <FluentLabel Color="Color.Neutral">
+                                    @DetailsLabel.Size         
+                                </FluentLabel>
+
+                                <FluentSpacer />
+
+                                <FluentLabel  Alignment=HorizontalAlignment.Right Color="Color.Neutral">
+                                    @ByteSize.FromBytes(entry.Size).ToString()         
+                                </FluentLabel>
+                            </FluentStack>
+                        }
+
+                        @if (entry.TotalEntriesCount > 0)
+                        {
+                            <FluentMessageBar AllowDismiss=false Intent="MessageIntent.Info">
+                                @DetailsLabel.SelectSingleFileToGetMoreInformation
+                            </FluentMessageBar>
+                        }
+                    }
+                    else
+                    {
+                        <FluentStack Style ="margin-top: 20px; margin-bottom: 20px" 
+                                     VerticalAlignment="VerticalAlignment.Center">
+                            <FluentIcon Value="@FileManagerIcons.FromExtension(entry.Extension)" />
+                        
+                            <FluentLabel Weight=FontWeight.Bold 
+                                         Typo=Typography.Header    
+                                         Color="Color.Neutral">
+                                @entry.Name 
+                            </FluentLabel>
+                        </FluentStack>
+
+                         <FluentLabel Weight="FontWeight.Bolder"
+                                         Style="margin-bottom: 10px"
+                                         Color="Color.Neutral">
+                            @DetailsLabel.Details
+                         </FluentLabel>
+
+                        <FluentStack Orientation="Orientation.Vertical">
+                             <FluentStack>
+                                  <FluentLabel Weight=FontWeight.Bold Color="Color.Neutral">
+                                    @DetailsLabel.Type         
+                              </FluentLabel>
+
+                              <FluentSpacer />
+
+                               <FluentLabel Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
+                                             Color="Color.Neutral">
+                                    @_fileExtensionTypeProvider?.Get(entry.Extension)                                          
+                                </FluentLabel>
+                             </FluentStack>
+
+                                <FluentLabel Weight=FontWeight.Bold Color="Color.Neutral">
+                                    @DetailsLabel.ContentType         
+                                </FluentLabel>
+
+                                <FluentLabel Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
+                                             Color="Color.Neutral">
+                                    @entry.ContentType        
+                                </FluentLabel>
+
+                                <FluentStack>
+                                    <FluentLabel Weight=FontWeight.Bold Color="Color.Neutral">
+                                        @DetailsLabel.Size         
+                                    </FluentLabel>
+                                    <FluentSpacer />
+                                    <FluentLabel Color="Color.Neutral">
+                                        @ByteSize.FromBytes(entry.Size).ToString()         
+                                    </FluentLabel>
+                                </FluentStack>
+                                
+                                <FluentStack>
+                                    <FluentLabel Weight=FontWeight.Bold Color="Color.Neutral">
+                                        @DetailsLabel.CreatedDate         
+                                    </FluentLabel>
+
+                                    <FluentSpacer />
+                                    
+                                    <FluentLabel  Color="Color.Neutral">
+                                        @entry.CreatedDate.ToString(DetailsLabel.DateFormat)     
+                                    </FluentLabel>
+                                </FluentStack>
+                               
+                                <FluentStack>
+                                    <FluentLabel Weight=FontWeight.Bold Color="Color.Neutral">
+                                        @DetailsLabel.ModifiedDate         
+                                    </FluentLabel>
+
+                                    <FluentSpacer />
+
+                                    <FluentLabel  Color="Color.Neutral">
+                                        @entry.ModifiedDate.ToString(DetailsLabel.DateFormat)     
+                                    </FluentLabel>
+                                </FluentStack>
+                        </FluentStack>                           
+                    }
+                </FluentStack>            
+            </FluentStack>
+        } 
+    }
+    else if(count > 1)
+    {
+       <FluentStack Style="height: 100%"
+                    Orientation=Orientation.Vertical
+                    HorizontalAlignment="HorizontalAlignment.Center"
+                    VerticalAlignment="VerticalAlignment.Top">
+            <div style="width:100%; height: 320px; background-color: var(--neutral-layer-2)">
+                <FluentStack Style="height: 100%" 
+                             VerticalAlignment="VerticalAlignment.Center"
+                             HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentIcon Width="128px" Value="@(new FileManagerIcons.Size128.MultiSelectionIcon())" />
+                </FluentStack>
+            </div>
+
+            <FluentStack Width="95%" Orientation="Orientation.Vertical">
+                 <FluentLabel Weight=FontWeight.Bold
+                              Style="margin-top: 20px; margin-bottom: 20px"
+                              Typo="Typography.Header"
+                              Color="Color.Neutral">
+                     @count @DetailsLabel.SelectedElements
+                 </FluentLabel>
+
+                 <FluentMessageBar AllowDismiss=false Intent="MessageIntent.Info">
+                    @DetailsLabel.SelectSingleFileToGetMoreInformation
+                 </FluentMessageBar>
+            </FluentStack>               
+       </FluentStack>
+            
+    }
+}

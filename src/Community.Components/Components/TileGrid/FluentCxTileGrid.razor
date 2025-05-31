@@ -1,11 +1,16 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
+@typeparam TItem where TItem : class, new()
 
 <CascadingValue Value="this" IsFixed>
-    @ChildContent
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+
     <FluentDragContainer Style="height: 100%; overflow-y: auto; overflow-x: hidden; width: 100%"
                          OnDropEnd=@OnDropEnd
-                         TItem="FluentCxTileGridItem">
+                         TItem="FluentCxTileGridItem<TItem>">
         <div data-id="@DataId"
              spacing="@Spacing"
              @attributes=AdditionalAttributes
@@ -13,9 +18,19 @@
              dir="@GlobalState.Dir.ToAttributeValue()"
              style="@InternalStyle"
              role="list">
-            @foreach (var item in _children)
+            @if (ItemTemplate is not null)
             {
-                @item.ItemRendered
+                foreach(var item in Items)
+                {
+                    @ItemTemplate(item)
+                }
+            }
+            else if (ChildContent is not null && _children.Count > 0)
+            {
+                foreach (var item in _children)
+                {
+                    @item.ItemTemplate
+                }
             }
         </div>
     </FluentDragContainer>

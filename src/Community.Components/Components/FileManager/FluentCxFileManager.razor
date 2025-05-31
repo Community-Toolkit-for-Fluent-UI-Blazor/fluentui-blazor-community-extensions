@@ -1,0 +1,262 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem where TItem : class, new()
+@inherits FluentComponentBase
+
+<FluentStack Style="height: calc(100% - 50px);" Orientation="Orientation.Vertical">
+    <FluentToolbar  Style="width: 100%">
+        @if (ShowCreateFolderButton)
+        {
+            if (View == Components.FileManagerView.Desktop)
+            {
+                <FluentButton IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.FolderAdd())
+                              Appearance="Appearance.Neutral"
+                              Disabled=@_isDisabled
+                              OnClick="@OnCreateFolderAsync">
+                        @FileManagerLabels.NewFolderLabel
+                </FluentButton>
+            }
+            else
+            {
+                <FluentButton IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.FolderAdd())
+                              Appearance="Appearance.Neutral"
+                              Disabled=@_isDisabled
+                              Title="@FileManagerLabels.NewFolderLabel"
+                              OnClick="@OnCreateFolderAsync" />
+            }
+        }
+
+        @if (ShowUploadButton)
+        {
+            if (View == Components.FileManagerView.Desktop)
+            {
+                <FluentButton Id="@($"FileLoader{Id}")"
+                              Disabled=@_isDisabled
+                              IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowUpload())
+                              Appearance="Appearance.Neutral">
+                    @FileManagerLabels.UploadLabel
+                </FluentButton>
+            }
+            else
+            {
+                <FluentButton Id="FileLoaderId"
+                              Disabled=@_isDisabled
+                              Title="@FileManagerLabels.UploadLabel"
+                              IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowUpload())
+                              Appearance="Appearance.Neutral" />
+            }
+        }
+
+        @if (ShowViewButton)
+        {
+            <FluentMenuButton IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.AppsSettings())"
+                ButtonAppearance="Appearance.Neutral"
+                              Text="@(View == Components.FileManagerView.Desktop ? FileManagerLabels.ViewLabel : null)">
+                <FluentMenuItem Checked=@(FileManagerView == FileView.List)
+                                Role=MenuItemRole.MenuItemRadio
+                                Disabled=@_isDisabled
+                                OnClick="@(() => FileManagerView = FileView.List)">
+                    <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.AppsList())" Slot="start" />
+                    @FileManagerLabels.ListViewLabel
+                </FluentMenuItem>
+
+                <FluentMenuItem Checked=@(FileManagerView == FileView.Grid)
+                                Role=MenuItemRole.MenuItemRadio
+                                Disabled=@_isDisabled
+                                OnClick="@(() => FileManagerView = FileView.Grid)">
+                    <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Grid())" Slot="start" />
+                    @FileManagerLabels.GridViewLabel
+                </FluentMenuItem>
+
+                <FluentDivider />
+
+                <FluentMenuItem Checked=@(FileStructureView == FileStructureView.Hierarchical)
+                                Role=MenuItemRole.MenuItemRadio
+                                Disabled=@_isDisabled
+                                OnClick="@(() => FileStructureView = FileStructureView.Hierarchical)">
+                    <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Organization())" Slot="start" />
+                    @FileManagerLabels.HierarchicalLabel
+                </FluentMenuItem>
+
+                <FluentMenuItem Checked=@(FileStructureView == FileStructureView.Flat)
+                                Role=MenuItemRole.MenuItemRadio
+                                Disabled=@_isDisabled
+                                OnClick="@(() => FileStructureView = FileStructureView.Flat)">
+                    <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.List())" Slot="start" />
+                    @FileManagerLabels.FlatLabel
+                </FluentMenuItem>
+            </FluentMenuButton>
+        }
+
+        @if (ShowSortButton)
+        {
+            <FluentMenuButton IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20.ArrowSort())
+            ButtonAppearance="Appearance.Neutral"
+                          Text="@(View == Components.FileManagerView.Desktop ? FileManagerLabels.SortLabel : null)">
+            <FluentMenuItem Checked=@(SortState.SortBy == FileSortBy.Name)
+                            Role=MenuItemRole.MenuItemRadio
+                            Disabled=@_isDisabled
+                            OnClick="@(() => OnChangeSort(FileSortBy.Name))">
+                @FileManagerLabels.SortByNameLabel
+            </FluentMenuItem>
+            <FluentMenuItem Checked=@(SortState.SortBy == FileSortBy.Extension)
+                            Role=MenuItemRole.MenuItemRadio
+                            Disabled=@_isDisabled
+                            OnClick="@(() => OnChangeSort(FileSortBy.Extension))">
+                @FileManagerLabels.SortByExtensionLabel
+            </FluentMenuItem>
+            <FluentMenuItem Checked=@(SortState.SortBy == FileSortBy.Size)
+                            Role=MenuItemRole.MenuItemRadio
+                            Disabled=@_isDisabled
+                            OnClick="@(() => OnChangeSort(FileSortBy.Size))">
+                @FileManagerLabels.SortBySizeLabel
+            </FluentMenuItem>
+            <FluentMenuItem Checked=@(SortState.SortBy == FileSortBy.CreatedDate)
+                            Role=MenuItemRole.MenuItemRadio
+                            Disabled=@_isDisabled
+                            OnClick="@(() => OnChangeSort(FileSortBy.CreatedDate))">
+                @FileManagerLabels.SortByCreationDate
+            </FluentMenuItem>
+            <FluentMenuItem Checked=@(SortState.SortBy == FileSortBy.ModifiedDate)
+                            Role=MenuItemRole.MenuItemRadio
+                            Disabled=@_isDisabled
+                            OnClick="@(() => OnChangeSort(FileSortBy.ModifiedDate))">
+                @FileManagerLabels.SortByModifiedDate
+            </FluentMenuItem>
+            <FluentDivider />
+            <FluentMenuItem Checked=@(SortState.SortMode == FileSortMode.Ascending)
+                            Role=MenuItemRole.MenuItemRadio
+                            Disabled=@_isDisabled
+                            OnClick="@(OnSortAscending)">@FileManagerLabels.AscendingLabel</FluentMenuItem>
+
+            <FluentMenuItem Checked=@(SortState.SortMode == FileSortMode.Descending)
+                            Role=MenuItemRole.MenuItemRadio
+                            Disabled=@_isDisabled
+                            OnClick="@(OnSortDescending)">@FileManagerLabels.DescendingLabel</FluentMenuItem>
+        </FluentMenuButton>
+        }
+
+        @if ((ShowSortButton || ShowViewButton || ShowUploadButton || ShowCreateFolderButton) &&
+             ShowPropertiesButton)
+        {
+            <FluentDivider Role="DividerRole.Separator" Orientation="Orientation.Vertical" Style="height: 30px" />
+        }
+
+        @if (ShowPropertiesButton)
+        {
+            <FluentButton Title="@FileManagerLabels.RenameLabel"
+                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Rename())"
+                          Disabled=@(IsRenameButtonDisabled)
+                          Appearance="Appearance.Neutral"
+                          OnClick="@(() => OnRenameAsync(_currentSelectedItems?.ElementAtOrDefault(0)))" />
+
+            <FluentButton Title="@FileManagerLabels.DownloadLabel"
+                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowDownload())"
+                          Disabled=@(IsDownloadButtonDisabled)
+                          Appearance="Appearance.Neutral"
+                          OnClick="@OnDownloadAsync" />
+
+            <FluentButton Title="@FileManagerLabels.DeleteLabel"
+                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Delete())"
+                          Disabled=@(IsDeleteButtonDisabled)
+                          Appearance="Appearance.Neutral"
+                          OnClick="@(OnDeleteAsync)" />
+        }
+
+        @if (ToolbarItems is not null)
+        {
+            <FluentDivider Role="DividerRole.Separator" Orientation="Orientation.Vertical" Style="height: 30px" />
+
+            @ToolbarItems
+        }
+
+        @if (View == Components.FileManagerView.Mobile && ShowDetailsButton)
+        {
+            <FluentButton Title="@FileManagerLabels.ShowDetailsLabel"
+                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.DocumentSettings())"
+                          Disabled=@(_currentSelectedItems is null || !_currentSelectedItems.Any() || _isDisabled)
+                           Appearance="Appearance.Neutral"
+                           OnClick="@OnShowDetailsAsync" />
+        }
+
+        <FluentStack VerticalAlignment="VerticalAlignment.Center" slot="end">
+            @if (View == Components.FileManagerView.Desktop && ShowDetailsButton)
+            {
+                <FluentSwitch Label="@FileManagerLabels.ShowDetailsLabel"
+                              @bind-Value=_showDetails
+                              Disabled=@_isDisabled
+                              Style="width: 100%" />
+            }
+
+            <FluentSearch Placeholder="@FileManagerLabels.SearchPlaceholder" 
+                          AutoComplete="off"
+                          Immediate
+                          Disabled=@_isDisabled
+                          Style="width: 100%"
+                          @bind-Value=_searchValue
+                          @bind-Value:after=OnSearchEntries/>
+        </FluentStack>
+    </FluentToolbar>
+
+    <FluentMultiSplitter Width="@(!string.IsNullOrEmpty(Width) ? Width : "100%")" Height="@(!string.IsNullOrEmpty(Height) ? Height : "100%")">
+        @if (View == Components.FileManagerView.Desktop &&
+             FileStructureView == FileStructureView.Hierarchical)
+        {
+            <FluentMultiSplitterPane Collapsed=false
+                                     Collapsible=false
+                                     Resizable
+                                     Size="30%"
+                                     Min="20%"
+                                     Max="35%">
+                <FluentTreeView Items="@_treeViewItems"
+                                @bind-SelectedItem="@_currentTreeViewItem"
+                                @bind-SelectedItem:after=OnUpdateCurrentEntry />
+            </FluentMultiSplitterPane>
+        }
+
+        <FluentMultiSplitterPane Collapsed=false
+                                 Collapsible=false
+                                 Resizable
+                                 Style="height: 100%"
+                                 Size="@(View == Components.FileManagerView.Desktop ? ( _showDetails ? "45%" : "70%") : "100%")">
+            <FileManager @ref=_fileManagerView
+                         View="@FileManagerView"
+                         IsIndeterminateProgress=@(!ProgressPercent.HasValue)
+                         Entry="@(_searchEntry is not null ? _searchEntry : FileStructureView == FileStructureView.Hierarchical ? _currentEntry : _flattenEntry)"
+                         IsMobile="@(View == Components.FileManagerView.Mobile)"
+                         ProgressLabel="@GetProgressLabelFromState()"
+                         ProgressPercent=@ProgressPercent
+                         TItem="@TItem"
+                         OnItemDoubleClick="@OnUpdateEntry"
+                         Download="@OnDownloadSingleAsync"
+                         NavigationItems="@_navigationItems"
+                         @bind-SelectedItems=_currentSelectedItems 
+                         ColumnLabels="@ColumnLabels"
+                         FileNavigationViewVisible=@(FileStructureView == FileStructureView.Hierarchical)/>
+        </FluentMultiSplitterPane>
+
+        @if (View == Components.FileManagerView.Desktop &&
+             _showDetails)
+        {
+            <FluentMultiSplitterPane Collapsible=false
+                                     Collapsed=false
+                                     Resizable=false
+                                     Size="25%">
+                <FileManagerEntryDetails FileExtensionTypeLabels=@FileExtensionTypeLabels
+                                         DetailsLabel=@DetailsLabels
+                                         Entries="@(_currentSelectedItems.Any() ? _currentSelectedItems : _currentEntry is null ? [] : [_currentEntry])" />
+            </FluentMultiSplitterPane>
+        }
+    </FluentMultiSplitter>
+</FluentStack>
+
+ <FluentInputFile DragDropZoneVisible=false
+                 Mode=InputFileMode.Buffer
+                 MaximumFileCount=@MaximumFileCount
+                 MaximumFileSize=@MaximumFileSize
+                 BufferSize=@BufferSize
+                 Multiple=true
+                 AnchorId="@($"FileLoader{Id}")"
+                 OnCompleted=@OnCompleted
+                 OnFileUploaded=@OnFileUploadedAsync
+                 OnProgressChange="@OnProgressChange"
+                 Accept="@(AcceptFiles == AcceptFile.None ? Accept : AcceptFileProvider.Get(AcceptFiles))" />

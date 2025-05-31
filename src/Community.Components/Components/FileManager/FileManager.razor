@@ -1,0 +1,50 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inject IDialogService DialogService
+@typeparam TItem where TItem : class, new()
+
+<FluentStack Orientation="Orientation.Vertical" Style="height: 100%" VerticalGap="1">
+    @if (FileNavigationViewVisible)
+    {
+        <FileManagerNavigationView>
+            @foreach (var item in NavigationItems)
+            {
+                <FileManagerNavigationViewItem Text=@item.Text
+                                               OnClick="@((e)=> OnClick(item))"/>
+            }
+        </FileManagerNavigationView>
+    }
+
+    @switch (View)
+    {
+        case FileView.List:
+            <FileManagerList OnItemTapped="@OnItemTappedAsync"
+                             OnItemDoubleTapped="@OnItemDoubleTappedAsync"
+                             @bind-SelectedItems="@SelectedItems"
+                             @bind-SelectedItems:after=OnSelectedItemsChangedAsync
+                             Entry="@Entry"
+                             TItem="@TItem"
+                             IsBusy=@_isBusy
+                             IsIndeterminateProgress=@IsIndeterminateProgress
+                             ProgressLabel="@ProgressLabel"
+                             ProgressPercent="@ProgressPercent"
+                             ColumnLabels="@ColumnLabels"
+                             
+                             IsMobile="@IsMobile" />
+            break;
+
+        case FileView.Grid:
+            <FileManagerGrid TItem="@TItem"
+                             OnItemTapped="@OnItemTappedAsync"
+                             OnItemDoubleTapped="@OnItemDoubleTappedAsync"
+                             ItemTemplate="@ItemTemplate"
+                             @bind-SelectedItems="@SelectedItems"
+                             @bind-SelectedItems:after=OnSelectedItemsChangedAsync
+                             Entry="@Entry"
+                             IsBusy=@_isBusy
+                             IsIndeterminateProgress=@IsIndeterminateProgress
+                             ProgressLabel="@ProgressLabel"
+                             ProgressPercent="@ProgressPercent"
+                             IsMobile="@IsMobile" />
+            break;
+    }
+</FluentStack>

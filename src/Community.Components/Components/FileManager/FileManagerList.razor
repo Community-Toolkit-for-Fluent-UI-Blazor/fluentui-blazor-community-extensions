@@ -1,0 +1,57 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FileManagerBase<TItem>
+@typeparam TItem where TItem : class, new()
+
+@if (Entry is not null)
+{
+    <div style="@InternalStyle">
+        <FluentDataGrid TGridItem="FileManagerEntry<TItem>"
+                        ShowHover
+                        Virtualize
+                        OnRowDoubleClick=@(e => OnRowDoubleClickAsync(e))
+                        ItemSize="55"
+                        DisplayMode="DataGridDisplayMode.Table"
+                        Items="@Entry.Enumerate().AsQueryable()"
+                        Loading="@IsBusy">
+            <ChildContent>
+                <SelectColumn TGridItem="FileManagerEntry<TItem>"
+                              SelectMode="@DataGridSelectMode.Multiple"
+                              SelectFromEntireRow=false
+                              @bind-SelectedItems="@SelectedItems"
+                              @bind-SelectedItems:after=OnSelectedItemsChangedAsync />
+
+                <TemplateColumn Title="@ColumnLabels.Name">
+                    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                        @if (context.IsDirectory)
+                        {
+                            <FluentIcon Value="@(new FileManagerIcons.Size32.FolderIcon())" />
+                        }
+                        else
+                        {
+                            <FluentIcon Value="@GetIconFromFile(context.Extension!)" />
+                        }
+
+                        @context.Name
+                    </FluentStack>
+                </TemplateColumn>
+
+                <PropertyColumn Title="@ColumnLabels.CreatedDate" Property="@(c => c.CreatedDate)" />
+
+                <TemplateColumn Title="@ColumnLabels.Size">
+                    @ByteSize.FromBytes(context.Size).ToString()
+                </TemplateColumn>
+
+            </ChildContent>
+
+            <LoadingContent>
+                <FluentStack Orientation="Orientation.Vertical"
+                             HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalAlignment="VerticalAlignment.Center"
+                             Style="height: 100%">
+                    <FluentProgress Min="0" Max="100" Width="340px" Value="@(IsIndeterminateProgress ? null : ProgressPercent)" />
+                    <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">@ProgressLabel</FluentLabel>
+                </FluentStack>
+            </LoadingContent>
+        </FluentDataGrid>
+    </div>
+}

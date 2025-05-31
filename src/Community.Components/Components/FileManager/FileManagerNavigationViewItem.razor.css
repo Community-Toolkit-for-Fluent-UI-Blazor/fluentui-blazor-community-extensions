@@ -1,0 +1,6 @@
+.file-navigation-manager-view-item {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0;
+  list-style: none;
+}

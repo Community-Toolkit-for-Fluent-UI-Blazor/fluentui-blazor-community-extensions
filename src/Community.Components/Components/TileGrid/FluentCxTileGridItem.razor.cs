@@ -10,17 +10,17 @@ using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
 
-public partial class FluentCxTileGridItem
-    : FluentComponentBase
+public partial class FluentCxTileGridItem<TItem>
+    : FluentComponentBase where TItem : class, new()
 {
     private bool _isRendered;
     private bool _hasParameterChanged;
-    private readonly DotNetObjectReference<FluentCxTileGridItem>? _dotNetReference;
+    private readonly DotNetObjectReference<FluentCxTileGridItem<TItem>>? _dotNetReference;
     private const string JAVASCRIPT_FILE = "./_content/FluentUI.Blazor.Community.Components/Components/TileGrid/FluentCxTileGridItem.razor.js";
     private IJSObjectReference? _module;
 
     [CascadingParameter]
-    private FluentCxTileGrid Parent { get; set; } = default!;
+    private FluentCxTileGrid<TItem> Parent { get; set; } = default!;
 
     [Parameter]
     public bool IsVisible { get; set; } = true;
@@ -52,7 +52,7 @@ public partial class FluentCxTileGridItem
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    internal RenderFragment ItemRendered { get; }
+    internal RenderFragment ItemTemplate { get; }
 
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;

@@ -6,13 +6,13 @@ using FluentUI.Blazor.Community.Components;
 
 namespace FluentUI.Blazor.Community.Comparers;
 
-internal sealed class FluentCxTileGridItemComparer
-    : IComparer<FluentCxTileGridItem>
+internal sealed class FluentCxTileGridItemComparer<TItem>
+    : IComparer<FluentCxTileGridItem<TItem>> where TItem : class, new()
 {
-    public static FluentCxTileGridItemComparer Default { get; } = new();
+    public static FluentCxTileGridItemComparer<TItem> Default { get; } = new();
 
     /// <inheritdoc />
-    public int Compare(FluentCxTileGridItem? x, FluentCxTileGridItem? y)
+    public int Compare(FluentCxTileGridItem<TItem>? x, FluentCxTileGridItem<TItem>? y)
     {
         if (x is null)
         {

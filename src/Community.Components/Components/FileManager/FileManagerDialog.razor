@@ -1,0 +1,54 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<FileManagerContent>
+
+<FluentDialogHeader>
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        @if (Content is not null)
+        {
+            @if (Content.IsRenaming)
+            {
+                <FluentIcon Value="@(new Regular.Size24.Rename())" />
+            }
+            else
+            {
+                <FluentIcon Value="@(new Regular.Size24.FolderAdd())" />
+            }
+        }
+
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@OnCloseAsync">@Dialog.Instance.Parameters.PrimaryAction</FluentButton>
+    <FluentButton Appearance="Appearance.Neutral" OnClick="@OnCancelAsync">@Dialog.Instance.Parameters.SecondaryAction</FluentButton>
+</FluentDialogFooter>
+
+<FluentDialogBody>
+    <FluentTextField AriaLabel="@Content.Label"
+                     Label="@Content.Label"
+                     Style="width: 100%"
+                     Autofocus
+                     Placeholder="@Content.Placeholder"
+                     @bind-Value="@Content.Name" />
+</FluentDialogBody>
+
+@code {
+    [Parameter]
+    public FileManagerContent Content { get; set; } = default!;
+
+    [CascadingParameter]
+    private FluentDialog Dialog { get; set; } = default!;
+
+    private async Task OnCloseAsync()
+    {
+        await Dialog.CloseAsync(Content.Name);
+    }
+
+    private async Task OnCancelAsync()
+    {
+        await Dialog.CancelAsync();
+    }
+}

@@ -1,0 +1,18 @@
+﻿@using FluentUI.Blazor.Community.Components
+
+@implements IDialogContentComponent<FileManagerDetailsDialogContent<TItem>>
+@typeparam TItem where TItem : class, new()
+
+<FluentDialogBody>
+    @if (Content is not null)
+    {
+        <FileManagerEntryDetails FileExtensionTypeLabels=@Content.FileExtensionTypeLabels
+                                 Entries="@Content.Entries" />
+    }    
+</FluentDialogBody>
+
+
+@code {
+    [Parameter]
+    public FileManagerDetailsDialogContent<TItem> Content { get; set; } = default!;
+}

@@ -13,13 +13,13 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents a Tile Grid where the items can be resized or reordered.
 /// </summary>
-public partial class FluentCxTileGrid
-    : FluentComponentBase
+public partial class FluentCxTileGrid<TItem>
+    : FluentComponentBase where TItem : class, new()
 {
     /// <summary>
     /// 
     /// </summary>
-    private readonly List<FluentCxTileGridItem> _children = [];
+    private readonly List<FluentCxTileGridItem<TItem>> _children = [];
 
     /// <summary>
     /// 
@@ -97,6 +97,12 @@ public partial class FluentCxTileGrid
     [Parameter]
     public string? Height { get; set; }
 
+    [Parameter]
+    public IEnumerable<TItem> Items { get; set; } = [];
+
+    [Parameter]
+    public RenderFragment<TItem>? ItemTemplate { get; set; }
+
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("grid-template-columns", GetColumns())
         .AddStyle("grid-auto-rows", GetRows())
@@ -111,12 +117,32 @@ public partial class FluentCxTileGrid
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
 
+    private void OnDropEnd(FluentDragEventArgs<FluentCxTileGridItem<TItem>> e)
+    {
+        if (!string.IsNullOrEmpty(e.Source.Id) &&
+            !string.IsNullOrEmpty(e.Target.Id))
+        {
+            var sourceIndex = _children.FindIndex(x => x.Id == e.Source.Id);
+            var destIndex = _children.FindIndex(x => x.Id == e.Target.Id);
+
+            if (sourceIndex >= 0 &&
+                destIndex >= 0)
+            {
+                var firstElement = _children[sourceIndex];
+                var lastElement = _children[destIndex];
+
+                (lastElement.Order, firstElement.Order) = (firstElement.Order, lastElement.Order);
+                _children.Sort(FluentCxTileGridItemComparer<TItem>.Default);
+            }
+        }
+    }
+
     private string GetRows()
     {
         DefaultInterpolatedStringHandler handler = new();
 
         // Rows
-        handler.AppendLiteral(" grid-auto-rows: minmax(0px, ");
+        handler.AppendLiteral("minmax(0px, ");
         handler.AppendFormatted(RowHeight);
         handler.AppendLiteral(");");
         handler.AppendLiteral("px; padding: ");
@@ -131,7 +157,7 @@ public partial class FluentCxTileGrid
         DefaultInterpolatedStringHandler handler = new();
 
         // Columns
-        handler.AppendLiteral("grid-template-columns: repeat(");
+        handler.AppendLiteral("repeat(");
 
         if (Columns > 0)
         {
@@ -160,45 +186,30 @@ public partial class FluentCxTileGrid
         return handler.ToString();
     }
 
-    internal void Add(FluentCxTileGridItem item)
+    internal void Add(FluentCxTileGridItem<TItem> item)
     {
         _children.Add(item);
         item.Order = _children.Count;
     }
 
-    protected internal virtual void OnItemParemetersChanged(FluentCxTileGridItem _)
+    protected internal virtual void OnItemParemetersChanged(FluentCxTileGridItem<TItem> _)
     {
         StateHasChanged();
     }
 
-    internal void Remove(FluentCxTileGridItem item)
+    internal void Remove(FluentCxTileGridItem<TItem> item)
     {
         _children.Remove(item);
-    }
-
-    private void OnDropEnd(FluentDragEventArgs<FluentCxTileGridItem> e)
-    {
-        if (!string.IsNullOrEmpty(e.Source.Id) &&
-            !string.IsNullOrEmpty(e.Target.Id))
-        {
-            var sourceIndex = _children.FindIndex(x => x.Id == e.Source.Id);
-            var destIndex = _children.FindIndex(x => x.Id == e.Target.Id);
-
-            if (sourceIndex >= 0 &&
-                destIndex >= 0)
-            {
-                var firstElement = _children[sourceIndex];
-                var lastElement = _children[destIndex];
-
-                (lastElement.Order, firstElement.Order) = (firstElement.Order, lastElement.Order);
-                _children.Sort(FluentCxTileGridItemComparer.Default);
-            }
-        }
     }
 
     internal void Refresh()
     {
         StateHasChanged();
+    }
+
+    public void Clear()
+    {
+        _children.Clear();
     }
 }
 

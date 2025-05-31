@@ -23,34 +23,35 @@
 
     <div style="height: 400px">
     <FluentCxTileGrid Spacing="@Spacing"
-                    Style="background-color: var(--neutral-layer-3); padding: 4px"
-                    Columns="5"
-                    RowHeight="75px">
-        <FluentCxTileGridItem>
+                      Style="background-color: var(--neutral-layer-3); padding: 4px"
+                      Columns="5"
+                      TItem="EmptyObject"
+                      RowHeight="75px">
+        <FluentCxTileGridItem TItem="EmptyObject">
             CS : 1 | RS : 1
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="3">
+        <FluentCxTileGridItem ColumnSpan="3" TItem="EmptyObject">
             CS : 3 | RS : 1
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
+        <FluentCxTileGridItem TItem="EmptyObject">
             CS : 1 | RS : 1
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="5" RowSpan="2">
+        <FluentCxTileGridItem TItem="EmptyObject" ColumnSpan="5" RowSpan="2">
             CS : 5 | RS : 2
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="3">
+        <FluentCxTileGridItem TItem="EmptyObject" ColumnSpan="2" RowSpan="3">
             CS : 2 | RS : 3
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem RowSpan="2">
+        <FluentCxTileGridItem TItem="EmptyObject" RowSpan="2">
             CS : 1 | RS : 2
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="3">
+        <FluentCxTileGridItem TItem="EmptyObject" ColumnSpan="2" RowSpan="3">
             CS : 2 | RS : 3
         </FluentCxTileGridItem>
     </FluentCxTileGrid>
@@ -70,28 +71,29 @@
                     Style="background-color: var(--neutral-layer-3); padding: 4px"
                     Columns="3"
                     RowHeight="150px"
+                      TItem="EmptyObject"
                     CanReorder>
-        <FluentCxTileGridItem Header="Header 1">
+        <FluentCxTileGridItem Header="Header 1" TItem="EmptyObject">
             Some data
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Header="Header 2">
+        <FluentCxTileGridItem Header="Header 2" TItem="EmptyObject">
             Some chart
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Header="Header 3">
+        <FluentCxTileGridItem Header="Header 3" TItem="EmptyObject">
             An another item
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" Header="Header 4">
+        <FluentCxTileGridItem ColumnSpan="2" Header="Header 4" TItem="EmptyObject">
             A big chart
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" Header="Header 5">
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" Header="Header 5" TItem="EmptyObject">
             An another big chart
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem RowSpan="2" Header="Header 6">
+        <FluentCxTileGridItem RowSpan="2" Header="Header 6" TItem="EmptyObject">
             A last big item
         </FluentCxTileGridItem>
     </FluentCxTileGrid>
@@ -104,43 +106,43 @@
     <div style="height: 400px">
     <FluentCxTileGrid Spacing="3"
                     Style="background-color: var(--neutral-layer-3); padding: 4px"
-                    Columns="6"
-                    ColumnWidth="350px"
-                    RowHeight="75px"
+                    Columns="4"
+                    RowHeight="100px"
+                      TItem="EmptyObject"
                     CanResize>
-        <FluentCxTileGridItem>
+        <FluentCxTileGridItem TItem="EmptyObject">
             Item 1
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
+        <FluentCxTileGridItem TItem="EmptyObject">
             Item 2
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
+        <FluentCxTileGridItem TItem="EmptyObject">
             Item 3
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
+        <FluentCxTileGridItem TItem="EmptyObject">
             Item 4
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
+        <FluentCxTileGridItem TItem="EmptyObject">
             Item 5
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
+        <FluentCxTileGridItem TItem="EmptyObject">
             Item 6
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" TItem="EmptyObject">
             Item 7
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" TItem="EmptyObject">
             Item 8
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" TItem="EmptyObject">
             Item 9
         </FluentCxTileGridItem>
     </FluentCxTileGrid>
@@ -154,42 +156,42 @@
     <FluentCxTileGrid Spacing="3"
                     Style="background-color: var(--neutral-layer-3); padding: 4px"
                     Columns="4"
-                    ColumnWidth="350px"
-                    RowHeight="75px"
-                    CanResize>
-        <FluentCxTileGridItem RowSpan="1" ColumnSpan="1">
+                    RowHeight="100px"
+                    CanResize
+                      TItem="EmptyObject">
+        <FluentCxTileGridItem RowSpan="1" ColumnSpan="1" TItem="EmptyObject">
             Item 1
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="3">
+        <FluentCxTileGridItem ColumnSpan="3" TItem="EmptyObject">
             Item 2
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2">
+        <FluentCxTileGridItem ColumnSpan="2" TItem="EmptyObject">
             Item 3
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2">
+        <FluentCxTileGridItem ColumnSpan="2" TItem="EmptyObject">
             Item 4
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem RowSpan="3">
+        <FluentCxTileGridItem RowSpan="3" TItem="EmptyObject">
             Item 5
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem RowSpan="4">
+        <FluentCxTileGridItem RowSpan="4" TItem="EmptyObject">
             Item 6
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" TItem="EmptyObject">
             Item 7
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="3" RowSpan="2">
+        <FluentCxTileGridItem ColumnSpan="3" RowSpan="2" TItem="EmptyObject">
             Item 8
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="4" RowSpan="2">
+        <FluentCxTileGridItem ColumnSpan="4" RowSpan="2" TItem="EmptyObject">
             Item 9
         </FluentCxTileGridItem>
     </FluentCxTileGrid>
@@ -203,13 +205,13 @@
     <FluentCxTileGrid Spacing="3"
                     Style="background-color: var(--neutral-layer-3); padding: 4px"
                     Columns="3"
-                    ColumnWidth="350px"
-                    RowHeight="150px">
-        <FluentCxTileGridItem Header="With header">
+                    RowHeight="150px"
+                      TItem="EmptyObject">
+        <FluentCxTileGridItem Header="With header" TItem="EmptyObject">
             Item 1
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
+        <FluentCxTileGridItem TItem="EmptyObject">
             <HeaderTemplate>
                 <FluentLabel Weight="FontWeight.Bold">With a templated header</FluentLabel>
             </HeaderTemplate>
@@ -219,7 +221,7 @@
             </ChildContent>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
+        <FluentCxTileGridItem TItem="EmptyObject">
             Without header
         </FluentCxTileGridItem>
     </FluentCxTileGrid>
@@ -232,46 +234,46 @@
     <FluentCxTileGrid Spacing="5"
                     Style="background-color: var(--neutral-layer-3); padding: 4px"
                     Columns="4"
-                    ColumnWidth="350px"
                     RowHeight="200px"
-                    CanResize>
-        <FluentCxTileGridItem Header="Number of users">
-            <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                    CanResize
+                      TItem="EmptyObject">
+        <FluentCxTileGridItem Header="Number of users" TItem="EmptyObject">
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center"  VerticalAlignment="VerticalAlignment.Center">
                 123
             </FluentStack>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Header="Number of queries">
+        <FluentCxTileGridItem Header="Number of queries" TItem="EmptyObject">
             <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
                 1 230
             </FluentStack>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Header="Number of new users by day">
+        <FluentCxTileGridItem Header="Number of new users by day" TItem="EmptyObject">
             <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
                 12
             </FluentStack>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Header="Number of deleted users">
+        <FluentCxTileGridItem Header="Number of deleted users" TItem="EmptyObject">
             <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
                 73
             </FluentStack>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="4" RowSpan="3" Header="Evolution of fees">
+        <FluentCxTileGridItem ColumnSpan="4" RowSpan="3" TItem="EmptyObject" Header="Evolution of fees">
             <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
                 Big chart with statistics
             </FluentStack>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan=2 RowSpan="2" Header="Chart of the best-selling products">
+        <FluentCxTileGridItem ColumnSpan=2 RowSpan="2" TItem="EmptyObject" Header="Chart of the best-selling products">
             <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
                 Chart of the best selling product
             </FluentStack>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" Header="Chart of the evolution of ...">
+        <FluentCxTileGridItem ColumnSpan="2" TItem="EmptyObject" RowSpan="2" Header="Chart of the evolution of ...">
             <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
                 Chart of the best selling product
             </FluentStack>
@@ -281,4 +283,6 @@
 
 @code {
     private int Spacing = 3;
+
+    public class EmptyObject { }
 }

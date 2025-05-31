@@ -1,0 +1,56 @@
+﻿@namespace FluentUI.Demo
+<h3>Localization</h3>
+
+<FluentMessageBar>
+    Two localizations are provided by default : English and French. To use French, follow theses steps :
+    <br />
+    @(_sample)
+</FluentMessageBar>
+
+<h3>Another localization sample</h3>
+    To localize in another language, do things like that :
+    <br />
+<code>
+private FileExtensionTypeLabels _fileExtensionTypeLabels = FileExtensionTypeLabels.Default;     <br/>
+    private FileManagerLabels _fileManagerLabels = FileManagerLabels.Default;<br />
+    private DataGridColumnLabels _columnsLabels = DataGridColumnLabels.Default;<br />
+    private FileManagerDetailsLabels _fileManagerDetailsLabels = FileManagerDetailsLabels.Default;<br />
+
+    protected override async Task OnInitializedAsync()<br />
+    {<br />
+    _fileExtensionTypeLabels = FileExtensionTypeLabels.Default with<br />
+    {<br />
+    AdobePhotoshopFile = "..."<br />
+    ArchiveCompressedFile = "...",<br />
+    };<br />
+
+    _fileManagerLabels = FileManagerLabels.Default with<br />
+    {<br />
+    AscendingLabel = "...",<br />
+    DeleteDescriptionLabel = "...",<br />
+    };<br />
+
+    _columnsLabels = DataGridColumnLabels.Default with<br />
+    {<br />
+    CreatedDate = "...",<br />
+    Name = "...",<br />
+    Size = "..."<br />
+    };<br />
+    <br />
+    _fileManagerDetailsLabels = FileManagerDetailsLabels.Default with<br />
+    {<br />
+    ContentType = "...",<br />
+    CreatedDate  = "...",<br />
+    DateFormat = "...",<br />
+    };<br />
+    }<br />
+</code>
+
+@(_sample2)
+
+@code {
+    private string _sample = "<FluentCxFileManager TItem=\"NoFileEntryData\"  FileExtensionTypeLabels=\"@FileExtensionTypeLabels.French\" FileManagerLabels=\"@FileManagerLabels.French\"ColumnLabels=\"@DataGridColumnLabels.French\"DetailsLabels=\"@FileManagerDetailsLabels.French\" />";
+
+    private string _sample2 = "<FluentCxFileManager TItem=\"NoFileEntryData\"  FileExtensionTypeLabels=\"@_fileExtensionTypeLabels\" FileManagerLabels=\"@_fileManagerLabels\"ColumnLabels=\"@_columnsLabels\"DetailsLabels=\"@_fileManagerDetailsLabels\" />";
+
+}

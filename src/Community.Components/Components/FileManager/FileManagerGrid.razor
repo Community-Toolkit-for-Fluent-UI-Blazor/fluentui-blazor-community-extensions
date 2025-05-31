@@ -1,0 +1,58 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FileManagerBase<TItem>
+@typeparam TItem where TItem : class, new()
+
+@if(!IsBusy && Entry is not null)
+{
+    <FluentCxTileGrid MinimumColumnWidth="300px"
+                      ColumnWidth="300px"
+                      RowHeight="88px"
+                      CanReorder=false
+                      CanResize=false
+                      Spacing="3"
+                      Items=@Entry.Enumerate()
+                      TItem="FileManagerEntry<TItem>">
+        <ItemTemplate>
+            @if (ItemTemplate is not null)
+            {
+                @ItemTemplate(context)
+            }
+            else
+            {
+                <FluentCxTileGridItem OnClick="@(e => OnItemTappedAsync(context))"
+                                      Id="@($"{context.Id}-grid-item")"
+                                      TItem="FileManagerEntry<TItem>"
+                                      OnDoubleClick="@(e => OnItemDoubleTappedAsync(context))"
+                                      Style="@((context.IsDirectory ? "cursor: pointer;" : string.Empty))">
+                    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                        <FluentCheckbox Value=@(SelectedItems.Contains(context))
+                                        ValueChanged="@(e => OnCheckedItemChangedAsync(context, e))" />
+
+                        @if (context.IsDirectory)
+                        {
+                            <FluentIcon Value="@(new FileManagerIcons.Size32.FolderIcon())" />
+                        }
+                        else
+                        {
+                            <FluentIcon Value="@GetIconFromFile(context.Extension!)" />
+                        }
+
+                        <FluentLabel Style="width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            @context.Name
+                        </FluentLabel>
+                    </FluentStack>
+                </FluentCxTileGridItem>
+            }
+        </ItemTemplate>
+    </FluentCxTileGrid>
+}
+else
+{
+    <FluentStack Orientation="Orientation.Vertical" 
+                 HorizontalAlignment="HorizontalAlignment.Center"
+                 VerticalAlignment="VerticalAlignment.Center"
+                 Style="height: 100%">
+        <FluentProgress Min="0" Max="100" Width="340px" Value="@(IsIndeterminateProgress ? null : ProgressPercent)" />
+        <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">@ProgressLabel</FluentLabel>
+    </FluentStack>
+}

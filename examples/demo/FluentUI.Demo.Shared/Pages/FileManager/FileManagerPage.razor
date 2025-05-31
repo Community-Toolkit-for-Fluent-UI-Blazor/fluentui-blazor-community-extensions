@@ -1,0 +1,29 @@
+﻿@page "/fileManager"
+@namespace FluentUI.Demo
+
+<h1>FileManager</h1>
+
+<p>
+    The file manager component allows browsing and managing files and folders in Blazor applications. <br/>
+    It enables you to preview a file system and perform rename, sort, search, upload and download operations. <br />
+    The component includes a view for a desktop app and a view for a mobile app.<br />
+    The component has a built-in toolbar with predefined commands, three panes for viewing and previewing content and built-in localization.<br />
+    You can add extra buttons on the toolbar with the ToolbarItems RenderFragment parameter.<br />
+    In the current demo, you can create folder, upload files, download or delete folders or files, but nothing is stored on the server. <br />
+    In your app you need to bind four events to perform further operations :<br />
+    OnFolderCreated to be able to perform an action after the logical folder was created.<br />
+    OnRename to be able to perform an action after the folder or the file was logically renamed.<br />
+    OnDelete to be able to perform an action after the folder or the file was logically deleted.<br />
+    OnFileUploaded to be able to perform an action after the file was uploaded.<br />
+
+    The FileManager supports single and multiple selection for both folders and files.<br />
+    The multiple selection feature comes in handy when you want users to perform a single operation on multiple files or folders.<br />
+    The toolbar includes the most common operations related to managing files and folders: create a new folder, file upload, show/hide file or folder details preview, search box, allowing users to easily filter based on folder and file names.
+    <br />
+    The FileManager supports localization out of the box, you can easily show all the ui translated to any language your app may require.
+</p>
+
+<h2 id="example">Examples</h2>
+<FileManagerDefault />
+<FileManagerMobile />
+<FileManagerLocalization />

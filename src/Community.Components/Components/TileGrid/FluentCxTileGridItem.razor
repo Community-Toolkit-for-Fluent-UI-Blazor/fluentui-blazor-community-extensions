@@ -1,5 +1,11 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
+@typeparam TItem where TItem : class, new()
+
+@if(Parent?.ChildContent is null)
+{
+    @ItemTemplate
+}
 
 @code {
 
@@ -8,7 +14,7 @@
         Id = StringHelper.GenerateId(15);
         _dotNetReference = DotNetObjectReference.Create(this);
 
-        ItemRendered = __builder =>
+        ItemTemplate = __builder =>
         {
             if (IsVisible)
             {
@@ -16,7 +22,7 @@
                                 Style="@InternalStyle"
                                 aria-dropeffect="@(Parent.CanReorder ? "execute" : null)"
                                 aria-grabbed="@(Parent.CanReorder)"
-                                TItem="FluentCxTileGridItem"
+                                TItem="FluentCxTileGridItem<TItem>"
                                 Draggable="@Parent.CanReorder"
                                 Droppable="@Parent.CanReorder">
                         <FluentCard Class="@($"fluent-tile-grid-item-original {Class}")"
