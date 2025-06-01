@@ -47,7 +47,9 @@ public record FileManagerLabels
         UploadLabel = "Transférer",
         ViewLabel = "Affichage",
         HierarchicalLabel = "Hiérarchie",
-        FlatLabel = "Plat"
+        FlatLabel = "Plat",
+        ExceededFileCountMessage = "Le nombre maximal de fichiers pouvant être sélectionné est de {0}",
+        ExceededFileCountTitle = "Nombre de fichiers maximum autorisés dépassé"
     };
 
     public string DialogCloseLabel { get; set; } = "Close";
@@ -125,4 +127,8 @@ public record FileManagerLabels
     public string HierarchicalLabel { get; set; } = "Hierarchical";
 
     public string FlatLabel { get; set; } = "Flat";
+
+    public string ExceededFileCountMessage { get; set; } = "The maximum number of files that can be selected is {0}";
+
+    public string ExceededFileCountTitle { get; set; } = "Maximum number of allowed files exceeded";
 }

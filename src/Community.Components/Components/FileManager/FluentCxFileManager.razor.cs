@@ -115,7 +115,7 @@ public partial class FluentCxFileManager<TItem>
     public AcceptFile AcceptFiles { get; set; } = AcceptFile.None;
 
     [Parameter]
-    public int MaximumFileCount { get; set; } = 10;
+    public int MaximumFileCount { get; set; } = 100;
 
     [Parameter]
     public long MaximumFileSize { get; set; } = 1024 * 1024 * 100;
@@ -232,6 +232,16 @@ public partial class FluentCxFileManager<TItem>
         }
     }
 
+    private async Task OnFileCountExceededAsync(int maximumFileCount)
+    {
+        var dialog = await DialogService.ShowErrorAsync(
+            FileManagerLabels.ExceededFileCountMessage,
+            FileManagerLabels.ExceededFileCountTitle,
+            FileManagerLabels.DialogOkLabel);
+
+        await dialog.Result;
+    }
+
     private void BuildFlatView()
     {
         _flattenEntry.Clear();
@@ -330,17 +340,6 @@ public partial class FluentCxFileManager<TItem>
             return;
         }
 
-        if (View == Components.FileManagerView.Desktop &&
-            entry.IsDirectory)
-        {
-            var item = FindTreeViewItem(_treeViewItems, entry.Id);
-
-            if (item is not null)
-            {
-                item.Text = entry.Name;
-            }
-        }
-
         var dialog = await DialogService.ShowDialogAsync<FileManagerDialog>(
             new FileManagerContent(FileManagerLabels.FileLabel, FileManagerLabels.FilePlaceholder, entry.NameWithoutExtension, entry.IsDirectory, true),
             new DialogParameters()
@@ -360,6 +359,17 @@ public partial class FluentCxFileManager<TItem>
             _fileManagerView is not null)
         {
             entry.SetName(s);
+
+            if (View == Components.FileManagerView.Desktop &&
+                entry.IsDirectory)
+            {
+                var item = FindTreeViewItem(_treeViewItems, entry.Id);
+
+                if (item is not null)
+                {
+                    item.Text = entry.Name;
+                }
+            }
         }
 
         if (OnRename.HasDelegate)

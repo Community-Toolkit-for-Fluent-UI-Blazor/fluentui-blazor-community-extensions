@@ -259,4 +259,5 @@
                  OnCompleted=@OnCompleted
                  OnFileUploaded=@OnFileUploadedAsync
                  OnProgressChange="@OnProgressChange"
+                 OnFileCountExceeded="OnFileCountExceededAsync"
                  Accept="@(AcceptFiles == AcceptFile.None ? Accept : AcceptFileProvider.Get(AcceptFiles))" />

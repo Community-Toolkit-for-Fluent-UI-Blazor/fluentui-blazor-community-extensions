@@ -37,9 +37,14 @@
                             <FluentIcon Value="@GetIconFromFile(context.Extension!)" />
                         }
 
-                        <FluentLabel Style="width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                            @context.Name
-                        </FluentLabel>
+                        <FluentStack Orientation="Orientation.Vertical">
+                            <FluentLabel Style="width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                @context.Name
+                            </FluentLabel>
+                            <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                                @ByteSize.FromBytes(context.Size).ToString()
+                            </FluentLabel>
+                        </FluentStack>
                     </FluentStack>
                 </FluentCxTileGridItem>
             }
