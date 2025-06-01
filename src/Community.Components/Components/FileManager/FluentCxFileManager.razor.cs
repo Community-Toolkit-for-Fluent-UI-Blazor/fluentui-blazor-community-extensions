@@ -697,7 +697,7 @@ public partial class FluentCxFileManager<TItem>
         {
             _progressState = ProgressState.Deleting;
             SetDisabled(true);
-            _fileManagerView?.SetBusy(false);
+            _fileManagerView?.SetBusy(true);
 
             if (View == Components.FileManagerView.Desktop)
             {
@@ -737,7 +737,7 @@ public partial class FluentCxFileManager<TItem>
 
     private void RemoveSelectedItemFromMainEntries(string id, IEnumerable<FileManagerEntry<TItem>> items)
     {
-        var internalEntry = FileManagerEntry<TItem>.Find(Root.Enumerate(), id);
+        var internalEntry = FileManagerEntry<TItem>.Find(Root, id);
         _flattenEntry.Remove(items);
 
         if (internalEntry is null)
