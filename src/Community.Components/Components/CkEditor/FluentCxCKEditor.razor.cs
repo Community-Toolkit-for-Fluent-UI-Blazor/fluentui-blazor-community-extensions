@@ -4,7 +4,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
-public partial class FluentCxCKEditor : FluentInputBase<string?>
+public partial class FluentCxCKEditor : FluentInputBase<string?>, IAsyncDisposable
 {
 
     private readonly DotNetObjectReference<FluentCxCKEditor> _reference;
@@ -112,6 +112,8 @@ public partial class FluentCxCKEditor : FluentInputBase<string?>
             await _jsModule.InvokeVoidAsync("update", Id, data);
         }
     }
+
+
     public async ValueTask DisposeAsync()
     {
         try
