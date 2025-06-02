@@ -3,6 +3,7 @@
 // ------------------------------------------------------------------------
 
 using FluentUI.Blazor.Community.Extensions;
+using FluentUI.Blazor.Community.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -18,6 +19,12 @@ public partial class FluentCxTileGridItem<TItem>
     private readonly DotNetObjectReference<FluentCxTileGridItem<TItem>>? _dotNetReference;
     private const string JAVASCRIPT_FILE = "./_content/FluentUI.Blazor.Community.Components/Components/TileGrid/FluentCxTileGridItem.razor.js";
     private IJSObjectReference? _module;
+
+    public FluentCxTileGridItem()
+    {
+        Id = StringHelper.GenerateId();
+        _dotNetReference = DotNetObjectReference.Create(this);
+    }
 
     [CascadingParameter]
     private FluentCxTileGrid<TItem> Parent { get; set; } = default!;
@@ -62,12 +69,6 @@ public partial class FluentCxTileGridItem<TItem>
     private string HeaderClass => !Parent.CanReorder && !Parent.CanResize ? string.Empty : "touch-action-none";
 
     private bool HasHeader => HeaderTemplate is not null || !string.IsNullOrEmpty(Header);
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Parent?.Add(this);
-    }
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -183,10 +184,13 @@ public partial class FluentCxTileGridItem<TItem>
         }
     }
 
+    private void OnDropEnd(FluentDragEventArgs<FluentCxTileGridItem<TItem>> e)
+    {
+        var x = e;
+    }
+
     public async ValueTask DisposeAsync()
     {
-        Parent?.Remove(this);
-
         try
         {
             if (_module is not null)

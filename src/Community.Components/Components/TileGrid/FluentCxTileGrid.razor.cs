@@ -16,10 +16,7 @@ namespace FluentUI.Blazor.Community.Components;
 public partial class FluentCxTileGrid<TItem>
     : FluentComponentBase where TItem : class, new()
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    private readonly List<FluentCxTileGridItem<TItem>> _children = [];
+    private readonly RenderFragment _contentFragment;
 
     /// <summary>
     /// 
@@ -117,23 +114,28 @@ public partial class FluentCxTileGrid<TItem>
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
 
+    private void OnDragEnd(FluentDragEventArgs<FluentCxTileGridItem<TItem>> e)
+    {
+        System.Diagnostics.Debug.WriteLine("Drag end");
+    }
+
     private void OnDropEnd(FluentDragEventArgs<FluentCxTileGridItem<TItem>> e)
     {
         if (!string.IsNullOrEmpty(e.Source.Id) &&
             !string.IsNullOrEmpty(e.Target.Id))
         {
-            var sourceIndex = _children.FindIndex(x => x.Id == e.Source.Id);
-            var destIndex = _children.FindIndex(x => x.Id == e.Target.Id);
+            //var sourceIndex = _children.FindIndex(x => x.Id == e.Source.Id);
+            //var destIndex = _children.FindIndex(x => x.Id == e.Target.Id);
 
-            if (sourceIndex >= 0 &&
-                destIndex >= 0)
-            {
-                var firstElement = _children[sourceIndex];
-                var lastElement = _children[destIndex];
+            //if (sourceIndex >= 0 &&
+            //    destIndex >= 0)
+            //{
+            //    var firstElement = _children[sourceIndex];
+            //    var lastElement = _children[destIndex];
 
-                (lastElement.Order, firstElement.Order) = (firstElement.Order, lastElement.Order);
-                _children.Sort(FluentCxTileGridItemComparer<TItem>.Default);
-            }
+            //    (lastElement.Order, firstElement.Order) = (firstElement.Order, lastElement.Order);
+            //    _children.Sort(FluentCxTileGridItemComparer<TItem>.Default);
+            //}
         }
     }
 
@@ -186,30 +188,9 @@ public partial class FluentCxTileGrid<TItem>
         return handler.ToString();
     }
 
-    internal void Add(FluentCxTileGridItem<TItem> item)
-    {
-        _children.Add(item);
-        item.Order = _children.Count;
-    }
-
     protected internal virtual void OnItemParemetersChanged(FluentCxTileGridItem<TItem> _)
     {
         StateHasChanged();
-    }
-
-    internal void Remove(FluentCxTileGridItem<TItem> item)
-    {
-        _children.Remove(item);
-    }
-
-    internal void Refresh()
-    {
-        StateHasChanged();
-    }
-
-    public void Clear()
-    {
-        _children.Clear();
     }
 
     protected override void OnParametersSet()

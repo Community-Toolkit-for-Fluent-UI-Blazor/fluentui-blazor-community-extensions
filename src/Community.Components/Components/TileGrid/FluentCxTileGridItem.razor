@@ -4,14 +4,14 @@
 
 @if (IsVisible)
 {
-    <FluentDropZone Id="@GetId()"
-                    Style="@InternalStyle"
-                    aria-dropeffect="@(Parent.CanReorder ? "execute" : null)"
-                    aria-grabbed="@(Parent.CanReorder)"
-                    TItem="FluentCxTileGridItem<TItem>"
-                    Draggable="@Parent.CanReorder"
-                    Droppable="@Parent.CanReorder">
-        <FluentCard Class="@($"fluent-tile-grid-item-original {Class}")"
+    bool canReorder = Parent.CanReorder;
+
+    <div id="@GetId()" style="@InternalStyle">
+        <FluentDropZone Id="@($"{GetId()}-drop-zone")"
+                        TItem="FluentCxTileGridItem<TItem>"
+                        Draggable="@canReorder"
+                        Droppable="@canReorder">
+              <FluentCard Class="@($"fluent-tile-grid-item-original {Class}")"
                     @key=@GetId()
                     role="listitem"
                     @onclick="@OnClick" 
@@ -39,7 +39,11 @@
             }
 
             <div class="fluent-card-body" style="@(HasHeader ? "height: calc(100% - 48px)" : "height: 100%")">
-                @ChildContent
+                <FluentStack Style="height: 100%"
+                             VerticalAlignment="VerticalAlignment.Center"
+                             HorizontalAlignment="HorizontalAlignment.Center">
+                    @ChildContent
+                </FluentStack>
             </div>
 
             @if (Parent.CanResize)
@@ -56,15 +60,7 @@
             {
                 <FluentCard Class="@($"fluent-tile-grid-item-preview {Class}")"
                             Style="position: absolute; opacity: 0.75; display: none; z-index: 9999"  />
-            }                    
-    </FluentDropZone>
-}
-
-@code {
-
-    public FluentCxTileGridItem()
-    {
-        Id = StringHelper.GenerateId(15);
-        _dotNetReference = DotNetObjectReference.Create(this);
-    }
+            }              
+        </FluentDropZone>
+    </div>
 }

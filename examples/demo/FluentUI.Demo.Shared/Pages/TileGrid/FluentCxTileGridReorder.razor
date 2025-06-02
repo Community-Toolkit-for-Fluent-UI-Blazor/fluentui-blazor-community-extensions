@@ -1,0 +1,46 @@
+﻿@page "/tilegridreorder"
+
+<h3>Reorder</h3>
+<p>The Tile Grid can reorder its items.</p>
+
+<FluentMessageBar AllowDismiss=false FadeIn=false Intent="MessageIntent.Warning" Title="Issue with reorder">
+    There is an issue with the reorder. I don't know why but in this demo, the drag and drop seems to "fail" without any reason.
+    And with this "failure", the component doesn't refresh :(
+    And sadly, this failure forces us to press F5 to reload the page.
+</FluentMessageBar>
+
+    <FluentCxTileGrid Spacing="3"
+                      Style="background-color: var(--neutral-layer-3); padding: 4px"
+                      Columns="3"
+                      RowHeight="150px"
+                      TItem="EmptyObject"
+                      CanReorder>
+        <FluentCxTileGridItem Header="Header 1">
+            Some data
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Header 2">
+            Some chart
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Header 3">
+            An another item
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" Header="Header 4">
+            A big chart
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" Header="Header 5">
+            An another big chart
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem RowSpan="2" Header="Header 6">
+            A last big item
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+
+
+@code {
+    public class EmptyObject { }
+}

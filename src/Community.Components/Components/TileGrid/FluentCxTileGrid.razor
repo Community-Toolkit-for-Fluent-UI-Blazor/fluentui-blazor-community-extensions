@@ -1,29 +1,57 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 @typeparam TItem where TItem : class, new()
+@attribute [CascadingTypeParameter(nameof(TItem))]
 
-<CascadingValue Value="this" IsFixed>
-    <FluentDragContainer Style="height: 100%; overflow-y: auto; overflow-x: hidden; width: 100%"
-                         OnDropEnd=@OnDropEnd
-                         TItem="FluentCxTileGridItem<TItem>">
-        <div data-id="@DataId"
-             spacing="@Spacing"
-             @attributes=AdditionalAttributes
-             class="@InternalClass"
-             dir="@GlobalState.Dir.ToAttributeValue()"
-             style="@InternalStyle"
-             role="list">
-            @if (ItemTemplate is not null)
-            {
-                foreach(var item in Items)
+ @if(CanReorder)
+ {
+     <FluentDragContainer OnDropEnd=@OnDropEnd
+                          OnDragEnd=@OnDragEnd
+                          OnDragEnter=@(e => System.Diagnostics.Debug.WriteLine("Drag enter"))
+                         OnDragStart=@(e => System.Diagnostics.Debug.WriteLine("Drag start"))
+                         OnDragOver=@(e => System.Diagnostics.Debug.WriteLine("Drag over"))
+                         OnDragLeave=@(e => System.Diagnostics.Debug.WriteLine("Drag leave"))
+                          TItem="FluentCxTileGridItem<TItem>">
+         @_contentFragment
+     </FluentDragContainer>
+ }
+ else
+ {
+     <div>
+         @_contentFragment
+     </div>
+ }
+
+@code {
+    public FluentCxTileGrid()
+    {
+        Id = StringHelper.GenerateId();
+
+        _contentFragment = __builder =>
+        {
+            <CascadingValue Value="this" IsFixed>
+
+            <div data-id="@DataId"
+                 spacing="@Spacing"
+                 @attributes=AdditionalAttributes
+                 class="@InternalClass"
+                 dir="@GlobalState.Dir.ToAttributeValue()"
+                 style="@InternalStyle"
+                 role="list">
+                @if (ItemTemplate is not null)
                 {
-                    @ItemTemplate(item)
+                    foreach (var item in Items)
+                    {
+                        @ItemTemplate(item)
+                    }
                 }
-            }
-            else if (ChildContent is not null)
-            {
-                @ChildContent
-            }
-        </div>
-    </FluentDragContainer>
-</CascadingValue>
+                else if (ChildContent is not null)
+                {
+                    @ChildContent
+                }
+            </div>
+
+            </CascadingValue>
+        };
+    }
+}

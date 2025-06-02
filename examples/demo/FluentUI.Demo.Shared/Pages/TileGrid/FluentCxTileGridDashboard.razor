@@ -1,0 +1,46 @@
+﻿@page "/tilegriddashboard"
+
+<h3>Dashboard</h3>
+
+<p>A tile grid could be very useful to create some views like dashboard or profile of an user.</p>
+
+<div style="height: 800px">
+    <FluentCxTileGrid Spacing="5"
+                      Style="background-color: var(--neutral-layer-3); padding: 4px"
+                      Columns="4"
+                      RowHeight="200px"
+                      CanResize
+                      TItem="EmptyObject">
+        <FluentCxTileGridItem Header="Number of users">
+                123
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Number of queries">
+                1 230
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Number of new users by day">
+                12
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Header="Number of deleted users">
+                73
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="4" RowSpan="3" Header="Evolution of fees">
+                Big chart with statistics
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan=2 RowSpan="2" Header="Chart of the best-selling products">
+                Chart of the best selling product
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" Header="Chart of the evolution of ...">
+                Chart of the best selling product
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+</div>
+
+@code {
+    private class EmptyObject { }
+}

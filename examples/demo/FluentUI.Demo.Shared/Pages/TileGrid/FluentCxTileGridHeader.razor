@@ -1,0 +1,36 @@
+﻿@page "/tilegridheader"
+
+<h3>Header</h3>
+
+<p>An item of the tile grid can have an header. This header can be templated.</p>
+
+<div style="height: 200px">
+    <FluentCxTileGrid Spacing="3"
+                      Style="background-color: var(--neutral-layer-3); padding: 4px"
+                      Columns="3"
+                      RowHeight="150px"
+                      TItem="EmptyObject">
+        <FluentCxTileGridItem Header="With header">
+            Item 1
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            <HeaderTemplate>
+                <FluentLabel Weight="FontWeight.Bold">With a templated header</FluentLabel>
+            </HeaderTemplate>
+            <ChildContent>
+                Item 2
+
+            </ChildContent>
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Without header
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+</div>
+
+
+@code {
+    private class EmptyObject { }
+}

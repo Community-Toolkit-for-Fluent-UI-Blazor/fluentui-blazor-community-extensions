@@ -1,0 +1,55 @@
+﻿@page "/tilegridresize"
+
+<h3>Resize</h3>
+
+<p>The Tile Grid can resize its items.</p>
+
+<div style="height: 400px">
+    <FluentCxTileGrid Spacing="3"
+                      Style="background-color: var(--neutral-layer-3); padding: 4px"
+                      Columns="4"
+                      RowHeight="100px"
+                      TItem="EmptyObject"
+                      CanResize>
+        <FluentCxTileGridItem>
+            Item 1
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 2
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 3
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 4
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 5
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem>
+            Item 6
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+            Item 7
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+            Item 8
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
+            Item 9
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+</div>
+
+
+@code {
+    private class EmptyObject { }
+}
