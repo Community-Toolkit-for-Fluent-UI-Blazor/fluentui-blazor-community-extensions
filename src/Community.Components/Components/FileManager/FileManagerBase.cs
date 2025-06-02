@@ -85,7 +85,7 @@ public class FileManagerBase<TItem> : ComponentBase where TItem : class, new()
 
     protected static Icon GetIconFromFile(string extension)
     {
-        return FileManagerIcons.FromExtension(extension);
+        return FileIcons.FromExtension(extension);
     }
 
     protected async Task OnRenameAsync(FileManagerEntry<TItem> entry)
