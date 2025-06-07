@@ -6,49 +6,54 @@
 {
     <FluentCxTileGrid MinimumColumnWidth="300px"
                       ColumnWidth="300px"
-                      RowHeight="88px"
+                      RowHeight="100px"
                       CanReorder=false
                       CanResize=false
-                      Spacing="3"
-                      Items=@Entry.Enumerate()
                       TItem="FileManagerEntry<TItem>">
-        <ItemTemplate>
-            @if (ItemTemplate is not null)
+        @foreach(var item in Entry.Enumerate())
+        {
+            if(item is not null)
             {
-                @ItemTemplate(context)
-            }
-            else
-            {
-                <FluentCxTileGridItem OnClick="@(e => OnItemTappedAsync(context))"
-                                      Id="@($"{context.Id}-grid-item")"
-                                      TItem="FileManagerEntry<TItem>"
-                                      OnDoubleClick="@(e => OnItemDoubleTappedAsync(context))"
-                                      Style="@((context.IsDirectory ? "cursor: pointer;" : string.Empty))">
-                    <FluentStack VerticalAlignment="VerticalAlignment.Center">
-                        <FluentCheckbox Value=@(SelectedItems.Contains(context))
-                                        ValueChanged="@(e => OnCheckedItemChangedAsync(context, e))" />
+                @if (ItemTemplate is not null)
+                {
+                    @ItemTemplate(item)
+                }
+                else
+                {
+                    <FluentCxTileGridItem OnTapped="@(e => OnItemTappedAsync(item))"
+                                          Id="@($"{item.Id}-grid-item")"
+                                          TItem="FileManagerEntry<TItem>"
+                                          Value="@item"
+                                          OnDoubleTapped="@(e => OnItemDoubleTappedAsync(item))"
+                                          Style="@((item.IsDirectory ? "cursor: pointer;" : string.Empty))">
+                        <FluentCard>
+                            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                                <FluentCheckbox Value=@(SelectedItems.Contains(item))
+                                                ValueChanged="@(e => OnCheckedItemChangedAsync(item, e))" />
 
-                        @if (context.IsDirectory)
-                        {
-                            <FluentIcon Value="@(new FileIcons.Size32.FolderIcon())" />
-                        }
-                        else
-                        {
-                            <FluentIcon Value="@GetIconFromFile(context.Extension!)" />
-                        }
+                                @if (item.IsDirectory)
+                                {
+                                    <FluentIcon Value="@(new FileIcons.Size32.FolderIcon())" />
+                                }
+                                else
+                                {
+                                    <FluentIcon Value="@GetIconFromFile(item.Extension!)" />
+                                }
 
-                        <FluentStack Orientation="Orientation.Vertical">
-                            <FluentLabel Style="width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                @context.Name
-                            </FluentLabel>
-                            <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
-                                @ByteSize.FromBytes(context.Size).ToString()
-                            </FluentLabel>
-                        </FluentStack>
-                    </FluentStack>
-                </FluentCxTileGridItem>
+                                <FluentStack Orientation="Orientation.Vertical">
+                                    <FluentLabel Style="width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        @item.Name
+                                    </FluentLabel>
+                                    <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                                        @ByteSize.FromBytes(item.Size).ToString()
+                                    </FluentLabel>
+                                </FluentStack>
+                            </FluentStack>
+                        </FluentCard>
+                    </FluentCxTileGridItem>
+                }
             }
-        </ItemTemplate>
+        }
     </FluentCxTileGrid>
 }
 else

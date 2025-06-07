@@ -173,7 +173,7 @@ public sealed class FileManagerEntry<TItem>
             return false;
         }
 
-        return x.Id == y.Id;
+        return string.Equals(x.Id, y.Id, StringComparison.OrdinalIgnoreCase);
     }
 
     public static bool operator !=(FileManagerEntry<TItem>? x, FileManagerEntry<TItem>? y)
@@ -345,7 +345,7 @@ public sealed class FileManagerEntry<TItem>
         _merged.AddRange(GetMerged());
     }
 
-    internal IEnumerable<FileManagerEntry<TItem>> Enumerate()
+    internal IList<FileManagerEntry<TItem>> Enumerate()
     {
         return _merged;
     }

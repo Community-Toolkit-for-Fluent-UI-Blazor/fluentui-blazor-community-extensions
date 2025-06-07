@@ -2,15 +2,16 @@
 // MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
 // ------------------------------------------------------------------------
 
-namespace FluentUI.Blazor.Community.Geometry;
+namespace FluentUI.Blazor.Community.Components;
 
-public struct RectF
+public interface ITileGridSettings
+    : IGridSettings
 {
-    public float X { get; set; }
+    string ColumnWidth { get; }
 
-    public float Y { get; set; }
+    string? MinimumColumnWidth { get; }
 
-    public float Width { get; set; }
+    int? Columns { get; }
 
-    public float Height { get; set; }
+    string RowHeight { get; }
 }

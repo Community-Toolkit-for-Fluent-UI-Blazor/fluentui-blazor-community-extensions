@@ -1,51 +1,85 @@
 ﻿<h3>Default</h3>
-<FluentMessageBar AllowDismiss=false Intent="MessageIntent.Warning" FadeIn=false Title="Issue with dynamic spacing">
-    There is an issue with the Spacing property. It doesn't work dynamically (issue with css ? with rendering ? Do I forgot something in the config ?)
-</FluentMessageBar>
 
-<FluentStack Style="margin-bottom: 24px;" VerticalAlignment="VerticalAlignment.Center">
-    <FluentLabel>Spacing</FluentLabel>
-    <FluentSlider @bind-Value="Spacing" Min="0" Max="10" Step="1" Style="max-width: 300px; margin-top: 18px;" />
-</FluentStack>
-
-<div style="height: 400px">
-    <FluentCxTileGrid Spacing="@Spacing"
-                      Style="background-color: var(--neutral-layer-3); padding: 4px"
+    <FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
                       Columns="5"
-                      TItem="EmptyObject"
-                      RowHeight="75px">
-        <FluentCxTileGridItem>
-            CS : 1 | RS : 1
+                      TItem="TileGridItemSample"
+                      RowHeight="150px">
+        <FluentCxTileGridItem Value="@Item1">
+            <FluentCard>
+                CS : 1 | RS : 1
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="3">
-            CS : 3 | RS : 1
+        <FluentCxTileGridItem Value="@Item2" ColumnSpan="3">
+           <FluentCard>
+                CS : 3 | RS : 1
+           </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
-            CS : 1 | RS : 1
+        <FluentCxTileGridItem Value="@Item3">
+            <FluentCard>
+                CS : 1 | RS : 1
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="5" RowSpan="2">
-            CS : 5 | RS : 2
+        <FluentCxTileGridItem Value="@Item4" ColumnSpan="5" RowSpan="2">
+            <FluentCard>
+                CS : 5 | RS : 2
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="3">
-            CS : 2 | RS : 3
+        <FluentCxTileGridItem Value="@Item5" ColumnSpan="2" RowSpan="3">
+            <FluentCard>
+                CS : 2 | RS : 3
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem RowSpan="2">
-            CS : 1 | RS : 2
+        <FluentCxTileGridItem Value="@Item6" RowSpan="2">
+            <FluentCard>
+                CS : 1 | RS : 2
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="3">
-            CS : 2 | RS : 3
+        <FluentCxTileGridItem Value="@Item7" ColumnSpan="2" RowSpan="3">
+            <FluentCard>
+                CS : 2 | RS : 3
+            </FluentCard>
         </FluentCxTileGridItem>
     </FluentCxTileGrid>
-</div>
 
 @code {
-    private int Spacing = 3;
+    private readonly TileGridItemSample Item1 = new()
+    {
+        Title = "Item 1"
+    };
 
-    public class EmptyObject { }
+    private readonly TileGridItemSample Item2 = new()
+    {
+        Title = "Item 2"
+    };
+
+    private readonly TileGridItemSample Item3 = new()
+    {
+        Title = " Item 3"
+    };
+
+    private readonly TileGridItemSample Item4 = new()
+    {
+        Title = "Item 4"
+    };
+
+    private readonly TileGridItemSample Item5 = new()
+    {
+        Title = "Item 5"
+    };
+
+    private readonly TileGridItemSample Item6 = new()
+    {
+        Title = "Item 6"
+    };
+
+    private readonly TileGridItemSample Item7 = new()
+    {
+        Title = "Item 7"
+    };
 }

@@ -3,6 +3,7 @@
 // ------------------------------------------------------------------------
 
 using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Demo.Server.Components;
 using FluentUI.Demo.Shared.Providers;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -14,7 +15,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddFluentUIComponents();
 builder.Services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
-builder.Services.AddScoped<FileManagerSortState>();
+builder.Services.AddFluentCxUIComponents();
 
 var app = builder.Build();
 

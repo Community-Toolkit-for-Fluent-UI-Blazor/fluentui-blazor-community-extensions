@@ -1,46 +1,76 @@
-﻿@page "/tilegridreorder"
-
-<h3>Reorder</h3>
+﻿<h3>Reorder</h3>
 <p>The Tile Grid can reorder its items.</p>
 
-<FluentMessageBar AllowDismiss=false FadeIn=false Intent="MessageIntent.Warning" Title="Issue with reorder">
-    There is an issue with the reorder. I don't know why but in this demo, the drag and drop seems to "fail" without any reason.
-    And with this "failure", the component doesn't refresh :(
-    And sadly, this failure forces us to press F5 to reload the page.
-</FluentMessageBar>
-
-    <FluentCxTileGrid Spacing="3"
-                      Style="background-color: var(--neutral-layer-3); padding: 4px"
+    <FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
                       Columns="3"
                       RowHeight="150px"
-                      TItem="EmptyObject"
+                  TItem="TileGridItemSample"
                       CanReorder>
-        <FluentCxTileGridItem Header="Header 1">
-            Some data
+        <FluentCxTileGridItem Value="@Item1">
+            <FluentCard>
+                @Item1.Title
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Header="Header 2">
-            Some chart
+    <FluentCxTileGridItem Value="@Item2">
+            <FluentCard>
+                @Item2.Title
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Header="Header 3">
-            An another item
+    <FluentCxTileGridItem Value="@Item3">
+           <FluentCard>
+                @Item3.Title
+           </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" Header="Header 4">
-            A big chart
+    <FluentCxTileGridItem ColumnSpan="2" Value="@Item4">
+            <FluentCard>
+                @Item4.Title
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" Header="Header 5">
-            An another big chart
+    <FluentCxTileGridItem Value="@Item5" ColumnSpan="2" RowSpan="2">
+            <FluentCard>
+                @Item5.Title
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem RowSpan="2" Header="Header 6">
-            A last big item
+    <FluentCxTileGridItem Value="@Item6" RowSpan="2">
+            <FluentCard>
+                @Item6.Title
+            </FluentCard>
         </FluentCxTileGridItem>
     </FluentCxTileGrid>
 
-
 @code {
-    public class EmptyObject { }
+    private readonly TileGridItemSample Item1 = new()
+    {
+        Title = "Some data"
+    };
+
+    private readonly TileGridItemSample Item2 = new()
+    {
+        Title = "Some chart"
+    };
+
+    private readonly TileGridItemSample Item3 = new()
+    {
+        Title = " An another item"
+    };
+
+    private readonly TileGridItemSample Item4 = new()
+    {
+        Title = "A big chart"
+    };
+
+    private readonly TileGridItemSample Item5 = new()
+    {
+        Title = "An another big chart"
+    };
+
+    private readonly TileGridItemSample Item6 = new()
+    {
+        Title = "A last big item"
+    };
 }

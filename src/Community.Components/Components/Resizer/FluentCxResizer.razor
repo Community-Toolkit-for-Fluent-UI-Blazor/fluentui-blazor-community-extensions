@@ -1,0 +1,24 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     @onclick=OnTappedAsync
+     @ondblclick=OnDoubleTappedAsync
+     class="@InternalClass"
+     style="@InternalStyle" >
+    <div class="fluentcx-resizer-child-content-container">
+        @ChildContent
+    </div>
+
+    @if (IsResizeEnabled)
+    {
+        @foreach (var item in ResizeHandlers)
+        {
+            string css = $"fluentcx-resizer-handler fluentcx-resizer-handler-cursor-{item.Key.ToAttributeValue()}";
+
+            <div class="@css"
+            style="@item.Value" />
+        }
+
+    }
+</div>

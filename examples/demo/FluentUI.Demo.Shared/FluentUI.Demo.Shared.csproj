@@ -6,6 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Pages\TileGrid\FluentCxTileGridColRowSpan.razor" />
+    <Content Remove="Pages\TileGrid\FluentCxTileGridHeader.razor" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />

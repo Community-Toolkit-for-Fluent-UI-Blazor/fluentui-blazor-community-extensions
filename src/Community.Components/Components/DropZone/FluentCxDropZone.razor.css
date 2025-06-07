@@ -1,0 +1,56 @@
+.fluentcx-drop-zone-progress > * {
+  pointer-events: none;
+}
+
+.fluentcx-drop-zone-placeholder {
+  height: 10px;
+}
+
+.fluentcx-drop-zone-placeholder-drag-over {
+  padding: 25px;
+}
+
+.fluentcx-drop-zone-dragged-over {
+  background-color: lightgray;
+  opacity: 0.6;
+  animation: blinker 1s linear infinite;
+}
+
+.fluentcx-drop-zone-dragged-over > div {
+  background-color: lightgray;
+  opacity: 0.6;
+  animation: blinker 1s linear infinite;
+}
+
+.fluentcx-drop-zone-dragged-over-denied {
+  background-color: red;
+  opacity: 0.6;
+  animation: blinker 1s linear infinite;
+}
+
+.fluentcx-drop-zone-moving {
+  opacity: 0;
+}
+
+.fluentcx-drop-zone-moving > div {
+  opacity: 0;
+}
+
+.no-pointer-events {
+    pointer-events: none;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.fluentcx-drop-zone-noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

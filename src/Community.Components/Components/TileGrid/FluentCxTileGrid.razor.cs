@@ -2,46 +2,37 @@
 // MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
 // ------------------------------------------------------------------------
 
-using System.Runtime.CompilerServices;
-using FluentUI.Blazor.Community.Comparers;
+using FluentUI.Blazor.Community.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
 
-/// <summary>
-/// Represents a Tile Grid where the items can be resized or reordered.
-/// </summary>
 public partial class FluentCxTileGrid<TItem>
-    : FluentComponentBase where TItem : class, new()
+    : FluentComponentBase
 {
-    private readonly RenderFragment _contentFragment;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private static readonly Dictionary<TileGridItemResizeHandle, string> _ltrResize = new(EqualityComparer<TileGridItemResizeHandle>.Default)
+    public FluentCxTileGrid()
     {
-        [TileGridItemResizeHandle.Horizontally] = "top: 0px; right: 0px; bottom: 0px; width: 9px;",
-        [TileGridItemResizeHandle.Vertically] = "left: 0px; right: 0px; bottom: 0px; height: 9px;",
-        [TileGridItemResizeHandle.Both] = "right: 0px; bottom: 0px; width: 9px; height: 9px;"
+        Id = StringHelper.GenerateId();
+    }
+
+    private IGridSettings GridSettings => new TileGridSettings()
+    {
+        Columns = Columns,
+        ColumnWidth = ColumnWidth,
+        Height = Height,
+        MinimumColumnWidth = MinimumColumnWidth,
+        RowHeight = RowHeight,
+        Width = Width,
     };
 
-    /// <summary>
-    /// 
-    /// </summary>
-    private static readonly Dictionary<TileGridItemResizeHandle, string> _rtlResize = new(EqualityComparer<TileGridItemResizeHandle>.Default)
-    {
-        [TileGridItemResizeHandle.Horizontally] = "top: 0px; left: 0px; bottom: 0px; width: 9px;",
-        [TileGridItemResizeHandle.Vertically] = "left: 0px; left: 0px; bottom: 0px; height: 9px;",
-        [TileGridItemResizeHandle.Both] = "left: 0px; bottom: 0px; width: 9px; height: 9px;"
-    };
+    internal FluentCxDropZoneContainer<TItem>? _dropContainer;
 
-    [Inject]
-    public GlobalState GlobalState { get; set; } = default!;
+    [Parameter]
+    public bool Immediate { get; set; } = true;
 
-    internal Dictionary<TileGridItemResizeHandle, string> ResizeHandles => GlobalState.Dir == LocalizationDirection.LeftToRight ? _ltrResize : _rtlResize;
+    [Parameter]
+    public Func<TItem, TItem>? CloneItem { get; set; }
 
     [Parameter]
     public bool CanReorder { get; set; }
@@ -50,35 +41,23 @@ public partial class FluentCxTileGrid<TItem>
     public bool CanResize { get; set; }
 
     [Parameter]
-    public string? DataId { get; set; }
+    public Func<TItem, bool>? IsDragAllowed { get; set; }
 
-    /// <summary>
-    /// Gets or sets the number of columns in the <see cref="FluentCxTileGrid"/>.
-    /// </summary>
-    /// <remarks>
-    /// When Columns is set to 0 (or below 0), the grid will use auto-fit to fill the container.
-    /// </remarks>
     [Parameter]
-    public int Columns { get; set; } = 0;
+    public Func<TItem?, TItem?, bool>? IsDropAllowed { get; set; }
 
-    /// <summary>
-    /// Gets or sets the height of the rows.
-    /// </summary>
     [Parameter]
-    public string RowHeight { get; set; } = "1fr";
+    public IList<TItem>? Items { get; set; } = [];
 
-    /// <summary>
-    /// Gets or sets the height of the rows.
-    /// </summary>
-    /// <remarks>
-    /// Use this parameter only if you set the IsVirtualized parameter to <see langword="true" />.
-    /// </remarks>
     [Parameter]
-    public float RowHeightInt { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Gets or sets the width of the columns.
-    /// </summary>
+    [Parameter]
+    public RenderFragment<TItem>? ItemContent { get; set; }
+
+    [Parameter]
+    public Func<TItem, string>? ItemCss {  get; set; }
+
     [Parameter]
     public string ColumnWidth { get; set; } = "1fr";
 
@@ -86,121 +65,14 @@ public partial class FluentCxTileGrid<TItem>
     public string? MinimumColumnWidth { get; set; }
 
     [Parameter]
-    public int Spacing { get; set; } = 3;
+    public int? Columns { get; set; }
 
     [Parameter]
-    public string? Width { get; set; }
+    public string RowHeight { get; set; } = "1fr";
 
     [Parameter]
-    public string? Height { get; set; }
+    public string? Width { get; set; } = "100%";
 
     [Parameter]
-    public IEnumerable<TItem> Items { get; set; } = [];
-
-    [Parameter]
-    public RenderFragment<TItem>? ItemTemplate { get; set; }
-
-    private string? InternalStyle => new StyleBuilder(Style)
-        .AddStyle("grid-template-columns", GetColumns())
-        .AddStyle("grid-auto-rows", GetRows())
-        .AddStyle("width", Width, !string.IsNullOrEmpty(Width))
-        .AddStyle("height", Height, !string.IsNullOrEmpty(Height))
-        .Build();
-
-    private string? InternalClass => new CssBuilder(Class)
-            .AddClass("fluent-tile-grid")
-            .Build();
-
-    [Parameter]
-    public RenderFragment ChildContent { get; set; } = default!;
-
-    private void OnDragEnd(FluentDragEventArgs<FluentCxTileGridItem<TItem>> e)
-    {
-        System.Diagnostics.Debug.WriteLine("Drag end");
-    }
-
-    private void OnDropEnd(FluentDragEventArgs<FluentCxTileGridItem<TItem>> e)
-    {
-        if (!string.IsNullOrEmpty(e.Source.Id) &&
-            !string.IsNullOrEmpty(e.Target.Id))
-        {
-            //var sourceIndex = _children.FindIndex(x => x.Id == e.Source.Id);
-            //var destIndex = _children.FindIndex(x => x.Id == e.Target.Id);
-
-            //if (sourceIndex >= 0 &&
-            //    destIndex >= 0)
-            //{
-            //    var firstElement = _children[sourceIndex];
-            //    var lastElement = _children[destIndex];
-
-            //    (lastElement.Order, firstElement.Order) = (firstElement.Order, lastElement.Order);
-            //    _children.Sort(FluentCxTileGridItemComparer<TItem>.Default);
-            //}
-        }
-    }
-
-    private string GetRows()
-    {
-        DefaultInterpolatedStringHandler handler = new();
-
-        // Rows
-        handler.AppendLiteral("minmax(0px, ");
-        handler.AppendFormatted(RowHeight);
-        handler.AppendLiteral(");");
-        handler.AppendLiteral("px; padding: ");
-        handler.AppendFormatted(Spacing * 4);
-        handler.AppendLiteral("px;");
-
-        return handler.ToString();
-    }
-
-    private string GetColumns()
-    {
-        DefaultInterpolatedStringHandler handler = new();
-
-        // Columns
-        handler.AppendLiteral("repeat(");
-
-        if (Columns > 0)
-        {
-            handler.AppendFormatted(Columns);
-        }
-        else
-        {
-            handler.AppendLiteral("auto-fit");
-        }
-
-        handler.AppendLiteral(", minmax(");
-
-        if (string.IsNullOrEmpty(MinimumColumnWidth))
-        {
-            handler.AppendLiteral("0px, ");
-        }
-        else
-        {
-            handler.AppendFormatted(MinimumColumnWidth);
-            handler.AppendLiteral(", ");
-        }
-
-        handler.AppendFormatted(ColumnWidth);
-        handler.AppendLiteral("));");
-
-        return handler.ToString();
-    }
-
-    protected internal virtual void OnItemParemetersChanged(FluentCxTileGridItem<TItem> _)
-    {
-        StateHasChanged();
-    }
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        if (ChildContent is not null && Items.Any())
-        {
-            throw new NotSupportedException("The FluentCxTileGrid cannot use both ChildContent and Items properties at the same time. Use ChildContent or Items");
-        }
-    }
+    public string? Height { get; set; } = "100%";
 }
-

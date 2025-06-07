@@ -2,11 +2,13 @@
 // MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
 // ------------------------------------------------------------------------
 
-namespace FluentUI.Blazor.Community.Geometry;
+namespace FluentUI.Blazor.Community.Components;
 
-public struct PointF
+public interface IGridSettings
 {
-    public float X { get; set; }
+    DropZoneDisplay Display { get; }
 
-    public float Y { get; set; }
+    string? Width { get; }
+
+    string? Height { get; }
 }

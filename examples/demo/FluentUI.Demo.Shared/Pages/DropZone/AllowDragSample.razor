@@ -1,0 +1,61 @@
+﻿<h3>Allow drag of a specific item</h3>
+
+<p>
+    In this sample, only <i>Item 1</i> is allowed to be dragged from one list to another. 
+</p>
+
+<FluentStack>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentLabel>Dropzone source</FluentLabel>
+
+        <FluentCxDropZoneContainer Items="@_sourceList"
+                                   TItem="DropZoneSampleItem"
+                                   IsDragAllowed="@((i) => i.Title == "Item 1")">
+            <ItemContent>
+                <FluentCard>
+                    @context.Title
+                </FluentCard>
+            </ItemContent>
+        </FluentCxDropZoneContainer>
+    </FluentStack>
+
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentLabel>Target dropzone</FluentLabel>
+
+        <FluentCxDropZoneContainer TItem="DropZoneSampleItem"
+                                   IsDragAllowed="@((i) => i.Title == "Item 1")"
+                                   Items="@_targetList">
+            <ItemContent>
+                <FluentCard>
+                    @context.Title
+                </FluentCard>
+            </ItemContent>
+        </FluentCxDropZoneContainer>
+    </FluentStack>
+</FluentStack>
+
+<br />
+
+@if (lastdropped != null)
+{
+    <FluentLabel>You can't go here :  @lastdropped?.Title</FluentLabel>
+}
+
+@code {
+    private DropZoneSampleItem? lastdropped;
+
+    private readonly List<DropZoneSampleItem> _sourceList = new List<DropZoneSampleItem>()
+    {
+            new DropZoneSampleItem(){Title = "Item 1", IsNew = true},
+            new DropZoneSampleItem(){Title = "Item 2"},
+            new DropZoneSampleItem(){Title = "Item 3"},
+            new DropZoneSampleItem(){Title = "Item 4"},
+            new DropZoneSampleItem(){Title = "Item 5"},
+    };
+
+    private readonly List<DropZoneSampleItem> _targetList = new List<DropZoneSampleItem>()
+{
+            new DropZoneSampleItem(){Title = "Item 6"},
+    };
+
+}

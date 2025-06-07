@@ -1,57 +1,25 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
-@typeparam TItem where TItem : class, new()
+@typeparam TItem
 @attribute [CascadingTypeParameter(nameof(TItem))]
+@inject DropZoneState<TItem> DropZoneState
 
- @if(CanReorder)
- {
-     <FluentDragContainer OnDropEnd=@OnDropEnd
-                          OnDragEnd=@OnDragEnd
-                          OnDragEnter=@(e => System.Diagnostics.Debug.WriteLine("Drag enter"))
-                         OnDragStart=@(e => System.Diagnostics.Debug.WriteLine("Drag start"))
-                         OnDragOver=@(e => System.Diagnostics.Debug.WriteLine("Drag over"))
-                         OnDragLeave=@(e => System.Diagnostics.Debug.WriteLine("Drag leave"))
-                          TItem="FluentCxTileGridItem<TItem>">
-         @_contentFragment
-     </FluentDragContainer>
- }
- else
- {
-     <div>
-         @_contentFragment
-     </div>
- }
+<CascadingValue Value="this" IsFixed>
+    <FluentCxDropZoneContainer Immediate=@Immediate
+                               CloneItem="@CloneItem"
+                               IsDragAllowed="@(IsDragAllowed)"
+                               IsDropAllowed="@(IsDropAllowed)"
+                               IsDragEnabled=@CanReorder
+                               Items="@Items"
+                               TItem="TItem"
+                               ItemCss="@ItemCss"
+                               Id="@Id"
+                               ChildContent="@ChildContent"
+                               ItemContent="@ItemContent"
+                               GridSettings=@GridSettings
+                               @ref=_dropContainer />
+</CascadingValue>
 
 @code {
-    public FluentCxTileGrid()
-    {
-        Id = StringHelper.GenerateId();
 
-        _contentFragment = __builder =>
-        {
-            <CascadingValue Value="this" IsFixed>
-
-            <div data-id="@DataId"
-                 spacing="@Spacing"
-                 @attributes=AdditionalAttributes
-                 class="@InternalClass"
-                 dir="@GlobalState.Dir.ToAttributeValue()"
-                 style="@InternalStyle"
-                 role="list">
-                @if (ItemTemplate is not null)
-                {
-                    foreach (var item in Items)
-                    {
-                        @ItemTemplate(item)
-                    }
-                }
-                else if (ChildContent is not null)
-                {
-                    @ChildContent
-                }
-            </div>
-
-            </CascadingValue>
-        };
-    }
 }

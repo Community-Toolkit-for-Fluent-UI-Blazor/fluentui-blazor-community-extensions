@@ -7,9 +7,9 @@ using System.ComponentModel;
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents the handle for resizing <see cref="FluentCxTileGridItem{TItem}"/>
+/// Represents the handler for the resizer component.
 /// </summary>
-public enum TileGridItemResizeHandle
+public enum ResizerHandler
 {
     /// <summary>
     /// Resizes the item horizontally.

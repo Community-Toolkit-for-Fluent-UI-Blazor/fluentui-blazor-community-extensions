@@ -2,9 +2,8 @@
 // MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
 // ------------------------------------------------------------------------
 
-using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Demo.Client;
-using FluentUI.Demo.Shared.Providers;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -15,7 +14,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddFluentUIComponents();
-builder.Services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
-builder.Services.AddScoped<FileManagerSortState>();
+builder.Services.AddFluentCxUIComponents();
+//builder.Services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
+//builder.Services.AddScoped<FileManagerSortState>();
 
 await builder.Build().RunAsync();

@@ -1,0 +1,31 @@
+.fluentcx-resizer {
+  display: inline-flex;
+  position: relative;
+}
+
+.fluentcx-resizer-handler {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.fluentcx-resizer-child-content-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.fluentcx-resizer-handler-cursor-ew {
+  cursor: ew-resize;
+}
+
+.fluentcx-resizer-handler-cursor-ns {
+    cursor: ns-resize;
+}
+
+.fluentcx-resizer-handler-cursor-nwse {
+    cursor: nwse-resize;
+}

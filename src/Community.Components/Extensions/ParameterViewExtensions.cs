@@ -13,6 +13,6 @@ public static class ParameterViewExtensions
         string parameterName,
         T? value)
     {
-        return parameterView.TryGetValue(parameterName, out T? newValue) && EqualityComparer<T?>.Default.Equals(newValue, value);
+        return parameterView.TryGetValue(parameterName, out T? newValue) && newValue is not null && EqualityComparer<T?>.Default.Equals(newValue, value);
     }
 }

@@ -1,0 +1,61 @@
+﻿<h3>Set MaxItems</h3>
+
+<p>
+    You can set a limit on the number of items in a dropzone.
+    In this sample, the target dropzone can only contains a maximum of three items.
+</p>
+
+<FluentStack>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentLabel>Dropzone source</FluentLabel>
+
+        <FluentCxDropZoneContainer Items="@_sourceList">
+            <ItemContent>
+                <FluentCard>
+                    @context.Title
+                </FluentCard>
+            </ItemContent>
+        </FluentCxDropZoneContainer>
+    </FluentStack>
+
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentLabel>Target dropzone (MaxItems : 3)</FluentLabel>
+
+        <FluentCxDropZoneContainer MaxItems=3
+                                   TItem="DropZoneSampleItem"
+                                   Overflow="@(i => lastNotAllowed = i)"
+                                   Items="@_targetList">
+            <ItemContent>
+                <FluentCard>
+                    @context.Title
+                </FluentCard>
+            </ItemContent>
+        </FluentCxDropZoneContainer>
+    </FluentStack>
+</FluentStack>
+
+<br />
+
+@if (lastNotAllowed != null)
+{
+    <FluentLabel>Last rejected : @lastNotAllowed.Title</FluentLabel>
+}
+
+@code {
+    private DropZoneSampleItem? lastNotAllowed;
+
+    private readonly List<DropZoneSampleItem> _sourceList = new List<DropZoneSampleItem>()
+    {
+            new DropZoneSampleItem(){Title = "Item 1"},
+            new DropZoneSampleItem(){Title = "Item 2"},
+            new DropZoneSampleItem(){Title = "Item 3"},
+            new DropZoneSampleItem(){Title = "Item 4"},
+            new DropZoneSampleItem(){Title = "Item 5"},
+    };
+
+    private readonly List<DropZoneSampleItem> _targetList = new List<DropZoneSampleItem>()
+{
+            new DropZoneSampleItem(){Title = "Item 6"},
+    };
+
+}

@@ -1,55 +1,78 @@
-﻿@page "/tilegridresize"
-
-<h3>Resize</h3>
+﻿<h3>Resize</h3>
 
 <p>The Tile Grid can resize its items.</p>
 
-<div style="height: 400px">
-    <FluentCxTileGrid Spacing="3"
-                      Style="background-color: var(--neutral-layer-3); padding: 4px"
+    <FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
                       Columns="4"
-                      RowHeight="100px"
-                      TItem="EmptyObject"
+                      RowHeight="150px"
+                      TItem="TileGridItemSample"
                       CanResize>
-        <FluentCxTileGridItem>
-            Item 1
+        <FluentCxTileGridItem Value="@Item1">
+            <FluentCard>
+                @Item1.Title
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
-            Item 2
+        <FluentCxTileGridItem Value="@Item2">
+            <FluentCard>
+                @Item2.Title
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
-            Item 3
+        <FluentCxTileGridItem Value="@Item3">
+            <FluentCard>
+                @Item3.Title
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
-            Item 4
+        <FluentCxTileGridItem ColumnSpan="2" Value="@Item4">
+            <FluentCard>
+                @Item4.Title
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
-            Item 5
+        <FluentCxTileGridItem Value="@Item5" ColumnSpan="2" RowSpan="2">
+            <FluentCard>
+                @Item5.Title
+            </FluentCard>
         </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem>
-            Item 6
-        </FluentCxTileGridItem>
-
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
-            Item 7
-        </FluentCxTileGridItem>
-
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
-            Item 8
-        </FluentCxTileGridItem>
-
-        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2">
-            Item 9
+        <FluentCxTileGridItem Value="@Item6" RowSpan="2">
+            <FluentCard>
+                @Item6.Title
+            </FluentCard>
         </FluentCxTileGridItem>
     </FluentCxTileGrid>
-</div>
 
 
 @code {
-    private class EmptyObject { }
+    private readonly TileGridItemSample Item1 = new()
+    {
+        Title = "Some data"
+    };
+
+    private readonly TileGridItemSample Item2 = new()
+    {
+        Title = "Some chart"
+    };
+
+    private readonly TileGridItemSample Item3 = new()
+    {
+        Title = " An another item"
+    };
+
+    private readonly TileGridItemSample Item4 = new()
+    {
+        Title = "A big chart"
+    };
+
+    private readonly TileGridItemSample Item5 = new()
+    {
+        Title = "An another big chart"
+    };
+
+    private readonly TileGridItemSample Item6 = new()
+    {
+        Title = "A last big item"
+    };
 }
