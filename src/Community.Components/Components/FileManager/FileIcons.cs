@@ -144,6 +144,9 @@ public static partial class FileIcons
         [".json"] = new Size128.JsonIcon(),
 
         [".pbix"] = new Size128.PowerBiIcon(),
+
+        [".exe"] = new Size128.ProgramIcon(),
+
         ["Default"] = new Size128.DefaultFileIcon(),
     };
 
@@ -281,6 +284,7 @@ public static partial class FileIcons
 
         [".pdf"] = new Size32.PdfIcon(),
         [".json"] = new Size32.JsonIcon(),
+        [".exe"] = new Size32.ProgramIcon(),
 
         ["Default"] = new Size32.DefaultFileIcon(),
     };
