@@ -92,7 +92,8 @@ public record FileExtensionTypeLabels
         WindowsMediaSkinsFile = "Fichier de skins Windows Media",
         WindowsMediaVideoFile = "Fichier vidéo Windows Media",
         WordPerfectDocument = "Document Word Perfect",
-        Xps = "Fichier Xps"
+        Xps = "Fichier Xps",
+        JsonFile = "Fichier Json"
     };
 
     public string WindowsAudioFile { get; set; } = "Windows Audio File";
@@ -256,4 +257,6 @@ public record FileExtensionTypeLabels
     public string MicrosoftPowerBiDocument { get; set; } = "Microsoft Power Bi Document";
 
     public string SvgFile { get; set; } = "Svg File";
+
+    public string JsonFile { get; set; } = "Json File";
 }

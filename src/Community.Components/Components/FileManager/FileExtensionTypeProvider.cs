@@ -120,7 +120,8 @@ internal sealed class FileExtensionTypeProvider
             [".xps"] = fileExtensionTypeLabels.Xps,
             [".zip"] = fileExtensionTypeLabels.ArchiveCompressedFile,
             [".pbix"] = fileExtensionTypeLabels.MicrosoftPowerBiDocument,
-            [".svg"] = fileExtensionTypeLabels.SvgFile
+            [".svg"] = fileExtensionTypeLabels.SvgFile,
+            [".json"] = fileExtensionTypeLabels.JsonFile
         };
 
         _unknownValue = fileExtensionTypeLabels.UnknownValue;
