@@ -49,7 +49,9 @@ public record FileManagerLabels
         HierarchicalLabel = "Hiérarchie",
         FlatLabel = "Plat",
         ExceededFileCountMessage = "Le nombre maximal de fichiers pouvant être sélectionné est de {0}",
-        ExceededFileCountTitle = "Nombre de fichiers maximum autorisés dépassé"
+        ExceededFileCountTitle = "Nombre de fichiers maximum autorisés dépassé",
+        MoveToLabel = "Déplacer vers",
+        MovingLabel = "Déplacement en cours ..."
     };
 
     public string DialogCloseLabel { get; set; } = "Close";
@@ -122,6 +124,8 @@ public record FileManagerLabels
 
     public string DeletingLabel { get; set; } = "Deleting in progress...";
 
+    public string MovingLabel { get; set; } = "Moving in progress...";
+
     public string PropertiesLabel { get; set; } = "Properties";
 
     public string HierarchicalLabel { get; set; } = "Hierarchical";
@@ -131,4 +135,6 @@ public record FileManagerLabels
     public string ExceededFileCountMessage { get; set; } = "The maximum number of files that can be selected is {0}";
 
     public string ExceededFileCountTitle { get; set; } = "Maximum number of allowed files exceeded";
+
+    public string MoveToLabel { get; set; } = "Move to";
 }

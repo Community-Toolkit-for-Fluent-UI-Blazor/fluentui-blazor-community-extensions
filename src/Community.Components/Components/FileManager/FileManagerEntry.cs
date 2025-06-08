@@ -60,6 +60,8 @@ public sealed class FileManagerEntry<TItem>
 
     public static FileManagerEntry<TItem> Home => CreateHomeDirectory();
 
+    public FileManagerEntry<TItem>? Parent { get; private set; }
+
     private static readonly FileExtensionContentTypeProvider _fileExtensionContentTypeProvider = new();
 
     private readonly List<FileManagerEntry<TItem>> _merged = [];
@@ -113,6 +115,75 @@ public sealed class FileManagerEntry<TItem>
         }
 
         return "application/octet-stream";
+    }
+
+    private IEnumerable<FileManagerEntry<TItem>> GetMerged()
+    {
+        if (!HasDirectory)
+        {
+            return HasFiles ? _files : [];
+        }
+
+        if (!HasFiles)
+        {
+            return HasDirectory ? _directories : [];
+        }
+
+        return _files.Union(_directories);
+    }
+
+    private static bool RemoveEntry(
+        FileManagerEntry<TItem> root,
+        FileManagerEntry<TItem> entry)
+    {
+        static bool StringEquals(string a, string b)
+        {
+            return string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+        }
+
+        if (StringEquals(root.Id, entry.Id))
+        {
+            root.Clear();
+            root.InvalidateSize();
+            return true;
+        }
+
+        for (var i = root._files.Count - 1; i >= 0; i--)
+        {
+            var f = root._files[i];
+
+            if (StringEquals(f.Id, entry.Id))
+            {
+                var removed = root._files.Remove(f);
+                f.Parent = null;
+                root.InvalidateSize();
+
+                return removed;
+            }
+        }
+
+        for (var i = root._directories.Count - 1; i >= 0; i--)
+        {
+            var d = root._directories[i];
+
+            if (StringEquals(d.Id, entry.Id))
+            {
+                var removed = root._directories.Remove(d);
+                d.Parent = null;
+                root.InvalidateSize();
+
+                return removed;
+            }
+
+            var childRemoved = RemoveEntry(d, entry);
+
+            if (childRemoved)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public FileManagerEntry<TItem> CreateDirectory(
@@ -228,8 +299,10 @@ public sealed class FileManagerEntry<TItem>
         return GetHashCode(this);
     }
 
-    public void Add(FileManagerEntry<TItem> entry)
+    private void Add(FileManagerEntry<TItem> entry)
     {
+        entry.Parent = this;
+
         if (!entry.IsDirectory)
         {
             _files.Add(entry);
@@ -239,27 +312,24 @@ public sealed class FileManagerEntry<TItem>
             entry.RelativePath = $"{RelativePath}\\{entry.Name}";
             _directories.Add(entry);
         }
-
-        InvalidateMerge();
-        UpdateSize();
     }
 
-    public void AddRange(IEnumerable<FileManagerEntry<TItem>> entries)
+    public void AddRange(params FileManagerEntry<TItem>[]? entries)
     {
+        if (entries is null ||
+            entries.Length == 0)
+        {
+            return;
+        }
+
         foreach (var entry in entries)
         {
-            if (!entry.IsDirectory)
-            {
-                _files.Add(entry);
-            }
-            else
-            {
-                _directories.Add(entry);
-            }
+            entry.Parent = this;
+            Add(entry);
         }
 
         InvalidateMerge();
-        UpdateSize();
+        InvalidateSize();
     }
 
     public void Clear()
@@ -268,7 +338,7 @@ public sealed class FileManagerEntry<TItem>
         _directories.Clear();
 
         InvalidateMerge();
-        UpdateSize();
+        InvalidateSize();
     }
 
     public IEnumerable<FileManagerEntry<TItem>> GetDirectories()
@@ -296,8 +366,9 @@ public sealed class FileManagerEntry<TItem>
 
         if (removed)
         {
+            entry.Parent = null;
             InvalidateMerge();
-            UpdateSize();
+            InvalidateSize();
         }
     }
 
@@ -307,36 +378,14 @@ public sealed class FileManagerEntry<TItem>
 
         foreach (var entry in entries)
         {
-            if (entry.IsDirectory)
-            {
-                removed |= _directories.Remove(entry);
-            }
-            else
-            {
-                removed |= _files.Remove(entry);
-            }
+            removed |= RemoveEntry(this, entry);
         }
 
         if (removed)
         {
             InvalidateMerge();
-            UpdateSize();
+            InvalidateSize();
         }
-    }
-
-    private IEnumerable<FileManagerEntry<TItem>> GetMerged()
-    {
-        if (!HasDirectory)
-        {
-            return HasFiles ? _files : [];
-        }
-
-        if (!HasFiles)
-        {
-            return HasDirectory ? _directories : [];
-        }
-
-        return _files.Union(_directories);
     }
 
     internal void InvalidateMerge()
@@ -546,7 +595,7 @@ public sealed class FileManagerEntry<TItem>
        DateTime creationDate,
        DateTime lastModificationDate)
     {
-        return new FileManagerEntry<TItem>(default!, value, name, false, length, creationDate, lastModificationDate);
+        return new FileManagerEntry<TItem>(Activator.CreateInstance<TItem>(), value, name, false, length, creationDate, lastModificationDate);
     }
 
     public static FileManagerEntry<TItem> CreateEntry(
@@ -554,7 +603,7 @@ public sealed class FileManagerEntry<TItem>
        string name,
        long length)
     {
-        return new FileManagerEntry<TItem>(default!, value, name, false, length, DateTime.Now, DateTime.Now);
+        return new FileManagerEntry<TItem>(Activator.CreateInstance<TItem>(), value, name, false, length, DateTime.Now, DateTime.Now);
     }
 
     public static FileManagerEntry<TItem> CreateEntry(
@@ -562,14 +611,20 @@ public sealed class FileManagerEntry<TItem>
        string name,
        long length)
     {
-        return new FileManagerEntry<TItem>(default!, value, name, false, length, DateTime.Now, DateTime.Now);
+        return new FileManagerEntry<TItem>(Activator.CreateInstance<TItem>(), value, name, false, length, DateTime.Now, DateTime.Now);
     }
 
-    private void UpdateSize()
+    internal void InvalidateSize()
     {
         Size = 0L;
         Size += _directories.Sum(x => x.Size);
         Size += _files.Sum(x => x.Size);
+
+        while (Parent is not null)
+        {
+            Parent.InvalidateSize();
+            Parent = Parent.Parent;
+        }
     }
 }
 

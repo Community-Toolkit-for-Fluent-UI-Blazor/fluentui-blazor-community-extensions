@@ -144,22 +144,31 @@
         @if (ShowPropertiesButton)
         {
             <FluentButton Title="@FileManagerLabels.RenameLabel"
-                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Rename())"
-                          Disabled=@(IsRenameButtonDisabled)
-                          Appearance="Appearance.Neutral"
-                          OnClick="@(() => OnRenameAsync(_currentSelectedItems?.ElementAtOrDefault(0)))" />
+            IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Rename())"
+            Disabled=@(IsRenameButtonDisabled)
+            Appearance="Appearance.Neutral"
+            OnClick="@(() => OnRenameAsync(_currentSelectedItems?.ElementAtOrDefault(0)))" />
 
             <FluentButton Title="@FileManagerLabels.DownloadLabel"
-                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowDownload())"
-                          Disabled=@(IsDownloadButtonDisabled)
-                          Appearance="Appearance.Neutral"
-                          OnClick="@OnDownloadAsync" />
+            IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowDownload())"
+            Disabled=@(IsDownloadButtonDisabled)
+            Appearance="Appearance.Neutral"
+            OnClick="@OnDownloadAsync" />
 
             <FluentButton Title="@FileManagerLabels.DeleteLabel"
-                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Delete())"
-                          Disabled=@(IsDeleteButtonDisabled)
-                          Appearance="Appearance.Neutral"
-                          OnClick="@(OnDeleteAsync)" />
+            IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Delete())"
+            Disabled=@(IsDeleteButtonDisabled)
+            Appearance="Appearance.Neutral"
+            OnClick="@(OnDeleteAsync)" />
+
+            @if (View == Components.FileManagerView.Desktop)
+            {
+                <FluentButton Title="@FileManagerLabels.MoveToLabel"
+                IconStart="@(new Regular.Size20.FolderSwap())"
+                Disabled=@IsMoveToButtonDisabled
+                Appearance="Appearance.Neutral"
+                OnClick="@OnMoveAsync" />
+            }
         }
 
         @if (ToolbarItems is not null)

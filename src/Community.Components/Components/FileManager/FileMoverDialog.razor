@@ -1,0 +1,30 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem where TItem : class,new()
+
+<FluentDialogHeader>
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Regular.Size24.FolderSwap())" />
+
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent"
+                  OnClick="@OnCloseAsync"
+                  Disabled=@(_currentSelectedItem is null)>
+        @Dialog.Instance.Parameters.PrimaryAction
+    </FluentButton>
+
+    <FluentButton Appearance="Appearance.Neutral" OnClick="@OnCancelAsync">
+        @Dialog.Instance.Parameters.SecondaryAction
+    </FluentButton>
+</FluentDialogFooter>
+
+<FluentDialogBody>
+    <FluentTreeView Items="@_items"
+                    @bind-SelectedItem=_currentSelectedItem />
+</FluentDialogBody>
+

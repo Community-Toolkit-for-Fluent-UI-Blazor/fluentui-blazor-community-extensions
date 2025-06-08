@@ -21,13 +21,14 @@ public partial class FluentCxFileManager<TItem>
         None,
         Uploading,
         Downloading,
-        Deleting
+        Deleting,
+        Moving
     }
 
     private bool _showDetails;
     private FileManager<TItem>? _fileManagerView;
     private FileManagerEntry<TItem>? _currentEntry;
-    private readonly List<TreeViewItem> _treeViewItems = [];
+    private IEnumerable<TreeViewItem>? _treeViewItems = [];
     private static readonly Icon IconCollapsed = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Folder();
     private static readonly Icon IconExpanded = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.FolderOpen();
     private ITreeViewItem? _currentTreeViewItem;
@@ -69,6 +70,9 @@ public partial class FluentCxFileManager<TItem>
 
     [Parameter]
     public bool ShowUploadButton { get; set; } = true;
+
+    [Parameter]
+    public bool ShowMoveToButton { get; set; } = true;
 
     [Parameter]
     public bool ShowViewButton { get; set; } = true;
@@ -140,6 +144,9 @@ public partial class FluentCxFileManager<TItem>
 
     [Parameter]
     public FileStructureView FileStructureView { get; set; } = FileStructureView.Hierarchical;
+
+    [Parameter]
+    public EventCallback<FileManagerEntriesMovedEventArgs<TItem>> Moved { get; set; }
 
     public IEnumerable<FileManagerEntry<TItem>> SelectedItems
     {
@@ -232,6 +239,67 @@ public partial class FluentCxFileManager<TItem>
         }
     }
 
+    private bool IsMoveToButtonDisabled
+    {
+        get
+        {
+            if (_isDisabled)
+            {
+                return true;
+            }
+
+            if (_currentSelectedItems is null)
+            {
+                return true;
+            }
+
+            if (!_currentSelectedItems.Any())
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    private async Task OnMoveAsync()
+    {
+        var dialog = await DialogService.ShowDialogAsync<FileMoverDialog<TItem>>(Root, new()
+        {
+            Width = View == Components.FileManagerView.Mobile ? "100%" : null,
+            Height = View == Components.FileManagerView.Mobile ? "100%" : null,
+            Title = FileManagerLabels.MoveToLabel,
+            PrimaryAction = FileManagerLabels.DialogOkLabel,
+            SecondaryAction = FileManagerLabels.DialogCancelLabel,
+        });
+
+        var result = await dialog.Result;
+
+        if (!result.Cancelled &&
+            result.Data is FileManagerEntry<TItem> data)
+        {
+            SetDisabled(true);
+            _fileManagerView?.SetBusy(true);
+
+            _progressState = ProgressState.Moving;
+            Root.Remove(_currentSelectedItems);
+            data.AddRange(_currentSelectedItems.ToArray());
+            BuildTreeView();
+
+            if (Moved.HasDelegate)
+            {
+                await Moved.InvokeAsync(new(data, _currentSelectedItems));
+            }
+
+            _currentSelectedItems = [];
+            OnUpdateEntry(new(Root));
+            _fileManagerView?.SetBusy(false);
+            SetDisabled(false);
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
     private async Task OnFileCountExceededAsync(int maximumFileCount)
     {
         var dialog = await DialogService.ShowErrorAsync(
@@ -250,7 +318,7 @@ public partial class FluentCxFileManager<TItem>
         {
             if (!item.IsDirectory)
             {
-                _flattenEntry.Add(item);
+                _flattenEntry.AddRange(item);
             }
             else
             {
@@ -261,10 +329,7 @@ public partial class FluentCxFileManager<TItem>
 
     private static void BuildFlatViewItem(FileManagerEntry<TItem> entry, FileManagerEntry<TItem> item)
     {
-        foreach (var f in item.GetFiles())
-        {
-            entry.Add(f);
-        }
+        entry.AddRange([.. item.GetFiles()]);
 
         foreach (var d in item.GetDirectories())
         {
@@ -383,10 +448,18 @@ public partial class FluentCxFileManager<TItem>
 
     private void BuildTreeView()
     {
-        _treeViewItems.Clear();
+        if (View == Components.FileManagerView.Desktop)
+        {
+            _currentTreeViewItem = null;
+            _treeViewItems = null;
 
-        var root = BuildTreeViewItem(Root, true);
-        _treeViewItems.Add(root);
+            var root = BuildTreeViewItem(Root, true);
+            List<TreeViewItem> items = [];
+            items.Add(root);
+
+            _treeViewItems = items;
+            _currentTreeViewItem = FindTreeViewItem(_treeViewItems, Root.Id);
+        }
     }
 
     private static TreeViewItem BuildTreeViewItem(
@@ -416,11 +489,8 @@ public partial class FluentCxFileManager<TItem>
                 _currentTreeViewItem = node;
             }
         }
-        else
-        {
-            _currentEntry = e.Entry;
-        }
 
+        _currentEntry = e.Entry;
         UpdateNavigationView(e.Entry);
     }
 
@@ -770,7 +840,7 @@ public partial class FluentCxFileManager<TItem>
 
             var items = FileManagerEntry<TItem>.FindByName(entry, _searchValue);
             _searchEntry = FileManagerEntry<TItem>.Home;
-            _searchEntry.AddRange(items);
+            _searchEntry.AddRange([.. items]);
 
             if (FileStructureView == FileStructureView.Hierarchical)
             {
@@ -837,8 +907,8 @@ public partial class FluentCxFileManager<TItem>
             name,
             data.Length);
 
-        _currentEntry?.Add(newEntry);
-        _flattenEntry.Add(newEntry);
+        _currentEntry?.AddRange(newEntry);
+        _flattenEntry.AddRange(newEntry);
 
         if (OnFileUploaded.HasDelegate)
         {
@@ -860,10 +930,12 @@ public partial class FluentCxFileManager<TItem>
             ProgressState.Uploading => FileManagerLabels.UploadingLabel,
             ProgressState.Downloading => FileManagerLabels.DownloadingLabel,
             ProgressState.Deleting => FileManagerLabels.DeletingLabel,
-            _ => string.Empty
+            ProgressState.Moving => FileManagerLabels.MovingLabel,
+            _ => null
         };
     }
 
+    /// <inheritdoc />
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
@@ -877,6 +949,7 @@ public partial class FluentCxFileManager<TItem>
         }
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -887,6 +960,7 @@ public partial class FluentCxFileManager<TItem>
         }
     }
 
+    /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         await base.SetParametersAsync(parameters);
@@ -894,13 +968,7 @@ public partial class FluentCxFileManager<TItem>
         if (parameters.HasValueChanged(nameof(Root), Root))
         {
             BuildFlatView();
-
-            if (View == Components.FileManagerView.Desktop)
-            {
-                BuildTreeView();
-
-                _currentTreeViewItem = FindTreeViewItem(_treeViewItems, Root.Id);
-            }
+            BuildTreeView();
         }
     }
 }
