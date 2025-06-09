@@ -14,11 +14,11 @@
         </FileManagerNavigationView>
     }
 
-    @switch (View)
+    @switch (State.View)
     {
         case FileView.List:
-            <FileManagerList OnItemTapped="@OnItemTappedAsync"
-                             OnItemDoubleTapped="@OnItemDoubleTappedAsync"
+        case FileView.Details:
+            <FileManagerList OnItemDoubleTapped="@OnItemDoubleTappedAsync"
                              @bind-SelectedItems="@SelectedItems"
                              @bind-SelectedItems:after=OnSelectedItemsChangedAsync
                              Entry="@Entry"
@@ -28,13 +28,11 @@
                              ProgressLabel="@ProgressLabel"
                              ProgressPercent="@ProgressPercent"
                              ColumnLabels="@ColumnLabels"
-                             
                              IsMobile="@IsMobile" />
             break;
 
-        case FileView.Grid:
+        default:
             <FileManagerGrid TItem="@TItem"
-                             OnItemTapped="@OnItemTappedAsync"
                              OnItemDoubleTapped="@OnItemDoubleTappedAsync"
                              ItemTemplate="@ItemTemplate"
                              @bind-SelectedItems="@SelectedItems"
@@ -44,7 +42,7 @@
                              IsIndeterminateProgress=@IsIndeterminateProgress
                              ProgressLabel="@ProgressLabel"
                              ProgressPercent="@ProgressPercent"
-                             IsMobile="@IsMobile" />
+                             IsMobile="@IsMobile"/>
             break;
     }
 </FluentStack>

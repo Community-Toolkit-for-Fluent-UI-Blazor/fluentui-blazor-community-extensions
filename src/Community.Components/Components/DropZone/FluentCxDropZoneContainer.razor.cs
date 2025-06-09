@@ -44,7 +44,11 @@ public partial class FluentCxDropZoneContainer<TItem>
 
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle(GridSettings?.ToString())
+        .AddStyle("overflow-y", "auto", CanOverflow)
         .Build();
+
+    [Parameter]
+    public bool CanOverflow { get; set; }
 
     [Parameter]
     public Func<TItem?, TItem?, bool>? IsDropAllowed { get; set; }

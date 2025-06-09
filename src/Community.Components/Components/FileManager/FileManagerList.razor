@@ -35,12 +35,14 @@
                     </FluentStack>
                 </TemplateColumn>
 
-                <PropertyColumn Title="@ColumnLabels.CreatedDate" Property="@(c => c.CreatedDate)" />
+                @if (Parent?.State.View == FileView.Details)
+                {
+                    <PropertyColumn Title="@ColumnLabels.CreatedDate" Property="@(c => c.CreatedDate)" />
 
-                <TemplateColumn Title="@ColumnLabels.Size">
-                    @ByteSize.FromBytes(context.Size).ToString()
-                </TemplateColumn>
-
+                    <TemplateColumn Title="@ColumnLabels.Size">
+                        @ByteSize.FromBytes(context.Size).ToString()
+                    </TemplateColumn>
+                }
             </ChildContent>
 
             <LoadingContent>

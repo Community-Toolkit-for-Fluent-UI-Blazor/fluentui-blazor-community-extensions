@@ -51,7 +51,7 @@ public partial class FluentCxFileManager<TItem>
     }
 
     [Inject]
-    private FileManagerSortState SortState { get; set; } = default!;
+    internal FileManagerState State { get; set; } = default!;
 
     [Inject]
     public required IJSRuntime JSRuntime { get; set; }
@@ -104,10 +104,7 @@ public partial class FluentCxFileManager<TItem>
     public bool IsBusy { get; set; }
 
     [Parameter]
-    public FileView FileManagerView { get; set; } = FileView.List;
-
-    [Parameter]
-    public FileManagerView View { get; set; } = Components.FileManagerView.Desktop;
+    public FileManagerView View { get; set; } = FileManagerView.Desktop;
 
     [Parameter]
     public FileManagerEntry<TItem> Root { get; set; } = default!;
@@ -281,14 +278,19 @@ public partial class FluentCxFileManager<TItem>
             SetDisabled(true);
             _fileManagerView?.SetBusy(true);
 
-            _progressState = ProgressState.Moving;
-            Root.Remove(_currentSelectedItems);
-            data.AddRange(_currentSelectedItems.ToArray());
-            BuildTreeView();
-
-            if (Moved.HasDelegate)
+            // Check if the destination folder isn't the source folder
+            if (!(_currentSelectedItems.Count() == 1 &&
+               string.Equals(_currentSelectedItems.ElementAtOrDefault(0)?.Id, data.Id, StringComparison.OrdinalIgnoreCase)))
             {
-                await Moved.InvokeAsync(new(data, _currentSelectedItems));
+                _progressState = ProgressState.Moving;
+                Root.Remove(_currentSelectedItems);
+                data.AddRange([.. _currentSelectedItems]);
+                BuildTreeView();
+
+                if (Moved.HasDelegate)
+                {
+                    await Moved.InvokeAsync(new(data, _currentSelectedItems));
+                }
             }
 
             _currentSelectedItems = [];
@@ -339,17 +341,22 @@ public partial class FluentCxFileManager<TItem>
 
     private void OnChangeSort(FileSortBy sortBy)
     {
-        SortState.SortBy = sortBy;
+        State.SortBy = sortBy;
+    }
+
+    private void OnChangeView(FileView options)
+    {
+        State.View = options;
     }
 
     private void OnSortAscending()
     {
-        SortState.SortMode = FileSortMode.Ascending;
+        State.SortMode = FileSortMode.Ascending;
     }
 
     private void OnSortDescending()
     {
-        SortState.SortMode = FileSortMode.Descending;
+        State.SortMode = FileSortMode.Descending;
     }
 
     private async Task OnFolderCreatedAsync(CreateFileManagerEntryEventArgs<TItem> e)

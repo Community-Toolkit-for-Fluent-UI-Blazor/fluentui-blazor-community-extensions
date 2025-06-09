@@ -28,7 +28,6 @@ public record FileManagerLabels
         FolderDialogTitle = "Créer un nouveau répertoire",
         FolderLabel = "Nom du répertoire",
         FolderPlaceholder = "Entrez le nom du répertoire",
-        GridViewLabel = "Grille",
         ListViewLabel = "Liste",
         NewFolderLabel = "Nouveau répertoire",
         PropertiesLabel = "Propriétés",
@@ -51,7 +50,14 @@ public record FileManagerLabels
         ExceededFileCountMessage = "Le nombre maximal de fichiers pouvant être sélectionné est de {0}",
         ExceededFileCountTitle = "Nombre de fichiers maximum autorisés dépassé",
         MoveToLabel = "Déplacer vers",
-        MovingLabel = "Déplacement en cours ..."
+        MovingLabel = "Déplacement en cours ...",
+        ViewOptionsLabel = "Options",
+        ListWithDetailsLabel = "Détails",
+        GridViewMosaicLabel = "Mosaïques",
+        GridViewLargeIconsLabel = "Grandes icônes",
+        GridViewMediumIconsLabel = "Icônes moyennes",
+        GridViewSmallIconsLabel = "Petites icônes",
+        GridViewVeryLargeIconsLabel = "Très grandes icônes"
     };
 
     public string DialogCloseLabel { get; set; } = "Close";
@@ -85,8 +91,6 @@ public record FileManagerLabels
     public string ViewLabel { get; set; } = "View";
 
     public string ListViewLabel { get; set; } = "List";
-
-    public string GridViewLabel { get; set; } = "Grid";
 
     public string AscendingLabel { get; set; } = "Ascending";
 
@@ -137,4 +141,18 @@ public record FileManagerLabels
     public string ExceededFileCountTitle { get; set; } = "Maximum number of allowed files exceeded";
 
     public string MoveToLabel { get; set; } = "Move to";
+
+    public string ViewOptionsLabel { get; set; } = "Options";
+
+    public string ListWithDetailsLabel { get; set; } = "Details";
+
+    public string GridViewMosaicLabel { get; set; } = "Mosaics";
+
+    public string GridViewSmallIconsLabel { get; set; } = "Small icons";
+
+    public string GridViewMediumIconsLabel { get; set; } = "Medium icons";
+
+    public string GridViewLargeIconsLabel { get; set; } = "Large icons";
+
+    public string GridViewVeryLargeIconsLabel { get; set; } = "Very large icons";
 }

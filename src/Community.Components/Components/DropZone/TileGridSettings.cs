@@ -25,12 +25,25 @@ internal class TileGridSettings
 
     public string? Height { get; set; } = "100%";
 
+    public string? MinimumRowHeight { get; set; }
+
     private string GetRows()
     {
         DefaultInterpolatedStringHandler handler = new();
 
         // Rows
-        handler.AppendLiteral("minmax(0px, ");
+        handler.AppendLiteral("minmax(");
+
+        if (string.IsNullOrEmpty(MinimumRowHeight))
+        {
+            handler.AppendLiteral("0px, ");
+        }
+        else
+        {
+            handler.AppendFormatted(MinimumRowHeight);
+            handler.AppendLiteral(", ");
+        }
+
         handler.AppendFormatted(RowHeight);
         handler.AppendLiteral(");");
 

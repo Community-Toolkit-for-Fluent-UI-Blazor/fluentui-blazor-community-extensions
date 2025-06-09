@@ -2,9 +2,7 @@
 // MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
 // ------------------------------------------------------------------------
 
-using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -86,6 +84,11 @@ public class FileManagerBase<TItem> : ComponentBase where TItem : class, new()
     protected static Icon GetIconFromFile(string extension)
     {
         return FileIcons.FromExtension(extension);
+    }
+
+    protected static Icon GetIconFromExtensionAndGridViewOptions(string extension, FileView options)
+    {
+        return FileIcons.FromExtensionAndGridViewOptions(extension, options);
     }
 
     protected async Task OnRenameAsync(FileManagerEntry<TItem> entry)

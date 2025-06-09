@@ -4,12 +4,14 @@
 
 namespace FluentUI.Blazor.Community.Components;
 
-public sealed class FileManagerSortState
+public sealed class FileManagerState
 {
     private FileSortBy _sortBy;
     private FileSortMode _sortMode;
+    private FileView _view;
 
-    public event EventHandler? OnUpdated;
+    public event EventHandler? OnSortUpdated;
+    public event EventHandler? OnViewUpdated;
 
     public FileSortBy SortBy
     {
@@ -20,7 +22,7 @@ public sealed class FileManagerSortState
             if (_sortBy != value)
             {
                 _sortBy = value;
-                OnUpdated?.Invoke(this, EventArgs.Empty);
+                OnSortUpdated?.Invoke(this, EventArgs.Empty);
             }
         }
     }
@@ -33,7 +35,20 @@ public sealed class FileManagerSortState
             if (value != _sortMode)
             {
                 _sortMode = value;
-                OnUpdated?.Invoke(this, EventArgs.Empty);
+                OnSortUpdated?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    public FileView View
+    {
+        get => _view;
+        internal set
+        {
+            if (_view != value)
+            {
+                _view = value;
+                OnViewUpdated?.Invoke(this, EventArgs.Empty);
             }
         }
     }

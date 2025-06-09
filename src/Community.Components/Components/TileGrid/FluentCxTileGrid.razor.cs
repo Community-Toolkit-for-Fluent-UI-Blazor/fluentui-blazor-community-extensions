@@ -24,9 +24,13 @@ public partial class FluentCxTileGrid<TItem>
         MinimumColumnWidth = MinimumColumnWidth,
         RowHeight = RowHeight,
         Width = Width,
+        MinimumRowHeight = MinimumRowHeight
     };
 
     internal FluentCxDropZoneContainer<TItem>? _dropContainer;
+
+    [Parameter]
+    public bool CanOverflow { get; set; }
 
     [Parameter]
     public bool Immediate { get; set; } = true;
@@ -63,6 +67,9 @@ public partial class FluentCxTileGrid<TItem>
 
     [Parameter]
     public string? MinimumColumnWidth { get; set; }
+
+    [Parameter]
+    public string? MinimumRowHeight { get; set; }
 
     [Parameter]
     public int? Columns { get; set; }

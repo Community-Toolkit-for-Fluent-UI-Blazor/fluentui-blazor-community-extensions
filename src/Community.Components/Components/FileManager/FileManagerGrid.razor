@@ -4,11 +4,13 @@
 
 @if(!IsBusy && Entry is not null)
 {
-    <FluentCxTileGrid MinimumColumnWidth="300px"
-                      ColumnWidth="300px"
-                      RowHeight="100px"
+    <FluentCxTileGrid MinimumColumnWidth="@GetColumnWidthFromGridViewOptions()"
+                      ColumnWidth="@GetColumnWidthFromGridViewOptions()"
+                      RowHeight="@GetRowHeightFromGridViewOptions()"
+                      MinimumRowHeight="@GetRowHeightFromGridViewOptions()"
                       CanReorder=false
                       CanResize=false
+                      CanOverflow
                       TItem="FileManagerEntry<TItem>">
         @foreach(var item in Entry.Enumerate())
         {
@@ -26,30 +28,101 @@
                                           Value="@item"
                                           OnDoubleTapped="@(e => OnItemDoubleTappedAsync(item))"
                                           Style="@((item.IsDirectory ? "cursor: pointer;" : string.Empty))">
-                        <FluentCard>
-                            <FluentStack VerticalAlignment="VerticalAlignment.Center">
-                                <FluentCheckbox Value=@(SelectedItems.Contains(item))
-                                                ValueChanged="@(e => OnCheckedItemChangedAsync(item, e))" />
+                        @switch(Parent?.State.View)
+                        {
+                            case FileView.Mosaic:
+                                <FluentCard>
+                                    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                                        <FluentCheckbox Value=@(SelectedItems.Contains(item))
+                                                        ValueChanged="@(e => OnCheckedItemChangedAsync(item, e))" />
 
-                                @if (item.IsDirectory)
-                                {
-                                    <FluentIcon Value="@(new FileIcons.Size32.FolderIcon())" />
-                                }
-                                else
-                                {
-                                    <FluentIcon Value="@GetIconFromFile(item.Extension!)" />
-                                }
+                                        @if (item.IsDirectory)
+                                        {
+                                            <FluentIcon Value="@(new FileIcons.Size32.FolderIcon())" />
+                                        }
+                                        else
+                                        {
+                                            <FluentIcon Value="@GetIconFromFile(item.Extension!)" />
+                                        }
 
-                                <FluentStack Orientation="Orientation.Vertical">
-                                    <FluentLabel Style="width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                        @item.Name
-                                    </FluentLabel>
-                                    <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
-                                        @ByteSize.FromBytes(item.Size).ToString()
-                                    </FluentLabel>
-                                </FluentStack>
-                            </FluentStack>
-                        </FluentCard>
+                                        <FluentStack Orientation="Orientation.Vertical">
+                                            <FluentLabel Style="width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                @item.Name
+                                            </FluentLabel>
+                                            <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                                                @ByteSize.FromBytes(item.Size).ToString()
+                                            </FluentLabel>
+                                        </FluentStack>
+                                    </FluentStack>
+                                </FluentCard>
+                            break;
+
+                            case FileView.SmallIcons:
+                                <FluentCard>
+                                    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                                        <FluentCheckbox Value=@(SelectedItems.Contains(item))
+                                                        ValueChanged="@(e => OnCheckedItemChangedAsync(item, e))" />
+
+                                        @if (item.IsDirectory)
+                                        {
+                                            <img src="@(new FileIcons.Size24.FolderIcon().ToDataUri())" />
+                                        }
+                                        else
+                                        {
+                                            <FluentIcon Value="@GetIconFromExtensionAndGridViewOptions(item.Extension!, FileView.SmallIcons)" />
+                                        }
+
+                                        <FluentStack Orientation="Orientation.Vertical">
+                                            <FluentLabel Style="width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                @item.Name
+                                            </FluentLabel>
+                                            <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                                                @ByteSize.FromBytes(item.Size).ToString()
+                                            </FluentLabel>
+                                        </FluentStack>
+                                    </FluentStack>
+                                </FluentCard>
+                            break;
+
+                            case FileView.MediumIcons:
+                            case FileView.LargeIcons:
+                            case FileView.VeryLargeIcons:
+                                <FluentCard>
+                                    <FluentStack Orientation=Orientation.Vertical>
+                                        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                                            <FluentCheckbox Value=@(SelectedItems.Contains(item))
+                                                            ValueChanged="@(e => OnCheckedItemChangedAsync(item, e))" />
+
+                                            <FluentSpacer />
+
+                                            <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                                                @ByteSize.FromBytes(item.Size).ToString()
+                                            </FluentLabel>
+                                        </FluentStack>
+
+                                        <FluentStack Style="height: 100%"
+                                                     HorizontalAlignment=HorizontalAlignment.Center
+                                                     VerticalAlignment="VerticalAlignment.Center">
+                                            @if (item.IsDirectory)
+                                            {
+                                                <img src="@(new FileIcons.Size32.FolderIcon().ToDataUri(GetIconSizeFromGridViewOptions()))" />
+                                            }
+                                            else
+                                            {
+                                                @GetIconFromExtensionAndGridViewOptions(item.Extension!, Parent.State.View).ToMarkup(GetIconSizeFromGridViewOptions())
+                                            }
+                                        </FluentStack>
+                                        
+
+                                        <FluentStack HorizontalAlignment=HorizontalAlignment.Center Orientation="Orientation.Vertical">
+                                            <FluentLabel Style="@($"max-width: {GetMaxWidthFromGridViewOptions()}px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;")">
+                                                @item.Name
+                                            </FluentLabel>
+                                        </FluentStack>
+                                    </FluentStack>
+                                </FluentCard>
+                            break;
+                        }
                     </FluentCxTileGridItem>
                 }
             }

@@ -31,9 +31,6 @@ public partial class FileManager<TItem>
     public RenderFragment<FileManagerEntry<TItem>>? ItemTemplate { get; set; }
 
     [Parameter]
-    public FileView View { get; set; } = FileView.Grid;
-
-    [Parameter]
     public IEnumerable<FileManagerEntry<TItem>> SelectedItems { get; set; } = [];
 
     [Parameter]
@@ -55,7 +52,7 @@ public partial class FileManager<TItem>
     public List<FileNavigationItem> NavigationItems { get; set; } = [];
 
     [Inject]
-    public required FileManagerSortState SortState { get; set; }
+    public required FileManagerState State { get; set; }
 
     private async Task OnSelectedItemsChangedAsync()
     {
@@ -65,14 +62,14 @@ public partial class FileManager<TItem>
         }
     }
 
+    private void OnViewUpdated(object? sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
+
     private void OnUpdated(object? sender, EventArgs e)
     {
         Sort();
-    }
-
-    private Task OnItemTappedAsync(FileManagerEntryEventArgs<TItem> e)
-    {
-        return Task.CompletedTask;
     }
 
     private void SetEntry(FileManagerEntry<TItem> entry)
@@ -103,7 +100,7 @@ public partial class FileManager<TItem>
 
     private void Sort()
     {
-        Entry?.Sort(FileManagerEntryComparer<TItem>.Default.WithSortMode(SortState.SortMode).WithSortBy(SortState.SortBy));
+        Entry?.Sort(FileManagerEntryComparer<TItem>.Default.WithSortMode(State.SortMode).WithSortBy(State.SortBy));
     }
 
     private static void OnClick(FileNavigationItem item)
@@ -135,12 +132,15 @@ public partial class FileManager<TItem>
     {
         base.OnInitialized();
 
-        SortState.OnUpdated += OnUpdated;
+        State.OnSortUpdated += OnUpdated;
+        State.OnViewUpdated += OnViewUpdated;
     }
 
     public void Dispose()
     {
-        SortState.OnUpdated -= OnUpdated;
+        State.OnSortUpdated -= OnUpdated;
+        State.OnViewUpdated -= OnViewUpdated;
+
         GC.SuppressFinalize(this);
     }
 }
