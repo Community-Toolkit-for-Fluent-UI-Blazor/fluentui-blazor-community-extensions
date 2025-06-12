@@ -16,6 +16,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddFluentUIComponents();
 builder.Services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
 builder.Services.AddFluentCxUIComponents();
+builder.Services.AddAzureOpenAI();
 
 var app = builder.Build();
 

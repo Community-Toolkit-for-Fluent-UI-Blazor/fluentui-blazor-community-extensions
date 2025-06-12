@@ -1,0 +1,71 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@_renderMenus
+
+@code {
+    public AIPromptMenuView()
+    {
+        _renderItems = items => __builder =>
+        {
+            if ((items?.Any() ?? false) &&
+                 _renderMenu is not null &&
+                 Parent is not null)
+            {
+                <FluentMenu Anchor="@AnchorId" @bind-Open=IsMenuOpen>
+                    @foreach (var menu in items)
+                    {
+                        @_renderMenu(menu)
+                    }
+                </FluentMenu>
+            }
+        };
+
+        _renderMenu = menu => __builder =>
+        {
+            @if (menu.Items.Count > 0)
+            {
+                <FluentMenuItem OnClick="@(() => OnHandleMenuClickAsync(menu))" Id="@menu.Id">
+                    <ChildContent>
+                        @if (menu.Icon is not null)
+                        {
+                            <span slot="start">
+                                <FluentIcon Value="@menu.Icon" />
+                            </span>
+                        }
+
+                        @menu.Label
+                    </ChildContent>
+
+                    <MenuItems>
+                            @foreach(var subItem in menu.Items)
+                            {
+                                @_renderMenu(subItem)
+                            }
+                    </MenuItems>
+                </FluentMenuItem>
+            }
+            else
+            {
+                <FluentMenuItem OnClick="@(() => OnHandleMenuClickAsync(menu))" Id="@menu.Id">
+                    @if (menu.Icon is not null)
+                    {
+                        <span slot="start">
+                            <FluentIcon Value="@menu.Icon" />
+                        </span>
+                    }
+
+                    @menu.Label
+                </FluentMenuItem>
+            }
+        };
+
+        _renderMenus = __builder =>
+        {
+            @_renderItems(Parent?.Menus)
+        };
+    }
+}
+
+
+

@@ -1,0 +1,29 @@
+﻿<h3>Box Chart Sample</h3>
+@using Plotly.Blazor.Traces
+@using Plotly.Blazor.Traces.BoxLib
+
+<BoxChart Title="Box chart Sample" Responsive Items="@_items" />
+
+@code {
+    private readonly List<Box> _items = new()
+    {
+         new Box
+            {
+                Y = new List<object> { 86, 92, 77, 81, 70, 71, 72, 39, 48, 38, 6, 23, 69, 84, 60, 96, 75, 84, 84, 92, 75, 80, 47, 32, 16 },
+                Name = "trace 0"
+            },
+            new Box
+            {
+                Y = new List<object> { 79, 65, 58, 49, 95, 29, 81, 38, 27, 21, 96, 68, 58, 40, 62, 30, 45, 53, 80, 83, 41, 39, 54, 50, 34 },
+                Name = "trace 1",
+                BoxMean = BoxMeanEnum.SD
+            },
+            new Box
+            {
+                Name = "trace 2",
+                Y = new List<object> { 31, 50, 4, 6, 54, 58, 69, 32, 40, 24, 20, 17, 33, 8, 12, 97, 0, 4, 75, 10, 43, 70, 88, 0, 17 },
+                BoxMean = BoxMeanEnum.True,
+                BoxPoints = BoxPointsEnum.All
+            }
+    };
+}

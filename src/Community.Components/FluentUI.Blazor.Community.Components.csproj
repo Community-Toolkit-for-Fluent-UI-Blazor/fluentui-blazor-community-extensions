@@ -6,33 +6,21 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>FluentUI.Blazor.Community</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Components\NewFolder\**" />
-    <Compile Remove="Components\OLD\**" />
-    <Content Remove="Components\NewFolder\**" />
-    <Content Remove="Components\OLD\**" />
-    <EmbeddedResource Remove="Components\NewFolder\**" />
-    <EmbeddedResource Remove="Components\OLD\**" />
-    <None Remove="Components\NewFolder\**" />
-    <None Remove="Components\OLD\**" />
-  </ItemGroup>
-
-
+  
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.AI.OpenAI" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\AIPrompt\" />
-    <Folder Include="wwwroot\" />
+    <PackageReference Include="Plotly.Blazor" />
   </ItemGroup>
 
 </Project>
