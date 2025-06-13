@@ -14,6 +14,8 @@ namespace FluentUI.Blazor.Community.Components;
 public partial class FluentCxDeviceDetector
     : FluentComponentBase
 {
+    private readonly DotNetObjectReference<FluentCxDeviceDetector> _deviceDetectorReference;
+   
     /// <summary>
     /// Represents the javascript object.
     /// </summary>
@@ -23,6 +25,11 @@ public partial class FluentCxDeviceDetector
     /// Represents the name of the javascript.
     /// </summary>
     private const string JavascriptFileName = "./_content/FluentUI.Blazor.Community.Components/Components/DeviceDetector/FluentCxDeviceDetector.razor.js";
+
+    public FluentCxDeviceDetector()
+    {
+        _deviceDetectorReference = DotNetObjectReference.Create(this);
+    }
 
     /// <summary>
     /// Gets or sets the ChildContent render fragment.
@@ -50,6 +57,16 @@ public partial class FluentCxDeviceDetector
         {
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptFileName);
             DeviceInfo = await _module.InvokeAsync<DeviceInfo>("getDeviceInfo");
+            await _module.InvokeVoidAsync("getDeviceOrientation", _deviceDetectorReference);
+        }
+    }
+
+    [JSInvokable]
+    public void ChangeOrientation(bool isPortrait)
+    {
+        if (DeviceInfo is not null)
+        {
+            DeviceInfo.Orientation = isPortrait ? DeviceOrientation.Portrait : DeviceOrientation.Landscape;
         }
     }
 

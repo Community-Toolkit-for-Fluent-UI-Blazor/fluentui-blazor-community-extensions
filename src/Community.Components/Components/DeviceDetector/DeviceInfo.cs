@@ -12,6 +12,8 @@ namespace FluentUI.Blazor.Community.Components;
 /// </summary>
 public record DeviceInfo
 {
+    private DeviceOrientation _deviceOrientation;
+
     /// <summary>
     /// Gets the user agent.
     /// </summary>
@@ -48,6 +50,21 @@ public record DeviceInfo
     /// </summary>
     public bool IsMobile => Mobile != Mobile.NotMobileDevice;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public DeviceOrientation Orientation
+    {
+        get => _deviceOrientation;
+        internal set
+        {
+            _deviceOrientation = value;
+            OrientationChanged?.Invoke(this, value);
+        }
+    }
+
+    public event EventHandler<DeviceOrientation>? OrientationChanged;
+
     /// <inheritdoc />
     public override string ToString()
     {
@@ -67,6 +84,10 @@ public record DeviceInfo
 
         handler.AppendLiteral("IsTablet : ");
         handler.AppendFormatted(IsTablet);
+        handler.AppendLiteral(Environment.NewLine);
+
+        handler.AppendLiteral("Orientation : ");
+        handler.AppendFormatted(Orientation);
         handler.AppendLiteral(Environment.NewLine);
 
         return handler.ToString();
@@ -94,6 +115,10 @@ public record DeviceInfo
 
         handler.AppendLiteral("<strong>IsTablet : </strong>");
         handler.AppendFormatted(IsTablet);
+        handler.AppendLiteral("<br />");
+
+        handler.AppendLiteral("<strong>Orientation : </strong>");
+        handler.AppendFormatted(Orientation);
         handler.AppendLiteral("<br />");
 
         return new(handler.ToString());

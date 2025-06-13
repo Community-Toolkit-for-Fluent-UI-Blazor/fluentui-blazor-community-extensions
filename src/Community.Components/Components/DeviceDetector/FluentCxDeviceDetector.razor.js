@@ -18,3 +18,15 @@ export function getDeviceInfo() {
 
   return value;
 }
+
+export function getDeviceOrientation(reference) {
+  function updateOrientation() {
+    const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+
+    reference.invokeMethodAsync("ChangeOrientation", isPortrait);
+  }
+
+  updateOrientation();
+
+  window.addEventListener("rezize", updateOrientation);
+}
