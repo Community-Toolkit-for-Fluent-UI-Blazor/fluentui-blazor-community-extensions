@@ -26,11 +26,21 @@
         {
             @ChildContent
 
-            @foreach(var item in _children.OfType<IDropZoneComponent<TItem>>())
+            @if (_children.All(x=>x is FluentCxDropZone<TItem>))
             {
-                if(item.Value is not null)
+                foreach (var child in _children.OfType<FluentCxDropZone<TItem>>())
                 {
-                    @_renderItem(item.Value)
+                    child.RenderInternal();
+                }
+            }
+            else
+            {
+                foreach(var item in _children.OfType<IDropZoneComponent<TItem>>())
+                {
+                    if(item.Value is not null)
+                    {
+                        @_renderItem(item.Value)
+                    }
                 }
             }
         }

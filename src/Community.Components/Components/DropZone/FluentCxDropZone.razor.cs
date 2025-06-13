@@ -9,7 +9,7 @@ using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 namespace FluentUI.Blazor.Community.Components;
 
 public partial class FluentCxDropZone<TItem>
-    : FluentComponentBase, IDisposable
+    : FluentComponentBase, IDisposable, IItemValue<TItem>
 {
     internal readonly RenderFragment _renderDropZone;
 
@@ -204,5 +204,11 @@ public partial class FluentCxDropZone<TItem>
         }
 
         GC.SuppressFinalize(this);
+    }
+
+    internal void RenderInternal()
+    {
+        ForceRender = true;
+        StateHasChanged();
     }
 }
