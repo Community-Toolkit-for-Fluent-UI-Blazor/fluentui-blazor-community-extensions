@@ -1,0 +1,118 @@
+/* _content/FluentUI.Blazor.Community.Components/Components/AIPrompt/AIPromptView.razor.rz.scp.css */
+.fluentcx-prompt-container[b-j4u851rja8] {
+    width: 100%;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/DropZone/FluentCxDropZone.razor.rz.scp.css */
+.fluentcx-drop-zone-progress > *[b-y01mdtfstr] {
+  pointer-events: none;
+}
+
+.fluentcx-drop-zone-placeholder[b-y01mdtfstr] {
+  height: 10px;
+}
+
+.fluentcx-drop-zone-placeholder-drag-over[b-y01mdtfstr] {
+  padding: 25px;
+}
+
+.fluentcx-drop-zone-dragged-over[b-y01mdtfstr] {
+  background-color: lightgray;
+  opacity: 0.6;
+  animation: blinker-b-y01mdtfstr 1s linear infinite;
+}
+
+.fluentcx-drop-zone-dragged-over > div[b-y01mdtfstr] {
+  background-color: lightgray;
+  opacity: 0.6;
+  animation: blinker-b-y01mdtfstr 1s linear infinite;
+}
+
+.fluentcx-drop-zone-dragged-over-denied[b-y01mdtfstr] {
+  background-color: red;
+  opacity: 0.6;
+  animation: blinker-b-y01mdtfstr 1s linear infinite;
+}
+
+.fluentcx-drop-zone-moving[b-y01mdtfstr] {
+  opacity: 0;
+}
+
+.fluentcx-drop-zone-moving > div[b-y01mdtfstr] {
+  opacity: 0;
+}
+
+.no-pointer-events[b-y01mdtfstr] {
+    pointer-events: none;
+}
+
+@keyframes blinker-b-y01mdtfstr {
+  50% {
+    opacity: 0;
+  }
+}
+
+.fluentcx-drop-zone-noselect[b-y01mdtfstr] {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/DropZone/FluentCxDropZoneContainer.razor.rz.scp.css */
+.fluentcx-drop-zone[b-cn3kv955x2] {
+  min-height: 50px;
+}
+
+/* _content/FluentUI.Blazor.Community.Components/Components/FileManager/FileManagerNavigationView.razor.rz.scp.css */
+.file-navigation-manager-view[b-o1nlizcgc0] {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0;
+  list-style: none;
+  background: var(--fill-color);
+  height: 40px;
+  width: 100%;
+  align-items: center;
+  padding-left: 4px;
+  gap: 4px;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/FileManager/FileManagerNavigationViewItem.razor.rz.scp.css */
+.file-navigation-manager-view-item[b-8fryp8ldpw] {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0;
+  list-style: none;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/Resizer/FluentCxResizer.razor.rz.scp.css */
+.fluentcx-resizer[b-67tzm6rfoa] {
+  display: inline-flex;
+  position: relative;
+}
+
+.fluentcx-resizer-handler[b-67tzm6rfoa] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.fluentcx-resizer-child-content-container[b-67tzm6rfoa] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.fluentcx-resizer-handler-cursor-ew[b-67tzm6rfoa] {
+  cursor: ew-resize;
+}
+
+.fluentcx-resizer-handler-cursor-ns[b-67tzm6rfoa] {
+    cursor: ns-resize;
+}
+
+.fluentcx-resizer-handler-cursor-nwse[b-67tzm6rfoa] {
+    cursor: nwse-resize;
+}
