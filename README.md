@@ -1,4 +1,4 @@
-# FluentUI Blazor Community Extensions
+# FluentUI Blazor Community Extensions test
 This package is for use in .NET 9 Blazor projects.
 
 ## Introduction
