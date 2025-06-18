@@ -5,6 +5,8 @@ This package is for use in .NET 9 Blazor projects.
 
 The `FluentUI.Blazor.Community.Components` package provides a collection of open-source Razor components that extend the official [Microsoft FluentUI Blazor Library](https://github.com/microsoft/fluentui-blazor).
 
+Documentation on the components is available at the [demo site](https://community-toolkit-for-fluent-ui-blazor.github.io/fluentui-blazor-community-extensions/).
+
 ### Component Overview
 
 The components are organized into two main categories:
