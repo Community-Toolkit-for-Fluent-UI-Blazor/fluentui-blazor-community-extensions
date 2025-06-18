@@ -3,11 +3,11 @@
 // ------------------------------------------------------------------------
 
 using System.ClientModel;
+using Azure.AI.OpenAI;
 using FluentUI.Blazor.Community.Components;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Azure.AI.OpenAI;
-using Microsoft.Extensions.AI;
 
 namespace FluentUI.Blazor.Community.Extensions;
 
@@ -34,7 +34,7 @@ public static class ServiceCollectionExtensions
         ArgumentException.ThrowIfNullOrEmpty(endpoint, nameof(endpoint));
         ArgumentException.ThrowIfNullOrEmpty(credentials, nameof(credentials));
         ArgumentException.ThrowIfNullOrEmpty(model, nameof(model));
-        
+
         return new AzureOpenAIClient(
             new(endpoint),
             new ApiKeyCredential(credentials)

@@ -15,7 +15,7 @@ public partial class FluentCxDeviceDetector
     : FluentComponentBase
 {
     private readonly DotNetObjectReference<FluentCxDeviceDetector> _deviceDetectorReference;
-   
+
     /// <summary>
     /// Represents the javascript object.
     /// </summary>

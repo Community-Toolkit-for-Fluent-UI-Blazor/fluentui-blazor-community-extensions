@@ -38,7 +38,7 @@ public record DeviceInfo
     /// Gets the used mobile.
     /// </summary>
     /// <remarks>If the app is running on desktop, this value is set to <see cref="Mobile.NotMobileDevice"/></remarks>
-    public Mobile Mobile { get; init; } 
+    public Mobile Mobile { get; init; }
 
     /// <summary>
     /// Gets a value indicating if the app is running on a tablet.

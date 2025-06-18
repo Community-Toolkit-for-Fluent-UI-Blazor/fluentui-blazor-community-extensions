@@ -107,7 +107,7 @@ public partial class FluentCxDropZone<TItem>
             return false;
         }
 
-        if(Value?.Equals(State.TargetItem) ?? false)
+        if (Value?.Equals(State.TargetItem) ?? false)
         {
             return IsItemDropAllowed;
         }

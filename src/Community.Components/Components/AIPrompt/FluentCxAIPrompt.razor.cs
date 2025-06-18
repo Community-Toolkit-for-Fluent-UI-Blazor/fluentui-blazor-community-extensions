@@ -72,7 +72,7 @@ public partial class FluentCxAIPrompt
 
     internal List<AIPromptResult> Results => _results;
 
-    internal bool IsMenuOpen {  get; set; }
+    internal bool IsMenuOpen { get; set; }
 
     internal async Task HandleMenuClickAsync(AIPromptMenu menu, AIPromptResult? result = null)
     {
@@ -175,7 +175,7 @@ public partial class FluentCxAIPrompt
 
         IsRequestProcessing = false;
         await RefreshChildrenAsync();
-        
+
         if (OnResponseGenerated.HasDelegate)
         {
             await OnResponseGenerated.InvokeAsync(outputRes);

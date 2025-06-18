@@ -37,7 +37,7 @@ public partial class BoxChart
     {
         await base.SetParametersAsync(parameters);
 
-        if(parameters.HasValueChanged(nameof(Gap), Gap) ||
+        if (parameters.HasValueChanged(nameof(Gap), Gap) ||
             parameters.HasValueChanged(nameof(GroupGap), GroupGap) ||
             parameters.HasValueChanged(nameof(Mode), Mode))
         {

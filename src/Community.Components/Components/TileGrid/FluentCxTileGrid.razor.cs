@@ -60,7 +60,7 @@ public partial class FluentCxTileGrid<TItem>
     public RenderFragment<TItem>? ItemContent { get; set; }
 
     [Parameter]
-    public Func<TItem, string>? ItemCss {  get; set; }
+    public Func<TItem, string>? ItemCss { get; set; }
 
     [Parameter]
     public string ColumnWidth { get; set; } = "1fr";

@@ -1,3 +1,7 @@
+// ------------------------------------------------------------------------
+// MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
+// ------------------------------------------------------------------------
+
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -21,7 +25,7 @@ public partial class FluentCxImage
     public string? Source { get; set; }
 
     [Parameter]
-    public string? Alt {  get; set; }
+    public string? Alt { get; set; }
 
     [CascadingParameter]
     private FluentCxImageGroup Parent { get; set; } = default!;
@@ -44,7 +48,7 @@ public partial class FluentCxImage
     {
         Parent.Remove(this);
         GC.SuppressFinalize(this);
-    
+
         return ValueTask.CompletedTask;
     }
 

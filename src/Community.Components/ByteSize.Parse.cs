@@ -20,7 +20,7 @@ public partial struct ByteSize
 
     public static ByteSize Parse(
         string value,
-        NumberStyles numberStyles, 
+        NumberStyles numberStyles,
         IFormatProvider formatProvider)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(value, nameof(value));
