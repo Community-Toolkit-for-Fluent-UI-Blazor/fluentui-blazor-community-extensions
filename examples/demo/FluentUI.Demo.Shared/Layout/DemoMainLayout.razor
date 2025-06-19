@@ -1,8 +1,9 @@
 ﻿@inherits LayoutComponentBase
+@using System.Runtime.InteropServices
 
 <FluentLayout>
     <FluentHeader>
-        FluentUI.Demo.Server
+        FluentUI Blazor Community Extensions
     </FluentHeader>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
         <DemoNavMenu />
@@ -13,9 +14,11 @@
         </FluentBodyContent>
     </FluentStack>
     <FluentFooter>
-        <a href="https://www.fluentui-blazor.net" target="_blank">Documentation and demos</a>
-        <FluentSpacer />
-        <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor" target="_blank">About Blazor</a>
+        <div class="version">
+            Version: @_version
+            &nbsp;-&nbsp;
+            <a href="https://dotnet.microsoft.com/en-us/learn/aspnet/what-is-aspnet-core">Powered by @RuntimeInformation.FrameworkDescription</a>
+        </div>
     </FluentFooter>
 
     <FluentMenuProvider />
@@ -28,3 +31,4 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
