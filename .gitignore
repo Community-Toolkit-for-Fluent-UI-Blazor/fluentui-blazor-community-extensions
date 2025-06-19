@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+/examples/demo/FluentUI.Demo.Shared/wwwroot/sources/*.txt
