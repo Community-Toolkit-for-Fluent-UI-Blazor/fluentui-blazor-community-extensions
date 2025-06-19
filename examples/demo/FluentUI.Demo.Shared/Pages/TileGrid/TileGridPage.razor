@@ -1,5 +1,6 @@
 ﻿@page "/tilegrid"
 
+@using FluentUI.Demo.Shared.Pages.TileGrid.Examples
 
 <h1>TileGrid</h1>
 
@@ -11,10 +12,13 @@
 
 <h2 id="example">Examples</h2>
 
-<FluentCxTileGridDefault />
-<FluentCxTileGridReorder />
-<FluentCxTileGridResize />
-<FluentCxTileGridDashboard />
+<DemoSection Component="typeof(TileGridDefault)" Title="Default" />
+
+<DemoSection Component="typeof(TileGridReorder)" Title="Reorder" />
+
+<DemoSection Component="typeof(TileGridResize)" Title="Resize" />
+
+<DemoSection Component="typeof(TileGridDashboard)" Title="Dashboard" />
 
 <h2 id="documentation">Documentation</h2>
 
