@@ -9,7 +9,6 @@ using FluentUI.Demo.Shared;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
-using FluentUI.Demo.Shared.Infrastructure;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -19,7 +18,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddFluentUIComponents();
 builder.Services.AddFluentCxUIComponents();
 builder.Services.AddAzureOpenAI();
-builder.Services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
 builder.Services.AddScoped<FileManagerState>();
 builder.Services.AddFluentUIDemoClientServices();
 

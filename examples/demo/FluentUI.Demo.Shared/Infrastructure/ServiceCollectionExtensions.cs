@@ -2,6 +2,7 @@
 // MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
 // ------------------------------------------------------------------------
 
+using FluentUI.Blazor.Community.Components;
 using FluentUI.Demo.Shared.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +19,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IAppVersionService, AppVersionService>();
         services.AddScoped<CacheStorageAccessor>();
         services.AddHttpClient<IStaticAssetService, HttpBasedStaticAssetService>();
+        services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
 
         return services;
     }
@@ -31,6 +33,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAppVersionService, AppVersionService>();
         services.AddScoped<CacheStorageAccessor>();
         services.AddHttpClient<IStaticAssetService, ServerStaticAssetService>();
+        services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
 
         return services;
     }
