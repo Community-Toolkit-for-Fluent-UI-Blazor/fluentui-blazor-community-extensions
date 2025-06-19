@@ -1,12 +1,7 @@
-// --------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-// --------------------------------------------------------------
-
-namespace FluentUI.Demo.Shared.Components;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
+namespace FluentUI.Demo.Shared.Components;
 /// <summary />
 public partial class CodeSnippet
 {

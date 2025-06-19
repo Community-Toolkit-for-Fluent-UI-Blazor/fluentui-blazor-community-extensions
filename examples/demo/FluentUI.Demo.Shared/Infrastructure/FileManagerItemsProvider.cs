@@ -1,12 +1,3 @@
-// ------------------------------------------------------------------------
-// MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
-// ------------------------------------------------------------------------
-
-
-// ------------------------------------------------------------------------
-// MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
-// ------------------------------------------------------------------------
-
 using FluentUI.Blazor.Community.Components;
 
 namespace FluentUI.Demo.Shared.Infrastructure;

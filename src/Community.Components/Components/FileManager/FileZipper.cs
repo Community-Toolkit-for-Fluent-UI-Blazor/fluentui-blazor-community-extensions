@@ -1,7 +1,3 @@
-// ------------------------------------------------------------------------
-// MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
-// ------------------------------------------------------------------------
-
 using System.IO.Compression;
 
 namespace FluentUI.Blazor.Community.Components;
