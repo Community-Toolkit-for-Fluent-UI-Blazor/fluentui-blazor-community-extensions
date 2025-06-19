@@ -42,4 +42,7 @@
     <PackageReference Include="Plotly.Blazor" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+  </PropertyGroup>
 </Project>
