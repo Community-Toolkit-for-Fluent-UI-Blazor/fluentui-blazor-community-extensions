@@ -5,11 +5,11 @@
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Demo.Client;
-using FluentUI.Demo.Shared.Providers;
 using FluentUI.Demo.Shared;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
+using FluentUI.Demo.Shared.Infrastructure;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

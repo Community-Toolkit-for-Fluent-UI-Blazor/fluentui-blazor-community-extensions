@@ -5,9 +5,9 @@
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Demo.Server.Components;
-using FluentUI.Demo.Shared.Providers;
 using FluentUI.Demo.Shared;
 using Microsoft.FluentUI.AspNetCore.Components;
+using FluentUI.Demo.Shared.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
