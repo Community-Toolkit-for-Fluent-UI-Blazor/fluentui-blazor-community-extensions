@@ -6,6 +6,7 @@ using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Demo.Server.Components;
 using FluentUI.Demo.Shared.Providers;
+using FluentUI.Demo.Shared;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddFluentUIComponents();
 builder.Services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
 builder.Services.AddFluentCxUIComponents();
+builder.Services.AddFluentUIDemoServerServices();
 builder.Services.AddAzureOpenAI();
 
 var app = builder.Build();
