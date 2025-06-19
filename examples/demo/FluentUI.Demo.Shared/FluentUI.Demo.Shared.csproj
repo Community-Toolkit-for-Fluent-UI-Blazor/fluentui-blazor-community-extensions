@@ -4,11 +4,20 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Remove="Pages\TileGrid\FluentCxTileGridColRowSpan.razor" />
     <Content Remove="Pages\TileGrid\FluentCxTileGridHeader.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="FluentUI.Blazor.Community.Components.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="FluentUI.Blazor.Community.Components.xml" />
   </ItemGroup>
 
 
@@ -22,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Community.Components\FluentUI.Blazor.Community.Components.csproj" />
+    <ProjectReference Include="..\FluentUI.Demo.Generators\FluentUI.Demo.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>
