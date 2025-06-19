@@ -120,7 +120,7 @@ public partial class DemoSection : ComponentBase
         {
             foreach (var source in _allFiles)
             {
-                var result = await StaticAssetService.GetAsync($"./_content/FluentUI.Demo.Shared/sources/{source}.txt");
+                var result = await StaticAssetService.GetAsync($"_content/FluentUI.Demo.Shared/sources/{source}.txt");
                 _tabPanelsContent.Add(source, result ?? string.Empty);
             }
         }
