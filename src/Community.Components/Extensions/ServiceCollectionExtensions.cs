@@ -1,7 +1,3 @@
-// ------------------------------------------------------------------------
-// MIT License - Copyright (c) Microsoft Corporation. All rights reserved.
-// ------------------------------------------------------------------------
-
 using System.ClientModel;
 using Azure.AI.OpenAI;
 using FluentUI.Blazor.Community.Components;

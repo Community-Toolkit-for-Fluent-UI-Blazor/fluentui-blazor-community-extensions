@@ -1,14 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Remove="Pages\TileGrid\FluentCxTileGridColRowSpan.razor" />
     <Content Remove="Pages\TileGrid\FluentCxTileGridHeader.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="FluentUI.Blazor.Community.Components.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="FluentUI.Blazor.Community.Components.xml" />
   </ItemGroup>
 
 
@@ -22,6 +31,22 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Community.Components\FluentUI.Blazor.Community.Components.csproj" />
+    <ProjectReference Include="..\FluentUI.Demo.Generators\FluentUI.Demo.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\sources\" />
+  </ItemGroup>
+
+  <Target Name="CopySources" BeforeTargets="BeforeBuild">
+    <ItemGroup>
+      <Sources Include="$(ProjectDir)\Pages\**\Examples\*" />
+      <Sources Include="$(ProjectDir)\Pages\Lab\**" />
+      <Sources Include="$(ProjectDir)\Pages\BasicForm*" />
+      <Sources Include="$(ProjectDir)\Components\*" />
+      <Sources Include="$(ProjectDir)\SampleData\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(ProjectDir)wwwroot\sources\%(Filename)%(Extension).txt')" SkipUnchangedFiles="true" />
+  </Target>
 
 </Project>

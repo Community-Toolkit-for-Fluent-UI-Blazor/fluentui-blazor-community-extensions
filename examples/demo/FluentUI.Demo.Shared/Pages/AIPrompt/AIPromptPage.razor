@@ -36,6 +36,9 @@
                   OnMenuSelected="OnHandleMenuSelectedAsync"
                   @ref=_aiPrompt/>
 
+
+<h2 id="documentation">Documentation</h2>
+<ApiDocumentation Component="typeof(FluentCxAIPrompt)" />
 @code {
     private readonly List<AIPromptMenu> _menus = [];
     private string? prompt;

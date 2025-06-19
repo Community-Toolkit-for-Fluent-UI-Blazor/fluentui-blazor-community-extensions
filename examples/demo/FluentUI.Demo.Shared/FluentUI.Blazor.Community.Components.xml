@@ -1,0 +1,442 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FluentUI.Blazor.Community.Components</name>
+    </assembly>
+    <members>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.BarChart.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChartBase`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PieChart.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Browser">
+            <summary>
+            Represents the browser used to running the app.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.Undefined">
+            <summary>
+            Undefined browser.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.Edge">
+            <summary>
+            Represents Microsoft Edge browser.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.InternetExplorer9">
+            <summary>
+            Represents Internet Explorer 9 browser.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.InternetExplorer10">
+            <summary>
+            Represents Internet Explorer 10 browser.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.InternetExplorer11">
+            <summary>
+            Represents Internet Explorer 11 browser.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.InternetExplorerUnknown">
+            <summary>
+            Represents an unknown Internet Explorer browser.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.Firefox">
+            <summary>
+            Represents Firefox browser.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.Chrome">
+            <summary>
+            Represents Chrome browser.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.Safari">
+            <summary>
+            Represents Safari browser.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Browser.Opera">
+            <summary>
+            Represents Opera browser.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.BrowserConverter">
+            <summary>
+            Represents a converter to a <see cref="T:FluentUI.Blazor.Community.Components.Browser"/> enumeration from a <see cref="T:System.String"/> format.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.BrowserConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.BrowserConverter.Write(System.Text.Json.Utf8JsonWriter,FluentUI.Blazor.Community.Components.Browser,System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DeviceInfo">
+            <summary>
+            Represents the information of the device where the app is running.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.UserAgent">
+            <summary>
+            Gets the user agent.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.Browser">
+            <summary>
+            Gets the used browser.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.OperatingSystem">
+            <summary>
+            Gets the operating system.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.Touch">
+            <summary>
+            Gets if touch is enabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.Mobile">
+            <summary>
+            Gets the used mobile.
+            </summary>
+            <remarks>If the app is running on desktop, this value is set to <see cref="F:FluentUI.Blazor.Community.Components.Mobile.NotMobileDevice"/></remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.IsTablet">
+            <summary>
+            Gets a value indicating if the app is running on a tablet.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.IsMobile">
+            <summary>
+            Gets a value if the app is running on a mobile.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.Orientation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DeviceInfo.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DeviceInfo.ToMarkup">
+            <summary>
+            Returns a <see cref="T:Microsoft.AspNetCore.Components.MarkupString"/> that represents the current object.
+            </summary>
+            <returns>A <see cref="T:Microsoft.AspNetCore.Components.MarkupString"/> that represents the current object.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientationConverter">
+            <summary>
+            Represents a converter to a <see cref="T:FluentUI.Blazor.Community.Components.DeviceOrientation"/> enumeration from a <see cref="T:System.String"/> format.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DeviceOrientationConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DeviceOrientationConverter.Write(System.Text.Json.Utf8JsonWriter,FluentUI.Blazor.Community.Components.DeviceOrientation,System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector">
+            <summary>
+            Represents a component which detects the device where the app is running.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector._module">
+            <summary>
+            Represents the javascript object.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.JavascriptFileName">
+            <summary>
+            Represents the name of the javascript.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChildContent">
+            <summary>
+            Gets or sets the ChildContent render fragment.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.JSRuntime">
+            <summary>
+            Gets or sets the Javascript Runtime.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.DeviceInfo">
+            <summary>
+            Gets the information of the running device.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Mobile">
+            <summary>
+            Represents the mobile where the app is running.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Mobile.UnknownMobileDevice">
+            <summary>
+            The app is running on a mobile but the app doesn't know the kind of the mobile.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Mobile.NotMobileDevice">
+            <summary>
+            The app is running on a desktop.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Mobile.WindowsPhone">
+            <summary>
+            The app is running on a Windows Phone.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Mobile.IPhone">
+            <summary>
+            The app is running on an Iphone.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Mobile.IPad">
+            <summary>
+            The app is running on an Ipad.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Mobile.IPod">
+            <summary>
+            The app is running on an Ipod.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Mobile.Android">
+            <summary>
+            The app is running on an Android.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Mobile.BlackBerry">
+            <summary>
+            The app is running on a BlackBerry.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Mobile.Safari">
+            <summary>
+            The app is running on a Safari.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MobileConverter">
+            <summary>
+            Represents a converter to a <see cref="T:FluentUI.Blazor.Community.Components.Mobile"/> enumeration from a <see cref="T:System.String"/> format.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.MobileConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.MobileConverter.Write(System.Text.Json.Utf8JsonWriter,FluentUI.Blazor.Community.Components.Mobile,System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.OperatingSystem">
+            <summary>
+            Represents the operating system where the app is running.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.Undefined">
+            <summary>
+            Unknown operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.WindowsNT">
+            <summary>
+            Windows NT operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.WindowsXp">
+            <summary>
+            Windows XP operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.Windows7">
+            <summary>
+            Windows 7 operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.Windows8">
+            <summary>
+            Windows 8 operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.Windows10">
+            <summary>
+            Windows 10 operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.Windows11">
+            <summary>
+            Windows 11 operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.WindowsVista">
+            <summary>
+            Windows Vista operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.Mac">
+            <summary>
+            Mac operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.Linux">
+            <summary>
+            Linux operating system.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OperatingSystem.Nix">
+            <summary>
+            Nix operating system.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.OperatingSystemConverter">
+            <summary>
+            Represents a converter to a <see cref="T:FluentUI.Blazor.Community.Components.OperatingSystem"/> enumeration from a <see cref="T:System.String"/> format.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.OperatingSystemConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.OperatingSystemConverter.Write(System.Text.Json.Utf8JsonWriter,FluentUI.Blazor.Community.Components.OperatingSystem,System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.ForceRender">
+            <summary>
+            Gets or sets a value indicating wether the component will render. 
+            </summary>
+            <remarks>
+            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZone`1"/>.
+            You mustn't use it.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.AddInContainer">
+            <summary>
+            Gets or sets a value indicating wether the component will be inserted into the container. 
+            </summary>
+            <remarks>
+            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZone`1"/>.
+            You mustn't use it.
+            </remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.#ctor">
+            <summary>
+            Do not use it ! Use <see cref="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Home"/> property, or the static create methods.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryComparer`1.Compare(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryTreeViewItemComparer">
+            <summary>
+            Represents a comparer for the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem"/> for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryTreeViewItemComparer.Default">
+            <summary>
+            Gets the default comparer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryTreeViewItemComparer.Compare(Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem,Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnAfterRender(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizerHandler">
+            <summary>
+            Represents the handler for the resizer component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ResizerHandler.Horizontally">
+            <summary>
+            Resizes the item horizontally.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ResizerHandler.Vertically">
+            <summary>
+            Resizes the item vertically.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ResizerHandler.Both">
+            <summary>
+            Resizes the item vertically and horizontally.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ResizerHelper._ltrResize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ResizerHelper._rtlResize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.StringHelper">
+            <summary>
+            Represents helper for string.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Helpers.StringHelper.EncodedCharTable">
+            <summary>
+            Represents the characters that can be used to encode the object.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Helpers.StringHelper.EncodedCharTableCount">
+            <summary>
+            Represents the number of characters available for encoding.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Helpers.StringHelper._random">
+            <summary>
+            Represents the random generator.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Helpers.StringHelper.FirstTick">
+            <summary>
+            Represents the 1st tick from which to start the creation of the object.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.StringHelper.GenerateId(System.Int32)">
+            <summary>
+            Generates an identifier for a component.
+            </summary>
+            <param name="length">Length of the identifier.</param>
+            <returns>Returns the generated identifier.</returns>
+        </member>
+    </members>
+</doc>
