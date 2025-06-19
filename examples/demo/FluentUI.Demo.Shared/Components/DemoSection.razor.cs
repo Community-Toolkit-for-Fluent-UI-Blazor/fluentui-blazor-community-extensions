@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.Web;
 namespace FluentUI.Demo.Shared.Components;
 public partial class DemoSection : ComponentBase
 {
-    private bool _hasCode = false;
+    private bool _hasCode;
     private readonly Dictionary<string, string> _tabPanelsContent = [];
     private readonly List<string> _allFiles = [];
     private string? _ariaId;

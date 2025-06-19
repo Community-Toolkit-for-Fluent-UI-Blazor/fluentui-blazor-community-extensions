@@ -91,12 +91,12 @@ public partial class ApiDocumentation
                     {
                         obj = Activator.CreateInstance(Component);
                     }
+
                     created = true;
                 }
 
                 return obj?.GetType().GetProperty(propertyName)?.GetValue(obj);
             }
-            ;
 
             var allProperties = Component.GetProperties().Select(i => (MemberInfo)i);
             var allMethods = Component.GetMethods().Where(i => !i.IsSpecialName).Select(i => (MemberInfo)i);
