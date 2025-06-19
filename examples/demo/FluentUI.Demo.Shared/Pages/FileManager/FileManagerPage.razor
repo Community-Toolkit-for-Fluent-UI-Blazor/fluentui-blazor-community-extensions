@@ -1,5 +1,6 @@
 ﻿@page "/fileManager"
-@namespace FluentUI.Demo
+
+@using FluentUI.Demo.Shared.Pages.FileManager.Examples;
 
 <h1>FileManager</h1>
 
@@ -24,9 +25,17 @@
 </p>
 
 <h2 id="example">Examples</h2>
+
 <FileManagerDefault />
 <FileManagerMobile />
 <FileManagerLocalization />
+
+@* TODO: Fix DemoSection for this component *@
+@* <DemoSection Component="typeof(FileManagerDefault)" Title="Default" />
+
+<DemoSection Component="typeof(FileManagerMobile)" Title="Mobile" />
+
+<DemoSection Component="typeof(FileManagerLocalization)" Title="Localization" /> *@
 
 <h2 id="documentation">Documentation</h2>
 
