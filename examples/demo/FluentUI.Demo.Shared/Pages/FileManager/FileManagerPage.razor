@@ -26,17 +26,14 @@
 
 <h2 id="example">Examples</h2>
 
-<FileManagerDefault />
-<FileManagerMobile />
-<FileManagerLocalization />
 
-@* TODO: Fix DemoSection for this component *@
-@* <DemoSection Component="typeof(FileManagerDefault)" Title="Default" />
+
+<DemoSection Component="typeof(FileManagerDefault)" Title="Default" />
 
 <DemoSection Component="typeof(FileManagerMobile)" Title="Mobile" />
 
-<DemoSection Component="typeof(FileManagerLocalization)" Title="Localization" /> *@
+<DemoSection Component="typeof(FileManagerLocalization)" Title="Localization" />
 
 <h2 id="documentation">Documentation</h2>
 
-<ApiDocumentation Component="typeof(FluentCxFileManager<>)" />
+<ApiDocumentation Component="typeof(FluentCxFileManager<>)" InstanceTypes="@(new[] { typeof(NoFileEntryData) })" GenericLabel="TItem" />
