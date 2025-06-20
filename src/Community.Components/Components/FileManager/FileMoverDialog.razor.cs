@@ -50,6 +50,7 @@ public partial class FileMoverDialog<TItem> : IDialogContentComponent<FileManage
         };
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();

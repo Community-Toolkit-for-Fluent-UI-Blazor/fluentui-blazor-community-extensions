@@ -40,6 +40,7 @@ public partial class FluentCxImage
 
     internal RenderFragment InternalRenderer { get; set; }
 
+    /// <inheritdoc />
     public ValueTask DisposeAsync()
     {
         Parent.Remove(this);
@@ -55,12 +56,14 @@ public partial class FluentCxImage
         Parent.OnItemParemetersChanged(this);
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Parent.Add(this);
     }
 
+    /// <inheritdoc />
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
@@ -71,6 +74,7 @@ public partial class FluentCxImage
         }
     }
 
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -83,6 +87,7 @@ public partial class FluentCxImage
         }
     }
 
+    /// <inheritdoc />
     public override Task SetParametersAsync(ParameterView parameters)
     {
         _hasParameterChanged = parameters.HasValueChanged(nameof(Width), Width) ||
