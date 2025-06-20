@@ -4,7 +4,7 @@
     <FluentStack Orientation="Orientation.Vertical" VerticalGap="30">
         <FluentStack>
             <FluentStack Orientation="Orientation.Vertical">
-                <FluentSelect Items="@(Enum.GetValues<ImageGroupType>())"
+                <FluentSelect Items="@(Enum.GetValues<ImageGroupLayout>())"
                               Label="Layout"
                               AriaLabel="Layout"
                               @bind-SelectedOption=_imageLayout />
@@ -62,5 +62,5 @@
     private ImageSize _imageSize = ImageSize.Size32;
     private ImageShape _imageShape = ImageShape.Square;
     private int _maxItemVisible = 3;
-    private ImageGroupType _imageLayout = ImageGroupType.Spread;
+    private ImageGroupLayout _imageLayout = ImageGroupLayout.Spread;
 }

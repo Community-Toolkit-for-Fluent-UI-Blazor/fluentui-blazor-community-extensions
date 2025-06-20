@@ -3,8 +3,14 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Represents the icons used by <see cref="FluentCxFileManager{TItem}"/>.
+/// </summary>
 public static partial class FileIcons
 {
+    /// <summary>
+    /// Represents the icons for the details panel.
+    /// </summary>
     private static readonly Dictionary<string, Icon> _iconForDetailsPanel = new()
     {
         [".xls"] = new Size128.ExcelIcon(),
@@ -146,6 +152,9 @@ public static partial class FileIcons
         ["Default"] = new Size128.DefaultFileIcon(),
     };
 
+    /// <summary>
+    /// Represents the icons from extensions.
+    /// </summary>
     private static readonly Dictionary<string, Icon> _iconsFromExtension = new()
     {
         [".xls"] = new Size32.ExcelIcon(),
@@ -285,6 +294,9 @@ public static partial class FileIcons
         ["Default"] = new Size32.DefaultFileIcon(),
     };
 
+    /// <summary>
+    /// Represents the icons used for the <see cref="FluentCxFileManager{TItem}"/> from its <see cref="FileView"/> parameter. 
+    /// </summary>
     private static readonly Dictionary<FileView, Dictionary<string, Icon>> _sizedGridOptionsIconFromExtensions = new(EqualityComparer<FileView>.Default)
     {
         [FileView.Mosaic] = new()
@@ -983,6 +995,11 @@ public static partial class FileIcons
         }
     };
 
+    /// <summary>
+    /// Gets the <see cref="Icon"/> from its extension.
+    /// </summary>
+    /// <param name="extension">Extension of the file.</param>
+    /// <returns>Returns the <see cref="Icon"/> from its extension.</returns>
     internal static Icon FromExtension(string? extension)
     {
         if (string.IsNullOrEmpty(extension))
@@ -999,23 +1016,35 @@ public static partial class FileIcons
         return _iconsFromExtension["Default"];
     }
 
-    internal static Icon FromExtensionAndGridViewOptions(string? extension, FileView options)
+    /// <summary>
+    /// Gets the <see cref="Icon"/> from the <paramref name="extension"/> and <paramref name="view"/>.
+    /// </summary>
+    /// <param name="extension">Extension of the file.</param>
+    /// <param name="view">View used from the <see cref="FluentCxFileManager{TItem}"/>.</param>
+    /// <returns>Returns the <see cref="Icon"/> from its extension and its view.</returns>
+    internal static Icon FromExtensionAndGridViewOptions(string? extension, FileView view)
     {
         if (string.IsNullOrEmpty(extension))
         {
-            return _sizedGridOptionsIconFromExtensions[options]["Default"];
+            return _sizedGridOptionsIconFromExtensions[view]["Default"];
         }
 
-        if (_sizedGridOptionsIconFromExtensions.TryGetValue(options, out var v) &&
+        if (_sizedGridOptionsIconFromExtensions.TryGetValue(view, out var v) &&
             v.TryGetValue(extension.ToLowerInvariant(), out var value) &&
             value is not null)
         {
             return value;
         }
 
-        return _sizedGridOptionsIconFromExtensions[options]["Default"];
+        return _sizedGridOptionsIconFromExtensions[view]["Default"];
     }
 
+    /// <summary>
+    /// Gets the icons from the extension.
+    /// </summary>
+    /// <param name="extension">Extension of the file.</param>
+    /// <param name="isDirectory">True if we want to have the folder icon.</param>
+    /// <returns>Returns the <see cref="Icon"/> from its extension.</returns>
     internal static Icon GetIconForDetails(string? extension, bool isDirectory)
     {
         if (isDirectory)
@@ -1037,6 +1066,11 @@ public static partial class FileIcons
         return _iconForDetailsPanel["Default"];
     }
 
+    /// <summary>
+    /// Convert the <see cref="Icon"/> value into an image source.
+    /// </summary>
+    /// <param name="icon">Icon to convert.</param>
+    /// <returns>Returns the html image source from its icon.</returns>
     public static string ToImageSource(this Icon icon)
     {
         return $"data:image/svg+xml;base64,{Convert.ToBase64String(Encoding.UTF8.GetBytes(icon.Content))}";
