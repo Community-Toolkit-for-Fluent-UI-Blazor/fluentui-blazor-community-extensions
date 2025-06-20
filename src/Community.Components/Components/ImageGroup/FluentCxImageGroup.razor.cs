@@ -1,7 +1,6 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using FluentUI.Blazor.Community.Extensions;
-using FluentUI.Blazor.Community.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -13,9 +12,9 @@ public partial class FluentCxImageGroup
     private readonly List<FluentCxImage> _children = [];
     private bool _isPopoverOpen;
 
-    public FluentCxImageGroup()
+    public FluentCxImageGroup() : base()
     {
-        Id = StringHelper.GenerateId();
+        Id = Identifier.NewId();
     }
 
     [Parameter]

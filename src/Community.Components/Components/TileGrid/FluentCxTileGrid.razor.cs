@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -7,9 +6,9 @@ namespace FluentUI.Blazor.Community.Components;
 public partial class FluentCxTileGrid<TItem>
     : FluentComponentBase
 {
-    public FluentCxTileGrid()
+    public FluentCxTileGrid() : base()
     {
-        Id = StringHelper.GenerateId();
+        Id = Identifier.NewId();
     }
 
     private IGridSettings GridSettings => new TileGridSettings()
