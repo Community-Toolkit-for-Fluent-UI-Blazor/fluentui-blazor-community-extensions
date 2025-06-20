@@ -1,7 +1,3 @@
-
-
-
-
 namespace FluentUI.Blazor.Community;
 
 public partial struct ByteSize

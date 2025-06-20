@@ -1,7 +1,3 @@
-
-
-
-
 using System.Globalization;
 
 namespace FluentUI.Blazor.Community;
@@ -31,7 +27,6 @@ public partial struct ByteSize
         var decimalSeparator = Convert.ToChar(numberFormatInfo.NumberDecimalSeparator, CultureInfo.CurrentCulture);
         var groupSeparator = Convert.ToChar(numberFormatInfo.NumberGroupSeparator, CultureInfo.CurrentCulture);
 
-
         int num;
 
         for (num = 0; num < value.Length; num++)
@@ -50,7 +45,6 @@ public partial struct ByteSize
 
         var lastNumber = num;
         var numberPart = value[..lastNumber].Trim();
-
 
         if (!double.TryParse(numberPart, numberStyles, formatProvider, out var number))
         {
