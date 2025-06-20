@@ -9,6 +9,16 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>FluentUI.Blazor.Community.Components</PackageId>
+    <PackageTags>Fluent UI, Blazor, Web Components</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Title>Fluent UI Blazor Community Components</Title>
+    <Authors>MarvinKlein1508,PascalVorwerk</Authors>
+    <Company>$(Owners)</Company>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>portable</DebugType>
     <IsTrimmable>False</IsTrimmable>
@@ -18,6 +28,13 @@
     <DebugType>portable</DebugType>
     <IsTrimmable>False</IsTrimmable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
