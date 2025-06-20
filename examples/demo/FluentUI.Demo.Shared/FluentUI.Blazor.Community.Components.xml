@@ -346,12 +346,1493 @@
             You mustn't use it.
             </remarks>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IGridSettings">
+            <summary>
+            Represents a settings for a grid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Display">
+            <summary>
+            Gets the display for the drop zone.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Width">
+            <summary>
+            Gets the width of the grid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Height">
+            <summary>
+            Gets the height of the grid.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ITileGridSettings">
+            <summary>
+            Represents the settings for a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.ColumnWidth">
+            <summary>
+            Gets the width of the column.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.MinimumColumnWidth">
+            <summary>
+            Gets the minimum width of the column.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Columns">
+            <summary>
+            Gets the number of columns.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.RowHeight">
+            <summary>
+            Gets the height of the row.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons">
+            <summary>
+            Represents the icons used by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileIcons._iconForDetailsPanel">
+            <summary>
+            Represents the icons for the details panel.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileIcons._iconsFromExtension">
+            <summary>
+            Represents the icons from extensions.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileIcons._sizedGridOptionsIconFromExtensions">
+            <summary>
+            Represents the icons used for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> from its <see cref="T:FluentUI.Blazor.Community.Components.FileView"/> parameter. 
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.FromExtension(System.String)">
+            <summary>
+            Gets the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from its extension.
+            </summary>
+            <param name="extension">Extension of the file.</param>
+            <returns>Returns the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from its extension.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.FromExtensionAndGridViewOptions(System.String,FluentUI.Blazor.Community.Components.FileView)">
+            <summary>
+            Gets the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from the <paramref name="extension"/> and <paramref name="view"/>.
+            </summary>
+            <param name="extension">Extension of the file.</param>
+            <param name="view">View used from the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.</param>
+            <returns>Returns the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from its extension and its view.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.GetIconForDetails(System.String,System.Boolean)">
+            <summary>
+            Gets the icons from the extension.
+            </summary>
+            <param name="extension">Extension of the file.</param>
+            <param name="isDirectory">True if we want to have the folder icon.</param>
+            <returns>Returns the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from its extension.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.ToImageSource(Microsoft.FluentUI.AspNetCore.Components.Icon)">
+            <summary>
+            Convert the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> value into an image source.
+            </summary>
+            <param name="icon">Icon to convert.</param>
+            <returns>Returns the html image source from its icon.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128">
+            <summary>
+            Represents the icon on a square of 128x128 pixels.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.ProgramIcon">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.ProgramIcon.#ctor">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.JsonIcon">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.JsonIcon.#ctor">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.GiftIcon">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.GiftIcon.#ctor">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.MusicIcon">
+            <summary>
+            Represents a music file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.MusicIcon.#ctor">
+            <summary>
+            Represents a music file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.MultiSelectionIcon">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.MultiSelectionIcon.#ctor">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.DefaultFileIcon">
+            <summary>
+            Represents a default file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.DefaultFileIcon.#ctor">
+            <summary>
+            Represents a default file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.PowerpointIcon">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.PowerpointIcon.#ctor">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.FolderIcon">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.FolderIcon.#ctor">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.ExcelIcon">
+            <summary>
+            Represents a excel icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.ExcelIcon.#ctor">
+            <summary>
+            Represents a excel icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.CSharpIcon">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.CSharpIcon.#ctor">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.CppIcon">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.CppIcon.#ctor">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.CIcon">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.CIcon.#ctor">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.OutlookIcon">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.OutlookIcon.#ctor">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.OneNoteIcon">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.OneNoteIcon.#ctor">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.PdfIcon">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.PdfIcon.#ctor">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.ImageIcon">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.ImageIcon.#ctor">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.PowerBiIcon">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.PowerBiIcon.#ctor">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.WordIcon">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.WordIcon.#ctor">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size128.VideoIcon">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size128.VideoIcon.#ctor">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16">
+            <summary>
+            Represents the icon on a square of 16x16 pixels.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.ProgramIcon">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.ProgramIcon.#ctor">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.JsonIcon">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.JsonIcon.#ctor">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.GiftIcon">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.GiftIcon.#ctor">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.MultiSelectionIcon">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.MultiSelectionIcon.#ctor">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.DefaultFileIcon">
+            <summary>
+            Represents a default file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.DefaultFileIcon.#ctor">
+            <summary>
+            Represents a default file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.PowerpointIcon">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.PowerpointIcon.#ctor">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.FolderIcon">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.FolderIcon.#ctor">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.ExcelIcon">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.ExcelIcon.#ctor">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.CSharpIcon">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.CSharpIcon.#ctor">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.CppIcon">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.CppIcon.#ctor">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.CIcon">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.CIcon.#ctor">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.OutlookIcon">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.OutlookIcon.#ctor">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.OneNoteIcon">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.OneNoteIcon.#ctor">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.PdfIcon">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.PdfIcon.#ctor">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.ImageIcon">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.ImageIcon.#ctor">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.PowerBiIcon">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.PowerBiIcon.#ctor">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.WordIcon">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.WordIcon.#ctor">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.MusicIcon">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.MusicIcon.#ctor">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size16.VideoIcon">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size16.VideoIcon.#ctor">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24">
+            <summary>
+            Represents the icon on a square of 24x24 pixels.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.ProgramIcon">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.ProgramIcon.#ctor">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.JsonIcon">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.JsonIcon.#ctor">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.GiftIcon">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.GiftIcon.#ctor">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.MultiSelectionIcon">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.MultiSelectionIcon.#ctor">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.DefaultFileIcon">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.DefaultFileIcon.#ctor">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.PowerpointIcon">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.PowerpointIcon.#ctor">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.FolderIcon">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.FolderIcon.#ctor">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.ExcelIcon">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.ExcelIcon.#ctor">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.CSharpIcon">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.CSharpIcon.#ctor">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.CppIcon">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.CppIcon.#ctor">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.CIcon">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.CIcon.#ctor">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.OutlookIcon">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.OutlookIcon.#ctor">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.OneNoteIcon">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.OneNoteIcon.#ctor">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.PdfIcon">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.PdfIcon.#ctor">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.ImageIcon">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.ImageIcon.#ctor">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.PowerBiIcon">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.PowerBiIcon.#ctor">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.WordIcon">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.WordIcon.#ctor">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.MusicIcon">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.MusicIcon.#ctor">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size24.VideoIcon">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size24.VideoIcon.#ctor">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32">
+            <summary>
+            Represents the icon on a square of 32x32 pixels.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.ProgramIcon">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.ProgramIcon.#ctor">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.JsonIcon">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.JsonIcon.#ctor">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.GiftIcon">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.GiftIcon.#ctor">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.MultiSelectionIcon">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.MultiSelectionIcon.#ctor">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.DefaultFileIcon">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.DefaultFileIcon.#ctor">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.PowerpointIcon">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.PowerpointIcon.#ctor">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.FolderIcon">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.FolderIcon.#ctor">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.ExcelIcon">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.ExcelIcon.#ctor">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.CSharpIcon">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.CSharpIcon.#ctor">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.CppIcon">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.CppIcon.#ctor">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.CIcon">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.CIcon.#ctor">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.OutlookIcon">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.OutlookIcon.#ctor">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.OneNoteIcon">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.OneNoteIcon.#ctor">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.PdfIcon">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.PdfIcon.#ctor">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.ImageIcon">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.ImageIcon.#ctor">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.PowerBiIcon">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.PowerBiIcon.#ctor">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.WordIcon">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.WordIcon.#ctor">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.MusicIcon">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.MusicIcon.#ctor">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size32.VideoIcon">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size32.VideoIcon.#ctor">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48">
+            <summary>
+            Represents the icon on a square of 48x48 pixels.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.ProgramIcon">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.ProgramIcon.#ctor">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.JsonIcon">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.JsonIcon.#ctor">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.GiftIcon">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.GiftIcon.#ctor">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.MultiSelectionIcon">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.MultiSelectionIcon.#ctor">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.DefaultFileIcon">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.DefaultFileIcon.#ctor">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.PowerpointIcon">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.PowerpointIcon.#ctor">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.FolderIcon">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.FolderIcon.#ctor">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.ExcelIcon">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.ExcelIcon.#ctor">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.CSharpIcon">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.CSharpIcon.#ctor">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.CppIcon">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.CppIcon.#ctor">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.CIcon">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.CIcon.#ctor">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.OutlookIcon">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.OutlookIcon.#ctor">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.OneNoteIcon">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.OneNoteIcon.#ctor">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.PdfIcon">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.PdfIcon.#ctor">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.ImageIcon">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.ImageIcon.#ctor">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.PowerBiIcon">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.PowerBiIcon.#ctor">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.WordIcon">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.WordIcon.#ctor">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.MusicIcon">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.MusicIcon.#ctor">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size48.VideoIcon">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size48.VideoIcon.#ctor">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72">
+            <summary>
+            Represents the icon on a square of 72x72 pixels.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.ProgramIcon">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.ProgramIcon.#ctor">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.JsonIcon">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.JsonIcon.#ctor">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.GiftIcon">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.GiftIcon.#ctor">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.MultiSelectionIcon">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.MultiSelectionIcon.#ctor">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.DefaultFileIcon">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.DefaultFileIcon.#ctor">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.PowerpointIcon">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.PowerpointIcon.#ctor">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.FolderIcon">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.FolderIcon.#ctor">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.ExcelIcon">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.ExcelIcon.#ctor">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.CSharpIcon">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.CSharpIcon.#ctor">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.CppIcon">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.CppIcon.#ctor">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.CIcon">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.CIcon.#ctor">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.OutlookIcon">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.OutlookIcon.#ctor">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.OneNoteIcon">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.OneNoteIcon.#ctor">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.PdfIcon">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.PdfIcon.#ctor">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.ImageIcon">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.ImageIcon.#ctor">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.PowerBiIcon">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.PowerBiIcon.#ctor">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.WordIcon">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.WordIcon.#ctor">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.MusicIcon">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.MusicIcon.#ctor">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size72.VideoIcon">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size72.VideoIcon.#ctor">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96">
+            <summary>
+            Represents the icon on a square of 96x96 pixels.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.ProgramIcon">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.ProgramIcon.#ctor">
+            <summary>
+            Represents a program icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.JsonIcon">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.JsonIcon.#ctor">
+            <summary>
+            Represents a json file icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.GiftIcon">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.GiftIcon.#ctor">
+            <summary>
+            Represents a gift icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.MultiSelectionIcon">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.MultiSelectionIcon.#ctor">
+            <summary>
+            Represents a multiselection icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.DefaultFileIcon">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.DefaultFileIcon.#ctor">
+            <summary>
+            Represents a default icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.PowerpointIcon">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.PowerpointIcon.#ctor">
+            <summary>
+            Represents a powerpoint icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.FolderIcon">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.FolderIcon.#ctor">
+            <summary>
+            Represents a folder icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.ExcelIcon">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.ExcelIcon.#ctor">
+            <summary>
+            Represents an excel icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.CSharpIcon">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.CSharpIcon.#ctor">
+            <summary>
+            Represents a csharp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.CppIcon">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.CppIcon.#ctor">
+            <summary>
+            Represents a cpp icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.CIcon">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.CIcon.#ctor">
+            <summary>
+            Represents a c icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.OutlookIcon">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.OutlookIcon.#ctor">
+            <summary>
+            Represents an outlook icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.OneNoteIcon">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.OneNoteIcon.#ctor">
+            <summary>
+            Represents an onenote icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.PdfIcon">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.PdfIcon.#ctor">
+            <summary>
+            Represents a pdf icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.ImageIcon">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.ImageIcon.#ctor">
+            <summary>
+            Represents an image icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.PowerBiIcon">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.PowerBiIcon.#ctor">
+            <summary>
+            Represents a powerbi icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.WordIcon">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.WordIcon.#ctor">
+            <summary>
+            Represents a word icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.MusicIcon">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.MusicIcon.#ctor">
+            <summary>
+            Represents a music icon.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileIcons.Size96.VideoIcon">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.Size96.VideoIcon.#ctor">
+            <summary>
+            Represents a video icon.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.Dispose">
+            <inheritdoc />
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.#ctor">
             <summary>
             Do not use it ! Use <see cref="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Home"/> property, or the static create methods.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryComparer`1.Compare(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.OnParametersSetAsync">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryTreeViewItemComparer">
@@ -367,6 +1848,84 @@
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryTreeViewItemComparer.Compare(Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem,Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem)">
             <inheritdoc />
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileMoverDialog`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileSortBy">
+            <summary>
+            Represents the way to sort the files.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileSortBy.Name">
+            <summary>
+            Sort the file by its name.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileSortBy.Extension">
+            <summary>
+            Sort the file by its extension.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileSortBy.Size">
+            <summary>
+            Sort the file by its size.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileSortBy.CreatedDate">
+            <summary>
+            Sort the file by its creation date.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileSortBy.ModifiedDate">
+            <summary>
+            Sort the file by its modification date.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileSortMode">
+            <summary>
+            Represents the sort mode of the files.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileSortMode.Ascending">
+            <summary>
+            The files are sorted in ascending order according to its key. 
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileSortMode.Descending">
+            <summary>
+            The files are sorted in descending order according to its key.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileZipper">
+            <summary>
+            Represents a file zipper.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileZipper.GetFileDataAsync(System.String)">
+            <summary>
+            Gets an array of <see cref="T:System.Byte"/> which represents the data of a file in an asynchronous way.
+            </summary>
+            <param name="path">The file to open to get the data.</param>
+            <returns>Returns a <see cref="T:System.Threading.Tasks.Task`1"/> which contains the array of byte of the file.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileZipper.ZipInternalAsync``1(System.String,System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{``0}})">
+            <summary>
+            Zip a collection of files.
+            </summary>
+            <typeparam name="TItem">Type of the image.</typeparam>
+            <param name="folder">Destination folder where we transfert the files.</param>
+            <param name="entries">Entries to zip.</param>
+            <returns>Returns a task which zip the entries.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileZipper.ZipAsync``1(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{``0}})">
+            <summary>
+            Zip the entries in an asynchronous way.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <param name="entries">Entries to zip.</param>
+            <returns>Returns a <see cref="T:System.Threading.Tasks.Task`1" /> which contains a <see cref="T:FluentUI.Blazor.Community.Components.FileManagerEntry`1"/>
+             which contains the zipped file.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnAfterRender(System.Boolean)">
             <inheritdoc />
         </member>
@@ -374,6 +1933,374 @@
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IDeletable">
+            <summary>
+            Represents an interface to allow a file to be deleted or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IDeletable.IsDeleteable">
+            <summary>
+            Gets a value indicating if the file can be deleted or not.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IDownloadable">
+            <summary>
+            Represents an interface to allow a file to be downloaded or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IDownloadable.IsDownloadAllowed">
+            <summary>
+            Gets a value indicating if the file can be downloaded or not.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IFileManagerItemsProvider`1">
+            <summary>
+            Represents the items provider of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IFileManagerItemsProvider`1.GetItemsAsync">
+            <summary>
+            Gets the items of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> in an asynchronous way.
+            </summary>
+            <returns>Returns a <see cref="T:System.Threading.Tasks.ValueTask`1"/> which contains the items.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IRenamable">
+            <summary>
+            Represents an interface to allow a file to be renamed or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IRenamable.IsRenamable">
+            <summary>
+            Gets a value indicating if the file can be renamed or not.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.NoFileEntryData">
+            <summary>
+            Represents an entry which no data.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.NoFileEntryData.IsDownloadAllowed">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.NoFileEntryData.IsRenamable">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.NoFileEntryData.IsDeleteable">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxImage">
+            <summary>
+            Represents an image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImage._isRendered">
+            <summary>
+            Represents a value indicating if the component is rendered on the screen.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImage._hasParameterChanged">
+            <summary>
+            Represents a value indicating if a parameter has changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Width">
+            <summary>
+            Gets or sets the width of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Height">
+            <summary>
+            Gets or sets the height of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Source">
+            <summary>
+            Gets or sets the source of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Alt">
+            <summary>
+            Gets or sets the alt property.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Parent">
+            <summary>
+            Gets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalStyle">
+            <summary>
+            Gets the internal style for the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalSpreadStyle">
+            <summary>
+            Gets the style when the group is set to spread mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalStackStyle">
+            <summary>
+            Gets the style when the group is set to stack mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalPopoverStyle">
+            <summary>
+            Gets the style when the component is inside a <see cref="T:Microsoft.FluentUI.AspNetCore.Components.FluentPopover" />
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalRenderer">
+            <summary>
+            Gets or sets the internal renderer for the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.SetGroupSize(System.Int32)">
+            <summary>
+            Sets the size of the image.
+            </summary>
+            <param name="size">Size of the image.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.OnAfterRender(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.OnParametersSet">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxImageGroup">
+            <summary>
+            Represents a group of images.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroup._children">
+            <summary>
+            Represents the images inside this component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroup._isPopoverOpen">
+            <summary>
+            Represents a value if the popover is opened.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxImageGroup"/> component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.ChildContent">
+            <summary>
+            Gets or sets the child content of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.MaxVisibleItems">
+            <summary>
+            Gets or sets the number of visible items in the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Size">
+            <summary>
+            Gets or sets the size of each image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Shape">
+            <summary>
+            Gets or sets the shape of each image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GroupType">
+            <summary>
+            Gets or sets the layout of the group.
+            </summary>
+            <remarks>
+            By default, the layout is set to <see cref="F:FluentUI.Blazor.Community.Components.ImageGroupLayout.Spread"/>.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.VisibleCount">
+            <summary>
+            Gets the number of visible items.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Add(FluentUI.Blazor.Community.Components.FluentCxImage)">
+            <summary>
+            Add an image into the group.
+            </summary>
+            <param name="image">Image to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Remove(FluentUI.Blazor.Community.Components.FluentCxImage)">
+            <summary>
+            Remove an image from the group.
+            </summary>
+            <param name="image"></param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetBorderRadius">
+            <summary>
+            Gets the border radius of the image from its shape.
+            </summary>
+            <returns>Returns the radius of the image from its shape.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetSpreadMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImage)">
+            <summary>
+            Gets the margin left for the spread layout.
+            </summary>
+            <param name="image">Image where the margin left will be set.</param>
+            <returns>Returns the margin left.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetStackMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImage)">
+            <summary>
+            Gets the margin left for the stack layout.
+            </summary>
+            <param name="image">Image where the margin left will be set.</param>
+            <returns>Returns the margin left.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.IsInPopover(FluentUI.Blazor.Community.Components.FluentCxImage)">
+            <summary>
+            Gets a value indicating if the current image is inside the popover.
+            </summary>
+            <param name="image">Image to check if it is inside a popover.</param>
+            <returns>Returns <see langword="true" /> if the image is inside a popover, <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetButtonStyle">
+            <summary>
+            Gets the style of the popover button.
+            </summary>
+            <returns>Returns the style of the button.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.OnItemParemetersChanged(FluentUI.Blazor.Community.Components.FluentCxImage)">
+            <summary>
+            Occurs when a parameter of a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxImage"/> changed.
+            </summary>
+            <param name="image">Image which the parameters have changed.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ImageGroupLayout">
+            <summary>
+            Represents the layout of the image group.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageGroupLayout.Spread">
+            <summary>
+            The images are represented in a spread way in the group.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageGroupLayout.Stack">
+            <summary>
+            The images are represented in an horizontal stack in the group.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ImageShape">
+            <summary>
+            Represents the shape of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageShape.Square">
+            <summary>
+            The image is square.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageShape.RoundSquare">
+            <summary>
+            The image is round square.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageShape.Circle">
+            <summary>
+            The image is circle.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ImageSize">
+            <summary>
+            Represents the sizes options for the image group.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size16">
+            <summary>
+            Uniform size : 16px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size20">
+            <summary>
+            Uniform size : 20px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size24">
+            <summary>
+            Uniform size : 24px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size28">
+            <summary>
+            Uniform size : 28px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size32">
+            <summary>
+            Uniform size : 32px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size36">
+            <summary>
+            Uniform size : 36px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size40">
+            <summary>
+            Uniform size : 40px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size48">
+            <summary>
+            Uniform size : 48px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size56">
+            <summary>
+            Uniform size : 56px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size64">
+            <summary>
+            Uniform size : 64px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size72">
+            <summary>
+            Uniform size : 72px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size96">
+            <summary>
+            Uniform size : 96px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size120">
+            <summary>
+            Uniform size : 120px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size128">
+            <summary>
+            Uniform size : 128px.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.DisposeAsync">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ResizerHandler">
@@ -405,6 +2332,217 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1">
+            <summary>
+            Represents a Tile Grid component.
+            </summary>
+            <typeparam name="TItem">Type of the component.</typeparam>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/> component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.GridSettings">
+            <summary>
+            Gets the settings for the tile grid.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1._dropContainer">
+            <summary>
+            Gets the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZoneContainer`1"/> component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.CanOverflow">
+            <summary>
+            Gets or sets a value indicating if the component can overflow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.Immediate">
+            <summary>
+            Gets or sets a value indicating if the drap and drop is immediate. 
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.CloneItem">
+            <summary>
+            Gets or sets a function to clone an item of the grid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.CanReorder">
+            <summary>
+            Gets or sets a value indicating if the component can reorder its item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.CanResize">
+            <summary>
+            Gets or sets a value indicating if the component can resize its item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.IsDragAllowed">
+            <summary>
+            Gets or sets a function which allows an item can be dragged or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.IsDropAllowed">
+            <summary>
+            Gets or sets a function which allows the item can be dropped or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.Items">
+            <summary>
+            Gets or sets the items to render.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.ChildContent">
+            <summary>
+            Gets or sets the child content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.ItemContent">
+            <summary>
+            Gets or sets the template for the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.ItemCss">
+            <summary>
+            Gets or sets the css for an item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.ColumnWidth">
+            <summary>
+            Gets or sets the width of the column.
+            </summary>
+            <remarks>Default width is 1fr.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.MinimumColumnWidth">
+            <summary>
+            Gets or sets the minimum width of the column.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.MinimumRowHeight">
+            <summary>
+            Gets or sets the minimum height of the row.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.Columns">
+            <summary>
+            Gets or sets the number of columns of the grid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.RowHeight">
+            <summary>
+            Gets or sets the height of the row.
+            </summary>
+            <remarks>
+            Default height is 1fr.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.Width">
+            <summary>
+            Gets or sets the width of the grid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.Height">
+            <summary>
+            Gets or sets the height of the grid.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1">
+            <summary>
+            Represents a Tile Grid item.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.Value">
+            <summary>
+            Gets or sets the value of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.ChildContent">
+            <summary>
+            Gets or sets the content of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.Component">
+            <summary>
+            Gets the render component. (when used inside other components) 
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.RowSpan">
+            <summary>
+            Gets or sets the row span of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.ColumnSpan">
+            <summary>
+            Gets or sets the column span of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.OnTapped">
+            <summary>
+            Event callback occurs when the component is tapped.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.OnDoubleTapped">
+            <summary>
+            Event callback occurs when the component is double tapped.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.Parent">
+            <summary>
+            Gets or sets the parent of the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ITileGridItemDropZoneComponent`1">
+            <summary>
+            Represents the interface for a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZone`1"/> which contains a
+             <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridItemDropZoneComponent`1.ColumnSpan">
+            <summary>
+            Gets the column span of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridItemDropZoneComponent`1.RowSpan">
+            <summary>
+            Gets the row span of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1"/>.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions">
+            <summary>
+            Represents extensions for <see cref="T:Microsoft.AspNetCore.Components.ParameterView"/> struct.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions.HasValueChanged``1(Microsoft.AspNetCore.Components.ParameterView,System.String,``0)">
+            <summary>
+            Gets a value indicating if the <paramref name="parameterName"/> has changed.
+            </summary>
+            <typeparam name="T">Type of the value.</typeparam>
+            <param name="parameterView">Collection of parameters to use.</param>
+            <param name="parameterName">Name of the parameter to check.</param>
+            <param name="value">Value of the parameter.</param>
+            <returns>Returns <see langword="true" /> the value of the parameter has changed, <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Extensions.ServiceCollectionExtensions">
+            <summary>
+            Represents the extensions for the <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Extensions.ServiceCollectionExtensions.AddFluentCxUIComponents(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add common services required by the FluentCx UI Web Components for Blazor library.
+            </summary>
+            <param name="services">Service collection.</param>
+            <returns>Returns the collection of services.</returns>
         </member>
     </members>
 </doc>
