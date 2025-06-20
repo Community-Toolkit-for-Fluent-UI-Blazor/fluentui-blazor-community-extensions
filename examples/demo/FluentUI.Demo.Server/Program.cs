@@ -11,7 +11,6 @@ builder.Services.AddRazorComponents()
 builder.Services.AddFluentUIComponents();
 builder.Services.AddFluentCxUIComponents();
 builder.Services.AddFluentUIDemoServerServices();
-builder.Services.AddAzureOpenAI();
 
 var app = builder.Build();
 
