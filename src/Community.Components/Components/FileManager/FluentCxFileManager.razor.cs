@@ -49,10 +49,10 @@ public partial class FluentCxFileManager<TItem>
     internal FileManagerState State { get; set; } = default!;
 
     [Inject]
-    private IJSRuntime JSRuntime { get; set; }
+    private IJSRuntime JSRuntime { get; set; } = default!;
 
     [Inject]
-    private IDialogService DialogService { get; set; }
+    private IDialogService DialogService { get; set; } = default!;
 
     [Parameter]
     public string? Width { get; set; }

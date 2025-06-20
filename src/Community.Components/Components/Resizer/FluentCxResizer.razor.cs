@@ -28,7 +28,7 @@ public partial class FluentCxResizer
     public EventCallback<ResizedEventArgs> OnResized { get; set; }
 
     [Inject]
-    private IJSRuntime JSRuntime { get; set; }
+    private IJSRuntime JSRuntime { get; set; } = default!;
 
     [Parameter]
     public LocalizationDirection LocalizationDirection { get; set; } = LocalizationDirection.LeftToRight;
