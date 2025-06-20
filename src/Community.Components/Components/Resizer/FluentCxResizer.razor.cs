@@ -1,9 +1,4 @@
-
-
-
-
 using FluentUI.Blazor.Community.Extensions;
-using FluentUI.Blazor.Community.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -20,9 +15,9 @@ public partial class FluentCxResizer
     private readonly DotNetObjectReference<FluentCxResizer> _dotNetReferenceResizer;
     private bool _resetInitialization;
 
-    public FluentCxResizer()
+    public FluentCxResizer() : base()
     {
-        Id = StringHelper.GenerateId();
+        Id = Identifier.NewId();
         _dotNetReferenceResizer = DotNetObjectReference.Create(this);
     }
 

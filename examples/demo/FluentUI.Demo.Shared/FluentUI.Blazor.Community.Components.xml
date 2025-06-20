@@ -406,37 +406,5 @@
             
             </summary>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Helpers.StringHelper">
-            <summary>
-            Represents helper for string.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Helpers.StringHelper.EncodedCharTable">
-            <summary>
-            Represents the characters that can be used to encode the object.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Helpers.StringHelper.EncodedCharTableCount">
-            <summary>
-            Represents the number of characters available for encoding.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Helpers.StringHelper._random">
-            <summary>
-            Represents the random generator.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Helpers.StringHelper.FirstTick">
-            <summary>
-            Represents the 1st tick from which to start the creation of the object.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Helpers.StringHelper.GenerateId(System.Int32)">
-            <summary>
-            Generates an identifier for a component.
-            </summary>
-            <param name="length">Length of the identifier.</param>
-            <returns>Returns the generated identifier.</returns>
-        </member>
     </members>
 </doc>
