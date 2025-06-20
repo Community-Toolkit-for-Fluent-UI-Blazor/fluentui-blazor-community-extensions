@@ -28,7 +28,7 @@ public partial class FluentCxResizer
     public EventCallback<ResizedEventArgs> OnResized { get; set; }
 
     [Inject]
-    public required IJSRuntime JSRuntime { get; set; }
+    private IJSRuntime JSRuntime { get; set; } = default!;
 
     [Parameter]
     public LocalizationDirection LocalizationDirection { get; set; } = LocalizationDirection.LeftToRight;
@@ -69,6 +69,7 @@ public partial class FluentCxResizer
         }
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -96,6 +97,7 @@ public partial class FluentCxResizer
         }
     }
 
+    /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         await base.SetParametersAsync(parameters);
@@ -106,6 +108,7 @@ public partial class FluentCxResizer
         }
     }
 
+    /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
         try

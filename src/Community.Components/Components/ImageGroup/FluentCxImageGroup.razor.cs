@@ -104,6 +104,7 @@ public partial class FluentCxImageGroup
         StateHasChanged();
     }
 
+    /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         await base.SetParametersAsync(parameters);
