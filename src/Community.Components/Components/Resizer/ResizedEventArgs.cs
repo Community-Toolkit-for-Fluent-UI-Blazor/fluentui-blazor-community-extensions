@@ -1,4 +1,4 @@
-using FluentUI.Blazor.Community.Geometry;
+using System.Drawing;
 
 namespace FluentUI.Blazor.Community.Components;
 
