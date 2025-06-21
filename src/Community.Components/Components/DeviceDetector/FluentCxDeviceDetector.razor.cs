@@ -37,7 +37,7 @@ public partial class FluentCxDeviceDetector
     /// Gets or sets the Javascript Runtime.
     /// </summary>
     [Inject]
-    private IJSRuntime JSRuntime { get; set; }
+    private IJSRuntime JSRuntime { get; set; } = default!;
 
     /// <summary>
     /// Gets the information of the running device.
