@@ -2696,7 +2696,7 @@
             Gets or sets the background style of each image.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GroupType">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GroupLayout">
             <summary>
             Gets or sets the layout of the group.
             </summary>
@@ -2720,12 +2720,6 @@
             Remove an image from the group.
             </summary>
             <param name="imageGroupItem"></param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetBorderRadius">
-            <summary>
-            Gets the border radius of the image from its shape.
-            </summary>
-            <returns>Returns the radius of the image from its shape.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetSpreadMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
@@ -2776,16 +2770,6 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._hasParameterChanged">
             <summary>
             Represents a value indicating if a parameter has changed.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Width">
-            <summary>
-            Gets or sets the width of the image.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Height">
-            <summary>
-            Gets or sets the height of the image.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Source">
@@ -2863,6 +2847,18 @@
             <summary>
             The image is circle.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ImageShapeExtensions">
+            <summary>
+            Extensions for the <see cref="T:FluentUI.Blazor.Community.Components.ImageShape"/> enum.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ImageShapeExtensions.ToBorderRadius(FluentUI.Blazor.Community.Components.ImageShape)">
+            <summary>
+            Converts the <see cref="T:FluentUI.Blazor.Community.Components.ImageShape"/> to a CSS class.
+            </summary>
+            <param name="shape">The image shape.</param>
+            <returns>The CSS class representing the image shape.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ImageSize">
             <summary>

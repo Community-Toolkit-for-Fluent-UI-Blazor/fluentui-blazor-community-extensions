@@ -40,7 +40,7 @@ public partial class FluentCxImageGroup
     /// Gets or sets the number of visible items in the group.
     /// </summary>
     [Parameter, EditorRequired]
-    public int MaxVisibleItems { get; set; } = 1;
+    public int MaxVisibleItems { get; set; } = 3;
 
     /// <summary>
     /// Gets or sets the size of each image.
@@ -52,7 +52,7 @@ public partial class FluentCxImageGroup
     /// Gets or sets the shape of each image.
     /// </summary>
     [Parameter]
-    public ImageShape Shape { get; set; } = ImageShape.RoundSquare;
+    public ImageShape Shape { get; set; } = ImageShape.Square;
 
     /// <summary>
     /// Gets or sets the border style of each image.
@@ -74,7 +74,7 @@ public partial class FluentCxImageGroup
     /// By default, the layout is set to <see cref="ImageGroupLayout.Spread"/>.
     /// </remarks>
     [Parameter]
-    public ImageGroupLayout GroupType { get; set; } = ImageGroupLayout.Spread;
+    public ImageGroupLayout GroupLayout { get; set; } = ImageGroupLayout.Spread;
 
     /// <summary>
     /// Gets the number of visible items.
@@ -98,21 +98,6 @@ public partial class FluentCxImageGroup
     internal void Remove(FluentCxImageGroupItem imageGroupItem)
     {
         _children.Remove(imageGroupItem);
-    }
-
-    /// <summary>
-    /// Gets the border radius of the image from its shape.
-    /// </summary>
-    /// <returns>Returns the radius of the image from its shape.</returns>
-    internal string GetBorderRadius()
-    {
-        return Shape switch
-        {
-            ImageShape.Square => "0px",
-            ImageShape.RoundSquare => "8px",
-            ImageShape.Circle => "100000px",
-            _ => throw new InvalidOperationException("Invalid image shape.")
-        };
     }
 
     /// <summary>
@@ -154,7 +139,7 @@ public partial class FluentCxImageGroup
         DefaultInterpolatedStringHandler handler = new();
         var size = (int)Size;
 
-        if (GroupType == ImageGroupLayout.Spread)
+        if (GroupLayout == ImageGroupLayout.Spread)
         {
             handler.AppendLiteral("margin-left: 16px;");
         }
@@ -166,7 +151,7 @@ public partial class FluentCxImageGroup
         }
 
         handler.AppendLiteral("border-radius: ");
-        handler.AppendFormatted(GetBorderRadius());
+        handler.AppendFormatted(Shape.ToBorderRadius());
         handler.AppendLiteral(";");
 
         handler.AppendLiteral("width: ");

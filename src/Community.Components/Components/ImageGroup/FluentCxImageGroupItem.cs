@@ -21,17 +21,9 @@ public class FluentCxImageGroupItem
     /// </summary>
     private bool _hasParameterChanged;
 
-    /// <summary>
-    /// Gets or sets the width of the image.
-    /// </summary>
-    [Parameter]
-    public int? Width { get; set; }
+    private int? _width;
 
-    /// <summary>
-    /// Gets or sets the height of the image.
-    /// </summary>
-    [Parameter]
-    public int? Height { get; set; }
+    private int? _height;
 
     /// <summary>
     /// Gets or sets the source of the image.
@@ -52,10 +44,10 @@ public class FluentCxImageGroupItem
     private FluentCxImageGroup Parent { get; set; } = default!;
 
     private string? InternalStyle => new StyleBuilder(Style)
-        .AddStyle("width", $"{Width}px", Width.HasValue)
-        .AddStyle("height", $"{Height}px", Height.HasValue)
+        .AddStyle("width", $"{_width}px", _width is not null)
+        .AddStyle("height", $"{_height}px", _height is not null)
         .AddStyle("margin-left", GetMarginLeft())
-        .AddStyle("border-radius", $"{Parent.GetBorderRadius()}")
+        .AddStyle("border-radius", $"{Parent.Shape.ToBorderRadius()}")
         .AddStyle("background-color", Parent.BackgroundStyle, !string.IsNullOrEmpty(Parent.BackgroundStyle) && string.IsNullOrWhiteSpace(Style))
         .AddStyle("border", Parent.BorderStyle, !string.IsNullOrEmpty(Parent.BorderStyle) && string.IsNullOrWhiteSpace(Style))
         .AddStyle("display", "inline-flex")
@@ -63,9 +55,10 @@ public class FluentCxImageGroupItem
         .Build();
 
     private string GetMarginLeft() =>
-        Parent?.GroupType == ImageGroupLayout.Spread
+        Parent?.GroupLayout == ImageGroupLayout.Spread
             ? $"{Parent.GetSpreadMarginLeft(this)}px"
             : $"{Parent?.GetStackMarginLeft(this)}px";
+
     /// <summary>
     /// Gets or sets the internal renderer for the component.
     /// </summary>
@@ -86,8 +79,8 @@ public class FluentCxImageGroupItem
     /// <param name="size">Size of the image.</param>
     internal void SetGroupSize(int size)
     {
-        Width = size;
-        Height = size;
+        _width = size;
+        _height = size;
         Parent.OnItemParemetersChanged(this);
     }
 
@@ -137,9 +130,7 @@ public class FluentCxImageGroupItem
     /// <inheritdoc />
     public override Task SetParametersAsync(ParameterView parameters)
     {
-        _hasParameterChanged = parameters.HasValueChanged(nameof(Width), Width) ||
-                               parameters.HasValueChanged(nameof(Height), Height) ||
-                               parameters.HasValueChanged(nameof(Source), Source) ||
+        _hasParameterChanged = parameters.HasValueChanged(nameof(Source), Source) ||
                                parameters.HasValueChanged(nameof(Class), Class) ||
                                parameters.HasValueChanged(nameof(Alt), Alt);
 
