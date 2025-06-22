@@ -1,7 +1,3 @@
-
-
-
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
@@ -186,6 +182,7 @@ public partial class FluentCxDropZone<TItem>
         await InvokeAsync(DropZoneContainer.Refresh);
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -196,6 +193,7 @@ public partial class FluentCxDropZone<TItem>
         }
     }
 
+    /// <inheritdoc />
     public void Dispose()
     {
         if (AddInContainer)

@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using FluentUI.Blazor.Community.Components.FileManager;
 using FluentUI.Blazor.Community.Extensions;
-using FluentUI.Blazor.Community.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -40,9 +39,9 @@ public partial class FluentCxFileManager<TItem>
     private const string JavascriptFilename = "./_content/FluentUI.Blazor.Community.Components/Components/FileManager/FluentCxFileManager.razor.js";
     private readonly FileExtensionContentTypeProvider _contentTypeProvider = new();
 
-    public FluentCxFileManager()
+    public FluentCxFileManager() : base()
     {
-        Id = StringHelper.GenerateId(15);
+        Id = Identifier.NewId();
         _flattenEntry = FileManagerEntry<TItem>.Home;
     }
 
@@ -50,10 +49,10 @@ public partial class FluentCxFileManager<TItem>
     internal FileManagerState State { get; set; } = default!;
 
     [Inject]
-    public required IJSRuntime JSRuntime { get; set; }
+    private IJSRuntime JSRuntime { get; set; } = default!;
 
     [Inject]
-    public required IDialogService DialogService { get; set; }
+    private IDialogService DialogService { get; set; } = default!;
 
     [Parameter]
     public string? Width { get; set; }

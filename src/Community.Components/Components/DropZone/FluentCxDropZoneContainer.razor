@@ -76,7 +76,7 @@
                               ItemCss="@(ItemCss?.Invoke(value))"
                               ForceRender=@(ChildContent is not null)
                               AddInContainer=false
-                              Id="@StringHelper.GenerateId()"
+                              Id="@Identifier.NewId()"
                               IsDragAllowed=@(IsItemDraggable(value))
                               IsItemDropAllowed=@((IsDropAllowed?.Invoke(value, State!.ActiveItem)) ?? true)
                               Value="@value"

@@ -1,7 +1,3 @@
-
-
-
-
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 
@@ -111,6 +107,7 @@ public partial class FileManager<TItem>
         }
     }
 
+    /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         await base.SetParametersAsync(parameters);
@@ -128,6 +125,7 @@ public partial class FileManager<TItem>
         _isBusy = isBusy;
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -136,6 +134,7 @@ public partial class FileManager<TItem>
         State.OnViewUpdated += OnViewUpdated;
     }
 
+    /// <inheritdoc />
     public void Dispose()
     {
         State.OnSortUpdated -= OnUpdated;

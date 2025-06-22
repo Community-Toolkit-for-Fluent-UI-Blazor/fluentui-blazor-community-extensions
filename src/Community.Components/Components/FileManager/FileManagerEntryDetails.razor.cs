@@ -55,6 +55,7 @@ public partial class FileManagerEntryDetails<TItem> where TItem : class, new()
         return $"data:{contentType};base64,{Convert.ToBase64String(data)}";
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -62,6 +63,7 @@ public partial class FileManagerEntryDetails<TItem> where TItem : class, new()
         _fileExtensionTypeProvider = new(FileExtensionTypeLabels);
     }
 
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         _entryDataContent = [];

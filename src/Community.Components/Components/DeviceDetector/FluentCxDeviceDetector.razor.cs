@@ -22,7 +22,7 @@ public partial class FluentCxDeviceDetector
     /// </summary>
     private const string JavascriptFileName = "./_content/FluentUI.Blazor.Community.Components/Components/DeviceDetector/FluentCxDeviceDetector.razor.js";
 
-    public FluentCxDeviceDetector()
+    public FluentCxDeviceDetector() : base()
     {
         _deviceDetectorReference = DotNetObjectReference.Create(this);
     }
@@ -37,7 +37,7 @@ public partial class FluentCxDeviceDetector
     /// Gets or sets the Javascript Runtime.
     /// </summary>
     [Inject]
-    public required IJSRuntime JSRuntime { get; set; }
+    private IJSRuntime JSRuntime { get; set; } = default!;
 
     /// <summary>
     /// Gets the information of the running device.

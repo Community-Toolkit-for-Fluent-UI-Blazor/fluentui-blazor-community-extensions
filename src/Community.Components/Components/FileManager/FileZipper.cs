@@ -2,8 +2,16 @@ using System.IO.Compression;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Represents a file zipper.
+/// </summary>
 internal static class FileZipper
 {
+    /// <summary>
+    /// Gets an array of <see cref="byte"/> which represents the data of a file in an asynchronous way.
+    /// </summary>
+    /// <param name="path">The file to open to get the data.</param>
+    /// <returns>Returns a <see cref="Task{TResult}"/> which contains the array of byte of the file.</returns>
     private static async Task<byte[]> GetFileDataAsync(string path)
     {
         if (File.Exists(path))
@@ -17,6 +25,13 @@ internal static class FileZipper
         return [];
     }
 
+    /// <summary>
+    /// Zip a collection of files.
+    /// </summary>
+    /// <typeparam name="TItem">Type of the image.</typeparam>
+    /// <param name="folder">Destination folder where we transfert the files.</param>
+    /// <param name="entries">Entries to zip.</param>
+    /// <returns>Returns a task which zip the entries.</returns>
     private static async Task ZipInternalAsync<TItem>(string folder, IEnumerable<FileManagerEntry<TItem>> entries) where TItem : class, new()
     {
         static void CreateDirectoryIfNotExists(string folder)
@@ -33,7 +48,7 @@ internal static class FileZipper
         {
             if (entry.IsDirectory)
             {
-                string currentFolder = $"{folder}\\{entry.Name}";
+                var currentFolder = $"{folder}\\{entry.Name}";
                 CreateDirectoryIfNotExists(currentFolder);
 
                 foreach (var directoryEntry in entry.GetDirectories())
@@ -43,18 +58,25 @@ internal static class FileZipper
 
                 foreach (var item in entry.GetFiles())
                 {
-                    byte[] data = await item.GetBytesAsync();
+                    var data = await item.GetBytesAsync();
                     await File.WriteAllBytesAsync($"{currentFolder}\\{item.Name}", data);
                 }
             }
             else
             {
-                byte[] data = await entry.GetBytesAsync();
+                var data = await entry.GetBytesAsync();
                 await File.WriteAllBytesAsync($"{folder}\\{entry.Name}", data);
             }
         }
     }
 
+    /// <summary>
+    /// Zip the entries in an asynchronous way.
+    /// </summary>
+    /// <typeparam name="TItem">Type of the item.</typeparam>
+    /// <param name="entries">Entries to zip.</param>
+    /// <returns>Returns a <see cref="Task{TResult}" /> which contains a <see cref="FileManagerEntry{TItem}"/>
+    ///  which contains the zipped file.</returns>
     public static async Task<FileManagerEntry<TItem>?> ZipAsync<TItem>(
         IEnumerable<FileManagerEntry<TItem>> entries) where TItem : class, new()
     {
@@ -86,7 +108,4 @@ internal static class FileZipper
 
         return null;
     }
-
-
 }
-
