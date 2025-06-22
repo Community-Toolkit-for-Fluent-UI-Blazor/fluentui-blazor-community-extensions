@@ -49,40 +49,30 @@ public partial class FluentCxImage
     /// Gets the parent of the component.
     /// </summary>
     [CascadingParameter]
-    private FluentCxImageGroup Parent { get; set; } = default!;
+    private FluentCxImageGroup? Parent { get; set; }
 
-    /// <summary>
-    /// Gets the internal style for the component.
-    /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("width", $"{Width}px", Width.HasValue)
         .AddStyle("height", $"{Height}px", Height.HasValue)
+        .AddStyle("margin-left", GetMarginLeft(), Parent is not null)
+        .AddStyle("border-radius", $"{Parent?.GetBorderRadius()}", Parent is not null)
+        .AddStyle("display", "inline-flex", Parent is not null)
+        .AddStyle("flex-shrink", "0", Parent is not null)
         .Build();
 
-    /// <summary>
-    /// Gets the style when the group is set to spread mode.
-    /// </summary>
-    private string InternalSpreadStyle => $"margin-left: {Parent.GetSpreadMarginLeft(this)}px; border-radius: {Parent.GetBorderRadius()}; background-color: var(--accent-fill-rest); border-color: var(--neutral-foreground-focus); border-width: 2px; border-style: solid; align-items: center; display: inline-flex; flex-shrink: 0; width: {Width}px; height: {Height}px;";
-
-    /// <summary>
-    /// Gets the style when the group is set to stack mode.
-    /// </summary>
-    private string InternalStackStyle => $"margin-left: {Parent.GetStackMarginLeft(this)}px; border-radius: {Parent.GetBorderRadius()}; background-color: var(--accent-fill-rest); border-color: var(--neutral-foreground-focus); border-width: 2px; border-style: solid; align-items: center; display: inline-flex; flex-shrink: 0; width: {Width}px; height: {Height}px;";
-
-    /// <summary>
-    /// Gets the style when the component is inside a <see cref="FluentPopover" />
-    /// </summary>
-    private string InternalPopoverStyle => $"border-radius: {Parent.GetBorderRadius()}; background-color: var(--accent-fill-rest); border-color: var(--neutral-foreground-focus); border-width: 2px; border-style: solid; align-items: center; display: inline-flex; flex-shrink: 0; width: {Width}px; height: {Height}px;";
-
+    private string GetMarginLeft() =>
+        Parent?.GroupType == ImageGroupLayout.Spread
+            ? $"{Parent.GetSpreadMarginLeft(this)}px"
+            : $"{Parent?.GetStackMarginLeft(this)}px";
     /// <summary>
     /// Gets or sets the internal renderer for the component.
     /// </summary>
-    internal RenderFragment InternalRenderer { get; set; }
+    internal RenderFragment InternalRenderer { get; set; } = default!;
 
     /// <inheritdoc />
     public ValueTask DisposeAsync()
     {
-        Parent.Remove(this);
+        Parent?.Remove(this);
         GC.SuppressFinalize(this);
 
         return ValueTask.CompletedTask;
@@ -96,14 +86,21 @@ public partial class FluentCxImage
     {
         Width = size;
         Height = size;
-        Parent.OnItemParemetersChanged(this);
+        Parent?.OnItemParemetersChanged(this);
     }
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Parent.Add(this);
+        InternalRenderer = builder =>
+        {
+            builder.OpenElement(0, "img");
+            builder.AddAttribute(1, "src", Source);
+            builder.AddAttribute(2, "alt", Alt);
+            builder.AddAttribute(3, "style", InternalStyle);
+            builder.CloseElement();
+        };
     }
 
     /// <inheritdoc />
@@ -113,6 +110,7 @@ public partial class FluentCxImage
 
         if (firstRender)
         {
+            Parent?.Add(this);
             _isRendered = true;
         }
     }

@@ -39,8 +39,8 @@ public partial class FluentCxImageGroup
     /// <summary>
     /// Gets or sets the number of visible items in the group.
     /// </summary>
-    [Parameter]
-    public int MaxVisibleItems { get; set; }
+    [Parameter, EditorRequired]
+    public int MaxVisibleItems { get; set; } = 1;
 
     /// <summary>
     /// Gets or sets the size of each image.
@@ -97,7 +97,8 @@ public partial class FluentCxImageGroup
         {
             ImageShape.Square => "0px",
             ImageShape.RoundSquare => "8px",
-            _ => "10000px"
+            ImageShape.Circle => "100000px",
+            _ => throw new InvalidOperationException("Invalid image shape.")
         };
     }
 
