@@ -982,75 +982,6 @@
         <member name="M:FluentUI.Blazor.Community.Components.OperatingSystemConverter.Write(System.Text.Json.Utf8JsonWriter,FluentUI.Blazor.Community.Components.OperatingSystem,System.Text.Json.JsonSerializerOptions)">
             <inheritdoc />
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.ForceRender">
-            <summary>
-            Gets or sets a value indicating wether the component will render. 
-            </summary>
-            <remarks>
-            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZone`1"/>.
-            You mustn't use it.
-            </remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.AddInContainer">
-            <summary>
-            Gets or sets a value indicating wether the component will be inserted into the container. 
-            </summary>
-            <remarks>
-            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZone`1"/>.
-            You mustn't use it.
-            </remarks>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.IGridSettings">
-            <summary>
-            Represents a settings for a grid.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Display">
-            <summary>
-            Gets the display for the drop zone.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Width">
-            <summary>
-            Gets the width of the grid.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Height">
-            <summary>
-            Gets the height of the grid.
-            </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.ITileGridSettings">
-            <summary>
-            Represents the settings for a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.ColumnWidth">
-            <summary>
-            Gets the width of the column.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.MinimumColumnWidth">
-            <summary>
-            Gets the minimum width of the column.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Columns">
-            <summary>
-            Gets the number of columns.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.RowHeight">
-            <summary>
-            Gets the height of the row.
-            </summary>
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileIcons">
             <summary>
             Represents the icons used by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
@@ -2935,6 +2866,58 @@
             Uniform size : 128px.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.ForceRender">
+            <summary>
+            Gets or sets a value indicating wether the component will render. 
+            </summary>
+            <remarks>
+            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1"/>.
+            You mustn't use it.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.AddInContainer">
+            <summary>
+            Gets or sets a value indicating wether the component will be inserted into the container. 
+            </summary>
+            <remarks>
+            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1"/>.
+            You mustn't use it.
+            </remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ITileGridSettings">
+            <summary>
+            Represents the settings for a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.ColumnWidth">
+            <summary>
+            Gets the width of the column.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.MinimumColumnWidth">
+            <summary>
+            Gets the minimum width of the column.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Columns">
+            <summary>
+            Gets the number of columns.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.RowHeight">
+            <summary>
+            Gets the height of the row.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
@@ -2992,7 +2975,7 @@
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1._dropContainer">
             <summary>
-            Gets the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZoneContainer`1"/> component.
+            Gets the <see cref="T:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZoneContainer`1"/> component.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.CanOverflow">
@@ -3089,6 +3072,9 @@
             Gets or sets the height of the grid.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1">
             <summary>
             Represents a Tile Grid item.
@@ -3143,7 +3129,7 @@
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ITileGridItemDropZoneComponent`1">
             <summary>
-            Represents the interface for a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZone`1"/> which contains a
+            Represents the interface for a <see cref="!:FluentCxDropZone&lt;TItem&gt;"/> which contains a
              <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
             </summary>
             <typeparam name="TItem">Type of the item.</typeparam>

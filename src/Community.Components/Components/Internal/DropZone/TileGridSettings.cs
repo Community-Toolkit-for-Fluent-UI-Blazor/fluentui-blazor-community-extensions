@@ -1,8 +1,7 @@
 using System.Runtime.CompilerServices;
-using Microsoft.FluentUI.AspNetCore.Components.Extensions;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
-namespace FluentUI.Blazor.Community.Components;
+namespace FluentUI.Blazor.Community.Components.Internal;
 
 internal class TileGridSettings
     : ITileGridSettings
@@ -14,8 +13,6 @@ internal class TileGridSettings
     public int? Columns { get; set; }
 
     public string RowHeight { get; set; } = "1fr";
-
-    public DropZoneDisplay Display { get; } = DropZoneDisplay.Grid;
 
     public string? Width { get; set; } = "100%";
 
@@ -83,7 +80,7 @@ internal class TileGridSettings
     public override string? ToString()
     {
         return new StyleBuilder()
-            .AddStyle("display", Display.ToAttributeValue())
+            .AddStyle("display", "grid")
             .AddStyle("grid-template-columns", GetColumns())
             .AddStyle("grid-auto-rows", GetRows())
             .AddStyle("width", Width, !string.IsNullOrEmpty(Width))

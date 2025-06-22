@@ -22,6 +22,7 @@
                              SpanGridId="@Parent?.Id"
                              OnTapped="@OnTapped"
                              OnDoubleTapped="@OnDoubleTapped"
+                             OnResized="@OnResized"
                              IsResizeEnabled=@(Parent?.CanResize ?? false)>
                 <div style="width: 100%; height: 100%;">
                     @ChildContent

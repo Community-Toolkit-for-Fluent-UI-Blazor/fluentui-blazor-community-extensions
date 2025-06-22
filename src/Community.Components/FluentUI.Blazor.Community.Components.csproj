@@ -37,11 +37,16 @@
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
     <PackageReference Include="Plotly.Blazor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="InternalComponents\" />
   </ItemGroup>
 
   <PropertyGroup>
