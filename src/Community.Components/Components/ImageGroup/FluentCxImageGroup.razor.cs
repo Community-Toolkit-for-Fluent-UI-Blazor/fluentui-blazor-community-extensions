@@ -39,7 +39,7 @@ public partial class FluentCxImageGroup
     /// <summary>
     /// Gets or sets the number of visible items in the group.
     /// </summary>
-    [Parameter, EditorRequired]
+    [Parameter]
     public int MaxVisibleItems { get; set; } = 3;
 
     /// <summary>
