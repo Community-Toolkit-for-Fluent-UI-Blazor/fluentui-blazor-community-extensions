@@ -117,7 +117,7 @@ jobs:
               $failedTests = "✅ All tests passed successfully"
           }
 
-          $failedTests += "`n`n Details on [your Workflow / Core Tests](/microsoft/fluentui-blazor/actions/workflows/build-core-lib.yml) page."
+          $failedTests += "`n`n Details on [your Workflow / Core Tests](/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/actions/workflows/build-core-lib.yml) page."
 
           Write-Host "$failedTests"
           Set-Content -Path ./TestResults/ExtractedTests.md -Value $failedTests
@@ -138,7 +138,6 @@ jobs:
           reports: '**/coverage.cobertura.xml;**/coverage.net8.0.cobertura.xml;**/coverage.net9.0.cobertura.xml'
           targetdir: 'CoverageReports'
           title: 'Unit Tests Code Coverage'
-          classfilters: '-Microsoft.FluentUI.AspNetCore.Components.DesignTokens.*'
           reporttypes: 'HtmlInline;MarkdownSummaryGithub'
 
       - name: Upload coverage report
