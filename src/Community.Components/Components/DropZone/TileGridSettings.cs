@@ -15,8 +15,6 @@ internal class TileGridSettings
 
     public string RowHeight { get; set; } = "1fr";
 
-    public DropZoneDisplay Display { get; } = DropZoneDisplay.Grid;
-
     public string? Width { get; set; } = "100%";
 
     public string? Height { get; set; } = "100%";
@@ -83,7 +81,7 @@ internal class TileGridSettings
     public override string? ToString()
     {
         return new StyleBuilder()
-            .AddStyle("display", Display.ToAttributeValue())
+            .AddStyle("display", "grid")
             .AddStyle("grid-template-columns", GetColumns())
             .AddStyle("grid-auto-rows", GetRows())
             .AddStyle("width", Width, !string.IsNullOrEmpty(Width))

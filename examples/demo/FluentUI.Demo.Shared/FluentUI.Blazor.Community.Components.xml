@@ -667,25 +667,8 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.Dispose">
             <inheritdoc />
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.IGridSettings">
-            <summary>
-            Represents a settings for a grid.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Display">
-            <summary>
-            Gets the display for the drop zone.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Width">
-            <summary>
-            Gets the width of the grid.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Height">
-            <summary>
-            Gets the height of the grid.
-            </summary>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ITileGridSettings">
             <summary>
@@ -2762,6 +2745,9 @@
             <summary>
             Gets or sets the height of the grid.
             </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1">
             <summary>
