@@ -1,34 +1,42 @@
-﻿<h3>Default</h3>
-
-<div style="height: 400px">
+﻿<div style="height: 400px">
     <FluentStack Orientation="Orientation.Vertical" VerticalGap="30">
-        <FluentStack>
-            <FluentStack Orientation="Orientation.Vertical">
-                <FluentSelect Items="@(Enum.GetValues<ImageGroupLayout>())"
-                              Label="Layout"
-                              AriaLabel="Layout"
-                              @bind-SelectedOption=_imageLayout />
-            </FluentStack>
-            <FluentStack Orientation="Orientation.Vertical">
-                <FluentSelect Items="@(Enum.GetValues<ImageSize>())"
-                              Label="Size of the image"
-                              AriaLabel="Size of the image"
-                              @bind-SelectedOption=_imageSize />
-            </FluentStack>
-            <FluentStack Orientation="Orientation.Vertical">
-                <FluentSelect Items="@(Enum.GetValues<ImageShape>())"
-                              Label="Shape of the image"
-                              AriaLabel="Shape of the image"
-                              @bind-SelectedOption=_imageShape />
-            </FluentStack>
-            <FluentStack Orientation="Orientation.Vertical">
-                <FluentNumberField Min="1"
-                                   Max="8"
-                                   @bind-Value=_maxItemVisible
-                                   Label="Maximum items visible"
-                                   AriaLabel="Maximum items visible" />
-            </FluentStack>
-        </FluentStack>
+        <FluentGrid>
+
+            <FluentGridItem>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentSelect Items="@(Enum.GetValues<ImageGroupLayout>())"
+                                  Label="Layout"
+                                  AriaLabel="Layout"
+                                  @bind-SelectedOption="_imageLayout"/>
+                </FluentStack>
+            </FluentGridItem>
+
+            <FluentGridItem>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentSelect Items="@(Enum.GetValues<ImageSize>())"
+                                  Label="Size of the image"
+                                  AriaLabel="Size of the image"
+                                  @bind-SelectedOption="_imageSize"/>
+                </FluentStack>
+            </FluentGridItem>
+            <FluentGridItem>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentSelect Items="@(Enum.GetValues<ImageShape>())"
+                                  Label="Shape of the image"
+                                  AriaLabel="Shape of the image"
+                                  @bind-SelectedOption="_imageShape"/>
+                </FluentStack>
+            </FluentGridItem>
+            <FluentGridItem>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentNumberField Min="1"
+                                       Max="8"
+                                       @bind-Value="_maxItemVisible"
+                                       Label="Maximum items visible"
+                                       AriaLabel="Maximum items visible"/>
+                </FluentStack>
+            </FluentGridItem>
+        </FluentGrid>
 
         <FluentCxImageGroup Size="@_imageSize"
                             Shape="@_imageShape"
