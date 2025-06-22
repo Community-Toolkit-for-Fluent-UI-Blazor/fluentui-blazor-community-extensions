@@ -72,4 +72,11 @@ public partial class FluentCxTileGridItem<TItem>
         base.OnInitialized();
         Parent?._dropContainer?.Add(this);
     }
+
+    private void OnResized(ResizedEventArgs e)
+    {
+        ColumnSpan = e.ColumnSpan;
+        RowSpan = e.RowSpan;
+        StateHasChanged();
+    }
 }

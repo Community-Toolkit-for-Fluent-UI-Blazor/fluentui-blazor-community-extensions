@@ -27,7 +27,9 @@ export function initialize(id, dotNetHelper, tileGridId) {
     child: child,
     resizers: resizers,
     tileGrid: tileGrid,
-    dropZone: dropZone
+    dropZone: dropZone,
+    columnSpan: 0,
+    rowSpan: 0
   };
 
   _resizerComponents.push(instance);
@@ -99,6 +101,7 @@ function beginResize(id, current, e) {
 
     instance.dropZone.style.gridColumnEnd = "span " + newSpan;
     instance.element.style.width = width == '-' ? "100%" : width + "px";
+    instance.columnSpan = newSpan;
   }
 
   function resizeVertically(height, gridRowHeight, maxHeight) {
@@ -115,6 +118,7 @@ function beginResize(id, current, e) {
 
     instance.dropZone.style.gridRowEnd = "span " + newSpan;
     instance.element.style.height = height == '-' ? "100%" : height + "px";
+    instance.rowSpan = newSpan;
   }
 
   function resize(e) {
@@ -206,7 +210,9 @@ function beginResize(id, current, e) {
       newSize: {
         width: instance.newWidth,
         height: instance.newHeight
-      }
+      },
+      rowSpan: instance.rowSpan,
+      columnSpan: instance.columnSpan
     }
 
     instance.dotNetHelper.invokeMethodAsync('Resized', value);

@@ -11,4 +11,8 @@ public record ResizedEventArgs
     public SizeF OriginalSize { get; set; }
 
     public SizeF NewSize { get; set; }
+
+    public int ColumnSpan { get; set; }
+
+    public int RowSpan { get; set; }
 }

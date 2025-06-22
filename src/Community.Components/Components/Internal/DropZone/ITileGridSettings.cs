@@ -4,7 +4,6 @@ namespace FluentUI.Blazor.Community.Components;
 /// Represents the settings for a <see cref="FluentCxTileGrid{TItem}"/>.
 /// </summary>
 public interface ITileGridSettings
-    : IGridSettings
 {
     /// <summary>
     /// Gets the width of the column.
@@ -25,4 +24,14 @@ public interface ITileGridSettings
     /// Gets the height of the row.
     /// </summary>
     string RowHeight { get; }
+
+    /// <summary>
+    /// Gets the width of the tile grid.
+    /// </summary>
+    string? Width { get; }
+
+    /// <summary>
+    /// Gets the height of the tile grid.
+    /// </summary>
+    string? Height { get; }
 }

@@ -20,6 +20,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\Internal\DropZone\FluentCxDropZone.razor.cs" />
+    <Compile Remove="Components\Internal\DropZone\FluentCxDropZoneContainer.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Components\Internal\DropZone\FluentCxDropZone.razor" />
+    <Content Remove="Components\Internal\DropZone\FluentCxDropZoneContainer.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Components\Internal\DropZone\FluentCxDropZone.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\FluentCxDropZoneContainer.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
@@ -31,11 +49,16 @@
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
     <PackageReference Include="Plotly.Blazor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="InternalComponents\" />
   </ItemGroup>
 
   <PropertyGroup>
