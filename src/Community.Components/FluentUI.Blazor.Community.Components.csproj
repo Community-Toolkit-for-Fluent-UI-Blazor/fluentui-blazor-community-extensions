@@ -20,17 +20,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Components\DropZone\FluentCxDropZone.razor.cs" />
-    <Compile Remove="Components\DropZone\FluentCxDropZoneContainer.razor.cs" />
+    <Compile Remove="Components\Internal\DropZone\FluentCxDropZone.razor.cs" />
+    <Compile Remove="Components\Internal\DropZone\FluentCxDropZoneContainer.razor.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Components\DropZone\FluentCxDropZone.razor" />
-    <Content Remove="Components\DropZone\FluentCxDropZoneContainer.razor" />
+    <Content Remove="Components\Internal\DropZone\FluentCxDropZone.razor" />
+    <Content Remove="Components\Internal\DropZone\FluentCxDropZoneContainer.razor" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Components\DropZone\FluentCxDropZone.razor.css" />
+    <None Remove="Components\Internal\DropZone\FluentCxDropZone.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +55,10 @@
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
     <PackageReference Include="Plotly.Blazor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="InternalComponents\" />
   </ItemGroup>
 
   <PropertyGroup>

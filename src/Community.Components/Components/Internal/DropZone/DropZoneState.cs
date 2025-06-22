@@ -1,6 +1,6 @@
-namespace FluentUI.Blazor.Community.Components;
+namespace FluentUI.Blazor.Community.Components.Internal;
 
-public class DropZoneState<TItem>
+internal sealed class DropZoneState<TItem>
 {
     public TItem? ActiveItem { get; internal set; }
 

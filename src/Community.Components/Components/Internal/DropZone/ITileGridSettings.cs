@@ -25,7 +25,13 @@ public interface ITileGridSettings
     /// </summary>
     string RowHeight { get; }
 
+    /// <summary>
+    /// Gets the width of the tile grid.
+    /// </summary>
     string? Width { get; }
 
+    /// <summary>
+    /// Gets the height of the tile grid.
+    /// </summary>
     string? Height { get; }
 }

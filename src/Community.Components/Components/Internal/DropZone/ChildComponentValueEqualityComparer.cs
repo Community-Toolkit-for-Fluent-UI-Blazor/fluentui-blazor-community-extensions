@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.FluentUI.AspNetCore.Components;
 
-namespace FluentUI.Blazor.Community.Components;
+namespace FluentUI.Blazor.Community.Components.Internal;
 
 internal sealed class ChildComponentValueEqualityComparer<TItem>
     : IEqualityComparer<FluentComponentBase>
