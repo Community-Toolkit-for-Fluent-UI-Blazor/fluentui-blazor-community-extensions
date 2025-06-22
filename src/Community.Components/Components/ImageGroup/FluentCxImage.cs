@@ -1,4 +1,4 @@
-using FluentUI.Blazor.Community.Extensions;
+﻿using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
@@ -8,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents an image.
 /// </summary>
-public partial class FluentCxImage
+public class FluentCxImage
     : FluentComponentBase, IAsyncDisposable
 {
     /// <summary>
