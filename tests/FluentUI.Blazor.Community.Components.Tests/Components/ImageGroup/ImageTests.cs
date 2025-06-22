@@ -17,7 +17,7 @@ public class ImageTests : TestBase
     public void FluentCxImage_NoParent_Throws()
     {
         // Arrange
-        Assert.Throws<NullReferenceException>(() => RenderComponent<FluentCxImage>());
+        Assert.Throws<NullReferenceException>(() => RenderComponent<FluentCxImageGroupItem>());
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class ImageTests : TestBase
             .Add(p => p.MaxVisibleItems, 1)
             .AddChildContent(builder =>
             {
-                builder.OpenComponent<FluentCxImage>(0);
+                builder.OpenComponent<FluentCxImageGroupItem>(0);
                 builder.CloseComponent();
             })
         );

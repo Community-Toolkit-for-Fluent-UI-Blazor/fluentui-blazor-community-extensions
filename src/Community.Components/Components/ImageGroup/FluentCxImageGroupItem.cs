@@ -8,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents an image.
 /// </summary>
-public class FluentCxImage
+public class FluentCxImageGroupItem
     : FluentComponentBase, IAsyncDisposable
 {
     /// <summary>
@@ -49,15 +49,17 @@ public class FluentCxImage
     /// Gets the parent of the component.
     /// </summary>
     [CascadingParameter]
-    private FluentCxImageGroup? Parent { get; set; }
+    private FluentCxImageGroup Parent { get; set; } = default!;
 
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("width", $"{Width}px", Width.HasValue)
         .AddStyle("height", $"{Height}px", Height.HasValue)
-        .AddStyle("margin-left", GetMarginLeft(), Parent is not null)
-        .AddStyle("border-radius", $"{Parent?.GetBorderRadius()}", Parent is not null)
-        .AddStyle("display", "inline-flex", Parent is not null)
-        .AddStyle("flex-shrink", "0", Parent is not null)
+        .AddStyle("margin-left", GetMarginLeft())
+        .AddStyle("border-radius", $"{Parent.GetBorderRadius()}")
+        .AddStyle("background-color", Parent.BackgroundStyle, !string.IsNullOrEmpty(Parent.BackgroundStyle) && string.IsNullOrWhiteSpace(Style))
+        .AddStyle("border", Parent.BorderStyle, !string.IsNullOrEmpty(Parent.BorderStyle) && string.IsNullOrWhiteSpace(Style))
+        .AddStyle("display", "inline-flex")
+        .AddStyle("flex-shrink", "0")
         .Build();
 
     private string GetMarginLeft() =>
@@ -72,7 +74,7 @@ public class FluentCxImage
     /// <inheritdoc />
     public ValueTask DisposeAsync()
     {
-        Parent?.Remove(this);
+        Parent.Remove(this);
         GC.SuppressFinalize(this);
 
         return ValueTask.CompletedTask;
@@ -86,13 +88,18 @@ public class FluentCxImage
     {
         Width = size;
         Height = size;
-        Parent?.OnItemParemetersChanged(this);
+        Parent.OnItemParemetersChanged(this);
     }
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        if (Parent is null)
+        {
+            throw new InvalidOperationException("FluentCxImageGroupItem must be used inside a FluentCxImageGroup component.");
+        }
+
         InternalRenderer = builder =>
         {
             builder.OpenElement(0, "img");
@@ -110,7 +117,7 @@ public class FluentCxImage
 
         if (firstRender)
         {
-            Parent?.Add(this);
+            Parent.Add(this);
             _isRendered = true;
         }
     }
@@ -120,8 +127,7 @@ public class FluentCxImage
     {
         base.OnParametersSet();
 
-        if (Parent is not null &&
-            _isRendered &&
+        if (_isRendered &&
             _hasParameterChanged)
         {
             Parent.OnItemParemetersChanged(this);

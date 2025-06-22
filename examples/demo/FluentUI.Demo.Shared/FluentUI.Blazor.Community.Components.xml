@@ -2645,72 +2645,6 @@
         <member name="P:FluentUI.Blazor.Community.Components.NoFileEntryData.IsDeleteable">
             <inheritdoc />
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FluentCxImage">
-            <summary>
-            Represents an image.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImage._isRendered">
-            <summary>
-            Represents a value indicating if the component is rendered on the screen.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImage._hasParameterChanged">
-            <summary>
-            Represents a value indicating if a parameter has changed.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Width">
-            <summary>
-            Gets or sets the width of the image.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Height">
-            <summary>
-            Gets or sets the height of the image.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Source">
-            <summary>
-            Gets or sets the source of the image.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Alt">
-            <summary>
-            Gets or sets the alt property.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Parent">
-            <summary>
-            Gets the parent of the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalRenderer">
-            <summary>
-            Gets or sets the internal renderer for the component.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.DisposeAsync">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.SetGroupSize(System.Int32)">
-            <summary>
-            Sets the size of the image.
-            </summary>
-            <param name="size">Size of the image.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.OnAfterRender(System.Boolean)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.OnParametersSet">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxImageGroup">
             <summary>
             Represents a group of images.
@@ -2751,6 +2685,17 @@
             Gets or sets the shape of each image.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.BorderStyle">
+            <summary>
+            Gets or sets the border style of each image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.BackgroundStyle">
+            <summary>
+            Gets or sets the background style of each image.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GroupType">
             <summary>
             Gets or sets the layout of the group.
@@ -2764,17 +2709,17 @@
             Gets the number of visible items.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Add(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Add(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Add an image into the group.
             </summary>
-            <param name="image">Image to add.</param>
+            <param name="imageGroupItem">Image to add.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Remove(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Remove(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Remove an image from the group.
             </summary>
-            <param name="image"></param>
+            <param name="imageGroupItem"></param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetBorderRadius">
             <summary>
@@ -2782,25 +2727,25 @@
             </summary>
             <returns>Returns the radius of the image from its shape.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetSpreadMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetSpreadMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Gets the margin left for the spread layout.
             </summary>
-            <param name="image">Image where the margin left will be set.</param>
+            <param name="imageGroupItem">Image where the margin left will be set.</param>
             <returns>Returns the margin left.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetStackMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetStackMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Gets the margin left for the stack layout.
             </summary>
-            <param name="image">Image where the margin left will be set.</param>
+            <param name="imageGroupItem">Image where the margin left will be set.</param>
             <returns>Returns the margin left.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.IsInPopover(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.IsInPopover(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Gets a value indicating if the current image is inside the popover.
             </summary>
-            <param name="image">Image to check if it is inside a popover.</param>
+            <param name="imageGroupItem">Image to check if it is inside a popover.</param>
             <returns>Returns <see langword="true" /> if the image is inside a popover, <see langword="false" /> otherwise.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetButtonStyle">
@@ -2809,13 +2754,79 @@
             </summary>
             <returns>Returns the style of the button.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.OnItemParemetersChanged(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.OnItemParemetersChanged(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
-            Occurs when a parameter of a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxImage"/> changed.
+            Occurs when a parameter of a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem"/> changed.
             </summary>
-            <param name="image">Image which the parameters have changed.</param>
+            <param name="imageGroupItem">Image which the parameters have changed.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem">
+            <summary>
+            Represents an image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._isRendered">
+            <summary>
+            Represents a value indicating if the component is rendered on the screen.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._hasParameterChanged">
+            <summary>
+            Represents a value indicating if a parameter has changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Width">
+            <summary>
+            Gets or sets the width of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Height">
+            <summary>
+            Gets or sets the height of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Source">
+            <summary>
+            Gets or sets the source of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Alt">
+            <summary>
+            Gets or sets the alt property.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Parent">
+            <summary>
+            Gets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.InternalRenderer">
+            <summary>
+            Gets or sets the internal renderer for the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.SetGroupSize(System.Int32)">
+            <summary>
+            Sets the size of the image.
+            </summary>
+            <param name="size">Size of the image.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnAfterRender(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnParametersSet">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ImageGroupLayout">
