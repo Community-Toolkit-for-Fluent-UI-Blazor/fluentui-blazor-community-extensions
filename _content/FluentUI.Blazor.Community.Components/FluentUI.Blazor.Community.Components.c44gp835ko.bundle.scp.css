@@ -1,0 +1,52 @@
+/* _content/FluentUI.Blazor.Community.Components/Components/FileManager/FileManagerNavigationView.razor.rz.scp.css */
+.file-navigation-manager-view[b-o1nlizcgc0] {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0;
+  list-style: none;
+  background: var(--fill-color);
+  height: 40px;
+  width: 100%;
+  align-items: center;
+  padding-left: 4px;
+  gap: 4px;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/FileManager/FileManagerNavigationViewItem.razor.rz.scp.css */
+.file-navigation-manager-view-item[b-8fryp8ldpw] {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0;
+  list-style: none;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/Resizer/FluentCxResizer.razor.rz.scp.css */
+.fluentcx-resizer[b-67tzm6rfoa] {
+  display: inline-flex;
+  position: relative;
+}
+
+.fluentcx-resizer-handler[b-67tzm6rfoa] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.fluentcx-resizer-child-content-container[b-67tzm6rfoa] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.fluentcx-resizer-handler-cursor-ew[b-67tzm6rfoa] {
+  cursor: ew-resize;
+}
+
+.fluentcx-resizer-handler-cursor-ns[b-67tzm6rfoa] {
+    cursor: ns-resize;
+}
+
+.fluentcx-resizer-handler-cursor-nwse[b-67tzm6rfoa] {
+    cursor: nwse-resize;
+}
