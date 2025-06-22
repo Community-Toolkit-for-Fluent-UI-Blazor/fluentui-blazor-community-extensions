@@ -4,7 +4,6 @@ namespace FluentUI.Blazor.Community.Components;
 /// Represents the sizes options for the image group.
 /// </summary>
 public enum ImageSize
-    : int
 {
     /// <summary>
     /// Uniform size : 16px.
