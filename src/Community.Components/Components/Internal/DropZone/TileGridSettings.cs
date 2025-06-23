@@ -1,8 +1,7 @@
 using System.Runtime.CompilerServices;
-using Microsoft.FluentUI.AspNetCore.Components.Extensions;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
-namespace FluentUI.Blazor.Community.Components;
+namespace FluentUI.Blazor.Community.Components.Internal;
 
 internal class TileGridSettings
     : ITileGridSettings

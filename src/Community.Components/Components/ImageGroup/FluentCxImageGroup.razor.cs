@@ -15,7 +15,7 @@ public partial class FluentCxImageGroup
     /// <summary>
     /// Represents the images inside this component.
     /// </summary>
-    private readonly List<FluentCxImage> _children = [];
+    private readonly List<FluentCxImageGroupItem> _children = [];
 
     /// <summary>
     /// Represents a value if the popover is opened.
@@ -40,7 +40,7 @@ public partial class FluentCxImageGroup
     /// Gets or sets the number of visible items in the group.
     /// </summary>
     [Parameter]
-    public int MaxVisibleItems { get; set; }
+    public int MaxVisibleItems { get; set; } = 3;
 
     /// <summary>
     /// Gets or sets the size of each image.
@@ -52,7 +52,20 @@ public partial class FluentCxImageGroup
     /// Gets or sets the shape of each image.
     /// </summary>
     [Parameter]
-    public ImageShape Shape { get; set; } = ImageShape.RoundSquare;
+    public ImageShape Shape { get; set; } = ImageShape.Square;
+
+    /// <summary>
+    /// Gets or sets the border style of each image.
+    /// </summary>
+    /// <returns></returns>
+    [Parameter]
+    public string? BorderStyle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the background style of each image.
+    /// </summary>
+    [Parameter]
+    public string? BackgroundStyle { get; set; }
 
     /// <summary>
     /// Gets or sets the layout of the group.
@@ -61,7 +74,7 @@ public partial class FluentCxImageGroup
     /// By default, the layout is set to <see cref="ImageGroupLayout.Spread"/>.
     /// </remarks>
     [Parameter]
-    public ImageGroupLayout GroupType { get; set; } = ImageGroupLayout.Spread;
+    public ImageGroupLayout GroupLayout { get; set; } = ImageGroupLayout.Spread;
 
     /// <summary>
     /// Gets the number of visible items.
@@ -71,64 +84,50 @@ public partial class FluentCxImageGroup
     /// <summary>
     /// Add an image into the group.
     /// </summary>
-    /// <param name="image">Image to add.</param>
-    internal void Add(FluentCxImage image)
+    /// <param name="imageGroupItem">Image to add.</param>
+    internal void Add(FluentCxImageGroupItem imageGroupItem)
     {
-        image.SetGroupSize((int)Size);
-        _children.Add(image);
+        imageGroupItem.SetGroupSize((int)Size);
+        _children.Add(imageGroupItem);
     }
 
     /// <summary>
     /// Remove an image from the group.
     /// </summary>
-    /// <param name="image"></param>
-    internal void Remove(FluentCxImage image)
+    /// <param name="imageGroupItem"></param>
+    internal void Remove(FluentCxImageGroupItem imageGroupItem)
     {
-        _children.Remove(image);
-    }
-
-    /// <summary>
-    /// Gets the border radius of the image from its shape.
-    /// </summary>
-    /// <returns>Returns the radius of the image from its shape.</returns>
-    internal string GetBorderRadius()
-    {
-        return Shape switch
-        {
-            ImageShape.Square => "0px",
-            ImageShape.RoundSquare => "8px",
-            _ => "10000px"
-        };
+        _children.Remove(imageGroupItem);
     }
 
     /// <summary>
     /// Gets the margin left for the spread layout.
     /// </summary>
-    /// <param name="image">Image where the margin left will be set.</param>
+    /// <param name="imageGroupItem">Image where the margin left will be set.</param>
     /// <returns>Returns the margin left.</returns>
-    internal int GetSpreadMarginLeft(FluentCxImage image)
+    internal int GetSpreadMarginLeft(FluentCxImageGroupItem imageGroupItem)
     {
-        return _children.IndexOf(image) <= 0 ? 0 : 16;
+        return _children.IndexOf(imageGroupItem) <= 0 ? 0 : 16;
     }
 
     /// <summary>
     /// Gets the margin left for the stack layout.
     /// </summary>
-    /// <param name="image">Image where the margin left will be set.</param>
+    /// <param name="imageGroupItem">Image where the margin left will be set.</param>
     /// <returns>Returns the margin left.</returns>
-    internal string GetStackMarginLeft(FluentCxImage image)
+    internal string GetStackMarginLeft(FluentCxImageGroupItem imageGroupItem)
     {
-        return _children.IndexOf(image) <= 0 ? "0" : (-6 * ((int)Size / 16f)).ToString(CultureInfo.InvariantCulture);
+        return _children.IndexOf(imageGroupItem) <= 0 ? "0" : (-6 * ((int)Size / 16f)).ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>
     /// Gets a value indicating if the current image is inside the popover.
     /// </summary>
-    /// <param name="image">Image to check if it is inside a popover.</param>
+    /// <param name="imageGroupItem">Image to check if it is inside a popover.</param>
     /// <returns>Returns <see langword="true" /> if the image is inside a popover, <see langword="false" /> otherwise.</returns>
-    internal bool IsInPopover(FluentCxImage image)
+    internal bool IsInPopover(FluentCxImageGroupItem imageGroupItem)
     {
-        return _children.IndexOf(image) >= MaxVisibleItems;
+        return _children.IndexOf(imageGroupItem) >= MaxVisibleItems;
     }
 
     /// <summary>
@@ -140,7 +139,7 @@ public partial class FluentCxImageGroup
         DefaultInterpolatedStringHandler handler = new();
         var size = (int)Size;
 
-        if (GroupType == ImageGroupLayout.Spread)
+        if (GroupLayout == ImageGroupLayout.Spread)
         {
             handler.AppendLiteral("margin-left: 16px;");
         }
@@ -152,7 +151,7 @@ public partial class FluentCxImageGroup
         }
 
         handler.AppendLiteral("border-radius: ");
-        handler.AppendFormatted(GetBorderRadius());
+        handler.AppendFormatted(Shape.ToBorderRadius());
         handler.AppendLiteral(";");
 
         handler.AppendLiteral("width: ");
@@ -165,10 +164,10 @@ public partial class FluentCxImageGroup
     }
 
     /// <summary>
-    /// Occurs when a parameter of a <see cref="FluentCxImage"/> changed.
+    /// Occurs when a parameter of a <see cref="FluentCxImageGroupItem"/> changed.
     /// </summary>
-    /// <param name="image">Image which the parameters have changed.</param>
-    protected internal virtual void OnItemParemetersChanged(FluentCxImage image)
+    /// <param name="imageGroupItem">Image which the parameters have changed.</param>
+    protected internal virtual void OnItemParemetersChanged(FluentCxImageGroupItem imageGroupItem)
     {
         StateHasChanged();
     }

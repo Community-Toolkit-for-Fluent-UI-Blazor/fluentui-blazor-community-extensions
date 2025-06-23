@@ -1,3 +1,4 @@
+using FluentUI.Blazor.Community.Components.Internal;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.CompilerServices;

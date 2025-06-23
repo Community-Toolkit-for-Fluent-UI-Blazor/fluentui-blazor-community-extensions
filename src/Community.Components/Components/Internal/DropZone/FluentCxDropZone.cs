@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
-namespace FluentUI.Blazor.Community.Components;
+namespace FluentUI.Blazor.Community.Components.Internal;
 
 internal class FluentCxDropZone<TItem>
     : FluentComponentBase, IDisposable, IItemValue<TItem>
