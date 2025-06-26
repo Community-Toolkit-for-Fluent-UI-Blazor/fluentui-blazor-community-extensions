@@ -45,10 +45,6 @@
     <PackageReference Include="Plotly.Blazor" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="InternalComponents\" />
-  </ItemGroup>
-
   <PropertyGroup>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>

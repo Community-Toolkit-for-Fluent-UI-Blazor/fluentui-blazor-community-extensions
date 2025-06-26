@@ -16,9 +16,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-    <PackageReference Include="xunit"/>
-    <PackageReference Include="xunit.runner.visualstudio"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,31 +26,31 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Using Include="Xunit"/>
+    <Using Include="Xunit" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Dependent Test Result HTML files -->
-    <None Include="**\*.verified.html"/>
+    <None Include="**\*.verified.html" />
     <None Update="**\*.verified.html">
       <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
       <DependentUpon>%(ParentFile).cs</DependentUpon>
     </None>
 
-    <None Include="**\*.received.html"/>
+    <None Include="**\*.received.html" />
     <None Update="**\*.received.html">
       <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
       <DependentUpon>%(ParentFile).cs</DependentUpon>
     </None>
 
     <!-- Dependent Test Result RAZOR files -->
-    <None Include="**\*.verified.razor.html"/>
+    <None Include="**\*.verified.razor.html" />
     <None Update="**\*.verified.razor.html">
       <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
       <DependentUpon>%(ParentFile).razor</DependentUpon>
     </None>
 
-    <None Include="**\*.received.razor.html"/>
+    <None Include="**\*.received.razor.html" />
     <None Update="**\*.received.razor.html">
       <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
       <DependentUpon>%(ParentFile).razor</DependentUpon>
