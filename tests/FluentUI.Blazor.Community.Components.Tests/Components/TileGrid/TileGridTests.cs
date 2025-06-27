@@ -117,4 +117,67 @@ public class TileGridTests
         var style = divContainer.GetAttribute("style");
         Assert.Contains($"minmax(0px, {rowHeight})", style);
     }
+
+    [Theory]
+    [InlineData("150px")]
+    [InlineData("80em")]
+    [InlineData("200")]
+    public void FluentCxTileGrid_MinimumRowHeight(string? minimumRowHeight)
+    {
+        // Arrange
+        var comp = RenderComponent<FluentCxTileGrid<NoFileEntryData>>(parameters =>
+        {
+            parameters.Add(p => p.MinimumRowHeight, minimumRowHeight);
+        });
+
+        // Act
+
+        // Assert
+        comp.Verify(suffix: minimumRowHeight);
+        var divContainer = comp.Find("div");
+        var style = divContainer.GetAttribute("style");
+        Assert.Contains($"minmax({minimumRowHeight},", style);
+    }
+
+    [Theory]
+    [InlineData("150px")]
+    [InlineData("80em")]
+    [InlineData("200")]
+    public void FluentCxTileGrid_Width(string? width)
+    {
+        // Arrange
+        var comp = RenderComponent<FluentCxTileGrid<NoFileEntryData>>(parameters =>
+        {
+            parameters.Add(p => p.Width, width);
+        });
+
+        // Act
+
+        // Assert
+        comp.Verify(suffix: width);
+        var divContainer = comp.Find("div");
+        var style = divContainer.GetAttribute("style");
+        Assert.Contains($"width: {width}", style);
+    }
+
+    [Theory]
+    [InlineData("150px")]
+    [InlineData("80em")]
+    [InlineData("200")]
+    public void FluentCxTileGrid_Height(string? height)
+    {
+        // Arrange
+        var comp = RenderComponent<FluentCxTileGrid<NoFileEntryData>>(parameters =>
+        {
+            parameters.Add(p => p.Height, height);
+        });
+
+        // Act
+
+        // Assert
+        comp.Verify(suffix: height);
+        var divContainer = comp.Find("div");
+        var style = divContainer.GetAttribute("style");
+        Assert.Contains($"height: {height}", style);
+    }
 }
