@@ -45,7 +45,6 @@
     <Copy SourceFiles="@(Sources)"
           DestinationFiles="@(Sources->'$(ProjectDir)wwwroot/sources/%(Filename)%(Extension).txt')"
           SkipUnchangedFiles="false" />
-    <Message Importance="high" Text="Copying: @(Sources -> '%(FullPath)')" />
   </Target>
 
 </Project>
