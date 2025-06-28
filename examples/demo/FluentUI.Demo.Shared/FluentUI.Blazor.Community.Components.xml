@@ -2918,6 +2918,16 @@
             Gets the height of the row.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Width">
+            <summary>
+            Gets the width of the tile grid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Height">
+            <summary>
+            Gets the height of the tile grid.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
