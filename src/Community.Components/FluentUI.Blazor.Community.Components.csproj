@@ -42,7 +42,6 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
-    <PackageReference Include="Plotly.Blazor" />
   </ItemGroup>
 
   <PropertyGroup>
