@@ -40,11 +40,11 @@
 
   <Target Name="CopySources" BeforeTargets="ResolveStaticWebAssets">
     <ItemGroup>
-      <Sources Include="$(ProjectDir)/Pages/**/Examples/*" />
-      <Sources Include="$(ProjectDir)/Pages/Lab/**" />
-      <Sources Include="$(ProjectDir)/Pages/BasicForm*" />
-      <Sources Include="$(ProjectDir)/Components/*" />
-      <Sources Include="$(ProjectDir)/SampleData/*" />
+      <Sources Include="$(ProjectDir)Pages/**/Examples/*" />
+      <Sources Include="$(ProjectDir)Pages/Lab/**" />
+      <Sources Include="$(ProjectDir)Pages/BasicForm*" />
+      <Sources Include="$(ProjectDir)Components/*" />
+      <Sources Include="$(ProjectDir)SampleData/*" />
     </ItemGroup>
     <Copy SourceFiles="@(Sources)"
           DestinationFiles="@(Sources->'$(ProjectDir)wwwroot/sources/%(Filename)%(Extension).txt')"
