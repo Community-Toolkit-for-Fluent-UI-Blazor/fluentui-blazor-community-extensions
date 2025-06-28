@@ -38,6 +38,13 @@
     <Folder Include="wwwroot\sources\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="wwwroot/sources/*.txt">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <PackagePath>wwwroot/sources/</PackagePath>
+    </Content>
+  </ItemGroup>
+
   <Target Name="CopySources" BeforeTargets="BeforeBuild">
     <ItemGroup>
       <Sources Include="$(ProjectDir)\Pages\**\Examples\*" />
