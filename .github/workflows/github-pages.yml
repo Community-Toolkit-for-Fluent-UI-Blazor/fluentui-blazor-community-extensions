@@ -25,7 +25,7 @@ jobs:
     - name: Build .NET Core project
       run: dotnet build examples/demo/FluentUI.Demo.Client/FluentUI.Demo.Client.csproj -c Release --no-restore
     - name: Publish .NET Core Project
-      run: dotnet publish examples/demo/FluentUI.Demo.Client/FluentUI.Demo.Client.csproj -c:Release -p:GHPages=true -o dist/Web --nologo -v:diag
+      run: dotnet publish examples/demo/FluentUI.Demo.Client/FluentUI.Demo.Client.csproj -c:Release -p:GHPages=true -o dist/Web --nologo
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
