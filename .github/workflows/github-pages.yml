@@ -26,7 +26,7 @@ jobs:
     - name: Install .NET WASM Build Tools
       run: dotnet workload install wasm-tools
     - name: Publish .NET Core Project
-      run: dotnet publish examples/demo/FluentUI.Demo.Client/FluentUI.Demo.Client.csproj -c:Release -p:GHPages=true -o dist/Web --nologo
+      run: dotnet publish examples/demo/FluentUI.Demo.Client/FluentUI.Demo.Client.csproj -c:Release -p:GHPages=true -o dist/Web --nologo -v:diag
     - name: Show contents of deployed folder
       run: find dist/Web/wwwroot/_content/FluentUI.Demo.Shared/
     - name: Commit wwwroot to GitHub Pages
