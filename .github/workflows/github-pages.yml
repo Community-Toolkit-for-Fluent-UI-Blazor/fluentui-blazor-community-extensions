@@ -25,6 +25,8 @@ jobs:
       run: dotnet restore
     - name: Install .NET WASM Build Tools
       run: dotnet workload install wasm-tools
+    - name: Build .NET Core project
+      run: dotnet build examples/demo/FluentUI.Demo.Client/FluentUI.Demo.Client.csproj -c Release --no-restore
     - name: Publish .NET Core Project
       run: dotnet publish examples/demo/FluentUI.Demo.Client/FluentUI.Demo.Client.csproj -c:Release -p:GHPages=true -o dist/Web --nologo -v:diag
     - name: Show contents of deployed folder
