@@ -1,0 +1,141 @@
+﻿<h3>Dashboard</h3>
+
+<p>A tile grid could be very useful to create some views like dashboard or profile of an user.</p>
+
+    <FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
+                      Columns="4"
+                      RowHeight="200px"
+                      CanResize
+                      CanReorder
+                      TItem="DashboardItem">
+        <FluentCxTileGridItem Value="@Item1">
+                @renderCard(Item1)
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Value="@Item2">
+                @renderCard(Item2)
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Value="@Item3">
+                @renderCard(Item3)
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem Value="@Item4">
+                @renderCard(Item4)
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="4" RowSpan="3" Value="@Item5">
+                @renderCard(Item5)
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan=2 RowSpan="2" Value=@Item6>
+            @renderCard(Item6)
+        </FluentCxTileGridItem>
+
+        <FluentCxTileGridItem ColumnSpan="2" RowSpan="2" Value="@Item7">
+            @renderCard(Item7)
+        </FluentCxTileGridItem>
+    </FluentCxTileGrid>
+
+<style>
+
+    .fluent-tile-grid-item-header {
+        padding-block: var( --type-ramp-minus-1-font-size, 12px);
+        padding-inline: var(--type-ramp-plus-1-font-size, 16px);
+        border-width: 0 0 1px;
+        border-style: solid;
+        outline: 0;
+        flex-shrink: 0;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .fluent-tile-grid-item-title {
+        margin: 0 0 var(--base-horizontal-spacing-multiplier, 0.5rem);
+        font-size: var(--type-ramp-plus-1-font-size, inherit);
+        line-height: var(--type-ramp-plus-1-line-height, normal);
+        font-weight: var(--font-weight, normal);
+    }
+
+    .fluent-card-header {
+        color: var(--accent-fill-rest);
+        border-color: var(--neutral-layer-4, rgba(0, 0, 0, 0.08));
+    }
+
+</style>
+
+@code {
+    private readonly RenderFragment<DashboardItem> renderCard = context => __builder =>
+        {
+            <FluentCard>
+                <div class="fluent-tile-grid-item-header fluent-card-header">
+                        <div class="fluent-tile-grid-item-title">
+                            @context.Header
+                        </div>
+                </div>
+                <FluentDivider Role="DividerRole.Separator" />
+
+                <div class="fluent-card-body" style="height: calc(100% - 48px)">
+                    <FluentStack Style="height: 100%"
+                                 VerticalAlignment="VerticalAlignment.Center"
+                                 HorizontalAlignment="HorizontalAlignment.Center">
+                        @context.Data
+                    </FluentStack>
+                </div>
+            </FluentCard>
+        };
+
+    private class DashboardItem
+    {
+        public string? Header{ get; set; }
+
+        public int Data{ get; set; }
+
+        public override string? ToString()
+        {
+            return Header;
+        }
+    }
+
+    private DashboardItem Item1 = new()
+    {
+        Header = "Number of subscribers",
+        Data = Random.Shared.Next(10, 30)
+    };
+
+    private DashboardItem Item2 = new()
+    {
+        Header = "Number of medias",
+        Data = Random.Shared.Next(100, 300)
+    };
+
+    private DashboardItem Item3 = new()
+    {
+        Header = "Number of sold products",
+        Data = Random.Shared.Next(1, 3000)
+    };
+
+    private DashboardItem Item4 = new()
+    {
+        Header = "Number of visitors",
+        Data = Random.Shared.Next(10, 350)
+    };
+
+    private DashboardItem Item5 = new()
+    {
+        Header = "Number of user",
+        Data = 123
+    };
+
+    private DashboardItem Item6 = new()
+    {
+        Header = "Number of user",
+        Data = 123
+    };
+
+    private DashboardItem Item7 = new()
+    {
+        Header = "Number of user",
+        Data = 123
+    };
+}

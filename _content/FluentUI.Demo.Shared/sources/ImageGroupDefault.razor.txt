@@ -1,0 +1,77 @@
+﻿<div style="height: 400px">
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="30">
+        <FluentGrid>
+
+            <FluentGridItem>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentSelect Items="@(Enum.GetValues<ImageGroupLayout>())"
+                                  Label="Layout"
+                                  AriaLabel="Layout"
+                                  @bind-SelectedOption="_imageLayout"/>
+                </FluentStack>
+            </FluentGridItem>
+
+            <FluentGridItem>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentSelect Items="@(Enum.GetValues<ImageSize>())"
+                                  Label="Size of the image"
+                                  AriaLabel="Size of the image"
+                                  @bind-SelectedOption="_imageSize"/>
+                </FluentStack>
+            </FluentGridItem>
+            <FluentGridItem>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentSelect Items="@(Enum.GetValues<ImageShape>())"
+                                  Label="Shape of the image"
+                                  AriaLabel="Shape of the image"
+                                  @bind-SelectedOption="_imageShape"/>
+                </FluentStack>
+            </FluentGridItem>
+            <FluentGridItem>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentNumberField Min="1"
+                                       Max="8"
+                                       @bind-Value="_maxItemVisible"
+                                       Label="Maximum items visible"
+                                       AriaLabel="Maximum items visible"/>
+                </FluentStack>
+            </FluentGridItem>
+        </FluentGrid>
+
+        <FluentCxImageGroup Size="@_imageSize"
+                            Shape="@_imageShape"
+                            GroupLayout=@_imageLayout
+                            BorderStyle="2px solid black"
+                            BackgroundStyle="var(--accent-fill-rest)"
+                            MaxVisibleItems="@_maxItemVisible">
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())"
+                                    Style="border: 2px solid red; background-color: var(--neutral-fill-rest)"/>
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+            <FluentCxImageGroupItem Source="@(new FileIcons.Size128.WordIcon().ToImageSource())" />
+        </FluentCxImageGroup>
+    </FluentStack>
+</div>
+
+@code {
+    private ImageSize _imageSize = ImageSize.Size32;
+    private ImageShape _imageShape = ImageShape.Square;
+    private int _maxItemVisible = 3;
+    private ImageGroupLayout _imageLayout = ImageGroupLayout.Spread;
+}
