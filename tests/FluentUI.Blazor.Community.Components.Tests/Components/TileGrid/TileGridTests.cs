@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Bunit;
+using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Components.Internal;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.FluentUI.AspNetCore.Components.Tests;
 
-namespace FluentUI.Blazor.Community.Components.Tests.Components.TileGrid;
+namespace Microsoft.FluentUI.AspNetCore.Components.Tests.Components.TileGrid;
 
 public class TileGridTests
     : TestBase
@@ -179,5 +174,23 @@ public class TileGridTests
         var divContainer = comp.Find("div");
         var style = divContainer.GetAttribute("style");
         Assert.Contains($"height: {height}", style);
+    }
+
+    [Fact]
+    public void FluentCxTileGrid_CanOverflow()
+    {
+        // Arrange
+        var comp = RenderComponent<FluentCxTileGrid<NoFileEntryData>>(parameters =>
+        {
+            parameters.Add(p => p.CanOverflow, true);
+        });
+
+        // Act
+
+        // Assert
+        comp.Verify(suffix: "true");
+        var divContainer = comp.Find("div");
+        var style = divContainer.GetAttribute("style");
+        Assert.Contains($"overflow-y: auto", style);
     }
 }
