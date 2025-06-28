@@ -34,10 +34,6 @@
     <ProjectReference Include="..\FluentUI.Demo.Generators\FluentUI.Demo.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot/sources/" />
-  </ItemGroup>
-
   <Target Name="CopySources" BeforeTargets="BeforeBuild">
     <ItemGroup>
       <Sources Include="$(ProjectDir)Pages/**/Examples/*" />
@@ -48,7 +44,8 @@
     </ItemGroup>
     <Copy SourceFiles="@(Sources)"
           DestinationFiles="@(Sources->'$(ProjectDir)wwwroot/sources/%(Filename)%(Extension).txt')"
-          SkipUnchangedFiles="true" />
+          SkipUnchangedFiles="false" />
+    <Message Importance="high" Text="Copying: @(Sources -> '%(FullPath)')" />
   </Target>
 
 </Project>
