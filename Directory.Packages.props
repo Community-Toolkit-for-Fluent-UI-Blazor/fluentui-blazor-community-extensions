@@ -23,6 +23,5 @@
     <PackageVersion Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.0" />
     <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.12.0" />
     <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.12.0" />
-    <PackageVersion Include="Plotly.Blazor" Version="6.0.2" />
   </ItemGroup>
 </Project>
