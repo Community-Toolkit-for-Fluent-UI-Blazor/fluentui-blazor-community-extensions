@@ -3,23 +3,37 @@ using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components.Internal;
 
+/// <summary>
+/// Represents the settings of the <see cref="FluentCxTileGrid{TItem}"/>.
+/// </summary>
 internal class TileGridSettings
     : ITileGridSettings
 {
+    /// <inheritdoc />
     public string ColumnWidth { get; set; } = "1fr";
 
+    /// <inheritdoc />
     public string? MinimumColumnWidth { get; set; }
 
+    /// <inheritdoc />
     public int? Columns { get; set; }
 
+    /// <inheritdoc />
     public string RowHeight { get; set; } = "1fr";
 
+    /// <inheritdoc />
     public string? Width { get; set; } = "100%";
 
+    /// <inheritdoc />
     public string? Height { get; set; } = "100%";
 
+    /// <inheritdoc />
     public string? MinimumRowHeight { get; set; }
 
+    /// <summary>
+    /// Gets the style of the rows of the <see cref="FluentCxTileGrid{TItem}"/>.
+    /// </summary>
+    /// <returns>Returns the style of the rows of the <see cref="FluentCxTileGrid{TItem}"/>.</returns>
     private string GetRows()
     {
         DefaultInterpolatedStringHandler handler = new();
@@ -43,6 +57,10 @@ internal class TileGridSettings
         return handler.ToString();
     }
 
+    /// <summary>
+    /// Gets the style of the columns of the <see cref="FluentCxTileGrid{TItem}"/>.
+    /// </summary>
+    /// <returns>Returns the style of the rows of the <see cref="FluentCxTileGrid{TItem}"/>.</returns>
     private string GetColumns()
     {
         DefaultInterpolatedStringHandler handler = new();
@@ -77,6 +95,7 @@ internal class TileGridSettings
         return handler.ToString();
     }
 
+    /// <inheritdoc />
     public override string? ToString()
     {
         return new StyleBuilder()

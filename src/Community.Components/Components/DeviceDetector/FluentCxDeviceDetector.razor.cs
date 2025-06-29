@@ -22,6 +22,9 @@ public partial class FluentCxDeviceDetector
     /// </summary>
     private const string JavascriptFileName = "./_content/FluentUI.Blazor.Community.Components/Components/DeviceDetector/FluentCxDeviceDetector.razor.js";
 
+    /// <summary>
+    /// Initialize a new instance of the <see cref="FluentCxDeviceDetector"/> class.
+    /// </summary>
     public FluentCxDeviceDetector() : base()
     {
         _deviceDetectorReference = DotNetObjectReference.Create(this);
@@ -57,6 +60,10 @@ public partial class FluentCxDeviceDetector
         }
     }
 
+    /// <summary>
+    /// Occurs when the orientation of the device changed.
+    /// </summary>
+    /// <param name="isPortrait">Value indicating if the device is in portrait orientation or not.</param>
     [JSInvokable]
     public void ChangeOrientation(bool isPortrait)
     {

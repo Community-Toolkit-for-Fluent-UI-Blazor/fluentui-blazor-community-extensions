@@ -1,4 +1,4 @@
-﻿using FluentUI.Blazor.Community.Extensions;
+using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
@@ -43,6 +43,9 @@ public class FluentCxImageGroupItem
     [CascadingParameter]
     private FluentCxImageGroup Parent { get; set; } = default!;
 
+    /// <summary>
+    /// Gets the style of the component.
+    /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("width", $"{_width}px", _width is not null)
         .AddStyle("height", $"{_height}px", _height is not null)
@@ -54,6 +57,10 @@ public class FluentCxImageGroupItem
         .AddStyle("flex-shrink", "0")
         .Build();
 
+    /// <summary>
+    /// Gets the margin-left of the component.
+    /// </summary>
+    /// <returns>Returns the margin-left of the component.</returns>
     private string GetMarginLeft() =>
         Parent?.GroupLayout == ImageGroupLayout.Spread
             ? $"{Parent.GetSpreadMarginLeft(this)}px"

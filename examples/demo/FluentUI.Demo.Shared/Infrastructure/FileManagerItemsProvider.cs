@@ -2,7 +2,7 @@ using FluentUI.Blazor.Community.Components;
 
 namespace FluentUI.Demo.Shared.Infrastructure;
 
-internal class FileManagerItemsProvider
+internal sealed class FileManagerItemsProvider
     : IFileManagerItemsProvider<NoFileEntryData>
 {
     public ValueTask<FileManagerEntry<NoFileEntryData>> GetItemsAsync()

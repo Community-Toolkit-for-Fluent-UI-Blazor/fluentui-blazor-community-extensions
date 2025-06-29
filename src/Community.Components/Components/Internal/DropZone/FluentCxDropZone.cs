@@ -42,7 +42,6 @@ internal class FluentCxDropZone<TItem>
                         __builder2.CloseElement();
                     }
 
-
                     __builder2.OpenElement(20, "div");
                     __builder2.AddAttribute(21, "draggable", IsDragAllowed.ToString());
                     __builder2.AddAttribute(22, "ondragstart", EventCallback.Factory.Create<DragEventArgs>(this, OnDragStart));
@@ -85,7 +84,6 @@ internal class FluentCxDropZone<TItem>
                 __builder.AddContent(14, ChildContent);
                 __builder.CloseElement();
             }
-
         };
     }
 
