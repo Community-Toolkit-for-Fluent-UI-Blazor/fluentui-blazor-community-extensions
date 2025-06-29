@@ -1,13 +1,11 @@
 ﻿<h3>Mobile</h3>
 <FluentCxFileManager TItem="NoFileEntryData"
-                     IsBusy="@_isBusy"
                      Root="@_root"
                      View="FileManagerView.Mobile" />
 
 
 @code {
     private FileManagerEntry<NoFileEntryData> _root = default!;
-    private bool _isBusy;
 
     [Inject]
     public IFileManagerItemsProvider<NoFileEntryData>? ItemsProvider { get; set; }

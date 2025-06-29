@@ -9,7 +9,6 @@ public partial class FileManagerEntryDetails<TItem> where TItem : class, new()
     private readonly FileExtensionContentTypeProvider _fileContentTypeProvider = new();
     private FileExtensionTypeProvider? _fileExtensionTypeProvider;
     private bool _isImage;
-    private bool _isVideo;
     private string? _contentType;
 
     [Parameter]
@@ -67,7 +66,6 @@ public partial class FileManagerEntryDetails<TItem> where TItem : class, new()
     protected override async Task OnParametersSetAsync()
     {
         _entryDataContent = [];
-        _isVideo = false;
         _isImage = false;
         _contentType = string.Empty;
 

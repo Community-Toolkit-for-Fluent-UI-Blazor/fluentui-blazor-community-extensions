@@ -340,6 +340,11 @@ internal sealed class FluentCxDropZoneContainer<TItem>
             throw new InvalidOperationException("The child component must implement IItemValue<TItem>");
         }
 
+        if (t.Value is null)
+        {
+            throw new InvalidOperationException("The Value parameter must have a value.");
+        }
+
         _children.Remove(child);
         Items.Remove(t.Value);
         StateHasChanged();
