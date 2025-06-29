@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Authors>MarvinKlein1508,PascalVorwerk</Authors>
+    <Authors>MarvinKlein1508,PascalVorwerk,JeremyJ78</Authors>
     <Copyright>© Community Toolkit for Fluent UI Blazor. All rights reserved.</Copyright>
     <NeutralLanguage>en</NeutralLanguage>
     <Owners>MarvinKlein1508,PascalVorwerk,JeremyJ78,oneolddev</Owners>
