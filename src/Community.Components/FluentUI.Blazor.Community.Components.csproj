@@ -15,7 +15,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Title>Fluent UI Blazor Community Components</Title>
-    <Authors>MarvinKlein1508,PascalVorwerk</Authors>
+    <Authors>$(Authors)</Authors>
     <Company>$(Owners)</Company>
   </PropertyGroup>
 
