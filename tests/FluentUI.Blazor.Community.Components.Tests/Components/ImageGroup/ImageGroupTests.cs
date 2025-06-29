@@ -1,7 +1,6 @@
 ﻿using Bunit;
 using FluentUI.Blazor.Community.Components;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.FluentUI.AspNetCore.Components.Extensions;
 
 namespace Microsoft.FluentUI.AspNetCore.Components.Tests.Components.ImageGroup;
 
