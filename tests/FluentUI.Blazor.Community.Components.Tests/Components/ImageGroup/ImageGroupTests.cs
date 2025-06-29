@@ -1,6 +1,7 @@
 ﻿using Bunit;
 using FluentUI.Blazor.Community.Components;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FluentUI.AspNetCore.Components; // Added for GlobalState
 
 namespace Microsoft.FluentUI.AspNetCore.Components.Tests.Components.ImageGroup;
 
@@ -10,6 +11,7 @@ public class ImageGroupTests : TestBase
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         Services.AddSingleton(UnitTestLibraryConfiguration);
+        Services.AddSingleton<GlobalState>(); // Register GlobalState for overlays/popovers
     }
 
     [Fact]
@@ -248,5 +250,38 @@ public class ImageGroupTests : TestBase
             var style = image.GetAttribute("style");
             Assert.Contains($"border-radius: {shape.ToBorderRadius()}", style);
         }
+    }
+
+    [Fact]
+    public void FluentCxImageGroup_MoreButton_OnClick_ShowsPopoverAndExtraChildren()
+    {
+        // Arrange: Render with more items than VisibleCount (default is 3)
+        var cut = RenderComponent<FluentCxImageGroup>(parameters =>
+        {
+            parameters.AddChildContent(builder =>
+            {
+                for (var i = 0; i < 5; i++)
+                {
+                    builder.OpenComponent<FluentCxImageGroupItem>(0);
+                    builder.CloseComponent();
+                }
+            });
+        });
+
+        // Act: Click the "more" button
+        var button = cut.Find("fluent-button");
+        button.Click();
+
+        // Assert: Popover is open and extra children are rendered
+        cut.Verify();
+
+        var popover = cut.Find("fluent-anchored-region");
+        Assert.NotNull(popover);
+        // There should be 2 extra children in the popover (5 total - 3 visible)
+        var stack = popover.QuerySelector("fluent-anchored-region .fluent-popover-content > div[part=\"body\"] > .stack-vertical");
+        Assert.NotNull(stack);
+        // Count the rendered children in the popover
+        var extraChildren = stack.ChildElementCount;
+        Assert.Equal(2, extraChildren);
     }
 }
