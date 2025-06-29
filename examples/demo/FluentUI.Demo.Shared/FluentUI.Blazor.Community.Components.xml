@@ -9,7 +9,13 @@
             Provides binary (IEC) unit constants, properties, and methods for the <see cref="T:FluentUI.Blazor.Community.ByteSize"/> struct.
             </summary>
             <summary>
+            Represents a size in bytes and provides methods for formatting, conversion, and comparison.
+            </summary>
+            <summary>
             Provides operator overloads and comparison logic for the <see cref="T:FluentUI.Blazor.Community.ByteSize"/> struct.
+            </summary>
+            <summary>
+            Provides decimal (SI) unit constants, properties, and methods for the <see cref="T:FluentUI.Blazor.Community.ByteSize"/> struct.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.ByteSize.BytesInKibiByte">
@@ -199,6 +205,117 @@
             <param name="formatProvider">The format provider to use.</param>
             <returns>A string representation in binary units (e.g., "1.5 GiB").</returns>
         </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.MinValue">
+            <summary>
+            Represents the smallest possible value of <see cref="T:FluentUI.Blazor.Community.ByteSize"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.MaxValue">
+            <summary>
+            Represents the largest possible value of <see cref="T:FluentUI.Blazor.Community.ByteSize"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.BitsInByte">
+            <summary>
+            The number of bits in one byte. Always 8.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.BitSymbol">
+            <summary>
+            The symbol for a bit ("b").
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.ByteSymbol">
+            <summary>
+            The symbol for a byte ("B").
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.Bits">
+            <summary>
+            Gets the total number of bits represented by this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.Bytes">
+            <summary>
+            Gets the total number of bytes represented by this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.LargestWholeNumberBinarySymbol">
+            <summary>
+            Gets the largest whole number binary unit symbol (IEC) that is less than or equal to the value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.LargestWholeNumberDecimalSymbol">
+            <summary>
+            Gets the largest whole number decimal unit symbol (SI) that is less than or equal to the value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.LargestWholeNumberBinaryValue">
+            <summary>
+            Gets the value in the largest whole number binary unit (IEC) that is less than or equal to the value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.LargestWholeNumberDecimalValue">
+            <summary>
+            Gets the value in the largest whole number decimal unit (SI) that is less than or equal to the value.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.#ctor(System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.ByteSize"/> struct from a number of bits.
+            </summary>
+            <param name="bits">The number of bits.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.#ctor(System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.ByteSize"/> struct from a number of bytes.
+            </summary>
+            <param name="bytes">The number of bytes.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.FromBits(System.Int64)">
+            <summary>
+            Creates a <see cref="T:FluentUI.Blazor.Community.ByteSize"/> from the specified number of bits.
+            </summary>
+            <param name="value">The number of bits.</param>
+            <returns>A new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.FromBytes(System.Double)">
+            <summary>
+            Creates a <see cref="T:FluentUI.Blazor.Community.ByteSize"/> from the specified number of bytes.
+            </summary>
+            <param name="value">The number of bytes.</param>
+            <returns>A new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.ToString">
+            <summary>
+            Returns a string representation of the value using the default format and current culture.
+            </summary>
+            <returns>A string representation of the value.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.ToString(System.String)">
+            <summary>
+            Returns a string representation of the value using the specified format and current culture.
+            </summary>
+            <param name="format">The format string.</param>
+            <returns>A string representation of the value.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.ToString(System.String,System.IFormatProvider)">
+            <summary>
+            Returns a string representation of the value using the specified format and format provider.
+            </summary>
+            <param name="format">The format string.</param>
+            <param name="provider">The format provider.</param>
+            <returns>A string representation of the value.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.ToString(System.String,System.IFormatProvider,System.Boolean)">
+            <summary>
+            Returns a string representation of the value using the specified format, format provider, and unit system.
+            </summary>
+            <param name="format">The format string.</param>
+            <param name="provider">The format provider.</param>
+            <param name="useBinaryByte">If true, uses binary (IEC) units; otherwise, uses decimal (SI) units.</param>
+            <returns>A string representation of the value.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.ByteSize.Equals(System.Object)">
             <summary>
             Determines whether the specified object is equal to the current <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance.
@@ -322,6 +439,228 @@
             Determines whether one <see cref="T:FluentUI.Blazor.Community.ByteSize"/> is greater than or equal to another.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.Parse(System.String)">
+            <summary>
+            Parses the specified string representation of a byte size using the current culture.
+            </summary>
+            <param name="s">The string to parse (e.g., "1.5 MB", "2 GiB", "1024 B").</param>
+            <returns>A <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance representing the parsed value.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="s"/> is null or whitespace.</exception>
+            <exception cref="T:System.FormatException">Thrown if the string is not in a valid format or contains an unsupported unit.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.Parse(System.String,System.IFormatProvider)">
+            <summary>
+            Parses the specified string representation of a byte size using the provided format provider.
+            </summary>
+            <param name="s">The string to parse (e.g., "1.5 MB", "2 GiB", "1024 B").</param>
+            <param name="formatProvider">The format provider to use for parsing numbers.</param>
+            <returns>A <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance representing the parsed value.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="s"/> is null or whitespace.</exception>
+            <exception cref="T:System.FormatException">Thrown if the string is not in a valid format or contains an unsupported unit.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)">
+            <summary>
+            Parses the specified string representation of a byte size using the provided number styles and format provider.
+            </summary>
+            <param name="value">The string to parse (e.g., "1.5 MB", "2 GiB", "1024 B").</param>
+            <param name="numberStyles">The number styles to use for parsing the numeric part.</param>
+            <param name="formatProvider">The format provider to use for parsing numbers.</param>
+            <returns>A <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance representing the parsed value.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is null or whitespace.</exception>
+            <exception cref="T:System.FormatException">Thrown if the string is not in a valid format or contains an unsupported unit.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.TryParse(System.String,FluentUI.Blazor.Community.ByteSize@)">
+            <summary>
+            Tries to parse the specified string representation of a byte size using the current culture.
+            </summary>
+            <param name="value">The string to parse.</param>
+            <param name="result">When this method returns, contains the parsed <see cref="T:FluentUI.Blazor.Community.ByteSize"/> value if parsing succeeded, or the default value if parsing failed.</param>
+            <returns><c>true</c> if parsing succeeded; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,FluentUI.Blazor.Community.ByteSize@)">
+            <summary>
+            Tries to parse the specified string representation of a byte size using the provided number styles and format provider.
+            </summary>
+            <param name="s">The string to parse.</param>
+            <param name="numberStyles">The number styles to use for parsing the numeric part.</param>
+            <param name="formatProvider">The format provider to use for parsing numbers.</param>
+            <param name="result">When this method returns, contains the parsed <see cref="T:FluentUI.Blazor.Community.ByteSize"/> value if parsing succeeded, or the default value if parsing failed.</param>
+            <returns><c>true</c> if parsing succeeded; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.BytesInKiloByte">
+            <summary>
+            The number of bytes in one kilobyte (KB). 1 KB = 1,000 bytes.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.BytesInMegaByte">
+            <summary>
+            The number of bytes in one megabyte (MB). 1 MB = 1,000,000 bytes.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.BytesInGigaByte">
+            <summary>
+            The number of bytes in one gigabyte (GB). 1 GB = 1,000,000,000 bytes.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.BytesInTeraByte">
+            <summary>
+            The number of bytes in one terabyte (TB). 1 TB = 1,000,000,000,000 bytes.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.BytesInPetaByte">
+            <summary>
+            The number of bytes in one petabyte (PB). 1 PB = 1,000,000,000,000,000 bytes.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.BytesInExaByte">
+            <summary>
+            The number of bytes in one exabyte (EB). 1 EB = 1,000,000,000,000,000,000 bytes.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.KiloByteSymbol">
+            <summary>
+            The symbol for kilobyte (KB).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.MegaByteSymbol">
+            <summary>
+            The symbol for megabyte (MB).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.GigaByteSymbol">
+            <summary>
+            The symbol for gigabyte (GB).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.TeraByteSymbol">
+            <summary>
+            The symbol for terabyte (TB).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.PetaByteSymbol">
+            <summary>
+            The symbol for petabyte (PB).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.ByteSize.ExaByteSymbol">
+            <summary>
+            The symbol for exabyte (EB).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.KiloBytes">
+            <summary>
+            Gets the value in kilobytes (KB).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.MegaBytes">
+            <summary>
+            Gets the value in megabytes (MB).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.GigaBytes">
+            <summary>
+            Gets the value in gigabytes (GB).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.TeraBytes">
+            <summary>
+            Gets the value in terabytes (TB).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.PetaBytes">
+            <summary>
+            Gets the value in petabytes (PB).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.ByteSize.ExaBytes">
+            <summary>
+            Gets the value in exabytes (EB).
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.FromKiloBytes(System.Double)">
+            <summary>
+            Creates a <see cref="T:FluentUI.Blazor.Community.ByteSize"/> from the specified number of kilobytes (KB).
+            </summary>
+            <param name="value">The number of kilobytes.</param>
+            <returns>A new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.FromMegaBytes(System.Double)">
+            <summary>
+            Creates a <see cref="T:FluentUI.Blazor.Community.ByteSize"/> from the specified number of megabytes (MB).
+            </summary>
+            <param name="value">The number of megabytes.</param>
+            <returns>A new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.FromGigaBytes(System.Double)">
+            <summary>
+            Creates a <see cref="T:FluentUI.Blazor.Community.ByteSize"/> from the specified number of gigabytes (GB).
+            </summary>
+            <param name="value">The number of gigabytes.</param>
+            <returns>A new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.FromTeraBytes(System.Double)">
+            <summary>
+            Creates a <see cref="T:FluentUI.Blazor.Community.ByteSize"/> from the specified number of terabytes (TB).
+            </summary>
+            <param name="value">The number of terabytes.</param>
+            <returns>A new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.FromPetaBytes(System.Double)">
+            <summary>
+            Creates a <see cref="T:FluentUI.Blazor.Community.ByteSize"/> from the specified number of petabytes (PB).
+            </summary>
+            <param name="value">The number of petabytes.</param>
+            <returns>A new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.FromExaBytes(System.Double)">
+            <summary>
+            Creates a <see cref="T:FluentUI.Blazor.Community.ByteSize"/> from the specified number of exabytes (EB).
+            </summary>
+            <param name="value">The number of exabytes.</param>
+            <returns>A new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> instance.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.AddKiloBytes(System.Double)">
+            <summary>
+            Returns a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> by adding the specified number of kilobytes (KB) to this instance.
+            </summary>
+            <param name="value">The number of kilobytes to add.</param>
+            <returns>The result as a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.AddMegaBytes(System.Double)">
+            <summary>
+            Returns a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> by adding the specified number of megabytes (MB) to this instance.
+            </summary>
+            <param name="value">The number of megabytes to add.</param>
+            <returns>The result as a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.AddGigaBytes(System.Double)">
+            <summary>
+            Returns a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> by adding the specified number of gigabytes (GB) to this instance.
+            </summary>
+            <param name="value">The number of gigabytes to add.</param>
+            <returns>The result as a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.AddTeraBytes(System.Double)">
+            <summary>
+            Returns a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> by adding the specified number of terabytes (TB) to this instance.
+            </summary>
+            <param name="value">The number of terabytes to add.</param>
+            <returns>The result as a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.AddPetaBytes(System.Double)">
+            <summary>
+            Returns a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> by adding the specified number of petabytes (PB) to this instance.
+            </summary>
+            <param name="value">The number of petabytes to add.</param>
+            <returns>The result as a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.ByteSize.AddExaBytes(System.Double)">
+            <summary>
+            Returns a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/> by adding the specified number of exabytes (EB) to this instance.
+            </summary>
+            <param name="value">The number of exabytes to add.</param>
+            <returns>The result as a new <see cref="T:FluentUI.Blazor.Community.ByteSize"/>.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
             <inheritdoc/>
         </member>
@@ -333,15 +672,6 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
             <inheritdoc/>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.BarChart.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ChartBase`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.PieChart.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.Browser">
             <summary>
@@ -452,7 +782,12 @@
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.Orientation">
             <summary>
-            
+            Gets the orientation of the device.
+            </summary>
+        </member>
+        <member name="E:FluentUI.Blazor.Community.Components.DeviceInfo.OrientationChanged">
+            <summary>
+            Events occured when the orientation of the device has changed.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.DeviceInfo.ToString">
@@ -463,6 +798,26 @@
             Returns a <see cref="T:Microsoft.AspNetCore.Components.MarkupString"/> that represents the current object.
             </summary>
             <returns>A <see cref="T:Microsoft.AspNetCore.Components.MarkupString"/> that represents the current object.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientation">
+            <summary>
+            Represents the orientation of the device.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Unknown">
+            <summary>
+            The orientation is unknown.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Portrait">
+            <summary>
+            The device is oriented vertically.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Landscape">
+            <summary>
+            The device is oriented horizontally.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientationConverter">
             <summary>
@@ -490,6 +845,11 @@
             Represents the name of the javascript.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.#ctor">
+            <summary>
+            Initialize a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector"/> class.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChildContent">
             <summary>
             Gets or sets the ChildContent render fragment.
@@ -507,6 +867,12 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChangeOrientation(System.Boolean)">
+            <summary>
+            Occurs when the orientation of the device changed.
+            </summary>
+            <param name="isPortrait">Value indicating if the device is in portrait orientation or not.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.DisposeAsync">
             <inheritdoc />
@@ -643,74 +1009,76 @@
         <member name="M:FluentUI.Blazor.Community.Components.OperatingSystemConverter.Write(System.Text.Json.Utf8JsonWriter,FluentUI.Blazor.Community.Components.OperatingSystem,System.Text.Json.JsonSerializerOptions)">
             <inheritdoc />
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.ForceRender">
+        <member name="T:FluentUI.Blazor.Community.Components.AcceptFile">
             <summary>
-            Gets or sets a value indicating wether the component will render. 
-            </summary>
-            <remarks>
-            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZone`1"/>.
-            You mustn't use it.
-            </remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.AddInContainer">
-            <summary>
-            Gets or sets a value indicating wether the component will be inserted into the container. 
-            </summary>
-            <remarks>
-            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZone`1"/>.
-            You mustn't use it.
-            </remarks>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDropZone`1.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.IGridSettings">
-            <summary>
-            Represents a settings for a grid.
+            Represents the accepted files inside a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Display">
+        <member name="F:FluentUI.Blazor.Community.Components.AcceptFile.None">
             <summary>
-            Gets the display for the drop zone.
+            No file allowed.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Width">
+        <member name="F:FluentUI.Blazor.Community.Components.AcceptFile.Audio">
             <summary>
-            Gets the width of the grid.
+            Audio files allowed.
+            </summary>
+            <remarks>Represents the audio/* tag.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AcceptFile.Image">
+            <summary>
+            Image files allowed.
+            </summary>
+            <remarks>Represents the image/* tag.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AcceptFile.Video">
+            <summary>
+            Video files allowed.
+            </summary>
+            <remarks>Represents the video/* tag.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AcceptFile.Pdf">
+            <summary>
+            Pdf files allowed.
+            </summary>
+            <remarks>Represents the .pdf tag.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AcceptFile.Excel">
+            <summary>
+            Excel files allowed.
+            </summary>
+            <remarks>Represents the .xls and .xlsx tag.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AcceptFile.Word">
+            <summary>
+            Word files allowed.
+            </summary>
+            <remarks>Represents the .doc and .docx tag.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AcceptFile.Powerpoint">
+            <summary>
+            Powerpoint files allowed.
+            </summary>
+            <remarks>Represents the .ppt and .pptx tag.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AcceptFile.Document">
+            <summary>
+            Document files allowed.
+            </summary>
+            <remarks>Represents <see cref="F:FluentUI.Blazor.Community.Components.AcceptFile.Pdf"/>, <see cref="F:FluentUI.Blazor.Community.Components.AcceptFile.Word"/>, <see cref="F:FluentUI.Blazor.Community.Components.AcceptFile.Excel"/>, <see cref="F:FluentUI.Blazor.Community.Components.AcceptFile.Powerpoint"/> tags.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AcceptFileProvider">
+            <summary>
+            Represents a provider to convert <see cref="T:FluentUI.Blazor.Community.Components.AcceptFile"/> into html tag to be able to select files with <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IGridSettings.Height">
+        <member name="M:FluentUI.Blazor.Community.Components.AcceptFileProvider.Get(FluentUI.Blazor.Community.Components.AcceptFile)">
             <summary>
-            Gets the height of the grid.
+            Gets the html tags from <see cref="T:FluentUI.Blazor.Community.Components.AcceptFile"/> value.
             </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.ITileGridSettings">
-            <summary>
-            Represents the settings for a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.ColumnWidth">
-            <summary>
-            Gets the width of the column.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.MinimumColumnWidth">
-            <summary>
-            Gets the minimum width of the column.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Columns">
-            <summary>
-            Gets the number of columns.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.RowHeight">
-            <summary>
-            Gets the height of the row.
-            </summary>
+            <param name="value">Value to convert.</param>
+            <returns>Returns a <see cref="T:System.String"/> which contains all tags to use in the file selector
+             inside <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/></returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileIcons">
             <summary>
@@ -2127,6 +2495,36 @@
             Represents a video icon.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileListDataGridColumnLabels">
+            <summary>
+            Represents the labels for the DataGrid column inside the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileListDataGridColumnLabels.Default">
+            <summary>
+            Gets the default labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileListDataGridColumnLabels.French">
+            <summary>
+            Gets the french labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileListDataGridColumnLabels.Name">
+            <summary>
+            Gets or sets the label for the name column.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileListDataGridColumnLabels.Size">
+            <summary>
+            Gets or sets the label for the size column.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileListDataGridColumnLabels.CreatedDate">
+            <summary>
+            Gets or sets the label for the created date column. 
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
         </member>
@@ -2135,6 +2533,140 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.Dispose">
             <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerContent">
+            <summary>
+            Represents the content of an item of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+            <param name="Label">Label of the content.</param>
+            <param name="Placeholder">Placeholder of the content.</param>
+            <param name="Name">Name of the file or folder.</param>
+            <param name="IsDirectory">Value indicating if the item is a directory.</param>
+            <param name="IsRenaming">Value indicating if the item will be renamed.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerContent.#ctor(System.String,System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Represents the content of an item of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+            <param name="Label">Label of the content.</param>
+            <param name="Placeholder">Placeholder of the content.</param>
+            <param name="Name">Name of the file or folder.</param>
+            <param name="IsDirectory">Value indicating if the item is a directory.</param>
+            <param name="IsRenaming">Value indicating if the item will be renamed.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerContent.Label">
+            <summary>Label of the content.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerContent.Placeholder">
+            <summary>Placeholder of the content.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerContent.IsDirectory">
+            <summary>Value indicating if the item is a directory.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerContent.IsRenaming">
+            <summary>Value indicating if the item will be renamed.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerContent.Name">
+            <summary>
+            Gets or sets the name of the file or the folder.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels">
+            <summary>
+            Represents the labels used by the <see cref="T:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1"/> component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.Default">
+            <summary>
+            Gets the default labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.French">
+            <summary>
+            Gets the french labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.ElementPlural">
+            <summary>
+            Gets or sets the plural label for elements.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.ElementSingular">
+            <summary>
+            Gets or sets the singular label for element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.NoEntryFoundDescription">
+            <summary>
+            Gets or sets the label when no entry was found.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.SelectSingleFileToGetMoreInformation">
+            <summary>
+            Gets or sets the label when multiple files are selected.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.Size">
+            <summary>
+            Gets or sets the label for size.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.Type">
+            <summary>
+            Gets or sets the label for type.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.ContentType">
+            <summary>
+            Gets or sets the label for content type.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.ModifiedDate">
+            <summary>
+            Gets or sets the label for modified date.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.CreatedDate">
+            <summary>
+            Gets or sets the label for created date.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.DateFormat">
+            <summary>
+            Gets or sets the format of the date.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.SelectedElements">
+            <summary>
+            Gets or sets the label for selected elements.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels.Details">
+            <summary>
+            Gets or sets the label for details.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntriesMovedEventArgs`1">
+            <summary>
+            Represents the event args for entries which are moved from one place to another.
+            </summary>
+            <typeparam name="TItem">Type of the folder.</typeparam>
+            <param name="DestinationFolder">Represents the destination folder where the entries moved.</param>
+            <param name="MovedEntries">Represents the entries that have been moved.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntriesMovedEventArgs`1.#ctor(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
+            <summary>
+            Represents the event args for entries which are moved from one place to another.
+            </summary>
+            <typeparam name="TItem">Type of the folder.</typeparam>
+            <param name="DestinationFolder">Represents the destination folder where the entries moved.</param>
+            <param name="MovedEntries">Represents the entries that have been moved.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntriesMovedEventArgs`1.DestinationFolder">
+            <summary>Represents the destination folder where the entries moved.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntriesMovedEventArgs`1.MovedEntries">
+            <summary>Represents the entries that have been moved.</summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.#ctor">
             <summary>
@@ -2150,6 +2682,67 @@
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.OnParametersSetAsync">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryEventArgs`1">
+            <summary>
+            Represents the event args for a <see cref="T:FluentUI.Blazor.Community.Components.FileManagerEntry`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <param name="Entry">Represents the entry to use</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryEventArgs`1.#ctor(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Represents the event args for a <see cref="T:FluentUI.Blazor.Community.Components.FileManagerEntry`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <param name="Entry">Represents the entry to use</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryEventArgs`1.Entry">
+            <summary>Represents the entry to use</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs`1">
+            <summary>
+            Represents the event args when an entry is created.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <param name="Parent">Entry which contains the <paramref name="Entry"/>.</param>
+            <param name="Entry">Represents the created entry.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs`1.#ctor(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Represents the event args when an entry is created.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <param name="Parent">Entry which contains the <paramref name="Entry"/>.</param>
+            <param name="Entry">Represents the created entry.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs`1.Parent">
+            <summary>Entry which contains the <paramref name="Entry"/>.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs`1.Entry">
+            <summary>Represents the created entry.</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DeleteFileManagerEntryEventArgs`1">
+            <summary>
+            Represents the event args when some entries are deleted.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <param name="Parent">Entry which contains the <paramref name="Entries"/> to delete.</param>
+            <param name="Entries">Represents the entries to delete.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DeleteFileManagerEntryEventArgs`1.#ctor(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
+            <summary>
+            Represents the event args when some entries are deleted.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <param name="Parent">Entry which contains the <paramref name="Entries"/> to delete.</param>
+            <param name="Entries">Represents the entries to delete.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeleteFileManagerEntryEventArgs`1.Parent">
+            <summary>Entry which contains the <paramref name="Entries"/> to delete.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeleteFileManagerEntryEventArgs`1.Entries">
+            <summary>Represents the entries to delete.</summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryTreeViewItemComparer">
             <summary>
             Represents a comparer for the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem"/> for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> component.
@@ -2163,8 +2756,303 @@
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryTreeViewItemComparer.Compare(Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem,Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem)">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerLabels">
+            <summary>
+            Represents the labels used by the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.Default">
+            <summary>
+            Gets the default labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.French">
+            <summary>
+            Gets the french labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DialogCloseLabel">
+            <summary>
+            Gets or sets the label for the close button in a dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.ShowDetailsLabel">
+            <summary>
+            Gets or sets the label for the show details button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.SearchPlaceholder">
+            <summary>
+            Gets or sets the placeholder label for the search text box.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.NewFolderLabel">
+            <summary>
+            Gets or sets the label for the new folder button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.UploadLabel">
+            <summary>
+            Gets or sets the label for the upload button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.SortByNameLabel">
+            <summary>
+            Gets or sets the label for the sort by name menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.SortByExtensionLabel">
+            <summary>
+            Gets or sets the label for the sort by extension menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.SortBySizeLabel">
+            <summary>
+            Gets or sets the label for the sort by size menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.SortByCreationDate">
+            <summary>
+            Gets or sets the label for the sort by created date menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.SortByModifiedDate">
+            <summary>
+            Gets or sets the label for the sort by modified date menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DeleteLabel">
+            <summary>
+            Gets or sets the label for the sort by delete menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DownloadLabel">
+            <summary>
+            Gets or sets the label for the download button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.RenameLabel">
+            <summary>
+            Gets or sets the label for the rename button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.SortLabel">
+            <summary>
+            Gets or sets the label for the sort button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.ViewLabel">
+            <summary>
+            Gets or sets the label for the view button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.ListViewLabel">
+            <summary>
+            Gets or sets the label for the list menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.AscendingLabel">
+            <summary>
+            Gets or sets the label for the ascending menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DescendingLabel">
+            <summary>
+            Gets or sets the label for the descending menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.FolderDialogTitle">
+            <summary>
+            Gets or sets the title for the new folder dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.RenameFolderDialogTitle">
+            <summary>
+            Gets or sets the title for the rename folder dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.RenameFileDialogTitle">
+            <summary>
+            Gets or sets the title for the rename file dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.FolderLabel">
+            <summary>
+            Gets or sets the label for the folder name.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.FolderPlaceholder">
+            <summary>
+            Gets or sets the placeholder label for the folder name.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.FileLabel">
+            <summary>
+            Gets or sets the label for the file name.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.FilePlaceholder">
+            <summary>
+            Gets or sets the placeholder label for the file name.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DeleteDescriptionLabel">
+            <summary>
+            Gets or sets the description for the delete confirmation dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DialogYesLabel">
+            <summary>
+            Gets or sets the label for the yes button in a dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DialogNoLabel">
+            <summary>
+            Gets or sets the label for the no button in a dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DialogOkLabel">
+            <summary>
+            Gets or sets the label for the OK button in a dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DialogCancelLabel">
+            <summary>
+            Gets or sets the label for the cancel button in a dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DeleteTitle">
+            <summary>
+            Gets or sets the delete dialog title.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.UploadingLabel">
+            <summary>
+            Gets or sets the label for an uploading process.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DownloadingLabel">
+            <summary>
+            Gets or sets the label for a download process.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.DeletingLabel">
+            <summary>
+            Gets or sets the label for a delete process.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.MovingLabel">
+            <summary>
+            Gets or sets the label for a move process.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.PropertiesLabel">
+            <summary>
+            Gets or sets the label for the properties button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.HierarchicalLabel">
+            <summary>
+            Gets or sets the label for the hierarchical menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.FlatLabel">
+            <summary>
+            Gets or sets the label for the flat menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.ExceededFileCountMessage">
+            <summary>
+            Gets or sets the message when the number of files exceeded the maximum allowed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.ExceededFileCountTitle">
+            <summary>
+            Gets or sets the title when the number of files exceeded the maximum allowed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.MoveToLabel">
+            <summary>
+            Gets or sets the label for the move button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.ViewOptionsLabel">
+            <summary>
+            Gets or sets the label for the options button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.ListWithDetailsLabel">
+            <summary>
+            Gets or sets the label for the details menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.GridViewMosaicLabel">
+            <summary>
+            Gets or sets the label for the mosaic menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.GridViewSmallIconsLabel">
+            <summary>
+            Gets or sets the label for the small icons menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.GridViewMediumIconsLabel">
+            <summary>
+            Gets or sets the label for the medium menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.GridViewLargeIconsLabel">
+            <summary>
+            Gets or sets the label for the large icons menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerLabels.GridViewVeryLargeIconsLabel">
+            <summary>
+            Gets or sets the label for the very large icons menu item.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerView">
+            <summary>
+            Represents the available view for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerView.Desktop">
+            <summary>
+            The <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> is rendered in desktop mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerView.Mobile">
+            <summary>
+            The <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> is rendered in mobile mode.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileMoverDialog`1.OnInitialized">
             <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileNavigationItem">
+            <summary>
+            Represents an item for the navigation bar of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+            <param name="Path">Path of the item.</param>
+            <param name="Text">Text of the item.</param>
+            <param name="OnClick">Action to do when the item is clicked.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileNavigationItem.#ctor(System.String,System.String,System.Action{System.String})">
+            <summary>
+            Represents an item for the navigation bar of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+            <param name="Path">Path of the item.</param>
+            <param name="Text">Text of the item.</param>
+            <param name="OnClick">Action to do when the item is clicked.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileNavigationItem.Path">
+            <summary>Path of the item.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileNavigationItem.Text">
+            <summary>Text of the item.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileNavigationItem.OnClick">
+            <summary>Action to do when the item is clicked.</summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileSortBy">
             <summary>
@@ -2210,6 +3098,67 @@
             <summary>
             The files are sorted in descending order according to its key.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileStructureView">
+            <summary>
+            Represents the view of the file structure.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileStructureView.Hierarchical">
+            <summary>
+            The structure is rendered in a hierarchical way.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileStructureView.Flat">
+            <summary>
+            The structure is rendered in a flat way.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileView">
+            <summary>
+            Represents the available views for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileView.List">
+            <summary>
+            The items are rendered in a list.
+            </summary>
+            <remarks>Only the name of the file is rendered.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileView.Details">
+            <summary>
+            The items are rendered in a list.
+            </summary>
+            <remarks>Each item is rendered with : Name, Size, Creation date information.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileView.Mosaic">
+            <summary>
+            The items are rendered in a mosaic view.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileView.SmallIcons">
+            <summary>
+            The items are rendered in a small icons view.
+            </summary>
+            <remarks>The icons are in 24x24 format</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileView.MediumIcons">
+            <summary>
+            The items are rendered in a medium icons view.
+            </summary>
+            <remarks>The icons are in 72x72 format</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileView.LargeIcons">
+            <summary>
+            The items are rendered in a large icons view.
+            </summary>
+            <remarks>The icons are in 96x96 format</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileView.VeryLargeIcons">
+            <summary>
+            The items are rendered in a very large icons view.
+            </summary>
+            <remarks>The icons are in 128x128 format</remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileZipper">
             <summary>
@@ -2306,91 +3255,30 @@
         <member name="P:FluentUI.Blazor.Community.Components.NoFileEntryData.IsDeleteable">
             <inheritdoc />
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FluentCxImage">
+        <member name="T:FluentUI.Blazor.Community.Components.UploadFileEventArgs">
             <summary>
-            Represents an image.
+            Represents the event args for an uploaded file.
             </summary>
+            <param name="Name">Name of the file.</param>
+            <param name="Data">Data of the file.</param>
+            <param name="Extension">Extension of the file.</param>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImage._isRendered">
+        <member name="M:FluentUI.Blazor.Community.Components.UploadFileEventArgs.#ctor(System.String,System.Byte[],System.String)">
             <summary>
-            Represents a value indicating if the component is rendered on the screen.
+            Represents the event args for an uploaded file.
             </summary>
+            <param name="Name">Name of the file.</param>
+            <param name="Data">Data of the file.</param>
+            <param name="Extension">Extension of the file.</param>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImage._hasParameterChanged">
-            <summary>
-            Represents a value indicating if a parameter has changed.
-            </summary>
+        <member name="P:FluentUI.Blazor.Community.Components.UploadFileEventArgs.Name">
+            <summary>Name of the file.</summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Width">
-            <summary>
-            Gets or sets the width of the image.
-            </summary>
+        <member name="P:FluentUI.Blazor.Community.Components.UploadFileEventArgs.Data">
+            <summary>Data of the file.</summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Height">
-            <summary>
-            Gets or sets the height of the image.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Source">
-            <summary>
-            Gets or sets the source of the image.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Alt">
-            <summary>
-            Gets or sets the alt property.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.Parent">
-            <summary>
-            Gets the parent of the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalStyle">
-            <summary>
-            Gets the internal style for the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalSpreadStyle">
-            <summary>
-            Gets the style when the group is set to spread mode.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalStackStyle">
-            <summary>
-            Gets the style when the group is set to stack mode.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalPopoverStyle">
-            <summary>
-            Gets the style when the component is inside a <see cref="T:Microsoft.FluentUI.AspNetCore.Components.FluentPopover" />
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImage.InternalRenderer">
-            <summary>
-            Gets or sets the internal renderer for the component.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.DisposeAsync">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.SetGroupSize(System.Int32)">
-            <summary>
-            Sets the size of the image.
-            </summary>
-            <param name="size">Size of the image.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.OnAfterRender(System.Boolean)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.OnParametersSet">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImage.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
+        <member name="P:FluentUI.Blazor.Community.Components.UploadFileEventArgs.Extension">
+            <summary>Extension of the file.</summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxImageGroup">
             <summary>
@@ -2432,7 +3320,18 @@
             Gets or sets the shape of each image.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GroupType">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.BorderStyle">
+            <summary>
+            Gets or sets the border style of each image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.BackgroundStyle">
+            <summary>
+            Gets or sets the background style of each image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GroupLayout">
             <summary>
             Gets or sets the layout of the group.
             </summary>
@@ -2445,43 +3344,37 @@
             Gets the number of visible items.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Add(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Add(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Add an image into the group.
             </summary>
-            <param name="image">Image to add.</param>
+            <param name="imageGroupItem">Image to add.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Remove(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Remove(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Remove an image from the group.
             </summary>
-            <param name="image"></param>
+            <param name="imageGroupItem"></param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetBorderRadius">
-            <summary>
-            Gets the border radius of the image from its shape.
-            </summary>
-            <returns>Returns the radius of the image from its shape.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetSpreadMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetSpreadMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Gets the margin left for the spread layout.
             </summary>
-            <param name="image">Image where the margin left will be set.</param>
+            <param name="imageGroupItem">Image where the margin left will be set.</param>
             <returns>Returns the margin left.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetStackMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetStackMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Gets the margin left for the stack layout.
             </summary>
-            <param name="image">Image where the margin left will be set.</param>
+            <param name="imageGroupItem">Image where the margin left will be set.</param>
             <returns>Returns the margin left.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.IsInPopover(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.IsInPopover(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
             Gets a value indicating if the current image is inside the popover.
             </summary>
-            <param name="image">Image to check if it is inside a popover.</param>
+            <param name="imageGroupItem">Image to check if it is inside a popover.</param>
             <returns>Returns <see langword="true" /> if the image is inside a popover, <see langword="false" /> otherwise.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetButtonStyle">
@@ -2490,13 +3383,80 @@
             </summary>
             <returns>Returns the style of the button.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.OnItemParemetersChanged(FluentUI.Blazor.Community.Components.FluentCxImage)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.OnItemParemetersChanged(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
             <summary>
-            Occurs when a parameter of a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxImage"/> changed.
+            Occurs when a parameter of a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem"/> changed.
             </summary>
-            <param name="image">Image which the parameters have changed.</param>
+            <param name="imageGroupItem">Image which the parameters have changed.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem">
+            <summary>
+            Represents an image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._isRendered">
+            <summary>
+            Represents a value indicating if the component is rendered on the screen.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._hasParameterChanged">
+            <summary>
+            Represents a value indicating if a parameter has changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Source">
+            <summary>
+            Gets or sets the source of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Alt">
+            <summary>
+            Gets or sets the alt property.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Parent">
+            <summary>
+            Gets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.InternalStyle">
+            <summary>
+            Gets the style of the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.GetMarginLeft">
+            <summary>
+            Gets the margin-left of the component.
+            </summary>
+            <returns>Returns the margin-left of the component.</returns>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.InternalRenderer">
+            <summary>
+            Gets or sets the internal renderer for the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.SetGroupSize(System.Int32)">
+            <summary>
+            Sets the size of the image.
+            </summary>
+            <param name="size">Size of the image.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnAfterRender(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnParametersSet">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ImageGroupLayout">
@@ -2533,6 +3493,18 @@
             <summary>
             The image is circle.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ImageShapeExtensions">
+            <summary>
+            Extensions for the <see cref="T:FluentUI.Blazor.Community.Components.ImageShape"/> enum.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ImageShapeExtensions.ToBorderRadius(FluentUI.Blazor.Community.Components.ImageShape)">
+            <summary>
+            Converts the <see cref="T:FluentUI.Blazor.Community.Components.ImageShape"/> to a CSS class.
+            </summary>
+            <param name="shape">The image shape.</param>
+            <returns>The CSS class representing the image shape.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ImageSize">
             <summary>
@@ -2609,14 +3581,312 @@
             Uniform size : 128px.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Internal.ChildComponentValueEqualityComparer`1">
+            <summary>
+            Represents the comparer for a value item of a component.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <remarks>The component must implement <see cref="T:FluentUI.Blazor.Community.Components.IItemValue`1"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.ChildComponentValueEqualityComparer`1.Default">
+            <summary>
+            Gets the default instance of the comparer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.ChildComponentValueEqualityComparer`1.Equals(Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase,Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.ChildComponentValueEqualityComparer`1.GetHashCode(Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Internal.DropZoneState`1">
+            <summary>
+            Represents the state of a drop zone.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.DropZoneState`1.ActiveItem">
+            <summary>
+            Gets the active item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.DropZoneState`1.TargetItem">
+            <summary>
+            Gets the target item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.DropZoneState`1.ActivePlaceholderId">
+            <summary>
+            Gets the identifier of the active placeholder.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.DropZoneState`1.Items">
+            <summary>
+            Gets the list of items inside the container.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.DropZoneState`1.RemoveActiveItem">
+            <summary>
+            Remove the active item from the list of item.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.DropZoneState`1.Reset">
+            <summary>
+            Reset the drop zone.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.ForceRender">
+            <summary>
+            Gets or sets a value indicating wether the component will render. 
+            </summary>
+            <remarks>
+            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1"/>.
+            You mustn't use it.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.AddInContainer">
+            <summary>
+            Gets or sets a value indicating wether the component will be inserted into the container. 
+            </summary>
+            <remarks>
+            This value is used internally by <see cref="T:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1"/>.
+            You mustn't use it.
+            </remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Internal.TileGridSettings">
+            <summary>
+            Represents the settings of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.ColumnWidth">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.MinimumColumnWidth">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.Columns">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.RowHeight">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.Width">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.Height">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.MinimumRowHeight">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.GetRows">
+            <summary>
+            Gets the style of the rows of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
+            </summary>
+            <returns>Returns the style of the rows of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.GetColumns">
+            <summary>
+            Gets the style of the columns of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
+            </summary>
+            <returns>Returns the style of the rows of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ITileGridSettings">
+            <summary>
+            Represents the settings for a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.ColumnWidth">
+            <summary>
+            Gets the width of the column.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.MinimumColumnWidth">
+            <summary>
+            Gets the minimum width of the column.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Columns">
+            <summary>
+            Gets the number of columns.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.RowHeight">
+            <summary>
+            Gets the height of the row.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Width">
+            <summary>
+            Gets the width of the tile grid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Height">
+            <summary>
+            Gets the height of the tile grid.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxResizer">
+            <summary>
+            Represents a resizer component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxResizer._module">
+            <summary>
+            Represents the javascript module instance to use for resizing the component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxResizer.JavaScriptFile">
+            <summary>
+            Represents the javascript file to use for resizing the component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxResizer._dotNetReferenceResizer">
+            <summary>
+            Represents the reference of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxResizer"/> inside the javascript functions.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxResizer._resetInitialization">
+            <summary>
+            Flag indicating if we need to reset the initialization of the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.#ctor">
+            <summary>
+            Initialize a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxResizer"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.IsResizeEnabled">
+            <summary>
+            Gets or set a value indicating if the resize is enabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.OnResized">
+            <summary>
+            Gets or sets an event callback which occurs when a resize operation is performed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.JSRuntime">
+            <summary>
+            Gets or sets the JSRuntime.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.LocalizationDirection">
+            <summary>
+            Gets or sets the reading direction of the objects in the UI.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.ResizeHandlers">
+            <summary>
+            Gets the resized handler to use regarding the reading direction.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.ChildContent">
+            <summary>
+            Gets or sets the child content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.SpanGridId">
+            <summary>
+            Gets or sets the id of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.OnTapped">
+            <summary>
+            Gets or sets an event callback when the component is tapped.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.OnDoubleTapped">
+            <summary>
+            Gets or sets an event callback when the component is double tapped.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.InternalClass">
+            <summary>
+            Gets the internal class the component use.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxResizer.InternalStyle">
+            <summary>
+            Gets the internal style the component use.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.OnTappedAsync(Microsoft.AspNetCore.Components.Web.MouseEventArgs)">
+            <summary>
+            Occurs when the component is tapped.
+            </summary>
+            <param name="e">Event args which contains information about the mouse.</param>
+            <returns>Returns a task which invokes <see cref="P:FluentUI.Blazor.Community.Components.FluentCxResizer.OnTapped"/> when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.OnDoubleTappedAsync(Microsoft.AspNetCore.Components.Web.MouseEventArgs)">
+            <summary>
+            Occurs when the component is double tapped.
+            </summary>
+            <param name="e">Event args which contains information about the mouse.</param>
+            <returns>Returns a task which invokes <see cref="P:FluentUI.Blazor.Community.Components.FluentCxResizer.OnDoubleTapped"/> when completed.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.Resized(FluentUI.Blazor.Community.Components.ResizedEventArgs)">
+            <summary>
+            Occurs when the javascript completes the resize.
+            </summary>
+            <param name="e">Event args which contains the data of the resize.</param>
+            <returns>Returns a task which invokes <see cref="P:FluentUI.Blazor.Community.Components.FluentCxResizer.OnResized"/> when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxResizer.DisposeAsync">
             <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizedEventArgs">
+            <summary>
+            Represents the event args when a component is resized.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizedEventArgs.Id">
+            <summary>
+            Gets or sets the identifier of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizedEventArgs.Orientation">
+            <summary>
+            Gets or sets the orientation of the resized.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizedEventArgs.OriginalSize">
+            <summary>
+            Gets or sets the original size of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizedEventArgs.NewSize">
+            <summary>
+            Gets or sets the new size of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizedEventArgs.ColumnSpan">
+            <summary>
+            Gets or sets the column span of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizedEventArgs.RowSpan">
+            <summary>
+            Gets or sets the row span of the component.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ResizerHandler">
             <summary>
@@ -2638,15 +3908,27 @@
             Resizes the item vertically and horizontally.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizerHelper">
+            <summary>
+            Represents an helper for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxResizer"/> components.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.ResizerHelper._ltrResize">
             <summary>
-            
+            Represents the resize handler for left to right direction.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.ResizerHelper._rtlResize">
             <summary>
-            
+            Represents the resize handlers for the right to left direction.
             </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ResizerHelper.GetFromLocalizationDirection(Microsoft.FluentUI.AspNetCore.Components.LocalizationDirection)">
+            <summary>
+            Gets the resize handlers from the specified <paramref name="localizationDirection"/>.
+            </summary>
+            <param name="localizationDirection">Direction used by the app.</param>
+            <returns>Returns the <see cref="T:System.Collections.Generic.Dictionary`2"/> of the resize handler to use.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1">
             <summary>
@@ -2666,7 +3948,7 @@
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1._dropContainer">
             <summary>
-            Gets the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZoneContainer`1"/> component.
+            Gets the <see cref="T:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZoneContainer`1"/> component.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.CanOverflow">
@@ -2763,6 +4045,9 @@
             Gets or sets the height of the grid.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1">
             <summary>
             Represents a Tile Grid item.
@@ -2815,9 +4100,41 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.OnInitialized">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IDropZoneComponent`1">
+            <summary>
+            Represents an interface for the <see cref="T:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1"/> component.
+            </summary>
+            <typeparam name="TItem"></typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IDropZoneComponent`1.Value">
+            <summary>
+            Gets the value of the drop zone.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IDropZoneComponent`1.Id">
+            <summary>
+            Gets the identifier of the drop zone.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IDropZoneComponent`1.Component">
+            <summary>
+            Gets the component to render inside the drop zone.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IItemValue`1">
+            <summary>
+            Represents a value for an item.
+            </summary>
+            <typeparam name="TItem">Type of the value.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IItemValue`1.Value">
+            <summary>
+            Gets the value of the item.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ITileGridItemDropZoneComponent`1">
             <summary>
-            Represents the interface for a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDropZone`1"/> which contains a
+            Represents the interface for a <see cref="T:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZone`1"/> which contains a
              <see cref="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1"/>.
             </summary>
             <typeparam name="TItem">Type of the item.</typeparam>
@@ -2846,6 +4163,19 @@
             <param name="parameterName">Name of the parameter to check.</param>
             <param name="value">Value of the parameter.</param>
             <returns>Returns <see langword="true" /> the value of the parameter has changed, <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Extensions.RenderTreeBuilderExtensions">
+            <summary>
+            Represents the extensions for the <see cref="T:Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Extensions.RenderTreeBuilderExtensions.AddChildContent(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder,System.Int32,Microsoft.AspNetCore.Components.RenderFragment)">
+            <summary>
+            Adds a child content into the <paramref name="renderTreeBuilder"/> by passing a <see cref="T:Microsoft.AspNetCore.Components.RenderFragment"/> delegate.
+            </summary>
+            <param name="renderTreeBuilder">RenderTreeBuilder to use.</param>
+            <param name="sequence">Number of the sequence.</param>
+            <param name="renderFragment">RenderFragment which represents the child content.</param>
         </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.ServiceCollectionExtensions">
             <summary>

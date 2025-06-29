@@ -47,7 +47,7 @@ public record DeviceInfo
     public bool IsMobile => Mobile != Mobile.NotMobileDevice;
 
     /// <summary>
-    /// 
+    /// Gets the orientation of the device.
     /// </summary>
     public DeviceOrientation Orientation
     {
@@ -59,6 +59,9 @@ public record DeviceInfo
         }
     }
 
+    /// <summary>
+    /// Events occured when the orientation of the device has changed.
+    /// </summary>
     public event EventHandler<DeviceOrientation>? OrientationChanged;
 
     /// <inheritdoc />

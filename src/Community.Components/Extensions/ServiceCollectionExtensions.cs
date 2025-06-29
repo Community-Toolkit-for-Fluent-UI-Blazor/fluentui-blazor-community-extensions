@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Components.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FluentUI.Blazor.Community.Extensions;

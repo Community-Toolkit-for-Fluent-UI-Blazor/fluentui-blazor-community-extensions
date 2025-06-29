@@ -1,7 +1,7 @@
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents the interface for a <see cref="FluentCxDropZone{TItem}"/> which contains a
+/// Represents the interface for a <see cref="Internal.FluentCxDropZone{TItem}"/> which contains a
 ///  <see cref="FluentCxTileGrid{TItem}"/>.
 /// </summary>
 /// <typeparam name="TItem">Type of the item.</typeparam>
