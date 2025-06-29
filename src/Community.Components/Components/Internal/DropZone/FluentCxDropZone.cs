@@ -11,6 +11,7 @@ internal class FluentCxDropZone<TItem>
     : FluentComponentBase, IDisposable, IItemValue<TItem>
 {
     internal readonly RenderFragment _renderDropZone;
+    private bool _dragEnter;
 
     public FluentCxDropZone()
     {
@@ -202,9 +203,9 @@ internal class FluentCxDropZone<TItem>
 
     private void OnDragLeave()
     {
+        _dragEnter = false;
         State.TargetItem = default!;
         DropZoneContainer.Refresh();
-        Console.WriteLine($"Leave {Value}");
     }
 
     private async Task OnDragEndAsync()
@@ -228,6 +229,12 @@ internal class FluentCxDropZone<TItem>
 
     private async Task OnDragEnterAsync()
     {
+        if (_dragEnter)
+        {
+            return;
+        }
+
+        _dragEnter = true;
         var activeItem = State.ActiveItem;
 
         if (activeItem is null)
@@ -251,7 +258,6 @@ internal class FluentCxDropZone<TItem>
         }
 
         State.TargetItem = Value;
-        Console.WriteLine($"Enter {Value}");
 
         if (DropZoneContainer.Immediate)
         {
