@@ -1080,6 +1080,436 @@
             <returns>Returns a <see cref="T:System.String"/> which contains all tags to use in the file selector
              inside <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/></returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels">
+            <summary>
+            Represents the labels for the file from its extension.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.#ctor">
+            <summary>
+            Prevents the creation of an instance of the class <see cref="T:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Default">
+            <summary>
+            Gets the default labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.French">
+            <summary>
+            Gets the french labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.WindowsAudioFile">
+            <summary>
+            Gets or sets the label for a Windows audio file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftAccessDatabaseFile">
+            <summary>
+            Gets or sets the label for Microsoft Access database file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftAccessExecuteOnlyFile">
+            <summary>
+            Gets or sets the label for icrosoft Access execute-only file
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftAccessRuntimeDatabase">
+            <summary>
+            Gets or sets the label for Microsoft Access runtime database file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftAccessDatabaseTemplate">
+            <summary>
+            Gets or sets the label for Microsoft Access database template file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.AudioInterchangeFileFormatFile">
+            <summary>
+            Gets or sets the label for audio interchange file format file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.AspNetActiveServerPage">
+            <summary>
+            Gets or sets the label for Asp.Net file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.AspFile">
+            <summary>
+            Gets or sets the label for Asp file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.AudioVideoInterleaveFile">
+            <summary>
+            Gets or sets the label for avi file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.BatchFile">
+            <summary>
+            Gets or sets the label for batch file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.BinaryFile">
+            <summary>
+            Gets or sets the label for binary file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.BitmapFile">
+            <summary>
+            Gets or sets the label for bitmap file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Cab">
+            <summary>
+            Gets or sets the label for Windows cabinet file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Cda">
+            <summary>
+            Gets or sets the label for CD audio track.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Csv">
+            <summary>
+            Gets or sets the label for csv file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Dif">
+            <summary>
+            Gets or sets the label for dif file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Dll">
+            <summary>
+            Gets or sets the label for dll file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftWordDocument">
+            <summary>
+            Gets or sets the label for Microsoft Word file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftWordTemplate">
+            <summary>
+            Gets or sets the label for Microsoft Word template file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftWordMacroEnabledDocument">
+            <summary>
+            Gets or sets the label for Microsoft Word macro enabled document.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Eml">
+            <summary>
+            Gets or sets the label for eml file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Eps">
+            <summary>
+            Gets or sets the label for eps file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Exe">
+            <summary>
+            Gets or sets the label for exe file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Flv">
+            <summary>
+            Gets or sets the label for flv file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Gif">
+            <summary>
+            Gets or sets the label for gif file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Html">
+            <summary>
+            Gets or sets the label for html file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Ini">
+            <summary>
+            Gets or sets the label for ini file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Iso">
+            <summary>
+            Gets or sets the label for iso file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Jar">
+            <summary>
+            Gets or sets the label for jar file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Jpg">
+            <summary>
+            Gets or sets the label for jpg file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Jpeg">
+            <summary>
+            Gets or sets the label for jpeg file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.M4a">
+            <summary>
+            Gets or sets the label for m4a file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Mdb">
+            <summary>
+            Gets or sets the label for Microsoft access database file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Midi">
+            <summary>
+            Gets or sets the label for midi file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Mov">
+            <summary>
+            Gets or sets the label for mov file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Mp3">
+            <summary>
+            Gets or sets the label for mp3 file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Mp4">
+            <summary>
+            Gets or sets the label for mp4 file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Mpeg">
+            <summary>
+            Gets or sets the label for mpg file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Mpg">
+            <summary>
+            Gets or sets the label for mp1 file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Msi">
+            <summary>
+            Gets or sets the label for msi file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Mui">
+            <summary>
+            Gets or sets the label for mui file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Pdf">
+            <summary>
+            Gets or sets the label for pdf file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Png">
+            <summary>
+            Gets or sets the label for png file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftPowerPointAddIn">
+            <summary>
+            Gets or sets the label for Microsoft Powerpoint Add-in file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftPowerPointSlide">
+            <summary>
+            Gets or sets the label for Microsoft Powerpoint slide file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.PowerShell">
+            <summary>
+            Gets or sets the label for Microsoft Powershell file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.AdobePhotoshopFile">
+            <summary>
+            Gets or sets the label for Adobe photoshop file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.OutlookDataStore">
+            <summary>
+            Gets or sets the label for Microsoft Outlook data store file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftPublisherFile">
+            <summary>
+            Gets or sets the label for Microsoft Publisher file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.ArchiveCompressedFile">
+            <summary>
+            Gets or sets the label for zip, rar, 7zip file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.RichTextFormatFile">
+            <summary>
+            Gets or sets the label for rtf file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.ShockwaveFlashFile">
+            <summary>
+            Gets or sets the label for Shockwave flash file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftWindowsSystemSettings">
+            <summary>
+            Gets or sets the label for Microsoft Windows system settings file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.TaggedImageFormatFile">
+            <summary>
+            Gets or sets the label for tiff file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.TemporaryDataFile">
+            <summary>
+            Gets or sets the label for temp data file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.TextDocument">
+            <summary>
+            Gets or sets the label for text file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.VideoObjectFile">
+            <summary>
+            Gets or sets the label for video object file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftVisio">
+            <summary>
+            Gets or sets the label for Microsoft Visio file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftVisioMacroEnabled">
+            <summary>
+            Gets or sets the label for Microsoft Visio macro-enabled drawing file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftVisioDrawing">
+            <summary>
+            Gets or sets the label for Microsoft Visio drawing file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftVisioTemplate">
+            <summary>
+            Gets or sets the label for Microsoft Visio template.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.WaveAudioFile">
+            <summary>
+            Gets or sets the label for wave file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftWorksFile">
+            <summary>
+            Gets or sets the label for Microsoft Works file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.WindowsMediaAudioFile">
+            <summary>
+            Gets or sets the label for Windows media audio file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.WindowsMediaDownloadFile">
+            <summary>
+            Gets or sets the label for Windows media download file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.WindowsMediaVideoFile">
+            <summary>
+            Gets or sets the label for Windows media video file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.WindowsMediaSkinsFile">
+            <summary>
+            Gets or sets the label for Windows media skin file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.WordPerfectDocument">
+            <summary>
+            Gets or sets the label for Word perfect document file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftExcelAddIn">
+            <summary>
+            Gets or sets the label for Microsoft Excel add-in file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftExcelDocument">
+            <summary>
+            Gets or sets the label for Microsoft Excel file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftExcelTemplate">
+            <summary>
+            Gets or sets the label for Microsoft Excel template file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftExcelWorkbook">
+            <summary>
+            Gets or sets the label for Microsoft Excel workbook file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftExcelMacroEnabled">
+            <summary>
+            Gets or sets the label for Microsoft Excel macro-enabled file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.Xps">
+            <summary>
+            Gets or sets the label for xps file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.UnknownValue">
+            <summary>
+            Gets or sets the label for unknwon file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftPowerPointTemplate">
+            <summary>
+            Gets or sets the label for Microsoft Powerpoint template file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftPowerPointMacroEnabled">
+            <summary>
+            Gets or sets the label for Microsoft Powerpoint marcro-enabled file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftPowerPointDocument">
+            <summary>
+            Gets or sets the label for Microsoft Powerpoint Document file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftExcelDllAddIn">
+            <summary>
+            Gets or sets the label for Microsoft Excel dll based add-in file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.MicrosoftPowerBiDocument">
+            <summary>
+            Gets or sets the label for Microsoft PowerBi Document file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.SvgFile">
+            <summary>
+            Gets or sets the label for svg file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileExtensionTypeLabels.JsonFile">
+            <summary>
+            Gets or sets the label for json file.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileIcons">
             <summary>
             Represents the icons used by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
@@ -2525,14 +2955,253 @@
             Gets or sets the label for the created date column. 
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManager`1">
+            <summary>
+            Represents the file manager.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManager`1._isBusy">
+            <summary>
+            Represents a value indicating if the file manager is busy.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.FileNavigationViewVisible">
+            <summary>
+            Gets or sets a value indicating if the file navigation view is visible or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.IsIndeterminateProgress">
+            <summary>
+            Gets or sets a value indicating if the progess is indeterminate or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.ProgressPercent">
+            <summary>
+            Gets or sets the percentage of the progression.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.ProgressLabel">
+            <summary>
+            Gets or sets the label of the progress.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.IsMobile">
+            <summary>
+            Gets or sets a value indicating if the file manager runs on mobile or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.ItemTemplate">
+            <summary>
+            Gets or sets the template of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.SelectedItems">
+            <summary>
+            Gets or sets the selected items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.OnItemDoubleClick">
+            <summary>
+            Gets or sets the event callback when an item is double clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.ColumnLabels">
+            <summary>
+            Gets or sets the labels of the columns when the file manager renders the items as list or details.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.SelectedItemsChanged">
+            <summary>
+            Gets or sets the event callback when the selecteditems has changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.Entry">
+            <summary>
+            Gets or sets the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.Download">
+            <summary>
+            Gets or sets the event callback when an item is downloaded.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.NavigationItems">
+            <summary>
+            Gets or sets the items of the navigation bar.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.State">
+            <summary>
+            Gets or sets the state of the file manager.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnSelectedItemsChangedAsync">
+            <summary>
+            Occurs when the selected items has changed.
+            </summary>
+            <returns>Returns a task which contains the way to process the selecteditems propery when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnViewUpdated(System.Object,System.EventArgs)">
+            <summary>
+            Occurs when the view is updated.
+            </summary>
+            <param name="sender">Object which invokes the method.</param>
+            <param name="e">Events args associated to this method.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnUpdated(System.Object,System.EventArgs)">
+            <summary>
+            Occurs when the state of the file manager is updated.
+            </summary>
+            <param name="sender">Object which invokes the method.</param>
+            <param name="e">Events args associated to this method.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.SetEntry(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Sets the entry to render in the file manager.
+            </summary>
+            <param name="entry">Entry to set.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnItemDoubleTappedAsync(FluentUI.Blazor.Community.Components.FileManagerEntryEventArgs{`0})">
+            <summary>
+            Occurs when an item is double clicked.
+            </summary>
+            <param name="e">EventArgs which contains the item which was double clicked.</param>
+            <returns>Returns a task which contains the way to process the double clicked item when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.Sort">
+            <summary>
+            Sort the current entry.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnClick(FluentUI.Blazor.Community.Components.FileNavigationItem)">
+            <summary>
+            Occurs when a <see cref="T:FluentUI.Blazor.Community.Components.FileNavigationItem"/> item is clicked.
+            </summary>
+            <param name="item">Represents the clicked item.</param>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.SetBusy(System.Boolean)">
+            <summary>
+            Sets if the file manager is busy or not.
+            </summary>
+            <param name="isBusy">Value indicating if the file manager is busy or not.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnInitialized">
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.Dispose">
             <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerBase`1">
+            <summary>
+            Represents the base for the file manager.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.Parent">
+            <summary>
+            Gets or sets the parent of this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.Entry">
+            <summary>
+            Gets or sets the entry to view.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.SelectedItems">
+            <summary>
+            Gets or sets the selected items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.SelectedItemsChanged">
+            <summary>
+            Gets or sets an event callback which occurs when the <see cref="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.SelectedItems"/> changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.OnItemTapped">
+            <summary>
+            Gets or sets an event callback which occurs when an item is tapped.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.OnItemDoubleTapped">
+            <summary>
+            Gets or sets an event callback which occurs when an item is double tapped.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.IsMobile">
+            <summary>
+            Gets or sets a value indicating if the filemanager runs on mobile.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.IsBusy">
+            <summary>
+            Gets or sets a value indicating if the filemanager is busy or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.IsIndeterminateProgress">
+            <summary>
+            Gets or sets a value indicating if the progess is indeterminate or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.ProgressPercent">
+            <summary>
+            Gets or sets the percentage of the progression.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.ProgressLabel">
+            <summary>
+            Gets or sets the label of the progress.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.ColumnLabels">
+            <summary>
+            Gets or sets the labels of the columns when the file manager renders the items as list or details.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerBase`1.OnSelectedItemsChangedAsync">
+            <summary>
+            Occurs when the <see cref="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.SelectedItems"/> has changed.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.SelectedItemsChanged"/> event callback.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerBase`1.OnItemDoubleTappedAsync(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Occurs when an item is double clicked.
+            </summary>
+            <param name="entry">Represents the clicked entry.</param>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.OnItemDoubleTapped"/> event callback.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerBase`1.OnItemTappedAsync(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Occurs when an item is double clicked.
+            </summary>
+            <param name="entry">Represents the clicked entry.</param>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.FileManagerBase`1.OnItemTapped"/> event callback.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerBase`1.GetIconFromFile(System.String)">
+            <summary>
+            Gets the icon from an extension.
+            </summary>
+            <param name="extension">Extension of the file.</param>
+            <returns>Returns the icons to render.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerBase`1.GetIconFromExtensionAndGridViewOptions(System.String,FluentUI.Blazor.Community.Components.FileView)">
+            <summary>
+            Gets the icon from an extension and the current used view.
+            </summary>
+            <param name="extension">Extension of the file.</param>
+            <param name="options">Current used view.</param>
+            <returns>Returns the icons to render.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerBase`1.OnRenameAsync(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Occurs when a rename operation is performed.
+            </summary>
+            <param name="entry">Entry to rename.</param>
+            <returns>Returns a task which contains the rename process when completed.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerContent">
             <summary>
@@ -2570,6 +3239,28 @@
             <summary>
             Gets or sets the name of the file or the folder.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerDetailsDialogContent`1">
+            <summary>
+            Represents the content for the FileManagerDetailsDialog.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <param name="FileExtensionTypeLabels">Labels for the files.</param>
+            <param name="Entries">Represents the selected entries.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerDetailsDialogContent`1.#ctor(FluentUI.Blazor.Community.Components.FileExtensionTypeLabels,System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
+            <summary>
+            Represents the content for the FileManagerDetailsDialog.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+            <param name="FileExtensionTypeLabels">Labels for the files.</param>
+            <param name="Entries">Represents the selected entries.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsDialogContent`1.FileExtensionTypeLabels">
+            <summary>Labels for the files.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerDetailsDialogContent`1.Entries">
+            <summary>Represents the selected entries.</summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerDetailsLabels">
             <summary>
@@ -2668,9 +3359,452 @@
         <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntriesMovedEventArgs`1.MovedEntries">
             <summary>Represents the entries that have been moved.</summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntry`1">
+            <summary>
+            Represents an entry for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> component.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerEntry`1._files">
+            <summary>
+            Represents the files inside the current instance.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerEntry`1._directories">
+            <summary>
+            Represents the directories inside the current instance.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerEntry`1._fileExtensionContentTypeProvider">
+            <summary>
+            Gets the provider of content type from a file extension.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerEntry`1._merged">
+            <summary>
+            Represents the list of files and directories of the current instance.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.#ctor">
             <summary>
-            Do not use it ! Use <see cref="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Home"/> property, or the static create methods.
+            Prevents the creation of an instance of the class <see cref="T:FluentUI.Blazor.Community.Components.FileManagerEntry`1"/>.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.#ctor(`0,System.Func{System.Threading.Tasks.Task{System.Byte[]}},System.String,System.Boolean,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Prevents the creation of an instance of the class <see cref="T:FluentUI.Blazor.Community.Components.FileManagerEntry`1"/>.
+            </summary>
+            <param name="itemData">Represents the data inside the current instance.</param>
+            <param name="dataBytesAsyncFunc">Represents the function to get the data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="isDirectory">Value indicating if the entry is a directory or a file.</param>
+            <param name="size">Size of the entry.</param>
+            <param name="createdDate">Creation date of the item of the entry.</param>
+            <param name="modifiedDate">Modification date of the item of the entry.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.#ctor(`0,System.Byte[],System.String,System.Boolean,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Prevents the creation of an instance of the class <see cref="T:FluentUI.Blazor.Community.Components.FileManagerEntry`1"/>.
+            </summary>
+            <param name="itemData">Represents the data inside the current instance.</param>
+            <param name="dataBytes">Represents the data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="isDirectory">Value indicating if the entry is a directory or a file.</param>
+            <param name="size">Size of the entry.</param>
+            <param name="createdDate">Creation date of the item of the entry.</param>
+            <param name="modifiedDate">Modification date of the item of the entry.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Home">
+            <summary>
+            Gets the home entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Parent">
+            <summary>
+            Gets the parent of this entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.TotalEntriesCount">
+            <summary>
+            Gets the total number of entries.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.DataBytesAsyncFunc">
+            <summary>
+            Gets the function which retrieves the raw data of the entry asynchronously.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.DataBytes">
+            <summary>
+            Gets the data of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Size">
+            <summary>
+            Gets the size of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Data">
+            <summary>
+            Gets the data instance of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreatedDate">
+            <summary>
+            Gets the creation date of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.ModifiedDate">
+            <summary>
+            Gets the modified date of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.ContentType">
+            <summary>
+            Gets the content type of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Name">
+            <summary>
+            Gets the name of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.NameWithoutExtension">
+            <summary>
+            Gets the name of the file without its extension.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Count">
+            <summary>
+            Gets or sets the number of file which contains the same name.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.HasExtension">
+            <summary>
+            Gets a value indicating if the entry has an extension.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Extension">
+            <summary>
+            Gets the extension of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.IsDirectory">
+            <summary>
+            Gets a value indicating if the entry is a directory or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.HasDirectory">
+            <summary>
+            Gets a value indicating if the entry has directories.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.HasFiles">
+            <summary>
+            Gets a value indicating if the entry has files.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Id">
+            <summary>
+            Gets or sets the identifier of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.RelativePath">
+            <summary>
+            Gets the relative path of the entry.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.GetContentType">
+            <summary>
+            Gets the content type of the entry.
+            </summary>
+            <returns>Returns the content type of the entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.GetMerged">
+            <summary>
+            Gets the merged list of entries inside the current entry.
+            </summary>
+            <returns>Returns the merged entries.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.RemoveEntry(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Remove the <paramref name="entry"/> from specified <paramref name="root"/>;
+            </summary>
+            <param name="root">Root where the entry to remove is.</param>
+            <param name="entry">Entry to remove.</param>
+            <returns>Returns <see langword="true"/> if the entry was successfully removed, <see langword="false" /> sinon.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateDirectory(System.DateTime,System.DateTime,System.String,System.Int64)">
+            <summary>
+            Creates a directory inside the current entry.
+            </summary>
+            <param name="creationDate">Date of creation of the directory.</param>
+            <param name="modificationDate">Modification date of the directory.</param>
+            <param name="directoryName">Name of the directory.</param>
+            <param name="size">Size of the directory.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateDirectory(System.String)">
+            <summary>
+            Creates a directory inside the current entry.
+            </summary>
+            <param name="directoryName">Name of the directory.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateHomeDirectory">
+            <summary>
+            Creates the home directory. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.op_Equality(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Check if <paramref name="x"/> is equal to <paramref name="y"/>.
+            </summary>
+            <param name="x">Left entry to compare with.</param>
+            <param name="y">Right entry to compare with.</param>
+            <returns>Returns <see langword="true"/> if the entries are equal, <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.op_Inequality(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Check if <paramref name="x"/> is inequal to <paramref name="y"/>.
+            </summary>
+            <param name="x">Left entry to compare with.</param>
+            <param name="y">Right entry to compare with.</param>
+            <returns>Returns <see langword="true"/> if the entries are not equal, <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Equals(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.GetHashCode(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.GetBytesAsync">
+            <summary>
+            Gets the raw data of the entry in an asynchronous way.
+            </summary>
+            <returns>Returns the raw data of the entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.SetName(System.String)">
+            <summary>
+            Sets the name of the entry.
+            </summary>
+            <param name="newName">Name of the entry.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Add(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Adds an entry in the current instance.
+            </summary>
+            <param name="entry">Entry to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.AddRange(FluentUI.Blazor.Community.Components.FileManagerEntry{`0}[])">
+            <summary>
+            Adds a range of entries in the current instance.
+            </summary>
+            <param name="entries">Entries to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Clear">
+            <summary>
+            Clears the current entry.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.GetDirectories">
+            <summary>
+            Gets the directories of the current entry.
+            </summary>
+            <returns>Returns the directories of the current entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.GetFiles">
+            <summary>
+            Gets the files of the current entry.
+            </summary>
+            <returns>Returns the files of the current entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Remove(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Removes the entry from the current entry.
+            </summary>
+            <param name="entry">Entry to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Remove(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
+            <summary>
+            Removes all specified entries from the current entry.
+            </summary>
+            <param name="entries">Entries to removed.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.InvalidateMerge">
+            <summary>
+            Invalidate the merged entries.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Enumerate">
+            <summary>
+            Enumerates all the entries in the current entries.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Sort(FluentUI.Blazor.Community.Components.FileSortMode,FluentUI.Blazor.Community.Components.FileSortBy)">
+            <summary>
+            Sorts the entries.
+            </summary>
+            <param name="sortBy">Type of sort.</param>
+            <param name="sortMode">Ascending or descending sort.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Find(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.String)">
+            <summary>
+            Finds the entry specified <paramref name="id"/> by starting from <paramref name="root"/>.
+            </summary>
+            <param name="root">Entry to use as a search entry.</param>
+            <param name="id">Identifier to find.</param>
+            <returns>Returns the entry if found, <see langword="null" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Find(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.Func{FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.Boolean})">
+            <summary>
+            Finds an entry from the <paramref name="root"/>.
+            </summary>
+            <param name="root">Entry to use as a search entry.</param>
+            <param name="predicate">Predicate to apply to find the entry.</param>
+            <returns>Returns the entry if found, <see langword="null" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Find(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}},System.String)">
+            <summary>
+            Finds the entry specified with <paramref name="id"/> inside the specified <paramref name="items"/>.
+            </summary>
+            <param name="items">List of items where the search begins.</param>
+            <param name="id">Identifier of the entry to find.</param>
+            <returns>Returns the entry if found, <see langword="null" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Find(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}},System.Func{FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.Boolean})">
+            <summary>
+            Finds an entry from the <paramref name="items"/>.
+            </summary>
+            <param name="items">List of entries to use.</param>
+            <param name="predicate">Predicate to apply to find the entry.</param>
+            <returns>Returns the entry if found, <see langword="null" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.FindByName(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.String)">
+            <summary>
+            Finds an entry from its name.
+            </summary>
+            <param name="entry">Entry to use as search entry.</param>
+            <param name="name">Name of the entry.</param>
+            <returns>Returns the entry if found, <see langword="null" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateDefaultFileEntry(System.Byte[],System.String,System.Int32)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="data">Data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateDefaultFileEntry(System.Func{System.Threading.Tasks.Task{System.Byte[]}},System.String,System.Int64)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="value">Function to retrieve the data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateDefaultFileEntry(System.Func{System.Threading.Tasks.Task{System.Byte[]}},System.String,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="value">Function to retrieve the data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <param name="creationDate">Date of the creation of the entry.</param>
+            <param name="lastModificationDate">Date of the last modification of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateDefaultFileEntryWithData(`0,System.Func{System.Threading.Tasks.Task{System.Byte[]}},System.String,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="data">Instance of the item.</param>
+            <param name="value">Function to retrieve the data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <param name="creationDate">Date of the creation of the entry.</param>
+            <param name="lastModificationDate">Date of the last modification of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateDefaultFileEntryWithData(`0,System.Byte[],System.String,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="data">Instance of the item.</param>
+            <param name="value">Raw data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <param name="creationDate">Date of the creation of the entry.</param>
+            <param name="lastModificationDate">Date of the last modification of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateEntryWithData(`0,System.Func{System.Threading.Tasks.Task{System.Byte[]}},System.String,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="data">Instance of the item.</param>
+            <param name="value">Function to retrieve the data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <param name="creationDate">Date of the creation of the entry.</param>
+            <param name="lastModificationDate">Date of the last modification of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateEntryWithData(`0,System.Byte[],System.String,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="data">Instance of the item.</param>
+            <param name="value">Function to retrieve the data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <param name="creationDate">Date of the creation of the entry.</param>
+            <param name="lastModificationDate">Date of the last modification of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateEntry(System.Func{System.Threading.Tasks.Task{System.Byte[]}},System.String,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="value">Function to retrieve the data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <param name="creationDate">Date of the creation of the entry.</param>
+            <param name="lastModificationDate">Date of the last modification of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateEntry(System.Func{System.Threading.Tasks.Task{System.Byte[]}},System.String,System.Int64)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="value">Function to retrieve the data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.CreateEntry(System.Byte[],System.String,System.Int64)">
+            <summary>
+            Creates a default file entry.
+            </summary>
+            <param name="value">Raw data of the entry.</param>
+            <param name="name">Name of the entry.</param>
+            <param name="length">Size of the entry.</param>
+            <returns>Returns the newly created entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntry`1.InvalidateSize">
+            <summary>
+            Invalidates the size of the entry.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryComparer`1.Compare(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
