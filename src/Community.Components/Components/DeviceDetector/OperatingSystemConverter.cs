@@ -14,9 +14,9 @@ internal sealed class OperatingSystemConverter
     {
         var s = reader.GetString();
 
-        if (Enum.TryParse(s, out OperatingSystem mobile))
+        if (Enum.TryParse(s, out OperatingSystem operatingSystem))
         {
-            return mobile;
+            return operatingSystem;
         }
 
         return OperatingSystem.Undefined;
