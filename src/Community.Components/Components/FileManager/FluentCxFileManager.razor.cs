@@ -65,10 +65,7 @@ public partial class FluentCxFileManager<TItem>
 
     [Parameter]
     public bool ShowUploadButton { get; set; } = true;
-
-    [Parameter]
-    public bool ShowMoveToButton { get; set; } = true;
-
+    
     [Parameter]
     public bool ShowViewButton { get; set; } = true;
 
