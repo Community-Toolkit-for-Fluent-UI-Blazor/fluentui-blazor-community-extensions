@@ -57,7 +57,7 @@ internal sealed class FluentCxDropZoneContainer<TItem>
                 }
                 else
                 {
-                    var content = _children.Find(x => x is IItemValue<TItem> t && string.Equals(ItemKey!(t.Value!), ItemKey(value)));
+                    var content = _children.Find(x => x is IItemValue<TItem> t && CheckEquality(t.Value, value));
 
                     if (content is not null && content is IDropZoneComponent<TItem> t)
                     {
@@ -244,6 +244,32 @@ internal sealed class FluentCxDropZoneContainer<TItem>
     #region Methods
 
     /// <summary>
+    /// Checks equality between two items.
+    /// </summary>
+    /// <param name="left">Left item to compare.</param>
+    /// <param name="right">Right item to compare.</param>
+    /// <returns>Returns <see langword="true" /> if the items are equal, <see langword="false" /> otherwise.</returns>
+    private bool CheckEquality(TItem? left, TItem? right)
+    {
+        if (ItemKey is null)
+        {
+            return Equals(left, right);
+        }
+
+        if (left is null)
+        {
+            return right is null;
+        }
+
+        if (right is null)
+        {
+            return left is null;
+        }
+
+        return string.Equals(ItemKey(left), ItemKey(right));
+    }
+
+    /// <summary>
     /// Occurs when an item is dropped into the component.
     /// </summary>
     /// <param name="e">Event args associated to the drop.</param>
@@ -298,8 +324,12 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         State.Reset();
         await OnItemDrop.InvokeAsync(activeItem);
 
-        Layout?.Update(ItemKey, Items);
-        Layout?.RequestSave();
+        if (PersistenceEnabled)
+        {
+            Layout?.Update(ItemKey, Items);
+            Layout?.RequestSave();
+        }
+
         await InvokeAsync(StateHasChanged);
     }
 
@@ -678,7 +708,7 @@ internal sealed class FluentCxDropZoneContainer<TItem>
     /// <returns>Returns the ordered items.</returns>
     private IEnumerable<TItem> ReorderItemsFromLayout()
     {
-        if (Layout is null || !Layout.Items.Any() || Layout.IsDirty || ItemKey is null)
+        if (!PersistenceEnabled || Layout is null || !Layout.Items.Any() || Layout.IsDirty || ItemKey is null)
         {
             return Items;
         }
@@ -704,7 +734,7 @@ internal sealed class FluentCxDropZoneContainer<TItem>
     /// <returns>Returns the ordered components.</returns>
     private IList<FluentComponentBase> ReorderChildrenFromLayout()
     {
-        if (Layout is null || !Layout.Items.Any() || Layout.IsDirty || ItemKey is null)
+        if (!PersistenceEnabled || Layout is null || !Layout.Items.Any() || Layout.IsDirty || ItemKey is null)
         {
             return _children;
         }
@@ -742,10 +772,7 @@ internal sealed class FluentCxDropZoneContainer<TItem>
             Items.Add(item.Value);
         }
 
-        _children.Clear();
-        _children.AddRange(sortedList.Values);
-
-        return _children;
+        return sortedList.Values;
     }
 
     /// <inheritdoc />

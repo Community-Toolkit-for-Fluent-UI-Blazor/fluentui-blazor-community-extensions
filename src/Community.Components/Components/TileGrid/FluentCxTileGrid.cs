@@ -32,6 +32,11 @@ public class FluentCxTileGrid<TItem>
     private IJSObjectReference? _module;
 
     /// <summary>
+    /// Represents a value indicating if the layout was already loaded.
+    /// </summary>
+    private bool _layoutLoaded;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="FluentCxTileGrid{TItem}"/> component.
     /// </summary>
     public FluentCxTileGrid() : base()
@@ -108,7 +113,7 @@ public class FluentCxTileGrid<TItem>
     /// Gets or sets the items to render.
     /// </summary>
     [Parameter]
-    public IList<TItem>? Items { get; set; } = [];
+    public IList<TItem> Items { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the child content.
@@ -247,8 +252,7 @@ public class FluentCxTileGrid<TItem>
     {
         if (PersistenceEnabled &&
             _layout is not null &&
-            _module is not null &&
-            !string.IsNullOrEmpty(Id))
+            _module is not null)
         {
             await _module.InvokeVoidAsync(
                 "saveLayout", Id, _layout.Items);
@@ -260,9 +264,17 @@ public class FluentCxTileGrid<TItem>
     {
         base.OnParametersSet();
 
-        if (PersistenceEnabled && ItemKey is null)
+        if (PersistenceEnabled)
         {
-            throw new InvalidOperationException("When PersistenceEnabled is set to true, ItemKey must be defined.");
+            if (ItemKey is null)
+            {
+                throw new InvalidOperationException("When PersistenceEnabled is set to true, ItemKey must be defined.");
+            }
+
+            if (string.IsNullOrEmpty(Id))
+            {
+                throw new InvalidOperationException("When PersistenceEnabled is set to true, Id must be defined.");
+            }
         }
     }
 
@@ -272,10 +284,16 @@ public class FluentCxTileGrid<TItem>
         await base.OnAfterRenderAsync(firstRender);
 
         if (firstRender &&
-            JSRuntime is not null &&
-            PersistenceEnabled)
+            JSRuntime is not null)
         {
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptFile);
+        }
+
+        if (PersistenceEnabled &&
+            !_layoutLoaded &&
+            _module is not null)
+        {
+            _layoutLoaded = true;
             _layout.AddRange(await _module.InvokeAsync<IEnumerable<TileGridLayoutItem>>("loadLayout", Id));
             await InvokeAsync(StateHasChanged);
         }
@@ -306,7 +324,8 @@ public class FluentCxTileGrid<TItem>
             __builder2.AddComponentParameter(16, nameof(FluentCxDropZoneContainer<TItem>.CanOverflow), CanOverflow);
             __builder2.AddComponentParameter(17, nameof(FluentCxDropZoneContainer<TItem>.Layout), _layout);
             __builder2.AddComponentParameter(18, nameof(FluentCxDropZoneContainer<TItem>.ItemKey), ItemKey);
-            __builder2.AddComponentReferenceCapture(19, (__value) =>
+            __builder2.AddComponentParameter(19, nameof(PersistenceEnabled), PersistenceEnabled);
+            __builder2.AddComponentReferenceCapture(20, (__value) =>
             {
                 _dropContainer = (FluentCxDropZoneContainer<TItem>)__value;
             }

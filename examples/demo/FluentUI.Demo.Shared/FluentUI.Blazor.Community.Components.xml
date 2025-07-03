@@ -5162,6 +5162,14 @@
             Gets or sets if the layout is persisted.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZoneContainer`1.CheckEquality(`0,`0)">
+            <summary>
+            Checks equality between two items.
+            </summary>
+            <param name="left">Left item to compare.</param>
+            <param name="right">Right item to compare.</param>
+            <returns>Returns <see langword="true" /> if the items are equal, <see langword="false" /> otherwise.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.Internal.FluentCxDropZoneContainer`1.OnDropAsync(Microsoft.AspNetCore.Components.Web.DragEventArgs)">
             <summary>
             Occurs when an item is dropped into the component.
@@ -5579,6 +5587,11 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1._module">
             <summary>
             Represents the reference of the javascript object. 
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1._layoutLoaded">
+            <summary>
+            Represents a value indicating if the layout was already loaded.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.#ctor">
