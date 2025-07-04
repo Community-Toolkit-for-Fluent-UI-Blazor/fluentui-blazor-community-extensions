@@ -3810,6 +3810,72 @@
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryComparer`1.Compare(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1">
+            <summary>
+            Represents the details view for a selected entry.
+            </summary>
+            <typeparam name="TItem"></typeparam>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1._entryDataContent">
+            <summary>
+            Represents the raw data of the entry.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1._fileContentTypeProvider">
+            <summary>
+            Represents the provider for the content type from a file extension.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1._fileExtensionTypeProvider">
+            <summary>
+            Represents the provider for the file extension.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1._isImage">
+            <summary>
+            Represents a value indicating if the entry is an image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1._contentType">
+            <summary>
+            Represents the content type of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.Entries">
+            <summary>
+            Gets ors sets the selected entries.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.EmptyContent">
+            <summary>
+            Gets or sets the <see cref="T:Microsoft.AspNetCore.Components.RenderFragment"/> to use when the content is empty.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.DetailsLabel">
+            <summary>
+            Gets or sets the labels to use for the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.FileExtensionTypeLabels">
+            <summary>
+            Gets or sets the labels to describe the file extension.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.GetEntryDataContentAsync(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Gets the data of the entry in an asynchronous way.
+            </summary>
+            <param name="entry">Entry which contains the data to get.</param>
+            <returns>Returns a task which get the data of the entry when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.GetBase64Content(System.Byte[],System.String)">
+            <summary>
+            Gets the data of the entry in base64 format.
+            </summary>
+            <param name="data">Data to convert.</param>
+            <param name="contentType">Type of the content.</param>
+            <returns>Returns the data content type as a <see cref="T:System.String" /> in base64 format.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryDetails`1.OnInitialized">
             <inheritdoc />
         </member>
@@ -3877,6 +3943,27 @@
         <member name="P:FluentUI.Blazor.Community.Components.DeleteFileManagerEntryEventArgs`1.Entries">
             <summary>Represents the entries to delete.</summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryMenuItemDescription`1">
+            <summary>
+            Represents the description of a menu item.
+            </summary>
+            <typeparam name="TItem"></typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryMenuItemDescription`1.OnClick">
+            <summary>
+            Gets or sets the function to execute when the item is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryMenuItemDescription`1.Icon">
+            <summary>
+            Gets or sets the icon of the menu.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryMenuItemDescription`1.Label">
+            <summary>
+            Gets or sets the label of the menu.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryTreeViewItemComparer">
             <summary>
             Represents a comparer for the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem"/> for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> component.
@@ -3889,6 +3976,49 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryTreeViewItemComparer.Compare(Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem,Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem)">
             <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerGrid`1">
+            <summary>
+            Represents the grid of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerGrid`1.ItemTemplate">
+            <summary>
+            Gets or sets the template of the items in the grid.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerGrid`1.GetRowHeightFromGridViewOptions">
+            <summary>
+            Gets the height of the row from the <see cref="T:FluentUI.Blazor.Community.Components.FileView"/> value.
+            </summary>
+            <returns>Returns the height of the row.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerGrid`1.GetColumnWidthFromGridViewOptions">
+            <summary>
+            Gets the width of the column from the <see cref="T:FluentUI.Blazor.Community.Components.FileView"/> value.
+            </summary>
+            <returns>Returns the width of the column.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerGrid`1.GetIconSizeFromGridViewOptions">
+            <summary>
+            Gets the size of the icon from the <see cref="T:FluentUI.Blazor.Community.Components.FileView"/> value.
+            </summary>
+            <returns>Returns the size of the icons.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerGrid`1.GetMaxWidthFromGridViewOptions">
+            <summary>
+            Gets the max width of the text from the <see cref="T:FluentUI.Blazor.Community.Components.FileView"/> value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerGrid`1.OnCheckedItemChangedAsync(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.Boolean)">
+            <summary>
+            Occurs when an item is selected or unselected.
+            </summary>
+            <param name="entry">Entry on which occurs the selection.</param>
+            <param name="isSelected">Value indicating if the entry is selected or unselected.</param>
+            <returns>A task which contains the selecteditems when completed.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerLabels">
             <summary>
@@ -4145,6 +4275,106 @@
             Gets or sets the label for the very large icons menu item.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerList`1">
+            <summary>
+            Represents the list view for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerList`1.InternalStyle">
+            <summary>
+            Gets the style of the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerList`1.OnRowDoubleClickAsync(Microsoft.FluentUI.AspNetCore.Components.FluentDataGridRow{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
+            <summary>
+            Occurs when the row is double clicked.
+            </summary>
+            <param name="e">Event args associated to the clicked row.</param>
+            <returns>Returns a task which perform the double click when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerList`1.GetStyle">
+            <summary>
+            Gets the style of the list.
+            </summary>
+            <returns>Returns the style of the list.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerNavigationView">
+            <summary>
+            Represents the navigation view for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerNavigationView.ChildContent">
+            <summary>
+            Gets or sets the child content.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem">
+            <summary>
+            Represents an item of the <see cref="T:FluentUI.Blazor.Community.Components.FileManagerNavigationView"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem.Text">
+            <summary>
+            Gets or sets the text of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem.OnClick">
+            <summary>
+            Gets the event callback which occurs when the item is clicked.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem.OnClickItemAsync">
+            <summary>
+            Occurs when the item is clicked.
+            </summary>
+            <returns>Returns a task which click on the menu when completed.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerState">
+            <summary>
+            Represents the state of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerState._sortBy">
+            <summary>
+            Represents the way the files are sorted by.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerState._sortMode">
+            <summary>
+            Represents the ascending or descending sort.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManagerState._view">
+            <summary>
+            Represents the current view of the file manager.
+            </summary>
+        </member>
+        <member name="E:FluentUI.Blazor.Community.Components.FileManagerState.OnSortUpdated">
+            <summary>
+            Gets or sets the event to raise when the sort is updated.
+            </summary>
+        </member>
+        <member name="E:FluentUI.Blazor.Community.Components.FileManagerState.OnViewUpdated">
+            <summary>
+            Gets or sets the event to raise when the view is updated.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerState.SortBy">
+            <summary>
+            Gets or sets the way the files are sorted.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerState.SortMode">
+            <summary>
+            Gets the sorted mode of the files (ascending or descending).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerState.View">
+            <summary>
+            Gets the view of the file manager.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerView">
             <summary>
             Represents the available view for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
@@ -4159,6 +4389,67 @@
             <summary>
             The <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> is rendered in mobile mode.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileMoverDialog`1">
+            <summary>
+            Represents the file mover dialog.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileMoverDialog`1._currentSelectedItem">
+            <summary>
+            Represents the selected item in the tree.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileMoverDialog`1._items">
+            <summary>
+            Represents the tree.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileMoverDialog`1.IconCollapsed">
+            <summary>
+            Represents the collapsed node icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileMoverDialog`1.IconExpanded">
+            <summary>
+            Represents the expanded node icon.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileMoverDialog`1.Dialog">
+            <summary>
+            Gets or sets the dialog that this content belongs to.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileMoverDialog`1.Content">
+            <summary>
+            Gets or sets the content of the dialog.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileMoverDialog`1.OnCancelAsync">
+            <summary>
+            Occurs when the dialog is cancelled.
+            </summary>
+            <returns>Returns a task which cancels the dialog when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileMoverDialog`1.OnCloseAsync">
+            <summary>
+            Occurs when the dialog is closed.
+            </summary>
+            <returns>Returns a task which close the dialog when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileMoverDialog`1.BuildTreeView">
+            <summary>
+            Build the treeview from the <see cref="P:FluentUI.Blazor.Community.Components.FileMoverDialog`1.Content"/> root.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileMoverDialog`1.BuildTreeViewItem(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.Boolean)">
+            <summary>
+            Build the treeviewitem from the <paramref name="entry"/> node.
+            </summary>
+            <param name="entry">Entry to build as a treeview item.</param>
+            <param name="isExpanded">Value indicating if the node is expanded or not.</param>
+            <returns>Returns a <see cref="T:Microsoft.FluentUI.AspNetCore.Components.TreeViewItem"/> which represents the <paramref name="entry"/> node.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileMoverDialog`1.OnInitialized">
             <inheritdoc />
@@ -4323,6 +4614,541 @@
             <param name="entries">Entries to zip.</param>
             <returns>Returns a <see cref="T:System.Threading.Tasks.Task`1" /> which contains a <see cref="T:FluentUI.Blazor.Community.Components.FileManagerEntry`1"/>
              which contains the zipped file.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1">
+            <summary>
+            Represents a fluent file manager.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ProgressState">
+            <summary>
+            Represents the progress state to display the good label.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ProgressState.None">
+            <summary>
+            No progress.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ProgressState.Uploading">
+            <summary>
+            Uploading a file.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ProgressState.Downloading">
+            <summary>
+            Downloading a file.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ProgressState.Deleting">
+            <summary>
+            Deleting a file.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ProgressState.Moving">
+            <summary>
+            Moving a file.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._showDetails">
+            <summary>
+            Represents a value indicating if the details of an entry is shown.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._fileManagerView">
+            <summary>
+            Represents the file manager component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._currentEntry">
+            <summary>
+            Represents the current selected entry.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._treeViewItems">
+            <summary>
+            Represents the tree view (only shown in Desktop mode)
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.IconCollapsed">
+            <summary>
+            Represents the collapsed node icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.IconExpanded">
+            <summary>
+            Represents the expanded node icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._currentTreeViewItem">
+            <summary>
+            Represents the current treeview item.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._currentSelectedItems">
+            <summary>
+            Represents the selected items.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._searchValue">
+            <summary>
+            Represents the value to search inside the current node.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._searchEntry">
+            <summary>
+            Represents the entry which contains all the found entries during a search operation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._progressState">
+            <summary>
+            Represents the current state of a progress.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._isDisabled">
+            <summary>
+            Represents a value indicating if the component is disabled or not.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._fileBufferDictionary">
+            <summary>
+            Represents the buffer dictionary of all files currenlty uploading.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._navigationItems">
+            <summary>
+            Represents the list of all navigation items.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._flattenEntry">
+            <summary>
+            Represents the flatten entry.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._module">
+            <summary>
+            Represents the javascript module.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.JavascriptFilename">
+            <summary>
+            Represents the javascript filename to use for interop.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._contentTypeProvider">
+            <summary>
+            Represents the provider to get the content type from a file extension.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.#ctor">
+            <summary>
+            Initialize a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.State">
+            <summary>
+            Gets or sets the state of the file manager.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.JSRuntime">
+            <summary>
+            Gets or sets the javascript runtime.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.DialogService">
+            <summary>
+            Gets or sets the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.IDialogService"/> instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.Width">
+            <summary>
+            Gets or sets the width of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.Height">
+            <summary>
+            Gets or sets the height of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ShowCreateFolderButton">
+            <summary>
+            Gets or sets a value indicating if the create folder button is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ShowUploadButton">
+            <summary>
+            Gets or sets a value indicating if the upload button is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ShowViewButton">
+            <summary>
+            Gets or sets a value indicating if the view button is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ShowSortButton">
+            <summary>
+            Gets or sets a value indicating if the sort button is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ShowPropertiesButton">
+            <summary>
+            Gets or sets a value indicating if the properties button is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ShowDetailsButton">
+            <summary>
+            Gets or sets a value indicating if the details button is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.FileManagerLabels">
+            <summary>
+            Gets or sets the labels to use for the text of the UI.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.DetailsLabels">
+            <summary>
+            Gets or sets the labels to use for the details panel.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.FileExtensionTypeLabels">
+            <summary>
+            Gets or sets the labels to use for the file from its extension.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ColumnLabels">
+            <summary>
+            Gets or sets the labels to use for the list view.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ProgressPercent">
+            <summary>
+            Gets or sets the percentage of the progression.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.IsBusy">
+            <summary>
+            Gets or sets a value indicating if the manager is busy or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.View">
+            <summary>
+            Gets or sets the view of the file manager.
+            </summary>
+            <remarks>
+            By default, the view is desktop.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.Root">
+            <summary>
+            Gets or sets the root of the file manager.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.Accept">
+            <summary>
+            Gets or sets the allowed files to be uploaded.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.AcceptFiles">
+            <summary>
+            Gets or sets the allowed files to be uploaded in an enum way.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.MaximumFileCount">
+            <summary>
+            Gets or sets the maximum file count that can be uploaded in one time.
+            </summary>
+            <remarks>Default is 100.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.MaximumFileSize">
+            <summary>
+            Gets or sets the maximum file size.
+            </summary>
+            <remarks>Default is 100 MiB</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BufferSize">
+            <summary>
+            Gets or sets the size of the buffer.
+            </summary>
+            <remarks>Default is 10 KiB</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnFolderCreated">
+            <summary>
+            Gets or sets the callback to use when a folder is created.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnRename">
+            <summary>
+            Gets or sets the callback to use when a file or a folder is renamed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnDelete">
+            <summary>
+            Gets or sets the callback to use when a file or a folder is deleted.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnFileUploaded">
+            <summary>
+            Gets or sets the callback to use when a file is uploaded.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.ToolbarItems">
+            <summary>
+            Gets or sets extra buttons on the toolbar.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.FileStructureView">
+            <summary>
+            Gets or sets the view of the file structure.
+            </summary>
+            <remarks>Default is <see cref="F:FluentUI.Blazor.Community.Components.FileStructureView.Hierarchical"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.Moved">
+            <summary>
+            Gets or sets the callback to use when a file or a folder is moved.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SelectedItems">
+            <summary>
+            Gets the selected items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.IsRenameButtonDisabled">
+            <summary>
+            Gets a value indicating if the rename button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.IsDownloadButtonDisabled">
+            <summary>
+            Gets a value indicating if the download button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.IsDeleteButtonDisabled">
+            <summary>
+            Gets a value indicating if the delete button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.IsMoveToButtonDisabled">
+            <summary>
+            Gets a value indicating if the move button is disabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnMoveAsync">
+            <summary>
+            Occurs when the user wants to move a file or a folder into an another folder.
+            </summary>
+            <returns>Returns a task which moves the file or the folder into the selected folder when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnFileCountExceededAsync(System.Int32)">
+            <summary>
+            Shows an error message when the user selects a too big number of files.
+            </summary>
+            <param name="maximumFileCount">Maximum number of files the user can take in one upload.</param>
+            <returns>Returns a task that show an error dialog message when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildFlatView">
+            <summary>
+            Build the flat entry.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildFlatViewItem(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Build a flat item.
+            </summary>
+            <param name="entry">Entry to use to append the <paramref name="item"/>.</param>
+            <param name="item">Item to add in the entry.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnChangeSort(FluentUI.Blazor.Community.Components.FileSortBy)">
+            <summary>
+            Change the sort of the view.
+            </summary>
+            <param name="sortBy">Sort to use.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnChangeView(FluentUI.Blazor.Community.Components.FileView)">
+            <summary>
+            Change the view of the file manager.
+            </summary>
+            <param name="view">View to use.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnSortAscending">
+            <summary>
+            Sort the entries in ascending order.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnSortDescending">
+            <summary>
+            Sort the entries in descending order.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnFolderCreatedAsync(FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs{`0})">
+            <summary>
+            Occurs when a folder is created in asynchronous way.
+            </summary>
+            <param name="e">Event args for the created folder.</param>
+            <returns>Returns a task which raised the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnFolderCreated"/> event callback when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnShowDetailsAsync">
+            <summary>
+            Occurs when the user clicks on the show details button.
+            </summary>
+            <returns>Returns a task which show the details of the current selected entries.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnRenameAsync(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Occurs when the user clicks on the rename button.
+            </summary>
+            <param name="entry">Entry to rename.</param>
+            <returns>Returns a task which rename the entry when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildTreeView">
+            <summary>
+            Build a tree view.
+            </summary>
+            <remarks>The tree view is only build in <see cref="F:FluentUI.Blazor.Community.Components.FileManagerView.Desktop"/></remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildTreeViewItem(FluentUI.Blazor.Community.Components.FileManagerEntry{`0},System.Boolean)">
+            <summary>
+            Build a <see cref="T:Microsoft.FluentUI.AspNetCore.Components.TreeViewItem"/>.
+            </summary>
+            <param name="entry">Entry to use to create the item.</param>
+            <param name="isExpanded">Value indicating if the node is expanded or not.</param>
+            <returns>Returns the created <see cref="T:Microsoft.FluentUI.AspNetCore.Components.TreeViewItem"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnUpdateEntry(FluentUI.Blazor.Community.Components.FileManagerEntryEventArgs{`0})">
+            <summary>
+            Updates the selected entry.
+            </summary>
+            <param name="e">The current selected entry.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.FindTreeViewItem(System.Collections.Generic.IEnumerable{Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem},System.String)">
+            <summary>
+            Finds the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.TreeViewItem"/> specified by <paramref name="id"/> inside the <paramref name="items"/> nodes.
+            </summary>
+            <param name="items">Items to use for the search.</param>
+            <param name="id">Identifier of the item.</param>
+            <returns>Returns the item if found, <see langword="null" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnUpdateCurrentEntry">
+            <summary>
+            Updates the current entry.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.UpdateNavigationView(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Updates the navigation view.
+            </summary>
+            <param name="entry">Current selected entry.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.GetSegmentsPath(System.String)">
+            <summary>
+            Splits the relative path into an array.
+            </summary>
+            <param name="relativePath">Relative path to split.</param>
+            <returns>Returns an array of <see cref="T:System.String"/> which contains the splitted <paramref name="relativePath"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.CleanPath(System.String)">
+            <summary>
+            Clean the path (removes the last \ if found)
+            </summary>
+            <param name="path">Path to clean.</param>
+            <returns>Returns the cleaned path.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnClickItem(System.String)">
+            <summary>
+            Occurs when an item is clicked.
+            </summary>
+            <param name="path">Clicked path.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnCreateFolderAsync">
+            <summary>
+            Occurs when the user wants to create a folder.
+            </summary>
+            <returns>Returns a task which creates a folder when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnDownloadSingleAsync(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
+            <summary>
+            Download a single entry as a file.
+            </summary>
+            <param name="e">Entry to download.</param>
+            <returns>Returns a task which download a file when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnDownloadMultiAsync(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
+            <summary>
+            Download a multiple entries as a zip file.
+            </summary>
+            <param name="items">Entries to download.</param>
+            <returns>Returns a task which download a zip file when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.DownloadFileAsync(System.String,System.Byte[],System.String)">
+            <summary>
+            Download a file in an asynchronous way.
+            </summary>
+            <param name="filename">Name of the file.</param>
+            <param name="data">Binary content of the file.</param>
+            <param name="extension">Extension of the file.</param>
+            <returns>Returns a task which download the file when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnDownloadAsync">
+            <summary>
+            Occurs when the user clicks the download button.
+            </summary>
+            <returns>Returns a task which download the selected files when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnDeleteAsync">
+            <summary>
+            Deletes an entry in an asynchronous way.
+            </summary>
+            <returns>Returns a task which deletes the entry when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.RemoveSelectedItemFromMainEntries(System.String,System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
+            <summary>
+            Removes the <paramref name="items"/> from the node specified by <paramref name="id"/>.
+            </summary>
+            <param name="id">Identifier of the node.</param>
+            <param name="items">Items to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnSearchEntries">
+            <summary>
+            Search the entries.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SetDisabled(System.Boolean)">
+            <summary>
+            Disable the component.
+            </summary>
+            <param name="isDisabled">Value indicating if the component is disabled or not.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SetDisabled(System.Collections.Generic.IEnumerable{Microsoft.FluentUI.AspNetCore.Components.ITreeViewItem},System.Boolean)">
+            <summary>
+            Disable all the specified <paramref name="items"/>.
+            </summary>
+            <param name="items">Items to disable.</param>
+            <param name="isDisabled">Value indicating if the items are disabled or not.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnProgressChange(Microsoft.FluentUI.AspNetCore.Components.FluentInputFileEventArgs)">
+            <summary>
+            Occurs when a file is uploading.
+            </summary>
+            <param name="e">Event args of the current uploading file.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnFileUploadedAsync(Microsoft.FluentUI.AspNetCore.Components.FluentInputFileEventArgs)">
+            <summary>
+            Occurs when a file is uploaded.
+            </summary>
+            <param name="e">Event args of the uploaded file.</param>
+            <returns>Returns a task which raised the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnFileUploaded"/> event callback when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnCompleted(System.Collections.Generic.IEnumerable{Microsoft.FluentUI.AspNetCore.Components.FluentInputFileEventArgs})">
+            <summary>
+            Occurs when all file have been uploaded.
+            </summary>
+            <param name="_">Event args of all uploaded files.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.GetProgressLabelFromState">
+            <summary>
+            Gets the label for the progress part.
+            </summary>
+            <returns>Returns the label for the progress part.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnAfterRender(System.Boolean)">
             <inheritdoc />
