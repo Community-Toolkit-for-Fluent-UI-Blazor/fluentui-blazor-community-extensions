@@ -10,6 +10,9 @@ namespace FluentUI.Blazor.Community.Components;
 public partial class FluentCxDeviceDetector
     : FluentComponentBase
 {
+    /// <summary>
+    /// Represents the reference of the device detector.
+    /// </summary>
     private readonly DotNetObjectReference<FluentCxDeviceDetector> _deviceDetectorReference;
 
     /// <summary>
@@ -43,9 +46,21 @@ public partial class FluentCxDeviceDetector
     private IJSRuntime JSRuntime { get; set; } = default!;
 
     /// <summary>
-    /// Gets the information of the running device.
+    /// Gets the state which contains the information of the device.
     /// </summary>
-    public DeviceInfo? DeviceInfo { get; private set; }
+    [Inject]
+    private DeviceInfoState State { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the callback to use when the device information is updated.
+    /// </summary>
+    [Parameter]
+    public EventCallback<DeviceInfo> DeviceInfoUpdated { get; set; }
+
+    /// <summary>
+    /// Gets the information about the device.
+    /// </summary>
+    public DeviceInfo? DeviceInfo => State?.DeviceInfo;
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -55,8 +70,13 @@ public partial class FluentCxDeviceDetector
         if (firstRender)
         {
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptFileName);
-            DeviceInfo = await _module.InvokeAsync<DeviceInfo>("getDeviceInfo");
+            State.DeviceInfo = await _module.InvokeAsync<DeviceInfo>("getDeviceInfo");
             await _module.InvokeVoidAsync("getDeviceOrientation", _deviceDetectorReference);
+
+            if (DeviceInfoUpdated.HasDelegate)
+            {
+                await DeviceInfoUpdated.InvokeAsync(State.DeviceInfo);
+            }
         }
     }
 
@@ -65,11 +85,17 @@ public partial class FluentCxDeviceDetector
     /// </summary>
     /// <param name="isPortrait">Value indicating if the device is in portrait orientation or not.</param>
     [JSInvokable]
-    public void ChangeOrientation(bool isPortrait)
+    public async Task ChangeOrientation(bool isPortrait)
     {
-        if (DeviceInfo is not null)
+        if (State.DeviceInfo is not null)
         {
-            DeviceInfo.Orientation = isPortrait ? DeviceOrientation.Portrait : DeviceOrientation.Landscape;
+            State.DeviceInfo.Orientation = isPortrait ? DeviceOrientation.Portrait : DeviceOrientation.Landscape;
+            State.ForceUpdate();
+
+            if (DeviceInfoUpdated.HasDelegate)
+            {
+                await DeviceInfoUpdated.InvokeAsync(State.DeviceInfo);
+            }
         }
     }
 

@@ -1,0 +1,39 @@
+﻿@page "/devicedetector"
+@using FluentUI.Demo.Shared.Pages.DeviceDetector.Examples
+
+<h1>DeviceDetector</h1>
+
+<p>
+    The device detector component allows the user to know many information on the system where the app is running.
+    With device detector, you can know such information :
+    <ul>
+        <li>
+            If your app is running on Windows, Linux or MacOs System
+        </li>
+
+        <li>
+            If your app is running on tablet, phone or deskop devices
+        </li>
+
+        <li>
+            If your app is running on Chrome, Edge, Safari, Chromium... browser
+        </li>
+
+        <li>
+            If the device is on portrait or landscape mode
+        </li>
+    </ul>
+
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(DeviceDetectorDefault)" Title="Default" />
+
+<DemoSection Component="typeof(ChildInsideDeviceDetector)" Title="Child inside DeviceDetector" />
+
+<DemoSection Component="typeof(DeviceDetectorWithState)" Title="Use Device Detector with State" />
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(FluentCxDeviceDetector)" />

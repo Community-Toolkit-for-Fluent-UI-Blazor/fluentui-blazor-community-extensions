@@ -1,4 +1,4 @@
-﻿using Bunit;
+using Bunit;
 using FluentUI.Blazor.Community.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
@@ -14,6 +14,7 @@ public class DeviceDetectorTests : TestBase
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         Services.AddSingleton(UnitTestLibraryConfiguration);
+        Services.AddScoped<DeviceInfoState>();
     }
 
     [Fact]

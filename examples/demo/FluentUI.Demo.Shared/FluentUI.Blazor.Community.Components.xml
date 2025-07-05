@@ -799,6 +799,31 @@
             </summary>
             <returns>A <see cref="T:Microsoft.AspNetCore.Components.MarkupString"/> that represents the current object.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DeviceInfoState">
+            <summary>
+            Represents the state of the device information.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceInfoState._deviceInfo">
+            <summary>
+            Represents the information of the device.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfoState.DeviceInfo">
+            <summary>
+            Gets or sets the information of the device.
+            </summary>
+        </member>
+        <member name="E:FluentUI.Blazor.Community.Components.DeviceInfoState.Updated">
+            <summary>
+            Occurs when the device info is updated.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DeviceInfoState.ForceUpdate">
+            <summary>
+            Force the update of the state.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientation">
             <summary>
             Represents the orientation of the device.
@@ -835,6 +860,11 @@
             Represents a component which detects the device where the app is running.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector._deviceDetectorReference">
+            <summary>
+            Represents the reference of the device detector.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector._module">
             <summary>
             Represents the javascript object.
@@ -860,9 +890,19 @@
             Gets or sets the Javascript Runtime.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.State">
+            <summary>
+            Gets the state which contains the information of the device.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.DeviceInfoUpdated">
+            <summary>
+            Gets or sets the callback to use when the device information is updated.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.DeviceInfo">
             <summary>
-            Gets the information of the running device.
+            Gets the information about the device.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.OnAfterRenderAsync(System.Boolean)">
@@ -5048,7 +5088,7 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.CleanPath(System.String)">
             <summary>
-            Clean the path (removes the last \ if found)
+            Clean the path (removes the last backslash if found)
             </summary>
             <param name="path">Path to clean.</param>
             <returns>Returns the cleaned path.</returns>

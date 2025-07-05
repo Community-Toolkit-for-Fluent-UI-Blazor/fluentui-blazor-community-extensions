@@ -45,9 +45,8 @@ public class CodeCommentsGenerator : IIncrementalGenerator
         sb.AppendLine("namespace FluentUI.Demo.Shared;");
         sb.AppendLine("public static partial class CodeComments");
         sb.AppendLine("{");
-        sb.AppendLine("\tpublic static string GetSummary(string name)");
+        sb.AppendLine("\tprivate static readonly Dictionary<string, string> summarydata = new()");
         sb.AppendLine("\t{");
-        sb.AppendLine("\t\tDictionary<string, string> summarydata = new Dictionary<string, string>() {");
         foreach (var m in members)
         {
             var paramName = CleanupParamName(m.Attribute("name").Value.ToString());
@@ -59,14 +58,17 @@ public class CodeCommentsGenerator : IIncrementalGenerator
         var lastComma = sb.ToString().LastIndexOf(',');
 
         sb.Remove(lastComma, 1);
-        sb.AppendLine("\t\t};");
-        sb.Append("\t\t");
-        sb.AppendLine("KeyValuePair<string, string> foundPair = summarydata.FirstOrDefault(x => x.Key.Equals(name));");
+        sb.AppendLine("\t};");
 
+        sb.AppendLine("\tpublic static string GetSummary(string name)");
+        sb.AppendLine("\t{");
+        sb.AppendLine("\t\tKeyValuePair<string, string> foundPair = summarydata.FirstOrDefault(x => x.Key.Equals(name));");
         sb.AppendLine("\t\treturn foundPair.Value;");
-        sb.AppendLine("\t\t}");
+        sb.AppendLine("\t}");
         sb.AppendLine("}");
-
+#pragma warning disable RS1035 // Do not use APIs banned for analyzers
+        File.WriteAllText("D:\\CodeComments.cs", sb.ToString());
+#pragma warning restore RS1035 // Do not use APIs banned for analyzers
         context.AddSource($"CodeComments.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
     }
 

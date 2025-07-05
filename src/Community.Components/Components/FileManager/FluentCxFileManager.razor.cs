@@ -864,7 +864,7 @@ public partial class FluentCxFileManager<TItem>
     }
 
     /// <summary>
-    /// Clean the path (removes the last \ if found)
+    /// Clean the path (removes the last backslash if found)
     /// </summary>
     /// <param name="path">Path to clean.</param>
     /// <returns>Returns the cleaned path.</returns>

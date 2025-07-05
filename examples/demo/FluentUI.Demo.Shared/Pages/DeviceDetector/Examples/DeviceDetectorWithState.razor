@@ -1,0 +1,19 @@
+﻿<h3>Device Detector with state</h3>
+
+<p>
+    If you don't want to use the callback <code>DeviceInfoUpdated</code> because you set the <code>FluentCxDeviceDetector</code>
+     inside the <code>FluentLayout</code>, you can make things easier to retrieve the device info by using
+     the <code>DeviceInfoState</code> class.
+</p>
+
+<FluentCxDeviceDetector>
+    <FluentLabel>@State.DeviceInfo?.ToMarkup()</FluentLabel>
+
+    <FluentCxFileManager TItem="NoFileEntryData"
+                         View="@((State.DeviceInfo?.IsMobile??false) ? FileManagerView.Mobile : FileManagerView.Desktop)" />
+</FluentCxDeviceDetector>
+
+@code {
+    [Inject]
+    private DeviceInfoState State { get; set; } = default!;
+}

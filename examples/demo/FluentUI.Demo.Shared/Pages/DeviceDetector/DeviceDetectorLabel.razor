@@ -1,0 +1,10 @@
+﻿@if(DeviceDetector is not null &&
+    DeviceDetector.DeviceInfo is not null)
+{
+    @DeviceDetector.DeviceInfo.ToMarkup();
+}
+
+@code {
+    [CascadingParameter]
+    private FluentCxDeviceDetector DeviceDetector { get; set; } = default!;
+}
