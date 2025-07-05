@@ -1,0 +1,17 @@
+﻿<h3>Device Detector as cascading parameter</h3>
+
+<p>
+    When using DeviceDetector without as cascading parameter, the children have access to the device information.
+    With that, if you have a component which have a specific render on desktop, tablet and smartphone, you can handle that
+    with the information of the device.
+</p>
+
+<FluentCxDeviceDetector DeviceInfoUpdated="@(e => _isMobile = e.IsMobile)">
+    <FluentCxFileManager TItem="NoFileEntryData"
+                         View="@(_isMobile ? FileManagerView.Mobile : FileManagerView.Desktop)"/>
+</FluentCxDeviceDetector>
+
+
+@code {
+    private bool _isMobile;
+}

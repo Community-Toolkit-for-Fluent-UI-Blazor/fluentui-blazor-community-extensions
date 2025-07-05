@@ -42,9 +42,7 @@
       <Sources Include="$(ProjectDir)Components/*" />
       <Sources Include="$(ProjectDir)SampleData/*" />
     </ItemGroup>
-    <Copy SourceFiles="@(Sources)"
-          DestinationFiles="@(Sources->'$(ProjectDir)wwwroot/sources/%(Filename)%(Extension).txt')"
-          SkipUnchangedFiles="false" />
+    <Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(ProjectDir)wwwroot/sources/%(Filename)%(Extension).txt')" SkipUnchangedFiles="false" />
   </Target>
 
 </Project>

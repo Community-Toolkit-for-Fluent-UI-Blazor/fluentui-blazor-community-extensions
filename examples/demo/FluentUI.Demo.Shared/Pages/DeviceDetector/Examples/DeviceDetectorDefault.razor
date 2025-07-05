@@ -1,0 +1,13 @@
+﻿<h3>Device Detector</h3>
+
+<p>
+    The device detector can handle the device info inside the event callback <code>DeviceInfoUpdated</code>
+</p>
+
+<FluentCxDeviceDetector DeviceInfoUpdated="@(e => _result = e.ToMarkup())">
+    <FluentLabel>@(_result)</FluentLabel>
+</FluentCxDeviceDetector>
+
+@code {
+    private MarkupString _result;
+}

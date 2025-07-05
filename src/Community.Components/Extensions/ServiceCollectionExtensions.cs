@@ -17,6 +17,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddFluentCxUIComponents(this IServiceCollection services)
     {
         return services.AddScoped(typeof(DropZoneState<>))
-                       .AddScoped<FileManagerState>();
+                       .AddScoped<FileManagerState>()
+                       .AddScoped<DeviceInfoState>();
     }
 }
