@@ -7,6 +7,9 @@
                       RowHeight="200px"
                       CanResize
                       CanReorder
+                      PersistenceEnabled
+                      ItemKey=@(e => e.Header)
+                      Id="Dashboard"
                       TItem="DashboardItem">
         <FluentCxTileGridItem Value="@Item1">
                 @renderCard(Item1)
@@ -123,19 +126,19 @@
 
     private DashboardItem Item5 = new()
     {
-        Header = "Number of user",
+        Header = "Number of products",
         Data = 123
     };
 
     private DashboardItem Item6 = new()
     {
-        Header = "Number of user",
+        Header = "Number of new subscribers per month",
         Data = 123
     };
 
     private DashboardItem Item7 = new()
     {
-        Header = "Number of user",
+        Header = "Number of new products per month",
         Data = 123
     };
 }

@@ -58,11 +58,29 @@ public partial class FluentCxTileGridItem<TItem>
     [CascadingParameter]
     private FluentCxTileGrid<TItem>? Parent { get; set; }
 
+    /// <summary>
+    /// Occurs when the tile is resized in an asynchronous way.
+    /// </summary>
+    /// <param name="e">Event args which contains the new size of the tile.</param>
+    /// <returns>Returns a task which resizes the tile when completed.</returns>
+    private async Task OnResizedAsync(ResizedEventArgs e)
+    {
+        ColumnSpan = e.ColumnSpan;
+        RowSpan = e.RowSpan;
+
+        if (Parent is not null)
+        {
+            await Parent.UpdateLayoutAsync(this);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
     /// <inheritdoc />
     public void Dispose()
     {
         Parent?._dropContainer?.Remove(this);
-
+        Parent?.RemoveLayoutItem(Parent?._dropContainer?.IndexOf(Value));
         GC.SuppressFinalize(this);
     }
 
@@ -71,12 +89,25 @@ public partial class FluentCxTileGridItem<TItem>
     {
         base.OnInitialized();
         Parent?._dropContainer?.Add(this);
+        Parent?.AddLayoutItem(this, Parent?._dropContainer?.IndexOf(Value));
     }
 
-    private void OnResized(ResizedEventArgs e)
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
     {
-        ColumnSpan = e.ColumnSpan;
-        RowSpan = e.RowSpan;
+        await base.OnInitializedAsync();
+
+        if (Parent is not null)
+        {
+            await Parent.UpdateLayoutAsync(this);
+        }
+    }
+
+    /// <inheritdoc />
+    public void SetSpan(int columnSpan, int rowSpan)
+    {
+        ColumnSpan = columnSpan;
+        RowSpan = rowSpan;
         StateHasChanged();
     }
 }
