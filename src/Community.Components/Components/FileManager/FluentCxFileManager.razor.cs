@@ -113,7 +113,7 @@ public partial class FluentCxFileManager<TItem>
     /// <summary>
     /// Represents the list of all navigation items.
     /// </summary>
-    private readonly List<FileNavigationItem> _navigationItems = [];
+    private IPathBarItem? _pathRoot;
 
     /// <summary>
     /// Represents the flatten entry.
@@ -134,6 +134,11 @@ public partial class FluentCxFileManager<TItem>
     /// Represents the provider to get the content type from a file extension.
     /// </summary>
     private readonly FileExtensionContentTypeProvider _contentTypeProvider = new();
+
+    /// <summary>
+    /// Represents the path for the <see cref="FluentCxPathBar"/> component.
+    /// </summary>
+    private string? _path;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="FluentCxFileManager{TItem}"/> class.
@@ -606,7 +611,21 @@ public partial class FluentCxFileManager<TItem>
         SetDisabled(true);
         _fileManagerView?.SetBusy(true);
 
-        if (View == Components.FileManagerView.Desktop)
+        UpdateTreeView(e);
+        UpdatePathBar(e);
+
+        if (OnFolderCreated.HasDelegate)
+        {
+            await OnFolderCreated.InvokeAsync(e);
+        }
+
+        _fileManagerView?.SetBusy(false);
+        SetDisabled(false);
+    }
+
+    private void UpdateTreeView(CreateFileManagerEntryEventArgs<TItem> e)
+    {
+        if (View == FileManagerView.Desktop)
         {
             var item = FindTreeViewItem(_treeViewItems, e.Parent.Id);
 
@@ -620,14 +639,35 @@ public partial class FluentCxFileManager<TItem>
                 item.Items = subItems;
             }
         }
+    }
 
-        if (OnFolderCreated.HasDelegate)
+    private static IPathBarItem? FindPathBarItem(IPathBarItem? root, string id)
+    {
+        if(root is null)
         {
-            await OnFolderCreated.InvokeAsync(e);
+            return null;
         }
 
-        _fileManagerView?.SetBusy(false);
-        SetDisabled(false);
+        if(string.Equals(root.Id, id, StringComparison.OrdinalIgnoreCase))
+        {
+            return root;
+        }
+
+        return PathBarItem.Find(root.Items, id);
+    }
+
+    private void UpdatePathBar(CreateFileManagerEntryEventArgs<TItem> e)
+    {
+        var item = FindPathBarItem(_pathRoot, e.Parent.Id);
+
+        if (item is not null)
+        {
+            var subItems = item.Items?.ToList() ?? [];
+            subItems.AddRange(BuildPathRootItem([e.Entry]));
+            subItems.Sort(FileManagerEntryPathBarItemComparer.Default);
+
+            item.Items = [.. subItems];
+        }
     }
 
     /// <summary>
@@ -705,6 +745,66 @@ public partial class FluentCxFileManager<TItem>
     }
 
     /// <summary>
+    /// Build the complete path root for the <see cref="FluentCxFileManager{TItem}"/>.
+    /// </summary>
+    private void BuildPathRoot()
+    {
+        _pathRoot = new PathBarItem()
+        {
+            Label = Root.Name,
+            Id = Root.Id,
+            Items = [.. BuildPathRootItem(Root.GetDirectories())]
+        };
+    }
+
+    /// <summary>
+    /// Build the items for the current path.
+    /// </summary>
+    /// <param name="values">Values use to transform each item into an instance of <see cref="PathBarItem"/>.</param>
+    /// <returns>Returns the list of items.</returns>
+    private static IEnumerable<IPathBarItem> BuildPathRootItem(IEnumerable<FileManagerEntry<TItem>> values)
+    {
+        foreach (var item in values)
+        {
+            yield return new PathBarItem()
+            {
+                Id = item.Id,
+                Label = item.Name,
+                Items = BuildPathRootItem(item.GetDirectories())
+            };
+        }
+    }
+
+    private void OnPathChanged(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            return;
+        }
+
+        _path = path;
+        var entry = FileManagerEntry<TItem>.Find(Root, x => x.RelativePath == CleanPath(path));
+
+        if (entry is not null)
+        {
+            _currentEntry = entry;
+
+            if (View == FileManagerView.Desktop)
+            {
+                var node = FindTreeViewItem(_treeViewItems, _currentEntry.Id);
+
+                if (node is not null)
+                {
+                    node.Expanded = true;
+                    _currentTreeViewItem = node;
+                }
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>
     /// Build a tree view.
     /// </summary>
     /// <remarks>The tree view is only build in <see cref="FileManagerView.Desktop"/></remarks>
@@ -763,7 +863,7 @@ public partial class FluentCxFileManager<TItem>
         }
 
         _currentEntry = e.Entry;
-        UpdateNavigationView(e.Entry);
+        _path = _currentEntry.RelativePath;
     }
 
     /// <summary>
@@ -812,55 +912,9 @@ public partial class FluentCxFileManager<TItem>
             {
                 _currentSelectedItems = [];
                 _currentEntry = node;
-                UpdateNavigationView(_currentEntry);
+                _path = _currentEntry.IsDirectory ? _currentEntry.RelativePath : Path.GetDirectoryName(_currentEntry.RelativePath);
             }
         }
-    }
-
-    /// <summary>
-    /// Updates the navigation view.
-    /// </summary>
-    /// <param name="entry">Current selected entry.</param>
-    private void UpdateNavigationView(FileManagerEntry<TItem> entry)
-    {
-        _navigationItems.Clear();
-        DefaultInterpolatedStringHandler handler = new();
-
-        var segmentPath = GetSegmentsPath(entry.RelativePath);
-
-        if (segmentPath.Length > 0)
-        {
-            handler.AppendLiteral(segmentPath[0]);
-            handler.AppendLiteral("\\");
-
-            _navigationItems.Add(new FileNavigationItem(handler.ToString(), null, OnClickItem));
-
-            foreach (var item in segmentPath.Skip(1))
-            {
-                handler.AppendLiteral(item);
-
-                _navigationItems.Add(new FileNavigationItem(handler.ToString(), item, OnClickItem));
-
-                handler.AppendLiteral("\\");
-            }
-
-            handler.ToStringAndClear();
-        }
-    }
-
-    /// <summary>
-    /// Splits the relative path into an array.
-    /// </summary>
-    /// <param name="relativePath">Relative path to split.</param>
-    /// <returns>Returns an array of <see cref="string"/> which contains the splitted <paramref name="relativePath"/>.</returns>
-    private static string[] GetSegmentsPath(string? relativePath)
-    {
-        if (string.IsNullOrEmpty(relativePath))
-        {
-            return [];
-        }
-
-        return relativePath.Split('\\', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
     }
 
     /// <summary>
@@ -881,34 +935,6 @@ public partial class FluentCxFileManager<TItem>
         }
 
         return path;
-    }
-
-    /// <summary>
-    /// Occurs when an item is clicked.
-    /// </summary>
-    /// <param name="path">Clicked path.</param>
-    private void OnClickItem(string path)
-    {
-        var entry = FileManagerEntry<TItem>.Find(Root, x => x.RelativePath == CleanPath(path));
-
-        if (entry is not null)
-        {
-            _currentEntry = entry;
-
-            if (View == Components.FileManagerView.Desktop)
-            {
-                var node = FindTreeViewItem(_treeViewItems, _currentEntry.Id);
-
-                if (node is not null)
-                {
-                    node.Expanded = true;
-                    _currentTreeViewItem = node;
-                }
-            }
-
-            UpdateNavigationView(_currentEntry);
-            StateHasChanged();
-        }
     }
 
     /// <summary>
@@ -1180,7 +1206,7 @@ public partial class FluentCxFileManager<TItem>
 
             if (FileStructureView == FileStructureView.Hierarchical)
             {
-                UpdateNavigationView(_searchEntry);
+                // UpdateNavigationView(_searchEntry);
             }
         }
     }
@@ -1306,7 +1332,7 @@ public partial class FluentCxFileManager<TItem>
         {
             _currentSelectedItems = [];
             _currentEntry = Root;
-            UpdateNavigationView(_currentEntry);
+            _path = _currentEntry.RelativePath;
             StateHasChanged();
         }
     }
@@ -1331,6 +1357,7 @@ public partial class FluentCxFileManager<TItem>
         {
             BuildFlatView();
             BuildTreeView();
+            BuildPathRoot();
         }
     }
 }

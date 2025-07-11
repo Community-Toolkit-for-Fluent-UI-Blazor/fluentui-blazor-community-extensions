@@ -1,0 +1,37 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div style="height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px); width: 100%; background: var(--neutral-fill-stealth-rest);">
+        <FluentStack Style="margin-inline-start: calc(var(--design-unit) * 2px + 8px);" HorizontalGap="2">
+            @if (Root is not null)
+            {
+                <FluentCxPathBarItem Id="@Root.Id"
+                                     Label="@Root!.Label"
+                                     Icon="@(GetHomeIcon())"
+                                     ShowLabel="false"
+                                     Items=@Root.Items
+                                     OnTapped="@(() => OnPathSelectedAsync(Root))" />
+
+                @if (!string.IsNullOrEmpty(Path))
+                {
+                    var segments = PathHelper.GetSegments(Path);
+
+                    if (segments.Length > 0)
+                    {
+                        var items = Find(segments);
+
+                        foreach (var item in items)
+                        {
+                            <FluentCxPathBarItem Id="@item.Id"
+                                                 Label=@item.Label
+                                                 Items="@item.Items"
+                                                 Icon=@item.Icon
+                                                 OnTapped="@(() => OnPathSelectedAsync(item))" />
+                        }
+                    }
+                }
+            }
+        </FluentStack>
+    </div>
+</CascadingValue>

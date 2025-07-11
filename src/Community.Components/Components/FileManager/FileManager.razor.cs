@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 
@@ -88,10 +89,22 @@ public partial class FileManager<TItem>
     public EventCallback<FileManagerEntry<TItem>> Download { get; set; }
 
     /// <summary>
-    /// Gets or sets the items of the navigation bar.
+    /// Gets or sets the items of the <see cref="FluentCxPathBar" />.
     /// </summary>
     [Parameter]
-    public List<FileNavigationItem> NavigationItems { get; set; } = [];
+    public IPathBarItem? PathRoot { get; set; }
+
+    /// <summary>
+    /// Gets or sets the path of the navigation.
+    /// </summary>
+    [Parameter]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback when a path changed.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnPathChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the state of the file manager.
@@ -172,18 +185,6 @@ public partial class FileManager<TItem>
     private void Sort()
     {
         Entry?.Sort(State.SortMode, State.SortBy);
-    }
-
-    /// <summary>
-    /// Occurs when a <see cref="FileNavigationItem"/> item is clicked.
-    /// </summary>
-    /// <param name="item">Represents the clicked item.</param>
-    private static void OnClick(FileNavigationItem item)
-    {
-        if (item.OnClick is not null)
-        {
-            item.OnClick(item.Path!);
-        }
     }
 
     /// <inheritdoc />

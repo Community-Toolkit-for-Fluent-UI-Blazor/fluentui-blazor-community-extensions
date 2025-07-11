@@ -5,13 +5,7 @@
 <FluentStack Orientation="Orientation.Vertical" Style="height: 100%" VerticalGap="1">
     @if (FileNavigationViewVisible)
     {
-        <FileManagerNavigationView>
-            @foreach (var item in NavigationItems)
-            {
-                <FileManagerNavigationViewItem Text=@item.Text
-                                               OnClick="@((e)=> OnClick(item))"/>
-            }
-        </FileManagerNavigationView>
+       <FluentCxPathBar Root="@PathRoot" Path="@Path" PathChanged="@OnPathChanged" />
     }
 
     @switch (State.View)
