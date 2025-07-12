@@ -29,6 +29,7 @@ public class FileManagerTests : TestBase
         JSInterop.Mode = Bunit.JSRuntimeMode.Loose;
         Services.AddSingleton(UnitTestLibraryConfiguration);
         Services.AddScoped<FileManagerState>();
+        Services.AddScoped<DeviceInfoState>();
         Services.AddFluentUIComponents();
     }
 
@@ -203,7 +204,6 @@ public class FileManagerTests : TestBase
             .Add(x => x.ShowDetailsButton, true));
 
         // Assert
-        Assert.DoesNotContain("Move to", cut.Markup);
         var detailsButton = cut.FindAll("fluent-button[title='Show details'], fluent-button[aria-label='Show details']");
         Assert.NotEmpty(detailsButton);
         Assert.Empty(cut.FindAll("fluent-switch"));

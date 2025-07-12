@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -188,7 +189,7 @@ public sealed class FileManagerEntry<TItem>
     /// <summary>
     /// Gets or sets the identifier of the entry.
     /// </summary>
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string Id { get; set; } = Identifier.NewId();
 
     /// <summary>
     /// Gets the relative path of the entry.
@@ -462,7 +463,7 @@ public sealed class FileManagerEntry<TItem>
         }
         else
         {
-            entry.RelativePath = $"{RelativePath}\\{entry.Name}";
+            entry.RelativePath = $"{RelativePath}{Path.DirectorySeparatorChar}{entry.Name}";
             _directories.Add(entry);
         }
     }

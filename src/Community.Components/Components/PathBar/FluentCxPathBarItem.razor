@@ -1,0 +1,28 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    @if (ShowLabel)
+    {
+        <FluentAnchor Appearance=Appearance.Stealth
+                      Href="#"
+                      Id="@Id"
+                      IconStart="@(Icon is not null ? Icon : null)"
+                      OnClick="@OnTappedAsync">
+            @Label
+        </FluentAnchor>
+    }
+    else
+    {
+        <FluentAnchor Appearance=Appearance.Stealth
+                      Href="#"
+                      Id="@Id"
+                      IconStart="@(Icon is not null ? Icon : null)"
+                      OnClick="@OnTappedAsync" />
+    }
+
+    <FluentCxPathBarItemMenu Id="@($"Menu{Id}")" Items=@Items />
+</CascadingValue>
+
+
+
