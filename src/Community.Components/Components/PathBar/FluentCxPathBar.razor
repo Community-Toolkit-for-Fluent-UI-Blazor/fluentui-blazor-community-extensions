@@ -20,14 +20,36 @@
                     if (segments.Length > 0)
                     {
                         var items = Find(segments);
+                        var count = items.Count();
 
-                        foreach (var item in items)
+                        if (MaxVisibleItems.GetValueOrDefault() <= 0 ||
+                            count <= MaxVisibleItems)
                         {
-                            <FluentCxPathBarItem Id="@item.Id"
-                                                 Label=@item.Label
-                                                 Items="@item.Items"
-                                                 Icon=@item.Icon
-                                                 OnTapped="@(() => OnPathSelectedAsync(item))" />
+                            foreach (var item in items)
+                            {
+                                <FluentCxPathBarItem Id="@item.Id"
+                                                     Label=@item.Label
+                                                     Items="@item.Items"
+                                                     Icon=@item.Icon
+                                                     OnTapped="@(() => OnPathSelectedAsync(item))" />
+                            }
+                        }
+                        else
+                        {
+                            var value = count - MaxVisibleItems.GetValueOrDefault();
+                            var overflowItems = items.Take(value);
+                            var visibleItems = items.Skip(value);
+
+                            <OverflowButton Id="@($"OverflowButton{Id}")" Items=@overflowItems />
+
+                            foreach(var item in visibleItems)
+                            {
+                                <FluentCxPathBarItem Id="@item.Id"
+                                                     Label=@item.Label
+                                                     Items="@item.Items"
+                                                     Icon=@item.Icon
+                                                     OnTapped="@(() => OnPathSelectedAsync(item))" />
+                            }
                         }
                     }
                 }

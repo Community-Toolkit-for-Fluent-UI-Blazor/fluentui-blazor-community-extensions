@@ -113,6 +113,12 @@ public partial class FileManager<TItem>
     public required FileManagerState State { get; set; }
 
     /// <summary>
+    /// Gets or sets the maximum visible items in the navigation bar
+    /// </summary>
+    [Parameter]
+    public int? MaxVisibleItems { get; set; }
+
+    /// <summary>
     /// Occurs when the selected items has changed.
     /// </summary>
     /// <returns>Returns a task which contains the way to process the selecteditems propery when completed.</returns>

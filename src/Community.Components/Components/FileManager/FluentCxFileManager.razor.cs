@@ -342,6 +342,15 @@ public partial class FluentCxFileManager<TItem>
     public EventCallback<FileManagerEntriesMovedEventArgs<TItem>> Moved { get; set; }
 
     /// <summary>
+    /// Gets or sets the maximum number of visible items.
+    /// </summary>
+    /// <remarks>
+    /// By default, the number is 4.
+    /// </remarks>
+    [Parameter]
+    public int? MaxVisibleItems { get; set; } = 4;
+
+    /// <summary>
     /// Gets the selected items.
     /// </summary>
     public IEnumerable<FileManagerEntry<TItem>> SelectedItems

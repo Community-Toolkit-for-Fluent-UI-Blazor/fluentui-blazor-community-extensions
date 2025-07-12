@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
@@ -66,6 +65,12 @@ public partial class FluentCxPathBar
     /// </summary>
     [Inject]
     private DeviceInfoState DeviceInfoState { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the maximum number items visible.
+    /// </summary>
+    [Parameter]
+    public int? MaxVisibleItems { get; set; }
 
     /// <summary>
     /// Occurs when the <paramref name="path"/> has changed.

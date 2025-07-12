@@ -3086,6 +3086,11 @@
             Gets or sets the state of the file manager.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.MaxVisibleItems">
+            <summary>
+            Gets or sets the maximum visible items in the navigation bar
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnSelectedItemsChangedAsync">
             <summary>
             Occurs when the selected items has changed.
@@ -4343,37 +4348,6 @@
             </summary>
             <returns>Returns the style of the list.</returns>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FileManagerNavigationView">
-            <summary>
-            Represents the navigation view for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManagerNavigationView.ChildContent">
-            <summary>
-            Gets or sets the child content.
-            </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem">
-            <summary>
-            Represents an item of the <see cref="T:FluentUI.Blazor.Community.Components.FileManagerNavigationView"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem.Text">
-            <summary>
-            Gets or sets the text of the item.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem.OnClick">
-            <summary>
-            Gets the event callback which occurs when the item is clicked.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem.OnClickItemAsync">
-            <summary>
-            Occurs when the item is clicked.
-            </summary>
-            <returns>Returns a task which click on the menu when completed.</returns>
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerState">
             <summary>
             Represents the state of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
@@ -4497,31 +4471,6 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileMoverDialog`1.OnInitialized">
             <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FileNavigationItem">
-            <summary>
-            Represents an item for the navigation bar of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
-            </summary>
-            <param name="Path">Path of the item.</param>
-            <param name="Text">Text of the item.</param>
-            <param name="OnClick">Action to do when the item is clicked.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileNavigationItem.#ctor(System.String,System.String,System.Action{System.String})">
-            <summary>
-            Represents an item for the navigation bar of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
-            </summary>
-            <param name="Path">Path of the item.</param>
-            <param name="Text">Text of the item.</param>
-            <param name="OnClick">Action to do when the item is clicked.</param>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileNavigationItem.Path">
-            <summary>Path of the item.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileNavigationItem.Text">
-            <summary>Text of the item.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileNavigationItem.OnClick">
-            <summary>Action to do when the item is clicked.</summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileSortBy">
             <summary>
@@ -4956,6 +4905,14 @@
             <summary>
             Gets or sets the callback to use when a file or a folder is moved.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.MaxVisibleItems">
+            <summary>
+            Gets or sets the maximum number of visible items.
+            </summary>
+            <remarks>
+            By default, the number is 4.
+            </remarks>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SelectedItems">
             <summary>
@@ -5810,6 +5767,11 @@
             Gets or sets the state for the information of the current used device.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.MaxVisibleItems">
+            <summary>
+            Gets or sets the maximum number items visible.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnPathChangedAsync(System.String)">
             <summary>
             Occurs when the <paramref name="path"/> has changed.
@@ -5954,6 +5916,32 @@
             <summary>
             Gets the menu items of the item.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.OverflowButton">
+            <summary>
+            Represents the overflow button for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OverflowButton._isMenuOpen">
+            <summary>
+            Represents if the menu is open.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.OverflowButton.Parent">
+            <summary>
+            Gets or sets the parent of the button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.OverflowButton.Items">
+            <summary>
+            Gets or sets the items inside the overflow.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.OverflowButton.OnItemTapped(FluentUI.Blazor.Community.Components.IPathBarItem)">
+            <summary>
+            Occurs when the menu is selected.
+            </summary>
+            <param name="item">Represents the selected item.</param>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.PathBarItem">
             <summary>

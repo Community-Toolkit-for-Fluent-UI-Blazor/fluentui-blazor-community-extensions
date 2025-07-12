@@ -3,8 +3,6 @@
 
 @if (Items is not null && Items.Any())
 {
-    var x = Id;
-
     <FluentButton IconStart=@(_isMenuOpen ? _chevronDown : _chevronRight)
                   Id="@($"Button{Id}")"
                   OnClick="@(() => _isMenuOpen = !_isMenuOpen)"
