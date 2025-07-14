@@ -1,27 +1,41 @@
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.CompilerServices;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
-using Microsoft.AspNetCore.Components.CompilerServices;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 namespace FluentUI.Blazor.Community.Components.Internal;
 
+/// <summary>
+/// Represents a drop zone container.
+/// </summary>
+/// <typeparam name="TItem">Type of the item.</typeparam>
 [CascadingTypeParameter(nameof(TItem))]
 internal sealed class FluentCxDropZoneContainer<TItem>
     : FluentComponentBase
 {
     #region Fields
 
+    /// <summary>
+    /// Represents the children inside the component.
+    /// </summary>
     private readonly List<FluentComponentBase> _children = [];
+
+    /// <summary>
+    /// Represents the fragment to render an item.
+    /// </summary>
     private readonly RenderFragment<TItem> _renderItem;
 
     #endregion Fields
 
     #region Constructors
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FluentCxDropZoneContainer{TItem}"/>.
+    /// </summary>
     public FluentCxDropZoneContainer()
     {
         _renderItem = value => __builder =>
@@ -43,10 +57,20 @@ internal sealed class FluentCxDropZoneContainer<TItem>
                 }
                 else
                 {
-                    var content = _children.Find(x => x is IItemValue<TItem> t && Equals(t.Value, value));
+                    var content = _children.Find(x => x is IItemValue<TItem> t && CheckEquality(t.Value, value));
 
                     if (content is not null && content is IDropZoneComponent<TItem> t)
                     {
+                        if (t is ITileGridItemDropZoneComponent<TItem> k)
+                        {
+                            var item = Layout?.Items.FirstOrDefault(x => x.Key == ItemKey!(t.Value!));
+
+                            if (item is TileGridLayoutItem layoutItem)
+                            {
+                                k.SetSpan(layoutItem.ColumnSpan, layoutItem.RowSpan);
+                            }
+                        }
+
                         __builder2.AddContent(43, t.Component);
                     }
                 }
@@ -61,80 +85,195 @@ internal sealed class FluentCxDropZoneContainer<TItem>
 
     #region Properties
 
+    /// <summary>
+    /// Gets or sets the state of the component.
+    /// </summary>
     [Inject]
     public required DropZoneState<TItem> State { get; set; }
 
+    /// <summary>
+    /// Gets or sets the child content.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets if the component is virtualized.
+    /// </summary>
     [Parameter]
     public bool Virtualize { get; set; }
 
+    /// <summary>
+    /// Gets or sets the size of the item.
+    /// </summary>
     [Parameter]
     public float ItemSize { get; set; } = 50f;
 
+    /// <summary>
+    /// Gets or sets the maximum items which can be dragged.
+    /// </summary>
     [Parameter]
     public int? MaxItems { get; set; }
 
+    /// <summary>
+    /// Gets or sets the function to extract a key from an item.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, string>? ItemKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the layout of the grid.
+    /// </summary>
+    [Parameter]
+    public GridLayoutBase? Layout { get; set; }
+
+    /// <summary>
+    /// Gets the css of the component.
+    /// </summary>
     private string? InternalCss => new CssBuilder()
         .AddClass(Class)
         .AddClass("fluentcx-drop-zone")
         .Build();
 
+    /// <summary>
+    /// Gets the style of the component.
+    /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle(TileGridSettings?.ToString())
         .AddStyle("overflow-y", "auto", CanOverflow)
         .Build();
 
+    /// <summary>
+    /// Gets or sets a value indicating if the component can overflow.
+    /// </summary>
     [Parameter]
     public bool CanOverflow { get; set; }
 
+    /// <summary>
+    /// Gets or sets a function which indicates if a component can be dropped.
+    /// </summary>
     [Parameter]
     public Func<TItem?, TItem?, bool>? IsDropAllowed { get; set; }
 
+    /// <summary>
+    /// Gets or sets the content of an item.
+    /// </summary>
     [Parameter]
     public RenderFragment<TItem>? ItemContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets a function which indicates if the component can be dragged.
+    /// </summary>
     [Parameter]
     public Func<TItem, bool>? IsDragAllowed { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating if the drag and drop is immediate.
+    /// </summary>
     [Parameter]
     public bool Immediate { get; set; }
 
+    /// <summary>
+    /// Gets or sets a function to clone an item.
+    /// </summary>
     [Parameter]
     public Func<TItem, TItem>? CloneItem { get; set; }
 
+    /// <summary>
+    /// Gets or sets a function to set the css of an item.
+    /// </summary>
     [Parameter]
     public Func<TItem, string>? ItemCss { get; set; }
 
+    /// <summary>
+    /// Gets or sets if the drag is enabled.
+    /// </summary>
     [Parameter]
     public bool IsDragEnabled { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets the list of the items.
+    /// </summary>
     [Parameter]
     public IList<TItem> Items { get; set; } = [];
 
+    /// <summary>
+    /// Gets or sets the event callback to raise when the component overflows.
+    /// </summary>
     [Parameter]
     public EventCallback<TItem> Overflow { get; set; }
 
+    /// <summary>
+    /// Gets or sets the event callback to raise when the drag ends.
+    /// </summary>
     [Parameter]
     public EventCallback<TItem> DragEnd { get; set; }
 
+    /// <summary>
+    /// Gets or sets the event callback to raise when the drop is rejected for an item.
+    /// </summary>
     [Parameter]
     public EventCallback<TItem> OnItemDropRejected { get; set; }
 
+    /// <summary>
+    /// Gets or sets the event callback to raise when an item is dropped.
+    /// </summary>
     [Parameter]
     public EventCallback<TItem> OnItemDrop { get; set; }
 
+    /// <summary>
+    /// Gets or sets the event callback to raise when an item is replaced after drop.
+    /// </summary>
     [Parameter]
     public EventCallback<TItem> OnReplacedItemDrop { get; set; }
 
+    /// <summary>
+    /// Gets or sets the settings of the tile grid.
+    /// </summary>
     [Parameter]
     public ITileGridSettings? TileGridSettings { get; set; }
+
+    /// <summary>
+    /// Gets or sets if the layout is persisted.
+    /// </summary>
+    [Parameter]
+    public bool PersistenceEnabled { get; set; }
 
     #endregion Properties
 
     #region Methods
 
+    /// <summary>
+    /// Checks equality between two items.
+    /// </summary>
+    /// <param name="left">Left item to compare.</param>
+    /// <param name="right">Right item to compare.</param>
+    /// <returns>Returns <see langword="true" /> if the items are equal, <see langword="false" /> otherwise.</returns>
+    private bool CheckEquality(TItem? left, TItem? right)
+    {
+        if (ItemKey is null)
+        {
+            return Equals(left, right);
+        }
+
+        if (left is null)
+        {
+            return right is null;
+        }
+
+        if (right is null)
+        {
+            return left is null;
+        }
+
+        return string.Equals(ItemKey(left), ItemKey(right));
+    }
+
+    /// <summary>
+    /// Occurs when an item is dropped into the component.
+    /// </summary>
+    /// <param name="e">Event args associated to the drop.</param>
+    /// <returns>Returns a task which manages the drop when completed.</returns>
     private async Task OnDropAsync(DragEventArgs e)
     {
         if (!await IsDropAllowedAsync())
@@ -184,9 +323,21 @@ internal sealed class FluentCxDropZoneContainer<TItem>
 
         State.Reset();
         await OnItemDrop.InvokeAsync(activeItem);
+
+        if (PersistenceEnabled)
+        {
+            Layout?.Update(ItemKey, Items);
+            Layout?.RequestSave();
+        }
+
         await InvokeAsync(StateHasChanged);
     }
 
+    /// <summary>
+    /// Gets a value indicating if an item is draggable or not.
+    /// </summary>
+    /// <param name="item">Item to check.</param>
+    /// <returns>Returns <see langword="true" /> if the item is draggable, <see langword="false" /> otherwise.</returns>
     private bool IsItemDraggable(TItem? item)
     {
         if (!IsDragEnabled)
@@ -207,6 +358,10 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         return IsDragAllowed(item);
     }
 
+    /// <summary>
+    /// Gets if the component overflows.
+    /// </summary>
+    /// <returns>Returns <see langword="true" /> if the component overflows, <see langword="false" /> otherwise.</returns>
     internal bool IsOverflow()
     {
         var activeItem = State.ActiveItem;
@@ -219,6 +374,11 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count);
     }
 
+    /// <summary>
+    /// Gets a value indicating if the item is allowed to drop.
+    /// </summary>
+    /// <param name="item">Item to check.</param>
+    /// <returns>Returns <see langword="true" /> if the item is allowed to drop, <see langword="false" /> otherwise.</returns>
     internal bool IsItemDropAllowed(TItem? item)
     {
         if (IsDropAllowed is null)
@@ -229,6 +389,11 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         return IsDropAllowed(State.ActiveItem, item);
     }
 
+    /// <summary>
+    /// Gets the index of the item.
+    /// </summary>
+    /// <param name="item">Item to get the index.</param>
+    /// <returns>Returns the index of the item.</returns>
     internal int IndexOf(TItem? item)
     {
         if (item is null)
@@ -244,16 +409,30 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         return Items.IndexOf(item);
     }
 
+    /// <summary>
+    /// Remove the item at the specified <paramref name="index"/>.
+    /// </summary>
+    /// <param name="index">Index of the item.</param>
     internal void RemoveAt(int index)
     {
         Items?.RemoveAt(index);
     }
 
+    /// <summary>
+    /// Inserts the item at the specified index.
+    /// </summary>
+    /// <param name="index">Index of the item.</param>
+    /// <param name="item">Item to insert.</param>
     internal void Insert(int index, TItem item)
     {
         Items?.Insert(index, item);
     }
 
+    /// <summary>
+    /// Gets a value indicating if the drop is allowed.
+    /// </summary>
+    /// <returns>Returns a task which contains <see langword="true"/> if the drop is allowed, <see langword="false" /> otherwise
+    ///  when completed.</returns>
     internal async Task<bool> IsDropAllowedAsync()
     {
         var activeItem = State.ActiveItem;
@@ -286,6 +465,11 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         return true;
     }
 
+    /// <summary>
+    /// Drops an item in an asynchronous way.
+    /// </summary>
+    /// <param name="item">Item to drop.</param>
+    /// <returns>Returns a task which drops an item when completed.</returns>
     internal async Task OnItemDropAsync(TItem? item)
     {
         if (OnItemDrop.HasDelegate &&
@@ -297,6 +481,10 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         await InvokeAsync(StateHasChanged);
     }
 
+    /// <summary>
+    /// Finish the drag.
+    /// </summary>
+    /// <returns>Returns a task which completes the drag when completed.</returns>
     internal async Task OnDragEndAsync()
     {
         if (DragEnd.HasDelegate)
@@ -308,11 +496,20 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         await InvokeAsync(StateHasChanged);
     }
 
+    /// <summary>
+    /// Updates the items.
+    /// </summary>
     internal void UpdateItems()
     {
         State.Items = Items;
     }
 
+    /// <summary>
+    /// Adds a child into the container.
+    /// </summary>
+    /// <param name="child">Child to add.</param>
+    /// <exception cref="InvalidOperationException">Occurs when the child is not <see cref="IItemValue{TItem}"/> and
+    ///  when the value of the child is <see langword="null" /></exception>
     internal void Add(FluentComponentBase child)
     {
         if (child is not IItemValue<TItem> t)
@@ -333,6 +530,12 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         }
     }
 
+    /// <summary>
+    /// Removes a child from the container.
+    /// </summary>
+    /// <param name="child">Child to remove.</param>
+    /// <exception cref="InvalidOperationException">Occurs when the child is not <see cref="IItemValue{TItem}"/> and
+    ///  when the value of the child is <see langword="null" /></exception>
     internal void Remove(FluentComponentBase child)
     {
         if (child is not IItemValue<TItem> t)
@@ -350,6 +553,12 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Swap the <paramref name="overItem"/> with the <paramref name="activeItem"/>.
+    /// </summary>
+    /// <param name="overItem">First item to swap.</param>
+    /// <param name="activeItem">Second item to swap.</param>
+    /// <returns>Returns a task which swap the items when completed.</returns>
     internal async Task SwapAsync(TItem? overItem, TItem? activeItem)
     {
         if (overItem is null || activeItem is null)
@@ -398,22 +607,24 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         }
     }
 
+    /// <summary>
+    /// Refresh the component.
+    /// </summary>
     internal void Refresh()
     {
         if (ChildContent is not null)
         {
-            for (var i = 0; i < Items.Count; ++i)
-            {
-                var index = _children.FindIndex(x => x is IItemValue<TItem> t && Equals(t.Value, Items[i]));
-                var temp = _children[index];
-                _children.RemoveAt(index);
-                _children.Insert(i, temp);
-            }
+            ReorderChildrenFromLayout();
         }
 
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Drops the item inside a placeholder in an asynchronous way.
+    /// </summary>
+    /// <param name="index">Index of the placeholder.</param>
+    /// <returns>Returns a task which drops the item in the placeholder when completed.</returns>
     internal async Task OnDropItemPlaceholderAsync(int index)
     {
         if (!await IsDropAllowedAsync())
@@ -464,6 +675,11 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         await OnItemDropAsync(activeItem);
     }
 
+    /// <summary>
+    /// Gets the style of the <paramref name="value"/>.
+    /// </summary>
+    /// <param name="value">Value to get the style.</param>
+    /// <returns>Returns the style of the item.</returns>
     internal string? GetStyle(TItem? value)
     {
         if (_children.Count == 0 || value is null)
@@ -486,6 +702,80 @@ internal sealed class FluentCxDropZoneContainer<TItem>
         return null;
     }
 
+    /// <summary>
+    /// Reorders the items using a layout.
+    /// </summary>
+    /// <returns>Returns the ordered items.</returns>
+    private IEnumerable<TItem> ReorderItemsFromLayout()
+    {
+        if (!PersistenceEnabled || Layout is null || !Layout.Items.Any() || Layout.IsDirty || ItemKey is null)
+        {
+            return Items;
+        }
+
+        SortedList<int, TItem> ordered = [];
+
+        foreach (var layoutItem in Layout)
+        {
+            var item = Items.FirstOrDefault(x => string.Equals(ItemKey(x), layoutItem.Key, StringComparison.OrdinalIgnoreCase));
+
+            if (item is not null)
+            {
+                ordered.Add(layoutItem.Index, item);
+            }
+        }
+
+        return ordered.Values;
+    }
+
+    /// <summary>
+    /// Reorders the children using a layout.
+    /// </summary>
+    /// <returns>Returns the ordered components.</returns>
+    private IList<FluentComponentBase> ReorderChildrenFromLayout()
+    {
+        if (!PersistenceEnabled || Layout is null || !Layout.Items.Any() || Layout.IsDirty || ItemKey is null)
+        {
+            return _children;
+        }
+
+        var sortedList = new SortedList<int, FluentComponentBase>();
+        var sortedItems =new SortedList<int, TItem>();
+
+        foreach (var layoutItem in Layout)
+        {
+            var item = _children.Find(x => x is IItemValue<TItem> t && t.Value is not null && string.Equals(ItemKey(t.Value), layoutItem.Key, StringComparison.OrdinalIgnoreCase));
+
+            if (item is not null)
+            {
+                if (item is FluentCxTileGridItem<TItem> tg &&
+                    layoutItem is TileGridLayoutItem tgli)
+                {
+                    tg.SetSpan(tgli.ColumnSpan, tgli.RowSpan);
+                }
+
+                sortedList.Add(layoutItem.Index, item);
+            }
+
+            var orderedItem = Items.FirstOrDefault(x => string.Equals(ItemKey(x), layoutItem.Key, StringComparison.OrdinalIgnoreCase));
+
+            if (orderedItem is not null)
+            {
+                sortedItems.Add(layoutItem.Index, orderedItem);
+            }
+        }
+
+        Items.Clear();
+
+        foreach (var item in sortedItems)
+        {
+            Items.Add(item.Value);
+        }
+
+        return sortedList.Values;
+    }
+
+    /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         base.BuildRenderTree(builder);
@@ -519,31 +809,29 @@ internal sealed class FluentCxDropZoneContainer<TItem>
             {
                 builder2.AddContent(24, ChildContent);
 
-                if (_children.All(x => x is FluentCxDropZone<TItem>))
+                var children = ReorderChildrenFromLayout();
+
+                foreach (var child in children)
                 {
-                    foreach (var child in _children.OfType<FluentCxDropZone<TItem>>())
+                    if (child is FluentCxDropZone<TItem> c)
                     {
-                        child.RenderInternal();
+                        c.RenderInternal();
                     }
-                }
-                else
-                {
-                    foreach (var item in _children.OfType<IDropZoneComponent<TItem>>())
+                    else if (child is IDropZoneComponent<TItem> dzc && dzc.Value is not null)
                     {
-                        if (item.Value is not null)
-                        {
-                            builder2.AddContent(25, _renderItem(item.Value));
-                        }
+                        builder2.AddContent(25, _renderItem(dzc.Value));
                     }
                 }
             }
             else if (Items is not null &&
                     Items.Count > 0)
             {
+                var items = ReorderItemsFromLayout();
+
                 if (Virtualize)
                 {
                     builder2.OpenComponent<Virtualize<TItem>>(26);
-                    builder2.AddComponentParameter(27, nameof(Virtualize<TItem>.Items), RuntimeHelpers.TypeCheck(Items));
+                    builder2.AddComponentParameter(27, nameof(Virtualize<TItem>.Items), RuntimeHelpers.TypeCheck(items));
                     builder2.AddComponentParameter(28, nameof(Virtualize<TItem>.ItemSize), RuntimeHelpers.TypeCheck(ItemSize));
                     builder2.AddAttribute(29, "ChildContent", (RenderFragment<TItem>)((context) => (__builder3) =>
                     {
@@ -554,7 +842,7 @@ internal sealed class FluentCxDropZoneContainer<TItem>
                 }
                 else
                 {
-                    foreach (var item in Items)
+                    foreach (var item in items)
                     {
                         builder2.AddContent(31, _renderItem(item));
                     }

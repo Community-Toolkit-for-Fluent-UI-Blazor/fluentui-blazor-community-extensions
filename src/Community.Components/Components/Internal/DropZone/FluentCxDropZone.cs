@@ -7,12 +7,26 @@ using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components.Internal;
 
+/// <summary>
+/// Represents the drop zone component.
+/// </summary>
+/// <typeparam name="TItem">Type of the item.</typeparam>
 internal class FluentCxDropZone<TItem>
     : FluentComponentBase, IDisposable, IItemValue<TItem>
 {
+    /// <summary>
+    /// Represents the fragment to render the drop zone.
+    /// </summary>
     internal readonly RenderFragment _renderDropZone;
+
+    /// <summary>
+    /// Represents a value indicating if the cursor enters into the component.
+    /// </summary>
     private bool _dragEnter;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FluentCxDropZone{TItem}"/>.
+    /// </summary>
     public FluentCxDropZone()
     {
         Id = Identifier.NewId();
@@ -87,23 +101,44 @@ internal class FluentCxDropZone<TItem>
         };
     }
 
+    /// <summary>
+    /// Gets or sets the parent component.
+    /// </summary>
     [CascadingParameter]
     private FluentCxDropZoneContainer<TItem> DropZoneContainer { get; set; } = default!;
 
+    /// <summary>
+    /// Gets or sets the child content.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the css for the item.
+    /// </summary>
     [Parameter]
     public string? ItemCss { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating if the component can be dragged.
+    /// </summary>
     [Parameter]
     public bool IsDragAllowed { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating if the component can be dropped.
+    /// </summary>
     [Parameter]
     public bool IsItemDropAllowed { get; set; }
 
+    /// <summary>
+    /// Gets the state of the parent container.
+    /// </summary>
     private DropZoneState<TItem> State => DropZoneContainer.State;
 
+    /// <summary>
+    /// Gets or sets the value of the component.
+    /// </summary>
     [Parameter]
     public TItem? Value { get; set; }
 
@@ -127,10 +162,20 @@ internal class FluentCxDropZone<TItem>
     [Parameter]
     public bool AddInContainer { get; set; } = true;
 
+    /// <summary>
+    /// Gets the index of the current component inside the container.
+    /// </summary>
     private int Index => DropZoneContainer?.IndexOf(Value) ?? -1;
 
+    /// <summary>
+    /// Gets the render of the current component.
+    /// </summary>
     public RenderFragment? Component => _renderDropZone;
 
+    /// <summary>
+    /// Gets the style of the item.
+    /// </summary>
+    /// <returns>Returns the style of the item.</returns>
     private string? GetItemStyle()
     {
         var style = new StyleBuilder(Style)
@@ -140,6 +185,10 @@ internal class FluentCxDropZone<TItem>
         return style.Build();
     }
 
+    /// <summary>
+    /// Gets the css of the item.
+    /// </summary>
+    /// <returns>Returns the css of the item.</returns>
     private string? GetItemCss()
     {
         var css = new CssBuilder()
@@ -159,6 +208,10 @@ internal class FluentCxDropZone<TItem>
         return css.Build();
     }
 
+    /// <summary>
+    /// Gets the value indicating if the target is not allowed to be dragged.
+    /// </summary>
+    /// <returns>Returns <see langword="true" /> if the target cannot be dragged, <see langword="false" /> otherwise.</returns>
     private bool GetIsDragTargetDenied()
     {
         if (Value?.Equals(State.ActiveItem) ?? false)
@@ -174,6 +227,10 @@ internal class FluentCxDropZone<TItem>
         return false;
     }
 
+    /// <summary>
+    /// Gets a value indicating if the target can be dragged.
+    /// </summary>
+    /// <returns>Returns <see langword="true" /> if the target can be dragged, <see langword="false" /> otherwise.</returns>
     private bool GetIsDragTarget()
     {
         if (Value?.Equals(State.ActiveItem) ?? false)
@@ -189,6 +246,11 @@ internal class FluentCxDropZone<TItem>
         return false;
     }
 
+    /// <summary>
+    /// Gets the css for the placeholder.
+    /// </summary>
+    /// <param name="index">Index of the placeholder.</param>
+    /// <returns>Returns the css of the placeholder.</returns>
     private string? GetPlaceholderCss(int index)
     {
         return new CssBuilder()
@@ -199,6 +261,9 @@ internal class FluentCxDropZone<TItem>
                 .Build();
     }
 
+    /// <summary>
+    /// Occurs when the component leaves a drop zone.
+    /// </summary>
     private void OnDragLeave()
     {
         _dragEnter = false;
@@ -206,25 +271,46 @@ internal class FluentCxDropZone<TItem>
         DropZoneContainer.Refresh();
     }
 
+    /// <summary>
+    /// Occurs when the user has finished dragging the component.
+    /// </summary>
+    /// <returns>Returns a task which completes the drag.</returns>
     private async Task OnDragEndAsync()
     {
         await DropZoneContainer.OnDragEndAsync();
         await InvokeAsync(DropZoneContainer.Refresh);
     }
 
+    /// <summary>
+    /// Occurs when the components drops into a valid placeholder.
+    /// </summary>
+    /// <param name="index">Index of the placeholder.</param>
+    /// <returns>Returns a task which process the placeholder when completed.</returns>
     private async Task OnDropItemOnPlaceholderAsync(int index)
     {
         await DropZoneContainer.OnDropItemPlaceholderAsync(index);
     }
 
+    /// <summary>
+    /// Occurs when the drag starts.
+    /// </summary>
     private void OnDragStart()
     {
+        if (DropZoneContainer?.Layout is not null)
+        {
+            DropZoneContainer.Layout.IsDirty = true;
+        }
+
         State.ActiveItem = Value;
         DropZoneContainer?.UpdateItems();
         DropZoneContainer?.Refresh();
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Occurs when the component enters a valid drop zone.
+    /// </summary>
+    /// <returns>Returns a task which swap the components when completed.</returns>
     private async Task OnDragEnterAsync()
     {
         if (_dragEnter)
@@ -265,6 +351,15 @@ internal class FluentCxDropZone<TItem>
         await InvokeAsync(DropZoneContainer.Refresh);
     }
 
+    /// <summary>
+    /// Force the rendering of the component.
+    /// </summary>
+    internal void RenderInternal()
+    {
+        ForceRender = true;
+        StateHasChanged();
+    }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -285,12 +380,6 @@ internal class FluentCxDropZone<TItem>
         }
 
         GC.SuppressFinalize(this);
-    }
-
-    internal void RenderInternal()
-    {
-        ForceRender = true;
-        StateHasChanged();
     }
 
     /// <inheritdoc />

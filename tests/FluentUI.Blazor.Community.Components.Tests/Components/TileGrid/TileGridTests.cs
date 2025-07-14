@@ -1,19 +1,28 @@
 using System.Globalization;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Bunit;
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Components.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 
 namespace Microsoft.FluentUI.AspNetCore.Components.Tests.Components.TileGrid;
 
 public class TileGridTests
     : TestBase
 {
+    private class ItemKeyDataTest
+    {
+        public string Key { get; set; } = default!;
+    }
+
     public TileGridTests()
     {
         JSInterop.Mode = Bunit.JSRuntimeMode.Loose;
         Services.AddSingleton(UnitTestLibraryConfiguration);
         Services.AddScoped<DropZoneState<NoFileEntryData>>();
+        Services.AddScoped<DropZoneState<ItemKeyDataTest>>();
     }
 
     [Fact]
@@ -27,6 +36,25 @@ public class TileGridTests
         // Asset
         comp.Verify();
     }
+
+    [Fact]
+    public void FluentCxTileGrid_Default_InitializesCorrectly()
+    {
+        // Arrange
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>();
+
+        // Act
+        var instance = comp.Instance;
+
+        // Assert
+        Assert.NotNull(instance);
+        Assert.Empty(instance.Items); // Items should be an empty list, not null
+        Assert.Null(instance.ItemContent);
+        Assert.Null(instance.ItemCss);
+        Assert.Null(instance.IsDragAllowed);
+        Assert.Null(instance.IsDropAllowed);
+    }
+
 
     [Theory]
     [InlineData(5)]
@@ -410,5 +438,138 @@ public class TileGridTests
 
         // Assert: ItemContent should not be rendered
         Assert.DoesNotContain("Custom Item Content", content);
+    }
+
+    [Fact]
+    public void FluentCxTileGrid_PersistenceEnabled_Without_ItemKey_Exception()
+    {
+        try
+        {
+            // Act
+            var comp = RenderComponent<FluentCxTileGrid<NoFileEntryData>>(parameters =>
+            {
+                parameters.Add(p => p.PersistenceEnabled, true);
+                parameters.Add(p => p.Id, "123");
+            });
+
+            var content = RenderComponent<FluentCxTileGrid<NoFileEntryData>>();
+        }
+        catch (InvalidOperationException ex)
+        {
+            Assert.Equal("When PersistenceEnabled is set to true, ItemKey must be defined.", ex.Message);
+        }
+    }
+
+    [Fact]
+    public void FluentCxTileGrid_PersistenceEnabled_LoadLayout()
+    {
+        var mockTileGridLayout = new TileGridLayout();
+        mockTileGridLayout.Add<TileGridLayoutItem>("1", 0);
+        mockTileGridLayout.Add<TileGridLayoutItem>("2", 1);
+        mockTileGridLayout.Add<TileGridLayoutItem>("3", 2);
+       
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/js/TileGridLayout.js");
+        mockModule.Setup<TileGridLayout>("loadLayout", "123").SetResult(mockTileGridLayout);
+
+        // Act
+        var comp = RenderComponent<FluentCxTileGrid<NoFileEntryData>>(parameters =>
+        {
+            parameters.Add(p => p.PersistenceEnabled, true);
+            parameters.Add(p => p.ItemKey, (i) => "1");
+            parameters.Add(p => p.Id, "123");
+        });
+
+        JSInterop.VerifyInvoke("import");
+        JSInterop.VerifyInvoke("loadLayout");
+    }
+
+    [Fact]
+    public void FluentCxTileGrid_ItemKey()
+    {
+        var items = new List<ItemKeyDataTest>
+        {
+            new()
+            {
+               Key = "Test1"
+            },
+            new()
+            {
+               Key = "Test2"
+            },
+            new()
+            {
+               Key = "Test3"
+            },
+        };
+
+        var mockTileGridLayout = new TileGridLayout();
+        mockTileGridLayout.Add<TileGridLayoutItem>("1", 0);
+        mockTileGridLayout.Add<TileGridLayoutItem>("2", 1);
+        mockTileGridLayout.Add<TileGridLayoutItem>("3", 2);
+
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/js/TileGridLayout.js");
+        mockModule.Setup<TileGridLayout>("loadLayout", "123").SetResult(mockTileGridLayout);
+
+        // Act
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.PersistenceEnabled, true);
+            parameters.Add(p => p.ItemKey, (i) => i.Key);
+            parameters.Add(p => p.Id, "123");
+            parameters.Add(p => p.Items, items);
+        });
+
+        for (var i = 0; i < items.Count; ++i)
+        {
+            var key = comp.Instance.ItemKey!(items[i]);
+            Assert.Equal(items[i].Key, key);
+        }
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData((string?)null)]
+    public void FluentCxTileGrid_PersistenceEnabled_And_Id_Null_Throws_Exception(string? value)
+    {
+        Assert.Throws<InvalidOperationException>(() => RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.PersistenceEnabled, true);
+            parameters.Add(p => p.ItemKey, (i) => i.Key);
+            parameters.Add(p => p.Id, value);
+        }));
+    }
+
+    [Fact]
+    public void FluentCxTileGrid_PersistenceEnabled_SaveLayout()
+    {
+        var comp = RenderComponent<FluentCxTileGrid<NoFileEntryData>>(parameters =>
+        {
+            parameters.Add(p => p.PersistenceEnabled, true);
+            parameters.Add(p => p.ItemKey, (i) => "1");
+            parameters.Add(p => p.Id, "123");
+        });
+
+        var mockTileGridLayout = new TileGridLayout();
+        mockTileGridLayout.Add<TileGridLayoutItem>("1", 0);
+        mockTileGridLayout.Add<TileGridLayoutItem>("2", 1);
+        mockTileGridLayout.Add<TileGridLayoutItem>("3", 2);
+
+        var serializedLayout = JsonSerializer.Serialize(mockTileGridLayout);
+
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/js/TileGridLayout.js");
+        mockModule.Setup<string>("saveLayout", "123", mockTileGridLayout).SetResult(serializedLayout);
+        mockTileGridLayout.SaveRequested += OnRequestSave;
+
+        mockTileGridLayout.RequestSave();
+
+        JSInterop.VerifyInvoke("saveLayout");
+        Assert.Equal("[{\"ColumnSpan\":0,\"RowSpan\":0,\"Index\":0,\"Key\":\"1\"},{\"ColumnSpan\":0,\"RowSpan\":0,\"Index\":1,\"Key\":\"2\"},{\"ColumnSpan\":0,\"RowSpan\":0,\"Index\":2,\"Key\":\"3\"}]", serializedLayout);
+
+        mockTileGridLayout.SaveRequested -= OnRequestSave;
+
+        async void OnRequestSave(object? sender, EventArgs e)
+        {
+            await mockModule.JSRuntime.InvokeVoidAsync("saveLayout", "123", mockTileGridLayout).ConfigureAwait(false);
+        }
     }
 }

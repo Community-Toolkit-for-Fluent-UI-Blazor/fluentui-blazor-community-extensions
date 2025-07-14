@@ -22,6 +22,7 @@ public class DropZoneContainerTests : TestBase
 
         // Assert
         Assert.NotNull(instance);
+        Assert.NotNull(instance.Items);
         Assert.Empty(instance.Items); // Items should be an empty list, not null
         Assert.Null(instance.ItemContent);
         Assert.Null(instance.ItemCss);

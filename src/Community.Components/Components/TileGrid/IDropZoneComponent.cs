@@ -7,12 +7,8 @@ namespace FluentUI.Blazor.Community.Components;
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
 public interface IDropZoneComponent<TItem>
+    : IItemValue<TItem>
 {
-    /// <summary>
-    /// Gets the value of the drop zone.
-    /// </summary>
-    TItem? Value { get; }
-
     /// <summary>
     /// Gets the identifier of the drop zone.
     /// </summary>
