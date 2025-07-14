@@ -97,14 +97,14 @@ public class DeviceDetectorTests : TestBase
     }
 
     [Fact]
-    public void FluentCxDeviceDetector_ChangeOrientation_NullDeviceInfo()
+    public async Task FluentCxDeviceDetector_ChangeOrientation_NullDeviceInfo()
     {
         // Arrange
         var cut = RenderComponent<FluentCxDeviceDetector>();
 
         // Act & Assert (should not throw)
-        cut.Instance.ChangeOrientation(true);
-        cut.Instance.ChangeOrientation(false);
+        await cut.Instance.ChangeOrientation(true);
+        await cut.Instance.ChangeOrientation(false);
         Assert.Null(cut.Instance.DeviceInfo);
     }
 
@@ -128,7 +128,7 @@ public class DeviceDetectorTests : TestBase
         await cut.InvokeAsync(() => { });
 
         // Act - Simulate JavaScript calling the JSInvokable method
-        cut.Instance.ChangeOrientation(true);
+        await cut.Instance.ChangeOrientation(true);
 
         // Assert
         Assert.Equal(DeviceOrientation.Portrait, cut.Instance.DeviceInfo?.Orientation);
