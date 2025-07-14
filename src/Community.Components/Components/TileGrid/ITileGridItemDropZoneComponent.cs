@@ -17,4 +17,11 @@ public interface ITileGridItemDropZoneComponent<TItem>
     /// Gets the row span of the <see cref="FluentCxTileGridItem{TItem}"/>.
     /// </summary>
     int RowSpan { get; }
+
+    /// <summary>
+    /// Sets the span of the item.
+    /// </summary>
+    /// <param name="columnSpan">Column span of the item.</param>
+    /// <param name="rowSpan">Row span of the item.</param>
+    void SetSpan(int columnSpan, int rowSpan);
 }
