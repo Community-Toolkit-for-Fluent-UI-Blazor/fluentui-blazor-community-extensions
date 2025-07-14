@@ -1,0 +1,22 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Items is not null && Items.Any())
+{
+    <FluentButton IconStart=@(_isMenuOpen ? _chevronDown : _chevronRight)
+                  Id="@($"Button{Id}")"
+                  OnClick="@(() => _isMenuOpen = !_isMenuOpen)"
+                  Appearance="Appearance.Stealth" />
+
+    <FluentMenu Id="@($"Popover{Id}")"
+                Anchor="@($"Button{Id}")"
+                @bind-Open=_isMenuOpen>
+        @foreach (var item in Items)
+        {
+            <FluentMenuItem Label="@item.Label"
+                            Id="@item.Id"
+                            OnClick="@(() => OnItemTapped(item))" />
+        }
+    </FluentMenu>
+    
+}

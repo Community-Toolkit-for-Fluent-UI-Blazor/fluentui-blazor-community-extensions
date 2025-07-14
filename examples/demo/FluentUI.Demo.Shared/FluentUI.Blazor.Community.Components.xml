@@ -3066,14 +3066,29 @@
             Gets or sets the event callback when an item is downloaded.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.NavigationItems">
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.PathRoot">
             <summary>
-            Gets or sets the items of the navigation bar.
+            Gets or sets the items of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar" />.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.Path">
+            <summary>
+            Gets or sets the path of the navigation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.OnPathChanged">
+            <summary>
+            Gets or sets the callback when a path changed.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.State">
             <summary>
             Gets or sets the state of the file manager.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.MaxVisibleItems">
+            <summary>
+            Gets or sets the maximum visible items in the navigation bar
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnSelectedItemsChangedAsync">
@@ -3113,12 +3128,6 @@
             <summary>
             Sort the current entry.
             </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnClick(FluentUI.Blazor.Community.Components.FileNavigationItem)">
-            <summary>
-            Occurs when a <see cref="T:FluentUI.Blazor.Community.Components.FileNavigationItem"/> item is clicked.
-            </summary>
-            <param name="item">Represents the clicked item.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
@@ -4339,37 +4348,6 @@
             </summary>
             <returns>Returns the style of the list.</returns>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FileManagerNavigationView">
-            <summary>
-            Represents the navigation view for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManagerNavigationView.ChildContent">
-            <summary>
-            Gets or sets the child content.
-            </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem">
-            <summary>
-            Represents an item of the <see cref="T:FluentUI.Blazor.Community.Components.FileManagerNavigationView"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem.Text">
-            <summary>
-            Gets or sets the text of the item.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem.OnClick">
-            <summary>
-            Gets the event callback which occurs when the item is clicked.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileManagerNavigationViewItem.OnClickItemAsync">
-            <summary>
-            Occurs when the item is clicked.
-            </summary>
-            <returns>Returns a task which click on the menu when completed.</returns>
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerState">
             <summary>
             Represents the state of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
@@ -4493,31 +4471,6 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileMoverDialog`1.OnInitialized">
             <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FileNavigationItem">
-            <summary>
-            Represents an item for the navigation bar of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
-            </summary>
-            <param name="Path">Path of the item.</param>
-            <param name="Text">Text of the item.</param>
-            <param name="OnClick">Action to do when the item is clicked.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileNavigationItem.#ctor(System.String,System.String,System.Action{System.String})">
-            <summary>
-            Represents an item for the navigation bar of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
-            </summary>
-            <param name="Path">Path of the item.</param>
-            <param name="Text">Text of the item.</param>
-            <param name="OnClick">Action to do when the item is clicked.</param>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileNavigationItem.Path">
-            <summary>Path of the item.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileNavigationItem.Text">
-            <summary>Text of the item.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileNavigationItem.OnClick">
-            <summary>Action to do when the item is clicked.</summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileSortBy">
             <summary>
@@ -4756,7 +4709,7 @@
             Represents the buffer dictionary of all files currenlty uploading.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._navigationItems">
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._pathRoot">
             <summary>
             Represents the list of all navigation items.
             </summary>
@@ -4779,6 +4732,11 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._contentTypeProvider">
             <summary>
             Represents the provider to get the content type from a file extension.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._path">
+            <summary>
+            Represents the path for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar"/> component.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.#ctor">
@@ -4948,6 +4906,14 @@
             Gets or sets the callback to use when a file or a folder is moved.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.MaxVisibleItems">
+            <summary>
+            Gets or sets the maximum number of visible items.
+            </summary>
+            <remarks>
+            By default, the number is 4.
+            </remarks>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SelectedItems">
             <summary>
             Gets the selected items.
@@ -5040,6 +5006,18 @@
             <param name="entry">Entry to rename.</param>
             <returns>Returns a task which rename the entry when completed.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildPathRoot">
+            <summary>
+            Build the complete path root for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildPathRootItem(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
+            <summary>
+            Build the items for the current path.
+            </summary>
+            <param name="values">Values use to transform each item into an instance of <see cref="T:FluentUI.Blazor.Community.Components.PathBarItem"/>.</param>
+            <returns>Returns the list of items.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildTreeView">
             <summary>
             Build a tree view.
@@ -5073,31 +5051,12 @@
             Updates the current entry.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.UpdateNavigationView(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
-            <summary>
-            Updates the navigation view.
-            </summary>
-            <param name="entry">Current selected entry.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.GetSegmentsPath(System.String)">
-            <summary>
-            Splits the relative path into an array.
-            </summary>
-            <param name="relativePath">Relative path to split.</param>
-            <returns>Returns an array of <see cref="T:System.String"/> which contains the splitted <paramref name="relativePath"/>.</returns>
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.CleanPath(System.String)">
             <summary>
             Clean the path (removes the last backslash if found)
             </summary>
             <param name="path">Path to clean.</param>
             <returns>Returns the cleaned path.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnClickItem(System.String)">
-            <summary>
-            Occurs when an item is clicked.
-            </summary>
-            <param name="path">Clicked path.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnCreateFolderAsync">
             <summary>
@@ -6241,6 +6200,285 @@
             <summary>
             Gets the height of the tile grid.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryPathBarItemComparer">
+            <summary>
+            Represents the comparer to compare two instance of <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> together.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryPathBarItemComparer.Default">
+            <summary>
+            Gets the default comparer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryPathBarItemComparer.Compare(FluentUI.Blazor.Community.Components.IPathBarItem,FluentUI.Blazor.Community.Components.IPathBarItem)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBar">
+            <summary>
+            Represents a path bar.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._homeIcon">
+            <summary>
+            Represents the home icon.
+            </summary>
+            <remarks>
+            Used when the <see cref="T:FluentUI.Blazor.Community.Components.DeviceInfo"/> is null.
+            </remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._desktopIcon">
+            <summary>
+            Represents the desktop icon.
+            </summary>
+            <remarks>
+            Used when the <see cref="T:FluentUI.Blazor.Community.Components.DeviceInfo"/> is not null and if the device is a desktop.
+            </remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._tabletIcon">
+            <summary>
+            Represents the tablet icon.
+            </summary>
+            <remarks>
+            Used when the <see cref="T:FluentUI.Blazor.Community.Components.DeviceInfo"/> is not null and if the device is a tablet.
+            </remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._phoneIcon">
+            <summary>
+            Represents the desktop icon.
+            </summary>
+            <remarks>
+            Used when the <see cref="T:FluentUI.Blazor.Community.Components.DeviceInfo"/> is not null and if the device is a smartphone.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.Root">
+            <summary>
+            Gets or sets the root of the path, with all possible paths.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.Path">
+            <summary>
+            Gets or sets the path.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.PathChanged">
+            <summary>
+            Gets or sets the callback when the path changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.DeviceInfoState">
+            <summary>
+            Gets or sets the state for the information of the current used device.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.MaxVisibleItems">
+            <summary>
+            Gets or sets the maximum number items visible.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnPathChangedAsync(System.String)">
+            <summary>
+            Occurs when the <paramref name="path"/> has changed.
+            </summary>
+            <param name="path">Current path.</param>
+            <returns>Returns a task which raise the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.PathChanged"/> callback when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnPathSelectedAsync(FluentUI.Blazor.Community.Components.IPathBarItem)">
+            <summary>
+            Occurs when the path is selected by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItem"/>.
+            </summary>
+            <param name="item">Represents the selected item.</param>
+            <returns>Returns a task which changes the path when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.SetPath(System.String)">
+            <summary>
+            Occurs when the path is selected by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu"/>.
+            </summary>
+            <param name="path">Selected path.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.GetHomeIcon">
+            <summary>
+            Gets the home icon.
+            </summary>
+            <returns>Returns the home icon.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.Find(System.String[])">
+            <summary>
+            Find all path bar items which are represented by the <paramref name="segments"/>.
+            </summary>
+            <param name="segments">Array of string which represents the full path.</param>
+            <returns>Returns a list of the <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/>.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItem">
+            <summary>
+            Represents a component inside a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.Label">
+            <summary>
+            Gets or sets the label of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.Items">
+            <summary>
+            Gets or sets the items inside the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.Ancestor">
+            <summary>
+            Gets or sets the ancestor of this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.ShowLabel">
+            <summary>
+            Gets or sets a value indicating if the label is visible or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.Icon">
+            <summary>
+            Gets or sets the icon to show.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.OnTapped">
+            <summary>
+            Gets or sets the callback when the component is clicked.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.OnTappedAsync">
+            <summary>
+            Occurs when the component is clicked.
+            </summary>
+            <returns>Returns a task which raises the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.OnTapped"/> callback when completed.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu">
+            <summary>
+            Represents a menu for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItem"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu._isMenuOpen">
+            <summary>
+            Represents the opened state of the menu.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu._chevronRight">
+            <summary>
+            Represents the chevron right when the menu is not opened.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu._chevronDown">
+            <summary>
+            Represents the chevron down when the menu is opened.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu.Parent">
+            <summary>
+            Gets or sets the parent of this menu.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu.Items">
+            <summary>
+            Gets or sets the items of this menu.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu.OnItemTapped(FluentUI.Blazor.Community.Components.IPathBarItem)">
+            <summary>
+            Occurs when the menu is selected.
+            </summary>
+            <param name="item">Represents the selected item.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IPathBarItem">
+            <summary>
+            Represents an interface for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItem"/>
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IPathBarItem.Label">
+            <summary>
+            Gets the label of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IPathBarItem.Parent">
+            <summary>
+            Gets the parent of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IPathBarItem.Id">
+            <summary>
+            Gets the id of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IPathBarItem.Icon">
+            <summary>
+            Gets the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IPathBarItem.Items">
+            <summary>
+            Gets the menu items of the item.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.OverflowButton">
+            <summary>
+            Represents the overflow button for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OverflowButton._isMenuOpen">
+            <summary>
+            Represents if the menu is open.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.OverflowButton.Parent">
+            <summary>
+            Gets or sets the parent of the button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.OverflowButton.Items">
+            <summary>
+            Gets or sets the items inside the overflow.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.OverflowButton.OnItemTapped(FluentUI.Blazor.Community.Components.IPathBarItem)">
+            <summary>
+            Occurs when the menu is selected.
+            </summary>
+            <param name="item">Represents the selected item.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PathBarItem">
+            <summary>
+            Represents an item for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar"/> component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PathBarItem._items">
+            <summary>
+            Represents the children of the current instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PathBarItem.Label">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PathBarItem.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PathBarItem.Icon">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PathBarItem.Items">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PathBarItem.Parent">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItem.Find(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.IPathBarItem},System.String)">
+            <summary>
+            Finds the item inside <paramref name="items"/> by its <paramref name="id"/>.
+            </summary>
+            <param name="items">Items to use for search.</param>
+            <param name="id">Id to find.</param>
+            <returns>Returns the item when found, <see langword="null" /> otherwise.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxMediaQuery">
             <summary>

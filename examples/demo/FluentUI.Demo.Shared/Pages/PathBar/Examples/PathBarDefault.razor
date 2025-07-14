@@ -1,0 +1,25 @@
+﻿<FluentCxPathBar Root="@root" />
+
+@code {
+    private readonly IPathBarItem root = CreatePathBar(5, 6);
+    private static int _count;
+
+    private static IPathBarItem CreatePathBar(int maxLevel, int maxItemsPerLevel, int level = 0)
+    {
+        _count++;
+
+        int nbItems = Random.Shared.Next(maxItemsPerLevel - 3, maxItemsPerLevel);
+
+        var item = new PathBarItem
+        {
+            Label = $"Item {_count}",
+            Id = Identifier.NewId(),
+            Items = level == maxLevel
+                              ? []
+                              : new List<IPathBarItem>(Enumerable.Range(1, nbItems)
+                                                                 .Select(i => CreatePathBar(maxLevel, maxItemsPerLevel, level + 1))),
+        };
+
+        return item;
+    }
+}

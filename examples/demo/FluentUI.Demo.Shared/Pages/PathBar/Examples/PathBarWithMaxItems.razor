@@ -1,0 +1,40 @@
+﻿<FluentNumberField @bind-Value=_maxVisibleItems Min="0" Max="7" Label="Nombre d'items visible" />
+
+<FluentCxPathBar Root="@root" Path="@path" MaxVisibleItems="@_maxVisibleItems" />
+
+@code {
+    private const string path = "Home\\User\\1024\\Images\\Travels\\2025\\France\\Paris";
+    private readonly IPathBarItem root = CreatePathBar(path);
+    private static int _count;
+    private int? _maxVisibleItems;
+
+    private static IPathBarItem CreatePathBar(string path)
+    {
+        string[] p = path.Split("\\", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        PathBarItem item = new()
+        {
+            Label = p[0],
+            Id = Identifier.NewId(),
+            Items = Get(p.Skip(1))
+        };
+
+        return item;
+
+        IEnumerable<IPathBarItem> Get(IEnumerable<string> values)
+        {
+            if (values is null || !values.Any())
+            {
+                return [];
+            }
+
+            var item = new PathBarItem()
+            {
+                Label = values.ElementAt(0),
+                Id = Identifier.NewId(),
+                Items = Get(values.Skip(1))
+            };
+
+            return [item];
+        }
+    }
+}
