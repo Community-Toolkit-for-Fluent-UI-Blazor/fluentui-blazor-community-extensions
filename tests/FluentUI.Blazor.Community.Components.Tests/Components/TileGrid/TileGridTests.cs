@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bunit;
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Components.Internal;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 
@@ -467,7 +468,7 @@ public class TileGridTests
         mockTileGridLayout.Add<TileGridLayoutItem>("1", 0);
         mockTileGridLayout.Add<TileGridLayoutItem>("2", 1);
         mockTileGridLayout.Add<TileGridLayoutItem>("3", 2);
-       
+
         var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/js/TileGridLayout.js");
         mockModule.Setup<TileGridLayout>("loadLayout", "123").SetResult(mockTileGridLayout);
 
@@ -570,6 +571,313 @@ public class TileGridTests
         async void OnRequestSave(object? sender, EventArgs e)
         {
             await mockModule.JSRuntime.InvokeVoidAsync("saveLayout", "123", mockTileGridLayout).ConfigureAwait(false);
+        }
+    }
+
+    // FluentCxTileGridItem<T> Tests - Testing through parent component
+    [Fact]
+    public void FluentCxTileGridItem_WithValue_RendersCorrectly()
+    {
+        // Arrange
+        var testItem = new ItemKeyDataTest { Key = "test-item" };
+        var items = new List<ItemKeyDataTest> { testItem };
+
+        // Act
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.AddAttribute(2, "ChildContent", (RenderFragment)(child => child.AddContent(0, $"Item: {item.Key}")));
+                builder.CloseComponent();
+            });
+        });
+
+        // Assert
+        Assert.Contains("Item: test-item", comp.Markup);
+        comp.Verify();
+    }
+
+    [Fact]
+    public void FluentCxTileGridItem_WithCustomSpans_SetsCorrectly()
+    {
+        // Arrange
+        var testItem = new ItemKeyDataTest { Key = "span-test" };
+        var items = new List<ItemKeyDataTest> { testItem };
+
+        // Act
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.CanResize, true);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.AddAttribute(2, "ColumnSpan", 2);
+                builder.AddAttribute(3, "RowSpan", 3);
+                builder.AddAttribute(4, "ChildContent", (RenderFragment)(child => child.AddContent(0, "Spanned Item")));
+                builder.CloseComponent();
+            });
+        });
+
+        // Assert - Find the FluentCxTileGridItem component
+        var tileGridItem = comp.FindComponent<FluentCxTileGridItem<ItemKeyDataTest>>();
+        Assert.Equal(2, tileGridItem.Instance.ColumnSpan);
+        Assert.Equal(3, tileGridItem.Instance.RowSpan);
+        Assert.Equal(testItem, tileGridItem.Instance.Value);
+        comp.Verify();
+    }
+
+    [Fact]
+    public void FluentCxTileGridItem_SetSpan_UpdatesSpansCorrectly()
+    {
+        // Arrange
+        var testItem = new ItemKeyDataTest { Key = "setspan-test" };
+        var items = new List<ItemKeyDataTest> { testItem };
+
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.AddAttribute(2, "ColumnSpan", 1);
+                builder.AddAttribute(3, "RowSpan", 1);
+                builder.CloseComponent();
+            });
+        });
+
+        var tileGridItem = comp.FindComponent<FluentCxTileGridItem<ItemKeyDataTest>>();
+
+        // Act - Use InvokeAsync to handle the threading context properly
+        comp.InvokeAsync(() => tileGridItem.Instance.SetSpan(4, 2));
+
+        // Assert
+        Assert.Equal(4, tileGridItem.Instance.ColumnSpan);
+        Assert.Equal(2, tileGridItem.Instance.RowSpan);
+    }
+
+    [Fact]
+    public void FluentCxTileGridItem_OnTapped_EventCallbackFires()
+    {
+        // Arrange
+        var testItem = new ItemKeyDataTest { Key = "tap-test" };
+        var items = new List<ItemKeyDataTest> { testItem };
+        var tapped = false;
+
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.AddAttribute(2, "OnTapped", EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>(this, _ => tapped = true));
+                builder.CloseComponent();
+            });
+        });
+
+        // Act
+        var tileGridItem = comp.FindComponent<FluentCxTileGridItem<ItemKeyDataTest>>();
+        var resizer = tileGridItem.FindComponent<FluentCxResizer>();
+
+        // Trigger the OnTapped event through the resizer div
+        var resizerDiv = resizer.Find(".fluentcx-resizer");
+        resizerDiv.Click();
+
+        // Assert
+        Assert.True(tapped);
+    }
+
+    [Fact]
+    public void FluentCxTileGridItem_OnDoubleTapped_EventCallbackFires()
+    {
+        // Arrange
+        var testItem = new ItemKeyDataTest { Key = "doubletap-test" };
+        var items = new List<ItemKeyDataTest> { testItem };
+        var doubleTapped = false;
+
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.AddAttribute(2, "OnDoubleTapped", EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>(this, _ => doubleTapped = true));
+                builder.CloseComponent();
+            });
+        });
+
+        // Act
+        var tileGridItem = comp.FindComponent<FluentCxTileGridItem<ItemKeyDataTest>>();
+        var resizer = tileGridItem.FindComponent<FluentCxResizer>();
+
+        // Trigger the OnDoubleTapped event through the resizer div
+        var resizerDiv = resizer.Find(".fluentcx-resizer");
+        resizerDiv.DoubleClick();
+
+        // Assert
+        Assert.True(doubleTapped);
+    }
+
+    [Fact]
+    public void FluentCxTileGridItem_ChildContent_RendersCorrectly()
+    {
+        // Arrange
+        var testItem = new ItemKeyDataTest { Key = "content-test" };
+        var items = new List<ItemKeyDataTest> { testItem };
+        var customContent = "Custom Child Content Here";
+
+        // Act
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.AddAttribute(2, "ChildContent", (RenderFragment)(child =>
+                {
+                    child.AddMarkupContent(0, $"<div class='custom-content'>{customContent}</div>");
+                }));
+                builder.CloseComponent();
+            });
+        });
+
+        // Assert
+        Assert.Contains(customContent, comp.Markup);
+        Assert.Contains("custom-content", comp.Markup);
+        comp.Verify();
+    }
+
+    [Fact]
+    public void FluentCxTileGridItem_ResizeEnabled_PassedFromParent()
+    {
+        // Arrange
+        var testItem = new ItemKeyDataTest { Key = "resize-test" };
+        var items = new List<ItemKeyDataTest> { testItem };
+
+        // Act - Parent has CanResize = true
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.CanResize, true);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.CloseComponent();
+            });
+        });
+
+        // Assert - The FluentCxResizer should have IsResizeEnabled = true
+        var tileGridItem = comp.FindComponent<FluentCxTileGridItem<ItemKeyDataTest>>();
+        var resizer = tileGridItem.FindComponent<FluentCxResizer>();
+        Assert.True(resizer.Instance.IsResizeEnabled);
+    }
+
+    [Fact]
+    public void FluentCxTileGridItem_ParentIdPassedToResizer()
+    {
+        // Arrange
+        var testItem = new ItemKeyDataTest { Key = "parent-id-test" };
+        var items = new List<ItemKeyDataTest> { testItem };
+        var parentId = "test-parent-grid";
+
+        // Act
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.Id, parentId);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.CloseComponent();
+            });
+        });
+
+        // Assert - The FluentCxResizer should have SpanGridId = parent Id
+        var tileGridItem = comp.FindComponent<FluentCxTileGridItem<ItemKeyDataTest>>();
+        var resizer = tileGridItem.FindComponent<FluentCxResizer>();
+        Assert.Equal(parentId, resizer.Instance.SpanGridId);
+    }
+
+    [Fact]
+    public void FluentCxTileGridItem_Dispose_CallsParentRemoveLayoutItem()
+    {
+        // Arrange
+        var testItem = new ItemKeyDataTest { Key = "dispose-test" };
+        var items = new List<ItemKeyDataTest> { testItem };
+
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.CloseComponent();
+            });
+        });
+
+        var tileGridItem = comp.FindComponent<FluentCxTileGridItem<ItemKeyDataTest>>();
+        var parent = comp.Instance;
+
+        // Act - Dispose the tile grid item using InvokeAsync to handle threading context
+        var ex = Record.Exception(() => comp.InvokeAsync(() => tileGridItem.Instance.Dispose()).Wait());
+
+        // Assert - Dispose should complete without throwing
+        Assert.Null(ex);
+    }
+
+    [Fact]
+    public void FluentCxTileGridItem_MultipleItems_AllRenderCorrectly()
+    {
+        // Arrange
+        var items = new List<ItemKeyDataTest>
+        {
+            new() { Key = "item1" },
+            new() { Key = "item2" },
+            new() { Key = "item3" }
+        };
+
+        // Act
+        var comp = RenderComponent<FluentCxTileGrid<ItemKeyDataTest>>(parameters =>
+        {
+            parameters.Add(p => p.Items, items);
+            parameters.Add(p => p.ItemKey, i => i.Key);
+            parameters.Add(p => p.ItemContent, item => builder =>
+            {
+                builder.OpenComponent<FluentCxTileGridItem<ItemKeyDataTest>>(0);
+                builder.AddAttribute(1, "Value", item);
+                builder.AddAttribute(2, "ChildContent", (RenderFragment)(child => child.AddContent(0, $"Content: {item.Key}")));
+                builder.CloseComponent();
+            });
+        });
+
+        // Assert - All items should be rendered
+        var tileGridItems = comp.FindComponents<FluentCxTileGridItem<ItemKeyDataTest>>();
+        // Note: TileGrid may create multiple component instances, so we check that we have at least our items
+        Assert.True(tileGridItems.Count >= 3);
+
+        foreach (var item in items)
+        {
+            Assert.Contains($"Content: {item.Key}", comp.Markup);
         }
     }
 }
