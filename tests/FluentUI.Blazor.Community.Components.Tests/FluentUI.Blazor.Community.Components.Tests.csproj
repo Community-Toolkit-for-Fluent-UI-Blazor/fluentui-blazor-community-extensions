@@ -56,6 +56,9 @@
       <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
       <DependentUpon>%(ParentFile).razor</DependentUpon>
     </None>
+    <None Update="Components\TileGrid\TileGridTests.FluentCxTileGridItem_ChildContent_RendersCorrectly.verified.html">
+      <DependentUpon>TileGridTests.cs</DependentUpon>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
