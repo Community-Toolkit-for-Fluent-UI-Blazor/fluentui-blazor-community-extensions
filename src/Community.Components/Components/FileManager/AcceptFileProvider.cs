@@ -25,19 +25,14 @@ public static class AcceptFileProvider
             values.Add("audio/*");
         }
 
-        if (value.HasFlag(AcceptFile.Video))
-        {
-            values.Add("video/*");
-        }
-
         if (value.HasFlag(AcceptFile.Image))
         {
             values.Add("image/*");
         }
 
-        if (value.HasFlag(AcceptFile.Excel))
+        if (value.HasFlag(AcceptFile.Video))
         {
-            values.AddRange(".xls", ".xlsx");
+            values.Add("video/*");
         }
 
         if (value.HasFlag(AcceptFile.Pdf))
@@ -45,14 +40,19 @@ public static class AcceptFileProvider
             values.AddRange(".pdf");
         }
 
-        if (value.HasFlag(AcceptFile.Powerpoint))
+        if (value.HasFlag(AcceptFile.Excel))
         {
-            values.AddRange(".ppt", ".pptx");
+            values.AddRange(".xls", ".xlsx");
         }
 
         if (value.HasFlag(AcceptFile.Word))
         {
             values.AddRange(".doc", ".docx");
+        }
+
+        if (value.HasFlag(AcceptFile.Powerpoint))
+        {
+            values.AddRange(".ppt", ".pptx");
         }
 
         return string.Join(", ", values);

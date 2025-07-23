@@ -58,5 +58,5 @@ public enum AcceptFile
     /// Document files allowed.
     /// </summary>
     /// <remarks>Represents <see cref="Pdf"/>, <see cref="Word"/>, <see cref="Excel"/>, <see cref="Powerpoint"/> tags.</remarks>
-    Document = Excel | Word | Powerpoint | Pdf
+    Document = Pdf | Excel | Word | Powerpoint
 }

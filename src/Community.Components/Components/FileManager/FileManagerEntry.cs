@@ -466,6 +466,9 @@ public sealed class FileManagerEntry<TItem>
             entry.RelativePath = $"{RelativePath}{Path.DirectorySeparatorChar}{entry.Name}";
             _directories.Add(entry);
         }
+
+        InvalidateMerge();
+        InvalidateSize();
     }
 
     /// <summary>
