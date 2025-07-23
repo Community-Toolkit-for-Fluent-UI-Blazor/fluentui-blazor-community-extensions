@@ -1,5 +1,40 @@
 const _resizerComponents = [];
-const minimumSize = 20;
+
+function getMinimumWidth(child) {
+  if (!child) {
+    return 20;
+  }
+
+  let tagName = child.tagName.toLowerCase();
+
+  if (tagName === 'fluent-card') {
+    return 50;
+  }
+
+  if (tagName === 'fluent-button') {
+    return child.style.minimumWidth === undefined ? 40 : child.style.minimumWidth;
+  }
+
+  return 20;
+}
+
+function getMinimumHeight(child) {
+  if (!child) {
+    return 20;
+  }
+
+  let tagName = child.tagName.toLowerCase();
+
+  if (tagName === 'fluent-card') {
+    return 50;
+  }
+
+  if (tagName === 'fluent-button') {
+    return 32;
+  }
+
+  return 20;
+}
 
 export function initialize(id, dotNetHelper, tileGridId) {
   const element = document.getElementById(id);
@@ -8,11 +43,10 @@ export function initialize(id, dotNetHelper, tileGridId) {
     return;
   }
 
-  const child = element.getElementsByClassName('fluentcx-resizer-child-content-container')[0];
+  const child = element.getElementsByClassName('fluentcx-resizer-child-content-container')[0].children[0];
   const resizers = element.querySelectorAll(".fluentcx-resizer-handler");
   const tileGrid = document.getElementById(tileGridId);
   const dropZone = tileGrid ? element.parentElement : null; // If it is in tilegrid, get the parent (the drop zone)
-
   const { left, top, width, height } = element.getBoundingClientRect();
 
   const instance = {
@@ -24,12 +58,13 @@ export function initialize(id, dotNetHelper, tileGridId) {
     orientation: -1,
     originalMouseX: 0,
     originalMouseY: 0,
-    child: child,
     resizers: resizers,
     tileGrid: tileGrid,
     dropZone: dropZone,
     columnSpan: 0,
-    rowSpan: 0
+    rowSpan: 0,
+    minimumWidth: getMinimumWidth(child),
+    minimumHeight: getMinimumHeight(child)
   };
 
   _resizerComponents.push(instance);
@@ -157,39 +192,38 @@ function beginResize(id, current, e) {
       if (current.classList.contains('fluentcx-resizer-handler-cursor-nwse')) {
         instance.orientation = 2;
 
-        if (width > minimumSize) {
+        if (width > instance.minimumWidth) {
           instance.newWidth = width;
+          instance.element.style.width = width + "px";
         }
 
-        if (height > minimumSize) {
+        if (height > instance.minimumHeight) {
           instance.newHeight = height;
+          instance.element.style.height = height + "px";
         }
-
-        instance.element.style.height = height + "px";
-        instance.element.style.width = width + "px";
       }
       else if (current.classList.contains('fluentcx-resizer-handler-cursor-ns')) {
         instance.orientation = 1;
 
-        if (height > minimumSize) {
-          instance.newHeight = height
-        }
+        if (height > instance.minimumHeight) {
+          instance.newHeight = height;
 
-        if (instance.element) {
-          instance.element.style.height = height + "px";
-          instance.element.style.width = instance.originalWidth + "px";
+          if (instance.element) {
+            instance.element.style.height = height + "px";
+            instance.element.style.width = instance.originalWidth + "px";
+          }
         }
       }
       else if (current.classList.contains('fluentcx-resizer-handler-cursor-ew')) {
         instance.orientation = 0;
 
-        if (width > minimumSize) {
-          instance.newWidth = width
-        }
+        if (width > instance.minimumWidth) {
+          instance.newWidth = width;
 
-        if (instance.element) {
-          instance.element.style.height = instance.originalHeight + "px";
-          instance.element.style.width = width + "px";
+          if (instance.element) {
+            instance.element.style.height = instance.originalHeight + "px";
+            instance.element.style.width = width + "px";
+          }
         }
       }
     }
