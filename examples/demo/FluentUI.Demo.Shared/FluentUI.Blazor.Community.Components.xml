@@ -6201,6 +6201,62 @@
             Gets the height of the tile grid.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxMediaQuery">
+            <summary>
+            Represents a Media Query detector.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.JavascriptFile">
+            <summary>
+            Represents the javascript file to manage the media query.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxMediaQuery._module">
+            <summary>
+            Represents the javascript module.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxMediaQuery._hasRender">
+            <summary>
+            Represents a value indicating if the component was first rendered.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxMediaQuery._disposeQueryModule">
+            <summary>
+            Represents a value to dispose the module each time the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.Query"/> changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.Query">
+            <summary>
+            Gets or sets the query to manage.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged">
+            <summary>
+            Gets or sets the callback to raise when the media changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.JSRuntime">
+            <summary>
+            Gets or sets the Javascript runtime.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaQueryChangedAsync(System.Boolean)">
+            <summary>
+            Occurs when the media changes.
+            </summary>
+            <param name="change">Value indicating if the media has changed.</param>
+            <returns>Returns a task which raises the event callback <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged"/> when completed.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryPathBarItemComparer">
             <summary>
             Represents the comparer to compare two instance of <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> together.
@@ -6479,62 +6535,6 @@
             <param name="items">Items to use for search.</param>
             <param name="id">Id to find.</param>
             <returns>Returns the item when found, <see langword="null" /> otherwise.</returns>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FluentCxMediaQuery">
-            <summary>
-            Represents a Media Query detector.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.JavascriptFile">
-            <summary>
-            Represents the javascript file to manage the media query.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxMediaQuery._module">
-            <summary>
-            Represents the javascript module.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxMediaQuery._hasRender">
-            <summary>
-            Represents a value indicating if the component was first rendered.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxMediaQuery._disposeQueryModule">
-            <summary>
-            Represents a value to dispose the module each time the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.Query"/> changes.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.Query">
-            <summary>
-            Gets or sets the query to manage.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged">
-            <summary>
-            Gets or sets the callback to raise when the media changed.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.JSRuntime">
-            <summary>
-            Gets or sets the Javascript runtime.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.DisposeAsync">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnAfterRenderAsync(System.Boolean)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaQueryChangedAsync(System.Boolean)">
-            <summary>
-            Occurs when the media changes.
-            </summary>
-            <param name="change">Value indicating if the media has changed.</param>
-            <returns>Returns a task which raises the event callback <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged"/> when completed.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxResizer">
             <summary>
