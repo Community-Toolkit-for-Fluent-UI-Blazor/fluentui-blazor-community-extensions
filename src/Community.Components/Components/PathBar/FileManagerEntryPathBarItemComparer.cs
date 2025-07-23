@@ -24,6 +24,6 @@ internal sealed class FileManagerEntryPathBarItemComparer
             return x is null ? 0 : -1;
         }
 
-        return x.Id.CompareTo(y.Id);
+        return string.Compare(x.Id, y.Id, StringComparison.OrdinalIgnoreCase);
     }
 }
