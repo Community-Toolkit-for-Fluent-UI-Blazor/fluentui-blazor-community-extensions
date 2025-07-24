@@ -57,4 +57,73 @@ public class DeviceInfoStateTests
         Assert.Equal(isTablet, state.DeviceInfo.IsTablet);
         Assert.Equal(deviceOrientation, state.DeviceInfo.Orientation);
     }
+
+    [Fact]
+    public void DeviceInfoState_DeviceInfo_Set_Null_Raises_Updated_Event()
+    {
+        var state = new DeviceInfoState
+        {
+            DeviceInfo = new DeviceInfo()
+        };
+
+        var eventCount = 0;
+        DeviceInfo? eventArg = null;
+
+        state.Updated += (sender, info) =>
+        {
+            eventCount++;
+            eventArg = info;
+        };
+
+        state.DeviceInfo = null;
+
+        Assert.Equal(1, eventCount);
+        Assert.Null(eventArg);
+    }
+
+    [Fact]
+    public void DeviceInfoState_ForceUpdate_Raises_Updated_Event()
+    {
+        var state = new DeviceInfoState();
+        var eventCount = 0;
+
+        state.Updated += (sender, info) => eventCount++;
+
+        state.DeviceInfo = new DeviceInfo();
+        eventCount = 0; // reset after initial set
+
+        state.ForceUpdate();
+
+        Assert.Equal(1, eventCount);
+    }
+
+    [Fact]
+    public void DeviceInfoState_Updated_Event_Is_Raised_On_DeviceInfo_Change()
+    {
+        var state = new DeviceInfoState();
+        DeviceInfo? eventArg = null;
+        var eventCount = 0;
+
+        state.Updated += (sender, info) =>
+        {
+            eventCount++;
+            eventArg = info;
+        };
+
+        var deviceInfo = new DeviceInfo
+        {
+            Browser = Browser.Chrome,
+            OperatingSystem = OperatingSystem.Windows10,
+            Touch = true,
+            Mobile = Mobile.Android,
+            IsTablet = false,
+            Orientation = DeviceOrientation.Landscape,
+            UserAgent = "test-agent"
+        };
+
+        state.DeviceInfo = deviceInfo;
+
+        Assert.Equal(1, eventCount);
+        Assert.Equal(deviceInfo, eventArg);
+    }
 }

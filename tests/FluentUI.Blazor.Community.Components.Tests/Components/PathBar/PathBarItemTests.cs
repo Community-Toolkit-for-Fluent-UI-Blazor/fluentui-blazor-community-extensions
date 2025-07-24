@@ -93,4 +93,41 @@ public class PathBarItemTests
         Assert.Equal(child1, parent.Items.ElementAt(0));
         Assert.Equal(child2, parent.Items.ElementAt(1));
     }
+
+    [Fact]
+    public void Find_ReturnsCorrectItem()
+    {
+        var root = new PathBarItem { Label = "Root", Id = "root" };
+        var child = new PathBarItem { Label = "Child", Id = "child" };
+        var grandChild = new PathBarItem { Label = "GrandChild", Id = "grandchild" };
+        child.Items = [grandChild];
+        root.Items = [child];
+
+        var found = PathBarItem.Find([root], "grandchild");
+        Assert.Equal(grandChild, found);
+
+        var notFound = PathBarItem.Find([root], "notfound");
+        Assert.Null(notFound);
+    }
+
+    [Fact]
+    public void GetPath_ReturnsCorrectPath()
+    {
+        var root = new PathBarItem { Label = "Root", Id = "root" };
+        var child = new PathBarItem { Label = "Child", Id = "child" };
+        var grandChild = new PathBarItem { Label = "GrandChild", Id = "grandchild" };
+        child.Items = [grandChild];
+        root.Items = [child];
+
+        var expected = string.Join(Path.DirectorySeparatorChar, new[] { "Root", "Child", "GrandChild" });
+        var actual = PathBarItem.GetPath(grandChild);
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void GetPath_Null_ReturnsNull()
+    {
+        Assert.Null(PathBarItem.GetPath(null));
+    }
 }
