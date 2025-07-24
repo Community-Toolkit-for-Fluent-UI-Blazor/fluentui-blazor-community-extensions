@@ -2,6 +2,7 @@
 .fluentcx-resizer[b-67tzm6rfoa] {
   display: inline-flex;
   position: relative;
+  min-height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
 }
 
 .fluentcx-resizer-handler[b-67tzm6rfoa] {
