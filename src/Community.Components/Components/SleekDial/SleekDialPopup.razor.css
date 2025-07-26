@@ -1,0 +1,731 @@
+@keyframes SlideLeftOut {
+  from {
+    transform: translate(0, 0)
+  }
+
+  to {
+    transform: translate(-100%, 0)
+  }
+}
+
+@keyframes SlideLeftIn {
+  from {
+    transform: translate(-100%, 0)
+  }
+
+  to {
+    transform: translate(0, 0)
+  }
+}
+
+@keyframes SlideRightIn {
+  from {
+    transform: translate(100%, 0)
+  }
+
+  to {
+    transform: translate(0, 0)
+  }
+}
+
+@keyframes SlideRightOut {
+  from {
+    transform: translate(0, 0)
+  }
+
+  to {
+    transform: translate(100%, 0)
+  }
+}
+
+@keyframes SlideBottomIn {
+  from {
+    transform: translate(0, 100%)
+  }
+
+  to {
+    transform: translate(0, 0)
+  }
+}
+
+@keyframes SlideBottomOut {
+  from {
+    transform: translate(0, 0)
+  }
+
+  to {
+    transform: translate(0, 100%)
+  }
+}
+
+@keyframes SlideTopIn {
+  from {
+    transform: translate(0, -100%)
+  }
+
+  to {
+    transform: translate(0, 0)
+  }
+}
+
+@keyframes SlideTopOut {
+  from {
+    transform: translate(0, 0)
+  }
+
+  to {
+    transform: translate(0, -100%)
+  }
+}
+
+@keyframes SlideRight {
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%
+  }
+}
+
+@keyframes SlideLeft {
+  from {
+    width: 100%
+  }
+
+  to {
+    width: 0
+  }
+}
+
+@keyframes SlideDown {
+  from {
+    height: 0
+  }
+
+  to {
+    height: 100%
+  }
+}
+
+@keyframes SlideUp {
+  from {
+    height: 100%
+  }
+
+  to {
+    height: 0
+  }
+}
+
+@keyframes FadeIn {
+  0% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+@keyframes FadeOut {
+  from {
+    opacity: 1
+  }
+
+  to {
+    opacity: 0
+  }
+}
+
+@keyframes ZoomIn {
+  from {
+    transform: translate(0, 0) scale(0)
+  }
+
+  to {
+    transform: translate(0, 0) scale(1)
+  }
+}
+
+@keyframes ZoomOut {
+  from {
+    transform: translate(0, 0) scale(1)
+  }
+
+  to {
+    transform: translate(0, 0) scale(0)
+  }
+}
+
+@keyframes FadeZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0)
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1)
+  }
+}
+
+@keyframes FadeZoomOut {
+  from {
+    opacity: 1;
+    transform: scale(1)
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0)
+  }
+}
+
+@keyframes FlipRightDownIn {
+  from {
+    transform: perspective(400px) rotateY(-180deg);
+    transform-origin: right center;
+    transform-style: preserve-3d
+  }
+
+  to {
+    transform: rotateY(0deg);
+    transform-origin: right center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipRightDownOut {
+  from {
+    transform: perspective(400px) rotateY(0deg);
+    transform-origin: right center;
+    transform-style: preserve-3d
+  }
+
+  to {
+    transform: rotateY(-180deg);
+    transform-origin: right center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipRightUpIn {
+  from {
+    transform: perspective(400px) rotateY(135deg);
+    transform-origin: right center;
+    transform-style: preserve-3d
+  }
+
+  to {
+    transform: rotateY(0deg);
+    transform-origin: right center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipRightUpOut {
+  from {
+    transform: perspective(400px) rotateY(0deg);
+    transform-origin: right center;
+    transform-style: preserve-3d
+  }
+
+  to {
+    transform: rotateY(135deg);
+    transform-origin: right center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipLeftDownIn {
+  from {
+    transform: perspective(400px) rotateY(-180deg);
+    transform-origin: left center;
+    transform-style: preserve-3d
+  }
+
+  to {
+    transform: rotateY(0deg);
+    transform-origin: left center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipLeftDownOut {
+  from {
+    transform: perspective(400px) rotateY(0deg);
+    transform-origin: left center;
+    transform-style: preserve-3d
+  }
+
+  to {
+    transform: rotateY(135deg);
+    transform-origin: left center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipLeftUpIn {
+  from {
+    transform: perspective(400px) rotateY(-135deg);
+    transform-origin: left center;
+    transform-style: preserve-3d
+  }
+
+  to {
+    transform: rotateY(0deg);
+    transform-origin: left center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipLeftUpOut {
+  from {
+    transform: perspective(400px) rotateY(0deg);
+    transform-origin: left center;
+    transform-style: preserve-3d
+  }
+
+  to {
+    transform: rotateY(135deg) perspective(200px);
+    transform-origin: left center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipYLeftIn {
+  from {
+    opacity: 0;
+    transform: perspective(400px) rotateY(180deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+
+  50% {
+    transform: perspective(700px) rotateY(90deg)
+  }
+
+  to {
+    opacity: 1;
+    transform: rotateY(0deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipYLeftOut {
+  from {
+    opacity: 1;
+    transform: perspective(400px) rotateY(0deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+
+  50% {
+    transform: perspective(700px) rotateY(90deg)
+  }
+
+  75% {
+    transform: perspective(850px) rotateY(125deg)
+  }
+
+  to {
+    opacity: 0;
+    transform: rotateY(180deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipYRightIn {
+  from {
+    opacity: 0;
+    transform: perspective(400px) rotateY(-180deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+
+  50% {
+    transform: perspective(700px) rotateY(-90deg)
+  }
+
+  to {
+    opacity: 1;
+    transform: rotateY(0deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipYRightOut {
+  from {
+    opacity: 1;
+    transform: perspective(400px) rotateY(0deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+
+  50% {
+    transform: perspective(700px) rotateY(-90deg)
+  }
+
+  to {
+    opacity: 0;
+    transform: rotateY(-180deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipXDownIn {
+  from {
+    opacity: 0;
+    transform: perspective(400px) rotateX(180deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+
+  50% {
+    transform: perspective(700px) rotateX(90deg)
+  }
+
+  to {
+    opacity: 1;
+    transform: rotateX(0deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipXDownOut {
+  from {
+    opacity: 1;
+    transform: perspective(400px) rotateX(0deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+
+  50% {
+    transform: perspective(700px) rotateX(90deg)
+  }
+
+  75% {
+    transform: perspective(850px) rotateX(125deg)
+  }
+
+  to {
+    opacity: 0;
+    transform: rotateX(180deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipXUpIn {
+  from {
+    opacity: 0;
+    transform: perspective(400px) rotateX(-180deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+
+  50% {
+    transform: perspective(700px) rotateX(-90deg)
+  }
+
+  to {
+    opacity: 1;
+    transform: rotateX(0deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+}
+
+@keyframes FlipXUpOut {
+  from {
+    opacity: 1;
+    transform: perspective(400px) rotateX(0deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+
+  50% {
+    transform: perspective(700px) rotateX(-90deg)
+  }
+
+  to {
+    opacity: 0;
+    transform: rotateX(-180deg);
+    transform-origin: center center;
+    transform-style: preserve-3d
+  }
+}
+
+.animation-slideleftout {
+  animation-name: SlideLeftOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-slideleftin {
+  animation-name: SlideLeftIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-sliderightout {
+  animation-name: SlideRightOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-sliderightin {
+  animation-name: SlideRightIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-slidebottomout {
+  animation-name: SlideBottomOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-slidebottomin {
+  animation-name: SlideBottomIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-slidetopin {
+  animation-name: SlideTopIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-slidetopout {
+  animation-name: SlideTopOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-slideright {
+  animation-name: SlideRight;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-slideleft {
+  animation-name: SlideLeft;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-slidedown {
+  animation-name: SlideDown;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-slideup {
+  animation-name: SlideUp;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-fadein {
+  animation-name: FadeIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-fadeout {
+  animation-name: FadeOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-zoomin {
+  animation-name: ZoomIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-zoomout {
+  animation-name: ZoomOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-fadezoomin {
+  animation-name: FadeZoomIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-fadezoomout {
+  animation-name: FadeZoomOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-fliprightdownin {
+  animation-name: FlipRightDownIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-fliprightdownout {
+  animation-name: FlipRightDownOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-fliprightupin {
+  animation-name: FlipRightUpIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-fliprightupout {
+  animation-name: FlipLeftUpOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipleftdownin {
+  animation-name: FlipLeftDownIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipleftdownout {
+  animation-name: FlipLeftDownOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipleftupin {
+  animation-name: FlipLeftUpIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipleftupout {
+  animation-name: FlipLeftUpOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipyleftin {
+  animation-name: FlipYLeftIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipyleftout {
+  animation-name: FlipYLeftOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipyrightin {
+  animation-name: FlipYRightIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipyrightout {
+  animation-name: FlipYRightOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipxdownin {
+  animation-name: FlipXDownIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipxdownout {
+  animation-name: FlipXDownOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipxupin {
+  animation-name: FlipXUpIn;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.animation-flipxupout {
+  animation-name: FlipXUpOut;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+}
+
+.sleekdial-popup-hidden {
+    visibility: hidden;
+}
+
+.sleekdial-popup {
+    position: absolute;
+    z-index: 100000;
+    pointer-events: none;
+}
+
+.sleekdial-popup-ul {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 3px;
+}
+
+.sleekdial-popup-linear-middle {
+    bottom: var(--sleekdial-vertical-offset);
+}
+
+.sleekdial-popup-linear-left {
+    left: var(--sleekdial-horizontal-offset);
+}
+
+.sleekdial-popup-linear-right {
+  right: var(--sleekdial-horizontal-offset);
+}
+
+.sleekdial-popup-linear-direction-left .sleekdial-popup-ul {
+  flex-direction: row ;
+}
+
+.sleekdial-popup-linear-direction-right .sleekdial-popup-ul {
+  flex-direction: row-reverse;
+}
+
+.sleekdial-popup-linear-direction-down .sleekdial-popup-ul {
+  flex-direction: column-reverse;
+}
+
+.sleekdial-popup-linear-center {
+  left: var(--sleekdial-horizontal-offset);
+}
+
+.sleekdial-popup-linear-top {
+  top: var(--sleekdial-vertical-offset);
+}
+
+.sleekdial-popup-linear-bottom {
+  bottom: var(--sleekdial-vertical-offset);
+}
+
+.sleekdial-popup-radial-top .sleekdialitem {
+  top: 0;
+}
+
+.sleekdial-popup-radial-bottom .sleekdialitem {
+  bottom: 0;
+}
+
