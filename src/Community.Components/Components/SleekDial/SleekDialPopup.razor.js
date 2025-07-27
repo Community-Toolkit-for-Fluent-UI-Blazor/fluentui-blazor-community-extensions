@@ -19,37 +19,38 @@ function getInstance(id) {
   return value;
 }
 
-export function initialize(id, dotnetReference, floatingButtonId, target, options) {
+export function initialize(id, dotnetReference, floatingButtonId, target, linearOptions, radialOptions) {
   const instance = getInstance(id);
   instance.target = document.getElementById(target);
   instance.floatingButton = document.getElementById(floatingButtonId);
-  instance.isVertical = options.isVertical || false;
-  instance.isFixed = options.isFixed || false;
-  instance.isTop = options.isTop || false;
-  instance.isMiddle = options.isMiddle || false;
-  instance.isLeft = options.isLeft || false;
-  instance.isCenter = options.isCenter || false;
-  instance.direction = options.direction;
+  instance.linearOptions = linearOptions;
+  instance.radialOptions = radialOptions;
   instance.dotnetReference = dotnetReference;
 
-  window.addEventListener('resize', () => setLinearPositionInternal(instance));
+  window.addEventListener('resize', () => {
+    if (instance.isLinear) {
+      setLinearPositionInternal(instance);
+    }
+    else {
+      setRadialPositionInternal(instance);
+    }
+  });
 }
 
 function setLinearPositionInternal(instance) {
   if (instance) {
-    setLinearPosition(instance.id, instance.isVertical, instance.isFixed, instance.isTop, instance.isMiddle, instance.isLeft, instance.isCenter);
+    setLinearPosition(instance.id, instance.linearOptions);
   }
 }
 
-export function updatePosition(id, options) {
+export function updateLinearPosition(id, options) {
   const instance = getInstance(id);
-  instance.isVertical = options.isVertical;
-  instance.isFixed = options.isFixed;
-  instance.isTop = options.isTop;
-  instance.isMiddle = options.isMiddle;
-  instance.isLeft = options.isLeft;
-  instance.isCenter = options.isCenter;
-  instance.direction = options.direction;
+  instance.linearOptions = options;
+}
+
+export function updateRadialPosition(id, options) {
+  const instance = getInstance(id);
+  instance.radialOptions = options;
 }
 
 export function setLinearPosition(id) {
@@ -62,23 +63,23 @@ export function setLinearPosition(id) {
     let xOffset = 0;
 
     if (instance.isTop) {
-      yOffset = instance.floatingButton.offsetTop + (instance.isVertical ? instance.floatingButton.offsetHeight : 0);
+      yOffset = instance.floatingButton.offsetTop + (instance.linearOptions.isVertical ? instance.floatingButton.offsetHeight : 0);
     }
     else {
-      let s = instance.isFixed ? window.document.documentElement.clientHeight : instance.target.clientHeight;
-      yOffset = s - instance.floatingButton.offsetTop - (instance.isVertical ? 0 : instance.floatingButton.offsetHeight);
+      let s = instance.linearOptions.isFixed ? window.document.documentElement.clientHeight : instance.target.clientHeight;
+      yOffset = s - instance.floatingButton.offsetTop - (instance.linearOptions.isVertical ? 0 : instance.floatingButton.offsetHeight);
     }
 
-    if (instance.isLeft) {
-      xOffset = instance.floatingButton.offsetLeft + (instance.isVertical ? 0 : instance.floatingButton.offsetWidth);
+    if (instance.linearOptions.isLeft) {
+      xOffset = instance.floatingButton.offsetLeft + (instance.linearOptions.isVertical ? 0 : instance.floatingButton.offsetWidth);
     }
     else {
-      let s = instance.isFixed ? window.document.documentElement.clientWidth : instance.target.clientWidth;
-      xOffset = s - instance.floatingButton.offsetLeft - (instance.isVertical ? instance.floatingButton.offsetWidth : 0);
+      let s = instance.linearOptions.isFixed ? window.document.documentElement.clientWidth : instance.target.clientWidth;
+      xOffset = s - instance.floatingButton.offsetLeft - (instance.linearOptions.isVertical ? instance.floatingButton.offsetWidth : 0);
     }
 
-    if (instance.isCenter) {
-      const direction = instance.direction;
+    if (instance.linearOptions.isCenter) {
+      const direction = instance.linearOptions.direction;
 
       if (direction === 0 || direction === 1 || direction === 2) {
         xOffset = instance.floatingButton.offsetLeft - midOffsetWidth;
@@ -91,8 +92,8 @@ export function setLinearPosition(id) {
       }
     }
 
-    if (instance.isMiddle) {
-      const direction = instance.direction;
+    if (instance.linearOptions.isMiddle) {
+      const direction = instance.linearOptions.direction;
 
       if (direction === 3 || direction === 4) {
         yOffset = instance.floatingButton.offsetTop - midOffsetHeight;
@@ -113,7 +114,10 @@ export function animateOpen(id, animation, duration, delay) {
       instance.dotnetReference.invokeMethodAsync('OnAnimationCompletedAsync', true);
     });
 
-    instance.element.classList.remove('sleekdial-popup-hidden');
+    instance.element.addEventListener('animationstart', () => {
+      instance.element.classList.remove('sleekdial-popup-hidden');
+    });
+
     instance.element.style.setProperty('--animation-duration', `${duration}ms`);
     instance.element.style.setProperty('--animation-delay', `${delay}ms`);
     instance.element.classList.add('animation-' + animation + 'in');

@@ -466,204 +466,238 @@
   animation-name: SlideLeftOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-slideleftin {
   animation-name: SlideLeftIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-sliderightout {
   animation-name: SlideRightOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-sliderightin {
   animation-name: SlideRightIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-slidebottomout {
   animation-name: SlideBottomOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-slidebottomin {
   animation-name: SlideBottomIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-slidetopin {
   animation-name: SlideTopIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-slidetopout {
   animation-name: SlideTopOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-slideright {
   animation-name: SlideRight;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in-out;
 }
 
 .animation-slideleft {
   animation-name: SlideLeft;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in-out;
 }
 
 .animation-slidedown {
   animation-name: SlideDown;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in-out;
 }
 
 .animation-slideup {
   animation-name: SlideUp;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in-out;
 }
 
 .animation-fadein {
   animation-name: FadeIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-fadeout {
   animation-name: FadeOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-zoomin {
   animation-name: ZoomIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-zoomout {
   animation-name: ZoomOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-fadezoomin {
   animation-name: FadeZoomIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-fadezoomout {
   animation-name: FadeZoomOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-fliprightdownin {
   animation-name: FlipRightDownIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-fliprightdownout {
   animation-name: FlipRightDownOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-fliprightupin {
   animation-name: FlipRightUpIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-fliprightupout {
   animation-name: FlipLeftUpOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-flipleftdownin {
   animation-name: FlipLeftDownIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-flipleftdownout {
   animation-name: FlipLeftDownOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-flipleftupin {
   animation-name: FlipLeftUpIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-flipleftupout {
   animation-name: FlipLeftUpOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-flipyleftin {
   animation-name: FlipYLeftIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-flipyleftout {
   animation-name: FlipYLeftOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-flipyrightin {
   animation-name: FlipYRightIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-flipyrightout {
   animation-name: FlipYRightOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-flipxdownin {
   animation-name: FlipXDownIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-flipxdownout {
   animation-name: FlipXDownOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .animation-flipxupin {
   animation-name: FlipXUpIn;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
 }
 
 .animation-flipxupout {
   animation-name: FlipXUpOut;
   animation-delay: var(--animation-delay);
   animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
 }
 
 .sleekdial-popup-hidden {

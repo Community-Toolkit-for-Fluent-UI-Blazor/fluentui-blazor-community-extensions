@@ -6848,6 +6848,26 @@
             <param name="localizationDirection">Direction used by the app.</param>
             <returns>Returns the <see cref="T:System.Collections.Generic.Dictionary`2"/> of the resize handler to use.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialAnimationSettings">
+            <summary>
+            Represents the settings for an animation. 
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialAnimationSettings.Duration">
+            <summary>
+            Gets or sets the duration of the animation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialAnimationSettings.Delay">
+            <summary>
+            Gets or sets the delay of the animation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialAnimationSettings.Animation">
+            <summary>
+            Gets or sets the animation to play.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.Dispose">
             <inheritdoc />
         </member>
@@ -6862,8 +6882,98 @@
             Represents the direction of the items of a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialLinearDirection.Default">
+            <summary>
+            Default direction from the position of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialLinearDirection.Up">
+            <summary>
+            Direction to the up.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialLinearDirection.Down">
+            <summary>
+            Direction to the down.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialLinearDirection.Left">
+            <summary>
+            Direction to the left.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialLinearDirection.Right">
+            <summary>
+            Direction to the right.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialMode">
+            <summary>
+            Represents the rendering mode of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialMode.Linear">
+            <summary>
+            The items are rendered in a linear way.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialMode.Radial">
+            <summary>
+            The items are rendered in a radial way.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SleekDialPopup"/> class.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialRadialDirection">
+            <summary>
+            Represents the direction of the items when the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/> is set to radial mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialRadialDirection.Default">
+            <summary>
+            Default direction.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialRadialDirection.Clockwise">
+            <summary>
+            The items are rendered in clockwise mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialRadialDirection.Counterclockwise">
+            <summary>
+            The items are rendered in counterclockwise mode.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialRadialSettings">
+            <summary>
+            Represents the settings for the radial mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialRadialSettings.StartAngle">
+            <summary>
+            Gets or sets the start angle of the radial arc.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialRadialSettings.EndAngle">
+            <summary>
+            Gets or sets the end angle of the radial arc.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialRadialSettings.Offset">
+            <summary>
+            Gets or sets the offset of the items on the arc.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialRadialSettings.Direction">
+            <summary>
+            Gets or sets the direction of the items.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1">
             <summary>

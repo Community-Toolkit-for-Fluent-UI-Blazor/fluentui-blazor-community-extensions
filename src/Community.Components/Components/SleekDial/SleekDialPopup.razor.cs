@@ -1,5 +1,3 @@
-using System.Drawing;
-using System.Globalization;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -27,16 +25,31 @@ public partial class SleekDialPopup
         public bool IsCenter { get; set; }
         public bool IsMiddle { get; set; }
         public bool IsFixed { get; set; }
-        public bool IsLinear { get; set; }
         public SleekDialLinearDirection Direction { get; set; }
     }
 
-    private InternalRadialSettings _radialSettings;
+    private struct RadialPositionOptions
+    {
+        public bool IsTop { get; set; }
+        public bool IsBottom { get; set; }
+        public bool IsLeft { get; set; }
+        public bool IsCenter { get; set; }
+        public bool IsMiddle { get; set; }
+        public bool IsFixed { get; set; }
+        public SleekDialLinearDirection Direction { get; set; }
+    }
+
+    private SleekDialRadialSettings? _radialSettings;
     private IJSObjectReference? _module;
     private const string JavascriptFilename = "./_content/FluentUI.Blazor.Community.Components/Components/SleekDial/SleekDialPopup.razor.js";
     private LinearPositionOptions _linearPositionOptions;
+    private RadialPositionOptions _radialPositionOptions;
     private readonly DotNetObjectReference<SleekDialPopup> _popupReference;
+    private bool _isLinear;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SleekDialPopup"/> class.
+    /// </summary>
     public SleekDialPopup()
     {
         Id = Identifier.NewId();
@@ -44,7 +57,7 @@ public partial class SleekDialPopup
     }
 
     [Inject]
-    private IJSRuntime JSRuntime { get; set; }
+    private IJSRuntime JSRuntime { get; set; } = default;
 
     [Parameter]
     public bool IsOpen { get; set; }
@@ -58,15 +71,15 @@ public partial class SleekDialPopup
     private string? InternalCss => new CssBuilder(Class)
         .AddClass("sleekdial-popup")
         .AddClass("sleekdial-popup-hidden", !IsOpen)
-        .AddClass("sleekdial-popup-linear-top", _linearPositionOptions.IsLinear && _linearPositionOptions.IsTop)
-        .AddClass("sleekdial-popup-linear-bottom", _linearPositionOptions.IsLinear && !_linearPositionOptions.IsTop && !_linearPositionOptions.IsMiddle)
-        .AddClass("sleekdial-popup-linear-left", _linearPositionOptions.IsLinear && _linearPositionOptions.IsLeft && !_linearPositionOptions.IsCenter)
-        .AddClass("sleekdial-popup-linear-right", _linearPositionOptions.IsLinear && !_linearPositionOptions.IsLeft && !_linearPositionOptions.IsCenter)
-        .AddClass("sleekdial-popup-linear-center", _linearPositionOptions.IsLinear && _linearPositionOptions.IsCenter)
-        .AddClass("sleekdial-popup-linear-middle", _linearPositionOptions.IsLinear && _linearPositionOptions.IsMiddle)
-        .AddClass("sleekdial-popup-linear-direction-left", _linearPositionOptions.IsLinear && _linearPositionOptions.Direction == SleekDialLinearDirection.Left)
-        .AddClass("sleekdial-popup-linear-direction-right", _linearPositionOptions.IsLinear && _linearPositionOptions.Direction == SleekDialLinearDirection.Right)
-        .AddClass("sleekdial-popup-linear-direction-down", _linearPositionOptions.IsLinear && _linearPositionOptions.IsTop)
+        .AddClass("sleekdial-popup-linear-top", (_isLinear && _linearPositionOptions.IsTop) || (!_isLinear && _radialPositionOptions.IsTop))
+        .AddClass("sleekdial-popup-linear-bottom",(_isLinear && !_linearPositionOptions.IsTop && !_linearPositionOptions.IsMiddle) || (!_isLinear && Parent!.Position.IsOneOf(FloatingPosition.BottomLeft, FloatingPosition.BottomCenter, FloatingPosition.BottomRight)))
+        .AddClass("sleekdial-popup-linear-left", _isLinear && _linearPositionOptions.IsLeft && !_linearPositionOptions.IsCenter)
+        .AddClass("sleekdial-popup-linear-right", _isLinear && !_linearPositionOptions.IsLeft && !_linearPositionOptions.IsCenter)
+        .AddClass("sleekdial-popup-linear-center", _isLinear && _linearPositionOptions.IsCenter)
+        .AddClass("sleekdial-popup-linear-middle", _isLinear && _linearPositionOptions.IsMiddle)
+        .AddClass("sleekdial-popup-linear-direction-left", _isLinear && _linearPositionOptions.Direction == SleekDialLinearDirection.Left)
+        .AddClass("sleekdial-popup-linear-direction-right", _isLinear && _linearPositionOptions.Direction == SleekDialLinearDirection.Right)
+        .AddClass("sleekdial-popup-linear-direction-down", _isLinear && _linearPositionOptions.IsTop)
         .Build();
 
     [Inject]
@@ -267,17 +280,26 @@ public partial class SleekDialPopup
     internal async Task UpdatePositionAsync()
     {
         ApplyPosition();
-        await InvokeScriptAsync("updatePosition", Id, _linearPositionOptions);
-        await InvokeScriptAsync("setLinearPosition", Id);
+
+        if (_isLinear)
+        {
+            await InvokeScriptAsync("updateLinearPosition", Id, _linearPositionOptions);
+            await InvokeScriptAsync("setLinearPosition", Id);
+        }
+        else
+        {
+            await InvokeScriptAsync("updateRadialPosition", Id, _radialPositionOptions);
+            await InvokeScriptAsync("setRadialPosition", Id);
+        }
     }
 
     private void ApplyPosition()
     {
         if (Parent is not null)
         {
-            _linearPositionOptions.IsLinear = Parent.Mode == SleekDialMode.Linear;
+            _isLinear = Parent.Mode == SleekDialMode.Linear;
 
-            if (_linearPositionOptions.IsLinear)
+            if (_isLinear)
             {
                 var position = Parent.Position;
                 var actualDirection = Parent.Direction switch
@@ -304,6 +326,16 @@ public partial class SleekDialPopup
                 _linearPositionOptions.Direction = actualDirection;
                 _linearPositionOptions.IsCenter = position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.MiddleCenter, FloatingPosition.BottomCenter);
                 _linearPositionOptions.IsMiddle = position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight);
+            }
+            else
+            {
+                var position = Parent.Position;
+                _radialPositionOptions.IsTop = position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.TopCenter, FloatingPosition.TopRight);
+                _radialPositionOptions.IsBottom = position.IsOneOf(FloatingPosition.BottomLeft, FloatingPosition.BottomCenter, FloatingPosition.BottomRight);
+                _radialPositionOptions.IsLeft = position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.MiddleLeft, FloatingPosition.BottomLeft);
+                _radialPositionOptions.IsCenter = position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.MiddleCenter, FloatingPosition.BottomCenter);
+                _radialPositionOptions.IsMiddle = position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight);
+
             }
         }
     }
