@@ -671,11 +671,18 @@ public partial class FluentCxFileManager<TItem>
 
         if (item is not null)
         {
-            var subItems = item.Items?.ToList() ?? [];
-            subItems.AddRange(BuildPathRootItem([e.Entry]));
-            subItems.Sort(FileManagerEntryPathBarItemComparer.Default);
+            var subItems = item.Items?.ToHashSet(PathBarItemEqualityComparer.Default) ?? [];
+            var itemsToAdd = BuildPathRootItem([e.Entry]);
 
-            item.Items = [.. subItems];
+            foreach(var i in itemsToAdd)
+            {
+                subItems.Add(i);
+            }
+
+            var l = subItems.ToList();
+            l.Sort(FileManagerEntryPathBarItemComparer.Default);
+
+            item.Items = [.. l];
         }
     }
 
