@@ -21,10 +21,10 @@ public class SleekDialRadialSettings
     /// <summary>
     /// Gets or sets the offset of the items on the arc.
     /// </summary>
-    public string Offset { get; set; } = "100px";
+    public string Offset { get; set; } = "110px";
 
     /// <summary>
     /// Gets or sets the direction of the items.
     /// </summary>
-    public SleekDialRadialDirection Direction { get; set; } = SleekDialRadialDirection.Default;
+    public SleekDialRadialDirection Direction { get; set; } = SleekDialRadialDirection.Clockwise;
 }

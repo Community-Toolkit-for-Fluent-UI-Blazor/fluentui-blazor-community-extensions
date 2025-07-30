@@ -14,7 +14,7 @@
                 role="menuitem"
                 aria-label="@Text"
                 title="@Title"
-                tabindex="@(Index + 1)"
+                tabindex="@(Index + 1)"            
                 aria-disabled="@(Disabled.ToString().ToLowerInvariant())"
                 @attributes=AdditionalAttributes
                 @onclick=OnClickAsync
@@ -36,7 +36,7 @@
 
                     if (!string.IsNullOrEmpty(Text))
                     {
-                        <span class="sleekdialitem-text">
+                        <span class="sleekdialitem-text @(Parent?.Mode == SleekDialMode.Radial ? "sleekdialitem-text-radial" : null)">
                             <FluentLabel Disabled=@Disabled>@Text</FluentLabel>
                         </span>
                     }

@@ -6,11 +6,6 @@ namespace FluentUI.Blazor.Community.Components;
 public enum SleekDialRadialDirection
 {
     /// <summary>
-    /// Default direction.
-    /// </summary>
-    Default,
-
-    /// <summary>
     /// The items are rendered in clockwise mode.
     /// </summary>
     Clockwise,

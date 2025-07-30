@@ -6848,6 +6848,11 @@
             <param name="localizationDirection">Direction used by the app.</param>
             <returns>Returns the <see cref="T:System.Collections.Generic.Dictionary`2"/> of the resize handler to use.</returns>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.CorrectRadialSettings">
+            <summary>
+            Represents the correct radial settings after correction inside the popup.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialAnimationSettings">
             <summary>
             Represents the settings for an animation. 
@@ -6933,11 +6938,6 @@
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialRadialDirection">
             <summary>
             Represents the direction of the items when the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/> is set to radial mode.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialRadialDirection.Default">
-            <summary>
-            Default direction.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.SleekDialRadialDirection.Clockwise">

@@ -10,12 +10,13 @@
         }
 
         <div class="@InternalCss"
+             style="@InternalStyle"
              id="@Id"
              @attributes=AdditionalAttributes
              @ref=Element
              tabindex="1">
 
-            <ul class="sleekdial-popup-ul"
+            <ul class="sleekdial-popup-ul @(Parent.Mode == SleekDialMode.Radial ? "sleekdial-popup-ul-radial" : null)"
                 role="menu">
                 @foreach (var item in Parent.Items)
                 {

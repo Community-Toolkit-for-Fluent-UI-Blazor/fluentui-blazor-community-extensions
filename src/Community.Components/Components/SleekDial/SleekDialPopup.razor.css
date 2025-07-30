@@ -755,11 +755,57 @@
   bottom: var(--sleekdial-vertical-offset);
 }
 
-.sleekdial-popup-radial-top .sleekdialitem {
-  top: 0;
+.sleekdial-popup-radial-top {
+  top: 16px;
 }
 
-.sleekdial-popup-radial-bottom .sleekdialitem {
-  bottom: 0;
+.sleekdial-popup-radial-bottom {
+  top: var(--sleekdial-vertical-offset);
 }
 
+.sleekdial-popup-radial-left {
+  left: 16px;
+}
+
+.sleekdial-popup-radial-right {
+  right: 16px;
+}
+
+.sleekdial-popup-radial {
+  height: calc(var(--sleekdial-radial-offset) + 2 * var(--sleekdial-radial-min-height));
+  width: calc(var(--sleekdial-radial-offset) + 2*var(--sleekdial-radial-min-width));
+}
+
+.sleekdial-popup-radial-middle {
+  height: calc(2 * var(--sleekdial-radial-offset) + 2 * var(--sleekdial-radial-min-height));
+  top: var(--sleekdial-vertical-offset);
+}
+
+.sleekdial-popup-radial-center {
+  width: calc(2 * var(--sleekdial-radial-offset) + 2 * var(--sleekdial-radial-min-width));
+  left: var(--sleekdial-horizontal-offset);
+}
+
+.sleekdial-popup-radial-top-left {
+  border-bottom-right-radius: 100%
+}
+
+.sleekdial-popup-radial-top-right {
+  border-bottom-left-radius: 100%
+}
+
+.sleekdial-popup-radial-bottom-left {
+  border-top-right-radius: 100%
+}
+
+.sleekdial-popup-radial-bottom-right {
+  border-top-left-radius: 100%
+}
+
+.sleekdial-popup-ul-radial {
+  height: inherit;
+  width: inherit;
+  position: relative;
+  border-radius: inherit;
+  padding: 5px 2px;
+}

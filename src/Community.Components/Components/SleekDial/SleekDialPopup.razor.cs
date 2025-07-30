@@ -1,3 +1,4 @@
+using System.Drawing;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -36,16 +37,19 @@ public partial class SleekDialPopup
         public bool IsCenter { get; set; }
         public bool IsMiddle { get; set; }
         public bool IsFixed { get; set; }
-        public SleekDialLinearDirection Direction { get; set; }
+        public bool IsRight { get; set; }
     }
 
-    private SleekDialRadialSettings? _radialSettings;
     private IJSObjectReference? _module;
     private const string JavascriptFilename = "./_content/FluentUI.Blazor.Community.Components/Components/SleekDial/SleekDialPopup.razor.js";
     private LinearPositionOptions _linearPositionOptions;
     private RadialPositionOptions _radialPositionOptions;
     private readonly DotNetObjectReference<SleekDialPopup> _popupReference;
     private bool _isLinear;
+    private float _xOffset;
+    private float _yOffset;
+    private float _width;
+    private float _height;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SleekDialPopup"/> class.
@@ -57,7 +61,7 @@ public partial class SleekDialPopup
     }
 
     [Inject]
-    private IJSRuntime JSRuntime { get; set; } = default;
+    private IJSRuntime JSRuntime { get; set; } = default!;
 
     [Parameter]
     public bool IsOpen { get; set; }
@@ -70,20 +74,39 @@ public partial class SleekDialPopup
 
     private string? InternalCss => new CssBuilder(Class)
         .AddClass("sleekdial-popup")
-        .AddClass("sleekdial-popup-hidden", !IsOpen)
-        .AddClass("sleekdial-popup-linear-top", (_isLinear && _linearPositionOptions.IsTop) || (!_isLinear && _radialPositionOptions.IsTop))
-        .AddClass("sleekdial-popup-linear-bottom",(_isLinear && !_linearPositionOptions.IsTop && !_linearPositionOptions.IsMiddle) || (!_isLinear && Parent!.Position.IsOneOf(FloatingPosition.BottomLeft, FloatingPosition.BottomCenter, FloatingPosition.BottomRight)))
+        .AddClass("sleekdial-popup-linear-top", _isLinear && _linearPositionOptions.IsTop)
+        .AddClass("sleekdial-popup-linear-bottom", _isLinear && !_linearPositionOptions.IsTop)
         .AddClass("sleekdial-popup-linear-left", _isLinear && _linearPositionOptions.IsLeft && !_linearPositionOptions.IsCenter)
         .AddClass("sleekdial-popup-linear-right", _isLinear && !_linearPositionOptions.IsLeft && !_linearPositionOptions.IsCenter)
-        .AddClass("sleekdial-popup-linear-center", _isLinear && _linearPositionOptions.IsCenter)
-        .AddClass("sleekdial-popup-linear-middle", _isLinear && _linearPositionOptions.IsMiddle)
+        .AddClass("sleekdial-popup-linear-center", (_isLinear && _linearPositionOptions.IsCenter))
+        .AddClass("sleekdial-popup-linear-middle", (_isLinear && _linearPositionOptions.IsMiddle))
         .AddClass("sleekdial-popup-linear-direction-left", _isLinear && _linearPositionOptions.Direction == SleekDialLinearDirection.Left)
         .AddClass("sleekdial-popup-linear-direction-right", _isLinear && _linearPositionOptions.Direction == SleekDialLinearDirection.Right)
         .AddClass("sleekdial-popup-linear-direction-down", _isLinear && _linearPositionOptions.IsTop)
+        .AddClass("sleekdial-popup-radial", !_isLinear)
+        .AddClass("sleekdial-popup-radial-left", !_isLinear && _radialPositionOptions.IsLeft)
+        .AddClass("sleekdial-popup-radial-right", !_isLinear && _radialPositionOptions.IsRight)
+        .AddClass("sleekdial-popup-radial-bottom", !_isLinear && Parent!.Position.IsOneOf(FloatingPosition.BottomLeft, FloatingPosition.BottomCenter, FloatingPosition.BottomRight))
+        .AddClass("sleekdial-popup-radial-top", !_isLinear && Parent!.Position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.TopCenter, FloatingPosition.TopRight))
+        .AddClass("sleekdial-popup-radial-top-left", !_isLinear && Parent!.Position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.TopCenter, FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter))
+        .AddClass("sleekdial-popup-radial-top-right", !_isLinear && Parent!.Position.IsOneOf(FloatingPosition.TopRight, FloatingPosition.TopCenter, FloatingPosition.MiddleRight, FloatingPosition.MiddleCenter))
+        .AddClass("sleekdial-popup-radial-bottom-left", !_isLinear && Parent!.Position.IsOneOf(FloatingPosition.BottomLeft, FloatingPosition.BottomCenter, FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter))
+        .AddClass("sleekdial-popup-radial-bottom-right", !_isLinear && Parent!.Position.IsOneOf(FloatingPosition.BottomRight, FloatingPosition.BottomCenter, FloatingPosition.MiddleRight, FloatingPosition.MiddleCenter))
+        .AddClass("sleekdial-popup-radial-center", !_isLinear && Parent!.Position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.MiddleCenter, FloatingPosition.BottomCenter))
+        .AddClass("sleekdial-popup-hidden", !IsOpen)
+        .AddClass("sleekdial-popup-radial-middle", !_isLinear && Parent!.Position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight))
+        .Build();
+
+    private string? InternalStyle => new StyleBuilder(Style)
+        .AddStyle("--sleekdial-radial-offset", Parent?.CorrectRadialSettings?.Offset ?? "110px", !_isLinear)
+        .AddStyle("--sleekdial-radial-min-width", $"{_width}px", !_isLinear && _width > 0)
+        .AddStyle("--sleekdial-radial-min-height", $"{_height}px", !_isLinear && _height > 0)
+        .AddStyle("--sleekdial-vertical-offset", $"{_yOffset}px", !_isLinear && _yOffset > 0)
+        .AddStyle("--sleekdial-horizontal-offset", $"{_xOffset}px", !_isLinear && _xOffset > 0)
         .Build();
 
     [Inject]
-    public GlobalState GlobalState { get; set; } = default!;
+    private GlobalState GlobalState { get; set; } = default!;
 
     private async Task OnOverlayCloseAsync()
     {
@@ -291,6 +314,8 @@ public partial class SleekDialPopup
             await InvokeScriptAsync("updateRadialPosition", Id, _radialPositionOptions);
             await InvokeScriptAsync("setRadialPosition", Id);
         }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private void ApplyPosition()
@@ -330,14 +355,159 @@ public partial class SleekDialPopup
             else
             {
                 var position = Parent.Position;
+                Parent.CorrectRadialSettings = GetRadialSettings();
                 _radialPositionOptions.IsTop = position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.TopCenter, FloatingPosition.TopRight);
                 _radialPositionOptions.IsBottom = position.IsOneOf(FloatingPosition.BottomLeft, FloatingPosition.BottomCenter, FloatingPosition.BottomRight);
                 _radialPositionOptions.IsLeft = position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.MiddleLeft, FloatingPosition.BottomLeft);
                 _radialPositionOptions.IsCenter = position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.MiddleCenter, FloatingPosition.BottomCenter);
                 _radialPositionOptions.IsMiddle = position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight);
+                _radialPositionOptions.IsRight = position.IsOneOf(FloatingPosition.TopRight, FloatingPosition.MiddleRight, FloatingPosition.BottomRight);
 
+                Parent?.UpdateItemsPosition();
             }
         }
+    }
+
+    private SleekDialRadialSettings GetRadialSettings()
+    {
+        if (Parent is null)
+        {
+            return new();
+        }
+
+        var originalRadialSettings = Parent.RadialSettings;
+
+        SleekDialRadialSettings settings = new()
+        {
+            Offset = originalRadialSettings.Offset
+        };
+
+        var startAngle = originalRadialSettings.StartAngle;
+        var endAngle = originalRadialSettings.EndAngle;
+        var isClock = originalRadialSettings.Direction == SleekDialRadialDirection.Clockwise;
+
+        switch (Parent.Position)
+        {
+            case FloatingPosition.TopLeft:
+            case FloatingPosition.TopRight:
+                {
+                    if (Parent.Position == FloatingPosition.TopLeft && GlobalState.Dir == LocalizationDirection.LeftToRight)
+                    {
+                        CheckAngleRange(startAngle, endAngle, settings, isClock, 0, 90, false);
+                        break;
+                    }
+
+                    CheckAngleRange(startAngle, endAngle, settings, isClock, 90, 180, false);
+                }
+
+                break;
+
+            case FloatingPosition.TopCenter:
+                {
+                    settings.Offset = "70px";
+                    CheckAngleRange(startAngle, endAngle, settings, isClock, 0, 180, false);
+                }
+
+                break;
+
+            case FloatingPosition.MiddleLeft:
+            case FloatingPosition.MiddleRight:
+                {
+                    settings.Offset = "70px";
+
+                    if (FloatingPosition.MiddleLeft == Parent.Position && GlobalState.Dir == LocalizationDirection.LeftToRight)
+                    {
+                        var sa = startAngle < 0 || startAngle > 360 || startAngle > 90 && startAngle < 270 ? (isClock ? 270 : 90) : startAngle;
+                        var ea = endAngle < 0 || endAngle > 360 || endAngle > 90 && endAngle < 270 ? (isClock ? 90 : 270) : endAngle;
+                        var finalStartAngle = sa < 91 ? sa + 360 : sa;
+                        var finalEndAngle = ea < 91 ? ea + 360 : ea;
+                        var incorrectAngle = isClock && finalEndAngle < finalStartAngle || !isClock && finalEndAngle > finalStartAngle;
+                        settings.StartAngle = incorrectAngle ? finalEndAngle : finalStartAngle;
+                        settings.EndAngle = incorrectAngle ? finalStartAngle : finalEndAngle;
+                        break;
+                    }
+
+                    CheckAngleRange(startAngle, endAngle, settings, isClock, 90, 270, false);
+                }
+
+                break;
+
+            case FloatingPosition.MiddleCenter:
+                {
+                    settings.Offset = "70px";
+                    var finalStartAngle = startAngle < 0 || startAngle > 360 ? (isClock ? 0 : 360) : startAngle;
+                    var finalEndAngle = endAngle < 0 || endAngle > 360 ? (isClock ? 360 : 0) : endAngle;
+                    settings.StartAngle = isClock || finalStartAngle > finalEndAngle ? finalStartAngle : finalStartAngle + 360;
+                    settings.EndAngle = !isClock || finalEndAngle > finalStartAngle ? finalEndAngle : finalEndAngle + 360;
+                }
+
+                break;
+
+            case FloatingPosition.BottomLeft:
+            case FloatingPosition.BottomRight:
+                {
+                    if (FloatingPosition.BottomLeft == Parent.Position && GlobalState.Dir == LocalizationDirection.LeftToRight)
+                    {
+                        CheckAngleRange(startAngle, endAngle, settings, isClock, 270, 360, true);
+                        break;
+                    }
+
+                    CheckAngleRange(startAngle, endAngle, settings, isClock, 180, 270, true);
+                }
+
+                break;
+
+            case FloatingPosition.BottomCenter:
+                {
+                    settings.Offset = "70px";
+                    CheckAngleRange(startAngle, endAngle, settings, isClock, 180, 360, true);
+                }
+
+                break;
+        }
+
+        settings.Direction = isClock ? SleekDialRadialDirection.Clockwise : SleekDialRadialDirection.Counterclockwise;
+
+        return settings;
+    }
+
+    private static void CheckAngleRange(
+        int startAngle,
+        int endAngle,
+        SleekDialRadialSettings settings,
+        bool isClock,
+        int minAngle,
+        int maxAngle,
+        bool reverse)
+    {
+        startAngle = CheckAngle(startAngle, isClock, minAngle, maxAngle, reverse);
+        endAngle = CheckAngle(endAngle, !isClock, minAngle, maxAngle, reverse);
+        var incorrectAngle = isClock && endAngle < startAngle || !isClock && endAngle > startAngle;
+        settings.StartAngle = incorrectAngle ? endAngle : startAngle;
+        settings.EndAngle = incorrectAngle ? startAngle : endAngle;
+    }
+
+    private static int CheckAngle(
+        int value,
+        bool isClock,
+        int minAngle,
+        int maxAngle,
+        bool reverse)
+    {
+        if (value < 0 || value > 360)
+        {
+            return !isClock ? maxAngle : minAngle;
+        }
+
+        value = reverse ? (value == 0 ? 360 : value) : (value == 360 ? 0 : value);
+
+        if (value >= minAngle &&
+            value <= maxAngle)
+        {
+            return value;
+        }
+
+        return !isClock ? maxAngle : minAngle;
     }
 
     /// <inheritdoc />
@@ -348,7 +518,9 @@ public partial class SleekDialPopup
         if (firstRender)
         {
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptFilename);
-            await _module.InvokeVoidAsync("initialize", Id, _popupReference, Parent?.FloatingButtonId, Parent?.Target, _linearPositionOptions);
+            await _module.InvokeVoidAsync("initialize", Id, _popupReference, Parent?.FloatingButtonId, Parent?.Target, _linearPositionOptions, _radialPositionOptions);
+            await UpdatePositionAsync();
+            await Task.Delay(10);
             await UpdatePositionAsync();
         }
     }
@@ -376,5 +548,15 @@ public partial class SleekDialPopup
         {
             await OnAnimationCompleted.InvokeAsync(isOpen);
         }
+    }
+
+    [JSInvokable]
+    public void RadialPositionUpdated(RectangleF rectangle)
+    {
+        _xOffset = rectangle.X;
+        _yOffset = rectangle.Y;
+        _width = rectangle.Width;
+        _height = rectangle.Height;
+        StateHasChanged();
     }
 }

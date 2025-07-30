@@ -56,14 +56,15 @@ public partial class FluentCxFloatingButton
         .AddStyle("bottom", "16px", Position.IsOneOf(FloatingPosition.BottomLeft, FloatingPosition.BottomCenter, FloatingPosition.BottomRight))
         .AddStyle("left", "16px", Position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.MiddleLeft, FloatingPosition.BottomLeft))
         .AddStyle("right", "16px", Position.IsOneOf(FloatingPosition.TopRight, FloatingPosition.MiddleRight, FloatingPosition.BottomRight))
-        .AddStyle("top", "50%", Position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight))
-        .AddStyle("transform", "translateY(-50%)", Position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight))
-        .AddStyle("left", "50%", Position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.MiddleCenter, FloatingPosition.BottomCenter))
-        .AddStyle("transform", "translateX(-50%)", Position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.MiddleCenter, FloatingPosition.BottomCenter))
         .AddStyle("position", _isFixed ? "fixed" : "absolute")
         .AddStyle("z-index", "100000")
         .AddStyle("width", "52px")
         .AddStyle("height", "52px")
+        .AddStyle("left", "50%", Position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.MiddleCenter, FloatingPosition.BottomCenter))
+        .AddStyle("top", "50%", Position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight))
+        .AddStyle("transform", "translateX(-50%)", Position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.BottomCenter))
+        .AddStyle("transform", "translateY(-50%)", Position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleRight))
+        .AddStyle("transform", "translate(-50%, -50%)", Position == FloatingPosition.MiddleCenter)
         .Build();
 
     /// <summary>

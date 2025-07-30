@@ -52,10 +52,41 @@
   z-index: 100001;
 }
 
+.sleekdialitem-radial {
+  position: absolute;
+  transform: rotate(var(--sleekdial-radial-angle)) translate(var(--sleekdial-radial-offset)) rotate(calc(-1 * var(--sleekdial-radial-angle)))
+}
+
+.sleekdialitem-text-radial {
+  position: absolute;
+  visibility: hidden
+}
+
+
 .sleekdialitem-vertical-linear {
     margin: 6px 0px;
 }
 
 .sleekdialitem-horizontal-linear {
     margin: 0px 6px;
+}
+
+.sleekdialitem-radial-center {
+  left: calc(.5 * var(--sleekdial-radial-min-width) + var(--sleekdial-radial-offset));
+}
+
+.sleekdialitem-radial-middle {
+  top: calc(.5 * var(--sleekdial-radial-min-width) + var(--sleekdial-radial-offset));
+}
+
+.sleekdialitem-radial-top {
+    top: 0px;
+}
+
+.sleekdialitem-radial-right {
+  right: 0px;
+}
+
+sleekdialitem-radial-bottom {
+    bottom: 0px;
 }

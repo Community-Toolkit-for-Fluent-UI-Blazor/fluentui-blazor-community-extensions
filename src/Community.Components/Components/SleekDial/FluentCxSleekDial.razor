@@ -2,22 +2,26 @@
 @inherits FluentComponentBase
 
 <CascadingValue Value="this" IsFixed>
-    <FluentKeyCode OnKeyDown="@OnKeyDownHandlerAsync" PreventDefault=_preventDefault>
-    @ChildContent
+    <div aria-expanded="@(IsOpen ? "true" : "false")"
+         aria-haspopup="true">
 
-    <FluentCxFloatingButton Class="@InternalClass"
-                            AdditionalAttributes="@AdditionalAttributes"
-                            Position="@Position"
-                            RelativeContainerId="@Target"
-                            IconStart="@(IsOpen ? CloseIcon : OpenIcon)"
-                            ChildContent="@(!string.IsNullOrEmpty(Text) ? _renderText : null)"
-                            Id="@($"Button{Id}")"
-                            @ref=_floatingButton/>
+        <FluentKeyCode OnKeyDown="@OnKeyDownHandlerAsync" PreventDefault=_preventDefault>
+            @ChildContent
 
-        <SleekDialPopup @ref=_popup
-                        IsOpen=@IsOpen
-                        OnAnimationCompleted="@OnAnimationCompletedAsync"/>
-    </FluentKeyCode>
+            <FluentCxFloatingButton Class="@InternalClass"
+                                    AdditionalAttributes="@AdditionalAttributes"
+                                    Position="@Position"
+                                    RelativeContainerId="@Target"
+                                    IconStart="@(IsOpen ? CloseIcon : OpenIcon)"
+                                    ChildContent="@(!string.IsNullOrEmpty(Text) ? _renderText : null)"
+                                    Id="@($"Button{Id}")"
+                                    @ref=_floatingButton />
+
+            <SleekDialPopup @ref=_popup
+                            IsOpen=@IsOpen
+                            OnAnimationCompleted="@OnAnimationCompletedAsync" />
+        </FluentKeyCode>
+     </div>
 </CascadingValue>
 
 @code {

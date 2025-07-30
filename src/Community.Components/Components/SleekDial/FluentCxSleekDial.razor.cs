@@ -98,14 +98,19 @@ public partial class FluentCxSleekDial
     internal int FocusedIndex { get; set; } = -1;
 
     [Parameter]
-    public SleekDialRadialSettings? RadialSettings { get; set; } = new();
+    public SleekDialRadialSettings RadialSettings { get; set; } = new();
 
     [Parameter]
-    public SleekDialAnimationSettings? AnimationSettings { get; set; } = new();
+    public SleekDialAnimationSettings AnimationSettings { get; set; } = new();
 
     internal string? FloatingButtonId => _floatingButton?.Id;
 
     private string? InternalClass => new CssBuilder(Class).Build();
+
+    /// <summary>
+    /// Represents the correct radial settings after correction inside the popup.
+    /// </summary>
+    internal SleekDialRadialSettings CorrectRadialSettings { get; set; }
 
     [JSInvokable]
     public async Task OnClickAsync()
@@ -230,7 +235,7 @@ public partial class FluentCxSleekDial
 
     internal void AddChild(SleekDialItem value)
     {
-        Items.Insert(0, value);
+        Items.Add(value);
     }
 
     internal void AddRadialSettings(SleekDialRadialSettings value)
@@ -298,5 +303,13 @@ public partial class FluentCxSleekDial
     internal async Task FocusAsync()
     {
         await Items[FocusedIndex].Element.FocusAsync();
+    }
+
+    internal void UpdateItemsPosition()
+    {
+        foreach (var item in Items)
+        {
+            item.UpdateAngle();
+        }
     }
 }

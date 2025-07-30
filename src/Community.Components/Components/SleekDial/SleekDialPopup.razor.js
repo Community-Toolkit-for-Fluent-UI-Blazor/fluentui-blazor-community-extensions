@@ -39,7 +39,13 @@ export function initialize(id, dotnetReference, floatingButtonId, target, linear
 
 function setLinearPositionInternal(instance) {
   if (instance) {
-    setLinearPosition(instance.id, instance.linearOptions);
+    setLinearPosition(instance.id);
+  }
+}
+
+function setRadialPositionInternal(instance) {
+  if (instance) {
+    setRadialPosition(instance.id);
   }
 }
 
@@ -62,7 +68,7 @@ export function setLinearPosition(id) {
     let yOffset = 0;
     let xOffset = 0;
 
-    if (instance.isTop) {
+    if (instance.linearOptions.isTop) {
       yOffset = instance.floatingButton.offsetTop + (instance.linearOptions.isVertical ? instance.floatingButton.offsetHeight : 0);
     }
     else {
@@ -102,6 +108,46 @@ export function setLinearPosition(id) {
 
     instance.element.style.setProperty('--sleekdial-vertical-offset', `${yOffset}px`);
     instance.element.style.setProperty('--sleekdial-horizontal-offset', `${xOffset}px`);
+  }
+}
+
+export function setRadialPosition(id) {
+  const instance = getInstance(id);
+
+  if (instance) {
+    var item = instance.element.querySelector(".sleekdialitem");
+    const width = item.offsetWidth;
+    const height = item.offsetHeight;
+    let yOffset = -1;
+    let xOffset = -1;
+
+    if (instance.radialOptions.isMiddle) {
+      const height = instance.isFixed ? window.innerHeight : instance.target.clientHeight;
+      yOffset = (height - instance.floatingButton.offsetTop - instance.element.offsetHeight / 2);
+    }
+
+    if (instance.radialOptions.isCenter) {
+      const w = instance.isFixed ? window.innerWidth : instance.target.clientWidth;
+      xOffset = (w - instance.floatingButton.offsetLeft - instance.element.offsetWidth / 2);
+    }
+
+    if (instance.radialOptions.isRight) {
+      const w = instance.isFixed ? window.innerWidth : instance.target.clientWidth;
+      xOffset = w;
+    }
+
+    if (instance.radialOptions.isBottom) {
+      yOffset = instance.floatingButton.offsetTop;
+    }
+
+    const value = {
+      x: xOffset,
+      y: yOffset,
+      width: width,
+      height: height
+    }
+
+    instance.dotnetReference.invokeMethodAsync('RadialPositionUpdated', value);
   }
 }
 
