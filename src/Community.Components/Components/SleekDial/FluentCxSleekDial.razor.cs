@@ -6,18 +6,65 @@ using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Represents a sleek dial.
+/// </summary>
 public partial class FluentCxSleekDial
     : FluentComponentBase
 {
+    /// <summary>
+    /// Value indicating if the dial is open.
+    /// </summary>
     private bool _isOpen;
+
+    /// <summary>
+    /// Represents the correct radial settings to position the items on the radial panel.
+    /// </summary>
+    private SleekDialRadialSettings? _correctRadialSettings;
+
+    /// <summary>
+    /// Value indicating if the click is prevented.
+    /// </summary>
     private bool _preventDefault;
+
+    /// <summary>
+    /// Value indicating if a direction change in linear mode.
+    /// </summary>
     private bool _linearDirectionChanged;
+
+    /// <summary>
+    /// Represents the popup.
+    /// </summary>
     private SleekDialPopup? _popup;
+
+    /// <summary>
+    /// Represents the floating button.
+    /// </summary>
     private FluentCxFloatingButton? _floatingButton;
+
+    /// <summary>
+    /// Represents the fragment to render text.
+    /// </summary>
     private readonly RenderFragment _renderText;
+
+    /// <summary>
+    /// Represents the javascript module.
+    /// </summary>
     private IJSObjectReference? _module;
+
+    /// <summary>
+    /// Represents the reference of the current dot net object.
+    /// </summary>
     private readonly DotNetObjectReference<FluentCxSleekDial> _dotNetObjectReference;
+
+    /// <summary>
+    /// Represents the javascript file.
+    /// </summary>
     private const string JavascriptFilename = "./_content/FluentUI.Blazor.Community.Components/Components/SleekDial/FluentCxSleekDial.razor.js";
+
+    /// <summary>
+    /// Represents the default keys to not prevent.
+    /// </summary>
     private static readonly List<KeyCode> _preventDefaultKeys =
     [
         KeyCode.Space,
@@ -31,87 +78,185 @@ public partial class FluentCxSleekDial
         KeyCode.End
     ];
 
+    /// <summary>
+    /// Gets or sets the item template.
+    /// </summary>
     [Parameter]
     public RenderFragment<SleekDialItem>? ItemTemplate { get; set; }
 
+    /// <summary>
+    /// Gets or sets the rendering mode of the <see cref="FluentCxSleekDial"/>.
+    /// </summary>
     [Parameter]
     public SleekDialMode Mode { get; set; } = SleekDialMode.Linear;
 
+    /// <summary>
+    /// Gets or sets the position of the <see cref="FluentCxSleekDial"/>.
+    /// </summary>
     [Parameter]
     public FloatingPosition Position { get; set; } = FloatingPosition.BottomRight;
 
+    /// <summary>
+    /// Gets or sets the target of the <see cref="FluentCxSleekDial"/>.
+    /// </summary>
     [Parameter]
     public string? Target { get; set; }
 
+    /// <summary>
+    /// Gets or sets if the <see cref="FluentCxSleekDial"/> is disabled.
+    /// </summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Gets or sets the icon to close the popup.
+    /// </summary>
     [Parameter]
     public Icon? CloseIcon { get; set; }
 
+    /// <summary>
+    /// Gets or sets the icon to open the popup.
+    /// </summary>
     [Parameter]
     public Icon? OpenIcon { get; set; }
 
+    /// <summary>
+    /// Gets or sets if the popup opens on hover.
+    /// </summary>
     [Parameter]
     public bool OpensOnHover { get; set; }
 
+    /// <summary>
+    /// Gets or sets the text of the <see cref="FluentCxSleekDial"/>.
+    /// </summary>
     [Parameter]
     public string? Text { get; set; }
 
+    /// <summary>
+    /// Gets or sets the linear direction of the items.
+    /// </summary>
     [Parameter]
     public SleekDialLinearDirection Direction { get; set; } = SleekDialLinearDirection.Default;
 
+    /// <summary>
+    /// Gets or sets the callback when an item is rendered.
+    /// </summary>
     [Parameter]
     public EventCallback<SleekDialItem> ItemRendered { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when the visibility has changed.
+    /// </summary>
     [Parameter]
     public EventCallback<bool> IsVisibleChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the child content.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when the popup is opened.
+    /// </summary>
     [Parameter]
     public EventCallback Opened { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when the popup is closed.
+    /// </summary>
     [Parameter]
     public EventCallback Closed { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when the popup is opening.
+    /// </summary>
     [Parameter]
     public EventCallback Opening { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when the popup is closing.
+    /// </summary>
     [Parameter]
     public EventCallback Closing { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when the item is selected.
+    /// </summary>
     [Parameter]
     public EventCallback<SleekDialItem> ItemSelected { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating if the <see cref="FluentCxSleekDial"/> is modal.
+    /// </summary>
     [Parameter]
     public bool IsModal { get; set; }
 
+    /// <summary>
+    /// Gets or sets the javascript runtime.
+    /// </summary>
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 
+    /// <summary>
+    /// Gets if the popup is open.
+    /// </summary>
     internal bool IsOpen => _isOpen;
 
-    internal List<SleekDialItem> Items { get; private set; } = [];
+    /// <summary>
+    /// Gets the <see cref="SleekDialItem"/> inside this instance of <see cref="FluentCxSleekDial"/>.
+    /// </summary>
+    internal List<SleekDialItem> InternalItems { get; private set; } = [];
 
+    /// <summary>
+    /// Gets or sets the focused index.
+    /// </summary>
     internal int FocusedIndex { get; set; } = -1;
 
+    /// <summary>
+    /// Gets or sets the settings of the radial menu.
+    /// </summary>
     [Parameter]
     public SleekDialRadialSettings RadialSettings { get; set; } = new();
 
+    /// <summary>
+    /// Gets or sets the settings of the animation.
+    /// </summary>
     [Parameter]
     public SleekDialAnimationSettings AnimationSettings { get; set; } = new();
 
+    /// <summary>
+    /// Gets the identifier of the <see cref="FluentCxFloatingButton"/>.
+    /// </summary>
     internal string? FloatingButtonId => _floatingButton?.Id;
 
+    /// <summary>
+    /// Gets the internal css.
+    /// </summary>
     private string? InternalClass => new CssBuilder(Class).Build();
 
     /// <summary>
     /// Represents the correct radial settings after correction inside the popup.
     /// </summary>
-    internal SleekDialRadialSettings CorrectRadialSettings { get; set; }
+    internal SleekDialRadialSettings? CorrectRadialSettings
+    {
+        get => _correctRadialSettings;
+        set
+        { 
+            _correctRadialSettings = value;
+            RadialSettingsChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
 
+    /// <summary>
+    /// Event raised when a radial settings has changed.
+    /// </summary>
+    internal event EventHandler RadialSettingsChanged;
+
+    /// <summary>
+    /// Occurs on a click on the <see cref="FluentCxFloatingButton"/>.
+    /// </summary>
+    /// <returns>Returns a task which show or hide the dial when completed.</returns>
     [JSInvokable]
     public async Task OnClickAsync()
     {
@@ -123,6 +268,11 @@ public partial class FluentCxSleekDial
         await ShowOrHidePopupAsync(!_isOpen);
     }
 
+    /// <summary>
+    /// Shows or hides the dial in an asynchronous way.
+    /// </summary>
+    /// <param name="isOpen">Value indicating if the dial is open or hide.</param>
+    /// <returns>Returns a task which hides or shows the dial when completed.</returns>
     [JSInvokable]
     public async Task ShowOrHidePopupAsync(bool isOpen)
     {
@@ -159,6 +309,11 @@ public partial class FluentCxSleekDial
         }
     }
 
+    /// <summary>
+    /// Occurs when a key is tapped.
+    /// </summary>
+    /// <param name="e">Event args associated to the method.</param>
+    /// <returns>Returns a task which handles the pressed key when completed.</returns>
     private async Task OnKeyDownHandlerAsync(FluentKeyCodeEventArgs e)
     {
         _preventDefault = _preventDefaultKeys.Contains(e.Key);
@@ -175,7 +330,7 @@ public partial class FluentCxSleekDial
                 {
                     if (_isOpen && FocusedIndex != -1)
                     {
-                        await OnItemClickAsync(Items[FocusedIndex]);
+                        await OnItemClickAsync(InternalItems[FocusedIndex]);
                     }
 
                     if (OpensOnHover)
@@ -185,19 +340,22 @@ public partial class FluentCxSleekDial
 
                     await ShowOrHidePopupAsync(!_isOpen);
                 }
+
                 break;
 
             case KeyCode.Escape:
                 {
                     await ShowOrHidePopupAsync(false);
                 }
+
                 break;
 
             case KeyCode.Tab:
                 {
                     FocusedIndex++;
-                    FocusedIndex %= Items.Count;
+                    FocusedIndex %= InternalItems.Count;
                 }
+
                 break;
 
             default:
@@ -209,10 +367,15 @@ public partial class FluentCxSleekDial
 
                     await _popup.HandleKeyAsync(e);
                 }
+
                 break;
         }
     }
 
+    /// <summary>
+    /// Update the position of the popup in an asynchronous way.
+    /// </summary>
+    /// <returns></returns>
     private async Task UpdatePopupPositionAsync()
     {
         if (_linearDirectionChanged && _popup is not null)
@@ -222,52 +385,55 @@ public partial class FluentCxSleekDial
         }
     }
 
+    /// <summary>
+    /// Occurs when an animation is completed.
+    /// </summary>
+    /// <param name="isOpen">Value indicating if the dial is shown or hidden.</param>
+    /// <returns>Return a task which rerender the component when completed.</returns>
     internal async Task OnAnimationCompletedAsync(bool isOpen)
     {
         _isOpen = isOpen;
         await InvokeAsync(StateHasChanged);
     }
 
-    internal void AddAnimationSettings(SleekDialAnimationSettings animationSettings)
-    {
-        AnimationSettings = animationSettings;
-    }
-
+    /// <summary>
+    /// Adds a child into the component.
+    /// </summary>
+    /// <param name="value">Item to add.</param>
     internal void AddChild(SleekDialItem value)
     {
-        Items.Add(value);
+        InternalItems.Add(value);
     }
 
-    internal void AddRadialSettings(SleekDialRadialSettings value)
-    {
-        RadialSettings = value;
-    }
-
-    internal async Task OnItemClickAsync(SleekDialItem sleekDialItem)
+    /// <summary>
+    /// Occurs when an item is selected.
+    /// </summary>
+    /// <param name="value">Represents the selected item.</param>
+    /// <returns>Returns a task which select the item when completed.</returns>
+    internal async Task OnItemClickAsync(SleekDialItem value)
     {
         if (ItemSelected.HasDelegate)
         {
-            await ItemSelected.InvokeAsync(sleekDialItem);
+            await ItemSelected.InvokeAsync(value);
         }
 
         await ShowOrHidePopupAsync(false);
     }
 
-    internal void RemoveAnimationSettings()
-    {
-        AnimationSettings = null;
-    }
-
+    /// <summary>
+    /// Removes a child from the component.
+    /// </summary>
+    /// <param name="value">Item to remove.</param>
     internal void RemoveChild(SleekDialItem value)
     {
-        Items.Remove(value);
+        InternalItems.Remove(value);
     }
 
-    internal void RemoveRadialSettings()
-    {
-        RadialSettings = null;
-    }
-
+    /// <summary>
+    /// Occurs when an item is created.
+    /// </summary>
+    /// <param name="value">Represents the created item.</param>
+    /// <returns>Returns a task which invokes the <see cref="ItemRendered"/> callback.</returns>
     internal async Task OnCreatedAsync(SleekDialItem value)
     {
         if (ItemRendered.HasDelegate)
@@ -276,6 +442,7 @@ public partial class FluentCxSleekDial
         }
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -290,6 +457,7 @@ public partial class FluentCxSleekDial
         await UpdatePopupPositionAsync();
     }
 
+    /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         await base.SetParametersAsync(parameters);
@@ -300,16 +468,12 @@ public partial class FluentCxSleekDial
         }
     }
 
+    /// <summary>
+    /// Focus the selected index.
+    /// </summary>
+    /// <returns>Returns a task which focus the selected element when completed.</returns>
     internal async Task FocusAsync()
     {
-        await Items[FocusedIndex].Element.FocusAsync();
-    }
-
-    internal void UpdateItemsPosition()
-    {
-        foreach (var item in Items)
-        {
-            item.UpdateAngle();
-        }
+        await InternalItems[FocusedIndex].Element.FocusAsync();
     }
 }

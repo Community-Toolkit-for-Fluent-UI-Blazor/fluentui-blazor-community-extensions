@@ -65,6 +65,8 @@ public partial class FluentCxFloatingButton
         .AddStyle("transform", "translateX(-50%)", Position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.BottomCenter))
         .AddStyle("transform", "translateY(-50%)", Position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleRight))
         .AddStyle("transform", "translate(-50%, -50%)", Position == FloatingPosition.MiddleCenter)
+        .AddStyle("border-radius", "9999px")
+        .AddStyle("box-shadow", "0 14px 28.8px 0 rgba(0, 0, 0, .24), 0 0 8px 0 rgba(0, 0, 0, .2)")
         .Build();
 
     /// <summary>

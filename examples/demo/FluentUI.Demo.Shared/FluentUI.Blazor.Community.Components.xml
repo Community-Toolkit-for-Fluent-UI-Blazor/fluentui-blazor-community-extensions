@@ -6848,9 +6848,365 @@
             <param name="localizationDirection">Direction used by the app.</param>
             <returns>Returns the <see cref="T:System.Collections.Generic.Dictionary`2"/> of the resize handler to use.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial">
+            <summary>
+            Represents a sleek dial.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._isOpen">
+            <summary>
+            Value indicating if the dial is open.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._correctRadialSettings">
+            <summary>
+            Represents the correct radial settings to position the items on the radial panel.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._preventDefault">
+            <summary>
+            Value indicating if the click is prevented.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._linearDirectionChanged">
+            <summary>
+            Value indicating if a direction change in linear mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._popup">
+            <summary>
+            Represents the popup.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._floatingButton">
+            <summary>
+            Represents the floating button.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._renderText">
+            <summary>
+            Represents the fragment to render text.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._module">
+            <summary>
+            Represents the javascript module.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._dotNetObjectReference">
+            <summary>
+            Represents the reference of the current dot net object.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial.JavascriptFilename">
+            <summary>
+            Represents the javascript file.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._preventDefaultKeys">
+            <summary>
+            Represents the default keys to not prevent.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ItemTemplate">
+            <summary>
+            Gets or sets the item template.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Mode">
+            <summary>
+            Gets or sets the rendering mode of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Position">
+            <summary>
+            Gets or sets the position of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Target">
+            <summary>
+            Gets or sets the target of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Disabled">
+            <summary>
+            Gets or sets if the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/> is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.CloseIcon">
+            <summary>
+            Gets or sets the icon to close the popup.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OpenIcon">
+            <summary>
+            Gets or sets the icon to open the popup.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OpensOnHover">
+            <summary>
+            Gets or sets if the popup opens on hover.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Text">
+            <summary>
+            Gets or sets the text of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Direction">
+            <summary>
+            Gets or sets the linear direction of the items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ItemRendered">
+            <summary>
+            Gets or sets the callback when an item is rendered.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.IsVisibleChanged">
+            <summary>
+            Gets or sets the callback when the visibility has changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ChildContent">
+            <summary>
+            Gets or sets the child content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Opened">
+            <summary>
+            Gets or sets the callback when the popup is opened.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Closed">
+            <summary>
+            Gets or sets the callback when the popup is closed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Opening">
+            <summary>
+            Gets or sets the callback when the popup is opening.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Closing">
+            <summary>
+            Gets or sets the callback when the popup is closing.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ItemSelected">
+            <summary>
+            Gets or sets the callback when the item is selected.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.IsModal">
+            <summary>
+            Gets or sets a value indicating if the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/> is modal.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.JSRuntime">
+            <summary>
+            Gets or sets the javascript runtime.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.IsOpen">
+            <summary>
+            Gets if the popup is open.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.InternalItems">
+            <summary>
+            Gets the <see cref="T:FluentUI.Blazor.Community.Components.SleekDialItem"/> inside this instance of <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FocusedIndex">
+            <summary>
+            Gets or sets the focused index.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.RadialSettings">
+            <summary>
+            Gets or sets the settings of the radial menu.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.AnimationSettings">
+            <summary>
+            Gets or sets the settings of the animation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FloatingButtonId">
+            <summary>
+            Gets the identifier of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFloatingButton"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.InternalClass">
+            <summary>
+            Gets the internal css.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.CorrectRadialSettings">
             <summary>
             Represents the correct radial settings after correction inside the popup.
+            </summary>
+        </member>
+        <member name="E:FluentUI.Blazor.Community.Components.FluentCxSleekDial.RadialSettingsChanged">
+            <summary>
+            Event raised when a radial settings has changed.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnClickAsync">
+            <summary>
+            Occurs on a click on the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFloatingButton"/>.
+            </summary>
+            <returns>Returns a task which show or hide the dial when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ShowOrHidePopupAsync(System.Boolean)">
+            <summary>
+            Shows or hides the dial in an asynchronous way.
+            </summary>
+            <param name="isOpen">Value indicating if the dial is open or hide.</param>
+            <returns>Returns a task which hides or shows the dial when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnKeyDownHandlerAsync(Microsoft.FluentUI.AspNetCore.Components.FluentKeyCodeEventArgs)">
+            <summary>
+            Occurs when a key is tapped.
+            </summary>
+            <param name="e">Event args associated to the method.</param>
+            <returns>Returns a task which handles the pressed key when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.UpdatePopupPositionAsync">
+            <summary>
+            Update the position of the popup in an asynchronous way.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnAnimationCompletedAsync(System.Boolean)">
+            <summary>
+            Occurs when an animation is completed.
+            </summary>
+            <param name="isOpen">Value indicating if the dial is shown or hidden.</param>
+            <returns>Return a task which rerender the component when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.AddChild(FluentUI.Blazor.Community.Components.SleekDialItem)">
+            <summary>
+            Adds a child into the component.
+            </summary>
+            <param name="value">Item to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnItemClickAsync(FluentUI.Blazor.Community.Components.SleekDialItem)">
+            <summary>
+            Occurs when an item is selected.
+            </summary>
+            <param name="value">Represents the selected item.</param>
+            <returns>Returns a task which select the item when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.RemoveChild(FluentUI.Blazor.Community.Components.SleekDialItem)">
+            <summary>
+            Removes a child from the component.
+            </summary>
+            <param name="value">Item to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnCreatedAsync(FluentUI.Blazor.Community.Components.SleekDialItem)">
+            <summary>
+            Occurs when an item is created.
+            </summary>
+            <param name="value">Represents the created item.</param>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ItemRendered"/> callback.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FocusAsync">
+            <summary>
+            Focus the selected index.
+            </summary>
+            <returns>Returns a task which focus the selected element when completed.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialAnimation">
+            <summary>
+            Represents the available animations for opening and closing the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.None">
+            <summary>
+            None animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.Fade">
+            <summary>
+            Fade animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FadeZoom">
+            <summary>
+            Fade and zoom animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipLeftDown">
+            <summary>
+            Flip left and down animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipLeftUp">
+            <summary>
+            Flip left and up animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipRightDown">
+            <summary>
+            Flip down and right animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipRightUp">
+            <summary>
+            Flip right and up animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipXDown">
+            <summary>
+            Flip on X axis and down animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipXUp">
+            <summary>
+            Flip on X axis and up animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipYLeft">
+            <summary>
+            Flip on Y axis and left animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipYRight">
+            <summary>
+            Flip on Y axis and right animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideBottom">
+            <summary>
+            Slide from top to bottom animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideLeft">
+            <summary>
+            Slide from right to left animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideRight">
+            <summary>
+            Slide from left to right animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideTop">
+            <summary>
+            Slide from bottom to top animation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.Zoom">
+            <summary>
+            Zoom animation.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialAnimationSettings">
@@ -6873,6 +7229,47 @@
             Gets or sets the animation to play.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialItem">
+            <summary>
+            Represents the item of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Parent">
+            <summary>
+            Gets or sets the parent of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Disabled">
+            <summary>
+            Gets or sets if the item is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Icon">
+            <summary>
+            Gets or sets the icon of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Text">
+            <summary>
+            Gets or sets the text of the item.
+            </summary>
+            <remarks>In <see cref="F:FluentUI.Blazor.Community.Components.SleekDialMode.Radial"/>, the text isn't rendered.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Title">
+            <summary>
+            Gets or sets the title of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Index">
+            <summary>
+            Gets the index of the item inside the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Angle">
+            <summary>
+            Gets or sets the angle of the item.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.Dispose">
             <inheritdoc />
         </member>
@@ -6880,6 +7277,71 @@
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialItemView._angle">
+            <summary>
+            Represents the angle of the item.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialItemView._renderText">
+            <summary>
+            Represents the render fragment to render the text.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItemView.Index">
+            <summary>
+            Gets or sets the index of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItemView.Parent">
+            <summary>
+            Gets or sets the parent of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItemView.Item">
+            <summary>
+            Gets or sets the item to render.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItemView.InternalClass">
+            <summary>
+            Gets the css of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItemView.InternalStyle">
+            <summary>
+            Gets the style of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItemView.InternalButtonStyle">
+            <summary>
+            Gets the style of the button.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.UpdateAdditionalAttributes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.OnClickAsync">
+            <summary>
+            Occurs when the item is clicked.
+            </summary>
+            <returns>Returns a task which invoke the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ItemSelected"/> callback when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.GetAngle">
+            <summary>
+            Gets the angle of the item.
+            </summary>
+            <param name="value">Represents the parent container.</param>
+            <param name="index">Index of the item inside the container.</param>
+            <returns>Returns the angle of the item in degrees.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.OnInitialized">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.Dispose">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialLinearDirection">
@@ -6927,13 +7389,334 @@
             The items are rendered in a radial way.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialPopup">
+            <summary>
+            Represents the popup of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial" /> component.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusElementMove">
+            <summary>
+            Direction of the movement.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusElementMove.Up">
+            <summary>
+            Move to the up.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusElementMove.Down">
+            <summary>
+            Move to the down.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusElementMove.Left">
+            <summary>
+            Move to the left.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusElementMove.Right">
+            <summary>
+            Move to the right.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialPopup.LinearPositionOptions">
+            <summary>
+            Represents the options for a linear menu.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.LinearPositionOptions.IsVertical">
+            <summary>
+            Gets or sets a value indicating if the popup is vertical.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.LinearPositionOptions.IsTop">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the top.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.LinearPositionOptions.IsLeft">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the left.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.LinearPositionOptions.IsCenter">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the center.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.LinearPositionOptions.IsMiddle">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the middle.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.LinearPositionOptions.IsFixed">
+            <summary>
+            Gets or sets a value indicating if the floating button is fixed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.LinearPositionOptions.Direction">
+            <summary>
+            Gets or sets a value indicating if the direction of the popup.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialPopup.RadialPositionOptions">
+            <summary>
+            Represents the options for a radial menu.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.RadialPositionOptions.IsTop">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the top.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.RadialPositionOptions.IsBottom">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the bottom.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.RadialPositionOptions.IsLeft">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the left.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.RadialPositionOptions.IsCenter">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the center.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.RadialPositionOptions.IsMiddle">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the middle.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.RadialPositionOptions.IsFixed">
+            <summary>
+            Gets or sets a value indicating if the floating button is fixed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.RadialPositionOptions.IsRight">
+            <summary>
+            Gets or sets a value indicating if the floating button is set to the right.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup._module">
+            <summary>
+            Represents the javascript module.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup.JavascriptFilename">
+            <summary>
+            Represents the javascript file to load.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup._linearPositionOptions">
+            <summary>
+            Represents the options for the linear menu.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup._radialPositionOptions">
+            <summary>
+            Represents the options for the radial menu.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup._popupReference">
+            <summary>
+            Represents the reference of the popup.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup._isLinear">
+            <summary>
+            Represents a value indicating if the menu is linear.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup._xOffset">
+            <summary>
+            Represents the X offset of the popup.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup._yOffset">
+            <summary>
+            Represents the Y offset of the popup.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup._width">
+            <summary>
+            Represents the width of the popup.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialPopup._height">
+            <summary>
+            Represents the height of the popup.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SleekDialPopup"/> class.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.JSRuntime">
+            <summary>
+            Gets or sets the javascript runtime.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.IsOpen">
+            <summary>
+            Gets or sets a value indicating if the dial is opened or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.Parent">
+            <summary>
+            Gets or sets the parent of the <see cref="T:FluentUI.Blazor.Community.Components.SleekDialPopup"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.OnAnimationCompleted">
+            <summary>
+            Gets or sets the callback when the animation is completed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.InternalCss">
+            <summary>
+            Gets the css of the popup.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.InternalStyle">
+            <summary>
+            Gets the internal style of the popup.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialPopup.GlobalState">
+            <summary>
+            Gets or sets the global state.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.OnOverlayCloseAsync">
+            <summary>
+            Occurs when the overlay is closed.
+            </summary>
+            <returns>Returns a task which closes the popup when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.HandleKeyAsync(Microsoft.FluentUI.AspNetCore.Components.FluentKeyCodeEventArgs)">
+            <summary>
+            Focus the current element.
+            </summary>
+            <param name="e">Event args associated to the component.</param>
+            <returns>Returns a task which focus the element when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusFirstElementAsync">
+            <summary>
+            Focus the first element.
+            </summary>
+            <returns>Returns a task which focus the first element when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusLastElementAsync">
+            <summary>
+            Focus the last element.
+            </summary>
+            <returns>Returns a task which focus the last element when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusPreviousElementAsync">
+            <summary>
+            Focus the previous element.
+            </summary>
+            <returns>Returns a task which focus the previous element when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusElementAsync(FluentUI.Blazor.Community.Components.SleekDialPopup.FocusElementMove)">
+            <summary>
+            Focus the element.
+            </summary>
+            <param name="value">Direction of the focus.</param>
+            <returns>Returns a task which focus the element when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.FocusNextElementAsync">
+            <summary>
+            Focus the next element.
+            </summary>
+            <returns>Returns a task which focus the next element when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.InvokeScriptAsync(System.String,System.Object[])">
+            <summary>
+            Invokes the specified script.
+            </summary>
+            <param name="method">Method to invoke.</param>
+            <param name="args">Argument associated to the method.</param>
+            <returns>Returns a task which invokes the script when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.OnKeyDownHandlerAsync(Microsoft.FluentUI.AspNetCore.Components.FluentKeyCodeEventArgs)">
+            <summary>
+            Occurs on a keydown.
+            </summary>
+            <param name="e">Event associated to the method.</param>
+            <returns>Returns a task which handles the key when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.UpdatePositionAsync">
+            <summary>
+            Updates the position of the popup.
+            </summary>
+            <returns>Returns a task which update the position of the popup.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.UpdateOptions">
+            <summary>
+            Update the options of the menu.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.GetRadialSettings">
+            <summary>
+            Gets the settings of the radial menu.
+            </summary>
+            <returns>Returns the settings of the radial menu.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.CheckAngleRange(System.Int32,System.Int32,FluentUI.Blazor.Community.Components.SleekDialRadialSettings,System.Boolean,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check the angle to place the items correctly.
+            </summary>
+            <param name="startAngle">Start angle in degrees.</param>
+            <param name="endAngle">End angle in degrees.</param>
+            <param name="settings">Settings of the radial menu.</param>
+            <param name="isClock">Value indicating if the menu is clockwise.</param>
+            <param name="minAngle">Minimum angle allowed.</param>
+            <param name="maxAngle">Maximum angle allowed.</param>
+            <param name="reverse">Value indicating if the angle are reversed.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.CheckAngle(System.Int32,System.Boolean,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Check the current angle.
+            </summary>
+            <param name="value">Angle to check.</param>
+            <param name="isClock">Value indicating if the menu is clockwise or counterclockwise.</param>
+            <param name="minAngle">Minimum angle allowed.</param>
+            <param name="maxAngle">Maximum angle allowed.</param>
+            <param name="reverse">Value indicating if the angle is reversed or not.</param>
+            <returns>Returns the allowed angle.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.AnimateOpenAsync(FluentUI.Blazor.Community.Components.SleekDialAnimationSettings)">
+            <summary>
+            Starts the opening animation.
+            </summary>
+            <param name="animationSettings">Settings of the animation.</param>
+            <returns>Returns a task which starts the opening animation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.AnimateCloseAsync(FluentUI.Blazor.Community.Components.SleekDialAnimationSettings)">
+            <summary>
+            Starts the closing animation.
+            </summary>
+            <param name="animationSettings">Settings of the animation.</param>
+            <returns>Returns a task which starts the closing animation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.OnAnimationCompletedAsync(System.Boolean)">
+            <summary>
+            Occurs when the animation is completed.
+            </summary>
+            <param name="isOpen">Value indicating if the dial is opened or closed.</param>
+            <returns>Returns a task which invokes <see cref="P:FluentUI.Blazor.Community.Components.SleekDialPopup.OnAnimationCompleted"/> when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialPopup.RadialPositionUpdated(System.Drawing.RectangleF)">
+            <summary>
+            Occurs when the position of the radial menu is updated.
+            </summary>
+            <param name="rectangle">Rectangle which contains the position of the radial menu.</param>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialRadialDirection">
             <summary>

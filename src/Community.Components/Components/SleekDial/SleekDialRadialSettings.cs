@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components;
-
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>

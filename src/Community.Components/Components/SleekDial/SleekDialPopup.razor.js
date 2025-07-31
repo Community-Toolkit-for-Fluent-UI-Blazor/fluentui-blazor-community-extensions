@@ -104,6 +104,9 @@ export function setLinearPosition(id) {
       if (direction === 3 || direction === 4) {
         yOffset = instance.floatingButton.offsetTop - midOffsetHeight;
       }
+      else if (direction === 0 || direction === 1) {
+        yOffset = instance.floatingButton.offsetTop + midOffsetHeight;
+      }
     }
 
     instance.element.style.setProperty('--sleekdial-vertical-offset', `${yOffset}px`);
@@ -115,7 +118,7 @@ export function setRadialPosition(id) {
   const instance = getInstance(id);
 
   if (instance) {
-    var item = instance.element.querySelector(".sleekdialitem");
+    var item = instance.element.querySelector(".sleekdialitem-radial");
     const width = item.offsetWidth;
     const height = item.offsetHeight;
     let yOffset = -1;

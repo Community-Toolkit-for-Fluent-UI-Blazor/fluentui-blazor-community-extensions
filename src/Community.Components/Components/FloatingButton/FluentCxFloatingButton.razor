@@ -33,23 +33,4 @@
                       Title="@Title"
                       Type="@Type"
                       Value="@Value" />
- 
-    <!-- Very strange issue, if I set the fluent-button style here, it works.
-        If I do that inside a css file, it doesn't work
-    -->
-    <style>
-        fluent-button::part(control) {
-            border-radius: 9999px;
-            min-height: 52px;
-            min-width: 52px;
-            max-height: 52px;
-            max-width: 52px;
-            width: 52px !important;
-            height: 52px !important;
-            align-items: center;
-            display: inline-flex;
-            position: absolute;
-            box-shadow: 0 14px 28.8px 0 rgba(0, 0, 0, .24), 0 0 8px 0 rgba(0, 0, 0, .2);
-        }
-    </style>
 }

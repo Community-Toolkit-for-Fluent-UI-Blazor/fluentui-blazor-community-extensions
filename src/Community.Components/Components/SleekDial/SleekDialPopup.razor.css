@@ -707,16 +707,6 @@
 .sleekdial-popup {
     position: absolute;
     z-index: 100000;
-    pointer-events: none;
-}
-
-.sleekdial-popup-ul {
-    box-sizing: border-box;
-    display: inline-flex;
-    flex-direction: column;
-    list-style-type: none;
-    margin: 0;
-    padding: 5px 3px;
 }
 
 .sleekdial-popup-linear-middle {
@@ -800,12 +790,4 @@
 
 .sleekdial-popup-radial-bottom-right {
   border-top-left-radius: 100%
-}
-
-.sleekdial-popup-ul-radial {
-  height: inherit;
-  width: inherit;
-  position: relative;
-  border-radius: inherit;
-  padding: 5px 2px;
 }

@@ -7,48 +7,168 @@ using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Represents the popup of the <see cref="FluentCxSleekDial" /> component.
+/// </summary>
 public partial class SleekDialPopup
     : FluentComponentBase
 {
+    /// <summary>
+    /// Direction of the movement.
+    /// </summary>
     private enum FocusElementMove
     {
+        /// <summary>
+        /// Move to the up.
+        /// </summary>
         Up,
+
+        /// <summary>
+        /// Move to the down.
+        /// </summary>
         Down,
+
+        /// <summary>
+        /// Move to the left.
+        /// </summary>
         Left,
+
+        /// <summary>
+        /// Move to the right.
+        /// </summary>
         Right
     }
 
+    /// <summary>
+    /// Represents the options for a linear menu.
+    /// </summary>
     private struct LinearPositionOptions
     {
+        /// <summary>
+        /// Gets or sets a value indicating if the popup is vertical.
+        /// </summary>
         public bool IsVertical { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the top.
+        /// </summary>
         public bool IsTop { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the left.
+        /// </summary>
         public bool IsLeft { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the center.
+        /// </summary>
         public bool IsCenter { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the middle.
+        /// </summary>
         public bool IsMiddle { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is fixed.
+        /// </summary>
         public bool IsFixed { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the direction of the popup.
+        /// </summary>
         public SleekDialLinearDirection Direction { get; set; }
     }
 
+    /// <summary>
+    /// Represents the options for a radial menu.
+    /// </summary>
     private struct RadialPositionOptions
     {
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the top.
+        /// </summary>
         public bool IsTop { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the bottom.
+        /// </summary>
         public bool IsBottom { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the left.
+        /// </summary>
         public bool IsLeft { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the center.
+        /// </summary>
         public bool IsCenter { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the middle.
+        /// </summary>
         public bool IsMiddle { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is fixed.
+        /// </summary>
         public bool IsFixed { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the floating button is set to the right.
+        /// </summary>
         public bool IsRight { get; set; }
     }
 
+    /// <summary>
+    /// Represents the javascript module.
+    /// </summary>
     private IJSObjectReference? _module;
+
+    /// <summary>
+    /// Represents the javascript file to load.
+    /// </summary>
     private const string JavascriptFilename = "./_content/FluentUI.Blazor.Community.Components/Components/SleekDial/SleekDialPopup.razor.js";
+
+    /// <summary>
+    /// Represents the options for the linear menu.
+    /// </summary>
     private LinearPositionOptions _linearPositionOptions;
+
+    /// <summary>
+    /// Represents the options for the radial menu.
+    /// </summary>
     private RadialPositionOptions _radialPositionOptions;
+
+    /// <summary>
+    /// Represents the reference of the popup.
+    /// </summary>
     private readonly DotNetObjectReference<SleekDialPopup> _popupReference;
+
+    /// <summary>
+    /// Represents a value indicating if the menu is linear.
+    /// </summary>
     private bool _isLinear;
+
+    /// <summary>
+    /// Represents the X offset of the popup.
+    /// </summary>
     private float _xOffset;
+
+    /// <summary>
+    /// Represents the Y offset of the popup.
+    /// </summary>
     private float _yOffset;
+
+    /// <summary>
+    /// Represents the width of the popup.
+    /// </summary>
     private float _width;
+
+    /// <summary>
+    /// Represents the height of the popup.
+    /// </summary>
     private float _height;
 
     /// <summary>
@@ -60,18 +180,33 @@ public partial class SleekDialPopup
         _popupReference = DotNetObjectReference.Create(this);
     }
 
+    /// <summary>
+    /// Gets or sets the javascript runtime.
+    /// </summary>
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 
+    /// <summary>
+    /// Gets or sets a value indicating if the dial is opened or not.
+    /// </summary>
     [Parameter]
     public bool IsOpen { get; set; }
 
+    /// <summary>
+    /// Gets or sets the parent of the <see cref="SleekDialPopup"/>.
+    /// </summary>
     [CascadingParameter]
     private FluentCxSleekDial? Parent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when the animation is completed.
+    /// </summary>
     [Parameter]
     public EventCallback<bool> OnAnimationCompleted { get; set; }
 
+    /// <summary>
+    /// Gets the css of the popup.
+    /// </summary>
     private string? InternalCss => new CssBuilder(Class)
         .AddClass("sleekdial-popup")
         .AddClass("sleekdial-popup-linear-top", _isLinear && _linearPositionOptions.IsTop)
@@ -97,6 +232,9 @@ public partial class SleekDialPopup
         .AddClass("sleekdial-popup-radial-middle", !_isLinear && Parent!.Position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight))
         .Build();
 
+    /// <summary>
+    /// Gets the internal style of the popup.
+    /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("--sleekdial-radial-offset", Parent?.CorrectRadialSettings?.Offset ?? "110px", !_isLinear)
         .AddStyle("--sleekdial-radial-min-width", $"{_width}px", !_isLinear && _width > 0)
@@ -105,9 +243,16 @@ public partial class SleekDialPopup
         .AddStyle("--sleekdial-horizontal-offset", $"{_xOffset}px", !_isLinear && _xOffset > 0)
         .Build();
 
+    /// <summary>
+    /// Gets or sets the global state.
+    /// </summary>
     [Inject]
     private GlobalState GlobalState { get; set; } = default!;
 
+    /// <summary>
+    /// Occurs when the overlay is closed.
+    /// </summary>
+    /// <returns>Returns a task which closes the popup when completed.</returns>
     private async Task OnOverlayCloseAsync()
     {
         if (Parent is not null)
@@ -116,6 +261,11 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Focus the current element.
+    /// </summary>
+    /// <param name="e">Event args associated to the component.</param>
+    /// <returns>Returns a task which focus the element when completed.</returns>
     internal async Task HandleKeyAsync(FluentKeyCodeEventArgs e)
     {
         switch (e.Key)
@@ -146,12 +296,16 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Focus the first element.
+    /// </summary>
+    /// <returns>Returns a task which focus the first element when completed.</returns>
     private async Task FocusFirstElementAsync()
     {
         if (Parent is not null)
         {
             var index = 0;
-            var items = Parent.Items;
+            var items = Parent.InternalItems;
 
             while (items[index].Disabled)
             {
@@ -168,12 +322,16 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Focus the last element.
+    /// </summary>
+    /// <returns>Returns a task which focus the last element when completed.</returns>
     private async Task FocusLastElementAsync()
     {
         if (Parent is not null)
         {
-            var items = Parent.Items;
-            var index = Parent.Items.Count - 1;
+            var items = Parent.InternalItems;
+            var index = items.Count - 1;
 
             while (items[index].Disabled)
             {
@@ -190,6 +348,10 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Focus the previous element.
+    /// </summary>
+    /// <returns>Returns a task which focus the previous element when completed.</returns>
     private async Task FocusPreviousElementAsync()
     {
         if (Parent is not null)
@@ -199,18 +361,23 @@ public partial class SleekDialPopup
             {
                 ++focusedIndex;
 
-                if (focusedIndex == Parent.Items.Count)
+                if (focusedIndex == Parent.InternalItems.Count)
                 {
                     return;
                 }
             }
-            while (Parent.Items[focusedIndex].Disabled);
+            while (Parent.InternalItems[focusedIndex].Disabled);
 
             Parent.FocusedIndex = focusedIndex;
             await Parent.FocusAsync();
         }
     }
 
+    /// <summary>
+    /// Focus the element.
+    /// </summary>
+    /// <param name="value">Direction of the focus.</param>
+    /// <returns>Returns a task which focus the element when completed.</returns>
     private async Task FocusElementAsync(FocusElementMove value)
     {
         if (Parent is not null)
@@ -256,6 +423,10 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Focus the next element.
+    /// </summary>
+    /// <returns>Returns a task which focus the next element when completed.</returns>
     private async Task FocusNextElementAsync()
     {
         if (Parent is not null)
@@ -272,13 +443,19 @@ public partial class SleekDialPopup
                     return;
                 }
             }
-            while (Parent.Items[focusedIndex].Disabled);
+            while (Parent.InternalItems[focusedIndex].Disabled);
 
             Parent.FocusedIndex = focusedIndex;
             await Parent.FocusAsync();
         }
     }
 
+    /// <summary>
+    /// Invokes the specified script.
+    /// </summary>
+    /// <param name="method">Method to invoke.</param>
+    /// <param name="args">Argument associated to the method.</param>
+    /// <returns>Returns a task which invokes the script when completed.</returns>
     private async Task InvokeScriptAsync(string method, params object?[] args)
     {
         if (_module is not null)
@@ -287,6 +464,11 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Occurs on a keydown.
+    /// </summary>
+    /// <param name="e">Event associated to the method.</param>
+    /// <returns>Returns a task which handles the key when completed.</returns>
     internal async Task OnKeyDownHandlerAsync(FluentKeyCodeEventArgs e)
     {
         if (e.Key != KeyCode.Escape)
@@ -300,9 +482,13 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Updates the position of the popup.
+    /// </summary>
+    /// <returns>Returns a task which update the position of the popup.</returns>
     internal async Task UpdatePositionAsync()
     {
-        ApplyPosition();
+        UpdateOptions();
 
         if (_isLinear)
         {
@@ -318,7 +504,10 @@ public partial class SleekDialPopup
         await InvokeAsync(StateHasChanged);
     }
 
-    private void ApplyPosition()
+    /// <summary>
+    /// Update the options of the menu.
+    /// </summary>
+    private void UpdateOptions()
     {
         if (Parent is not null)
         {
@@ -362,12 +551,14 @@ public partial class SleekDialPopup
                 _radialPositionOptions.IsCenter = position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.MiddleCenter, FloatingPosition.BottomCenter);
                 _radialPositionOptions.IsMiddle = position.IsOneOf(FloatingPosition.MiddleLeft, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight);
                 _radialPositionOptions.IsRight = position.IsOneOf(FloatingPosition.TopRight, FloatingPosition.MiddleRight, FloatingPosition.BottomRight);
-
-                Parent?.UpdateItemsPosition();
             }
         }
     }
 
+    /// <summary>
+    /// Gets the settings of the radial menu.
+    /// </summary>
+    /// <returns>Returns the settings of the radial menu.</returns>
     private SleekDialRadialSettings GetRadialSettings()
     {
         if (Parent is null)
@@ -471,6 +662,16 @@ public partial class SleekDialPopup
         return settings;
     }
 
+    /// <summary>
+    /// Check the angle to place the items correctly.
+    /// </summary>
+    /// <param name="startAngle">Start angle in degrees.</param>
+    /// <param name="endAngle">End angle in degrees.</param>
+    /// <param name="settings">Settings of the radial menu.</param>
+    /// <param name="isClock">Value indicating if the menu is clockwise.</param>
+    /// <param name="minAngle">Minimum angle allowed.</param>
+    /// <param name="maxAngle">Maximum angle allowed.</param>
+    /// <param name="reverse">Value indicating if the angle are reversed.</param>
     private static void CheckAngleRange(
         int startAngle,
         int endAngle,
@@ -487,6 +688,15 @@ public partial class SleekDialPopup
         settings.EndAngle = incorrectAngle ? startAngle : endAngle;
     }
 
+    /// <summary>
+    /// Check the current angle.
+    /// </summary>
+    /// <param name="value">Angle to check.</param>
+    /// <param name="isClock">Value indicating if the menu is clockwise or counterclockwise.</param>
+    /// <param name="minAngle">Minimum angle allowed.</param>
+    /// <param name="maxAngle">Maximum angle allowed.</param>
+    /// <param name="reverse">Value indicating if the angle is reversed or not.</param>
+    /// <returns>Returns the allowed angle.</returns>
     private static int CheckAngle(
         int value,
         bool isClock,
@@ -525,6 +735,11 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Starts the opening animation.
+    /// </summary>
+    /// <param name="animationSettings">Settings of the animation.</param>
+    /// <returns>Returns a task which starts the opening animation.</returns>
     internal async Task AnimateOpenAsync(SleekDialAnimationSettings animationSettings)
     {
         if (_module is not null)
@@ -533,6 +748,11 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Starts the closing animation.
+    /// </summary>
+    /// <param name="animationSettings">Settings of the animation.</param>
+    /// <returns>Returns a task which starts the closing animation.</returns>
     internal async Task AnimateCloseAsync(SleekDialAnimationSettings animationSettings)
     {
         if (_module is not null)
@@ -541,6 +761,11 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Occurs when the animation is completed.
+    /// </summary>
+    /// <param name="isOpen">Value indicating if the dial is opened or closed.</param>
+    /// <returns>Returns a task which invokes <see cref="OnAnimationCompleted"/> when completed.</returns>
     [JSInvokable]
     public async Task OnAnimationCompletedAsync(bool isOpen)
     {
@@ -550,6 +775,10 @@ public partial class SleekDialPopup
         }
     }
 
+    /// <summary>
+    /// Occurs when the position of the radial menu is updated.
+    /// </summary>
+    /// <param name="rectangle">Rectangle which contains the position of the radial menu.</param>
     [JSInvokable]
     public void RadialPositionUpdated(RectangleF rectangle)
     {
