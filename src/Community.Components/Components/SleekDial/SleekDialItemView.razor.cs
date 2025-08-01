@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
@@ -85,13 +86,14 @@ public partial class SleekDialItemView
     /// <summary>
     /// Occurs when the item is clicked.
     /// </summary>
-    /// <returns>Returns a task which invoke the <see cref="FluentCxSleekDial.ItemSelected"/> callback when completed.</returns>
+    /// <returns>Returns a task which invoke the <see cref="SleekDialItem.OnClick"/> callback when completed.</returns>
     private async Task OnClickAsync()
     {
-        if (Parent is not null)
+        if (Parent is not null &&
+            Item is not null)
         {
             Parent.FocusedIndex = Index;
-            await Parent.OnItemClickAsync(Item!);
+            await Item.OnClickAsync();
         }
     }
 

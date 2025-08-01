@@ -57,7 +57,7 @@ public partial class FluentCxFloatingButton
         .AddStyle("left", "16px", Position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.MiddleLeft, FloatingPosition.BottomLeft))
         .AddStyle("right", "16px", Position.IsOneOf(FloatingPosition.TopRight, FloatingPosition.MiddleRight, FloatingPosition.BottomRight))
         .AddStyle("position", _isFixed ? "fixed" : "absolute")
-        .AddStyle("z-index", "100000")
+        .AddStyle("z-index", "997")
         .AddStyle("width", "52px")
         .AddStyle("height", "52px")
         .AddStyle("left", "50%", Position.IsOneOf(FloatingPosition.TopCenter, FloatingPosition.MiddleCenter, FloatingPosition.BottomCenter))

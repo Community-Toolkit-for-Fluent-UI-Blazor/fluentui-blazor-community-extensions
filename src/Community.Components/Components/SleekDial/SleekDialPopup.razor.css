@@ -706,7 +706,7 @@
 
 .sleekdial-popup {
     position: absolute;
-    z-index: 100000;
+    z-index: 998;
 }
 
 .sleekdial-popup-linear-middle {

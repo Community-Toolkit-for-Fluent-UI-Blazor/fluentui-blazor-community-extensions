@@ -181,12 +181,6 @@ public partial class FluentCxSleekDial
     public EventCallback Closing { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback when the item is selected.
-    /// </summary>
-    [Parameter]
-    public EventCallback<SleekDialItem> ItemSelected { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating if the <see cref="FluentCxSleekDial"/> is modal.
     /// </summary>
     [Parameter]
@@ -330,7 +324,7 @@ public partial class FluentCxSleekDial
                 {
                     if (_isOpen && FocusedIndex != -1)
                     {
-                        await OnItemClickAsync(InternalItems[FocusedIndex]);
+                        await InternalItems[FocusedIndex].OnClickAsync();
                     }
 
                     if (OpensOnHover)
@@ -403,21 +397,6 @@ public partial class FluentCxSleekDial
     internal void AddChild(SleekDialItem value)
     {
         InternalItems.Add(value);
-    }
-
-    /// <summary>
-    /// Occurs when an item is selected.
-    /// </summary>
-    /// <param name="value">Represents the selected item.</param>
-    /// <returns>Returns a task which select the item when completed.</returns>
-    internal async Task OnItemClickAsync(SleekDialItem value)
-    {
-        if (ItemSelected.HasDelegate)
-        {
-            await ItemSelected.InvokeAsync(value);
-        }
-
-        await ShowOrHidePopupAsync(false);
     }
 
     /// <summary>

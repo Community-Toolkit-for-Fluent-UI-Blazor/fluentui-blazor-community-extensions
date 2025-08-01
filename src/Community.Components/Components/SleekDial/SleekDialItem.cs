@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -41,6 +42,12 @@ public class SleekDialItem
     public string? Title { get; set; }
 
     /// <summary>
+    /// Gets or sets the callback to raise on a click on the item.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    /// <summary>
     /// Gets the index of the item inside the <see cref="FluentCxSleekDial"/>.
     /// </summary>
     internal int Index => Parent?.InternalItems.IndexOf(this) ?? -1;
@@ -73,6 +80,14 @@ public class SleekDialItem
         if (firstRender && Parent is not null)
         {
             await Parent.OnCreatedAsync(this);
+        }
+    }
+
+    internal async Task OnClickAsync()
+    {
+        if (OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync();
         }
     }
 }

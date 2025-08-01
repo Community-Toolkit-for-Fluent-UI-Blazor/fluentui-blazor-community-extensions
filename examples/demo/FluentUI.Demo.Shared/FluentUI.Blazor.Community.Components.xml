@@ -6993,11 +6993,6 @@
             Gets or sets the callback when the popup is closing.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ItemSelected">
-            <summary>
-            Gets or sets the callback when the item is selected.
-            </summary>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.IsModal">
             <summary>
             Gets or sets a value indicating if the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/> is modal.
@@ -7091,13 +7086,6 @@
             Adds a child into the component.
             </summary>
             <param name="value">Item to add.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnItemClickAsync(FluentUI.Blazor.Community.Components.SleekDialItem)">
-            <summary>
-            Occurs when an item is selected.
-            </summary>
-            <param name="value">Represents the selected item.</param>
-            <returns>Returns a task which select the item when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.RemoveChild(FluentUI.Blazor.Community.Components.SleekDialItem)">
             <summary>
@@ -7260,6 +7248,11 @@
             Gets or sets the title of the item.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.OnClick">
+            <summary>
+            Gets or sets the callback to raise on a click on the item.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Index">
             <summary>
             Gets the index of the item inside the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
@@ -7278,11 +7271,6 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialItemView._angle">
-            <summary>
-            Represents the angle of the item.
-            </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.SleekDialItemView._renderText">
             <summary>
@@ -7321,22 +7309,27 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.UpdateAdditionalAttributes">
             <summary>
-            
+            Update the additional attributes.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.OnClickAsync">
             <summary>
             Occurs when the item is clicked.
             </summary>
-            <returns>Returns a task which invoke the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ItemSelected"/> callback when completed.</returns>
+            <returns>Returns a task which invoke the <see cref="P:FluentUI.Blazor.Community.Components.SleekDialItem.OnClick"/> callback when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.GetAngle">
             <summary>
             Gets the angle of the item.
             </summary>
-            <param name="value">Represents the parent container.</param>
-            <param name="index">Index of the item inside the container.</param>
             <returns>Returns the angle of the item in degrees.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.OnRadialSettingsChanged(System.Object,System.EventArgs)">
+            <summary>
+            Occurs when a settings changed.
+            </summary>
+            <param name="sender">Object which invokes the method.</param>
+            <param name="e">Event assoc</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItemView.OnInitialized">
             <inheritdoc/>
