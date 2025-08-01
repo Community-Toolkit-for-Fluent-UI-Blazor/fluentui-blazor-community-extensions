@@ -87,9 +87,15 @@ public partial class FluentCxFloatingButton
     [Parameter]
     public string? RelativeContainerId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when the mouse enters the button.
+    /// </summary>
     [Parameter]
     public EventCallback<MouseEventArgs> OnMouseEnter { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when a key is pressed when the button is focused.
+    /// </summary>
     [Parameter]
     public EventCallback<FluentKeyCodeEventArgs> OnKeyDown {  get; set; }
 
