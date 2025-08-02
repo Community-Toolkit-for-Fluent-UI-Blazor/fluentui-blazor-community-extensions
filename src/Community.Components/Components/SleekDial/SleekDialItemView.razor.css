@@ -1,0 +1,29 @@
+.sleekdialitem-radial {
+  position: absolute !important;
+  transform: rotate(var(--sleekdial-radial-angle)) translate(var(--sleekdial-radial-offset)) rotate(calc(-1 * var(--sleekdial-radial-angle)))
+}
+
+.sleekdialitem-text-radial {
+  position: absolute;
+  visibility: hidden
+}
+
+.sleekdialitem-radial-center {
+  left: calc(.5 * var(--sleekdial-radial-min-width) + var(--sleekdial-radial-offset));
+}
+
+.sleekdialitem-radial-middle {
+  top: calc(.5 * var(--sleekdial-radial-min-width) + var(--sleekdial-radial-offset));
+}
+
+.sleekdialitem-radial-top {
+    top: 0px;
+}
+
+.sleekdialitem-radial-right {
+  right: 0px;
+}
+
+sleekdialitem-radial-bottom {
+    bottom: 0px;
+}

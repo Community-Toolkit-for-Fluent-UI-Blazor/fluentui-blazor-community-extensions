@@ -1,0 +1,30 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Extensions
+@inherits FluentComponentBase
+
+@if(Parent is not null)
+{
+    if (Parent.Mode == SleekDialMode.Linear)
+    {
+        <FluentStack Orientation="@(Parent.Direction == SleekDialLinearDirection.Left || Parent.Direction == SleekDialLinearDirection.Right ? Orientation.Horizontal : Orientation.Vertical)"
+                     VerticalGap="6"
+                     HorizontalGap="6"
+                     Style="padding: 8px 6px"
+                     Reversed="@(Parent.Position.IsOneOf(FloatingPosition.BottomLeft, FloatingPosition.BottomCenter, FloatingPosition.BottomRight, FloatingPosition.MiddleCenter, FloatingPosition.MiddleRight))">
+            @foreach (var item in Parent.InternalItems)
+            {
+                <SleekDialItemView Item="@item"/>
+            }
+        </FluentStack>
+    }
+    else
+    {
+        <ul class="sleekdial-view-radial">
+            @foreach (var item in Parent.InternalItems)
+            {
+                <SleekDialItemView Item="@item" />
+            } 
+        </ul>
+    }
+}
+
