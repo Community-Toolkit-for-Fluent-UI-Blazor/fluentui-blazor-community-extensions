@@ -1,20 +1,26 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-@if (Item is not null)
+@if (Item is not null && Parent is not null)
 {
-    <li class="@InternalClass" style="@InternalStyle">
-        <FluentButton Appearance="Appearance.Neutral"
-                      AdditionalAttributes="@AdditionalAttributes"
-                      Disabled=@Item.Disabled
-                      Title="@Item.Title"
-                      Style="@InternalButtonStyle"
-                      OnClick="@OnClickAsync"
-                      Id="@Id"
-                      IconStart="@(Item.Icon is not null ? Item.Icon : null)"
-                      ChildContent="@(!string.IsNullOrEmpty(Item.Text) && Parent!.Mode == SleekDialMode.Linear ? _renderText : null)" />
-    </li>
-     
+    @if (Parent.ItemTemplate is not null)
+    {
+        @Parent.ItemTemplate(Item)
+    }
+    else
+    {
+        <li class="@InternalClass" style="@InternalStyle">
+            <FluentButton Appearance="Appearance.Neutral"
+                          AdditionalAttributes="@AdditionalAttributes"
+                          Disabled=@Item.Disabled
+                          Title="@Item.Title"
+                          Style="@InternalButtonStyle"
+                          OnClick="@OnClickAsync"
+                          Id="@Id"
+                          IconStart="@(Item.Icon is not null ? Item.Icon : null)"
+                          ChildContent="@(!string.IsNullOrEmpty(Item.Text) && Parent!.Mode == SleekDialMode.Linear ? _renderText : null)" />
+         </li>
+    }
 }
 
 @code {
