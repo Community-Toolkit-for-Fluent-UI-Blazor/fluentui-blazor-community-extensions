@@ -5339,6 +5339,16 @@
             Gets or sets the identifier of the relative container the current button belongs to.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFloatingButton.OnMouseEnter">
+            <summary>
+            Gets or sets the callback when the mouse enters the button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFloatingButton.OnKeyDown">
+            <summary>
+            Gets or sets the callback when a key is pressed when the button is focused.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxFloatingButton.JSRuntime">
             <summary>
             Gets or sets the javascript runtime to use.
@@ -7271,6 +7281,11 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialItemView">
+            <summary>
+            Reprensents the renderer of a <see cref="T:FluentUI.Blazor.Community.Components.SleekDialItem"/>.
+            </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.SleekDialItemView._renderText">
             <summary>

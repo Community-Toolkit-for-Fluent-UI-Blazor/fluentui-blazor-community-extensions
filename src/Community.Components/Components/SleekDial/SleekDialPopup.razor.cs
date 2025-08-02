@@ -786,6 +786,6 @@ public partial class SleekDialPopup
         _yOffset = rectangle.Y;
         _width = rectangle.Width;
         _height = rectangle.Height;
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 }

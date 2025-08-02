@@ -1,11 +1,13 @@
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Reprensents the renderer of a <see cref="SleekDialItem"/>.
+/// </summary>
 public partial class SleekDialItemView
     : FluentComponentBase, IDisposable
 {

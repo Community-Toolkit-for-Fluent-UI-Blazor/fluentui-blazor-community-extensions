@@ -7,5 +7,5 @@ public partial class SleekDialView
     : FluentComponentBase
 {
     [CascadingParameter]
-    private FluentCxSleekDial Parent { get; set; } = default!;
+    internal FluentCxSleekDial Parent { get; set; } = default!;
 }
