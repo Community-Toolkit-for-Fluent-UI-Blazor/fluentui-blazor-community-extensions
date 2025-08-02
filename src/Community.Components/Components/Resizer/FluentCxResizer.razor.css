@@ -30,3 +30,9 @@
 .fluentcx-resizer-handler-cursor-nwse {
     cursor: nwse-resize;
 }
+
+::deep fluent-button {
+  min-height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
+  height: 100%;
+  width: 100%;
+}
