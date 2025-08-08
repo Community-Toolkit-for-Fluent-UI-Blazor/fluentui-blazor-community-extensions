@@ -31,6 +31,9 @@ public partial class FluentCxMediaQuery
     /// </summary>
     private bool _disposeQueryModule;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FluentCxMediaQuery"/> class.
+    /// </summary>
     public FluentCxMediaQuery()
     {
         Id = Identifier.NewId();
@@ -111,7 +114,7 @@ public partial class FluentCxMediaQuery
     {
         await base.SetParametersAsync(parameters);
 
-        if (parameters.HasValueChanged(nameof(Query), Query) && _hasRender)
+        if (parameters.HasValueChanged(nameof(Query), Query, StringComparison.CurrentCulture) && _hasRender)
         {
             _disposeQueryModule = true;
         }
