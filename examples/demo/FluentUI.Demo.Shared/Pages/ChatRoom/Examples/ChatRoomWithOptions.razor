@@ -1,0 +1,62 @@
+﻿<div style="height: 400px">
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentStack>
+            <FluentSwitch Label="CanBlock" @bind-Value=_canBlock />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="CanDelete" @bind-Value=_canDelete />
+            <FluentSpacer Width="10"/>
+            <FluentSwitch Label="CanRename" @bind-Value=_canRename />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="CanRename" @bind-Value=_canHide />
+        </FluentStack>
+
+        <ChatRoomListView Owner=@_user0
+                          ItemsProvider="@GetRoomsAsync"
+                          CanBlock=@_canBlock
+                          CanDelete=@_canDelete
+                          CanRename=@_canRename
+                          CanHide=@_canHide/>
+    </FluentStack>
+    
+</div>
+
+@code {
+    private static readonly Random rnd = new();
+    private bool _canBlock;
+    private bool _canDelete;
+    private bool _canRename;
+    private bool _canHide;
+
+    private readonly ChatUser _user0 = new()
+    {
+        Id = 1,
+        Initials = "J J",
+        DisplayName = "Jérémy JANISZEWSKI",
+        CultureId = 1,
+        CultureName = "fr-FR",
+    };
+
+    private readonly ChatUser _user1 = new()
+    {
+        Id = 2,
+        Initials = "M K",
+        DisplayName = "Marvin KLEIN",
+        CultureId = 2,
+        CultureName = "en-US",
+    };
+
+    private async ValueTask<IEnumerable<ChatRoom>> GetRoomsAsync(ChatRoomItemsRequest request, CancellationToken cancellationToken = default)
+    {
+        return [
+            new ChatRoom
+            {
+                CreatedDate = DateTime.Now,
+                Id = 1,
+                IsEmpty = true,
+                Name = "Room 1",
+                Users = [_user0, _user1],
+                Owner = _user0
+            }
+        ];
+    }
+}

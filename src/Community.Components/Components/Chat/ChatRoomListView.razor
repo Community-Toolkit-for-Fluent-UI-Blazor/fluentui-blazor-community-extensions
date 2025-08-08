@@ -1,0 +1,345 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentStack Style="height: 100%" Id=@Id Orientation="Orientation.Vertical" VerticalGap="10">
+    @if (!ChatState.IsLoading)
+    {
+        @if (_listView == ListView.Normal)
+        {
+            @if (IsSearchEnabled && RoomSearchFunction is not null)
+            {
+                <FluentStack Orientation="Orientation.Horizontal"
+                             HorizontalAlignment="HorizontalAlignment.Center">
+                    <div style="width:100%; margin-top: 15px; margin-bottom: 15px">
+                        <FluentAutocomplete Placeholder="@ChatRoomLabels.SearchPlaceholder"
+                                            TOption="ChatRoom"
+                                            AutoComplete="off"
+                                            OptionStyle="min-height: 50px"
+                                            OptionText="@(e => e.Name)"
+                                            MaximumOptionsSearch="10"
+                                            OnOptionsSearch=OnChatRoomSearchAsync
+                                            MaximumSelectedOptions="10"
+                                            @bind-SelectedOptions="@_selectedRooms">
+                            <LabelTemplate>
+                                <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Person())" Style="margin: 0 4px;" />
+                                @ChatRoomLabels.SearchLabel
+                            </LabelTemplate>
+
+                            <MaximumSelectedOptionsMessage>
+                                @ChatRoomLabels.MaximumSelectedOptionsMessageLabel
+                            </MaximumSelectedOptionsMessage>
+
+                            <HeaderContent>
+                                <FluentLabel Color="Color.Accent"
+                                             Style="padding: 8px; font-size: 11px; border-bottom: 1px solid var(--neutral-fill-stealth-hover);">
+                                    @ChatRoomLabels.SuggestedRooms
+                                </FluentLabel>
+                            </HeaderContent>
+
+                            <FooterContent>
+                                @if (!context.Any())
+                                {
+                                    <FluentLabel Style="font-size: 11px; text-align: center; width: 200px;">
+                                        @ChatRoomLabels.NoResultsFound
+                                    </FluentLabel>
+                                }
+                            </FooterContent>
+                        </FluentAutocomplete>
+                    </div>
+                </FluentStack>
+            }
+
+            <FluentListbox TOption=ChatRoom
+                           Multiple=false
+                           Width="100%"
+                           @bind-Value="@_selectedRoom"
+                           @bind-Value:after="OnSelectedChatRoomChangedAsync">
+                @if (_selectedRooms is null || !_selectedRooms.Any())
+                {
+                    @foreach (var item in _chatRooms)
+                    {
+                        @_renderOptionItem(item)
+                    }
+                }
+                else
+                {
+                    @foreach (var item in _selectedRooms)
+                    {
+                        @_renderOptionItem(item)
+                    }
+                }
+            </FluentListbox>
+        }
+        else if (_listView == ListView.Blocked)
+        {
+            <FluentListbox TOption=ChatRoom
+                           Multiple=false
+                           Width="100%"
+                           @bind-Value="@_selectedRoom"
+                           @bind-Value:after="OnSelectedChatRoomChangedAsync">
+                @foreach (var item in _blockedRooms)
+                {
+                    @_renderOptionItem(item)
+                }
+            </FluentListbox>
+        }
+        else if(_listView == ListView.Hidden)
+        {
+            <FluentListbox TOption=ChatRoom
+                           Multiple=false
+                           Width="100%"
+                           @bind-Value="@_selectedRoom"
+                           @bind-Value:after="OnSelectedChatRoomChangedAsync">
+                @foreach (var item in _hiddenRooms)
+                {
+                    @_renderOptionItem(item)
+                }
+            </FluentListbox>
+        }
+
+        @if (!string.IsNullOrEmpty(_anchorId))
+        {
+            <FluentPopover VerticalThreshold="170"
+                           @bind-Open=_showPopoverMenu
+                           AnchorId="@_anchorId">
+                <Body>
+                    @if(_listView == ListView.Normal)
+                    {
+                        <FluentStack Orientation="Orientation.Vertical">
+                            @if (CanRename)
+                            {
+                                <FluentButton OnClick="@OnRenameAsync"
+                                              Style="width: 100px;"
+                                              Appearance="Appearance.Stealth"
+                                              IconStart="@(new Regular.Size24.Edit())">
+                                    @ChatRoomLabels.Rename
+                                </FluentButton>
+                            }
+
+                            @if (CanBlock)
+                            {
+                                <FluentButton OnClick="@OnBlockAsync"
+                                              Appearance="Appearance.Stealth"
+                                              Style="width: 100px;"
+                                              IconStart="@(new Regular.Size24.PresenceBlocked())">
+                                    @ChatRoomLabels.Block
+                                </FluentButton>
+                            }
+
+                            @if (CanHide)
+                            {
+                                <FluentButton OnClick="@OnHideAsync"
+                                              Style="width: 100px;"
+                                              Appearance="Appearance.Stealth"
+                                              IconStart="@(new Regular.Size24.EyeOff())">
+                                    @ChatRoomLabels.Hide
+                                </FluentButton>
+                            }
+
+                            @if (CanDelete)
+                            {
+                                <FluentButton OnClick="@OnDeleteAsync"
+                                              Appearance="Appearance.Stealth"
+                                              Style="width: 100px;"
+                                              IconStart="@(new Regular.Size24.Delete())">
+                                    @ChatRoomLabels.Delete
+                                </FluentButton>
+                            }                      
+                        </FluentStack>
+                    }
+                    else if (_listView == ListView.Blocked)
+                    {
+                        <FluentStack Orientation="Orientation.Vertical">
+                            @if (CanUnblock)
+                            {
+                                <FluentButton OnClick="@OnUnblockAsync"
+                                              Appearance="Appearance.Stealth"
+                                              Style="width: 100px;"
+                                              IconStart="@(new Regular.Size24.PresenceAvailable())">
+                                    @ChatRoomLabels.Unblock
+                                </FluentButton>
+                            }
+
+                            @if (CanHide)
+                            {
+                                <FluentButton OnClick="@OnHideAsync"
+                                              Appearance="Appearance.Stealth"
+                                              Style="width: 100px;"
+                                              IconStart="@(new Regular.Size24.Eye())">
+                                    @ChatRoomLabels.Hide
+                                </FluentButton>
+                            }
+
+                            @if (CanDelete)
+                            {
+                                <FluentButton OnClick="@OnDeleteAsync"
+                                              Appearance="Appearance.Stealth"
+                                              Style="width: 100px;"
+                                              IconStart="@(new Regular.Size24.Delete())">
+                                    @ChatRoomLabels.Delete
+                                </FluentButton>
+                            }
+                        </FluentStack>
+                    }
+                    else if (_listView == ListView.Hidden)
+                    {
+                        <FluentStack Orientation="Orientation.Vertical">
+                            @if (CanUnhide)
+                            {
+                                <FluentButton OnClick="@OnUnhideAsync"
+                                              Appearance="Appearance.Stealth"
+                                              Style="width: 100px;"
+                                              IconStart="@(new Regular.Size24.Eye())">
+                                    @ChatRoomLabels.Unhide
+                                </FluentButton>
+                            }
+
+                            @if (CanBlock)
+                            {
+                                <FluentButton OnClick="@OnBlockAsync"
+                                              Appearance="Appearance.Stealth"
+                                              Style="width: 100px;"
+                                              IconStart="@(new Regular.Size24.PresenceBlocked())">
+                                    @ChatRoomLabels.Block
+                                </FluentButton>
+                            }
+
+                            @if (CanDelete)
+                            {
+                                <FluentButton OnClick="@OnDeleteAsync"
+                                              Appearance="Appearance.Stealth"
+                                              Style="width: 100px;"
+                                              IconStart="@(new Regular.Size24.Delete())">
+                                    @ChatRoomLabels.Delete
+                                </FluentButton>
+                            }
+                        </FluentStack>
+                    }             
+                </Body>
+            </FluentPopover>
+        }
+
+        @*
+            <FluentCxSleekDial Position=FloatingPosition.BottomLeft Mode=SleekDialMode.Radial>
+                @if (IsNewGroupChatEnabled)
+                {
+                    <SleekDialItem Title="@ChatRoomLabels.NewGroup"
+                                   Icon=@(new Regular.Size24.DocumentEdit())
+                                   OnClick=@OnNewChatGroupAsync />
+                }
+
+                @if (CanUnblock)
+                {
+                    <SleekDialItem Title="@ChatRoomLabels.ShowBlockedRooms"
+                                   Icon=@(new Regular.Size24.PresenceBlocked())
+                                   OnClick=@OnUnblockRoomsAsync
+                }
+
+                @if (ShowDeletedRoom)
+                {
+                    <SleekDialItem Title="@ChatRoomLabels.ShowDeletedRooms"
+                                   Icon=@(new Regular.Size24.Delete())
+                                   OnClick=@OnShowDeletedRooms
+                }
+            </FluentCxSleekDial>
+
+        *@
+    }
+    else
+    {
+        if (LoadingContent is not null)
+        {
+            @LoadingContent
+        }
+        else
+        {
+            <FluentStack Orientation="Orientation.Vertical"
+                         HorizontalAlignment="HorizontalAlignment.Center"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         Style="height: 100%">
+                <FluentProgress Width="340px" />
+                <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                    @ChatRoomLabels.ProgressLabel
+                </FluentLabel>
+            </FluentStack>
+        }
+    }
+</FluentStack>
+
+@code {
+    public ChatRoomListView()
+    {
+        Id = Identifier.NewId();
+
+        _renderOptionItem = item => __builder =>
+        {
+            if (ItemTemplate is not null)
+            {
+                ItemTemplate(item);
+            }
+            else
+            {
+                <FluentOption Selected="@(item.Id.ToString() == _selectedRoom)"
+                              TOption="ChatRoom"
+                              Disabled=@(item.IsBlocked && Owner == item.Owner)
+                              Value="@item.Id.ToString()"
+                              Style="height: 120px;">
+                    <FluentStack Orientation="Orientation.Horizontal"
+                                 VerticalAlignment=VerticalAlignment.Center
+                                 HorizontalAlignment="HorizontalAlignment.Stretch">
+                        <FluentStack Orientation="Orientation.Horizontal"
+                                     HorizontalAlignment="HorizontalAlignment.Center"
+                                     Style="width: fit-content">
+                            @* Replace with AvatarGroup when available *@
+                            @foreach (var user in item.Users.Take(4))
+                            {
+                                <FluentPersona ImageSize="35px"
+                                               Image="@user.Avatar"
+                                               Initials="@user.Initials"
+                                               StatusSize="PresenceBadgeSize.ExtraSmall" />
+                            }
+                        </FluentStack>
+
+                        <FluentStack Orientation="Orientation.Vertical">
+                            <FluentLabel>@item.Name</FluentLabel>
+
+                            <div style="height:100%">
+                                @if (Owner is not null)
+                                {
+                                    if (item.UnreadMessagesForUserId.TryGetValue(Owner.Id, out var m) && m >= 1)
+                                    {
+                                        @((MarkupString)(item.UnreadMessagesForUserId[Owner.Id] == 1 ? string.Format(ChatRoomLabels.UnreadSingular, item.UnreadMessagesForUserId[Owner.Id]) : string.Format(ChatRoomLabels.UnreadPlural, item.UnreadMessagesForUserId[Owner.Id])))
+                                    }
+                                    else if (item.IsEmpty)
+                                    {
+                                        @((MarkupString)ChatRoomLabels.EmptyRoomMessage)
+                                    }
+                                    else if (item.LastMessage is not null)
+                                    {
+                                        <div class="markup-ellipsis" style="max-height: 48px">
+                                            <b>@(Format(item.LastMessage))</b>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                            <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
+                                <FluentLabel Style="color: var(--input-placeholder-rest); font-size: 9px;">
+                                    @(item.LastMessage?.CreatedDate.ToShortDateString() ?? item.CreatedDate.ToShortDateString())
+                                </FluentLabel>
+                            </FluentStack>
+                        </FluentStack>
+
+                        @if (CanDelete || CanBlock || CanRename || CanUnblock || CanUnhide)
+                        {
+                            <FluentButton OnClick="@(() => OnMoreButtonClick($"button-{Id}-{item.Id}"))"
+                                          Id="@($"button-{Id}-{item.Id}")"
+                                          Disabled=@(item.IsBlocked)
+                                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.MoreVertical())" />
+                        }
+                    </FluentStack>
+                </FluentOption>
+            }
+        };
+    }
+}

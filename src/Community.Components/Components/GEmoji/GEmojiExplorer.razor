@@ -1,0 +1,79 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentCard Height="@(string.IsNullOrEmpty(MaxHeight) ? "100%" : MaxHeight)" MinimalStyle>
+    <FluentStack Orientation="Orientation.Vertical"
+                 Style="height: 100%"
+                 VerticalGap="2">
+        @if (_isSearchSelected)
+        {
+            <FluentSearch @bind-Value=_value
+                          AriaLabel="Search"
+                          Label=@Labels.SearchLabel
+                          @bind-Value:after=HandleSearchInputAsync
+                          Placeholder="@Labels.SearchPlaceholder"
+                          Immediate
+                          Minlength="3"
+                          Style="margin-bottom: 10px; width: 100%" />
+        }
+
+        <div style="overflow-y: auto; height:100%">
+            <FluentStack Style="height: 100%"
+                         Orientation="Orientation.Vertical"
+                         VerticalGap="0">
+                <div style="display: flex; flex-wrap: wrap">
+                    <Virtualize TItem="GEmojiSharp.GEmoji"
+                                ItemSize="44"
+                                OverscanCount="50"
+                                MaxItemCount=200
+                                ItemsProvider="@(_selectedItems.Count == 0 ? GetItemsAsync : null)"
+                                Items="@(_selectedItems.Count > 0 ? _selectedItems : null)"
+                                @ref=_virtualizeList>
+                        @_renderEmoji(context)
+                    </Virtualize>
+                </div>
+            </FluentStack>
+        </div>
+
+        <FluentToolbar Orientation="Orientation.Horizontal">
+            <FluentButton OnClick="@OnSearchVisible"
+                          Appearance="@(_isSearchSelected ? Appearance.Accent : Appearance.Stealth)">
+                <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Search().WithColor(Color.FillInverse))" />
+            </FluentButton>
+
+            @foreach (var item in _categories)
+            {
+                <FluentButton Id="@item.ToString()"
+                              Style="margin: 2px"
+                              Appearance=@(_selectedGroup == item ? Appearance.Accent : Appearance.Stealth)
+                              OnClick=@(() => OnLoadItemsAsync(item))>
+                    <FluentEmoji Value="@GetEmoji(item)" />
+                </FluentButton>
+            }
+        </FluentToolbar>
+    </FluentStack>
+
+</FluentCard>
+
+@code {
+    public GEmojiExplorer()
+    {
+        foreach (var item in GEmojiSharp.Emoji.All.Where(x => !string.IsNullOrEmpty(x.Category)).GroupBy(x => x.Category))
+        {
+            _emojiByCategory.TryAdd(item.Key!, [.. item]);
+        }
+
+        _renderEmoji = c => __builder =>
+        {
+            <FluentCard @onclick="() => OnEmojiSelectedAsync(c.Raw)"
+                        Style="cursor: pointer; margin-right: 3px; margin-bottom: 3px; --card-width: 44px; --card-height: 44px; font-size: 32px; padding: 0px;" 
+                        MinimalStyle>
+                <FluentStack VerticalAlignment = "VerticalAlignment.Center"
+                             HorizontalAlignment = "HorizontalAlignment.Center"
+                             Style = "height: 100%;" >
+                    @((MarkupString)c.Markup())
+                </FluentStack>
+            </FluentCard>
+        };
+    }
+}

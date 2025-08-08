@@ -1,0 +1,47 @@
+﻿@page "/chatroom"
+@using FluentUI.Demo.Shared.Pages.ChatRoom.Examples
+
+<h1>ChatRoom</h1>
+
+<p>
+    The ChatRoom component shows all rooms opened which are not blocked or deleted by user.
+    A chat room is defined by :
+
+    <ul>
+        <li>A number of users inside the room</li>
+        <li>Some actions to manage the room (rename the room, block the room or delete the room)</li>
+        <li>The capabality to create a room and selecting the number of users inside it</li>
+        <li>The capability to show the blocked rooms or the deleted rooms</li>
+        <li>The capability to delete a room definitely</li>
+        <li>The capablity to unblock a room</li>
+        <li>The capability to undelete a room (if it is not definitely deleted)</li>
+    </ul>
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(ChatRoomDefault)" Title="Default" />
+<DemoSection Component="typeof(ChatRoomWithOptions)" Title="With Options">
+    <Description>
+        Some options can be activated : Block, Delete and Rename. If one of theses options is activated, an overflow button is shown and
+        you can select your desired options
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(ChatRoomBlock)" Title="Block a room">
+    <Description>
+        This sample shows the default way to block a room.
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(ChatRoomUnblock)" Title="Unblock a room">
+    <Description>
+        This sample shows how to unblock a room.
+    </Description>
+</DemoSection>
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(ChatRoomListView)" />
+<ApiDocumentation Component="typeof(ChatState)" />
+<ApiDocumentation Component="typeof(ChatRoomLabels)" />

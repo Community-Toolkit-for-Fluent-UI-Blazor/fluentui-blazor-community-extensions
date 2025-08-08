@@ -1,0 +1,106 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<CloudFileUploaderContent>
+@typeparam TItem where TItem : class, new()
+
+<FluentDialogHeader>
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Regular.Size24.Cloud())" />
+
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogBody>
+    <FluentCxFileManager TItem="TItem"
+                         FileStructureView="FileStructureView.Flat"
+                         ShowCreateFolderButton=false
+                         ShowPropertiesButton=false
+                         ShowSortButton=false
+                         ShowViewButton=false
+                         ShowUploadButton=false
+                         @ref=_fileManager
+                         ColumnLabels="@Content.ColumnLabels"
+                         DetailsLabels="@Content.DetailsLabels"
+                         Root=@_root
+                         View=Content.View
+                         FileExtensionTypeLabels="@Content.FileExtensionTypeLabels"
+                         FileManagerLabels="@Content.FileManagerLabels" />
+</FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@OnCloseAsync">
+        @Dialog.Instance.Parameters.PrimaryAction
+    </FluentButton>
+
+    <FluentButton Appearance="Appearance.Neutral" OnClick="@OnCancelAsync">
+        @Dialog.Instance.Parameters.SecondaryAction
+    </FluentButton>
+</FluentDialogFooter>
+
+@code {
+    /// <summary>
+    /// Represents the file manager.
+    /// </summary>
+    private FluentCxFileManager<TItem>? _fileManager;
+
+    /// <summary>
+    /// Represents the root of the files.
+    /// </summary>
+    private FileManagerEntry<TItem>? _root;
+
+    /// <summary>
+    /// Gets or sets the dialog reference.
+    /// </summary>
+    [CascadingParameter]
+    private FluentDialog Dialog { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the content of the dialog.
+    /// </summary>
+    [Parameter]
+    public CloudFileUploaderContent Content { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the items provider.
+    /// </summary>
+    [Inject]
+    private IFileManagerItemsProvider<TItem>? ItemsProvider { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (ItemsProvider is not null)
+        {
+            _root = await ItemsProvider.GetItemsAsync();
+        }
+    }
+
+    /// <summary>
+    /// Closes the dialog with the selected files as result.
+    /// </summary>
+    /// <returns>Returns a task which closes the dialog with the selected files as result.</returns>
+    private async Task OnCloseAsync()
+    {
+        List<CloudDriveFileSelectedEventArgs> e = [];
+
+        foreach (var item in _fileManager!.SelectedItems)
+        {
+            e.Add(new(item.Id, item.Name, item.ContentType, item.GetBytesAsync));
+        }
+
+        await Dialog.CloseAsync(e);
+    }
+
+    /// <summary>
+    /// Closes the dialog with a cancel result.
+    /// </summary>
+    /// <returns>Returns a task which closes the dialog with a cancel result.</returns>
+    private async Task OnCancelAsync()
+    {
+        await Dialog.CancelAsync();
+    }
+}

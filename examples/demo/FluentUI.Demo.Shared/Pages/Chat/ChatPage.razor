@@ -1,0 +1,42 @@
+﻿@page "/chat"
+@using FluentUI.Demo.Shared.Pages.Chat.Examples
+
+<h1>Chat</h1>
+
+<p>
+    The Chat component allows the user to chat with one or many other users.
+    In a chat room, a user can :
+
+    <ul>
+        <li>Write a message</li>
+        <li>Send documents (audio, video, photo, pdf, doc, docx...)</li>
+        <li>Send gift (the user needs to create this part)</li>
+        <li>Navigate into views (chat, audio documents, pinned messages...)</li>
+        <li>Delete a message</li>
+        <li>Edit a message</li>
+        <li>Reply to the message</li>
+    </ul>
+
+    By default, a SignalRMessageService is provided. For the purpose of the demo, a specific MessageService was build to show how to
+    implements your own IMessageService if you don't want to use SignalR.
+
+    These parts can be customized by using the <code>ChatRoomListView</code> components.
+
+    <ul>
+        <li>LoadingContent</li>
+        <li>MessageTemplate</li>
+    </ul>
+
+    The TItem parameter is used by the FluentCxFileManager.
+
+    A default emoji picker is provided, but you can use your own by using the <code>EmojiView</code> parameter.
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(ChatDefault)" Title="Default" />
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(ChatMessageListView<>)" InstanceTypes="[typeof(NoFileEntryData)]" />
+

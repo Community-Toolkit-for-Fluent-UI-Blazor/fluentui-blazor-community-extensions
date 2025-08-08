@@ -1,0 +1,204 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using Microsoft.AspNetCore.StaticFiles
+@implements IDialogContentComponent<FileUploaderContent>
+
+<FluentDialogHeader>
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Regular.Size24.HardDrive())" />
+
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogBody>
+    <FluentInputFile Id="@_id"
+                     Mode=InputFileMode.Buffer
+                     MaximumFileCount=@_maximumFileCount
+                     MaximumFileSize=@(1024 * 1024 * 100)
+                     Multiple
+                     
+                     OnProgressChange="@OnProgressChangedAsync"
+                     OnFileUploaded=OnFileUploadedAsync
+                     Accept="@(AcceptFileProvider.Get(_acceptFiles))"
+                     Style="height: 300px"
+                     ProgressTemplate="@_progressTemplate">
+        <ChildContent>
+            <label for="@_id">
+                <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.ArrowUpload())" />
+            </label>
+
+            <div>
+                @((MarkupString)string.Format(Content.DragDropFileLabel, _id, _maximumFileCount))
+            </div>
+        </ChildContent>
+    </FluentInputFile>
+
+    <div style="height: 140px; overflow-y: auto">
+
+    @foreach(var item in _hardUploadedEventArgsList)
+    {
+        <FluentCard Height="75px" Style="margin-bottom: 2px; margin-top: 2px">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentIcon Value="@(new FileIcons.Size32.DefaultFileIcon())" />
+
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentLabel>@item.Name</FluentLabel>
+                    <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">@ByteSize.FromBytes(item.Data.Length).ToString()</FluentLabel>
+                </FluentStack>
+                
+                <FluentButton OnClick="@(() => _hardUploadedEventArgsList.Remove(item))"
+                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Delete())" />
+            </FluentStack>
+        </FluentCard>
+    }
+    </div>
+</FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@OnCloseAsync">
+        @Dialog.Instance.Parameters.PrimaryAction
+    </FluentButton>
+
+    <FluentButton Appearance="Appearance.Neutral" OnClick="@OnCancelAsync">
+        @Dialog.Instance.Parameters.SecondaryAction
+    </FluentButton>
+</FluentDialogFooter>
+
+@code {
+    /// <summary>
+    /// Represents a file in memory.
+    /// </summary>
+    /// <param name="Name">Name of the file.</param>
+    /// <param name="Stream">Stream containing the data of the file.</param>
+    private record FileMemory(string Name, MemoryStream Stream)
+    { }
+
+    /// <summary>
+    /// Represents a unique identifier.
+    /// </summary>
+    private readonly string _id = Identifier.NewId();
+
+    /// <summary>
+    /// Accepted files by default.
+    /// </summary>
+    private readonly AcceptFile _acceptFiles = AcceptFile.Audio | AcceptFile.Image | AcceptFile.Video | AcceptFile.Document;
+
+    /// <summary>
+    /// Number of file the user can upload at one time.
+    /// </summary>
+    private readonly int _maximumFileCount = 100;
+
+    /// <summary>
+    /// Template to report a progress.
+    /// </summary>
+    private readonly RenderFragment<ProgressFileDetails> _progressTemplate;
+
+    /// <summary>
+    /// Dictionary containing all files uploaded.
+    /// </summary>
+    private readonly Dictionary<int, FileMemory> _streams = [];
+
+    /// <summary>
+    /// List of all events args containing the uploaded files.
+    /// </summary>
+    private List<HardDriveFileSelectedEventArgs> _hardUploadedEventArgsList = new();
+
+    /// <summary>
+    /// Represents the provider for the content type.
+    /// </summary>
+    private FileExtensionContentTypeProvider _extensionContentTypeProvider = new();
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FileUploaderDialog" /> class.
+    /// </summary>
+    public FileUploaderDialog()
+    {
+        _progressTemplate = file => __builder =>
+        {
+            if (file.Percentage > 0)
+            {
+                <FluentProgress Min="0" Max="100" Value="@file.Percentage" />
+                <br />
+
+                @if (file.Percentage < 100)
+                {
+                    @string.Format(Content.Progression, file.Index + 1, file.Name);
+                }
+                else
+                {
+                    @Content.Completed
+                }
+            }
+        };
+    }
+
+    /// <summary>
+    /// Gets or sets the dialog reference.
+    /// </summary>
+    [CascadingParameter]
+    private FluentDialog Dialog { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the content of the dialog.
+    /// </summary>
+    [Parameter]
+    public FileUploaderContent Content { get; set; } = default!;
+
+    /// <summary>
+    /// Occurs when the progression of the uploaded file changed.
+    /// </summary>
+    /// <param name="e">Event args of the file.</param>
+    /// <returns>Returns a task which store the progression of the upload when completed.</returns>
+    private async Task OnProgressChangedAsync(FluentInputFileEventArgs e)
+    {
+        if (!_streams.ContainsKey(e.Index))
+        {
+            _streams.Add(e.Index, new(e.Name, new MemoryStream()));
+        }
+
+        await _streams[e.Index].Stream.WriteAsync(e.Buffer.Data, 0, e.Buffer.BytesRead);
+    }
+
+    /// <summary>
+    /// Occurs when a file is uploaded.
+    /// </summary>
+    /// <param name="e">Event args of the file.</param>
+    /// <returns>Returns a task which creates a <see cref="HardDriveFileSelectedEventArgs" /> when completed.</returns>
+    private async Task OnFileUploadedAsync(FluentInputFileEventArgs e)
+    {
+        if (_streams.TryGetValue(e.Index, out var ms) && 
+            _extensionContentTypeProvider.TryGetContentType(e.Name, out string? ct))
+        {
+            _hardUploadedEventArgsList.Add(new(ms.Name, ct, ms.Stream.ToArray()));
+            await ms.Stream.DisposeAsync();
+            _streams.Remove(e.Index);
+        }
+    }
+
+    /// <summary>
+    /// Closes the dialog with the selected files as result.
+    /// </summary>
+    /// <returns>Returns a task which closes the dialog with the selected files as result.</returns>
+    private async Task OnCloseAsync()
+    {
+        await Dialog.CloseAsync(_hardUploadedEventArgsList);
+    }
+
+    /// <summary>
+    /// Closes the dialog and cancel all selected files.
+    /// </summary>
+    /// <returns>Returns a task which closes the dialog with a cancel result.</returns>
+    private async Task OnCancelAsync()
+    {
+        foreach (var item in _streams)
+        {
+            await item.Value.Stream.DisposeAsync();
+        }
+
+        _streams.Clear();
+
+        await Dialog.CancelAsync();
+    }
+}

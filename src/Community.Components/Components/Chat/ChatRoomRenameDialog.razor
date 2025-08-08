@@ -1,0 +1,40 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<ChatRoomContent>
+
+<FluentDialogHeader>
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Regular.Size24.Rename())" />
+
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@OnCloseAsync">
+        @Dialog.Instance.Parameters.PrimaryAction
+    </FluentButton>
+
+    <FluentButton Appearance="Appearance.Neutral" OnClick="@OnCancelAsync">
+        @Dialog.Instance.Parameters.SecondaryAction
+    </FluentButton>
+</FluentDialogFooter>
+
+<FluentDialogBody>
+    <FluentEditForm Model="Content">
+        <Microsoft.AspNetCore.Components.Forms.DataAnnotationsValidator />
+
+        <FluentTextField AriaLabel="@Content.Label"
+                         Label="@Content.Label"
+                         Style="width: 100%"
+                         Name="Name"
+                         Autofocus
+                         Required
+                         Placeholder="@Content.Placeholder"
+                         @bind-Value="@Content.Name" />
+
+        <FluentValidationMessage For="@(() => Content.Name)" />
+    </FluentEditForm>
+
+</FluentDialogBody>

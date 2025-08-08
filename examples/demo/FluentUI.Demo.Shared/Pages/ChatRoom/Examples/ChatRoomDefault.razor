@@ -1,0 +1,81 @@
+﻿<div style="height: 400px">
+    <ChatRoomListView Owner=@_user0 ItemsProvider="@GetRoomsAsync" />
+</div>
+
+@code {
+    private static readonly Random rnd = new();
+
+    private readonly ChatUser _user0 = new()
+    {
+        Id = 1,
+        Initials = "J J",
+        DisplayName = "Jérémy JANISZEWSKI",
+        CultureId = 1,
+        CultureName = "fr-FR",
+    };
+
+    private readonly ChatUser _user1 = new()
+    {
+        Id = 2,
+        Initials = "M K",
+        DisplayName = "Marvin KLEIN",
+        CultureId = 2,
+        CultureName = "en-US",
+    };
+
+    private readonly ChatUser _user2 = new()
+    {
+        Id = 3,
+        Initials = "P W",
+        DisplayName = "Pascal VORWERK",
+        CultureId = 2,
+        CultureName = "en-US",
+    };
+
+    private static Dictionary<long, uint> CreateUnreadMessageCount(long id)
+    {
+        return new Dictionary<long, uint>()
+            {
+                [id] = (uint)rnd.Next(1, 100)
+            };
+    }
+
+    private async ValueTask<IEnumerable<ChatRoom>> GetRoomsAsync(ChatRoomItemsRequest request, CancellationToken cancellationToken = default)
+    {
+        // Simulates a long process.
+        await Task.Delay(2000);
+
+        return [
+            new ChatRoom
+            {
+                CreatedDate = DateTime.Now,
+                Id = 1,
+                IsEmpty = true,
+                Name = "Room 1",
+                Users = [_user0, _user1],
+                Owner = _user0,
+                UnreadMessagesForUserId = CreateUnreadMessageCount(_user0.Id)
+            },
+
+            new ChatRoom
+            {
+                CreatedDate = DateTime.Now,
+                Id = 2,
+                IsEmpty = true,
+                Name = "Room 2",
+                Users = [_user1, _user2],
+                Owner = _user1
+            },
+
+            new ChatRoom
+            {
+                CreatedDate = DateTime.Now,
+                Id = 3,
+                IsEmpty = true,
+                Name = "Room 3",
+                Users = [_user0, _user2],
+                Owner = _user2
+            }
+        ];
+    }
+}

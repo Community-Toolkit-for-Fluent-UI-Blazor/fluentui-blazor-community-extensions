@@ -118,6 +118,7 @@ public class CodeCommentsGenerator : IIncrementalGenerator
                     .Replace(Environment.NewLine + "</summary>", "")
                     .Replace(Environment.NewLine, "<br />")
                     .Replace("\"", "'")
+                    .Replace("\\", "'\\'")
                     .Replace("FluentUI.Blazor.Community.Components.", "")
                     .Replace("FluentDataGrid`1.", "")
                     .Replace("System.Linq.", "")

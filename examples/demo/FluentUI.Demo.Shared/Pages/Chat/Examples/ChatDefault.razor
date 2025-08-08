@@ -1,0 +1,16 @@
+﻿<div style="height: 600px">
+    <ChatMessageListView TItem="NoFileEntryData"
+                         HubName="chats"
+                         Owner="_owner" />
+</div>
+
+@code {
+    private ChatUser _owner = new()
+        {
+            CultureId = 1,
+            CultureName = "en-US",
+            DisplayName = "John Doe",
+            Initials = "JD",
+            Id = 1,
+        };
+}

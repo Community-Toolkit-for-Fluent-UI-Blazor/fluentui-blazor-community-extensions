@@ -1,0 +1,42 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<ChatMessageListLabels>
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentButton Style="border-radius: 20px; width: 100%"
+                      OnClick="@(() => OnCloseAsync(ChatMediaImporterDialogResult.Cloud))"
+                      IconStart="@(new IconsFilled.Size20.Cloud())">
+            @Content.SelectFromCloudDriveLabel
+        </FluentButton>
+
+        <FluentButton Style="border-radius: 20px; width: 100%"
+                      OnClick="@(() => OnCloseAsync(ChatMediaImporterDialogResult.HardDrive))"
+                      IconStart="@(new IconsFilled.Size20.HardDrive())">
+            @Content.SelectFromHardDriveLabel
+        </FluentButton>
+    </FluentStack>
+</FluentDialogBody>
+
+@code {
+    /// <summary>
+    /// Gets or sets the labels for the dialog.
+    /// </summary>
+    [Parameter]
+    public ChatMessageListLabels Content { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the dialog reference.
+    /// </summary>
+    [CascadingParameter]
+    private FluentDialog Dialog { get; set; } = default!;
+
+    /// <summary>
+    /// Close the dialog.
+    /// </summary>
+    /// <param name="result">Result of the dialog.</param>
+    /// <returns>Returns a task which closes the dialog when completed.</returns>
+    private async Task OnCloseAsync(ChatMediaImporterDialogResult result)
+    {
+        await Dialog.CloseAsync(result);
+    }
+}

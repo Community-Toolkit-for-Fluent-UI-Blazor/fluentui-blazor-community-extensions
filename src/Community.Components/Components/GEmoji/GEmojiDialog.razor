@@ -1,0 +1,19 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<GEmojiContent>
+
+<FluentDialogBody>
+    <GEmojiExplorer ItemsProvider=@Content.ItemsProvider SelectedEmojiChanged="@(e => OnEmojiReactAsync(e))" />
+</FluentDialogBody>
+
+@code {
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    [Parameter]
+    public GEmojiContent Content { get; set; } = default!;
+
+    private async Task OnEmojiReactAsync(string value)
+    {
+        await Dialog.CloseAsync(value);
+    }
+}

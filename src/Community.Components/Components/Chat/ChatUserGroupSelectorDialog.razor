@@ -1,0 +1,82 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@implements IDialogContentComponent
+
+<FluentDialogHeader ShowDismiss="true">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.DocumentEdit())" />
+
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogBody>
+    <FluentAutocomplete Placeholder="@Content.Labels.SearchForUserPlaceholder"
+                        Style="margin-bottom: 10px; width: 452px;"
+                        TOption="ChatUser"
+                        OptionText="@(e => e.DisplayName)"
+                        OptionStyle="min-height: 50px"
+                        OnOptionsSearch="OnSearchAsync"
+                        @ref=_userListRef
+                        AutoComplete="off"
+                        Autofocus
+                        KeepOpen="true"
+                        MaximumOptionsSearch="10"
+                        MaximumSelectedOptions="5"
+                        @bind-SelectedOptions="_selectedItems">
+        <LabelTemplate>
+            <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Person())" Style="margin: 0 4px;" />
+            @Content.Labels.SearchForUser
+        </LabelTemplate>
+    
+        <SelectedOptionTemplate>
+            <FluentBadge OnDismissClick="@(() => OnDismissAsync(context))">
+                    <FluentPersona ImageSize="24px" 
+                                   Image="@context.Avatar" 
+                                   Name="@context.DisplayName"
+                                   Initials="@context.Initials"/>
+            </FluentBadge> 
+        </SelectedOptionTemplate>
+    
+        <OptionTemplate>
+            <FluentPersona ImageSize="24px"
+                           Image="@context.Avatar"
+                           Name="@context.DisplayName"
+                           Initials="@context.Initials" />
+        </OptionTemplate>
+    
+        <MaximumSelectedOptionsMessage>
+            @Content.Labels.ChatUserGroupMaxOptionsSelected
+        </MaximumSelectedOptionsMessage>
+    
+        <HeaderContent>
+            <FluentLabel Color="Color.Accent"
+            Style="padding: 8px; font-size: 11px; border-bottom: 1px solid var(--neutral-fill-stealth-hover);">
+                @Content.Labels.SuggestedUsers
+            </FluentLabel>
+        </HeaderContent>
+    
+        <FooterContent>
+            @if (!context.Any())
+            {
+                <FluentLabel Style="font-size: 11px; text-align: center; width: 200px;">
+                    @Content.Labels.NoResultsFound
+                </FluentLabel>
+            }
+        </FooterContent>
+    </FluentAutocomplete>
+</FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent"
+    OnClick="@OnValidateAsync">
+        @Content.Labels.DialogOk
+    </FluentButton>
+
+    <FluentButton Appearance="Appearance.Neutral"
+    OnClick="@OnCloseAsync">
+        @Content.Labels.DialogClose
+    </FluentButton>
+</FluentDialogFooter>

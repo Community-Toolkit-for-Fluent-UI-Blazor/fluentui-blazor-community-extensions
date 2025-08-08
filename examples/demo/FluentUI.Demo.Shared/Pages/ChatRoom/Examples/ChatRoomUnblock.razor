@@ -1,0 +1,42 @@
+﻿<div style="height: 400px">
+    <ChatRoomListView Owner=@_user0
+                      ItemsProvider="@GetRoomsAsync"
+                      CanBlock
+                      CanUnblock />
+</div>
+
+@code {
+    private readonly ChatUser _user0 = new()
+    {
+        Id = 1,
+        Initials = "J J",
+        DisplayName = "Jérémy JANISZEWSKI",
+        CultureId = 1,
+        CultureName = "fr-FR",
+    };
+
+    private readonly ChatUser _user1 = new()
+    {
+        Id = 2,
+        Initials = "M K",
+        DisplayName = "Marvin KLEIN",
+        CultureId = 2,
+        CultureName = "en-US",
+    };
+
+    private async ValueTask<IEnumerable<ChatRoom>> GetRoomsAsync(ChatRoomItemsRequest request, CancellationToken cancellationToken = default)
+    {
+        return [
+            new ChatRoom
+            {
+                CreatedDate = DateTime.Now,
+                Id = 1,
+                IsEmpty = true,
+                IsBlocked = true,
+                Name = "Room 1",
+                Users = [_user0, _user1],
+                Owner = _user0
+            }
+        ];
+    }
+}

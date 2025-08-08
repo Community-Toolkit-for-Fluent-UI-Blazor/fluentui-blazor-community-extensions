@@ -1,4 +1,7 @@
 using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Components.Services;
+using FluentUI.Blazor.Community.Extensions;
+using FluentUI.Blazor.Community.Services;
 using FluentUI.Demo.Shared.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +19,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CacheStorageAccessor>();
         services.AddHttpClient<IStaticAssetService, HttpBasedStaticAssetService>();
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
+        services.AddScoped<IMessageServiceFactory, DemoMessageServiceFactory>();
+        services.AddScoped<IMessageService, DemoMessageService>();
+        services.AddTranslationClient();
 
         return services;
     }
@@ -30,6 +36,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CacheStorageAccessor>();
         services.AddHttpClient<IStaticAssetService, ServerStaticAssetService>();
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
+        services.AddChat();
 
         return services;
     }

@@ -1,3 +1,4 @@
+using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Demo.Server.Components;
 using FluentUI.Demo.Shared;
@@ -11,6 +12,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddFluentUIComponents();
 builder.Services.AddFluentCxUIComponents();
 builder.Services.AddFluentUIDemoServerServices();
+builder.Services.AddHttpContextAccessor();
+
 
 var app = builder.Build();
 
@@ -30,5 +33,4 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddAdditionalAssemblies([typeof(FluentUI.Demo.Shared._Imports).Assembly])
     .AddInteractiveServerRenderMode();
-
 app.Run();
