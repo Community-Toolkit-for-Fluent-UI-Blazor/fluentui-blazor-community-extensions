@@ -13,4 +13,21 @@
             Initials = "JD",
             Id = 1,
         };
+
+    [Inject]
+    private ChatState ChatState { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        ChatState.CreateChatRoom(1, "Test Room", _owner, new ChatUser()
+        {
+            CultureId = 1,
+            CultureName = "en-US",
+            DisplayName = "Jane Smith",
+            Initials = "JS",
+            Id = 2,
+        });
+    }
 }

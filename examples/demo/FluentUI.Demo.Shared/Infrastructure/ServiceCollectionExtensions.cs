@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMessageServiceFactory, DemoMessageServiceFactory>();
         services.AddScoped<IMessageService, DemoMessageService>();
         services.AddTranslationClient();
+        services.AddScoped<IChatMessageService, DemoChatMessageService>();
 
         return services;
     }

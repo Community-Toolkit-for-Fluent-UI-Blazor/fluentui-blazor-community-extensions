@@ -84,5 +84,28 @@ public record ChatState
     {
         return GetDraft(Room?.Id);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="name"></param>
+    /// <param name="owner"></param>
+    /// <param name="users"></param>
+    public void CreateChatRoom(
+        long id,
+        string? name,
+        ChatUser owner,
+        params ChatUser[] users)
+    {
+        Room = new ChatRoom
+        {
+            Id = id,
+            Name = name,
+            Owner = owner,
+            Users = [.. users],
+            IsEmpty = true
+        };
+    }
 }
 
