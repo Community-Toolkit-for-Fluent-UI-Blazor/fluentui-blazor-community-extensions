@@ -1,0 +1,15 @@
+.fluentcx-floatingbutton-middle-center {
+    left:50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fluentcx-floatingbutton-middle {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.fluentcx-floatingbutton-center {
+  left: 50%;
+  transform: translateX(-50%);
+}

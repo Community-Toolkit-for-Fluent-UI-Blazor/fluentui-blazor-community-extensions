@@ -1,0 +1,13 @@
+﻿<p>
+    By default, the position of the <code>FluentCxFloatingButton</code> is <code>@FloatingPosition.BottomRight</code>.
+</p>
+
+<div style="position: relative; height: 400px" id="target">
+    <FluentDataGrid TGridItem="string">
+        <PropertyColumn Title="Data 1" Property="@(s=>s)" />
+        <PropertyColumn Title="Data 2" Property="@(s => s)" />
+        <PropertyColumn Title="Data 3" Property="@(s => s)" />
+        <PropertyColumn Title="Data 4" Property="@(s => s)" />
+    </FluentDataGrid>
+    <FluentCxFloatingButton IconStart=@(new Icons.Regular.Size24.Navigation()) RelativeContainerId="target" />
+</div>
