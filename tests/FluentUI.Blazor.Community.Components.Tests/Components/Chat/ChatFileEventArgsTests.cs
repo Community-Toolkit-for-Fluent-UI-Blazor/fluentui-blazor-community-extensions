@@ -12,7 +12,7 @@ public class ChatFileEventArgsTests
     public void Constructor_SetsPropertiesCorrectly()
     {
         // Arrange
-        var id = "file123";
+        var id = 123;
         var name = "document.pdf";
         var contentType = "application/pdf";
         Func<Task<byte[]>> dataFunc = () => Task.FromResult(new byte[] { 1, 2, 3 });
@@ -24,7 +24,7 @@ public class ChatFileEventArgsTests
         Assert.Equal(id, args.Id);
         Assert.Equal(name, args.Name);
         Assert.Equal(contentType, args.ContentType);
-        Assert.Equal(dataFunc, args.Data);
+        Assert.Equal(dataFunc, args.DataFunc);
     }
 
     [Fact]
@@ -33,10 +33,11 @@ public class ChatFileEventArgsTests
         // Arrange
         var expectedBytes = new byte[] { 10, 20, 30 };
         Func<Task<byte[]>> dataFunc = () => Task.FromResult(expectedBytes);
-        var args = new ChatFileEventArgs("id", "name", "type", dataFunc);
+
+        var args = new ChatFileEventArgs(123, "name", "type", dataFunc);
 
         // Act
-        var result = await args.Data();
+        var result = await args.DataFunc!();
 
         // Assert
         Assert.Equal(expectedBytes, result);

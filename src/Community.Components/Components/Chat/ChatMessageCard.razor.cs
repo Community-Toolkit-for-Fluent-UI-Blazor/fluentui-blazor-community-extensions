@@ -68,6 +68,11 @@ public partial class ChatMessageCard
     private readonly RenderFragment _renderGift;
 
     /// <summary>
+    /// Represents the fragment to render a deleted message.
+    /// </summary>
+    private readonly RenderFragment _renderDeletedMessage;
+
+    /// <summary>
     /// Represents a value indicating if the popover is visible or not.
     /// </summary>
     private bool _showActionsPopover;

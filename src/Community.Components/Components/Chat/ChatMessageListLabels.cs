@@ -51,7 +51,7 @@ public record ChatMessageListLabels
         Reply = "Répondre",
         ReplyFromGiftOnly = "Message cadeau",
         ReplyFromDocumentOnly = "Message document (photos, audio, vidéos...)",
-        SendingLabel = "Message en cours d'envoi ...",
+        SendingMessageLabel = "Message en cours d'envoi ...",
         ThisMessageWasDeleted = "Ce message a été supprimé."
     };
 
@@ -243,7 +243,7 @@ public record ChatMessageListLabels
     /// <summary>
     /// Gets or sets the label when the message is sent but not received by the receiver.
     /// </summary>
-    public string SendingLabel { get; set; } = "Message being sent ...";
+    public string SendingMessageLabel { get; set; } = "Message being sent ...";
 
     /// <summary>
     /// Gets or sets the label when a deleted message is displayed.

@@ -20,7 +20,7 @@ public partial class ChatMessageReply
     /// <summary>
     /// Javascript file to use.
     /// </summary>
-    private const string JAVASCRIPT_FILE = "./_content/FluentUI.Blazor.Community.Components/Components/Chat/ChatReply.razor.js";
+    private const string JAVASCRIPT_FILE = "./_content/FluentUI.Blazor.Community.Components/Components/Chat/ChatMessageReply.razor.js";
 
     /// <summary>
     /// Javascript module.

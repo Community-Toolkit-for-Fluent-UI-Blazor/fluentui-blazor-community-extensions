@@ -108,93 +108,35 @@
             @if (ChatState.Room is not null &&
                  !ChatState.Room.IsBlocked)
             {
-                <FluentStack Orientation="Orientation.Horizontal"
-                             Style="width: 100%"
-                             VerticalAlignment="VerticalAlignment.Bottom">
-                    <FluentStack Orientation="Orientation.Vertical">
-                        @if (_isReply)
-                        {
-                            <ChatReply Text="@(_chatDraft?.GetReplyText(Owner))"
-                                       AllowDismiss=true
-                                       OnDismiss="@(OnDismiss)"/>
-                        }
-
-                    <FluentTextArea @bind-Value=_chatDraft!.Text
-                                    Placeholder="@ChatMessageListLabels.EnterMessage"
-                                    Rows="@(_isReply ? 5 : 7)"
-                                    Autofocus
-                                    Immediate
-                                    Style="width: 100%" />
-                    </FluentStack>
-
-                        <FluentToolbar Style="width: auto"
-                        Orientation="Orientation.Vertical">
-
-                            @if (!_isEdit && IsMediaInsertionAllowed)
-                            {
-                                <FluentCounterBadge Count="@(_chatDraft?.SelectedChatFiles.Count)"
-                                                    Max="9"
-                                                    ShowWhen=@(c => c > 0)
-                                                    BackgroundColor="@Color.Error"
-                                                    Color="Color.Fill"
-                                                    Appearance="Appearance.Neutral">
-                                    <FluentButton Id="MediaImporterButton"
-                                                  OnClick="@(OnImportMediaAsync)"
-                                                  Title="@ChatMessageListLabels.InsertMedia"
-                                                  Style="border-radius: 20px">
-                                        <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.ImageMultiple())" />
-                                    </FluentButton>
-                                </FluentCounterBadge>
-                            }
-
-                            @if (IsEmojiInsertionAllowed && (!DeviceState?.DeviceInfo?.IsMobile ?? true))
-                            {
-                                <FluentButton Id="EmojiButton"
-                                              Title="@ChatMessageListLabels.InsertEmojis"
-                                              OnClick="@(() => _isEmojiPopoverVisible = !_isEmojiPopoverVisible)"
-                                              Style="border-radius: 20px">
-                                    <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.EmojiAdd())" />
-                                </FluentButton>
-                            }
-
-                            @if (!_isEdit && IsGiftAllowed)
-                            {
-                                <FluentButton Title="@ChatMessageListLabels.InsertGift" 
-                                OnClick="OnAddGiftAsync"
-                                Style="border-radius: 20px">
-                                    <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.GiftCardMoney())" />
-                                </FluentButton>
-                            }
-
-                            @if (!_isEdit)
-                            {
-                                <FluentButton Title="@ChatMessageListLabels.SendMessage"
-                                              Disabled=@(!IsSendEnabled)
-                                              OnClick="OnAddMessageAsync"
-                                              Style="border-radius: 20px">
-                                    <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.SendPerson())" />
-                                </FluentButton>
-                            }
-
-                            @if (_isEdit)
-                            {
-                                <FluentButton Title="@ChatMessageListLabels.DialogCancel"
-                                              OnClick="@OnCancelEdit"
-                                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.Dismiss())"
-                                              Style="border-radius: 20px" />
-
-                                <FluentButton Title="@ChatMessageListLabels.DialogOk"
-                                              OnClick="@OnEditMessageAsync"
-                                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.Checkmark())"
-                                              Style="border-radius: 20px" />
-                            }
-                    </FluentToolbar>
-                </FluentStack>
+                <ChatMessageWriter Draft="@_chatDraft"
+                                   Owner="@Owner"
+                                   IsReply="@_isReply"
+                                   IsEdit="@_isEdit"
+                                   ShowMediaButton="@IsMediaInsertionAllowed"
+                                   ShowEmojiButton="@IsEmojiInsertionAllowed"
+                                   ShowGiftButton="@IsGiftAllowed"
+                                   OnDismiss="OnDismiss"
+                                   OnImportMedia="@OnImportMediaAsync"
+                                   OnEmoji="@(()=>_isEmojiPopoverVisible = !_isEmojiPopoverVisible)"
+                                   OnGift="@OnAddGiftAsync"
+                                   Labels="@ChatMessageListLabels"
+                                   OnCancel="@OnCancelEdit"
+                                   OnEditMessage=@OnEditMessageAsync
+                                   Orientation=@MessageWriterOrientation                                  
+                                   IsMobile=@(DeviceState.DeviceInfo?.IsMobile ?? false)
+                                   OnSendMessage="OnAddMessageAsync"
+                                   UseFilledIcons=@UseFilledIcons
+                                   SendingRenderMode="@SendingRenderMode"
+                                   IsSending=@_isSending
+                                   SendingContent="@SendingContent"
+                                   />
             }
         </FluentStack>
 
-        <FluentOverlay @bind-Visible=_isSending
-                       Opacity="0.75">
+        @if (SendingRenderMode == ChatMessageSendingRenderMode.Overlay)
+        {
+            <FluentOverlay @bind-Visible=_isSending
+                           Opacity="0.75">
             @if (SendingContent is not null)
             {
                 @SendingContent
@@ -207,11 +149,12 @@
                              Style="height: 100%">
                     <FluentProgress Width="340px" />
                     <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
-                        @ChatMessageListLabels.SendingLabel
+                        @ChatMessageListLabels.SendingMessageLabel
                     </FluentLabel>
                 </FluentStack>
             }
         </FluentOverlay>
+        }
     </FluentCard>
 
     <FluentPopover AnchorId="EmojiButton"

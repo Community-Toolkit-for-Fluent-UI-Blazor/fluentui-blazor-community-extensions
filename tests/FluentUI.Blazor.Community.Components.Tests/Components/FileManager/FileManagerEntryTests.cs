@@ -103,7 +103,7 @@ public class FileManagerEntryTests
         var dir = root.CreateDirectory("Dir");
         var file = root.CreateDefaultFileEntry([1], "f.txt", 1);
 
-        var foundById = FileManagerEntry<Dummy>.Find(root, file.Id);
+        var foundById = FileManagerEntry<Dummy>.Find(root, file.ViewId);
         Assert.Equal(file, foundById);
 
         var foundByPredicate = FileManagerEntry<Dummy>.Find(root, e => e.Name == "f.txt");

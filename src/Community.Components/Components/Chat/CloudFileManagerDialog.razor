@@ -85,11 +85,11 @@
     /// <returns>Returns a task which closes the dialog with the selected files as result.</returns>
     private async Task OnCloseAsync()
     {
-        List<CloudDriveFileSelectedEventArgs> e = [];
+        List<ChatFileEventArgs> e = [];
 
         foreach (var item in _fileManager!.SelectedItems)
         {
-            e.Add(new(item.Id, item.Name, item.ContentType, item.GetBytesAsync));
+            e.Add(new(item.EntryId, item.Name, item.ContentType, item.GetBytesAsync));
         }
 
         await Dialog.CloseAsync(e);

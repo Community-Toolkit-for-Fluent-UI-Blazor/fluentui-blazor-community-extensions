@@ -23,7 +23,7 @@
                 else
                 {
                     <FluentCxTileGridItem OnTapped="@(e => OnItemTappedAsync(item))"
-                                          Id="@($"{item.Id}-grid-item")"
+                                          Id="@($"{item.ViewId}-grid-item")"
                                           TItem="FileManagerEntry<TItem>"
                                           Value="@item"
                                           OnDoubleTapped="@(e => OnItemDoubleTappedAsync(item))"

@@ -1,5 +1,6 @@
 using System.Text;
 using FluentUI.Blazor.Community.Components.Services;
+using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Blazor.Community.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
@@ -214,9 +215,16 @@ public partial class ChatMessageListView<TItem>
     public bool IsGiftAllowed { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating if the message can be send.
+    /// Gets or sets the render mode of the sending of a message.
     /// </summary>
-    private bool IsSendEnabled => !string.IsNullOrEmpty(_chatDraft?.Text) || (_chatDraft?.SelectedChatFiles.Count > 0);
+    [Parameter]
+    public ChatMessageSendingRenderMode SendingRenderMode { get; set; } = ChatMessageSendingRenderMode.Overlay;
+
+    /// <summary>
+    /// Gets or sets the orientation of the message writer in the chat message list view.
+    /// </summary>
+    [Parameter]
+    public Orientation MessageWriterOrientation { get; set; } = Orientation.Vertical;
 
     /// <summary>
     /// Gets or sets the callback to send a gift.
@@ -321,6 +329,12 @@ public partial class ChatMessageListView<TItem>
     /// </summary>
     [Parameter]
     public string HubName { get; set; } = "/hubs/chat";
+
+    /// <summary>
+    /// Gets or sets a value indicating if the icons used in the component are filled or not.
+    /// </summary>
+    [Parameter]
+    public bool UseFilledIcons { get; set; } = true;
 
     #endregion Properties
 
@@ -484,7 +498,7 @@ public partial class ChatMessageListView<TItem>
         _isSending = true;
         await InvokeAsync(StateHasChanged);
 
-        IEnumerable<IChatMessage> messages = [];
+        List<IChatMessage> messages = [];
 
         if (IsTranslationEnabled &&
             TranslationClient is not null &&
@@ -502,12 +516,12 @@ public partial class ChatMessageListView<TItem>
                 _chatDraft.AddCultureText(Owner.CultureName!, [_chatDraft.Text]);
             }
 
-            messages = await ChatMessageService.CreateMessagesAsync(new(
+            messages.AddRange(await ChatMessageService.CreateMessagesAsync(new(
                 ChatState.Room.Id,
                 Owner,
                 _chatDraft,
                 MessageSplitOption
-            ));
+            )));
 
             _refreshTotalMessageCount = true;
 
@@ -516,7 +530,15 @@ public partial class ChatMessageListView<TItem>
             await RefreshDataAsync();
         }
 
-        await SendMessageAsync(messages);
+        if(messages.Count == 1)
+        {
+            await SendMessageAsync(messages[0]);
+        }
+        else
+        {
+            await SendMessageAsync(messages);
+        }
+
         _isSending = false;
         await InvokeAsync(StateHasChanged);
     }
@@ -576,6 +598,20 @@ public partial class ChatMessageListView<TItem>
     }
 
     /// <summary>
+    /// Send the <paramref name="message"/> in an asynchronous way.    
+    /// </summary>
+    /// <param name="message">Message to send.</param>
+    /// <returns>Returns a task which send the message when completed.</returns>
+    private async Task SendMessageAsync(IChatMessage message)
+    {
+        if (_messageService is not null &&
+            ChatState.Room is not null)
+        {
+            await _messageService.SendAsync(ChatMessageListViewConstants.SendMessageAsync, ChatState.Room.Id, message.Id, ChatState.Room.GetUsersBut(Owner));
+        }
+    }
+
+    /// <summary>
     /// Send the fact that the message was read in an asynchronous way.
     /// </summary>
     /// <param name="roomId">Identifier of the room.</param>
@@ -590,6 +626,35 @@ public partial class ChatMessageListView<TItem>
         if (_messageService is not null)
         {
             await _messageService.SendAsync(ChatMessageListViewConstants.MessageReadAsync, roomId, messageId, userIdCollection);
+        }
+    }
+
+    /// <summary>
+    /// Occurs when a message was received.
+    /// </summary>
+    /// <param name="roomId">Identifier of the room.</param>
+    /// <param name="messageIdCollection">Identifier of the message.</param>
+    /// <returns>Returns a task which updates the view when completed.</returns>
+    private async Task OnReceivedMessagesAsync(long roomId, IEnumerable<long> messageIdCollection)
+    {
+        var room = ChatState.Room;
+
+        if (room?.Id == roomId &&
+            Owner is not null)
+        {
+            foreach(var messageId in messageIdCollection)
+            {
+                var chatMessage = await ChatMessageService.GetMessageAsync(roomId, messageId);
+
+                if (chatMessage is not null)
+                {
+                    _refreshTotalMessageCount = true;
+                    await ChatMessageService.SetReadStateAsync(roomId, chatMessage.Id, Owner, true);
+                    await SendMessageReadAsync(room.Id, chatMessage.Id, room.GetUsersBut(Owner).Select(x => x.Id));
+                }
+            }
+
+            await RefreshDataAsync();
         }
     }
 
@@ -613,8 +678,9 @@ public partial class ChatMessageListView<TItem>
                 _refreshTotalMessageCount = true;
                 await ChatMessageService.SetReadStateAsync(roomId, chatMessage.Id, Owner, true);
                 await SendMessageReadAsync(room.Id, chatMessage.Id, room.GetUsersBut(Owner).Select(x => x.Id));
-                await RefreshDataAsync();
             }
+
+            await RefreshDataAsync();
         }
     }
 
@@ -711,6 +777,21 @@ public partial class ChatMessageListView<TItem>
     /// <param name="roomId">Identifier of the room.</param>
     /// <returns>Returns a task which refresh the view when completed.</returns>
     private async Task OnReactedMessageAsync(long roomId)
+    {
+        if (Owner is not null &&
+            ChatState.Room?.Id == roomId)
+        {
+            await RefreshDataAsync();
+        }
+    }
+
+    /// <summary>
+    /// Occurs after a message was read.
+    /// </summary>
+    /// <param name="roomId">Identifier of the room.</param>
+    /// <param name="messageId">Identifier of the message.</param>
+    /// <returns>Returns a task which refresh the view when completed.</returns>
+    private async Task OnMessageReadAsync(long roomId, long messageId)
     {
         if (Owner is not null &&
             ChatState.Room?.Id == roomId)
@@ -907,10 +988,12 @@ public partial class ChatMessageListView<TItem>
         _chatDraft = ChatState.GetDraft();
 
         _messageService = MessageServiceFactory.Create(HubName);
-        _messageService.ListenOn<long, long>(ChatMessageListViewConstants.ReceiveMessages, OnReceivedMessageAsync)
+        _messageService.ListenOn<long, IEnumerable<long>>(ChatMessageListViewConstants.ReceiveMessages, OnReceivedMessagesAsync)
+                       .ListenOn<long, long>(ChatMessageListViewConstants.ReceiveMessage, OnReceivedMessageAsync)       
                        .ListenOn<long>(ChatMessageListViewConstants.MessageDeleted, OnDeletedMessageAsync)
                        .ListenOn<long>(ChatMessageListViewConstants.ReactOnMessage, OnReactedMessageAsync)
-                       .ListenOn<long>(ChatMessageListViewConstants.PinOrUnpin, OnPinOrUnpinAsync);
+                       .ListenOn<long>(ChatMessageListViewConstants.PinOrUnpin, OnPinOrUnpinAsync)
+                       .ListenOn<long,long>(ChatMessageListViewConstants.MessageRead, OnMessageReadAsync);
     }
 
     /// <inheritdoc />
@@ -945,6 +1028,7 @@ public partial class ChatMessageListView<TItem>
         if (_messageService is not null)
         {
             _messageService.ListenOff(ChatMessageListViewConstants.ReceiveMessages)
+                           .ListenOff(ChatMessageListViewConstants.ReceiveMessage) 
                            .ListenOff(ChatMessageListViewConstants.MessageDeleted)
                            .ListenOff(ChatMessageListViewConstants.ReactOnMessage)
                            .ListenOff(ChatMessageListViewConstants.PinOrUnpin);

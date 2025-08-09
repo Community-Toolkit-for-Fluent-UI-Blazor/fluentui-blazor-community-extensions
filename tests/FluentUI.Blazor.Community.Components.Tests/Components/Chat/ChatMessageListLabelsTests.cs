@@ -45,7 +45,7 @@ public class ChatMessageListLabelsTests
         Assert.Equal("Reply", labels.Reply);
         Assert.Equal("Gift message", labels.ReplyFromGiftOnly);
         Assert.Equal("Media message (audio, images, videos...)", labels.ReplyFromDocumentOnly);
-        Assert.Equal("Message being sent ...", labels.SendingLabel);
+        Assert.Equal("Message being sent ...", labels.SendingMessageLabel);
         Assert.Equal("This message was deleted.", labels.ThisMessageWasDeleted);
     }
 
@@ -86,7 +86,7 @@ public class ChatMessageListLabelsTests
         Assert.Equal("Répondre", labels.Reply);
         Assert.Equal("Message cadeau", labels.ReplyFromGiftOnly);
         Assert.Equal("Message document (photos, audio, vidéos...)", labels.ReplyFromDocumentOnly);
-        Assert.Equal("Message en cours d'envoi ...", labels.SendingLabel);
+        Assert.Equal("Message en cours d'envoi ...", labels.SendingMessageLabel);
         Assert.Equal("Ce message a été supprimé.", labels.ThisMessageWasDeleted);
     }
 

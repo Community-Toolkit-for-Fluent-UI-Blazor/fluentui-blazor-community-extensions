@@ -189,7 +189,14 @@ public sealed class FileManagerEntry<TItem>
     /// <summary>
     /// Gets or sets the identifier of the entry.
     /// </summary>
-    public string Id { get; set; } = Identifier.NewId();
+    /// <remarks>This identifier can be used for the views.</remarks>
+    public string ViewId { get; set; } = Identifier.NewId();
+
+    /// <summary>
+    /// Gets or sets the identifier of the entry.
+    /// </summary>
+    /// <remarks>This identifier can be used to persist the entry in the database.</remarks>
+    public long EntryId { get; set; }
 
     /// <summary>
     /// Gets the relative path of the entry.
@@ -249,7 +256,7 @@ public sealed class FileManagerEntry<TItem>
             return string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
         }
 
-        if (StringEquals(root.Id, entry.Id))
+        if (StringEquals(root.ViewId, entry.ViewId))
         {
             root.Clear();
             root.InvalidateSize();
@@ -260,7 +267,7 @@ public sealed class FileManagerEntry<TItem>
         {
             var f = root._files[i];
 
-            if (StringEquals(f.Id, entry.Id))
+            if (StringEquals(f.ViewId, entry.ViewId))
             {
                 var removed = root._files.Remove(f);
                 f.Parent = null;
@@ -274,7 +281,7 @@ public sealed class FileManagerEntry<TItem>
         {
             var d = root._directories[i];
 
-            if (StringEquals(d.Id, entry.Id))
+            if (StringEquals(d.ViewId, entry.ViewId))
             {
                 var removed = root._directories.Remove(d);
                 d.Parent = null;
@@ -376,7 +383,7 @@ public sealed class FileManagerEntry<TItem>
             return false;
         }
 
-        return string.Equals(x.Id, y.Id, StringComparison.OrdinalIgnoreCase);
+        return string.Equals(x.ViewId, y.ViewId, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -604,7 +611,7 @@ public sealed class FileManagerEntry<TItem>
     /// <returns>Returns the entry if found, <see langword="null" /> otherwise.</returns>
     public static FileManagerEntry<TItem>? Find(FileManagerEntry<TItem> root, string id)
     {
-        if (string.Equals(root.Id, id, StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(root.ViewId, id, StringComparison.OrdinalIgnoreCase))
         {
             return root;
         }
@@ -638,14 +645,14 @@ public sealed class FileManagerEntry<TItem>
     {
         foreach (var item in items)
         {
-            if (string.Equals(item.Id, id, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(item.ViewId, id, StringComparison.OrdinalIgnoreCase))
             {
                 return item;
             }
 
             foreach (var subItem in item._files)
             {
-                if (string.Equals(subItem.Id, id, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(subItem.ViewId, id, StringComparison.OrdinalIgnoreCase))
                 {
                     return subItem;
                 }

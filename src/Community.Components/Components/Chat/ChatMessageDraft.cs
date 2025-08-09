@@ -49,7 +49,7 @@ public sealed class ChatMessageDraft
     /// Gets all texts ordered by cultures.
     /// </summary>
     /// <returns>Returns all texts in their own culture.</returns>
-    internal IReadOnlyDictionary<string, IEnumerable<string>> GetTexts()
+    public IReadOnlyDictionary<string, IEnumerable<string>> GetTranslatedTexts()
     {
         return _textCultures;
     }

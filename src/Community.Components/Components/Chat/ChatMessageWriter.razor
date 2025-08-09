@@ -1,0 +1,165 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (SendingRenderMode == ChatMessageSendingRenderMode.Inline && IsSending)
+{
+    <FluentCard Height="180px" MinimalStyle>
+        @if(SendingContent is not null)
+        {
+            @SendingContent
+        }
+        else
+        {
+            <FluentStack Orientation="Orientation.Vertical"
+                         Style="height: 100%"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentProgress Width="340px" />
+                <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                    @Labels.SendingMessageLabel
+                </FluentLabel>
+            </FluentStack>
+        }   
+    </FluentCard>
+}
+else
+{
+    <FluentStack Orientation="Orientation.Horizontal"
+                 Style="width: 100%"
+                 VerticalAlignment="VerticalAlignment.Bottom">
+        <FluentStack Width="100%" Orientation="Orientation.Vertical">
+            @if (IsReply)
+            {
+                <ChatMessageReply Text="@(Draft?.GetReplyText(Owner))"
+                                  AllowDismiss=true
+                                  OnDismiss="@(OnDismiss)" />
+            }
+
+            <FluentTextArea @bind-Value=Draft!.Text
+                            Placeholder="@Labels.EnterMessage"
+                            Rows="@(IsReply ? 5 : 7)"
+                            Autofocus
+                            Immediate
+                            Style="width: 100%" />
+
+            @if (Orientation == Orientation.Vertical)
+            {
+                @_toolbarFragment((Orientation.Horizontal, "100%"))
+            }
+        </FluentStack>
+
+        @if (Orientation == Orientation.Horizontal)
+        {
+            @_toolbarFragment((Orientation.Vertical, "auto"))
+        }
+    </FluentStack>
+}
+
+@code {
+    public ChatMessageWriter()
+    {
+        Id = Identifier.NewId();
+        _toolbarFragment = (e) => __builder =>
+        {
+            <FluentStack Width="@e.Item2" Orientation="e.Item1">
+
+                @if (!IsEdit && ShowMediaButton)
+                {
+                    <FluentCounterBadge Count="@(Draft?.SelectedChatFiles.Count)"
+                                        Max="9"
+                                        ShowWhen=@(c => c > 0)
+                                        BackgroundColor="@Color.Error"
+                                        Color="Color.Fill"
+                                        Appearance="Appearance.Neutral">
+                        <FluentButton Id="MediaImporterButton"
+                                      OnClick="@(OnImportMedia)"
+                                      Title="@Labels.InsertMedia"
+                                      Style="border-radius: 20px">
+                            @if (UseFilledIcons)
+                            {
+                                <FluentIcon Value="@(new IconsFilled.Size24.ImageMultiple())" />
+                            }
+                            else
+                            {
+                                <FluentIcon Value="@(new Regular.Size24.ImageMultiple())" />
+                            }
+                        </FluentButton>
+                    </FluentCounterBadge>
+                }
+
+                @if (ShowEmojiButton && !IsMobile)
+                {
+                    <FluentButton Id="EmojiButton"
+                                  Title="@Labels.InsertEmojis"
+                                  OnClick="@(OnEmoji)"
+                                  Style="border-radius: 20px">
+                        @if (UseFilledIcons)
+                        {
+                            <FluentIcon Value="@(new IconsFilled.Size24.EmojiAdd())" />
+                        }
+                        else
+                        {
+                            <FluentIcon Value="@(new Regular.Size24.EmojiAdd())" />
+                        }
+                    </FluentButton>
+                }
+
+                @if (!IsEdit && ShowGiftButton)
+                {
+                    <FluentButton Title="@Labels.InsertGift"
+                                  OnClick="@OnGift"
+                                  Style="border-radius: 20px">
+                        @if (UseFilledIcons)
+                        {
+                            <FluentIcon Value="@(new IconsFilled.Size24.GiftCard())" />
+                        }
+                        else
+                        {
+                            <FluentIcon Value="@(new Regular.Size24.GiftCard())" />
+                        }
+                    </FluentButton>
+                }
+
+                @if (!IsEdit)
+                {
+                    @if (e.Item1 == Orientation.Horizontal)
+                    {
+                        <FluentSpacer />
+                    }
+
+                    <FluentButton Title="@Labels.SendMessage"
+                                  Disabled=@(string.IsNullOrEmpty(Draft?.Text) && (Draft?.SelectedChatFiles.Count == 0))
+                                  OnClick="OnSendMessage"
+                                  Style="border-radius: 20px">
+                        @if (UseFilledIcons)
+                        {
+                            <FluentIcon Value="@(new IconsFilled.Size24.Send())" />
+                        }
+                        else
+                        {
+                            <FluentIcon Value="@(new Regular.Size24.Send())" />
+                        }
+                    </FluentButton>
+                }
+
+                @if (IsEdit)
+                {
+                    @if (e.Item1 == Orientation.Horizontal)
+                    {
+                        <FluentSpacer />
+                    }
+
+                    <FluentButton Title="@Labels.DialogCancel"
+                                  OnClick="@OnCancel"
+                                  IconStart="@(UseFilledIcons ? new IconsFilled.Size24.Dismiss() : new Regular.Size24.Dismiss())"
+                                  Style="border-radius: 20px" />
+
+                    <FluentButton Title="@Labels.DialogOk"
+                                  OnClick="@OnEditMessage"
+                                  IconStart="@(UseFilledIcons ? new IconsFilled.Size24.Checkmark() : new Regular.Size24.Checkmark())"
+                                  Style="border-radius: 20px" />
+                }
+            </FluentStack>
+        };
+    }
+}

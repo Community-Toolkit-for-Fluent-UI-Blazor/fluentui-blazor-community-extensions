@@ -86,7 +86,7 @@ public partial class FileMoverDialog<TItem> : IDialogContentComponent<FileManage
             IconCollapsed = IconCollapsed,
             IconExpanded = IconExpanded,
             Text = entry.Name,
-            Id = entry.Id,
+            Id = entry.ViewId,
             Expanded = isExpanded,
             Items = entry.GetDirectories().Select(x => BuildTreeViewItem(x)).ToList()
         };

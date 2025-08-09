@@ -682,27 +682,6 @@
             <param name="ContentType">Content type of the file.</param>
             <param name="Data">Data of the file.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ChatFileEventArgs.#ctor(System.String,System.String,System.String,System.Func{System.Threading.Tasks.Task{System.Byte[]}})">
-            <summary>
-            Represents an event args for a chat file.
-            </summary>
-            <param name="Id">Id of the file.</param>
-            <param name="Name">Name of the file.</param>
-            <param name="ContentType">Content type of the file.</param>
-            <param name="Data">Data of the file.</param>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.Id">
-            <summary>Id of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.Name">
-            <summary>Name of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.ContentType">
-            <summary>Content type of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.Data">
-            <summary>Data of the file.</summary>
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatGroupEventArgs">
             <summary>
             Represents the event args for a chat group.
@@ -812,6 +791,11 @@
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageCard._renderGift">
             <summary>
             Represents the fragment to render a gift.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageCard._renderDeletedMessage">
+            <summary>
+            Represents the fragment to render a deleted message.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageCard._showActionsPopover">
@@ -1067,7 +1051,7 @@
             <param name="culture">Culture of the message.</param>
             <param name="texts">Translated texts into the culture.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageDraft.GetTexts">
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageDraft.GetTranslatedTexts">
             <summary>
             Gets all texts ordered by cultures.
             </summary>
@@ -1380,7 +1364,7 @@
             Gets or sets the label when the replied message contains only documents.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListLabels.SendingLabel">
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListLabels.SendingMessageLabel">
             <summary>
             Gets or sets the label when the message is sent but not received by the receiver.
             </summary>
@@ -1562,9 +1546,14 @@
             </summary>
             <remarks>The gift must be implemented by the user.</remarks>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.IsSendEnabled">
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.SendingRenderMode">
             <summary>
-            Gets or sets a value indicating if the message can be send.
+            Gets or sets the render mode of the sending of a message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.MessageWriterOrientation">
+            <summary>
+            Gets or sets the orientation of the message writer in the chat message list view.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnGift">
@@ -1655,6 +1644,11 @@
             Gets or sets the name of the hub to use to send message.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.UseFilledIcons">
+            <summary>
+            Gets or sets a value indicating if the icons used in the component are filled or not.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnAddGiftAsync">
             <summary>
             Occurs when the gift button is clicked.
@@ -1719,6 +1713,13 @@
             <param name="messages">Messages to send.</param>
             <returns>Returns a task which send the messages when completed.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.SendMessageAsync(FluentUI.Blazor.Community.Components.IChatMessage)">
+            <summary>
+            Send the <paramref name="message"/> in an asynchronous way.    
+            </summary>
+            <param name="message">Message to send.</param>
+            <returns>Returns a task which send the message when completed.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.SendMessageReadAsync(System.Int64,System.Int64,System.Collections.Generic.IEnumerable{System.Int64})">
             <summary>
             Send the fact that the message was read in an asynchronous way.
@@ -1727,6 +1728,14 @@
             <param name="messageId">Identifier of the message.</param>
             <param name="userIdCollection">List of users which read the message.</param>
             <returns>Returns a task which send the fact that the message was read by <paramref name="userIdCollection"/> users.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnReceivedMessagesAsync(System.Int64,System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+            Occurs when a message was received.
+            </summary>
+            <param name="roomId">Identifier of the room.</param>
+            <param name="messageIdCollection">Identifier of the message.</param>
+            <returns>Returns a task which updates the view when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnReceivedMessageAsync(System.Int64,System.Int64)">
             <summary>
@@ -1768,6 +1777,14 @@
             Occurs after a react was received.
             </summary>
             <param name="roomId">Identifier of the room.</param>
+            <returns>Returns a task which refresh the view when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnMessageReadAsync(System.Int64,System.Int64)">
+            <summary>
+            Occurs after a message was read.
+            </summary>
+            <param name="roomId">Identifier of the room.</param>
+            <param name="messageId">Identifier of the message.</param>
             <returns>Returns a task which refresh the view when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnEdit(FluentUI.Blazor.Community.Components.IChatMessage)">
@@ -1885,27 +1902,42 @@
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListViewConstants.SendReactOnMessageAsync">
             <summary>
-            Gets the method name when a user reacts on a message.
+            Gets the method name when a user reacts on a message asynchronously.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListViewConstants.PinOrUnpinAsync">
             <summary>
-            Gets the method name to pin or unpin the message.
+            Gets the method name to pin or unpin the message asynchronously.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListViewConstants.DeleteMessageAsync">
             <summary>
-            Gets the method name to delete the message.
+            Gets the method name to delete the message asynchronously.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListViewConstants.MessageReadAsync">
             <summary>
-            Gets the method name to mark the message as read.
+            Gets the method name to mark the message as read asynchronously.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListViewConstants.SendMessagesAsync">
             <summary>
-            Gets the method name to send the messages.
+            Gets the method name to send the messages asynchronously.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListViewConstants.SendMessageAsync">
+            <summary>
+            Gets the method name to send a message asynchronously.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListViewConstants.ReceiveMessage">
+            <summary>
+            Gets the method name when a message was received.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListViewConstants.MessageRead">
+            <summary>
+            Gets the method name when a message was read.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageReactEventArgs">
@@ -2097,6 +2129,21 @@
             Gets or sets the created date of the section.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChatMessageSendingRenderMode">
+            <summary>
+            Represents the render mode for sending chat messages.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageSendingRenderMode.Overlay">
+            <summary>
+            The sending message is rendered in an overlay.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageSendingRenderMode.Inline">
+            <summary>
+            The sending message is rendered inline in the chat message writer.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageSplitOption">
             <summary>
             Options to split the message.
@@ -2140,6 +2187,121 @@
             The message contains a gift.
             </summary>
             <remarks>Gift is defined by the user.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChatMessageWriter">
+            <summary>
+            Represents a chat message writer component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageWriter._toolbarFragment">
+            <summary>
+            Represents the fragment to render the action toolbar of the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.SendingContent">
+            <summary>
+            Gets or sets the content to be displayed in the chat message writer when a message is currently sending.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.SendingRenderMode">
+            <summary>
+            Gets or sets the render mode for sending messages in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.UseFilledIcons">
+            <summary>
+            Gets or sets a value indicating if the icons used in the component are filled or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.Orientation">
+            <summary>
+            Gets or sets the orientation of the toolbar in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.IsReply">
+            <summary>
+            Gets or sets a value indicating if the message writer is in reply mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.IsEdit">
+            <summary>
+            Gets or sets a value indicating if the message writer is in edit mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.IsMobile">
+            <summary>
+            Gets or sets a value indicating if the message writer is in mobile view.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.ShowEmojiButton">
+            <summary>
+            Gets or sets a value indicating if the message writer show the emoji button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.ShowMediaButton">
+            <summary>
+            Gets or sets a value indicating if the message writer show the media button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.ShowGiftButton">
+            <summary>
+            Gets or sets a value indicating if the message writer show the gift button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.Draft">
+            <summary>
+            Gets or sets the draft message to be used in the writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.Labels">
+            <summary>
+            Gets or sets the labels to be used in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.Owner">
+            <summary>
+            Gets or sets the owner of the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnDismiss">
+            <summary>
+            Gets or sets the event callback to be invoked when the reply message is dismissed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnImportMedia">
+            <summary>
+            Gets or sets the event callback to be invoked when the media button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnEmoji">
+            <summary>
+            Gets or sets the event callback to be invoked when the emoji button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnGift">
+            <summary>
+            Gets or sets the event callback to be invoked when the gift button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnSendMessage">
+            <summary>
+            Gets or sets the event callback to be invoked when the send button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnCancel">
+            <summary>
+            Gets or sets the event callback to be invoked when the cancel button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnEditMessage">
+            <summary>
+            Gets or sets the event callback to be invoked when the edit button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.IsSending">
+            <summary>
+            Gets or sets a value indicating whether the message writer is currently sending a message.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatRoom">
             <summary>
@@ -3088,36 +3250,6 @@
             </summary>
             <returns>Returns a task which closes the dialog with a cancel result when completed.</returns>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.CloudDriveFileSelectedEventArgs">
-            <summary>
-            Represents the event args when a file is selected on the cloud drive.
-            </summary>
-            <param name="Id">Identifier of the file.</param>
-            <param name="Name">Name of the file.</param>
-            <param name="ContentType">Content type of the file.</param>
-            <param name="Data">Data of the file.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.CloudDriveFileSelectedEventArgs.#ctor(System.String,System.String,System.String,System.Func{System.Threading.Tasks.Task{System.Byte[]}})">
-            <summary>
-            Represents the event args when a file is selected on the cloud drive.
-            </summary>
-            <param name="Id">Identifier of the file.</param>
-            <param name="Name">Name of the file.</param>
-            <param name="ContentType">Content type of the file.</param>
-            <param name="Data">Data of the file.</param>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.CloudDriveFileSelectedEventArgs.Id">
-            <summary>Identifier of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.CloudDriveFileSelectedEventArgs.Name">
-            <summary>Name of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.CloudDriveFileSelectedEventArgs.ContentType">
-            <summary>Content type of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.CloudDriveFileSelectedEventArgs.Data">
-            <summary>Data of the file.</summary>
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.CloudFileUploaderContent">
             <summary>
             Represents the content for the <see cref="T:FluentUI.Blazor.Community.Components.CloudFileManagerDialog`1"/>.
@@ -3313,36 +3445,6 @@
             Occurs when the button is clicked.
             </summary>
             <returns>Returns a task which raises the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxChatButton.OnChat"/> callback when completed.</returns>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.HardDriveFileSelectedEventArgs">
-            <summary>
-            Represents the event args when a file is selected from the hard drive.
-            </summary>
-            <param name="Name">Name of the file.</param>
-            <param name="ContentType">Content type of the file.</param>
-            <param name="Data">Data of the file.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.HardDriveFileSelectedEventArgs.#ctor(System.String,System.String,System.Byte[])">
-            <summary>
-            Represents the event args when a file is selected from the hard drive.
-            </summary>
-            <param name="Name">Name of the file.</param>
-            <param name="ContentType">Content type of the file.</param>
-            <param name="Data">Data of the file.</param>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.HardDriveFileSelectedEventArgs.Name">
-            <summary>Name of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.HardDriveFileSelectedEventArgs.ContentType">
-            <summary>Content type of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.HardDriveFileSelectedEventArgs.Data">
-            <summary>Data of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.HardDriveFileSelectedEventArgs.Id">
-            <summary>
-            Gets or sets the identifier of the file.
-            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.IChatMessage">
             <summary>
@@ -6475,10 +6577,17 @@
             Gets a value indicating if the entry has files.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.Id">
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.ViewId">
             <summary>
             Gets or sets the identifier of the entry.
             </summary>
+            <remarks>This identifier can be used for the views.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.EntryId">
+            <summary>
+            Gets or sets the identifier of the entry.
+            </summary>
+            <remarks>This identifier can be used to persist the entry in the database.</remarks>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntry`1.RelativePath">
             <summary>
@@ -10189,7 +10298,7 @@
             Occurs when a file is uploaded.
             </summary>
             <param name="e">Event args of the file.</param>
-            <returns>Returns a task which creates a <see cref="T:FluentUI.Blazor.Community.Components.HardDriveFileSelectedEventArgs" /> when completed.</returns>
+            <returns>Returns a task which creates a <see cref="!:HardDriveFileSelectedEventArgs" /> when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.OnCloseAsync">
             <summary>

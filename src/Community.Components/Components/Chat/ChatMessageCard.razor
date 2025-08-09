@@ -5,7 +5,7 @@
      Owner is not null)
 {
     <div id="@($"message-{Id}-{Message.Id}")" @onclick=OnTappedAsync style="height: 170px; margin-top: 5px; margin-bottom: 5px">
-        @if(Message.IsDeleted && ShowDeleted)
+        @if (Message.IsDeleted && ShowDeleted)
         {
             if (DeletedMessageTemplate is not null)
             {
@@ -13,14 +13,26 @@
             }
             else
             {
-                <FluentCard Height="150px">
-                    <FluentStack Style="height: 100%" VerticalAlignment=VerticalAlignment.Center>
-                        <i>@ChatMessageListLabels.ThisMessageWasDeleted</i>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentStack>
+                        @if (Owner != Message.Sender)
+                        {
+                            @_renderAvatar
+                        }
+
+                        @_renderDeletedMessage
+
+                        @if (Owner == Message.Sender)
+                        {
+                            @_renderAvatar
+                        }
                     </FluentStack>
-                </FluentCard>
+
+                    @_renderFooter
+                </FluentStack>
             }
         }
-        else
+        else if (!Message.IsDeleted)
         {
             @if (MessageTemplate is not null)
             {
@@ -368,6 +380,13 @@
                         <FluentSpacer />
                     </FluentStack>
                 </FluentStack>
+            </FluentCard>
+        };
+
+        _renderDeletedMessage = __builder =>
+        {
+            <FluentCard Height="150px">
+                @ChatMessageListLabels.ThisMessageWasDeleted
             </FluentCard>
         };
     }

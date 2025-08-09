@@ -504,7 +504,7 @@ public partial class FluentCxFileManager<TItem>
 
             // Check if the destination folder isn't the source folder
             if (!(_currentSelectedItems.Count() == 1 &&
-               string.Equals(_currentSelectedItems.ElementAtOrDefault(0)?.Id, data.Id, StringComparison.OrdinalIgnoreCase)))
+               string.Equals(_currentSelectedItems.ElementAtOrDefault(0)?.ViewId, data.ViewId, StringComparison.OrdinalIgnoreCase)))
             {
                 _progressState = ProgressState.Moving;
                 Root.Remove(_currentSelectedItems);
@@ -636,7 +636,7 @@ public partial class FluentCxFileManager<TItem>
     {
         if (View == FileManagerView.Desktop)
         {
-            var item = FindTreeViewItem(_treeViewItems, e.Parent.Id);
+            var item = FindTreeViewItem(_treeViewItems, e.Parent.ViewId);
 
             if (item is not null)
             {
@@ -667,7 +667,7 @@ public partial class FluentCxFileManager<TItem>
 
     private void UpdatePathBar(CreateFileManagerEntryEventArgs<TItem> e)
     {
-        var item = FindPathBarItem(_pathRoot, e.Parent.Id);
+        var item = FindPathBarItem(_pathRoot, e.Parent.ViewId);
 
         if (item is not null)
         {
@@ -735,7 +735,7 @@ public partial class FluentCxFileManager<TItem>
             if (View == Components.FileManagerView.Desktop &&
                 entry.IsDirectory)
             {
-                var item = FindTreeViewItem(_treeViewItems, entry.Id);
+                var item = FindTreeViewItem(_treeViewItems, entry.ViewId);
 
                 if (item is not null)
                 {
@@ -761,7 +761,7 @@ public partial class FluentCxFileManager<TItem>
         _pathRoot = new PathBarItem()
         {
             Label = Root.Name,
-            Id = Root.Id,
+            Id = Root.ViewId,
             Items = [.. BuildPathRootItem(Root.GetDirectories())]
         };
     }
@@ -777,7 +777,7 @@ public partial class FluentCxFileManager<TItem>
         {
             yield return new PathBarItem()
             {
-                Id = item.Id,
+                Id = item.ViewId,
                 Label = item.Name,
                 Items = BuildPathRootItem(item.GetDirectories())
             };
@@ -800,7 +800,7 @@ public partial class FluentCxFileManager<TItem>
 
             if (View == FileManagerView.Desktop)
             {
-                var node = FindTreeViewItem(_treeViewItems, _currentEntry.Id);
+                var node = FindTreeViewItem(_treeViewItems, _currentEntry.ViewId);
 
                 if (node is not null)
                 {
@@ -829,7 +829,7 @@ public partial class FluentCxFileManager<TItem>
             items.Add(root);
 
             _treeViewItems = items;
-            _currentTreeViewItem = FindTreeViewItem(_treeViewItems, Root.Id);
+            _currentTreeViewItem = FindTreeViewItem(_treeViewItems, Root.ViewId);
         }
     }
 
@@ -848,7 +848,7 @@ public partial class FluentCxFileManager<TItem>
             IconCollapsed = IconCollapsed,
             IconExpanded = IconExpanded,
             Text = entry.Name,
-            Id = entry.Id,
+            Id = entry.ViewId,
             Expanded = isExpanded,
             Items = entry.GetDirectories().Select(x => BuildTreeViewItem(x)).ToList()
         };
@@ -862,7 +862,7 @@ public partial class FluentCxFileManager<TItem>
     {
         if (View == Components.FileManagerView.Desktop)
         {
-            var node = FindTreeViewItem(_treeViewItems, e.Entry.Id);
+            var node = FindTreeViewItem(_treeViewItems, e.Entry.ViewId);
 
             if (node is not null)
             {
@@ -1144,7 +1144,7 @@ public partial class FluentCxFileManager<TItem>
 
             if (View == Components.FileManagerView.Desktop)
             {
-                var item = FindTreeViewItem(_treeViewItems, entry.Id);
+                var item = FindTreeViewItem(_treeViewItems, entry.ViewId);
 
                 if (item is not null)
                 {
@@ -1152,7 +1152,7 @@ public partial class FluentCxFileManager<TItem>
 
                     foreach (var subItem in _currentSelectedItems)
                     {
-                        var itemToRemove = FindTreeViewItem(subItems, subItem.Id);
+                        var itemToRemove = FindTreeViewItem(subItems, subItem.ViewId);
 
                         if (itemToRemove is not null)
                         {
@@ -1165,7 +1165,7 @@ public partial class FluentCxFileManager<TItem>
                 }
             }
 
-            RemoveSelectedItemFromMainEntries(entry.Id, _currentSelectedItems);
+            RemoveSelectedItemFromMainEntries(entry.ViewId, _currentSelectedItems);
 
             if (OnDelete.HasDelegate)
             {

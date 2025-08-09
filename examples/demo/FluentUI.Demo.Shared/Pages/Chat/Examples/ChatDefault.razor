@@ -1,10 +1,51 @@
-﻿<div style="height: 600px">
-    <ChatMessageListView TItem="NoFileEntryData"
-                         HubName="chats"
-                         Owner="_owner" />
+﻿<div style="height: 700px">
+    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+        <FluentStack Wrap>
+            <FluentSwitch Label="Allow Emoji" @bind-Value=_isEmojiInsertionAllowed />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Allow Gift" @bind-Value=_isGiftAllowed />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Allow Media" @bind-Value=_isMediaInsertionAllowed />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Append files" @bind-Value=_appendFiles />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Translate message" @bind-Value=_translateMessage />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Show deleted message" @bind-Value=_showDeletedMessages />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Icons filled" @bind-Value=_iconsFilled />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Split message" @bind-Value=_splitMessage />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Sending message in overlay" @bind-Value=_isSendingInOverlay />
+        </FluentStack>
+
+        <ChatMessageListView TItem="NoFileEntryData"
+                             HubName="chats"
+                             IsEmojiInsertionAllowed=@_isEmojiInsertionAllowed
+                             IsGiftAllowed=@_isGiftAllowed
+                             IsMediaInsertionAllowed=@_isMediaInsertionAllowed
+                             AppendFiles=@_appendFiles
+                             IsTranslationEnabled=@_translateMessage
+                             ShowDeletedMessages=@_showDeletedMessages
+                             Owner="_owner"
+                             UseFilledIcons=_iconsFilled
+                             MessageSplitOption="@(_splitMessage ? ChatMessageSplitOption.Split : ChatMessageSplitOption.None)"
+                             SendingRenderMode="@(_isSendingInOverlay ? ChatMessageSendingRenderMode.Overlay : ChatMessageSendingRenderMode.Inline)" />
+    </FluentStack>
 </div>
 
 @code {
+    private bool _isEmojiInsertionAllowed = true;
+    private bool _isGiftAllowed = true;
+    private bool _isMediaInsertionAllowed = true;
+    private bool _appendFiles = true;
+    private bool _translateMessage = true;
+    private bool _showDeletedMessages = true;
+    private bool _iconsFilled = true;
+    private bool _splitMessage = false;
+    private bool _isSendingInOverlay = true;
+
     private ChatUser _owner = new()
         {
             CultureId = 1,

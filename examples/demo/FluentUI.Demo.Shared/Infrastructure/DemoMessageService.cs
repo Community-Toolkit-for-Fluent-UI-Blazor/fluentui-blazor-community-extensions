@@ -209,6 +209,27 @@ internal sealed class DemoMessageService(string name)
 
                 break;
 
+            case ChatMessageListViewConstants.MessageRead:
+                {
+                    if (value is long roomId && value2 is long messageId)
+                    {
+                        if (_listeners.TryGetValue(ChatMessageListViewConstants.MessageRead, out var action) && action is Func<long, long, Task> func)
+                        {
+                            await func(roomId, messageId);
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Invalid value type for ReceiveMessages", nameof(value));
+                        }
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid value type for ReceiveMessages", nameof(value));
+                    }
+                }
+
+                break;
+
             default: throw new NotImplementedException($"Method {methodName} is not implemented.");
         }
     }
@@ -219,6 +240,7 @@ internal sealed class DemoMessageService(string name)
         {
             ChatMessageListViewConstants.SendMessagesAsync => SendAsync(ChatMessageListViewConstants.ReceiveMessages, value, value2, cancellationToken),
             ChatMessageListViewConstants.SendMessageAsync => SendAsync(ChatMessageListViewConstants.ReceiveMessage, value, value2, cancellationToken),
+            ChatMessageListViewConstants.MessageReadAsync => SendAsync(ChatMessageListViewConstants.MessageRead, value, value2, cancellationToken),
             _ => throw new NotImplementedException($"Method {methodName} is not implemented.")
         };
     }

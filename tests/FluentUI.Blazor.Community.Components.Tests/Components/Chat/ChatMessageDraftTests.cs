@@ -41,7 +41,7 @@ public class ChatMessageDraftTests
     {
         var draft = new ChatMessageDraft();
         draft.AddCultureText("fr-FR", new[] { "Bonjour", "Salut" });
-        var texts = draft.GetTexts();
+        var texts = draft.GetTranslatedTexts();
         Assert.True(texts.ContainsKey("fr-FR"));
         Assert.Contains("Bonjour", texts["fr-FR"]);
         Assert.Contains("Salut", texts["fr-FR"]);
@@ -53,7 +53,7 @@ public class ChatMessageDraftTests
         var draft = new ChatMessageDraft
         {
             Text = "Test",
-            SelectedChatFiles = new List<ChatFileEventArgs> { new("id", "name", "type", () => Task.FromResult(new byte[0])) }
+            SelectedChatFiles = new List<ChatFileEventArgs> { new(123, "name", "type", () => Task.FromResult(new byte[0])) }
         };
         draft.AddCultureText("en-US", new[] { "Hello" });
         draft.SetEditMessage(new ChatUser { Id = 1 }, new DummyMessage());
@@ -61,7 +61,7 @@ public class ChatMessageDraftTests
 
         draft.Clear();
 
-        Assert.Empty(draft.GetTexts());
+        Assert.Empty(draft.GetTranslatedTexts());
         Assert.Equal(string.Empty, draft.Text);
         Assert.Empty(draft.SelectedChatFiles);
         Assert.Null(draft.GetEditMessage());
