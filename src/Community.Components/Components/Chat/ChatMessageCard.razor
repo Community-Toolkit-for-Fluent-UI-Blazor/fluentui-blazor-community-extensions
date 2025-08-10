@@ -35,7 +35,7 @@
     }
     else if(!Message.IsDeleted)
     {
-        <div id="@($"message-{Id}-{Message.Id}")" @onclick=OnTappedAsync style="height: 170px; margin-top: 5px; margin-bottom: 5px">
+        <div id="@($"message-{Id}-{Message.Id}")" style="height: 170px; margin-top: 5px; margin-bottom: 5px">
             @if (MessageTemplate is not null)
             {
                 @MessageTemplate(Message)
@@ -368,7 +368,7 @@
 
         _renderCard = __builder =>
         {
-            <FluentCard Height="150px" AreaRestricted=false>
+            <FluentCard Style="cursor: pointer;" @onclick=@OnTappedAsync Height="150px" AreaRestricted=false>
                 <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
                     @_renderMessage
                     

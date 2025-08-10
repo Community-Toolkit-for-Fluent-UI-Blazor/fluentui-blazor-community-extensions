@@ -11,7 +11,8 @@
                                   @key=@item.Id
                                   OnDismiss="@(() => OnDismissAsync(item))"
                                   Template="@ItemTemplate"
-                                  LoadingContent="@LoadingItemContent" />
+                                  LoadingContent="@LoadingItemContent"
+                                  LoadingLabel="@LoadingLabel"/>
             }
         }
     </FluentStack>

@@ -52,7 +52,10 @@ public record ChatMessageListLabels
         ReplyFromGiftOnly = "Message cadeau",
         ReplyFromDocumentOnly = "Message document (photos, audio, vidéos...)",
         SendingMessageLabel = "Message en cours d'envoi ...",
-        ThisMessageWasDeleted = "Ce message a été supprimé."
+        ThisMessageWasDeleted = "Ce message a été supprimé.",
+        MessageTextCopyFailed = "Echec de la copie du texte.",
+        OwnerBlockMessage = "Vous avez bloqué cette salle de discussion. Pour continuer à discuter, vous devez débloquer la salle.",
+        MessageViewer = "Visionneuse de messages"
     };
 
     /// <summary>
@@ -249,4 +252,9 @@ public record ChatMessageListLabels
     /// Gets or sets the label when a deleted message is displayed.
     /// </summary>
     public string ThisMessageWasDeleted { get; set; } = "This message was deleted.";
+
+    /// <summary>
+    /// Gets or sets the label for the message viewer dialog.
+    /// </summary>
+    public string MessageViewer { get; set; } = "Message viewer";
 }

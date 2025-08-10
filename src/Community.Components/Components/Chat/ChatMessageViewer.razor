@@ -1,0 +1,27 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<ChatMessageViewerContent>
+
+<FluentDialogHeader>
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Regular.Size24.ContentView())" />
+
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@OnCloseAsync">
+        @Dialog.Instance.Parameters.PrimaryAction
+    </FluentButton>
+</FluentDialogFooter>
+
+<FluentDialogBody>
+    <FluentHorizontalScroll View="HorizontalScrollView.Mobile">
+        @if (Content is not null)
+        {
+            
+        }
+    </FluentHorizontalScroll>
+</FluentDialogBody>

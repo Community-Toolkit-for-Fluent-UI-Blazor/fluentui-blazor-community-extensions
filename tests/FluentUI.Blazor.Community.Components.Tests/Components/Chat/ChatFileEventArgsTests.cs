@@ -21,7 +21,7 @@ public class ChatFileEventArgsTests
         var args = new ChatFileEventArgs(id, name, contentType, dataFunc);
 
         // Assert
-        Assert.Equal(id, args.Id);
+        Assert.Equal($"f{id}", args.Id);
         Assert.Equal(name, args.Name);
         Assert.Equal(contentType, args.ContentType);
         Assert.Equal(dataFunc, args.DataFunc);

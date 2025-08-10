@@ -99,7 +99,8 @@
                                              DeletedMessageTemplate=@DeletedMessageTemplate
                                              ShowDeleted=@ShowDeletedMessages
                                              MessageTemplate=@MessageTemplate
-                                             GEmojiItemsProvider="@GEmojiItemsProvider" />
+                                             GEmojiItemsProvider="@GEmojiItemsProvider"
+                                             />
                         }
                     </Virtualize>
                 </div>
@@ -114,7 +115,8 @@
                         <ChatFileViewer Files="@_chatDraft?.SelectedChatFiles"
                                         OnDismiss="@OnDismissFile"
                                         ItemTemplate="@ChatFileTemplate"
-                                        LoadingItemContent="@LoadingFileContent" />
+                                        LoadingItemContent="@LoadingFileContent"
+                                        LoadingLabel="@ChatMessageListLabels.LoadingLabel"/>
                     }
 
                     <ChatMessageWriter Draft="@_chatDraft"

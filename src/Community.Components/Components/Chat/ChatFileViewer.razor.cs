@@ -35,6 +35,12 @@ public partial class ChatFileViewer
     public RenderFragment? LoadingItemContent { get; set; }
 
     /// <summary>
+    /// Gets or sets the loading label for the loading state of the file item in the chat file viewer.
+    /// </summary>
+    [Parameter]
+    public string? LoadingLabel { get; set; }
+
+    /// <summary>
     /// Gets the CSS class to apply to the chat file viewer.
     /// </summary>
     private string? Css => new CssBuilder(Class)

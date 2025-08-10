@@ -760,6 +760,11 @@
             Gets or sets the loading item content to use for rendering the loading state of the file in the chat file viewer.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewer.LoadingLabel">
+            <summary>
+            Gets or sets the loading label for the loading state of the file item in the chat file viewer.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewer.Css">
             <summary>
             Gets the CSS class to apply to the chat file viewer.
@@ -1541,6 +1546,11 @@
             Gets or sets the label when a deleted message is displayed.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListLabels.MessageViewer">
+            <summary>
+            Gets or sets the label for the message viewer dialog.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageListView`1">
             <summary>
             Rerpresents the view to list chat messages.
@@ -1610,6 +1620,11 @@
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListView`1._messageService">
             <summary>
             Represents the message service.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListView`1._isMessageViewerOverlayVisible">
+            <summary>
+            Represents a value indicating if the message viewer inside the overlay is visible or not.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.#ctor">
@@ -2400,6 +2415,26 @@
             The message contains a gift.
             </summary>
             <remarks>Gift is defined by the user.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChatMessageViewerContent">
+            <summary>
+            Represents the content of the <see cref="T:FluentUI.Blazor.Community.Components.ChatMessageViewer"/> dialog.
+            </summary>
+            <param name="owner">Owner of the view.</param>
+            <param name="message">Message to view. </param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageViewerContent.#ctor(FluentUI.Blazor.Community.Components.ChatUser,FluentUI.Blazor.Community.Components.IChatMessage)">
+            <summary>
+            Represents the content of the <see cref="T:FluentUI.Blazor.Community.Components.ChatMessageViewer"/> dialog.
+            </summary>
+            <param name="owner">Owner of the view.</param>
+            <param name="message">Message to view. </param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageViewerContent.owner">
+            <summary>Owner of the view.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageViewerContent.message">
+            <summary>Message to view. </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageWriter">
             <summary>
@@ -8884,6 +8919,16 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._hasParameterChanged">
             <summary>
             Represents a value indicating if a parameter has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._width">
+            <summary>
+            Represents the width of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._height">
+            <summary>
+            Represents the height of the image.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Source">

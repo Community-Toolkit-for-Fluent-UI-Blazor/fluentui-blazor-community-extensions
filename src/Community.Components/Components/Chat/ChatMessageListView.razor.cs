@@ -899,7 +899,17 @@ public partial class ChatMessageListView<TItem>
     /// <returns>Returns a task which show the message in bigger view.</returns>
     private async Task OnTappedAsync(IChatMessage message)
     {
+        var dialog = await DialogService.ShowDialogAsync<ChatMessageViewer>(new ChatMessageViewerContent(Owner, message), new DialogParameters()
+        {
+            Title = ChatMessageListLabels.MessageViewer,
+            PreventDismissOnOverlayClick = true,
+            DismissTitle = ChatMessageListLabels.DialogCancel,
+            PrimaryAction = ChatMessageListLabels.DialogCancel,
+            Width = "90%",
+            Height = "90%"
+        });
 
+        await dialog.Result;
     }
 
     /// <summary>
