@@ -21,8 +21,14 @@ public class FluentCxImageGroupItem
     /// </summary>
     private bool _hasParameterChanged;
 
+    /// <summary>
+    /// Represents the width of the image.
+    /// </summary>
     private int? _width;
 
+    /// <summary>
+    /// Represents the height of the image.
+    /// </summary>
     private int? _height;
 
     /// <summary>
@@ -58,6 +64,19 @@ public class FluentCxImageGroupItem
         .Build();
 
     /// <summary>
+    /// Gets the style of the component.
+    /// </summary>
+    private string? InternalOverflowStyle => new StyleBuilder(Style)
+        .AddStyle("width", $"{_width}px", _width is not null)
+        .AddStyle("height", $"{_height}px", _height is not null)
+        .AddStyle("border-radius", $"{Parent.Shape.ToBorderRadius()}")
+        .AddStyle("background-color", Parent.BackgroundStyle, !string.IsNullOrEmpty(Parent.BackgroundStyle) && string.IsNullOrWhiteSpace(Style))
+        .AddStyle("border", Parent.BorderStyle, !string.IsNullOrEmpty(Parent.BorderStyle) && string.IsNullOrWhiteSpace(Style))
+        .AddStyle("display", "inline-flex")
+        .AddStyle("flex-shrink", "0")
+        .Build();
+
+    /// <summary>
     /// Gets the margin-left of the component.
     /// </summary>
     /// <returns>Returns the margin-left of the component.</returns>
@@ -70,6 +89,11 @@ public class FluentCxImageGroupItem
     /// Gets or sets the internal renderer for the component.
     /// </summary>
     internal RenderFragment InternalRenderer { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the internal renderer for the overflow item.
+    /// </summary>
+    internal RenderFragment InternalOverflowRenderer { get; set; } = default!;
 
     /// <inheritdoc />
     public ValueTask DisposeAsync()
@@ -106,6 +130,15 @@ public class FluentCxImageGroupItem
             builder.AddAttribute(1, "src", Source);
             builder.AddAttribute(2, "alt", Alt);
             builder.AddAttribute(3, "style", InternalStyle);
+            builder.CloseElement();
+        };
+
+        InternalOverflowRenderer = builder =>
+        {
+            builder.OpenElement(0, "img");
+            builder.AddAttribute(1, "src", Source);
+            builder.AddAttribute(2, "alt", Alt);
+            builder.AddAttribute(3, "style", InternalOverflowStyle);
             builder.CloseElement();
         };
     }

@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Security.Cryptography;
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Services;
 
@@ -54,6 +56,8 @@ internal sealed class DemoChatMessageService(ChatState chatState)
                 IsDeleted = false,
                 IsPinned = false,
                 Sender = value.Owner,
+                ReplyMessageId = value.ChatDraft.Reply?.Id,
+                ReplyMessage = value.ChatDraft.Reply
             };
 
             if (value.ChatDraft.SelectedChatFiles.Count > 0)
@@ -62,11 +66,16 @@ internal sealed class DemoChatMessageService(ChatState chatState)
 
                 foreach (var item in value.ChatDraft.SelectedChatFiles.OrderBy(x => x.Id))
                 {
-                    var id = item.Id ?? newMessage.Files.Count + 1;
+                    var id = item.Id ?? $"f{newMessage.Files.Count + 1}";
+
+                    if (!int.TryParse(id, CultureInfo.InvariantCulture, out var fileId))
+                    {
+                        fileId = RandomNumberGenerator.GetInt32(int.MaxValue);
+                    }
 
                     newMessage.Files.Add(new BinaryChatFile
                     {
-                        Id = id,
+                        Id = fileId,
                         Name = item.Name,
                         ContentType = item.ContentType,
                         Data = item.DataFunc != null ? await item.DataFunc() : item.Data
@@ -88,20 +97,22 @@ internal sealed class DemoChatMessageService(ChatState chatState)
                 });
             }
 
-            foreach (var item in value.ChatDraft.GetTranslatedTexts())
+            if (value.IsTranslationEnabled)
             {
-                foreach (var subItem in item.Value)
+                foreach (var item in value.ChatDraft.GetTranslatedTexts())
                 {
-                    newMessage.Sections.Add(new ChatMessageSection
+                    foreach (var subItem in item.Value)
                     {
-                        Id = newMessage.Sections.Count + 1,
-                        Content = subItem,
-                        CreatedDate = DateTime.UtcNow,
-                        CultureId = _cultures[item.Key],
-                        MessageId = newMessage.Id
-                    });
+                        newMessage.Sections.Add(new ChatMessageSection
+                        {
+                            Id = newMessage.Sections.Count + 1,
+                            Content = subItem,
+                            CreatedDate = DateTime.UtcNow,
+                            CultureId = _cultures[item.Key],
+                            MessageId = newMessage.Id
+                        });
+                    }
                 }
-
             }
 
             messages.Add(newMessage);
@@ -140,10 +151,8 @@ internal sealed class DemoChatMessageService(ChatState chatState)
                     IsDeleted = false,
                     IsPinned = false,
                     Sender = value.Owner,
+                    MessageType = ChatMessageType.Text
                 };
-
-
-                newMessage.MessageType = ChatMessageType.Text;
 
                 newMessage.Sections.Add(new ChatMessageSection
                 {
@@ -173,11 +182,16 @@ internal sealed class DemoChatMessageService(ChatState chatState)
 
                 foreach (var item in value.ChatDraft.SelectedChatFiles.OrderBy(x => x.Id))
                 {
-                    var id = item.Id ?? newMessage.Files.Count + 1;
+                    var id = item.Id ?? $"f{newMessage.Files.Count + 1}";
+
+                    if (!int.TryParse(id.AsSpan(1), CultureInfo.InvariantCulture, out var idResult))
+                    {
+                        idResult = RandomNumberGenerator.GetInt32(int.MaxValue);
+                    }
 
                     newMessage.Files.Add(new BinaryChatFile
                     {
-                        Id = id,
+                        Id = idResult,
                         Name = item.Name,
                         ContentType = item.ContentType,
                         Data = item.DataFunc != null ? await item.DataFunc() : item.Data

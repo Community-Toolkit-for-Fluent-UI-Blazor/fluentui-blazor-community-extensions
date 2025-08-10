@@ -1,6 +1,6 @@
 namespace FluentUI.Blazor.Community.Helpers;
 
-public static class ImageSourceHelper
+public static class Base64ContentHelper
 {
     public static string? GetBase64Content(byte[] data, string contentType)
     {

@@ -13,11 +13,13 @@
             <FluentSpacer Width="10" />
             <FluentSwitch Label="Show deleted message" @bind-Value=_showDeletedMessages />
             <FluentSpacer Width="10" />
-            <FluentSwitch Label="Icons filled" @bind-Value=_iconsFilled />
-            <FluentSpacer Width="10" />
             <FluentSwitch Label="Split message" @bind-Value=_splitMessage />
             <FluentSpacer Width="10" />
             <FluentSwitch Label="Sending message in overlay" @bind-Value=_isSendingInOverlay />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Message writer horizontal" @bind-Value=_isMessageWriterHorizontal />
+            <FluentSpacer Width="10" />
+            <FluentSwitch Label="Files render in view" @bind-Value=_filesRenderInView />
         </FluentStack>
 
         <ChatMessageListView TItem="NoFileEntryData"
@@ -29,9 +31,10 @@
                              IsTranslationEnabled=@_translateMessage
                              ShowDeletedMessages=@_showDeletedMessages
                              Owner="_owner"
-                             UseFilledIcons=_iconsFilled
+                             MessageWriterOrientation="@(_isMessageWriterHorizontal ? Orientation.Horizontal : Orientation.Vertical)"
                              MessageSplitOption="@(_splitMessage ? ChatMessageSplitOption.Split : ChatMessageSplitOption.None)"
-                             SendingRenderMode="@(_isSendingInOverlay ? ChatMessageSendingRenderMode.Overlay : ChatMessageSendingRenderMode.Inline)" />
+                             SendingRenderMode="@(_isSendingInOverlay ? ChatMessageSendingRenderMode.Overlay : ChatMessageSendingRenderMode.Inline)"
+                             ChatFileRenderingMode="@(_filesRenderInView ? ChatFileRenderingMode.Viewer : ChatFileRenderingMode.Discrete)" />
     </FluentStack>
 </div>
 
@@ -42,9 +45,10 @@
     private bool _appendFiles = true;
     private bool _translateMessage = true;
     private bool _showDeletedMessages = true;
-    private bool _iconsFilled = true;
     private bool _splitMessage = false;
     private bool _isSendingInOverlay = true;
+    private bool _isMessageWriterHorizontal = false;
+    private bool _filesRenderInView = false;
 
     private ChatUser _owner = new()
         {

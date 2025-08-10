@@ -4,10 +4,10 @@
 @if (Message is not null && 
      Owner is not null)
 {
-    <div id="@($"message-{Id}-{Message.Id}")" @onclick=OnTappedAsync style="height: 170px; margin-top: 5px; margin-bottom: 5px">
-        @if (Message.IsDeleted && ShowDeleted)
-        {
-            if (DeletedMessageTemplate is not null)
+    @if (ShowDeleted && Message.IsDeleted)
+    {
+        <div>
+            @if (DeletedMessageTemplate is not null)
             {
                 @DeletedMessageTemplate
             }
@@ -30,10 +30,12 @@
 
                     @_renderFooter
                 </FluentStack>
-            }
-        }
-        else if (!Message.IsDeleted)
-        {
+            }    
+        </div>
+    }
+    else if(!Message.IsDeleted)
+    {
+        <div id="@($"message-{Id}-{Message.Id}")" @onclick=OnTappedAsync style="height: 170px; margin-top: 5px; margin-bottom: 5px">
             @if (MessageTemplate is not null)
             {
                 @MessageTemplate(Message)
@@ -66,71 +68,71 @@
                     @_renderFooter
                 </FluentStack>
             }
-        }
 
-        <FluentPopover AnchorId="@($"MoreButton{Message!.Id}")"
-                       @bind-Open=_showActionsPopover>
-            <Body>
-                <FluentStack Orientation="Orientation.Vertical">
-                    @if (Message.IsPinned)
-                    {
-                        <FluentButton Appearance="Appearance.Stealth"
-                                      Style="width: 100%"
-                                      OnClick="@(() => OnPinOrUnpinAsync(false))"
-                                      IconStart="@(new Regular.Size24.PinOff())">
-                            @ChatMessageListLabels.UnpinLabel
-                        </FluentButton>
-                    }
-                    else
-                    {
-                        <FluentButton Appearance="Appearance.Stealth"
-                                      Style="width: 100%"
-                                      OnClick="@(() => OnPinOrUnpinAsync(true))"
-                                      IconStart="@(new Regular.Size24.Pin())">
-                            @ChatMessageListLabels.PinLabel
-                        </FluentButton>
-                    }
+            <FluentPopover AnchorId="@($"MoreButton{Message!.Id}")"
+                           @bind-Open=_showActionsPopover>
+                <Body>
+                    <FluentStack Orientation="Orientation.Vertical">
+                        @if (Message.IsPinned)
+                        {
+                            <FluentButton Appearance="Appearance.Stealth"
+                                          Style="width: 100%"
+                                          OnClick="@(() => OnPinOrUnpinAsync(false))"
+                                          IconStart="@(new Regular.Size24.PinOff())">
+                                @ChatMessageListLabels.UnpinLabel
+                            </FluentButton>
+                        }
+                        else
+                        {
+                            <FluentButton Appearance="Appearance.Stealth"
+                                          Style="width: 100%"
+                                          OnClick="@(() => OnPinOrUnpinAsync(true))"
+                                          IconStart="@(new Regular.Size24.Pin())">
+                                @ChatMessageListLabels.PinLabel
+                            </FluentButton>
+                        }
 
-                <FluentButton Appearance="Appearance.Stealth"
-                              Style="width:100%"
-                              OnClick=@(OnReplyAsync)
-                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.ArrowReply())">
-                    @ChatMessageListLabels.Reply
-                </FluentButton>
+                    <FluentButton Appearance="Appearance.Stealth"
+                                  Style="width:100%"
+                                  OnClick=@(OnReplyAsync)
+                                  IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.ArrowReply())">
+                        @ChatMessageListLabels.Reply
+                    </FluentButton>
 
-                    @if (Message.MessageType == ChatMessageType.Text)
-                    {
-                        <FluentButton Appearance="Appearance.Stealth"
-                                      Style="width:100%" 
-                                      OnClick=@(OnCopyAsync) 
-                                      IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Copy())">
-                            @ChatMessageListLabels.Copy
-                        </FluentButton>
+                        @if (Message.MessageType == ChatMessageType.Text)
+                        {
+                            <FluentButton Appearance="Appearance.Stealth"
+                                          Style="width:100%" 
+                                          OnClick=@(OnCopyAsync) 
+                                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Copy())">
+                                @ChatMessageListLabels.Copy
+                            </FluentButton>
+
+                            @if (Owner == Message.Sender)
+                            {
+                                <FluentButton Appearance="Appearance.Stealth"
+                                              Style="width:100%"
+                                              OnClick=@OnEditAsync 
+                                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Edit())">
+                                    @ChatMessageListLabels.Edit
+                                </FluentButton>
+                            }
+                        }
 
                         @if (Owner == Message.Sender)
                         {
                             <FluentButton Appearance="Appearance.Stealth"
-                                          Style="width:100%"
-                                          OnClick=@OnEditAsync 
-                                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Edit())">
-                                @ChatMessageListLabels.Edit
+                                          Style="width:100%" 
+                                          OnClick=@OnDeleteAsync 
+                                          IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Delete())">
+                                @ChatMessageListLabels.Delete
                             </FluentButton>
                         }
-                    }
-
-                    @if (Owner == Message.Sender)
-                    {
-                        <FluentButton Appearance="Appearance.Stealth"
-                                      Style="width:100%" 
-                                      OnClick=@OnDeleteAsync 
-                                      IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Delete())">
-                            @ChatMessageListLabels.Delete
-                        </FluentButton>
-                    }
-                </FluentStack>
-            </Body>
-        </FluentPopover>
-    </div>
+                    </FluentStack>
+                </Body>
+            </FluentPopover>
+        </div>
+    }
 }
 
 @code {
@@ -154,7 +156,9 @@
                 <FluentStack Style="height: 100%" />
 
                 <FluentStack VerticalAlignment="VerticalAlignment.Bottom">
-                    <FluentButton OnClick=@(() => _showActionsPopover = !_showActionsPopover) 
+                    <FluentButton OnClick=@(() => _showActionsPopover = !_showActionsPopover)
+                                  Appearance="Appearance.Neutral"
+                                  Style="border-radius: 10000px"
                                   Id="@($"MoreButton{Message!.Id}")"
                                   IconStart="@(new Regular.Size24.MoreVertical())" />
                 </FluentStack>
@@ -317,7 +321,9 @@
         _renderEmojiButton = __builder =>
         {
             <FluentButton OnClick=@(OnShowEmojiExplorerAsync) 
-                          Id="@($"EmojiButton{Message!.Id}")">
+                          Id="@($"EmojiButton{Message!.Id}")"
+                          Appearance="Appearance.Neutral"
+                          Style="border-radius: 10000px">
                 <FluentIcon Value="@(new Regular.Size24.EmojiAdd())" />
             </FluentButton>
         };
@@ -362,7 +368,7 @@
 
         _renderCard = __builder =>
         {
-            <FluentCard Height="150px">
+            <FluentCard Height="150px" AreaRestricted=false>
                 <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
                     @_renderMessage
                     

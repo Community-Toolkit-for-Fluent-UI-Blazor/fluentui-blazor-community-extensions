@@ -306,7 +306,7 @@ public partial class ChatMessageCard
             }
             else if (chatFile is BinaryChatFile binaryChatFile)
             {
-                return ImageSourceHelper.GetBase64Content(binaryChatFile.Data, binaryChatFile.ContentType);
+                return Base64ContentHelper.GetBase64Content(binaryChatFile.Data, binaryChatFile.ContentType);
             }
         }
 

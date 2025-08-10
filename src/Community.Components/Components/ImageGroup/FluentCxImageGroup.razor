@@ -24,12 +24,12 @@
 
                 <FluentPopover AnchorId="@($"ImageGroupPopover{Id}")"
                                @bind-Open=_isPopoverOpen
-                               Style="max-height: 350px; overflow-y: auto">
+                               Style="max-height: 250px; overflow-y: auto">
                     <Body>
                        <FluentStack Orientation="Orientation.Vertical">
                             @foreach (var item in _children.Skip(VisibleCount))
                             {
-                                @item.InternalRenderer
+                                @item.InternalOverflowRenderer
                             }
                        </FluentStack>
                     </Body>

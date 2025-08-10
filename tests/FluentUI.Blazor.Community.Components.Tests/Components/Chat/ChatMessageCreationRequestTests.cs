@@ -32,23 +32,36 @@ public class ChatMessageCreationRequestTests
             42,
             user,
             draft,
-            ChatMessageSplitOption.Split
+            ChatMessageSplitOption.Split,
+            true
         );
 
         Assert.Equal(42, request.RoomId);
         Assert.Equal(user, request.Owner);
         Assert.Equal(draft, request.ChatDraft);
         Assert.Equal(ChatMessageSplitOption.Split, request.SplitOption);
+        Assert.True(request.IsTranslationEnabled);
     }
 
     [Fact]
     public void CanUseSplitOptionNone()
     {
-        var user = new ChatUser { Id = 2, DisplayName = "Bob", Roles = new List<string>() };
-        var draft = new ChatMessageDraft { Text = "Salut", SelectedChatFiles = new List<ChatFileEventArgs>() };
+        var user = new ChatUser { Id = 2, DisplayName = "Bob", Roles = [] };
+        var draft = new ChatMessageDraft { Text = "Salut", SelectedChatFiles = [] };
 
-        var request = new ChatMessageCreationRequest(99, user, draft, ChatMessageSplitOption.None);
+        var request = new ChatMessageCreationRequest(99, user, draft, ChatMessageSplitOption.None, true);
 
         Assert.Equal(ChatMessageSplitOption.None, request.SplitOption);
+    }
+
+    [Fact]
+    public void CanDisableIsTranslationEnabled()
+    {
+        var user = new ChatUser { Id = 2, DisplayName = "Bob", Roles = [] };
+        var draft = new ChatMessageDraft { Text = "Salut", SelectedChatFiles = [] };
+
+        var request = new ChatMessageCreationRequest(99, user, draft, ChatMessageSplitOption.None, false);
+
+        Assert.False(request.IsTranslationEnabled);
     }
 }

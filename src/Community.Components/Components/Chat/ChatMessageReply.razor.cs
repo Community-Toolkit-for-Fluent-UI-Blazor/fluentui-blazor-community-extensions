@@ -114,7 +114,7 @@ public partial class ChatMessageReply
     {
         await base.SetParametersAsync(parameters);
 
-        if (parameters.HasValueChanged(nameof(Text), Text))
+        if (parameters.TryGetValue(nameof(Text), out string? _))
         {
             _refreshText = true;
         }

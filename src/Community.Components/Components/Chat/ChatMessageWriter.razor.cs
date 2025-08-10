@@ -14,6 +14,42 @@ public partial class ChatMessageWriter
     private readonly RenderFragment<(Orientation, string)> _toolbarFragment;
 
     /// <summary>
+    /// Gets or sets the icon to be used for the media button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? MediaIcon { get; set; }
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the emoji button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? EmojiIcon { get; set; }
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the gift button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? GiftIcon { get; set; }
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the send button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? SendIcon { get; set; }
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the cancel edit button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? DismissIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Dismiss();
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the commit edit button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? CheckmarkIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Checkmark();
+
+    /// <summary>
     /// Gets or sets the content to be displayed in the chat message writer when a message is currently sending.
     /// </summary>
     [Parameter]
@@ -24,12 +60,6 @@ public partial class ChatMessageWriter
     /// </summary>
     [Parameter]
     public ChatMessageSendingRenderMode SendingRenderMode { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating if the icons used in the component are filled or not.
-    /// </summary>
-    [Parameter]
-    public bool UseFilledIcons { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the orientation of the toolbar in the chat message writer.
@@ -138,4 +168,24 @@ public partial class ChatMessageWriter
     /// </summary>
     [Parameter]
     public bool IsSending { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the message writer should show a counter badge.
+    /// </summary>
+    [Parameter]
+    public bool ShowCounterBadge { get; set; } = true;
+
+    /// <summary>
+    /// Gets the number of rows to display in the chat message writer based on the current state (mobile, reply, etc.).
+    /// </summary>
+    /// <returns>Returns the number of rows to display.</returns>
+    private int GetNumberOfRows()
+    {
+        if (IsMobile)
+        {
+            return IsReply ? 2 : 4;
+        }
+
+        return IsReply ? 5 : 7;
+    }
 }

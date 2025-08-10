@@ -1,0 +1,12 @@
+.chat-file-viewer {
+  display: inline-flex;
+  flex-direction: row;
+  width: 100%;
+  height: 120px;
+  align-items: center;
+  display: flex;
+  border: calc(var(--stroke-width) * 1px) solid var(--neutral-stroke-layer-rest);
+  border-radius: calc(var(--control-corner-radius) * 1px);
+  background: var(--neutral-layer-2);
+  padding: calc(var(--design-unit) * 1.5px) calc(var(--design-unit) * 2px + 1px);
+}

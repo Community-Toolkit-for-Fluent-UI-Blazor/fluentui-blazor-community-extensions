@@ -11,6 +11,7 @@ public record ChatMessageCreationRequest(
     long RoomId,
     ChatUser Owner,
     ChatMessageDraft ChatDraft,
-    ChatMessageSplitOption SplitOption)
+    ChatMessageSplitOption SplitOption,
+    bool IsTranslationEnabled)
 {
 }

@@ -37,7 +37,7 @@ else
 
             <FluentTextArea @bind-Value=Draft!.Text
                             Placeholder="@Labels.EnterMessage"
-                            Rows="@(IsReply ? 5 : 7)"
+                            Rows="@(GetNumberOfRows())"
                             Autofocus
                             Immediate
                             Style="width: 100%" />
@@ -67,23 +67,15 @@ else
                 {
                     <FluentCounterBadge Count="@(Draft?.SelectedChatFiles.Count)"
                                         Max="9"
-                                        ShowWhen=@(c => c > 0)
+                                        ShowWhen=@(c => ShowCounterBadge && c > 0)
                                         BackgroundColor="@Color.Error"
                                         Color="Color.Fill"
                                         Appearance="Appearance.Neutral">
                         <FluentButton Id="MediaImporterButton"
                                       OnClick="@(OnImportMedia)"
                                       Title="@Labels.InsertMedia"
-                                      Style="border-radius: 20px">
-                            @if (UseFilledIcons)
-                            {
-                                <FluentIcon Value="@(new IconsFilled.Size24.ImageMultiple())" />
-                            }
-                            else
-                            {
-                                <FluentIcon Value="@(new Regular.Size24.ImageMultiple())" />
-                            }
-                        </FluentButton>
+                                      Style="border-radius: 20px"
+                                      IconStart="@MediaIcon"/>
                     </FluentCounterBadge>
                 }
 
@@ -92,32 +84,16 @@ else
                     <FluentButton Id="EmojiButton"
                                   Title="@Labels.InsertEmojis"
                                   OnClick="@(OnEmoji)"
-                                  Style="border-radius: 20px">
-                        @if (UseFilledIcons)
-                        {
-                            <FluentIcon Value="@(new IconsFilled.Size24.EmojiAdd())" />
-                        }
-                        else
-                        {
-                            <FluentIcon Value="@(new Regular.Size24.EmojiAdd())" />
-                        }
-                    </FluentButton>
+                                  IconStart="@(EmojiIcon)"
+                                  Style="border-radius: 20px" />
                 }
 
                 @if (!IsEdit && ShowGiftButton)
                 {
                     <FluentButton Title="@Labels.InsertGift"
                                   OnClick="@OnGift"
-                                  Style="border-radius: 20px">
-                        @if (UseFilledIcons)
-                        {
-                            <FluentIcon Value="@(new IconsFilled.Size24.GiftCard())" />
-                        }
-                        else
-                        {
-                            <FluentIcon Value="@(new Regular.Size24.GiftCard())" />
-                        }
-                    </FluentButton>
+                                  IconStart="@(GiftIcon)"
+                                  Style="border-radius: 20px" />
                 }
 
                 @if (!IsEdit)
@@ -130,16 +106,8 @@ else
                     <FluentButton Title="@Labels.SendMessage"
                                   Disabled=@(string.IsNullOrEmpty(Draft?.Text) && (Draft?.SelectedChatFiles.Count == 0))
                                   OnClick="OnSendMessage"
-                                  Style="border-radius: 20px">
-                        @if (UseFilledIcons)
-                        {
-                            <FluentIcon Value="@(new IconsFilled.Size24.Send())" />
-                        }
-                        else
-                        {
-                            <FluentIcon Value="@(new Regular.Size24.Send())" />
-                        }
-                    </FluentButton>
+                                  IconStart="@(SendIcon)"
+                                  Style="border-radius: 20px" />
                 }
 
                 @if (IsEdit)
@@ -151,12 +119,12 @@ else
 
                     <FluentButton Title="@Labels.DialogCancel"
                                   OnClick="@OnCancel"
-                                  IconStart="@(UseFilledIcons ? new IconsFilled.Size24.Dismiss() : new Regular.Size24.Dismiss())"
+                                  IconStart="@DismissIcon"
                                   Style="border-radius: 20px" />
 
                     <FluentButton Title="@Labels.DialogOk"
                                   OnClick="@OnEditMessage"
-                                  IconStart="@(UseFilledIcons ? new IconsFilled.Size24.Checkmark() : new Regular.Size24.Checkmark())"
+                                  IconStart="@CheckmarkIcon"
                                   Style="border-radius: 20px" />
                 }
             </FluentStack>

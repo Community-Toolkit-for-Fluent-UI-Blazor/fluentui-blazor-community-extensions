@@ -1,36 +1,64 @@
+using System.Security.Cryptography;
+using Microsoft.FluentUI.AspNetCore.Components;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
 /// Represents an event args for a chat file.
 /// </summary>
-/// <param name="Id">Id of the file.</param>
-/// <param name="Name">Name of the file.</param>
-/// <param name="ContentType">Content type of the file.</param>
-/// <param name="Data">Data of the file.</param>
 public record ChatFileEventArgs
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChatFileEventArgs"/> class with the specified id, name, content type, and data function.
+    /// </summary>
+    /// <param name="id">Identifier of the file.</param>
+    /// <param name="name">Name of the file.</param>
+    /// <param name="contentType">Content type of the file.</param>
+    /// <param name="data">Data of the file as an asynchronous task.</param>
     public ChatFileEventArgs(long id, string name, string contentType, Func<Task<byte[]>> data)
     {
-        Id = id;
+        Id = $"f{id}";
         Name = name;
         ContentType = contentType;
         DataFunc = data;
     }
 
-   public ChatFileEventArgs(string name, string contentType, byte[] data)
-   {
-      Name = name;
-      ContentType = contentType;
-      Data = data;
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChatFileEventArgs"/> class with the specified name, content type, and data.
+    /// </summary>
+    /// <param name="name">Name of the file.</param>
+    /// <param name="contentType">Content type of the file.</param>
+    /// <param name="data">Data of the file.</param>
+    public ChatFileEventArgs(string name, string contentType, byte[] data)
+    {
+        Id = Identifier.NewId();
+        Name = name;
+        ContentType = contentType;
+        Data = data;
     }
 
-    public long? Id { get; set; }
+    /// <summary>
+    /// Gets or sets the identifier of the file.
+    /// </summary>
+    public string? Id { get; }
 
-    public string Name { get; init; }
+    /// <summary>
+    /// Gets the name of the file.
+    /// </summary>
+    public string Name { get; }
 
-    public string ContentType { get; init; }
+    /// <summary>
+    /// Gets the content type of the file.
+    /// </summary>
+    public string ContentType { get;  }
 
-    public Func<Task<byte[]>>? DataFunc { get; init; }
+    /// <summary>
+    /// Gets the function that retrieves the data of the file asynchronously.
+    /// </summary>
+    public Func<Task<byte[]>>? DataFunc { get; }
 
-    public byte[] Data { get; init; } = [];
+    /// <summary>
+    /// Gets the data of the file.
+    /// </summary>
+    public byte[] Data { get; } = [];
 }

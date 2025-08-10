@@ -1,0 +1,11 @@
+.chat-file-view-item {
+  border: calc(var(--stroke-width) * 1px) solid var(--neutral-stroke-rest);
+  border-radius: calc(var(--control-corner-radius) * 1px);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 112px;
+  height: 112px;
+  position: relative;
+}

@@ -1,6 +1,5 @@
 using System.Text;
 using FluentUI.Blazor.Community.Components.Services;
-using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Blazor.Community.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
@@ -331,10 +330,58 @@ public partial class ChatMessageListView<TItem>
     public string HubName { get; set; } = "/hubs/chat";
 
     /// <summary>
-    /// Gets or sets a value indicating if the icons used in the component are filled or not.
+    /// Gets or sets the icon to be used for the media button in the chat message writer.
     /// </summary>
     [Parameter]
-    public bool UseFilledIcons { get; set; } = true;
+    public Icon? MediaIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Image();
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the emoji button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? EmojiIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Emoji();
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the gift button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? GiftIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Gift();
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the send button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? SendIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Send();
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the cancel edit button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? DismissIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Dismiss();
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the commit edit button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? CheckmarkIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Checkmark();
+
+    /// <summary>
+    /// Gets or sets the rendering mode of the chat files.
+    /// </summary>
+    [Parameter]
+    public ChatFileRenderingMode ChatFileRenderingMode { get; set; } = ChatFileRenderingMode.Discrete;
+
+    /// <summary>
+    /// Gets or sets the template to use to render a chat file in the chat message list view.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<ChatFileEventArgs>? ChatFileTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the template to use to render a chat file in the chat message list view when the file is loading.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? LoadingFileContent { get; set; }
 
     #endregion Properties
 
@@ -520,7 +567,8 @@ public partial class ChatMessageListView<TItem>
                 ChatState.Room.Id,
                 Owner,
                 _chatDraft,
-                MessageSplitOption
+                MessageSplitOption,
+                IsTranslationEnabled
             )));
 
             _refreshTotalMessageCount = true;
@@ -942,6 +990,15 @@ public partial class ChatMessageListView<TItem>
             await RefreshDataAsync();
             await _messageService.SendAsync(ChatMessageListViewConstants.SendReactOnMessageAsync, ChatState.Room.Id, ChatState.Room.GetUsersBut(Owner));
         }
+    }
+
+    /// <summary>
+    /// Dismisses the file specified by <paramref name="e"/>.
+    /// </summary>
+    /// <param name="e">File to remove.</param>
+    private void OnDismissFile(ChatFileEventArgs e)
+    {
+        _chatDraft?.SelectedChatFiles.Remove(e);
     }
 
     /// <summary>

@@ -677,10 +677,177 @@
             <summary>
             Represents an event args for a chat file.
             </summary>
-            <param name="Id">Id of the file.</param>
-            <param name="Name">Name of the file.</param>
-            <param name="ContentType">Content type of the file.</param>
-            <param name="Data">Data of the file.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatFileEventArgs.#ctor(System.Int64,System.String,System.String,System.Func{System.Threading.Tasks.Task{System.Byte[]}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ChatFileEventArgs"/> class with the specified id, name, content type, and data function.
+            </summary>
+            <param name="id">Identifier of the file.</param>
+            <param name="name">Name of the file.</param>
+            <param name="contentType">Content type of the file.</param>
+            <param name="data">Data of the file as an asynchronous task.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatFileEventArgs.#ctor(System.String,System.String,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ChatFileEventArgs"/> class with the specified name, content type, and data.
+            </summary>
+            <param name="name">Name of the file.</param>
+            <param name="contentType">Content type of the file.</param>
+            <param name="data">Data of the file.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.Id">
+            <summary>
+            Gets or sets the identifier of the file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.Name">
+            <summary>
+            Gets the name of the file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.ContentType">
+            <summary>
+            Gets the content type of the file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.DataFunc">
+            <summary>
+            Gets the function that retrieves the data of the file asynchronously.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.Data">
+            <summary>
+            Gets the data of the file.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChatFileRenderingMode">
+            <summary>
+            Represents the rendering mode for files in a chat component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatFileRenderingMode.Discrete">
+            <summary>
+            The files are rendered as a FluentCounterBadge on the media button.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatFileRenderingMode.Viewer">
+            <summary>
+            A viewer is used to render the files, allowing for a more detailed view of the file contents.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChatFileViewer">
+            <summary>
+            Represents a component that displays a list of files in a chat context.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewer.Files">
+            <summary>
+            Gets or sets the files to display in the chat file viewer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewer.OnDismiss">
+            <summary>
+            Gets or sets the callback that is invoked when a file is dismissed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewer.ItemTemplate">
+            <summary>
+            Gets or sets the item template to use for rendering each file in the chat file viewer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewer.LoadingItemContent">
+            <summary>
+            Gets or sets the loading item content to use for rendering the loading state of the file in the chat file viewer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewer.Css">
+            <summary>
+            Gets the CSS class to apply to the chat file viewer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatFileViewer.OnDismissAsync(FluentUI.Blazor.Community.Components.ChatFileEventArgs)">
+            <summary>
+            Occurs when a file is dismissed.
+            </summary>
+            <param name="file">File to dismiss.</param>
+            <returns>Returns a task which dismiss a file when completed.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChatFileViewItem">
+            <summary>
+            Represents a component that displays a file in a chat context.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatFileViewItem._itemLoaded">
+            <summary>
+            Represents a value indicating whether the item has been loaded.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatFileViewItem._base64Data">
+            <summary>
+            Represents the base64 encoded data of the file.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatFileViewItem.JavascriptFile">
+            <summary>
+            Represents the javaScript file that contains the logic for the chat file view item component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatFileViewItem._module">
+            <summary>
+            Represents the javaScript module reference for the chat file view item component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatFileViewItem.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ChatFileViewItem"/> class with a new identifier.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.Css">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.Item">
+            <summary>
+            Gets or sets the file to display in the chat file view item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.OnDismiss">
+            <summary>
+            Gets or sets the callback that is invoked when the file view item is dismissed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.Template">
+            <summary>
+            Gets or sets the item template to use for rendering the file in the chat file view item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.LoadingContent">
+            <summary>
+            Gets or sets the loading item content to use for rendering the loading state of the file in the chat file view item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.LoadingLabel">
+            <summary>
+            Gets or sets the label to display when the file is loading.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.JSRuntime">
+            <summary>
+            Gets or sets the js runtime to use for invoking JavaScript functions.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatFileViewItem.OnDismissAsync">
+            <summary>
+            Occurs when the file view item is dismissed.
+            </summary>
+            <returns>Returns a task which dismiss the file item when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatFileViewItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatFileViewItem.DisposeAsync">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatGroupEventArgs">
             <summary>
@@ -988,7 +1155,7 @@
             <param name="ChatDraft">Draft of the message.</param>
             <param name="SplitOption">Options to split the message into multiple messages or not.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageCreationRequest.#ctor(System.Int64,FluentUI.Blazor.Community.Components.ChatUser,FluentUI.Blazor.Community.Components.ChatMessageDraft,FluentUI.Blazor.Community.Components.ChatMessageSplitOption)">
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageCreationRequest.#ctor(System.Int64,FluentUI.Blazor.Community.Components.ChatUser,FluentUI.Blazor.Community.Components.ChatMessageDraft,FluentUI.Blazor.Community.Components.ChatMessageSplitOption,System.Boolean)">
             <summary>
             Represents the requestion to create a message.
             </summary>
@@ -1644,9 +1811,49 @@
             Gets or sets the name of the hub to use to send message.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.UseFilledIcons">
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.MediaIcon">
             <summary>
-            Gets or sets a value indicating if the icons used in the component are filled or not.
+            Gets or sets the icon to be used for the media button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.EmojiIcon">
+            <summary>
+            Gets or sets the icon to be used for the emoji button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.GiftIcon">
+            <summary>
+            Gets or sets the icon to be used for the gift button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.SendIcon">
+            <summary>
+            Gets or sets the icon to be used for the send button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.DismissIcon">
+            <summary>
+            Gets or sets the icon to be used for the cancel edit button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.CheckmarkIcon">
+            <summary>
+            Gets or sets the icon to be used for the commit edit button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.ChatFileRenderingMode">
+            <summary>
+            Gets or sets the rendering mode of the chat files.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.ChatFileTemplate">
+            <summary>
+            Gets or sets the template to use to render a chat file in the chat message list view.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.LoadingFileContent">
+            <summary>
+            Gets or sets the template to use to render a chat file in the chat message list view when the file is loading.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnAddGiftAsync">
@@ -1849,6 +2056,12 @@
             </summary>
             <param name="e">Event args associated to the method.</param>
             <returns>Returns a task which reacts to a message when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnDismissFile(FluentUI.Blazor.Community.Components.ChatFileEventArgs)">
+            <summary>
+            Dismisses the file specified by <paramref name="e"/>.
+            </summary>
+            <param name="e">File to remove.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnCopied">
             <summary>
@@ -2198,6 +2411,36 @@
             Represents the fragment to render the action toolbar of the chat message writer.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.MediaIcon">
+            <summary>
+            Gets or sets the icon to be used for the media button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.EmojiIcon">
+            <summary>
+            Gets or sets the icon to be used for the emoji button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.GiftIcon">
+            <summary>
+            Gets or sets the icon to be used for the gift button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.SendIcon">
+            <summary>
+            Gets or sets the icon to be used for the send button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.DismissIcon">
+            <summary>
+            Gets or sets the icon to be used for the cancel edit button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.CheckmarkIcon">
+            <summary>
+            Gets or sets the icon to be used for the commit edit button in the chat message writer.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.SendingContent">
             <summary>
             Gets or sets the content to be displayed in the chat message writer when a message is currently sending.
@@ -2206,11 +2449,6 @@
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.SendingRenderMode">
             <summary>
             Gets or sets the render mode for sending messages in the chat message writer.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.UseFilledIcons">
-            <summary>
-            Gets or sets a value indicating if the icons used in the component are filled or not.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.Orientation">
@@ -2302,6 +2540,17 @@
             <summary>
             Gets or sets a value indicating whether the message writer is currently sending a message.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.ShowCounterBadge">
+            <summary>
+            Gets or sets a value indicating whether the message writer should show a counter badge.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageWriter.GetNumberOfRows">
+            <summary>
+            Gets the number of rows to display in the chat message writer based on the current state (mobile, reply, etc.).
+            </summary>
+            <returns>Returns the number of rows to display.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatRoom">
             <summary>
@@ -3429,6 +3678,107 @@
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FileUploaderContent.Progression">
             <summary>Represents the label for the progressive operation.</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FileUploaderDialog.FileMemory">
+            <summary>
+            Represents a file in memory.
+            </summary>
+            <param name="Name">Name of the file.</param>
+            <param name="Stream">Stream containing the data of the file.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.FileMemory.#ctor(System.String,System.IO.MemoryStream)">
+            <summary>
+            Represents a file in memory.
+            </summary>
+            <param name="Name">Name of the file.</param>
+            <param name="Stream">Stream containing the data of the file.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileUploaderDialog.FileMemory.Name">
+            <summary>Name of the file.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileUploaderDialog.FileMemory.Stream">
+            <summary>Stream containing the data of the file.</summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._id">
+            <summary>
+            Represents a unique identifier.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._acceptFiles">
+            <summary>
+            Accepted files by default.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._maximumFileCount">
+            <summary>
+            Number of file the user can upload at one time.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._progressTemplate">
+            <summary>
+            Template to report a progress.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._iconTemplate">
+            <summary>
+            Template to represents an icon of the document.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._streams">
+            <summary>
+            Dictionary containing all files uploaded.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._hardUploadedEventArgsList">
+            <summary>
+            List of all events args containing the uploaded files.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._extensionContentTypeProvider">
+            <summary>
+            Represents the provider for the content type.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileUploaderDialog.Dialog">
+            <summary>
+            Gets or sets the dialog reference.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FileUploaderDialog.Content">
+            <summary>
+            Gets or sets the content of the dialog.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.OnProgressChangedAsync(Microsoft.FluentUI.AspNetCore.Components.FluentInputFileEventArgs)">
+            <summary>
+            Occurs when the progression of the uploaded file changed.
+            </summary>
+            <param name="e">Event args of the file.</param>
+            <returns>Returns a task which store the progression of the upload when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.OnFileUploadedAsync(Microsoft.FluentUI.AspNetCore.Components.FluentInputFileEventArgs)">
+            <summary>
+            Occurs when a file is uploaded.
+            </summary>
+            <param name="e">Event args of the file.</param>
+            <returns>Returns a task which creates a <see cref="T:FluentUI.Blazor.Community.Components.ChatFileEventArgs" /> when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.OnCloseAsync">
+            <summary>
+            Closes the dialog with the selected files as result.
+            </summary>
+            <returns>Returns a task which closes the dialog with the selected files as result.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.OnCancelAsync">
+            <summary>
+            Closes the dialog and cancel all selected files.
+            </summary>
+            <returns>Returns a task which closes the dialog with a cancel result.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FileUploaderDialog" /> class.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxChatButton">
             <summary>
@@ -8556,6 +8906,11 @@
             Gets the style of the component.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.InternalOverflowStyle">
+            <summary>
+            Gets the style of the component.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.GetMarginLeft">
             <summary>
             Gets the margin-left of the component.
@@ -8565,6 +8920,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.InternalRenderer">
             <summary>
             Gets or sets the internal renderer for the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.InternalOverflowRenderer">
+            <summary>
+            Gets or sets the internal renderer for the overflow item.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.DisposeAsync">
@@ -9305,6 +9665,11 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxMediaQuery._disposeQueryModule">
             <summary>
             Represents a value to dispose the module each time the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.Query"/> changes.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxMediaQuery"/> class.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.Query">
@@ -10216,102 +10581,6 @@
             </summary>
             <returns>Returns a task which closes the dialog with a cancel result.</returns>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FileUploaderDialog.FileMemory">
-            <summary>
-            Represents a file in memory.
-            </summary>
-            <param name="Name">Name of the file.</param>
-            <param name="Stream">Stream containing the data of the file.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.FileMemory.#ctor(System.String,System.IO.MemoryStream)">
-            <summary>
-            Represents a file in memory.
-            </summary>
-            <param name="Name">Name of the file.</param>
-            <param name="Stream">Stream containing the data of the file.</param>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileUploaderDialog.FileMemory.Name">
-            <summary>Name of the file.</summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileUploaderDialog.FileMemory.Stream">
-            <summary>Stream containing the data of the file.</summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._id">
-            <summary>
-            Represents a unique identifier.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._acceptFiles">
-            <summary>
-            Accepted files by default.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._maximumFileCount">
-            <summary>
-            Number of file the user can upload at one time.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._progressTemplate">
-            <summary>
-            Template to report a progress.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._streams">
-            <summary>
-            Dictionary containing all files uploaded.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._hardUploadedEventArgsList">
-            <summary>
-            List of all events args containing the uploaded files.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FileUploaderDialog._extensionContentTypeProvider">
-            <summary>
-            Represents the provider for the content type.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FileUploaderDialog" /> class.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileUploaderDialog.Dialog">
-            <summary>
-            Gets or sets the dialog reference.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileUploaderDialog.Content">
-            <summary>
-            Gets or sets the content of the dialog.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.OnProgressChangedAsync(Microsoft.FluentUI.AspNetCore.Components.FluentInputFileEventArgs)">
-            <summary>
-            Occurs when the progression of the uploaded file changed.
-            </summary>
-            <param name="e">Event args of the file.</param>
-            <returns>Returns a task which store the progression of the upload when completed.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.OnFileUploadedAsync(Microsoft.FluentUI.AspNetCore.Components.FluentInputFileEventArgs)">
-            <summary>
-            Occurs when a file is uploaded.
-            </summary>
-            <param name="e">Event args of the file.</param>
-            <returns>Returns a task which creates a <see cref="!:HardDriveFileSelectedEventArgs" /> when completed.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.OnCloseAsync">
-            <summary>
-            Closes the dialog with the selected files as result.
-            </summary>
-            <returns>Returns a task which closes the dialog with the selected files as result.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileUploaderDialog.OnCancelAsync">
-            <summary>
-            Closes the dialog and cancel all selected files.
-            </summary>
-            <returns>Returns a task which closes the dialog with a cancel result.</returns>
-        </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions">
             <summary>
             Represents extensions for <see cref="T:Microsoft.AspNetCore.Components.ParameterView"/> struct.
@@ -10325,6 +10594,17 @@
             <param name="parameterView">Collection of parameters to use.</param>
             <param name="parameterName">Name of the parameter to check.</param>
             <param name="value">Value of the parameter.</param>
+            <returns>Returns <see langword="true" /> the value of the parameter has changed, <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions.HasValueChanged(Microsoft.AspNetCore.Components.ParameterView,System.String,System.String,System.StringComparison)">
+            <summary>
+            Gets a value indicating if the <paramref name="parameterName"/> has changed.
+            </summary>
+            <typeparam name="T">Type of the value.</typeparam>
+            <param name="parameterView">Collection of parameters to use.</param>
+            <param name="parameterName">Name of the parameter to check.</param>
+            <param name="value">Value of the parameter.</param>
+            <param name="stringComparison">Type of comparison to use.</param>
             <returns>Returns <see langword="true" /> the value of the parameter has changed, <see langword="false" /> otherwise.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.RenderTreeBuilderExtensions">

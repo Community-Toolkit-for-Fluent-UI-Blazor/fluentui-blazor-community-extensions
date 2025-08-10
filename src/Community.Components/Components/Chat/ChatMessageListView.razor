@@ -108,28 +108,43 @@
             @if (ChatState.Room is not null &&
                  !ChatState.Room.IsBlocked)
             {
-                <ChatMessageWriter Draft="@_chatDraft"
-                                   Owner="@Owner"
-                                   IsReply="@_isReply"
-                                   IsEdit="@_isEdit"
-                                   ShowMediaButton="@IsMediaInsertionAllowed"
-                                   ShowEmojiButton="@IsEmojiInsertionAllowed"
-                                   ShowGiftButton="@IsGiftAllowed"
-                                   OnDismiss="OnDismiss"
-                                   OnImportMedia="@OnImportMediaAsync"
-                                   OnEmoji="@(()=>_isEmojiPopoverVisible = !_isEmojiPopoverVisible)"
-                                   OnGift="@OnAddGiftAsync"
-                                   Labels="@ChatMessageListLabels"
-                                   OnCancel="@OnCancelEdit"
-                                   OnEditMessage=@OnEditMessageAsync
-                                   Orientation=@MessageWriterOrientation                                  
-                                   IsMobile=@(DeviceState.DeviceInfo?.IsMobile ?? false)
-                                   OnSendMessage="OnAddMessageAsync"
-                                   UseFilledIcons=@UseFilledIcons
-                                   SendingRenderMode="@SendingRenderMode"
-                                   IsSending=@_isSending
-                                   SendingContent="@SendingContent"
-                                   />
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="2">
+                    @if (ChatFileRenderingMode == ChatFileRenderingMode.Viewer && _chatDraft?.SelectedChatFiles.Count > 0)
+                    {
+                        <ChatFileViewer Files="@_chatDraft?.SelectedChatFiles"
+                                        OnDismiss="@OnDismissFile"
+                                        ItemTemplate="@ChatFileTemplate"
+                                        LoadingItemContent="@LoadingFileContent" />
+                    }
+
+                    <ChatMessageWriter Draft="@_chatDraft"
+                                       Owner="@Owner"
+                                       IsReply="@_isReply"
+                                       IsEdit="@_isEdit"
+                                       ShowMediaButton="@IsMediaInsertionAllowed"
+                                       ShowEmojiButton="@IsEmojiInsertionAllowed"
+                                       ShowGiftButton="@IsGiftAllowed"
+                                       OnDismiss="OnDismiss"
+                                       OnImportMedia="@OnImportMediaAsync"
+                                       OnEmoji="@(()=>_isEmojiPopoverVisible = !_isEmojiPopoverVisible)"
+                                       OnGift="@OnAddGiftAsync"
+                                       Labels="@ChatMessageListLabels"
+                                       OnCancel="@OnCancelEdit"
+                                       OnEditMessage=@OnEditMessageAsync
+                                       Orientation=@MessageWriterOrientation
+                                       IsMobile=@(DeviceState.DeviceInfo?.IsMobile ?? false)
+                                       OnSendMessage="OnAddMessageAsync"
+                                       SendIcon="@SendIcon"
+                                       CheckmarkIcon="@CheckmarkIcon"
+                                       DismissIcon="@DismissIcon"
+                                       EmojiIcon="@EmojiIcon"
+                                       MediaIcon="@MediaIcon"
+                                       GiftIcon="@GiftIcon"
+                                       SendingRenderMode="@SendingRenderMode"
+                                       IsSending=@_isSending
+                                       SendingContent="@SendingContent"
+                                       ShowCounterBadge="@(ChatFileRenderingMode == ChatFileRenderingMode.Discrete)" />
+                </FluentStack>
             }
         </FluentStack>
 
@@ -161,7 +176,6 @@
                    @bind-Open=_isEmojiPopoverVisible
                    Style="width: 420px; height: 450px; max-height:450px"
                    VerticalPosition="VerticalPosition.Top"
-                   HorizontalPosition="HorizontalPosition.Start"
                    AutoFocus=true>
         <Body>
             @if (EmojiView is not null)
