@@ -103,8 +103,10 @@ public class DeviceDetectorTests : TestBase
         var cut = RenderComponent<FluentCxDeviceDetector>();
 
         // Act & Assert (should not throw)
-        await cut.Instance.ChangeOrientation(true);
-        await cut.Instance.ChangeOrientation(false);
+        await cut.Instance.ChangeOrientation(DeviceOrientation.Portrait.ToString());
+        await cut.Instance.ChangeOrientation(DeviceOrientation.PortraitReversed.ToString());
+        await cut.Instance.ChangeOrientation(DeviceOrientation.Landscape.ToString());
+        await cut.Instance.ChangeOrientation(DeviceOrientation.LandscapeReversed.ToString());
         Assert.Null(cut.Instance.DeviceInfo);
     }
 
@@ -122,13 +124,13 @@ public class DeviceDetectorTests : TestBase
 
         var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/DeviceDetector/FluentCxDeviceDetector.razor.js");
         mockModule.Setup<DeviceInfo>("getDeviceInfo").SetResult(mockDeviceInfo);
-        mockModule.Setup<bool>("getDeviceOrientation").SetResult(false);
+        mockModule.Setup<DeviceOrientation>("getDeviceOrientation").SetResult(DeviceOrientation.Landscape);
 
         var cut = RenderComponent<FluentCxDeviceDetector>();
         await cut.InvokeAsync(() => { });
 
         // Act - Simulate JavaScript calling the JSInvokable method
-        await cut.Instance.ChangeOrientation(true);
+        await cut.Instance.ChangeOrientation(DeviceOrientation.Portrait.ToString());
 
         // Assert
         Assert.Equal(DeviceOrientation.Portrait, cut.Instance.DeviceInfo?.Orientation);

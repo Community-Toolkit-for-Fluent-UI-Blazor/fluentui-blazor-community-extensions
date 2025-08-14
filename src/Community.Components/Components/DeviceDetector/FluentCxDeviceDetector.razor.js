@@ -20,13 +20,16 @@ export function getDeviceInfo() {
 }
 
 export function getDeviceOrientation(reference) {
-  function updateOrientation() {
-    const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+  function updateOrientation(e) {
+    const orientation = e === undefined ? window.screen.orientation.type : e.target.type;
+    const value = orientation === 'portrait-primary' ? 'Portrait' :
+                  orientation === 'portrait-secondary' ? 'PortraitReversed' :
+                  orientation === 'landscape-primary' ? 'Landscape' :
+                  'LandscapeReversed'
 
-    reference.invokeMethodAsync("ChangeOrientation", isPortrait);
+    reference.invokeMethodAsync("ChangeOrientation", value);
   }
 
+  window.screen.orientation.addEventListener('change', (e) => updateOrientation(e));
   updateOrientation();
-
-  window.addEventListener("rezize", updateOrientation);
 }
