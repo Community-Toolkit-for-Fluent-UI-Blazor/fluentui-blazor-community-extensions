@@ -35,12 +35,32 @@ else
                                   OnDismiss="@(OnDismiss)" />
             }
 
-            <FluentTextArea @bind-Value=Draft!.Text
-                            Placeholder="@Labels.EnterMessage"
-                            Rows="@(GetNumberOfRows())"
-                            Autofocus
-                            Immediate
-                            Style="width: 100%" />
+            @if (!_isRecording)
+            {
+                <FluentTextArea @bind-Value=Draft!.Text
+                                Placeholder="@Labels.EnterMessage"
+                                Rows="@(GetNumberOfRows())"
+                                Autofocus
+                                Immediate
+                                Style="width: 100%" />
+            }
+            else
+            {
+                <FluentCard Height="180px" MinimalStyle>
+                    @if (AudioWaveVisualizerContent is not null)
+                    {
+                        @AudioWaveVisualizerContent
+                    }
+                    else
+                    {
+                        <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
+                                     VerticalAlignment="VerticalAlignment.Center"
+                                     Style="height: 100%">
+                            <ChatAudioWaveVisualizer />
+                        </FluentStack>
+                    }
+                </FluentCard>
+            }
 
             @if (Orientation == Orientation.Vertical)
             {
@@ -62,6 +82,15 @@ else
         _toolbarFragment = (e) => __builder =>
         {
             <FluentStack Width="@e.Item2" Orientation="e.Item1">
+
+                @if(!IsEdit && ShowLiveAudioRecordingButton)
+                {
+                    <FluentButton Id="EmojiButton"
+                                  Title="@Labels.LiveAudioRecording"
+                                  OnClick="@(OnAudioRecordingClickAsync)"
+                                  IconStart="@(!_isRecording ? MicroIcon : MicroOffIcon)"
+                                  Style="border-radius: 20px" />
+                }
 
                 @if (!IsEdit && ShowMediaButton)
                 {

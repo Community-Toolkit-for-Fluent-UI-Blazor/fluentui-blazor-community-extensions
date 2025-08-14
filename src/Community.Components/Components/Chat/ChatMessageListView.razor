@@ -145,7 +145,13 @@
                                        SendingRenderMode="@SendingRenderMode"
                                        IsSending=@_isSending
                                        SendingContent="@SendingContent"
-                                       ShowCounterBadge="@(ChatFileRenderingMode == ChatFileRenderingMode.Discrete)" />
+                                       ShowCounterBadge="@(ChatFileRenderingMode == ChatFileRenderingMode.Discrete)"
+                                       MicroIcon="@MicroIcon"
+                                       MicroOffIcon="@MicroOffIcon"
+                                       AudioWaveVisualizerContent="@AudioWaveVisualizerContent"
+                                       ShowLiveAudioRecordingButton=@IsRecordingAudioEnabled
+                                       OnRecordingAudio="@OnRecordingAudioAsync"
+                                       />
                 </FluentStack>
             }
         </FluentStack>

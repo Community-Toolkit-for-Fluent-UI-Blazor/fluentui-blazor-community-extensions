@@ -1,6 +1,8 @@
 ﻿<div style="height: 700px">
     <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
         <FluentStack Width="100%" Wrap>
+            <FluentSwitch Label="Allow audio record" @bind-Value=_isAudioRecordAllowed />
+            <FluentSpacer Width="10" />
             <FluentSwitch Label="Allow Emoji" @bind-Value=_isEmojiInsertionAllowed />
             <FluentSpacer Width="10" />
             <FluentSwitch Label="Allow Gift" @bind-Value=_isGiftAllowed />
@@ -27,6 +29,7 @@
                              IsEmojiInsertionAllowed=@_isEmojiInsertionAllowed
                              IsGiftAllowed=@_isGiftAllowed
                              IsMediaInsertionAllowed=@_isMediaInsertionAllowed
+                             IsRecordingAudioEnabled=@_isAudioRecordAllowed
                              AppendFiles=@_appendFiles
                              IsTranslationEnabled=@_translateMessage
                              ShowDeletedMessages=@_showDeletedMessages
@@ -49,6 +52,7 @@
     private bool _isSendingInOverlay = true;
     private bool _isMessageWriterHorizontal = false;
     private bool _filesRenderInView = false;
+    private bool _isAudioRecordAllowed = true;
 
     private ChatUser _owner = new()
         {

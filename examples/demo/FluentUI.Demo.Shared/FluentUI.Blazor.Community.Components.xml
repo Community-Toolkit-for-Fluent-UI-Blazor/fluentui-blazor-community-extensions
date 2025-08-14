@@ -1206,6 +1206,11 @@
             Gets or sets the label for the message viewer dialog.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListLabels.LiveAudioRecording">
+            <summary>
+            Gets or sets the label for the chat message viewer to record audio.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageListView`1">
             <summary>
             Rerpresents the view to list chat messages.
@@ -1506,6 +1511,16 @@
             Gets or sets the icon to be used for the commit edit button in the chat message writer.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.MicroIcon">
+            <summary>
+            Gets or sets the icon to be used for the audio recorder button when not recording in chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.MicroOffIcon">
+            <summary>
+            Gets or sets the icon to be used for the audio recorder button when recording in chat message writer.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.ChatFileRenderingMode">
             <summary>
             Gets or sets the rendering mode of the chat files.
@@ -1519,6 +1534,16 @@
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.LoadingFileContent">
             <summary>
             Gets or sets the template to use to render a chat file in the chat message list view when the file is loading.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.AudioWaveVisualizerContent">
+            <summary>
+            Gets or sets the template to use when the user records an audio message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.IsRecordingAudioEnabled">
+            <summary>
+            Gets or sets a value indicating if the chat allows the record of an audio message.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnAddGiftAsync">
@@ -1727,6 +1752,13 @@
             Dismisses the file specified by <paramref name="e"/>.
             </summary>
             <param name="e">File to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnRecordingAudioAsync(System.Boolean)">
+            <summary>
+            Occurs when the audio record button is clicked.
+            </summary>
+            <param name="isRecording">Value indicating if the audio is currently recording</param>
+            <returns>Returns a task which starts or stops an audio record.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnCopied">
             <summary>
@@ -4037,6 +4069,11 @@
             Represents a chat message writer component.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageWriter._isRecording">
+            <summary>
+            Value indicating if the micro is currently recording.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageWriter._toolbarFragment">
             <summary>
             Represents the fragment to render the action toolbar of the chat message writer.
@@ -4070,6 +4107,16 @@
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.CheckmarkIcon">
             <summary>
             Gets or sets the icon to be used for the commit edit button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.MicroIcon">
+            <summary>
+            Gets or sets the icon to be used for recording audio button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.MicroOffIcon">
+            <summary>
+            Gets or sets the icon to be used for stop recording audio button in the chat message writer.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.SendingContent">
@@ -4115,6 +4162,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.ShowGiftButton">
             <summary>
             Gets or sets a value indicating if the message writer show the gift button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.ShowLiveAudioRecordingButton">
+            <summary>
+            Gets or sets a value indicating if the message writer show the audio recording button.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.Draft">
@@ -4167,6 +4219,12 @@
             Gets or sets the event callback to be invoked when the edit button is clicked.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnRecordingAudio">
+            <summary>
+            Gets or sets the event callback to be invoked when the micro button is clicked.
+            
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.IsSending">
             <summary>
             Gets or sets a value indicating whether the message writer is currently sending a message.
@@ -4177,11 +4235,22 @@
             Gets or sets a value indicating whether the message writer should show a counter badge.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.AudioWaveVisualizerContent">
+            <summary>
+            Gets or sets the render fragment to render the content of the visualizer of audio waves.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageWriter.GetNumberOfRows">
             <summary>
             Gets the number of rows to display in the chat message writer based on the current state (mobile, reply, etc.).
             </summary>
             <returns>Returns the number of rows to display.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnAudioRecordingClickAsync">
+            <summary>
+            Occurs when the micro button is clicked.
+            </summary>
+            <returns>Returns a task wich raise the <see cref="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.OnRecordingAudio"/> callback.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.Browser">
             <summary>
@@ -4339,24 +4408,19 @@
             Represents the orientation of the device.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Portrait">
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Unknown">
             <summary>
-            The orientation is portrait.
+            The orientation is unknown.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.PortraitReversed">
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Portrait">
             <summary>
-            The orientation is portrait but image is flipped.
+            The device is oriented vertically.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Landscape">
             <summary>
             The device is oriented horizontally.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.LandscapeReversed">
-            <summary>
-            The device is oriented horizontally, but the image is flipped.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientationConverter">
@@ -4423,11 +4487,11 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChangeOrientation(System.String)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChangeOrientation(System.Boolean)">
             <summary>
             Occurs when the orientation of the device changed.
             </summary>
-            <param name="orientation">Value indicating the orientation of the device.</param>
+            <param name="isPortrait">Value indicating if the device is in portrait orientation or not.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.DisposeAsync">
             <inheritdoc />

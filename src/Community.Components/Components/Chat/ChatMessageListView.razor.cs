@@ -198,20 +198,20 @@ public partial class ChatMessageListView<TItem>
     /// Gets or sets a value indicating if the chat allows the insertion of medias.
     /// </summary>
     [Parameter]
-    public bool IsMediaInsertionAllowed { get; set; }
+    public bool IsMediaInsertionAllowed { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating if the chat allows the insertion of emojis.
     /// </summary>
     [Parameter]
-    public bool IsEmojiInsertionAllowed { get; set; }
+    public bool IsEmojiInsertionAllowed { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating if the chat allows a gift to be send.
     /// </summary>
     /// <remarks>The gift must be implemented by the user.</remarks>
     [Parameter]
-    public bool IsGiftAllowed { get; set; }
+    public bool IsGiftAllowed { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the render mode of the sending of a message.
@@ -366,6 +366,18 @@ public partial class ChatMessageListView<TItem>
     public Icon? CheckmarkIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Checkmark();
 
     /// <summary>
+    /// Gets or sets the icon to be used for the audio recorder button when not recording in chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? MicroIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Mic();
+
+    /// <summary>
+    /// Gets or sets the icon to be used for the audio recorder button when recording in chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? MicroOffIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.MicOff();
+
+    /// <summary>
     /// Gets or sets the rendering mode of the chat files.
     /// </summary>
     [Parameter]
@@ -382,6 +394,18 @@ public partial class ChatMessageListView<TItem>
     /// </summary>
     [Parameter]
     public RenderFragment? LoadingFileContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the template to use when the user records an audio message.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? AudioWaveVisualizerContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating if the chat allows the record of an audio message.
+    /// </summary>
+    [Parameter]
+    public bool IsRecordingAudioEnabled { get; set; } = true;
 
     #endregion Properties
 
@@ -1009,6 +1033,18 @@ public partial class ChatMessageListView<TItem>
     private void OnDismissFile(ChatFileEventArgs e)
     {
         _chatDraft?.SelectedChatFiles.Remove(e);
+    }
+
+    /// <summary>
+    /// Occurs when the audio record button is clicked.
+    /// </summary>
+    /// <param name="isRecording">Value indicating if the audio is currently recording</param>
+    /// <returns>Returns a task which starts or stops an audio record.</returns>
+    private Task OnRecordingAudioAsync(bool isRecording)
+    {
+        ToastService.ShowInfo(isRecording ? "Audio recording" : "Stop audio record");
+
+        return Task.CompletedTask;
     }
 
     /// <summary>

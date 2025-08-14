@@ -1,0 +1,10 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id" class="circle">
+    @for(int i = 0; i < WaveCount; ++i)
+    {
+        int a = i;
+        <div class="bar" style="--i: @(a)"></div>
+    }
+</div>

@@ -55,7 +55,8 @@ public record ChatMessageListLabels
         ThisMessageWasDeleted = "Ce message a été supprimé.",
         MessageTextCopyFailed = "Echec de la copie du texte.",
         OwnerBlockMessage = "Vous avez bloqué cette salle de discussion. Pour continuer à discuter, vous devez débloquer la salle.",
-        MessageViewer = "Visionneuse de messages"
+        MessageViewer = "Visionneuse de messages",
+        LiveAudioRecording = "Enregistrer un message audio"
     };
 
     /// <summary>
@@ -257,4 +258,9 @@ public record ChatMessageListLabels
     /// Gets or sets the label for the message viewer dialog.
     /// </summary>
     public string MessageViewer { get; set; } = "Message viewer";
+
+    /// <summary>
+    /// Gets or sets the label for the chat message viewer to record audio.
+    /// </summary>
+    public string LiveAudioRecording { get; set; } = "Record an audio message.";
 }

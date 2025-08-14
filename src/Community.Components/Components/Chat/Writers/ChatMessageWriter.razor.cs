@@ -9,6 +9,11 @@ namespace FluentUI.Blazor.Community.Components;
 public partial class ChatMessageWriter
 {
     /// <summary>
+    /// Value indicating if the micro is currently recording.
+    /// </summary>
+    private bool _isRecording;
+
+    /// <summary>
     /// Represents the fragment to render the action toolbar of the chat message writer.
     /// </summary>
     private readonly RenderFragment<(Orientation, string)> _toolbarFragment;
@@ -48,6 +53,18 @@ public partial class ChatMessageWriter
     /// </summary>
     [Parameter]
     public Icon? CheckmarkIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Checkmark();
+
+    /// <summary>
+    /// Gets or sets the icon to be used for recording audio button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? MicroIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Mic();
+
+    /// <summary>
+    /// Gets or sets the icon to be used for stop recording audio button in the chat message writer.
+    /// </summary>
+    [Parameter]
+    public Icon? MicroOffIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.MicOff();
 
     /// <summary>
     /// Gets or sets the content to be displayed in the chat message writer when a message is currently sending.
@@ -102,6 +119,12 @@ public partial class ChatMessageWriter
     /// </summary>
     [Parameter]
     public bool ShowGiftButton { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating if the message writer show the audio recording button.
+    /// </summary>
+    [Parameter]
+    public bool ShowLiveAudioRecordingButton { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the draft message to be used in the writer.
@@ -164,6 +187,13 @@ public partial class ChatMessageWriter
     public EventCallback OnEditMessage { get; set; }
 
     /// <summary>
+    /// Gets or sets the event callback to be invoked when the micro button is clicked.
+    /// 
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> OnRecordingAudio { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the message writer is currently sending a message.
     /// </summary>
     [Parameter]
@@ -174,6 +204,12 @@ public partial class ChatMessageWriter
     /// </summary>
     [Parameter]
     public bool ShowCounterBadge { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the render fragment to render the content of the visualizer of audio waves.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? AudioWaveVisualizerContent { get; set; }
 
     /// <summary>
     /// Gets the number of rows to display in the chat message writer based on the current state (mobile, reply, etc.).
@@ -187,5 +223,19 @@ public partial class ChatMessageWriter
         }
 
         return IsReply ? 5 : 7;
+    }
+
+    /// <summary>
+    /// Occurs when the micro button is clicked.
+    /// </summary>
+    /// <returns>Returns a task wich raise the <see cref="OnRecordingAudio"/> callback.</returns>
+    private async Task OnAudioRecordingClickAsync()
+    {
+        _isRecording = !_isRecording;
+
+        if (OnRecordingAudio.HasDelegate)
+        {
+            await OnRecordingAudio.InvokeAsync(_isRecording);
+        }
     }
 }
