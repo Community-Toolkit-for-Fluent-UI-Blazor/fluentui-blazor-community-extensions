@@ -26,7 +26,7 @@ public partial class ChatFileViewItem
     /// <summary>
     /// Represents the javaScript file that contains the logic for the chat file view item component.
     /// </summary>
-    private const string JavascriptFile = "./_content/FluentUI.Blazor.Community.Components/Components/Chat/ChatFileViewItem.razor.js";
+    private const string JavascriptFile = "./_content/FluentUI.Blazor.Community.Components/Components/Chat/Viewers/ChatFileViewItem.razor.js";
 
     /// <summary>
     /// Represents the javaScript module reference for the chat file view item component.

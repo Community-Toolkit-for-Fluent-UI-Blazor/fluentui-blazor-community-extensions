@@ -1,0 +1,13 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<div @ref="@Element"
+     aria-label="@AriaLabel"
+     id="@Id"
+     class="@Css"
+     style="@InternalStyle"
+     role="listitem"
+     @attributes="@AdditionalAttributes">
+    @ChildContent
+</div>

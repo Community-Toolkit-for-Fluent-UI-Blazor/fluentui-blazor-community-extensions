@@ -47,6 +47,11 @@ public partial class FluentCxFileManager<TItem>
     }
 
     /// <summary>
+    /// Represents a value indicating if the component runs on a mobile.
+    /// </summary>
+    private bool _isMobile;
+
+    /// <summary>
     /// Represents a value indicating if the details of an entry is shown.
     /// </summary>
     private bool _showDetails;
@@ -1128,6 +1133,16 @@ public partial class FluentCxFileManager<TItem>
     }
 
     /// <summary>
+    /// Occurs when a media changed.
+    /// </summary>
+    /// <param name="value"><see langword="true" /> if the media has changed, <see langword="false" /> otherwise.</param>
+    private void OnMediaChanged(bool value)
+    {
+        _isMobile = value;
+        StateHasChanged();
+    }
+
+    /// <summary>
     /// Deletes an entry in an asynchronous way.
     /// </summary>
     /// <returns>Returns a task which deletes the entry when completed.</returns>
@@ -1339,6 +1354,17 @@ public partial class FluentCxFileManager<TItem>
         };
     }
 
+    /// <summary>
+    /// Build the UI.
+    /// </summary>
+    /// <remarks>Occurs on first render, and each time the <see cref="Root"/> property has changed.</remarks>
+    private void BuildUI()
+    {
+        BuildFlatView();
+        BuildTreeView();
+        BuildPathRoot();
+    }
+
     /// <inheritdoc />
     protected override void OnAfterRender(bool firstRender)
     {
@@ -1361,6 +1387,7 @@ public partial class FluentCxFileManager<TItem>
         if (firstRender)
         {
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptFilename);
+            BuildUI();
         }
     }
 
@@ -1371,9 +1398,7 @@ public partial class FluentCxFileManager<TItem>
 
         if (parameters.HasValueChanged(nameof(Root), Root))
         {
-            BuildFlatView();
-            BuildTreeView();
-            BuildPathRoot();
+            BuildUI();
         }
     }
 }

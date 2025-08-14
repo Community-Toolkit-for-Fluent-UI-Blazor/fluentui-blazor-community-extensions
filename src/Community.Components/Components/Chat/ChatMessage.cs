@@ -48,7 +48,11 @@ public class ChatMessage
         return ChatMessageReadState.Read;
     }
 
-
+    /// <summary>
+    /// Sets the state of the read for an user.
+    /// </summary>
+    /// <param name="user">User which read the message.</param>
+    /// <param name="read">State of the read.</param>
     public void SetReadState(ChatUser user, bool read)
     {
         if (ReadStates.ContainsKey(user))

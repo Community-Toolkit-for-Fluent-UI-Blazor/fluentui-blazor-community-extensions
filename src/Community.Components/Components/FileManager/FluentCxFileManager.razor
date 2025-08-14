@@ -3,11 +3,13 @@
 @inherits FluentComponentBase
 
 <CascadingValue Value="this" IsFixed>
+    <FluentCxMediaQuery Query="(max-width: 640px)" OnMediaChanged="@OnMediaChanged" />
+
     <FluentStack Style="height: calc(100% - 50px);" Orientation="Orientation.Vertical">
         <FluentToolbar  Style="width: 100%">
             @if (ShowCreateFolderButton)
             {
-                if (View == Components.FileManagerView.Desktop)
+                if (!_isMobile && View == Components.FileManagerView.Desktop)
                 {
                     <FluentButton IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.FolderAdd())
                                   Appearance="Appearance.Neutral"
@@ -28,7 +30,7 @@
 
             @if (ShowUploadButton)
             {
-                if (View == Components.FileManagerView.Desktop)
+                if (!_isMobile && View == Components.FileManagerView.Desktop)
                 {
                     <FluentButton Id="@($"FileLoader{Id}")"
                                   Disabled=@_isDisabled
@@ -39,7 +41,7 @@
                 }
                 else
                 {
-                    <FluentButton Id="FileLoaderId"
+                    <FluentButton Id="@($"FileLoader{Id}")"
                                   Disabled=@_isDisabled
                                   Title="@FileManagerLabels.UploadLabel"
                                   IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowUpload())
@@ -216,7 +218,7 @@
                 @ToolbarItems
             }
 
-            @if (View == Components.FileManagerView.Mobile && ShowDetailsButton)
+            @if (_isMobile || View == Components.FileManagerView.Mobile && ShowDetailsButton)
             {
                 <FluentButton Title="@FileManagerLabels.ShowDetailsLabel"
                               IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.DocumentSettings())"
@@ -226,7 +228,7 @@
             }
 
             <FluentStack VerticalAlignment="VerticalAlignment.Center" slot="end">
-                @if (View == Components.FileManagerView.Desktop && ShowDetailsButton)
+                @if (!_isMobile && View == Components.FileManagerView.Desktop && ShowDetailsButton)
                 {
                     <FluentSwitch Label="@FileManagerLabels.ShowDetailsLabel"
                                   @bind-Value=_showDetails
@@ -244,58 +246,77 @@
             </FluentStack>
         </FluentToolbar>
 
-        <FluentMultiSplitter Width="@(!string.IsNullOrEmpty(Width) ? Width : "100%")" Height="@(!string.IsNullOrEmpty(Height) ? Height : "100%")">
-            @if (View == Components.FileManagerView.Desktop &&
-                 FileStructureView == FileStructureView.Hierarchical)
-            {
+        @if(!_isMobile && View == FileManagerView.Desktop)
+        {
+            <FluentMultiSplitter Width="@(!string.IsNullOrEmpty(Width) ? Width : "100%")" Height="@(!string.IsNullOrEmpty(Height) ? Height : "100%")">
+                @if (FileStructureView == FileStructureView.Hierarchical)
+                {
+                    <FluentMultiSplitterPane Collapsed=false
+                                             Collapsible=false
+                                             Resizable
+                                             Size="30%"
+                                             Min="20%"
+                                             Max="35%">
+                        <FluentTreeView Items="@_treeViewItems"
+                                        @bind-SelectedItem="@_currentTreeViewItem"
+                                        @bind-SelectedItem:after=OnUpdateCurrentEntry />
+                    </FluentMultiSplitterPane>
+                }
+
                 <FluentMultiSplitterPane Collapsed=false
                                          Collapsible=false
                                          Resizable
-                                         Size="30%"
-                                         Min="20%"
-                                         Max="35%">
-                    <FluentTreeView Items="@_treeViewItems"
-                                    @bind-SelectedItem="@_currentTreeViewItem"
-                                    @bind-SelectedItem:after=OnUpdateCurrentEntry />
+                                         Style="height: 100%"
+                                         Size="@(_isMobile ? "100%" : View == Components.FileManagerView.Desktop ? ( _showDetails ? "45%" : "70%") : "100%")">
+                    <FileManager @ref=_fileManagerView
+                                 IsIndeterminateProgress=@(!ProgressPercent.HasValue)
+                                 Entry="@(_searchEntry is not null ? _searchEntry : FileStructureView == FileStructureView.Hierarchical ? _currentEntry : _flattenEntry)"
+                                 ProgressLabel="@GetProgressLabelFromState()"
+                                 ProgressPercent=@ProgressPercent
+                                 TItem="@TItem"
+                                 OnItemDoubleClick="@OnUpdateEntry"
+                                 Download="@OnDownloadSingleAsync"
+                                 PathRoot="@_pathRoot"
+                                 Path="@_path"
+                                 OnPathChanged="@OnPathChanged"
+                                 @bind-SelectedItems=_currentSelectedItems
+                                 ColumnLabels="@ColumnLabels"
+                                 MaxVisibleItems=@MaxVisibleItems
+                                 FileNavigationViewVisible=@(FileStructureView == FileStructureView.Hierarchical) />
                 </FluentMultiSplitterPane>
-            }
 
-            <FluentMultiSplitterPane Collapsed=false
-                                     Collapsible=false
-                                     Resizable
-                                     Style="height: 100%"
-                                     Size="@(View == Components.FileManagerView.Desktop ? ( _showDetails ? "45%" : "70%") : "100%")">
-                <FileManager @ref=_fileManagerView
-                             IsIndeterminateProgress=@(!ProgressPercent.HasValue)
-                             Entry="@(_searchEntry is not null ? _searchEntry : FileStructureView == FileStructureView.Hierarchical ? _currentEntry : _flattenEntry)"
-                             IsMobile="@(View == Components.FileManagerView.Mobile)"
-                             ProgressLabel="@GetProgressLabelFromState()"
-                             ProgressPercent=@ProgressPercent
-                             TItem="@TItem"
-                             OnItemDoubleClick="@OnUpdateEntry"
-                             Download="@OnDownloadSingleAsync"
-                             PathRoot="@_pathRoot"
-                             Path="@_path"
-                             OnPathChanged="@OnPathChanged"
-                             @bind-SelectedItems=_currentSelectedItems 
-                             ColumnLabels="@ColumnLabels"
-                             MaxVisibleItems=@MaxVisibleItems
-                             FileNavigationViewVisible=@(FileStructureView == FileStructureView.Hierarchical)/>
-            </FluentMultiSplitterPane>
-
-            @if (View == Components.FileManagerView.Desktop &&
-                 _showDetails)
-            {
-                <FluentMultiSplitterPane Collapsible=false
-                                         Collapsed=false
-                                         Resizable=false
-                                         Size="25%">
-                    <FileManagerEntryDetails FileExtensionTypeLabels=@FileExtensionTypeLabels
-                                             DetailsLabel=@DetailsLabels
-                                             Entries="@(_currentSelectedItems.Any() ? _currentSelectedItems : _currentEntry is null ? [] : [_currentEntry])" />
-                </FluentMultiSplitterPane>
-            }
-        </FluentMultiSplitter>
+                @if (_showDetails)
+                {
+                    <FluentMultiSplitterPane Collapsible=false
+                                             Collapsed=false
+                                             Resizable=false
+                                             Size="25%">
+                        <FileManagerEntryDetails FileExtensionTypeLabels=@FileExtensionTypeLabels
+                                                 DetailsLabel=@DetailsLabels
+                                                 Entries="@(_currentSelectedItems.Any() ? _currentSelectedItems : _currentEntry is null ? [] : [_currentEntry])" />
+                    </FluentMultiSplitterPane>
+                }
+            </FluentMultiSplitter>
+        }
+        else
+        {
+            <FileManager @ref=_fileManagerView
+                         IsIndeterminateProgress=@(!ProgressPercent.HasValue)
+                         Entry="@(_searchEntry is not null ? _searchEntry : FileStructureView == FileStructureView.Hierarchical ? _currentEntry : _flattenEntry)"
+                         IsMobile
+                         ProgressLabel="@GetProgressLabelFromState()"
+                         ProgressPercent=@ProgressPercent
+                         TItem="@TItem"
+                         OnItemDoubleClick="@OnUpdateEntry"
+                         Download="@OnDownloadSingleAsync"
+                         PathRoot="@_pathRoot"
+                         Path="@_path"
+                         OnPathChanged="@OnPathChanged"
+                         @bind-SelectedItems=_currentSelectedItems
+                         ColumnLabels="@ColumnLabels"
+                         MaxVisibleItems=@MaxVisibleItems
+                         FileNavigationViewVisible=@(FileStructureView == FileStructureView.Hierarchical) />
+        }
     </FluentStack>
 </CascadingValue>
 

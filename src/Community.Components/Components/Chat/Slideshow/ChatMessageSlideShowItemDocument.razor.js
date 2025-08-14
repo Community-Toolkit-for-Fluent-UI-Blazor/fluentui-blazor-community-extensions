@@ -5,5 +5,7 @@ export function loadVideo(id, content, contentType) {
     const videoUrl = URL.createObjectURL(videoBlob);
 
     videoElement.src = videoUrl;
+
+    URL.revokeObjectURL(videoUrl);
   }
 }

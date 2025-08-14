@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 
-
 namespace FluentUI.Blazor.Community.Components;
 
 public static partial class EmojiExtensions

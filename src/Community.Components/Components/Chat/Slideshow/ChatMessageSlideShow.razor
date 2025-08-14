@@ -1,0 +1,28 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentCxSlideshow ShowControls
+                   ShowIndicators
+                   TItem="string">
+    @if (Message is not null)
+    {
+        if (Message.MessageType.HasFlag(ChatMessageType.Text))
+        {
+            <SlideshowItem>
+                <ChatMessageSlideShowItemText Owner="@Owner" Sections="@Message.Sections" />
+            </SlideshowItem>
+        }
+
+        if (Message.MessageType.HasFlag(ChatMessageType.Document))
+        {
+            foreach (var item in Message.Files)
+            {
+                <SlideshowItem>
+                    <ChatMessageSlideShowItemDocument LoadingLabel="@LoadingLabel" Item="@item" />
+                </SlideshowItem>
+            }
+        }
+    }
+</FluentCxSlideshow>
+
+

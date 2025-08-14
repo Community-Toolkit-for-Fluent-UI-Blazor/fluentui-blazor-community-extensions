@@ -18,10 +18,5 @@
 </FluentDialogFooter>
 
 <FluentDialogBody>
-    <FluentHorizontalScroll View="HorizontalScrollView.Mobile">
-        @if (Content is not null)
-        {
-            
-        }
-    </FluentHorizontalScroll>
+    <ChatMessageSlideShow Owner="@Content.Owner" LoadingLabel="@Content.LoadingLabel" Message="@Content.Message" />
 </FluentDialogBody>

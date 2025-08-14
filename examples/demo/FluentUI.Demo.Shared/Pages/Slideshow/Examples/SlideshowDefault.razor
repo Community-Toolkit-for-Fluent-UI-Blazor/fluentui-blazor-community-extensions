@@ -1,0 +1,60 @@
+﻿<div style="width: 100%; height: 850px">
+    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+        <FluentStack Wrap>
+            <FluentSwitch @bind-Value=_showControls Label="Show controls" />
+            <FluentSpacer Width="60" />
+            <FluentSwitch @bind-Value=_showIndicators Label="Show indicators" />
+            <FluentSpacer Width="60" />
+            <FluentSwitch @bind-Value=_autoPlay Label="Autoplay" />
+            <FluentSpacer Width="60" />
+            <FluentSwitch @bind-Value=_loop Label="Loop" />
+            <FluentSpacer Width="60" />
+            <FluentNumberField @bind-Value=_interval Label="Interval (seconds)" />
+            <FluentSpacer Width="60" />
+            <FluentNumberField @bind-Value=_duration Label="Animation duration (miliseconds)" />
+        </FluentStack>
+        
+
+        <FluentCxSlideshow ShowIndicators=@_showIndicators
+                           ShowControls=@_showControls
+                           Width="1200px"
+                           Height="700px"
+                           Autoplay="@_autoPlay"
+                           Interval="@TimeSpan.FromSeconds(_interval)"
+                           Duration=@TimeSpan.FromMilliseconds(_duration)
+                           IsLoopingEnabled=@_loop
+                           TItem="string">
+            <SlideshowItem>
+                <img width="1200" height="700"  src="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
+            </SlideshowItem>
+
+            <SlideshowItem>
+                <img width="1200" height="700" src="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
+            </SlideshowItem>
+
+            <SlideshowItem>
+                <img width="1200" height="700" src="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
+            </SlideshowItem>
+            <SlideshowItem>
+                <img width="1200" height="700" src="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
+            </SlideshowItem>
+
+            <SlideshowItem>
+                <img width="1200" height="700" src="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
+            </SlideshowItem>
+
+            <SlideshowItem>
+                <img width="1200" height="700" src="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
+            </SlideshowItem>
+        </FluentCxSlideshow>
+    </FluentStack>
+</div>
+
+@code {
+    private bool _showControls;
+    private bool _showIndicators;
+    private bool _autoPlay;
+    private int _interval = 5;
+    private int _duration = 300;
+    private bool _loop;
+}
