@@ -834,17 +834,6 @@
             The device is oriented horizontally, but the image is flipped.
             </summary>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientationConverter">
-            <summary>
-            Represents a converter to a <see cref="T:FluentUI.Blazor.Community.Components.DeviceOrientation"/> enumeration from a <see cref="T:System.String"/> format.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.DeviceOrientationConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.DeviceOrientationConverter.Write(System.Text.Json.Utf8JsonWriter,FluentUI.Blazor.Community.Components.DeviceOrientation,System.Text.Json.JsonSerializerOptions)">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector">
             <summary>
             Represents a component which detects the device where the app is running.
