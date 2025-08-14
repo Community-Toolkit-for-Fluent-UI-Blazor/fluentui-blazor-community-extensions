@@ -804,24 +804,9 @@
             Represents the state of the device information.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.DeviceInfoState._deviceInfo">
-            <summary>
-            Represents the information of the device.
-            </summary>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.DeviceInfoState.DeviceInfo">
             <summary>
             Gets or sets the information of the device.
-            </summary>
-        </member>
-        <member name="E:FluentUI.Blazor.Community.Components.DeviceInfoState.Updated">
-            <summary>
-            Occurs when the device info is updated.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.DeviceInfoState.ForceUpdate">
-            <summary>
-            Force the update of the state.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientation">
@@ -829,19 +814,24 @@
             Represents the orientation of the device.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Unknown">
-            <summary>
-            The orientation is unknown.
-            </summary>
-        </member>
         <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Portrait">
             <summary>
-            The device is oriented vertically.
+            The orientation is portrait.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.PortraitReversed">
+            <summary>
+            The orientation is portrait but image is flipped.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Landscape">
             <summary>
             The device is oriented horizontally.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.LandscapeReversed">
+            <summary>
+            The device is oriented horizontally, but the image is flipped.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientationConverter">
@@ -908,11 +898,11 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChangeOrientation(System.Boolean)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChangeOrientation(System.String)">
             <summary>
             Occurs when the orientation of the device changed.
             </summary>
-            <param name="isPortrait">Value indicating if the device is in portrait orientation or not.</param>
+            <param name="orientation">Value indicating the orientation of the device.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.DisposeAsync">
             <inheritdoc />
@@ -6226,6 +6216,11 @@
             Represents a value to dispose the module each time the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.Query"/> changes.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxMediaQuery"/> class.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.Query">
             <summary>
             Gets or sets the query to manage.
@@ -7079,6 +7074,17 @@
             <param name="parameterView">Collection of parameters to use.</param>
             <param name="parameterName">Name of the parameter to check.</param>
             <param name="value">Value of the parameter.</param>
+            <returns>Returns <see langword="true" /> the value of the parameter has changed, <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions.HasValueChanged(Microsoft.AspNetCore.Components.ParameterView,System.String,System.String,System.StringComparison)">
+            <summary>
+            Gets a value indicating if the <paramref name="parameterName"/> has changed.
+            </summary>
+            <typeparam name="T">Type of the value.</typeparam>
+            <param name="parameterView">Collection of parameters to use.</param>
+            <param name="parameterName">Name of the parameter to check.</param>
+            <param name="value">Value of the parameter.</param>
+            <param name="stringComparison">Type of comparison to use.</param>
             <returns>Returns <see langword="true" /> the value of the parameter has changed, <see langword="false" /> otherwise.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.RenderTreeBuilderExtensions">
