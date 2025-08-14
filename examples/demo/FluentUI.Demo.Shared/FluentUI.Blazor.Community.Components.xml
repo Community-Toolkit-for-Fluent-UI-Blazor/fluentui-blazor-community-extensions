@@ -4423,6 +4423,11 @@
             The device is oriented horizontally.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.LandscapeReversed">
+            <summary>
+            The device is oriented horizontally, but the image is flipped.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientationConverter">
             <summary>
             Represents a converter to a <see cref="T:FluentUI.Blazor.Community.Components.DeviceOrientation"/> enumeration from a <see cref="T:System.String"/> format.
