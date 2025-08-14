@@ -83,13 +83,13 @@ public partial class FluentCxDeviceDetector
     /// <summary>
     /// Occurs when the orientation of the device changed.
     /// </summary>
-    /// <param name="isPortrait">Value indicating if the device is in portrait orientation or not.</param>
+    /// <param name="orientation">Value indicating the orientation of the device.</param>
     [JSInvokable]
-    public async Task ChangeOrientation(bool isPortrait)
+    public async Task ChangeOrientation(string orientation)
     {
         if (State.DeviceInfo is not null)
         {
-            State.DeviceInfo.Orientation = isPortrait ? DeviceOrientation.Portrait : DeviceOrientation.Landscape;
+            State.DeviceInfo.Orientation = Enum.Parse<DeviceOrientation>(orientation);
             State.ForceUpdate();
 
             if (DeviceInfoUpdated.HasDelegate)

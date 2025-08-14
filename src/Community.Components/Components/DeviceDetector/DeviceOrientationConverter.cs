@@ -19,7 +19,7 @@ internal sealed class DeviceOrientationConverter
             return orientation;
         }
 
-        return DeviceOrientation.Unknown;
+        return DeviceOrientation.Landscape;
     }
 
     /// <inheritdoc />

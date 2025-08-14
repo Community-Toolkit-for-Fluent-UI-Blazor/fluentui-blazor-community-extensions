@@ -113,7 +113,7 @@ public class DeviceInfoTests
         Assert.Equal(Mobile.UnknownMobileDevice, deviceInfo.Mobile);
         Assert.False(deviceInfo.IsTablet);
         Assert.False(deviceInfo.Touch);
-        Assert.Equal(DeviceOrientation.Unknown, deviceInfo.Orientation);
+        Assert.Equal(DeviceOrientation.Portrait, deviceInfo.Orientation);
         Assert.Null(deviceInfo.UserAgent);
         Assert.True(deviceInfo.IsMobile); // Changed from Assert.False to Assert.True
     }

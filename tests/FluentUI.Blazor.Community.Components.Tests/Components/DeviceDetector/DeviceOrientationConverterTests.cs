@@ -13,7 +13,8 @@ public class DeviceOrientationConverterTests
     [Theory]
     [InlineData("Portrait", DeviceOrientation.Portrait)]
     [InlineData("Landscape", DeviceOrientation.Landscape)]
-    [InlineData("NotARealOrientation", DeviceOrientation.Unknown)]
+    [InlineData("PortraitReversed", DeviceOrientation.PortraitReversed)]
+    [InlineData("LandscapeReversed", DeviceOrientation.LandscapeReversed)]
     public void Read_ParsesStringToDeviceOrientationEnum(string input, DeviceOrientation expected)
     {
         var json = $"\"{input}\"";
