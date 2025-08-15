@@ -90,7 +90,6 @@ public partial class FluentCxDeviceDetector
         if (State.DeviceInfo is not null)
         {
             State.DeviceInfo.Orientation = Enum.Parse<DeviceOrientation>(orientation);
-            State.ForceUpdate();
 
             if (DeviceInfoUpdated.HasDelegate)
             {

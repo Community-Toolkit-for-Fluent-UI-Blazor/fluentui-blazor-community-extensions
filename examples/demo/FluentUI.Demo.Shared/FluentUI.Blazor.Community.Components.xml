@@ -4383,24 +4383,9 @@
             Represents the state of the device information.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.DeviceInfoState._deviceInfo">
-            <summary>
-            Represents the information of the device.
-            </summary>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.DeviceInfoState.DeviceInfo">
             <summary>
             Gets or sets the information of the device.
-            </summary>
-        </member>
-        <member name="E:FluentUI.Blazor.Community.Components.DeviceInfoState.Updated">
-            <summary>
-            Occurs when the device info is updated.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.DeviceInfoState.ForceUpdate">
-            <summary>
-            Force the update of the state.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientation">
