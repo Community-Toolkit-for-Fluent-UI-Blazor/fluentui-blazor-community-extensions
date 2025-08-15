@@ -1,0 +1,12 @@
+.sleekdial-view-radial {
+  height: inherit;
+  width: inherit;
+  position: relative;
+  border-radius: inherit;
+  padding: 5px 3px;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0;
+}

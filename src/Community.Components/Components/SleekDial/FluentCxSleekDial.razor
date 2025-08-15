@@ -1,0 +1,37 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div aria-expanded="@(IsOpen ? "true" : "false")"
+         aria-haspopup="true">
+
+        <FluentKeyCode OnKeyDown="@OnKeyDownHandlerAsync" PreventDefault=_preventDefault>
+            @ChildContent
+
+            <FluentCxFloatingButton Class="@InternalClass"
+                                    AdditionalAttributes="@AdditionalAttributes"
+                                    Position="@Position"
+                                    RelativeContainerId="@Target"
+                                    IconStart="@(IsOpen ? CloseIcon : OpenIcon)"
+                                    ChildContent="@(!string.IsNullOrEmpty(Text) ? _renderText : null)"
+                                    Id="@($"Button{Id}")"
+                                    @ref=_floatingButton />
+
+            <SleekDialPopup @ref=_popup
+                            IsOpen=@IsOpen
+                            OnAnimationCompleted="@OnAnimationCompletedAsync" />
+        </FluentKeyCode>
+     </div>
+</CascadingValue>
+
+@code {
+    public FluentCxSleekDial()
+    {
+        Id = Identifier.NewId();
+        _dotNetObjectReference = DotNetObjectReference.Create(this);
+        _renderText = __builder =>
+        {
+            <FluentLabel>@Text</FluentLabel>
+        };
+    }
+}

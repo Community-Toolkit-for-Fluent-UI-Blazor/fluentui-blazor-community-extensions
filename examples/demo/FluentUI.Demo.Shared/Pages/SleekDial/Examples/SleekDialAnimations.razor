@@ -1,0 +1,21 @@
+﻿<FluentSelect TOption="SleekDialAnimation"
+              Items="@items"
+              @bind-SelectedOption="_settings.Animation" />
+
+<div id="target-animation" style="height: 400px; position: relative; margin-bottom: 30px">
+    <FluentCxSleekDial Target="target-animation"
+                       AnimationSettings=@_settings
+                       Position="FloatingPosition.BottomCenter"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+        <SleekDialItem Title="Delete" Icon="@(new Icons.Regular.Size24.Delete())" />
+    </FluentCxSleekDial>
+</div>
+
+@code {
+    private readonly SleekDialAnimation[] items = Enum.GetValues<SleekDialAnimation>();
+    private SleekDialAnimationSettings _settings = new();
+}
