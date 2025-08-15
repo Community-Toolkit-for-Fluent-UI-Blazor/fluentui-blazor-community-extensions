@@ -45,7 +45,7 @@ public partial class FluentCxSlideshow<TItem>
     public TimeSpan Interval { get; set; } = TimeSpan.FromSeconds(5);
 
     [Parameter]
-    public TimeSpan Duration { get; set; } = TimeSpan.FromMicroseconds(300);
+    public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(300);
 
     [Parameter]
     public string? Width { get; set; } = "100%";
@@ -67,6 +67,9 @@ public partial class FluentCxSlideshow<TItem>
 
     [Parameter]
     public string NextLabel { get; set; } = "Next";
+
+    [Parameter]
+    public Func<TItem, long>? ItemFunc { get; set; }
 
     private int Count => ChildContent is not null ? _slides.Count : Items.Count();
 
@@ -159,6 +162,8 @@ public partial class FluentCxSlideshow<TItem>
         {
             await IndexChanged.InvokeAsync(index);
         }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     internal string? GetAriaHiddenValue(SlideshowItem<TItem> item)

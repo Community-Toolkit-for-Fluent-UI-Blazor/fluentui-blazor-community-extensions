@@ -25,10 +25,6 @@ public partial class SlideshowItem<TItem>
         .AddClass("slideshow-item")
         .Build();
 
-    private string? InternalStyle => new StyleBuilder(Style)
-        .AddStyle("aria-hidden", Parent.GetAriaHiddenValue(this), Parent.Contains(this))
-        .Build();
-
     /// <inheritdoc />
     public void Dispose()
     {

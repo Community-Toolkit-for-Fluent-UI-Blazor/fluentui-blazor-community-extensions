@@ -4408,14 +4408,14 @@
             Represents the orientation of the device.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Unknown">
-            <summary>
-            The orientation is unknown.
-            </summary>
-        </member>
         <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Portrait">
             <summary>
-            The device is oriented vertically.
+            The orientation is portrait.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.PortraitReversed">
+            <summary>
+            The orientation is portrait but image is flipped.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.DeviceOrientation.Landscape">
@@ -4427,17 +4427,6 @@
             <summary>
             The device is oriented horizontally, but the image is flipped.
             </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientationConverter">
-            <summary>
-            Represents a converter to a <see cref="T:FluentUI.Blazor.Community.Components.DeviceOrientation"/> enumeration from a <see cref="T:System.String"/> format.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.DeviceOrientationConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.DeviceOrientationConverter.Write(System.Text.Json.Utf8JsonWriter,FluentUI.Blazor.Community.Components.DeviceOrientation,System.Text.Json.JsonSerializerOptions)">
-            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector">
             <summary>
@@ -4492,11 +4481,11 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChangeOrientation(System.Boolean)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChangeOrientation(System.String)">
             <summary>
             Occurs when the orientation of the device changed.
             </summary>
-            <param name="isPortrait">Value indicating if the device is in portrait orientation or not.</param>
+            <param name="orientation">Value indicating the orientation of the device.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.DisposeAsync">
             <inheritdoc />
