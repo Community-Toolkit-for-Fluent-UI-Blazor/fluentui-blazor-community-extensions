@@ -1,5 +1,4 @@
 using FluentUI.Blazor.Community.Components;
-using FluentUI.Blazor.Community.Components.Services;
 using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Blazor.Community.Services;
 using FluentUI.Demo.Shared.Infrastructure;

@@ -39,7 +39,7 @@ public partial class FluentCxSlideshow<TItem>
     public RenderFragment<TItem>? ItemTemplate { get; set; }
 
     [Parameter]
-    public bool Autoplay { get; set; } = true;
+    public bool Autoplay { get; set; }
 
     [Parameter]
     public TimeSpan Interval { get; set; } = TimeSpan.FromSeconds(5);
@@ -82,8 +82,8 @@ public partial class FluentCxSlideshow<TItem>
         .Build();
 
     private string? InternalStyle => new StyleBuilder(Style)
-        .AddStyle("width", Width, !string.IsNullOrEmpty(Width))
-        .AddStyle("height", Height, !string.IsNullOrEmpty(Height))
+        .AddStyle("--slideshow-width", Width ?? "100%")
+        .AddStyle("--slideshow-height", Height ?? "100%")
         .AddStyle("--slideshow-item-count", Items.Any() ? Items.Count().ToString(CultureInfo.CurrentCulture) : _slides.Count.ToString(CultureInfo.CurrentCulture))
         .AddStyle("--slideshow-current-index", Index.ToString(CultureInfo.CurrentCulture))
         .AddStyle("--slideshow-duration", $"{Duration.TotalMilliseconds}ms")

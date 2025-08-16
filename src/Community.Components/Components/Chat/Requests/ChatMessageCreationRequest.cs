@@ -7,6 +7,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <param name="Owner">Owner of the message.</param>
 /// <param name="ChatDraft">Draft of the message.</param>
 /// <param name="SplitOption">Options to split the message into multiple messages or not.</param>
+/// <param name="IsTranslationEnabled">Value indicating if the translation is enabled.</param>
 public record ChatMessageCreationRequest(
     long RoomId,
     ChatUser Owner,

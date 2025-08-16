@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Extensions;
 using FluentUI.Blazor.Community.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -77,6 +76,18 @@ public partial class ChatFileViewItem
     /// </summary>
     [Parameter]
     public string? LoadingLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the label to display when the audio file is playing.
+    /// </summary>
+    [Parameter]
+    public string? PlayLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the label to display when the audio file is paused.
+    /// </summary>
+    [Parameter]
+    public string? PauseLabel { get; set; }
 
     /// <summary>
     /// Gets or sets the js runtime to use for invoking JavaScript functions.

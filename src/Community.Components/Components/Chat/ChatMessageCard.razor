@@ -221,7 +221,7 @@
             <FluentCxImageGroup MaxVisibleItems="@GetDocumentVisibleCount()"
                         Shape="@(groupType == ImageGroupLayout.Spread ? ImageShape.RoundSquare : ImageShape.Circle)"
                         GroupLayout="@groupType"
-                        Size="@(Message!.Sections.Any(x => !string.IsNullOrEmpty(x.Content)) ? ImageSize.Size72 : ImageSize.Size120)">
+                        Size="ImageSize.Size72">
                 @foreach(var item in Message!.Files)
                 {
                     <FluentCxImageGroupItem Source="@GetSourceImage(item)"

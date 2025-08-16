@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 namespace FluentUI.Blazor.Community.Components;
 
 public partial class ChatAudioWaveVisualizer
-    : FluentComponentBase
+    : FluentComponentBase, IAsyncDisposable
 {
     private IJSObjectReference? _audioWaveRef;
     private const string JavascriptFileName = "./_content/FluentUI.Blazor.Community.Components/Components/Chat/ChatAudioWaveVisualizer.razor.js";
@@ -21,6 +21,7 @@ public partial class ChatAudioWaveVisualizer
     [Inject]
     private IJSRuntime Runtime { get; set; }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -34,5 +35,19 @@ public partial class ChatAudioWaveVisualizer
         }
 
         await base.OnAfterRenderAsync(firstRender);
+    }
+
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_audioWaveRef is not null)
+            {
+                await _audioWaveRef.DisposeAsync();
+            }
+        }
+        catch (JSDisconnectedException)
+        { }
     }
 }

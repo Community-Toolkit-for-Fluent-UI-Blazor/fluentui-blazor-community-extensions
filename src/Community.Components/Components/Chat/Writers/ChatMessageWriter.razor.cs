@@ -16,7 +16,7 @@ public partial class ChatMessageWriter
     /// <summary>
     /// Represents the fragment to render the action toolbar of the chat message writer.
     /// </summary>
-    private readonly RenderFragment<(Orientation, string)> _toolbarFragment;
+    private readonly RenderFragment<(Orientation, string, int)> _toolbarFragment;
 
     /// <summary>
     /// Gets or sets the icon to be used for the media button in the chat message writer.
@@ -212,6 +212,18 @@ public partial class ChatMessageWriter
     public RenderFragment? AudioWaveVisualizerContent { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating that a record audio is processing.
+    /// </summary>
+    [Parameter]
+    public bool IsAudioProcessing { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content to indicate that a record audio is processing.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? AudioProcessingContent { get; set; }
+
+    /// <summary>
     /// Gets the number of rows to display in the chat message writer based on the current state (mobile, reply, etc.).
     /// </summary>
     /// <returns>Returns the number of rows to display.</returns>
@@ -231,11 +243,13 @@ public partial class ChatMessageWriter
     /// <returns>Returns a task wich raise the <see cref="OnRecordingAudio"/> callback.</returns>
     private async Task OnAudioRecordingClickAsync()
     {
-        _isRecording = !_isRecording;
+        var isRecording = !_isRecording;
 
         if (OnRecordingAudio.HasDelegate)
         {
-            await OnRecordingAudio.InvokeAsync(_isRecording);
+            await OnRecordingAudio.InvokeAsync(isRecording);
         }
+
+        _isRecording = isRecording;
     }
 }

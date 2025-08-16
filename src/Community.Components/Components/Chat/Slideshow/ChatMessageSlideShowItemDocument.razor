@@ -1,40 +1,46 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-<FluentCard Id="@Id" Style="align-items: center; justify-content: center;">
-    @if(_itemLoaded && Item is not null)
-    {
-        if (Item.ContentType.StartsWith("image"))
+<FluentCard Id="@Id">
+   <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
+                VerticalAlignment="VerticalAlignment.Center"
+                Style="height: 100%">
+        @if (_itemLoaded && Item is not null)
         {
-            <img src="@_content" />
-        }
-        else if (Item.ContentType.StartsWith("video"))
-        {
-            <video id="@($"video-player-{Id}")" style="width: 100%; height: 100%;">
-            </video>
-        }
-        else if (Item.ContentType.StartsWith("audio"))
-        {
-            <audio controls>
-            <source src="@(_content)" />
-                Your browser does not support the audio element.
-            </audio>
+            if (Item.ContentType.StartsWith("image"))
+            {
+                <img id="@($"image-{Id}")" src="@_content" />
+            }
+            else if (Item.ContentType.StartsWith("video"))
+            {
+                <video id="@($"video-player-{Id}")" style="width: 100%; height: 100%;">
+                </video>
+            }
+            else if (Item.ContentType.StartsWith("audio"))
+            {
+                <div style="width: 150px; height: 150px">
+                    <ChatAudioFileViewer PauseLabel="@PauseLabel"
+                                         PlayLabel="@PlayLabel"
+                                         Source="@_content" />
+                </div>
+                
+            }
+            else
+            {
+                <FluentIcon Value="@(FileIcons.FromExtensionAndGridViewOptions(Path.GetExtension(Item.Name), FileView.MediumIcons))" />
+            }
         }
         else
         {
-            <FluentIcon Value="@(FileIcons.FromExtensionAndGridViewOptions(Path.GetExtension(Item.Name), FileView.MediumIcons))" />
+            <FluentStack Orientation="Orientation.Vertical"
+                         HorizontalAlignment="HorizontalAlignment.Center"
+                         VerticalAlignment="VerticalAlignment.Center">
+                <FluentProgressRing />
+                <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                    @LoadingLabel
+                </FluentLabel>
+            </FluentStack>
         }
-    }
-    else
-    {
-        <FluentStack Orientation="Orientation.Vertical"
-                     HorizontalAlignment="HorizontalAlignment.Center"
-                     VerticalAlignment="VerticalAlignment.Center">
-            <FluentProgressRing />
-            <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
-                @LoadingLabel
-            </FluentLabel>
-        </FluentStack>
-    }
+   </FluentStack>
 </FluentCard>
 

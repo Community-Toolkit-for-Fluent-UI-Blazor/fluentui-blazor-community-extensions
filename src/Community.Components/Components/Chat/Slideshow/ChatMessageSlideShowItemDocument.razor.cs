@@ -49,6 +49,18 @@ public partial class ChatMessageSlideShowItemDocument
     public string? LoadingLabel { get; set; }
 
     /// <summary>
+    /// Gets or sets the label to display when an audio is playing.
+    /// </summary>
+    [Parameter]
+    public string? PauseLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the label to display when an audio is paused.
+    /// </summary>
+    [Parameter]
+    public string? PlayLabel { get; set; }
+
+    /// <summary>
     /// Gets or sets the js runtime to use for invoking JavaScript functions.
     /// </summary>
     [Inject]

@@ -1,10 +1,13 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-<FluentCxSlideshow ShowControls
-                   ShowIndicators
-                   TItem="string">
-    @if (Message is not null)
+<FluentCxSlideshow ShowControls=@ShowControlsAndIndicators
+                   ShowIndicators=@ShowControlsAndIndicators
+                   TItem="string"
+                   Width="@_width"
+                   Height="@_height"
+                   Id="@Id">
+    @if (Message is not null && _showContent)
     {
         if (Message.MessageType.HasFlag(ChatMessageType.Text))
         {
@@ -24,5 +27,3 @@
         }
     }
 </FluentCxSlideshow>
-
-

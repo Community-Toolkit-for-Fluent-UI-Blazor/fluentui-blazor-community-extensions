@@ -27,6 +27,11 @@ else
     <FluentStack Orientation="Orientation.Horizontal"
                  Style="width: 100%"
                  VerticalAlignment="VerticalAlignment.Bottom">
+        @if (Orientation == Orientation.Horizontal)
+        {
+            @_toolbarFragment((Orientation.Vertical, "auto", 0))
+        }
+
         <FluentStack Width="100%" Orientation="Orientation.Vertical">
             @if (IsReply)
             {
@@ -35,7 +40,7 @@ else
                                   OnDismiss="@(OnDismiss)" />
             }
 
-            @if (!_isRecording)
+            @if (!_isRecording && !IsAudioProcessing)
             {
                 <FluentTextArea @bind-Value=Draft!.Text
                                 Placeholder="@Labels.EnterMessage"
@@ -44,36 +49,54 @@ else
                                 Immediate
                                 Style="width: 100%" />
             }
-            else
+            else if(_isRecording)
             {
-                <FluentCard Height="180px" MinimalStyle>
-                    @if (AudioWaveVisualizerContent is not null)
-                    {
-                        @AudioWaveVisualizerContent
-                    }
-                    else
-                    {
+                @if (AudioWaveVisualizerContent is not null)
+                {
+                    @AudioWaveVisualizerContent
+                }
+                else
+                {
+                    <FluentCard Height="180px" MinimalStyle>
                         <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
                                      VerticalAlignment="VerticalAlignment.Center"
                                      Style="height: 100%">
                             <ChatAudioWaveVisualizer />
                         </FluentStack>
-                    }
-                </FluentCard>
+                    </FluentCard>
+                }
+            }
+            else if (IsAudioProcessing)
+            {
+                @if (AudioProcessingContent is not null)
+                {
+                    @AudioProcessingContent
+                }
+                else
+                {
+                    <FluentCard Height="180px" MinimalStyle>
+                        <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
+                                     VerticalAlignment="VerticalAlignment.Center"
+                                     Style="height: 100%">
+                            <ChatAudioProcessing AudioProcessingLabel="@Labels.AudioProcessingLabel" />
+                        </FluentStack>
+                    </FluentCard>
+                }
             }
 
             @if (Orientation == Orientation.Vertical)
             {
-                @_toolbarFragment((Orientation.Horizontal, "100%"))
+                @_toolbarFragment((Orientation.Horizontal, "100%", -1))
             }
         </FluentStack>
 
         @if (Orientation == Orientation.Horizontal)
         {
-            @_toolbarFragment((Orientation.Vertical, "auto"))
+            @_toolbarFragment((Orientation.Vertical, "auto", 1))
         }
     </FluentStack>
 }
+
 
 @code {
     public ChatMessageWriter()
@@ -81,20 +104,28 @@ else
         Id = Identifier.NewId();
         _toolbarFragment = (e) => __builder =>
         {
-            <FluentStack Width="@e.Item2" Orientation="e.Item1">
-
-                @if(!IsEdit && ShowLiveAudioRecordingButton)
+            if(e.Item3 == 0)
+            {
+                <FluentStack Width="@e.Item2" Orientation="e.Item1">
+                @if (!IsEdit && ShowLiveAudioRecordingButton)
                 {
-                    <FluentButton Id="EmojiButton"
-                                  Title="@Labels.LiveAudioRecording"
-                                  OnClick="@(OnAudioRecordingClickAsync)"
-                                  IconStart="@(!_isRecording ? MicroIcon : MicroOffIcon)"
-                                  Style="border-radius: 20px" />
+                    <FluentCounterBadge Count="@(Draft?.SelectedChatFiles.FindAll(x => x.IsRecordedAudio).Count)"
+                                        Max="9"
+                                        ShowWhen=@(c => ShowCounterBadge && c > 0)
+                                        BackgroundColor="@Color.Error"
+                                        Color="Color.Fill"
+                                        Appearance="Appearance.Neutral">
+                        <FluentButton Id="AudioRecording"
+                                      Title="@Labels.LiveAudioRecording"
+                                      OnClick="@(OnAudioRecordingClickAsync)"
+                                      IconStart="@(!_isRecording ? MicroIcon : MicroOffIcon)"
+                                      Style="border-radius: 20px" />
+                    </FluentCounterBadge>
                 }
 
                 @if (!IsEdit && ShowMediaButton)
                 {
-                    <FluentCounterBadge Count="@(Draft?.SelectedChatFiles.Count)"
+                    <FluentCounterBadge Count="@(Draft?.SelectedChatFiles.FindAll(x => !x.IsRecordedAudio).Count)"
                                         Max="9"
                                         ShowWhen=@(c => ShowCounterBadge && c > 0)
                                         BackgroundColor="@Color.Error"
@@ -104,7 +135,7 @@ else
                                       OnClick="@(OnImportMedia)"
                                       Title="@Labels.InsertMedia"
                                       Style="border-radius: 20px"
-                                      IconStart="@MediaIcon"/>
+                                      IconStart="@MediaIcon" />
                     </FluentCounterBadge>
                 }
 
@@ -124,14 +155,13 @@ else
                                   IconStart="@(GiftIcon)"
                                   Style="border-radius: 20px" />
                 }
-
+                </FluentStack>
+            }
+            else if(e.Item3 == 1)
+            {
+                <FluentStack Width="@e.Item2" Orientation="e.Item1">
                 @if (!IsEdit)
                 {
-                    @if (e.Item1 == Orientation.Horizontal)
-                    {
-                        <FluentSpacer />
-                    }
-
                     <FluentButton Title="@Labels.SendMessage"
                                   Disabled=@(string.IsNullOrEmpty(Draft?.Text) && (Draft?.SelectedChatFiles.Count == 0))
                                   OnClick="OnSendMessage"
@@ -141,11 +171,6 @@ else
 
                 @if (IsEdit)
                 {
-                    @if (e.Item1 == Orientation.Horizontal)
-                    {
-                        <FluentSpacer />
-                    }
-
                     <FluentButton Title="@Labels.DialogCancel"
                                   OnClick="@OnCancel"
                                   IconStart="@DismissIcon"
@@ -156,7 +181,94 @@ else
                                   IconStart="@CheckmarkIcon"
                                   Style="border-radius: 20px" />
                 }
-            </FluentStack>
+                </FluentStack>
+            }
+            else
+            {
+                <FluentStack Width="@e.Item2" Orientation="e.Item1">
+
+                    @if (!IsEdit && ShowLiveAudioRecordingButton)
+                    {
+                        <FluentCounterBadge Count="@(Draft?.SelectedChatFiles.FindAll(x => x.IsRecordedAudio).Count)"
+                                            Max="9"
+                                            ShowWhen=@(c => ShowCounterBadge && c > 0)
+                                            BackgroundColor="@Color.Error"
+                                            Color="Color.Fill"
+                                            Appearance="Appearance.Neutral">
+                            <FluentButton Id="AudioRecording"
+                                          Title="@Labels.LiveAudioRecording"
+                                          OnClick="@(OnAudioRecordingClickAsync)"
+                                          IconStart="@(!_isRecording ? MicroIcon : MicroOffIcon)"
+                                          Style="border-radius: 20px" />
+                        </FluentCounterBadge>
+                    }
+
+                    @if (!IsEdit && ShowMediaButton)
+                    {
+                        <FluentCounterBadge Count="@(Draft?.SelectedChatFiles.FindAll(x => !x.IsRecordedAudio).Count)"
+                                            Max="9"
+                                            ShowWhen=@(c => ShowCounterBadge && c > 0)
+                                            BackgroundColor="@Color.Error"
+                                            Color="Color.Fill"
+                                            Appearance="Appearance.Neutral">
+                            <FluentButton Id="MediaImporterButton"
+                                          OnClick="@(OnImportMedia)"
+                                          Title="@Labels.InsertMedia"
+                                          Style="border-radius: 20px"
+                                          IconStart="@MediaIcon" />
+                        </FluentCounterBadge>
+                    }
+
+                    @if (ShowEmojiButton && !IsMobile)
+                    {
+                        <FluentButton Id="EmojiButton"
+                                      Title="@Labels.InsertEmojis"
+                                      OnClick="@(OnEmoji)"
+                                      IconStart="@(EmojiIcon)"
+                                      Style="border-radius: 20px" />
+                    }
+
+                    @if (!IsEdit && ShowGiftButton)
+                    {
+                        <FluentButton Title="@Labels.InsertGift"
+                                      OnClick="@OnGift"
+                                      IconStart="@(GiftIcon)"
+                                      Style="border-radius: 20px" />
+                    }
+
+                    @if (!IsEdit)
+                    {
+                        @if (e.Item1 == Orientation.Horizontal)
+                        {
+                            <FluentSpacer />
+                        }
+
+                        <FluentButton Title="@Labels.SendMessage"
+                                      Disabled=@(string.IsNullOrEmpty(Draft?.Text) && (Draft?.SelectedChatFiles.Count == 0))
+                                      OnClick="OnSendMessage"
+                                      IconStart="@(SendIcon)"
+                                      Style="border-radius: 20px" />
+                    }
+
+                    @if (IsEdit)
+                    {
+                        @if (e.Item1 == Orientation.Horizontal)
+                        {
+                            <FluentSpacer />
+                        }
+
+                        <FluentButton Title="@Labels.DialogCancel"
+                                      OnClick="@OnCancel"
+                                      IconStart="@DismissIcon"
+                                      Style="border-radius: 20px" />
+
+                        <FluentButton Title="@Labels.DialogOk"
+                                      OnClick="@OnEditMessage"
+                                      IconStart="@CheckmarkIcon"
+                                      Style="border-radius: 20px" />
+                    }
+                </FluentStack>
+            }
         };
     }
 }

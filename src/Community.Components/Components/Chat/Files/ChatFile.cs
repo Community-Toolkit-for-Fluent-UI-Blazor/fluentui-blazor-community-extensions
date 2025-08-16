@@ -40,5 +40,4 @@ public abstract class ChatFile
     /// Gets or sets the owner of the file.
     /// </summary>
     public ChatUser Owner { get; set; } = default!;
-
 }

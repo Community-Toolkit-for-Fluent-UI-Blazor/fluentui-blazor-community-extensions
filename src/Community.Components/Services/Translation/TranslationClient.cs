@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace FluentUI.Blazor.Community.Components.Services;
 
-internal sealed class TranslationClient(IConfiguration configuration)
+internal sealed class TranslationClient
     : ITranslationClient
 {
     private class TranslationArray
@@ -23,18 +23,31 @@ internal sealed class TranslationClient(IConfiguration configuration)
         public string To { get; set; } = default!;
     }
 
-    /// <inheritdoc />
-    public bool IsConfigurationValid => CheckConfig(configuration);
+    private readonly string _location;
+    private readonly string _secretKey;
+    private readonly string _url;
 
-    private static bool CheckConfig(IConfiguration configuration)
+    public TranslationClient(IConfiguration configuration)
+    {
+        IsConfigurationValid = CheckConfig(configuration, out _location, out _secretKey, out _url);
+    }
+
+    /// <inheritdoc />
+    public bool IsConfigurationValid { get; }
+
+    private static bool CheckConfig(
+        IConfiguration configuration,
+        out string location,
+        out string secretKey,
+        out string url)
     {
         var section = configuration.GetSection("Application")
-                                                    .GetSection("Azure")
-                                                    .GetSection("TextTranslator");
+                                   .GetSection("Azure")
+                                   .GetSection("TextTranslator");
 
-        string location = section.GetValue("Region", string.Empty);
-        string secretKey = section.GetValue("SecretKey", string.Empty);
-        string url = section.GetValue("Url", string.Empty);
+        location = section.GetValue("Region", string.Empty);
+        secretKey = section.GetValue("SecretKey", string.Empty);
+        url = section.GetValue("Url", string.Empty);
 
         return !string.IsNullOrEmpty(location) &&
                !string.IsNullOrEmpty(secretKey) &&
@@ -93,15 +106,7 @@ internal sealed class TranslationClient(IConfiguration configuration)
             return [];
         }
 
-        IConfigurationSection section = configuration.GetSection("Application")
-                                                    .GetSection("Azure")
-                                                    .GetSection("TextTranslator");
-
-        var location = section.GetValue("Region", string.Empty);
-        var secretKey = section.GetValue("SecretKey", string.Empty);
-        var url = section.GetValue("Url", string.Empty);
-
-        StringBuilder sb = new(url);
+        StringBuilder sb = new(_url);
         sb.Append(fromLanguage);
         sb.Append("&to=");
         sb.Append(string.Join("&to=", languages));
@@ -118,11 +123,11 @@ internal sealed class TranslationClient(IConfiguration configuration)
             request.Method = HttpMethod.Post;
             request.RequestUri = new Uri(sb.ToString());
             request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
-            request.Headers.Add("Ocp-Apim-Subscription-Key", secretKey);
+            request.Headers.Add("Ocp-Apim-Subscription-Key", _secretKey);
 
-            if (!string.Equals(location, "global", StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(_location, "global", StringComparison.OrdinalIgnoreCase))
             {
-                request.Headers.Add("Ocp-Apim-Subscription-Region", location);
+                request.Headers.Add("Ocp-Apim-Subscription-Region", _location);
             }
 
             var response = await httpClient.SendAsync(request).ConfigureAwait(false);

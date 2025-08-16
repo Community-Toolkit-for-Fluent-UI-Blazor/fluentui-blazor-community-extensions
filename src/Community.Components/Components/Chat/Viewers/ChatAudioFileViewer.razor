@@ -1,0 +1,21 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     style="@InternalStyle"
+     class="@Class">
+    <audio id="@($"audio-{Id}")">
+        <source src="@(Source)" />
+        Your browser does not support the audio element.
+    </audio>
+
+    <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center"
+                 Style="height: 100%">
+        <FluentButton OnClick="OnTappedAsync"
+                      Title="@Title"
+                      IconStart="@(_isPlaying ? new IconsFilled.Size24.Pause() : new IconsFilled.Size24.Play())"
+                      Appearance="Appearance.Neutral"
+                      Style="width: 75%; height: 75%; border-radius: 10000px" />
+    </FluentStack>
+</div>
+

@@ -56,7 +56,8 @@ public record ChatMessageListLabels
         MessageTextCopyFailed = "Echec de la copie du texte.",
         OwnerBlockMessage = "Vous avez bloqué cette salle de discussion. Pour continuer à discuter, vous devez débloquer la salle.",
         MessageViewer = "Visionneuse de messages",
-        LiveAudioRecording = "Enregistrer un message audio"
+        LiveAudioRecording = "Enregistrer un message audio",
+        AudioProcessingLabel = "Traitement du message audio..."
     };
 
     /// <summary>
@@ -263,4 +264,9 @@ public record ChatMessageListLabels
     /// Gets or sets the label for the chat message viewer to record audio.
     /// </summary>
     public string LiveAudioRecording { get; set; } = "Record an audio message.";
+
+    /// <summary>
+    /// Gets or sets the label for the chat message viewer to process an audio record.
+    /// </summary>
+    public string AudioProcessingLabel { get; set; } = "Audio message processing...";
 }

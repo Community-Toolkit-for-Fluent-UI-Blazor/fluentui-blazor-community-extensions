@@ -43,6 +43,11 @@ public static class ServiceCollectionExtensions
                        .AddTranslationClient();
     }
 
+    /// <summary>
+    /// Adds the default translation client.
+    /// </summary>
+    /// <param name="services">Collection of services.</param>
+    /// <returns>Returns the collection of services.</returns>
     public static IServiceCollection AddTranslationClient(this IServiceCollection services)
     {
         return services.AddScoped<ITranslationClient, TranslationClient>();

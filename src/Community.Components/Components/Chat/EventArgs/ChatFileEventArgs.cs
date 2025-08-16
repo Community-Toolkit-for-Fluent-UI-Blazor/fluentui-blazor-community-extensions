@@ -15,12 +15,14 @@ public record ChatFileEventArgs
     /// <param name="name">Name of the file.</param>
     /// <param name="contentType">Content type of the file.</param>
     /// <param name="data">Data of the file as an asynchronous task.</param>
-    public ChatFileEventArgs(long id, string name, string contentType, Func<Task<byte[]>> data)
+    /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
+    public ChatFileEventArgs(long id, string name, string contentType, Func<Task<byte[]>> data, bool isRecordedAudio = false)
     {
         Id = $"f{id}";
         Name = name;
         ContentType = contentType;
         DataFunc = data;
+        IsRecordedAudio = isRecordedAudio;
     }
 
     /// <summary>
@@ -29,12 +31,14 @@ public record ChatFileEventArgs
     /// <param name="name">Name of the file.</param>
     /// <param name="contentType">Content type of the file.</param>
     /// <param name="data">Data of the file.</param>
-    public ChatFileEventArgs(string name, string contentType, byte[] data)
+    /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
+    public ChatFileEventArgs(string name, string contentType, byte[] data, bool isRecordedAudio = false)
     {
         Id = Identifier.NewId();
         Name = name;
         ContentType = contentType;
         Data = data;
+        IsRecordedAudio = isRecordedAudio;
     }
 
     /// <summary>
@@ -61,4 +65,9 @@ public record ChatFileEventArgs
     /// Gets the data of the file.
     /// </summary>
     public byte[] Data { get; } = [];
+
+    /// <summary>
+    /// Gets or sets if the file is a recorded audio.
+    /// </summary>
+    public bool IsRecordedAudio { get; }
 }

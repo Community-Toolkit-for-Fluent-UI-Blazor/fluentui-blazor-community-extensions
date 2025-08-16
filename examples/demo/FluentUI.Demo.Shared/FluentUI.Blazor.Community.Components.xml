@@ -673,6 +673,12 @@
         <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
             <inheritdoc/>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatAudioWaveVisualizer.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatAudioWaveVisualizer.DisposeAsync">
+            <inheritdoc />
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessage.SetReadState(FluentUI.Blazor.Community.Components.ChatUser,System.Boolean)">
             <summary>
             Sets the state of the read for an user.
@@ -1211,11 +1217,21 @@
             Gets or sets the label for the chat message viewer to record audio.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListLabels.AudioProcessingLabel">
+            <summary>
+            Gets or sets the label for the chat message viewer to process an audio record.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageListView`1">
             <summary>
             Rerpresents the view to list chat messages.
             </summary>
             <typeparam name="TItem"></typeparam>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListView`1.ChunkSize">
+            <summary>
+            Represents the chunk size to receive the audio chunk from the javascript.
+            </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListView`1._virtualizeMessageList">
             <summary>
@@ -1282,6 +1298,16 @@
             Represents the message service.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListView`1._audioStream">
+            <summary>
+            Represents the audio stream.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatMessageListView`1._isAudioProcessing">
+            <summary>
+            Value indicating when the audio recorded from the micro is processing.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ChatMessageListView`1"/> component.
@@ -1307,7 +1333,7 @@
             Gets or sets the service for toast.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.TranslationClient">
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.ServiceProvider">
             <summary>
             Gets or sets the translation client to translate text into another language.
             </summary>
@@ -1544,6 +1570,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.IsRecordingAudioEnabled">
             <summary>
             Gets or sets a value indicating if the chat allows the record of an audio message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.ProcessAudio">
+            <summary>
+            Gets or sets the eventcallback to process the audio from the micro.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnAddGiftAsync">
@@ -1784,6 +1815,25 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.DisposeAsync">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.StartAudioChunkStreamAsync">
+            <summary>
+            Starts an audio chunk stream.
+            </summary>
+            <returns>Returns a task which prepares the stream of the audio chunk.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.ReceiveAudioChunkAsync(System.Int32[])">
+            <summary>
+            Recevives the chunk for the audio stream.
+            </summary>
+            <param name="value">Array of data of the audio stream.</param>
+            <returns>Returns a task which receives the chunk when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.AudioChunkCompletedAsync">
+            <summary>
+            Occurs when the audio chunk is completed.
+            </summary>
+            <returns>Returns the task which closes the audio stream and build a <see cref="T:FluentUI.Blazor.Community.Components.ChatFileEventArgs"/> audio file.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageListViewConstants">
             <summary>
@@ -2066,7 +2116,7 @@
             Represents an event args for a chat file.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ChatFileEventArgs.#ctor(System.Int64,System.String,System.String,System.Func{System.Threading.Tasks.Task{System.Byte[]}})">
+        <member name="M:FluentUI.Blazor.Community.Components.ChatFileEventArgs.#ctor(System.Int64,System.String,System.String,System.Func{System.Threading.Tasks.Task{System.Byte[]}},System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ChatFileEventArgs"/> class with the specified id, name, content type, and data function.
             </summary>
@@ -2074,14 +2124,16 @@
             <param name="name">Name of the file.</param>
             <param name="contentType">Content type of the file.</param>
             <param name="data">Data of the file as an asynchronous task.</param>
+            <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ChatFileEventArgs.#ctor(System.String,System.String,System.Byte[])">
+        <member name="M:FluentUI.Blazor.Community.Components.ChatFileEventArgs.#ctor(System.String,System.String,System.Byte[],System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ChatFileEventArgs"/> class with the specified name, content type, and data.
             </summary>
             <param name="name">Name of the file.</param>
             <param name="contentType">Content type of the file.</param>
             <param name="data">Data of the file.</param>
+            <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.Id">
             <summary>
@@ -2106,6 +2158,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.Data">
             <summary>
             Gets the data of the file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileEventArgs.IsRecordedAudio">
+            <summary>
+            Gets or sets if the file is a recorded audio.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatGroupEventArgs">
@@ -2172,6 +2229,26 @@
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.PinMessageEventArgs.Pin">
             <summary>Value indicating if the message is pinned or not.</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.RecordedAudioEventArgs">
+            <summary>
+            Represents the event args for a recorded audio.
+            </summary>
+            <param name="OriginalData">Original data of the audio.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.RecordedAudioEventArgs.#ctor(System.Byte[])">
+            <summary>
+            Represents the event args for a recorded audio.
+            </summary>
+            <param name="OriginalData">Original data of the audio.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RecordedAudioEventArgs.OriginalData">
+            <summary>Original data of the audio.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RecordedAudioEventArgs.Audio">
+            <summary>
+            Gets or sets the converted audio data.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.BinaryChatFile">
             <summary>
@@ -2675,6 +2752,26 @@
         <member name="M:FluentUI.Blazor.Community.Components.ChatUser.op_Inequality(FluentUI.Blazor.Community.Components.ChatUser,FluentUI.Blazor.Community.Components.ChatUser)">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.RecordedAudio">
+            <summary>
+            Represents the converted recorded audio.
+            </summary>
+            <param name="AudioData">Converted audio data.</param>
+            <param name="ContentType">New content type of the audio.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.RecordedAudio.#ctor(System.Byte[],System.String)">
+            <summary>
+            Represents the converted recorded audio.
+            </summary>
+            <param name="AudioData">Converted audio data.</param>
+            <param name="ContentType">New content type of the audio.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RecordedAudio.AudioData">
+            <summary>Converted audio data.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RecordedAudio.ContentType">
+            <summary>New content type of the audio.</summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageReply">
             <summary>
             Represents a reply message.
@@ -2780,6 +2877,7 @@
             <param name="Owner">Owner of the message.</param>
             <param name="ChatDraft">Draft of the message.</param>
             <param name="SplitOption">Options to split the message into multiple messages or not.</param>
+            <param name="IsTranslationEnabled">Value indicating if the translation is enabled.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageCreationRequest.#ctor(System.Int64,FluentUI.Blazor.Community.Components.ChatUser,FluentUI.Blazor.Community.Components.ChatMessageDraft,FluentUI.Blazor.Community.Components.ChatMessageSplitOption,System.Boolean)">
             <summary>
@@ -2789,6 +2887,7 @@
             <param name="Owner">Owner of the message.</param>
             <param name="ChatDraft">Draft of the message.</param>
             <param name="SplitOption">Options to split the message into multiple messages or not.</param>
+            <param name="IsTranslationEnabled">Value indicating if the translation is enabled.</param>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageCreationRequest.RoomId">
             <summary>Identifier of the room.</summary>
@@ -2801,6 +2900,9 @@
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageCreationRequest.SplitOption">
             <summary>Options to split the message into multiple messages or not.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageCreationRequest.IsTranslationEnabled">
+            <summary>Value indicating if the translation is enabled.</summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageEditRequest">
             <summary>
@@ -3724,6 +3826,16 @@
             Gets or sets the label to display when the file is loading.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageSlideShowItemDocument.PauseLabel">
+            <summary>
+            Gets or sets the label to display when an audio is playing.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageSlideShowItemDocument.PlayLabel">
+            <summary>
+            Gets or sets the label to display when an audio is paused.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageSlideShowItemDocument.JSRuntime">
             <summary>
             Gets or sets the js runtime to use for invoking JavaScript functions.
@@ -4047,6 +4159,16 @@
             Gets or sets the label to display when the file is loading.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.PlayLabel">
+            <summary>
+            Gets or sets the label to display when the audio file is playing.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.PauseLabel">
+            <summary>
+            Gets or sets the label to display when the audio file is paused.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatFileViewItem.JSRuntime">
             <summary>
             Gets or sets the js runtime to use for invoking JavaScript functions.
@@ -4238,6 +4360,16 @@
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.AudioWaveVisualizerContent">
             <summary>
             Gets or sets the render fragment to render the content of the visualizer of audio waves.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.IsAudioProcessing">
+            <summary>
+            Gets or sets a value indicating that a record audio is processing.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageWriter.AudioProcessingContent">
+            <summary>
+            Gets or sets the content to indicate that a record audio is processing.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageWriter.GetNumberOfRows">
@@ -10871,6 +11003,13 @@
             This method registers the services required for the chat functionality,
              including user cache for SignalR, SignalR Messages, cookie provider, and translation client.
             </remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Extensions.ServiceCollectionExtensions.AddTranslationClient(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds the default translation client.
+            </summary>
+            <param name="services">Collection of services.</param>
+            <returns>Returns the collection of services.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Hubs.ChatHub.OnConnectedAsync">
             <inheritdoc />

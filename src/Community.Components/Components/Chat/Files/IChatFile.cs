@@ -39,5 +39,4 @@ public interface IChatFile
     /// Gets the owner of the file.
     /// </summary>
     ChatUser Owner { get; }
-
 }

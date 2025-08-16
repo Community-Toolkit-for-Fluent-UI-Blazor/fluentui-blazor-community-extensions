@@ -18,7 +18,7 @@ public sealed class ChatMessageDraft
     /// <summary>
     /// Represents all cultures to convert a message.
     /// </summary>
-    private Dictionary<string, IEnumerable<string>> _textCultures = [];
+    private readonly Dictionary<string, IEnumerable<string>> _textCultures = [];
 
     /// <summary>
     /// Gets or sets the text of the message.

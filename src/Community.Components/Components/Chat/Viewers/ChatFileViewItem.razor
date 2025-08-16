@@ -24,10 +24,11 @@
                 }
                 else if (Item.ContentType.StartsWith("audio"))
                 {
-                    <audio controls>
-                        <source src="@(_base64Data)" />
-                        Your browser does not support the audio element.
-                    </audio>
+                    <ChatAudioFileViewer Source="@_base64Data"
+                                         PlayLabel="@PlayLabel"
+                                         PauseLabel="@PauseLabel"
+                                         Width="110px"
+                                         Height="110px"/>
                 }
                 else
                 {

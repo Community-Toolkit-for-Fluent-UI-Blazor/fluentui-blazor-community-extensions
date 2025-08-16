@@ -3,6 +3,7 @@ using FluentUI.Blazor.Community.Components.Services;
 using FluentUI.Blazor.Community.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -16,6 +17,11 @@ public partial class ChatMessageListView<TItem>
     : FluentComponentBase, IAsyncDisposable where TItem : class, new()
 {
     #region Fields
+
+    /// <summary>
+    /// Represents the chunk size to receive the audio chunk from the javascript.
+    /// </summary>
+    private const int ChunkSize = 10 * 1024;
 
     /// <summary>
     /// Represents the virtualizer.
@@ -82,6 +88,16 @@ public partial class ChatMessageListView<TItem>
     /// </summary>
     private Community.Services.IMessageService? _messageService;
 
+    /// <summary>
+    /// Represents the audio stream.
+    /// </summary>
+    private MemoryStream? _audioStream;
+
+    /// <summary>
+    /// Value indicating when the audio recorded from the micro is processing.
+    /// </summary>
+    private bool _isAudioProcessing;
+
     #endregion Fields
 
     #region Constructors
@@ -126,7 +142,7 @@ public partial class ChatMessageListView<TItem>
     /// Gets or sets the translation client to translate text into another language.
     /// </summary>
     [Inject]
-    private ITranslationClient TranslationClient { get; set; } = default!;
+    private IServiceProvider ServiceProvider { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the dialog service.
@@ -407,6 +423,12 @@ public partial class ChatMessageListView<TItem>
     [Parameter]
     public bool IsRecordingAudioEnabled { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets the eventcallback to process the audio from the micro.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RecordedAudioEventArgs> ProcessAudio { get; set; }
+
     #endregion Properties
 
     #region Methods
@@ -571,9 +593,7 @@ public partial class ChatMessageListView<TItem>
 
         List<IChatMessage> messages = [];
 
-        if (IsTranslationEnabled &&
-            TranslationClient is not null &&
-            TranslationClient.IsConfigurationValid)
+        if (IsTranslationEnabled)
         {
             await TranslateTextAsync();
         }
@@ -635,12 +655,14 @@ public partial class ChatMessageListView<TItem>
     {
         if (ChatState.Room is not null && Owner is not null && _chatDraft is not null)
         {
+            var translationClient = ServiceProvider.GetRequiredService<ITranslationClient>();
             var cultures = ChatState.Room.Users.Select(x => x.CultureName).Except([Owner.CultureName]).Distinct().ToList();
 
             if (cultures.Count > 0 &&
-                !string.IsNullOrEmpty(_chatDraft.Text))
+                !string.IsNullOrEmpty(_chatDraft.Text) &&
+                translationClient.IsConfigurationValid)
             {
-                var result = await TranslationClient.TranslateAsync(
+                var result = await translationClient.TranslateAsync(
                     _chatDraft.Text,
                     Owner.CultureName,
                     cultures
@@ -1040,11 +1062,19 @@ public partial class ChatMessageListView<TItem>
     /// </summary>
     /// <param name="isRecording">Value indicating if the audio is currently recording</param>
     /// <returns>Returns a task which starts or stops an audio record.</returns>
-    private Task OnRecordingAudioAsync(bool isRecording)
+    private async Task OnRecordingAudioAsync(bool isRecording)
     {
-        ToastService.ShowInfo(isRecording ? "Audio recording" : "Stop audio record");
-
-        return Task.CompletedTask;
+        if (_module is not null)
+        {
+            if (isRecording)
+            {
+                await _module.InvokeVoidAsync("startAudioRecording", Id);
+            }
+            else
+            {
+                await _module.InvokeVoidAsync("endAudioRecording", Id);
+            }
+        }
     }
 
     /// <summary>
@@ -1113,6 +1143,7 @@ public partial class ChatMessageListView<TItem>
 
             _dotNetReference ??= DotNetObjectReference.Create(this);
             _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", JAVASCRIPT_FILE);
+            await _module.InvokeVoidAsync("initialize", Id, _dotNetReference, ChunkSize);
         }
 
         if (_scrollToBottom)
@@ -1153,6 +1184,85 @@ public partial class ChatMessageListView<TItem>
         }
 
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Starts an audio chunk stream.
+    /// </summary>
+    /// <returns>Returns a task which prepares the stream of the audio chunk.</returns>
+    [JSInvokable("StartAudioChunkStream")]
+    public async Task StartAudioChunkStreamAsync()
+    {
+        _isAudioProcessing = true;
+        await InvokeAsync(StateHasChanged);
+
+        if (_audioStream is not null)
+        {
+            await _audioStream.DisposeAsync();
+        }
+
+        _audioStream = new MemoryStream();
+    }
+
+    /// <summary>
+    /// Recevives the chunk for the audio stream.
+    /// </summary>
+    /// <param name="value">Array of data of the audio stream.</param>
+    /// <returns>Returns a task which receives the chunk when completed.</returns>
+    [JSInvokable("ReceiveAudioChunk")]
+    public async Task ReceiveAudioChunkAsync(int[] value)
+    {
+        if (_audioStream is not null &&
+            value is not null &&
+            value.Length > 0)
+        {
+            var data = new byte[value.Length];
+
+            for (var i = 0; i < value.Length; ++i)
+            {
+                data[i] = Convert.ToByte(value[i]);
+            }
+
+            await _audioStream.WriteAsync(data.AsMemory());
+        }
+    }
+
+    /// <summary>
+    /// Occurs when the audio chunk is completed.
+    /// </summary>
+    /// <returns>Returns the task which closes the audio stream and build a <see cref="ChatFileEventArgs"/> audio file.</returns>
+    [JSInvokable("AudioChunkCompleted")]
+    public async Task AudioChunkCompletedAsync()
+    {
+        if (_audioStream is not null)
+        {
+            var audioStream = _audioStream.ToArray();
+            await _audioStream.DisposeAsync();
+
+            var recordAudio = new RecordedAudioEventArgs(audioStream);
+
+            if (ProcessAudio.HasDelegate)
+            {
+                await ProcessAudio.InvokeAsync(recordAudio);
+            }
+
+            var fileName = Path.GetRandomFileName();
+            var extension = Path.GetExtension(fileName);
+            fileName = Path.ChangeExtension(fileName, "webm");
+            var convertedAudio = recordAudio.Audio;
+
+            if (convertedAudio is not null)
+            {
+                _chatDraft?.SelectedChatFiles.Add(new(fileName, convertedAudio.ContentType, convertedAudio.AudioData, true));
+            }
+            else
+            {
+                _chatDraft?.SelectedChatFiles.Add(new(fileName, "audio/webm", audioStream, true));
+            }
+        }
+
+        _isAudioProcessing = false;
+        await InvokeAsync(StateHasChanged);
     }
 
     #endregion Methods
