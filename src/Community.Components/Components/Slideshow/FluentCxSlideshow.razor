@@ -12,25 +12,28 @@
          role="list"
          tabindex="0"
          @attributes="@AdditionalAttributes">
-        <div class="slideshow-container slideshow-animate">
-            @if (ChildContent is not null)
+        <div class="@InternalContainerCss">
+            @if (_showContent)
             {
-                @ChildContent
-            }
-            else if (ItemTemplate is not null && ItemFunc is not null)
-            {
-                var i = 1;
-
-                foreach (var item in Items)
+                if (ChildContent is not null)
                 {
-                    <SlideshowItem TItem="TItem"
-                                   @key=ItemFunc(item)
-                                   aria-hidden="@GetAriaHiddenValue(i)"
-                                   AriaLabel="@($"Slide {i}")">
-                        @ItemTemplate(item)
-                    </SlideshowItem>
+                    @ChildContent
+                }
+                else if (ItemTemplate is not null && ItemFunc is not null)
+                {
+                    var i = 1;
 
-                    i++;
+                    foreach (var item in Items)
+                    {
+                        <SlideshowItem TItem="TItem"
+                                       @key=ItemFunc(item)
+                                       aria-hidden="@GetAriaHiddenValue(i)"
+                                       AriaLabel="@($"Slide {i}")">
+                            @ItemTemplate(item)
+                        </SlideshowItem>
+
+                        i++;
+                    }
                 }
             }
         </div>
@@ -43,7 +46,7 @@
                           Title="@PreviousLabel"
                           Disabled=@IsPreviousDisabled
                           IconStart="@(new Regular.Size24.ChevronLeft())"
-                          Style="position: absolute; left: 50px; top: 50%; transform: translateY(-50%); height: 100px; width: 32px" />
+                          Style="@PreviousButtonStyle" />
 
             <FluentButton Appearance="Appearance.Stealth"
                           OnClick="@OnMoveNextAsync"
@@ -51,13 +54,14 @@
                           Title="@NextLabel"
                           Disabled=@IsNextDisabled
                           IconStart="@(new Regular.Size24.ChevronRight())"
-                          Style="position: absolute; right: 50px; top: 50%; transform: translateY(-50%); height: 100px; width: 32px" />
+                          Style="@NextButtonStyle" />
         }
 
         @if (ShowIndicators)
         {
-            <div class="slideshow-indicators">
+            <div class="@InternalIndicatorsCss">
                 <FluentStack Style="height: 100%;"
+                             Orientation="@Orientation"
                              HorizontalAlignment="HorizontalAlignment.Center"
                              VerticalAlignment="VerticalAlignment.Center">
                     @if (ChildContent is not null)
@@ -78,17 +82,16 @@
     public FluentCxSlideshow()
     {
         Id = Identifier.NewId();
+        _dotnetReference = DotNetObjectReference.Create(this);
+
         _renderDots = count => __builder =>
         {
             for(int i = 0; i < count; ++i)
             {
-                var k = i;
-                <span role="button"
-                      aria-label="@($"Item {k}")"
-                      aria-roledescription="slide"
-                      class="dot-indicator @(Index == k + 1 ? "dot-indicator-active" : null)"
-                      @onclick=@(() => MoveToIndexAsync(k)) />
-
+                <DotIndicator TItem="TItem"
+                              Index="@i"
+                              Orientation="@Orientation"
+                              CurrentSlideshowIndex="@Index"/>
             }
         };
     }

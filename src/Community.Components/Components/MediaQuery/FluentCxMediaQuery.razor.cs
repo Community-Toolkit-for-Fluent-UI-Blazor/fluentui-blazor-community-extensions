@@ -112,12 +112,9 @@ public partial class FluentCxMediaQuery
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
+        _disposeQueryModule = parameters.HasValueChanged(nameof(Query), Query, StringComparison.CurrentCulture) && _hasRender;
 
-        if (parameters.HasValueChanged(nameof(Query), Query, StringComparison.CurrentCulture) && _hasRender)
-        {
-            _disposeQueryModule = true;
-        }
+        await base.SetParametersAsync(parameters);
     }
 
     /// <summary>

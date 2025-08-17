@@ -1,6 +1,11 @@
 .slideshow-item {
-  width: var(--slideshow-width); 
-  flex: 0 0 var(--slideshow-width);
-  display: inline-flex;
-  overflow: hidden;
+    width: var(--slideshow-width);
+    height: var(--slideshow-height);
+    display: inline-flex;
+    overflow: hidden;
+    flex: 0 0 var(--slideshow-width);
+}
+
+.slideshow-item-vertical {
+  flex: 0 0 var(--slideshow-height);
 }

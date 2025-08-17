@@ -12,6 +12,13 @@
             <FluentNumberField @bind-Value=_interval Label="Interval (seconds)" />
             <FluentSpacer Width="60" />
             <FluentNumberField @bind-Value=_duration Label="Animation duration (miliseconds)" />
+            <FluentSpacer Width="60" />
+            <FluentSelect @bind-Value="@_indicatorPosition" Label="Position of the indicator" TOption="string">
+                <FluentOption Value="Top">Top</FluentOption>
+                <FluentOption Value="Bottom" Selected="true">Bottom</FluentOption>
+                <FluentOption Value="Left">Left</FluentOption>
+                <FluentOption Value="Right">Right</FluentOption>
+            </FluentSelect>
         </FluentStack>
         
 
@@ -23,6 +30,7 @@
                            Interval="@TimeSpan.FromSeconds(_interval)"
                            Duration=@TimeSpan.FromMilliseconds(_duration)
                            IsLoopingEnabled=@_loop
+                           IndicatorPosition="@(Enum.Parse<SlideshowIndicatorPosition>(_indicatorPosition))"
                            TItem="string">
             <SlideshowItem>
                 <img width="1200" height="700"  src="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
@@ -57,4 +65,5 @@
     private int _interval = 5;
     private int _duration = 300;
     private bool _loop;
+    private string _indicatorPosition = "Bottom";
 }

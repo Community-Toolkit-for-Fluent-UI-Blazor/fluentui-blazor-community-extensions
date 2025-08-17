@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
 
-public partial class ChatMessageSlideShowItemDocument
+public partial class ChatMessageSlideShowItemDocument<TItem>
     : FluentComponentBase, IAsyncDisposable
 {
     /// <summary>
@@ -29,7 +29,7 @@ public partial class ChatMessageSlideShowItemDocument
     private IJSObjectReference? _module;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChatMessageSlideShowItemDocument"/> class with a new identifier.
+    /// Initializes a new instance of the <see cref="ChatMessageSlideShowItemDocument{TItem}"/> class with a new identifier.
     /// </summary>
     public ChatMessageSlideShowItemDocument()
     {
@@ -66,6 +66,12 @@ public partial class ChatMessageSlideShowItemDocument
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 
+    /// <summary>
+    /// Gets or sets the direct parent.
+    /// </summary>
+    [CascadingParameter]
+    private SlideshowItem<TItem> DirectParent { get; set; } = default!;
+
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -93,6 +99,11 @@ public partial class ChatMessageSlideShowItemDocument
 
                 _itemLoaded = true;
                 await InvokeAsync(StateHasChanged);
+
+                if (DirectParent is not null)
+                {
+                    await DirectParent.RefreshAsync();
+                }
             }
         }
     }

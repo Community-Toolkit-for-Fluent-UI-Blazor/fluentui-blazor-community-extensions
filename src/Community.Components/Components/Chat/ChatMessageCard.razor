@@ -276,7 +276,9 @@
                         </FluentMessageBar>
                     }
 
-                    @_renderDocument(ImageGroupLayout.Spread)
+                    <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
+                        @_renderDocument(ImageGroupLayout.Spread)
+                    </FluentStack>
                 </FluentStack>
             }
             else if (type == ChatMessageType.Gift)

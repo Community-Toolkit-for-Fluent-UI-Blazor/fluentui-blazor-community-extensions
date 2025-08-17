@@ -2,12 +2,14 @@
 @inherits FluentComponentBase
 @typeparam TItem
 
-<div @ref="@Element"
-     aria-label="@AriaLabel"
-     id="@Id"
-     class="@Css"
-     aria-hidden="@Parent.GetAriaHiddenValue(this)"
-     role="listitem"
-     @attributes="@AdditionalAttributes">
-    @ChildContent
-</div>
+<CascadingValue Value="this" IsFixed>
+    <div @ref="@Element"
+         aria-label="@AriaLabel"
+         id="@Id"
+         class="@Css"
+         aria-hidden="@Parent.GetAriaHiddenValue(this)"
+         role="listitem"
+         @attributes="@AdditionalAttributes">
+        @ChildContent
+    </div>
+</CascadingValue>

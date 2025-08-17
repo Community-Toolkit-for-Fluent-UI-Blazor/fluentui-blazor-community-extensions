@@ -1,0 +1,31 @@
+.dot-indicator {
+  opacity: 0.5;
+  margin-block: 0;
+  padding: 0;
+  width: 10px;
+  height: 10px;
+  border-width: 0px;
+  border-style: solid;
+  border-radius: 50%;
+  box-sizing: content-box;
+  display: inline-block;
+  position: relative;
+  flex: 0 0 auto;
+  cursor: pointer;
+  pointer-events: all;
+  vertical-align: top;
+  background: var(--accent-fill-rest);
+  border: var(--accent-fill-rest);
+  margin-inline: calc(1.25rem / 2);
+  writing-mode: unset;
+}
+
+.dot-indicator-vertical {
+  margin-top: calc(1.25rem / 2);
+  margin-bottom: calc(1.25rem / 2);
+}
+
+.dot-indicator-active {
+  opacity: 1;
+}
+

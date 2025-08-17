@@ -1,29 +1,32 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-<FluentCxSlideshow ShowControls=@ShowControlsAndIndicators
-                   ShowIndicators=@ShowControlsAndIndicators
-                   TItem="string"
-                   Width="@_width"
-                   Height="@_height"
-                   Id="@Id">
-    @if (Message is not null && _showContent)
-    {
-        if (Message.MessageType.HasFlag(ChatMessageType.Text))
+<CascadingValue Value="this" IsFixed>
+    <FluentCxSlideshow ShowControls=@ShowControlsAndIndicators
+                       ShowIndicators=@ShowControlsAndIndicators
+                       TItem="string"
+                       AutoSize
+                       KeepAspectRatio
+                       Id="@Id">
+        @if (Message is not null)
         {
-            <SlideshowItem>
-                <ChatMessageSlideShowItemText Owner="@Owner" Sections="@Message.Sections" />
-            </SlideshowItem>
-        }
-
-        if (Message.MessageType.HasFlag(ChatMessageType.Document))
-        {
-            foreach (var item in Message.Files)
+            if (Message.MessageType.HasFlag(ChatMessageType.Text))
             {
-                <SlideshowItem>
-                    <ChatMessageSlideShowItemDocument LoadingLabel="@LoadingLabel" Item="@item" />
+                <SlideshowItem TItem="string">
+                    <ChatMessageSlideShowItemText Owner="@Owner" Sections="@Message.Sections" />
                 </SlideshowItem>
             }
+
+            if (Message.MessageType.HasFlag(ChatMessageType.Document))
+            {
+                foreach (var item in Message.Files)
+                {
+                    <SlideshowItem TItem="string">
+                        <ChatMessageSlideShowItemDocument TItem="string" LoadingLabel="@LoadingLabel" Item="@item" />
+                    </SlideshowItem>
+                }
+            }
         }
-    }
-</FluentCxSlideshow>
+    </FluentCxSlideshow>
+</CascadingValue>
+

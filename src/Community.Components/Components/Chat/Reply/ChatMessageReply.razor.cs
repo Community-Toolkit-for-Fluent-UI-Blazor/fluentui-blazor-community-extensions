@@ -100,6 +100,12 @@ public partial class ChatMessageReply
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JAVASCRIPT_FILE);
             await _module.InvokeVoidAsync("initialize", Id);
         }
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
 
         if (_refreshText &&
             _module is not null)
@@ -112,11 +118,8 @@ public partial class ChatMessageReply
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
+        _refreshText = parameters.HasValueChanged(nameof(Text), Text);
 
-        if (parameters.TryGetValue(nameof(Text), out string? _))
-        {
-            _refreshText = true;
-        }
+        await base.SetParametersAsync(parameters);
     }
 }

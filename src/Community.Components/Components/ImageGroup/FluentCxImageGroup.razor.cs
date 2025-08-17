@@ -175,8 +175,6 @@ public partial class FluentCxImageGroup
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
-
         if (parameters.HasValueChanged(nameof(Size), Size))
         {
             foreach (var item in _children)
@@ -184,5 +182,7 @@ public partial class FluentCxImageGroup
                 item.SetGroupSize((int)Size);
             }
         }
+
+        await base.SetParametersAsync(parameters);
     }
 }

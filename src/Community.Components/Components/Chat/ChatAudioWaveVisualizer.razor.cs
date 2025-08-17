@@ -19,7 +19,7 @@ public partial class ChatAudioWaveVisualizer
     public int WaveCount { get; set; } = 25;
 
     [Inject]
-    private IJSRuntime Runtime { get; set; }
+    private IJSRuntime Runtime { get; set; } = default!;
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)

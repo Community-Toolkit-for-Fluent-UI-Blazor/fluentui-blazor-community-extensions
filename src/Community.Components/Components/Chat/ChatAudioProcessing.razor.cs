@@ -7,5 +7,5 @@ public partial class ChatAudioProcessing
     : FluentComponentBase
 {
     [Parameter]
-    public string AudioProcessingLabel { get; set; }
+    public string? AudioProcessingLabel { get; set; }
 }
