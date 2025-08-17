@@ -1,5 +1,7 @@
+using System.Linq.Expressions;
 using System.Text;
 using FluentUI.Blazor.Community.Components.Services;
+using FluentUI.Blazor.Community.Infrastructure;
 using FluentUI.Blazor.Community.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
@@ -302,7 +304,7 @@ public partial class ChatMessageListView<TItem>
     /// Gets or sets the filter to filter the messages.
     /// </summary>
     [Parameter]
-    public Func<IChatMessage, bool>? Filter { get; set; }
+    public Expression<Func<IChatMessage, bool>>? Filter { get; set; }
 
     /// <summary>
     /// Gets or sets the option to split the message into multiple parts or not.
@@ -428,6 +430,12 @@ public partial class ChatMessageListView<TItem>
     /// </summary>
     [Parameter]
     public EventCallback<RecordedAudioEventArgs> ProcessAudio { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating if the <see cref="ChatMessageWriter"/> is visible or not.
+    /// </summary>
+    [Parameter]
+    public bool IsMessageWriterVisible { get; set; } = true;
 
     #endregion Properties
 
@@ -827,9 +835,16 @@ public partial class ChatMessageListView<TItem>
             return new();
         }
 
+        var filter = PredicateBuilder<IChatMessage>.True;
+
+        if (!ShowDeletedMessages)
+        {
+            filter = PredicateBuilder<IChatMessage>.And(x => !x.IsDeleted, Filter);
+        }
+
         if (_refreshTotalMessageCount || _totalMessageCount == 0)
         {
-            var current = await ChatMessageService.MessageCountAsync(new(ChatState.Room.Id, Owner.Id, Filter));
+            var current = await ChatMessageService.MessageCountAsync(new(ChatState.Room.Id, Owner.Id, filter));
             _refreshTotalMessageCount = false;
             _scrollToBottom = true;
 
@@ -842,7 +857,7 @@ public partial class ChatMessageListView<TItem>
         if (_totalMessageCount > 0 &&
             request.Count > 0)
         {
-            var list = await ChatMessageService.GetMessageListAsync(new(ChatState.Room.Id, Owner.Id, request.StartIndex, request.Count, Filter));
+            var list = await ChatMessageService.GetMessageListAsync(new(ChatState.Room.Id, Owner.Id, request.StartIndex, request.Count, filter));
 
             ChatState.IsLoading = false;
             return new(list, _totalMessageCount);

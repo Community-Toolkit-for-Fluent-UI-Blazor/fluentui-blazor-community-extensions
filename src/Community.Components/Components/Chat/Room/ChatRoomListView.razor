@@ -6,7 +6,7 @@
     {
         @if (_listView == ListView.Normal)
         {
-            @if (IsSearchEnabled && RoomSearchFunction is not null)
+            if (IsSearchEnabled && RoomSearchFunction is not null)
             {
                 <FluentStack Orientation="Orientation.Horizontal"
                              HorizontalAlignment="HorizontalAlignment.Center">
@@ -52,6 +52,7 @@
             <FluentListbox TOption=ChatRoom
                            Multiple=false
                            Width="100%"
+                           Height="100%"
                            @bind-Value="@_selectedRoom"
                            @bind-Value:after="OnSelectedChatRoomChangedAsync">
                 @if (_selectedRooms is null || !_selectedRooms.Any())

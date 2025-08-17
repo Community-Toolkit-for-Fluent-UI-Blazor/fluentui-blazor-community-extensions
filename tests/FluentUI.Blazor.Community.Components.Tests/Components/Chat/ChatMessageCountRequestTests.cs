@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +31,7 @@ public class ChatMessageCountRequestTests
     [Fact]
     public void Constructor_SetsPropertiesCorrectly()
     {
-        Func<IChatMessage, bool> filter = m => m.Id > 10;
+        Expression<Func<IChatMessage, bool>> filter = m => m.Id > 10;
         var request = new ChatMessageCountRequest(1, 2, filter);
 
         Assert.Equal(1, request.RoomId);
@@ -48,12 +49,12 @@ public class ChatMessageCountRequestTests
     [Fact]
     public void Filter_Predicate_WorksAsExpected()
     {
-        Func<IChatMessage, bool> filter = m => m.Id == 42;
+        Expression<Func<IChatMessage, bool>> filter = m => m.Id == 42;
         var request = new ChatMessageCountRequest(99, 100, filter);
         var message = new DummyMessage { Id = 42 };
         var message2 = new DummyMessage { Id = 7 };
 
-        Assert.True(request.Filter!(message));
-        Assert.False(request.Filter!(message2));
+        Assert.True(request.Filter!.Compile()(message));
+        Assert.False(request.Filter!.Compile()(message2));
     }
 }

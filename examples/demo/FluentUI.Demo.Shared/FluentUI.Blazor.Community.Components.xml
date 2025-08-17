@@ -1577,6 +1577,11 @@
             Gets or sets the eventcallback to process the audio from the micro.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListView`1.IsMessageWriterVisible">
+            <summary>
+            Gets or sets a value indicating if the <see cref="T:FluentUI.Blazor.Community.Components.ChatMessageWriter"/> is visible or not.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageListView`1.OnAddGiftAsync">
             <summary>
             Occurs when the gift button is clicked.
@@ -1900,6 +1905,225 @@
             Gets the method name when a message was read.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.LoadingContent">
+            <summary>
+            Gets or sets the <see cref="T:Microsoft.AspNetCore.Components.RenderFragment"/> for the loading content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.EmptyRoomContent">
+            <summary>
+            Gets or sets the <see cref="T:Microsoft.AspNetCore.Components.RenderFragment"/> for an empty room content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.ChatMessageListLabels">
+            <summary>
+            Gets or sets the list of labels the view uses.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.MessageTemplate">
+            <summary>
+            Gets or sets the template for a message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.ItemSize">
+            <summary>
+            Gets or sets the size of an item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.MaxItemCount">
+            <summary>
+            Gets or sets the maximum number of item the view renders.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.OverscanCount">
+            <summary>
+            Gets or sets the number of items the view renders after the viewport.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.GEmojiItemsProvider">
+            <summary>
+            Gets or sets the provider for the emojis.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.IsMediaInsertionAllowed">
+            <summary>
+            Gets or sets a value indicating if the chat allows the insertion of medias.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.IsEmojiInsertionAllowed">
+            <summary>
+            Gets or sets a value indicating if the chat allows the insertion of emojis.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.IsGiftAllowed">
+            <summary>
+            Gets or sets a value indicating if the chat allows a gift to be send.
+            </summary>
+            <remarks>The gift must be implemented by the user.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.SendingRenderMode">
+            <summary>
+            Gets or sets the render mode of the sending of a message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.MessageWriterOrientation">
+            <summary>
+            Gets or sets the orientation of the message writer in the chat message list view.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.OnGift">
+            <summary>
+            Gets or sets the callback to send a gift.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.OnImportMedia">
+            <summary>
+            Gets or sets the callback to import media.
+            </summary>
+            <remarks>If the callback isn't set, an internal import component is used.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.EmojiView">
+            <summary>
+            Gets or sets the emoji selector.
+            </summary>
+            <remarks>If the callback isn't set, an internal component is used.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.ColumnLabels">
+            <summary>
+            Gets or sets the columns labels for the internal file importer component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.FileExtensionTypeLabels">
+            <summary>
+            Gets or sets the file extension type labels for the internal file importer component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.DetailsLabels">
+            <summary>
+            Gets or sets the details labels for the internal file importer component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.FileManagerLabels">
+            <summary>
+            Gets or sets the details labels for the internal file importer component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.AppendFiles">
+            <summary>
+            Gets or sets a value indicating if the files are appended when the user imports the file to send
+             in many steps.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.IsTranslationEnabled">
+            <summary>
+            Gets or sets a value indicating if the translation is enabled or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.Filter">
+            <summary>
+            Gets or sets the filter to filter the messages.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.MessageSplitOption">
+            <summary>
+            Gets or sets the option to split the message into multiple parts or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.SendingContent">
+            <summary>
+            Gets or sets a custom sending content.
+            </summary>
+            <remarks>If not used, a default sending content is used.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.DeletedMessageTemplate">
+            <summary>
+            Gets or sets a template for a deleted message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.ShowDeletedMessages">
+            <summary>
+            Gets or sets a value indicating if the deleted messages are shown or not.
+            </summary>
+            <remarks>
+            If this value is set to <see langword="false"/>, no message is displayed.
+            If this value is set to <see langword="true" />, a placeholder with a deleted message is shown.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.HubName">
+            <summary>
+            Gets or sets the name of the hub to use to send message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.MediaIcon">
+            <summary>
+            Gets or sets the icon to be used for the media button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.EmojiIcon">
+            <summary>
+            Gets or sets the icon to be used for the emoji button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.GiftIcon">
+            <summary>
+            Gets or sets the icon to be used for the gift button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.SendIcon">
+            <summary>
+            Gets or sets the icon to be used for the send button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.DismissIcon">
+            <summary>
+            Gets or sets the icon to be used for the cancel edit button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.CheckmarkIcon">
+            <summary>
+            Gets or sets the icon to be used for the commit edit button in the chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.MicroIcon">
+            <summary>
+            Gets or sets the icon to be used for the audio recorder button when not recording in chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.MicroOffIcon">
+            <summary>
+            Gets or sets the icon to be used for the audio recorder button when recording in chat message writer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.ChatFileRenderingMode">
+            <summary>
+            Gets or sets the rendering mode of the chat files.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.ChatFileTemplate">
+            <summary>
+            Gets or sets the template to use to render a chat file in the chat message list view.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.LoadingFileContent">
+            <summary>
+            Gets or sets the template to use to render a chat file in the chat message list view when the file is loading.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.AudioWaveVisualizerContent">
+            <summary>
+            Gets or sets the template to use when the user records an audio message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.IsRecordingAudioEnabled">
+            <summary>
+            Gets or sets a value indicating if the chat allows the record of an audio message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageListViewSettings`1.ProcessAudio">
+            <summary>
+            Gets or sets the eventcallback to process the audio from the micro.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatMessageViewerContent">
             <summary>
             Represents the content of the <see cref="T:FluentUI.Blazor.Community.Components.ChatMessageViewer"/> dialog.
@@ -1924,6 +2148,126 @@
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatMessageViewerContent.LoadingLabel">
             <summary>Loading label</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.IsNewGroupChatEnabled">
+            <summary>
+            Gets or sets a value indicating whether the new group chat feature is enabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.OnNewChatGroup">
+            <summary>
+            Gets or sets the event callback for when a new chat group is created.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.RoomItemTemplate">
+            <summary>
+            Gets or sets the item template fragment to render a chat room option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.ItemsProvider">
+            <summary>
+            Gets or sets the items provider for fetching chat rooms.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.ItemTemplate">
+            <summary>
+            Gets or sets the item template fragment to render a chat room option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.UserSearchFunction">
+            <summary>
+            Gets or sets the function to search for users in the chat room.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.RoomSearchFunction">
+            <summary>
+            Gets or sets the function to search for chat rooms.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.RoomNameComparison">
+            <summary>
+            Gets or sets the string comparison to compare the name of the room.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.UsernameComparison">
+            <summary>
+            Gets or sets the string comparison to compare the username.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.CanDelete">
+            <summary>
+            Gets or sets a value indicating whether the chat room can be deleted.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.CanHide">
+            <summary>
+            Gets or sets a value indicating whether the chat room can be hidden.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.CanUnhide">
+            <summary>
+            Gets or sets a value indicating whether the chat room can be unhide.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.CanBlock">
+            <summary>
+            Gets or sets a value indicating whether the chat room can be blocked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.CanRename">
+            <summary>
+            Gets or sets a value indicating whether the chat room can be renamed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.OnDelete">
+            <summary>
+            Gets or sets the event callback for when a chat room is deleted.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.OnBlock">
+            <summary>
+            Gets or sets the event callback for when a chat room is blocked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.OnUnblock">
+            <summary>
+            Gets or sets the event callback for when a chat room is unblocked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.OnHide">
+            <summary>
+            Gets or sets the event callback for when a chat room is hidden.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.OnUnhide">
+            <summary>
+            Gets or sets the event callback for when a chat room is unhide.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.OnRename">
+            <summary>
+            Gets or sets the event callback for when a chat room is renamed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.LoadingContent">
+            <summary>
+            Gets or sets the content to display while the chat rooms are loading.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.IsSearchEnabled">
+            <summary>
+            Gets or sets a value indicating whether the search functionality is enabled for the chat room list.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.CanUnblock">
+            <summary>
+            Gets or sets a value indicating whether the unblock functionality is enabled for the chat room list.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomListSettings.ShowDeletedRoom">
+            <summary>
+            Gets or sets a value indicating whether to show deleted rooms in the chat room list.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatUserEqualityComparer">
             <summary>
@@ -2368,6 +2712,86 @@
         <member name="P:FluentUI.Blazor.Community.Components.UrlChatFile.Url">
             <summary>
             Gets or sets the URL of the file.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxChat`1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.RoomListSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.MessageListViewSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.MessageTabSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.PinnedMessageTabSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.ImageTabSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.VideoTabSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.AudioTabSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.OtherTabSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.Owner">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.RoomLabels">
+            <summary>
+            Gets or sets the labels for the chat room.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.MessageListLabels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.Views">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.RoomProvider">
+            <summary>
+            Gets or sets the items provider for fetching chat rooms.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.Labels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.ShowTabs">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxChatButton">
@@ -2855,7 +3279,7 @@
             <param name="OwnerId">Identifier of the owner of the room.</param>
             <param name="Filter">Predicate to retrieve specific messages.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageCountRequest.#ctor(System.Int64,System.Int64,System.Func{FluentUI.Blazor.Community.Components.IChatMessage,System.Boolean})">
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageCountRequest.#ctor(System.Int64,System.Int64,System.Linq.Expressions.Expression{System.Func{FluentUI.Blazor.Community.Components.IChatMessage,System.Boolean}})">
             <summary>
             Represents the request to count the total number of messages to retrieve.
             </summary>
@@ -2947,7 +3371,7 @@
             <param name="Count">Number of items to take.</param>
             <param name="Filter">Predicate to filter the messages.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageItemRequest.#ctor(System.Int64,System.Int64,System.Int32,System.Int32,System.Func{FluentUI.Blazor.Community.Components.IChatMessage,System.Boolean})">
+        <member name="M:FluentUI.Blazor.Community.Components.ChatMessageItemRequest.#ctor(System.Int64,System.Int64,System.Int32,System.Int32,System.Linq.Expressions.Expression{System.Func{FluentUI.Blazor.Community.Components.IChatMessage,System.Boolean}})">
             <summary>
             Represents the request to get a list of messages.
             </summary>

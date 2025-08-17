@@ -4,21 +4,24 @@
 <h1>Chat</h1>
 
 <p>
-    The Chat component allows the user to chat with one or many other users.
-    In a chat room, a user can :
+    The FluentCxChat component allows the user to chat with one or many other users.
+    The FluentCxChat has two parts :
 
     <ul>
-        <li>Write a message</li>
-        <li>Send documents (audio, video, photo, pdf, doc, docx...)</li>
-        <li>Send gift (the user needs to create this part)</li>
-        <li>Navigate into views (chat, audio, video, photo, documents, pinned messages...)</li>
-        <li>Delete a message</li>
-        <li>Edit a message</li>
-        <li>Reply to the message</li>
+        <li>The chat room which list all the available rooms.</li>
+        <li>The chat view with options</li>
     </ul>
 
-    By default, a SignalRMessageService is provided. For the purpose of the demo, a specific MessageService was build to show how to
-    implements your own IMessageService if you don't want to use SignalR.
+   The chat view has some options :
+
+   <ul>
+       * Show the message list
+       * Show the pinned messages
+       * Show the audio files
+       * Show the video files
+       * Show the image files
+       * Show the other documents
+   </ul>
 </p>
 
 <h2 id="example">Examples</h2>
@@ -27,5 +30,5 @@
 
 <h2 id="documentation">Documentation</h2>
 
-<ApiDocumentation Component="typeof(ChatMessageListView<>)" InstanceTypes="[typeof(NoFileEntryData)]" />
+<ApiDocumentation Component="typeof(FluentCxChat<>)" InstanceTypes="[typeof(NoFileEntryData)]" />
 

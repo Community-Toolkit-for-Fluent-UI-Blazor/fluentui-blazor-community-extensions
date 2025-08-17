@@ -107,7 +107,8 @@
             }
 
             @if (ChatState.Room is not null &&
-                 !ChatState.Room.IsBlocked)
+                 !ChatState.Room.IsBlocked &&
+                 IsMessageWriterVisible)
             {
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="2">
                     @if (ChatFileRenderingMode == ChatFileRenderingMode.Viewer && _chatDraft?.SelectedChatFiles.Count > 0)

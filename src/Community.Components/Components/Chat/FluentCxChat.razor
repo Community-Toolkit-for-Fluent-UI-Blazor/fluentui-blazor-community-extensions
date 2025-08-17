@@ -1,7 +1,249 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Infrastructure
 @inherits FluentComponentBase
 @typeparam TItem where TItem : class, new()
 
-<FluentMultiSplitter>
+<FluentCxMediaQuery Query="(max-width: 640px)" OnMediaChanged="@(p => _isMobile = p)" />
 
-</FluentMultiSplitter>
+@if (!_isMobile)
+{
+    <FluentMultiSplitter Style="--fluent-multi-splitter-background-color: transparent; --fluent-multi-splitter-background-color-active: transparent; --fluent-multi-splitter-hover-opacity: 0; --fluent-multi-splitter-color: transparent; --fluent-multi-splitter-color-active: transparent;">
+        <FluentMultiSplitterPane Resizable=false Size="25%">
+            @_renderChatRoomListView(false)
+        </FluentMultiSplitterPane>
+
+        <FluentMultiSplitterPane Resizable=false Size="75%">
+            @_renderTabs
+        </FluentMultiSplitterPane>
+    </FluentMultiSplitter>
+}
+else
+{
+    if(_showRoom)
+    {
+        @_renderChatRoomListView(true)
+    }
+    else
+    {
+        @_renderTabs
+    }
+}
+
+@code {
+    public FluentCxChat()
+    {
+        Id = Identifier.NewId();
+
+        MessageTabSettings = new()
+        {
+            Icon = new IconsFilled.Size24.Edit(),
+            Label = Labels.MessagesLabel
+        };
+
+        PinnedMessageTabSettings = new()
+        {
+            Icon = new IconsFilled.Size24.Pin(),
+            Label = Labels.PinnedMessagesLabel
+        };
+
+        ImageTabSettings = new()
+        {
+            Icon = new IconsFilled.Size24.Image(),
+            Label = Labels.ImagesLabel
+        };
+
+        VideoTabSettings = new()
+        {
+            Icon = new IconsFilled.Size24.Video(),
+            Label = Labels.VideoLabel
+        };
+
+        OtherTabSettings = new()
+        {
+            Icon = new IconsFilled.Size24.Document(),
+            Label = Labels.DocumentLabel
+        };
+
+        AudioTabSettings = new()
+            {
+                Icon = new IconsFilled.Size24.SoundWaveCircle(),
+                Label = Labels.AudioLabel
+            };
+
+        _renderChatList = options => __builder =>
+        {
+            var filter = PredicateBuilder<IChatMessage>.True;
+            filter = PredicateBuilder<IChatMessage>.And(MessageListViewSettings.Filter, options.Filter);
+
+            <ChatMessageListView TItem="TItem"
+                                 AppendFiles=@MessageListViewSettings.AppendFiles
+                                 AudioWaveVisualizerContent=@MessageListViewSettings.AudioWaveVisualizerContent
+                                 ChatFileRenderingMode="@MessageListViewSettings.ChatFileRenderingMode"
+                                 ChatFileTemplate="@MessageListViewSettings.ChatFileTemplate"
+                                 ChatMessageListLabels="@MessageListLabels"
+                                 CheckmarkIcon="@MessageListViewSettings.CheckmarkIcon"
+                                 ColumnLabels="@MessageListViewSettings.ColumnLabels"
+                                 DeletedMessageTemplate="@MessageListViewSettings.DeletedMessageTemplate"
+                                 DetailsLabels="@MessageListViewSettings.DetailsLabels"
+                                 DismissIcon="@MessageListViewSettings.DismissIcon"
+                                 EmojiIcon="@MessageListViewSettings.EmojiIcon"
+                                 EmojiView="@MessageListViewSettings.EmojiView"
+                                 EmptyRoomContent="@MessageListViewSettings.EmptyRoomContent"
+                                 FileExtensionTypeLabels="@MessageListViewSettings.FileExtensionTypeLabels"
+                                 FileManagerLabels="@MessageListViewSettings.FileManagerLabels"
+                                 Filter="@filter"
+                                 GEmojiItemsProvider="@MessageListViewSettings.GEmojiItemsProvider"
+                                 GiftIcon="@MessageListViewSettings.GiftIcon"
+                                 HubName="@MessageListViewSettings.HubName"
+                                 IsEmojiInsertionAllowed=@MessageListViewSettings.IsEmojiInsertionAllowed
+                                 IsGiftAllowed=@MessageListViewSettings.IsGiftAllowed
+                                 IsMediaInsertionAllowed=@MessageListViewSettings.IsMediaInsertionAllowed
+                                 IsRecordingAudioEnabled=@MessageListViewSettings.IsRecordingAudioEnabled
+                                 IsTranslationEnabled=@MessageListViewSettings.IsTranslationEnabled
+                                 ItemSize="@MessageListViewSettings.ItemSize"
+                                 LoadingContent="@MessageListViewSettings.LoadingContent"
+                                 LoadingFileContent="@MessageListViewSettings.LoadingFileContent"
+                                 MaxItemCount="@MessageListViewSettings.MaxItemCount"
+                                 MediaIcon="@MessageListViewSettings.MediaIcon"
+                                 MessageSplitOption="@MessageListViewSettings.MessageSplitOption"
+                                 MessageTemplate="@MessageListViewSettings.MessageTemplate"
+                                 MessageWriterOrientation="@MessageListViewSettings.MessageWriterOrientation"
+                                 MicroIcon="@MessageListViewSettings.MicroIcon"
+                                 MicroOffIcon="@MessageListViewSettings.MicroOffIcon"
+                                 OnGift="@MessageListViewSettings.OnGift"
+                                 OnImportMedia="@MessageListViewSettings.OnImportMedia"
+                                 OverscanCount="@MessageListViewSettings.OverscanCount"
+                                 Owner="@Owner"
+                                 ProcessAudio="@MessageListViewSettings.ProcessAudio"
+                                 SendIcon="@MessageListViewSettings.SendIcon"
+                                 SendingContent="@MessageListViewSettings.SendingContent"
+                                 SendingRenderMode="@MessageListViewSettings.SendingRenderMode"
+                                 ShowDeletedMessages=@MessageListViewSettings.ShowDeletedMessages
+                                 Id="@($"chat-message-list-viewer-{Id}")"
+                                 IsMessageWriterVisible=@options.WriterVisible />
+        };
+
+        _renderChatRoomListView = isMobile => __builder =>
+        {
+            <ChatRoomListView CanBlock=@RoomListSettings.CanBlock
+                              CanDelete=@RoomListSettings.CanDelete
+                              CanHide=@RoomListSettings.CanHide
+                              CanRename=@RoomListSettings.CanRename
+                              CanUnblock=@RoomListSettings.CanUnblock
+                              CanUnhide=@RoomListSettings.CanUnhide
+                              ChatRoomLabels=@RoomLabels
+                              IsNewGroupChatEnabled=@RoomListSettings.IsNewGroupChatEnabled
+                              IsMobile=@isMobile
+                              IsSearchEnabled=@RoomListSettings.IsSearchEnabled
+                              ItemsProvider=@RoomProvider
+                              ItemTemplate=@RoomListSettings.ItemTemplate
+                              LoadingContent="@RoomListSettings.LoadingContent"
+                              OnBlock="@RoomListSettings.OnBlock"
+                              OnDelete="@RoomListSettings.OnDelete"
+                              OnHide="@RoomListSettings.OnHide"
+                              OnMobileNavigation="@(() => _showRoom = false)"
+                              OnNewChatGroup="@RoomListSettings.OnNewChatGroup"
+                              OnRename="@RoomListSettings.OnRename"
+                              OnUnblock="@RoomListSettings.OnUnblock"
+                              OnUnhide="@RoomListSettings.OnUnhide"
+                              Owner="@Owner"
+                              RoomNameComparison="@RoomListSettings.RoomNameComparison"
+                              RoomSearchFunction="@RoomListSettings.RoomSearchFunction"
+                              ShowDeletedRoom=@RoomListSettings.ShowDeletedRoom
+                              UsernameComparison="@RoomListSettings.UsernameComparison"
+                              UserSearchFunction="@RoomListSettings.UserSearchFunction"
+                              Id="@($"chat-room-{Id}")"/>
+        };
+
+        _renderTabs = __builder =>
+        {
+            if (ShowTabs)
+            {
+                <FluentTabs ActiveTabId="@($"tab-message-list-{Id}")">
+                    @if(Views.HasFlag(ChatViews.Messages))
+                    {
+                        <FluentTab Icon="@(MessageTabSettings.Icon)"
+                                    Label="@(_isMobile ? null : MessageTabSettings.Label)"
+                                    DeferredLoading
+                                    Id="@($"tab-message-list-{Id}")">
+                            @_renderChatList(_normalOptions)
+                        </FluentTab>
+                    }
+
+                    @if (Views.HasFlag(ChatViews.PinnedMessages))
+                    {
+                        <FluentTab Icon="@(PinnedMessageTabSettings.Icon)"
+                                   Label="@(_isMobile ? null : PinnedMessageTabSettings.Label)"
+                                   DeferredLoading
+                                   Id="@($"tab-pinned-message-list-{Id}")">
+                           @_renderChatList(_pinnedOptions)
+                        </FluentTab>
+                    }
+
+                    @if (Views.HasFlag(ChatViews.Images))
+                    {
+                        <FluentTab Icon="@(ImageTabSettings.Icon)"
+                                   Label="@(_isMobile ? null : ImageTabSettings.Label)"
+                                   DeferredLoading
+                                   Id="@($"tab-image-message-list-{Id}")">
+                        </FluentTab>
+                    }
+
+                    @if (Views.HasFlag(ChatViews.Video))
+                    {
+                        <FluentTab Icon="@(VideoTabSettings.Icon)"
+                                   Label="@(_isMobile ? null : VideoTabSettings.Label)"
+                                   DeferredLoading
+                                   Id="@($"tab-video-message-list-{Id}")">
+                        </FluentTab>
+                    }
+
+                    @if (Views.HasFlag(ChatViews.Audio))
+                    {
+                        <FluentTab Icon="@(AudioTabSettings.Icon)"
+                                   Label="@(_isMobile ? null : AudioTabSettings.Label)"
+                                   DeferredLoading
+                                   Id="@($"tab-audio-message-list-{Id}")">
+                        </FluentTab>
+                    }
+
+                    @if (Views.HasFlag(ChatViews.Other))
+                    {
+                        <FluentTab Icon="@(OtherTabSettings.Icon)"
+                                   Label="@(_isMobile ? null : OtherTabSettings.Label)"
+                                   DeferredLoading
+                                   Id="@($"tab-other-message-list-{Id}")">
+                        </FluentTab>
+                    }
+                </FluentTabs>
+            }
+            else
+            {
+                if (Views == ChatViews.None || Views == ChatViews.Messages)
+                {
+                    @_renderChatList(_normalOptions);
+                }
+                else if(Views == ChatViews.PinnedMessages)
+                {
+                    @_renderChatList(_pinnedOptions)
+                }
+                else if(Views == ChatViews.Images)
+                {
+
+                }
+                else if(Views == ChatViews.Video)
+                {
+
+                }
+                else if (Views == ChatViews.Audio)
+                {
+
+                }
+                else if(Views == ChatViews.Other)
+                {
+                    
+                }
+            }
+        };
+    }
+}

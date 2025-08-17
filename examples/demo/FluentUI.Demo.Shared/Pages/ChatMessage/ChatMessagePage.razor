@@ -1,0 +1,34 @@
+﻿@page "/chatmessage"
+@using FluentUI.Demo.Shared.Pages.ChatMessage.Examples
+
+<h1>Chat</h1>
+
+<p>
+    The ChatMessageListView component allows the user to chat with one or many other users.
+    In a chat message, a user can :
+
+    <ul>
+        <li>Write a message</li>
+        <li>Send documents (audio, video, photo, pdf, doc, docx...)</li>
+        <li>Send gift (the user needs to create this part)</li>
+        <li>Navigate into views (chat, audio, video, photo, documents, pinned messages...)</li>
+        <li>Delete a message</li>
+        <li>Edit a message</li>
+        <li>Reply to the message</li>
+        <li>Visualize a message in a slideshow.</li>
+    </ul>
+
+    By default, a SignalRMessageService is provided. For the purpose of the demo, a specific MessageService was build to show how to
+    implements your own IMessageService if you don't want to use SignalR.
+
+    To manage the message, you have access to an IChatMessageService. For the purpose of the demo, a specific ChatMessageService was build.
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(ChatMessageDefault)" Title="Default" />
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(ChatMessageListView<>)" InstanceTypes="[typeof(NoFileEntryData)]" />
+

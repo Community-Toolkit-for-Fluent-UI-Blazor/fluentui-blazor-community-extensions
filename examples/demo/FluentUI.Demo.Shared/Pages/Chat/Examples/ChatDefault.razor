@@ -1,82 +1,23 @@
 ﻿<div style="height: 700px">
-    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
-        <FluentStack Width="100%" Wrap>
-            <FluentSwitch Label="Allow audio record" @bind-Value=_isAudioRecordAllowed />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Allow Emoji" @bind-Value=_isEmojiInsertionAllowed />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Allow Gift" @bind-Value=_isGiftAllowed />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Allow Media" @bind-Value=_isMediaInsertionAllowed />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Append files" @bind-Value=_appendFiles />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Translate message" @bind-Value=_translateMessage />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Show deleted message" @bind-Value=_showDeletedMessages />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Split message" @bind-Value=_splitMessage />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Sending message in overlay" @bind-Value=_isSendingInOverlay />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Message writer horizontal" @bind-Value=_isMessageWriterHorizontal />
-            <FluentSpacer Width="10" />
-            <FluentSwitch Label="Files render in view" @bind-Value=_filesRenderInView />
-        </FluentStack>
-
-        <ChatMessageListView TItem="NoFileEntryData"
-                             HubName="chats"
-                             IsEmojiInsertionAllowed=@_isEmojiInsertionAllowed
-                             IsGiftAllowed=@_isGiftAllowed
-                             IsMediaInsertionAllowed=@_isMediaInsertionAllowed
-                             IsRecordingAudioEnabled=@_isAudioRecordAllowed
-                             AppendFiles=@_appendFiles
-                             IsTranslationEnabled=@_translateMessage
-                             ShowDeletedMessages=@_showDeletedMessages
-                             Owner="_owner"
-                             MessageWriterOrientation="@(_isMessageWriterHorizontal ? Orientation.Horizontal : Orientation.Vertical)"
-                             MessageSplitOption="@(_splitMessage ? ChatMessageSplitOption.Split : ChatMessageSplitOption.None)"
-                             SendingRenderMode="@(_isSendingInOverlay ? ChatMessageSendingRenderMode.Overlay : ChatMessageSendingRenderMode.Inline)"
-                             ChatFileRenderingMode="@(_filesRenderInView ? ChatFileRenderingMode.Viewer : ChatFileRenderingMode.Discrete)" />
-    </FluentStack>
+    <FluentCxChat Owner=@_owner
+                  RoomProvider=@GetRoomsAsync
+                  TItem="NoFileEntryData" />
 </div>
 
 @code {
-    private bool _isEmojiInsertionAllowed = true;
-    private bool _isGiftAllowed = true;
-    private bool _isMediaInsertionAllowed = true;
-    private bool _appendFiles = true;
-    private bool _translateMessage = true;
-    private bool _showDeletedMessages = true;
-    private bool _splitMessage = false;
-    private bool _isSendingInOverlay = true;
-    private bool _isMessageWriterHorizontal = false;
-    private bool _filesRenderInView = false;
-    private bool _isAudioRecordAllowed = true;
-
     private ChatUser _owner = new()
-        {
-            CultureId = 1,
-            CultureName = "en-US",
-            DisplayName = "John Doe",
-            Initials = "JD",
-            Id = 1,
-        };
-
-    [Inject]
-    private ChatState ChatState { get; set; } = default!;
-
-    protected override void OnInitialized()
     {
-        base.OnInitialized();
+        CultureId = 1,
+        CultureName = "fr-FR",
+        DisplayName = "Jérémy JANISZEWSKI",
+        Initials = "J J",
+        Id = 1,
+    };
 
-        ChatState.CreateChatRoom(1, "Test Room", _owner, new ChatUser()
-        {
-            CultureId = 1,
-            CultureName = "en-US",
-            DisplayName = "Jane Smith",
-            Initials = "JS",
-            Id = 2,
-        });
+    private async ValueTask<IEnumerable<ChatRoom>> GetRoomsAsync(ChatRoomItemsRequest request, CancellationToken cancellationToken = default)
+    {
+        var result = await ValueTask.FromResult<IEnumerable<ChatRoom>>([]);
+
+        return result;
     }
 }

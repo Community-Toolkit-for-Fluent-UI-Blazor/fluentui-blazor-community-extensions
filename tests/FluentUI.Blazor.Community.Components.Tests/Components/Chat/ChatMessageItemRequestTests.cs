@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,7 +36,7 @@ public class ChatMessageItemRequestTests
         long ownerId = 2;
         int startIndex = 10;
         int count = 5;
-        Func<IChatMessage, bool>? filter = m => m.Id > 0;
+        Expression<Func<IChatMessage, bool>>? filter = m => m.Id > 0;
 
         // Act
         var request = new ChatMessageItemRequest(roomId, ownerId, startIndex, count, filter);
@@ -51,7 +52,7 @@ public class ChatMessageItemRequestTests
     [Fact]
     public void Equality_WorksForSameValues()
     {
-        var filter = new Func<IChatMessage, bool>(m => m.Id > 0);
+        Expression<Func<IChatMessage, bool>> filter = m => m.Id > 0;
         var req1 = new ChatMessageItemRequest(1, 2, 3, 4, filter);
         var req2 = new ChatMessageItemRequest(1, 2, 3, 4, filter);
 
@@ -74,6 +75,6 @@ public class ChatMessageItemRequestTests
         var req = new ChatMessageItemRequest(1, 2, 3, 4, m => m.Id == 42);
 
         Assert.NotNull(req.Filter);
-        Assert.True(req.Filter!(message));
+        Assert.True(req.Filter!.Compile()(message));
     }
 }

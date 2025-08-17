@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
@@ -13,6 +15,6 @@ public record ChatMessageItemRequest(
     long OwnerId,
     int StartIndex,
     int Count,
-    Func<IChatMessage, bool>? Filter)
+    Expression<Func<IChatMessage, bool>>? Filter)
 {
 }

@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
@@ -6,6 +8,6 @@ namespace FluentUI.Blazor.Community.Components;
 /// <param name="RoomId">Identifier of the room.</param>
 /// <param name="OwnerId">Identifier of the owner of the room.</param>
 /// <param name="Filter">Predicate to retrieve specific messages.</param>
-public record ChatMessageCountRequest(long RoomId, long OwnerId, Func<IChatMessage, bool>? Filter)
+public record ChatMessageCountRequest(long RoomId, long OwnerId, Expression<Func<IChatMessage, bool>>? Filter)
 {
 }
