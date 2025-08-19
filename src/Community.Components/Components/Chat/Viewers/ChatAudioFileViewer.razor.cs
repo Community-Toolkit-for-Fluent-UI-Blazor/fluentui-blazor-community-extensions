@@ -31,6 +31,9 @@ public partial class ChatAudioFileViewer
     [Parameter]
     public string PauseLabel { get; set; } = "Pause";
 
+    [Parameter]
+    public bool IsMinimal { get; set; } = true;
+
     private string Title => _isPlaying ? PauseLabel : PlayLabel;
 
     private string? InternalStyle => new StyleBuilder(Style)

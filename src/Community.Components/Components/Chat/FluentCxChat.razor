@@ -152,7 +152,12 @@ else
                               ShowDeletedRoom=@RoomListSettings.ShowDeletedRoom
                               UsernameComparison="@RoomListSettings.UsernameComparison"
                               UserSearchFunction="@RoomListSettings.UserSearchFunction"
-                              Id="@($"chat-room-{Id}")"/>
+            Id="@($"chat-room-{Id}")"/>
+        };
+
+        _renderDocumentList = filter => __builder =>
+        {
+            <ChatDocumentViewer Filter="@filter" ItemsProvider="@DocumentsProvider" />
         };
 
         _renderTabs = __builder =>
@@ -186,6 +191,7 @@ else
                                    Label="@(_isMobile ? null : ImageTabSettings.Label)"
                                    DeferredLoading
                                    Id="@($"tab-image-message-list-{Id}")">
+                            @_renderDocumentList(x => x.ContentType.StartsWith("image"))
                         </FluentTab>
                     }
 
@@ -195,6 +201,7 @@ else
                                    Label="@(_isMobile ? null : VideoTabSettings.Label)"
                                    DeferredLoading
                                    Id="@($"tab-video-message-list-{Id}")">
+                            @_renderDocumentList(x => x.ContentType.StartsWith("video"))
                         </FluentTab>
                     }
 
@@ -204,6 +211,7 @@ else
                                    Label="@(_isMobile ? null : AudioTabSettings.Label)"
                                    DeferredLoading
                                    Id="@($"tab-audio-message-list-{Id}")">
+                            @_renderDocumentList(x => x.ContentType.StartsWith("audio"))
                         </FluentTab>
                     }
 
@@ -213,6 +221,9 @@ else
                                    Label="@(_isMobile ? null : OtherTabSettings.Label)"
                                    DeferredLoading
                                    Id="@($"tab-other-message-list-{Id}")">
+                            @_renderDocumentList(x => !x.ContentType.StartsWith("audio") &&
+                                                      !x.ContentType.StartsWith("video") &&
+                                                      !x.ContentType.StartsWith("image"))
                         </FluentTab>
                     }
                 </FluentTabs>
@@ -229,19 +240,21 @@ else
                 }
                 else if(Views == ChatViews.Images)
                 {
-
+                    @_renderDocumentList(x => x.ContentType.StartsWith("image"))
                 }
                 else if(Views == ChatViews.Video)
                 {
-
+                    @_renderDocumentList(x => x.ContentType.StartsWith("video"))
                 }
                 else if (Views == ChatViews.Audio)
                 {
-
+                    @_renderDocumentList(x => x.ContentType.StartsWith("audio"))
                 }
                 else if(Views == ChatViews.Other)
                 {
-                    
+                    @_renderDocumentList(x => !x.ContentType.StartsWith("audio") &&
+                                              !x.ContentType.StartsWith("video") &&
+                                              !x.ContentType.StartsWith("image"))
                 }
             }
         };

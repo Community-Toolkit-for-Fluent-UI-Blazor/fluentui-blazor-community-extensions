@@ -1,0 +1,17 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentCxTileGrid TItem="IChatFile"
+                  ColumnWidth="250px"
+                  RowHeight="250px">
+    <Virtualize ItemSize="250"
+                ItemsProvider="@ItemsProvider">
+        <ItemContent>
+            <FluentCxTileGridItem OnTapped=@(() => OnItemSelectedAsync(context)) ColumnSpan="1" RowSpan="1">
+                <div style="margin: 5px">
+                    <ChatDocumentItemViewer Item=@context @key=context.Id />
+                </div>
+            </FluentCxTileGridItem>
+        </ItemContent>
+    </Virtualize>
+</FluentCxTileGrid>

@@ -11,18 +11,8 @@ namespace FluentUI.Blazor.Community.Components;
 /// </summary>
 /// <typeparam name="TItem">Type of the item.</typeparam>
 public partial class SlideshowItem<TItem>
-    : FluentComponentBase, IDisposable, IAsyncDisposable
+    : FluentComponentBase, IDisposable
 {
-    /// <summary>
-    /// Represents the name of the javascript file.
-    /// </summary>
-    private const string JavascriptFileName = "./_content/FluentUI.Blazor.Community.Components/Components/Slideshow/SlideshowItem.razor.js";
-
-    /// <summary>
-    /// Represents the module.
-    /// </summary>
-    private IJSObjectReference? _module;
-
     /// <summary>
     /// Initializes a new instance of the class <see cref="SlideshowItem{TItem}"/>.
     /// </summary>
@@ -30,12 +20,6 @@ public partial class SlideshowItem<TItem>
     {
         Id = Identifier.NewId();
     }
-
-    /// <summary>
-    /// Gets or sets the runtime.
-    /// </summary>
-    [Inject]
-    private IJSRuntime Runtime { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the child content of the component.
@@ -64,26 +48,6 @@ public partial class SlideshowItem<TItem>
         .Build();
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (firstRender)
-        {
-            _module = await Runtime.InvokeAsync<IJSObjectReference>("import", JavascriptFileName);
-            await _module.InvokeVoidAsync("initialize", Id);
-        }
-    }
-
-    private async ValueTask OnSetImageSizeAsync(bool keepAspectRatio)
-    {
-        if (keepAspectRatio && _module is not null)
-        {
-            await _module.InvokeVoidAsync("setImageSize", Id);
-        }
-    }
-
-    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -97,28 +61,5 @@ public partial class SlideshowItem<TItem>
         Parent?.Remove(this);
 
         GC.SuppressFinalize(this);
-    }
-
-    /// <inheritdoc />
-    public async ValueTask DisposeAsync()
-    {
-        try
-        {
-            if (_module is not null)
-            {
-                await _module.DisposeAsync();
-            }
-        }
-        catch (JSDisconnectedException) { }
-    }
-
-    /// <summary>
-    /// Refresh the component.
-    /// </summary>
-    /// <returns>Returns a task which refresh the component.</returns>
-    public async ValueTask RefreshAsync()
-    {
-        await OnSetImageSizeAsync((Parent?.KeepAspectRatio ?? false));
-        await InvokeAsync(StateHasChanged);
     }
 }

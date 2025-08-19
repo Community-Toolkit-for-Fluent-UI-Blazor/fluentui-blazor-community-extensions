@@ -66,12 +66,6 @@ public partial class ChatMessageSlideShowItemDocument<TItem>
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 
-    /// <summary>
-    /// Gets or sets the direct parent.
-    /// </summary>
-    [CascadingParameter]
-    private SlideshowItem<TItem> DirectParent { get; set; } = default!;
-
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -99,11 +93,6 @@ public partial class ChatMessageSlideShowItemDocument<TItem>
 
                 _itemLoaded = true;
                 await InvokeAsync(StateHasChanged);
-
-                if (DirectParent is not null)
-                {
-                    await DirectParent.RefreshAsync();
-                }
             }
         }
     }

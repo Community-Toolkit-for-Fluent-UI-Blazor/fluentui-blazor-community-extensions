@@ -2786,12 +2786,17 @@
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.Labels">
             <summary>
-            
+            Gets or sets the labels for the chat UI.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.DocumentsProvider">
+            <summary>
+            Gets or sets the provider for the documents.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxChat`1.ShowTabs">
             <summary>
-            
+            Gets a value indicating if the chat is render in tabs or not.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxChatButton">
@@ -4273,11 +4278,6 @@
             Gets or sets the js runtime to use for invoking JavaScript functions.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatMessageSlideShowItemDocument`1.DirectParent">
-            <summary>
-            Gets or sets the direct parent.
-            </summary>
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatMessageSlideShowItemDocument`1.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
@@ -4493,6 +4493,99 @@
             <summary>
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FileUploaderDialog" /> class.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer">
+            <summary>
+            Represents a document viewer.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer._itemLoaded">
+            <summary>
+            Represents a value indicating whether the item has been loaded.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer._source">
+            <summary>
+            Represents the data of the file (url or bytes).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.JavascriptFile">
+            <summary>
+            Represents the javaScript file that contains the logic for the chat file view item component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer._module">
+            <summary>
+            Represents the javaScript module reference for the chat file view item component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.Item">
+            <summary>
+            Gets or sets the item to view.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer"/> class with a new identifier.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.Template">
+            <summary>
+            Gets or sets the item template to use for rendering the file in the chat file view item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.LoadingContent">
+            <summary>
+            Gets or sets the loading item content to use for rendering the loading state of the file in the chat file view item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.LoadingLabel">
+            <summary>
+            Gets or sets the label to display when the file is loading.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.PlayLabel">
+            <summary>
+            Gets or sets the label to display when the audio file is playing.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.PauseLabel">
+            <summary>
+            Gets or sets the label to display when the audio file is paused.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.JSRuntime">
+            <summary>
+            Gets or sets the js runtime to use for invoking JavaScript functions.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatDocumentItemViewer.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChatDocumentViewer">
+            <summary>
+            Represents the viewer for the documents.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatDocumentViewer.Filter">
+            <summary>
+            Gets or sets the filter of the documents.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatDocumentViewer.ItemsProvider">
+            <summary>
+            Gets or sets the items provider.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChatDocumentViewer.OnItemSelectedAsync(FluentUI.Blazor.Community.Components.IChatFile)">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatFileViewer">
             <summary>
@@ -10954,17 +11047,65 @@
             <param name="localizationDirection">Direction used by the app.</param>
             <returns>Returns the <see cref="T:System.Collections.Generic.Dictionary`2"/> of the resize handler to use.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DotIndicator`1">
+            <summary>
+            Represents a dot indicator for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.AriaLabel">
+            <summary>
+            Gets the aria-label.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Index">
+            <summary>
+            Gets or sets the index of the dot.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.CurrentSlideshowIndex">
+            <summary>
+            Gets or sets the slide show index.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Orientation">
+            <summary>
+            Gets or sets the orientation of the dot.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Parent">
+            <summary>
+            Gets the parent component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Css">
+            <summary>
+            Gets the css of the indicator.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DotIndicator`1.MoveToIndexAsync">
+            <summary>
+            Occurs when the dot is clicked.
+            </summary>
+            <returns>Returns the task which moves to the dot index when completed.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1">
             <summary>
             Represents a slide show component.
             </summary>
-            <typeparam name="TItem"></typeparam>
+            <typeparam name="TItem">Type of the item.</typeparam>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._slides">
             <summary>
             Represents the slides.
             </summary>
             <remarks>Use when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ChildContent"/> is not null.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._images">
+            <summary>
+            Represents the images.
+            </summary>
+            <remarks>When orientation or ImageRatio changes, we need to update the image size.</remarks>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._renderDots">
             <summary>
@@ -10994,6 +11135,11 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isAutoSizeChanged">
             <summary>
             Represents a value indicating if the autosize has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isAspectRatioChanged">
+            <summary>
+            Represents a value indicating if the aspect ratio has changed.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._dotnetReference">
@@ -11141,6 +11287,16 @@
             Gets the css for the indicators of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1" />.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousButtonStyle">
+            <summary>
+            Gets the style of the previous button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextButtonStyle">
+            <summary>
+            Gets the style of the previous button.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.AutoSize">
             <summary>
             Gets or sets a value indicating if the component takes the size of its direct parent.
@@ -11153,7 +11309,7 @@
             Gets or sets the javascript runtime.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.KeepAspectRatio">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ImageAspectRatio">
             <summary>
             Gets or sets a value indicating if the image keeps the aspect ratio.
             </summary>
@@ -11177,6 +11333,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextVerticalStyle">
             <summary>
             Gets the style for next button on vertical orientation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DeviceInfoState">
+            <summary>
+            Gets or sets the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DeviceInfoState"/>.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.StartTimer">
@@ -11272,12 +11433,36 @@
             <param name="value">Value to check.</param>
             <returns>Returns <see langword="true" /> if the item is inside the component, <see langword="false" /> otherwise.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAutoSizeChangedAsync(System.Boolean)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAutoSizeChangedAsync">
             <summary>
             Occurs when the autosize is set.
             </summary>
-            <param name="autoSize">Value indicating if the component autosizes to its parent's size.</param>
             <returns>Returns a task which autosizes the component to the parent's size.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAspectRatioChangedAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnOrientationChanged(System.Object,FluentUI.Blazor.Community.Components.DeviceOrientation)">
+            <summary>
+            Occurs when the orientation changed.
+            </summary>
+            <param name="sender">Object which invokes the method.</param>
+            <param name="e">Args of the method.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Add(FluentUI.Blazor.Community.Components.SlideshowImage{`0})">
+            <summary>
+            Adds an image into the list of images.
+            </summary>
+            <param name="value">Image to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Remove(FluentUI.Blazor.Community.Components.SlideshowImage{`0})">
+            <summary>
+            Removes an image from the list of images.
+            </summary>
+            <param name="value">Image to remove.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
@@ -11297,12 +11482,15 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DisposeAsync">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.GetParentSize(System.Double,System.Double)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.GetParentSize(System.Int32,System.Int32)">
             <summary>
             Occurs when the components gets the size of its parent.
             </summary>
             <param name="width">Width of the parent.</param>
             <param name="height">Height of the parent.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnInitialized">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowCaption">
             <summary>
@@ -11318,6 +11506,57 @@
             <summary>
             Gets the css classes to use.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowImage`1">
+            <summary>
+            Represents the image inside a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SlideshowImage`1"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Parent">
+            <summary>
+            Gets or sets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Source">
+            <summary>
+            Gets or sets the source of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Alt">
+            <summary>
+            Gets or sets the alternate text of the image.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowImageRatio">
+            <summary>
+            Represents the available ratios for images in the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1" />.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.Auto">
+            <summary>
+            If the image natural dimensions are greater than the container dimensions,
+             the image is shrinked, and the aspect ratio is maintened.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.Fill">
+            <summary>
+            The image fill the container.
+            </summary>
+            <remarks>When the dimensions of the container are not set, the width of the container is set to 100%,
+             after that, the first image in the slideshow, when stretched, gives the height of the container,
+             and the other images will take that height.</remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition">
             <summary>
@@ -11350,24 +11589,9 @@
             </summary>
             <typeparam name="TItem">Type of the item.</typeparam>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SlideshowItem`1.JavascriptFileName">
-            <summary>
-            Represents the name of the javascript file.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SlideshowItem`1._module">
-            <summary>
-            Represents the module.
-            </summary>
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.#ctor">
             <summary>
             Initializes a new instance of the class <see cref="T:FluentUI.Blazor.Community.Components.SlideshowItem`1"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.Runtime">
-            <summary>
-            Gets or sets the runtime.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.ChildContent">
@@ -11390,23 +11614,11 @@
             Gets the css of the component.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.OnAfterRenderAsync(System.Boolean)">
-            <inheritdoc />
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.OnInitialized">
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.Dispose">
             <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.DisposeAsync">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.RefreshAsync">
-            <summary>
-            Refresh the component.
-            </summary>
-            <returns>Returns a task which refresh the component.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1">
             <summary>

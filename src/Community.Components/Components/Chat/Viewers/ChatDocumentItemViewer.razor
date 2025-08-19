@@ -1,9 +1,9 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-@if (Item is not null)
-{
-    <div id="@Id" Style="@Style" class="@Css">
+<FluentCard Id="@Id" MinimalStyle>
+    @if (Item is not null)
+    {
         @if (_itemLoaded)
         {
             if (Template is not null)
@@ -14,17 +14,24 @@
             {
                 if (Item.ContentType.StartsWith("image"))
                 {
-                    <img width="110" height="110" src="@_base64Data" style="object-fit: cover" />
+                    <img width="110" height="110" src="@_source" style="object-fit: cover" />
                 }
                 else if (Item.ContentType.StartsWith("video"))
                 {
-                    <video id="@($"video-player-{Id}")" width="110" height="110">
-
-                    </video>
+                    @if (!string.IsNullOrEmpty(_source))
+                    {
+                        <video id="@($"video-player-{Id}")" src="@_source" width="110" height="110">
+                        </video>
+                    }
+                    else
+                    {
+                        <video id="@($"video-player-{Id}")" width="110" height="110">
+                        </video>
+                    }
                 }
                 else if (Item.ContentType.StartsWith("audio"))
                 {
-                    <ChatAudioFileViewer Source="@_base64Data"
+                    <ChatAudioFileViewer Source="@_source"
                                          PlayLabel="@PlayLabel"
                                          PauseLabel="@PauseLabel" />
                 }
@@ -53,12 +60,5 @@
                 </FluentStack>
             }
         }
-
-
-        <FluentButton IconStart=@(new Regular.Size24.Dismiss())
-                      Style="width: 32px; border-radius: 10000px; position: absolute; top: 5px; right: 5px;"
-                      OnClick="@OnDismissAsync"
-                      Appearance="Appearance.Stealth"
-                      />
-    </div>
-}
+    }
+</FluentCard>

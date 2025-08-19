@@ -12,7 +12,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents a slide show component.
 /// </summary>
-/// <typeparam name="TItem"></typeparam>
+/// <typeparam name="TItem">Type of the item.</typeparam>
 [CascadingTypeParameter(nameof(TItem))]
 public partial class FluentCxSlideshow<TItem>
     : FluentComponentBase, IAsyncDisposable, IDisposable
@@ -24,6 +24,12 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     /// <remarks>Use when <see cref="ChildContent"/> is not null.</remarks>
     private readonly List<SlideshowItem<TItem>> _slides = [];
+
+    /// <summary>
+    /// Represents the images.
+    /// </summary>
+    /// <remarks>When orientation or ImageRatio changes, we need to update the image size.</remarks>
+    private readonly List<SlideshowImage<TItem>> _images = [];
 
     /// <summary>
     /// Represents the fragment to render the dots.
@@ -56,9 +62,14 @@ public partial class FluentCxSlideshow<TItem>
     private bool _isAutoSizeChanged;
 
     /// <summary>
+    /// Represents a value indicating if the aspect ratio has changed.
+    /// </summary>
+    private bool _isAspectRatioChanged;
+
+    /// <summary>
     /// Represents the reference of the component.
     /// </summary>
-    private DotNetObjectReference<FluentCxSlideshow<TItem>>? _dotnetReference;
+    private readonly DotNetObjectReference<FluentCxSlideshow<TItem>>? _dotnetReference;
 
     /// <summary>
     /// Represents the module.
@@ -242,8 +253,14 @@ public partial class FluentCxSlideshow<TItem>
         .AddClass("slideshow-indicators-right", IndicatorPosition == SlideshowIndicatorPosition.Right)
         .Build();
 
+    /// <summary>
+    /// Gets the style of the previous button.
+    /// </summary>
     private string? PreviousButtonStyle => Orientation == Orientation.Horizontal ? PreviousHorizontalStyle : PreviousVerticalStyle;
 
+    /// <summary>
+    /// Gets the style of the previous button.
+    /// </summary>
     private string? NextButtonStyle => Orientation == Orientation.Horizontal ? NextHorizontalStyle : NextVerticalStyle;
 
     /// <summary>
@@ -265,7 +282,7 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     /// <remarks>Works only if the item contains an img div.</remarks>
     [Parameter]
-    public bool KeepAspectRatio { get; set; }
+    public SlideshowImageRatio ImageAspectRatio { get; set; } = SlideshowImageRatio.Auto;
 
     /// <summary>
     /// Gets the style for previous button on horizontal orientation.
@@ -286,6 +303,12 @@ public partial class FluentCxSlideshow<TItem>
     /// Gets the style for next button on vertical orientation.
     /// </summary>
     private static string NextVerticalStyle => "position: absolute; left: 50%; bottom: 50px; transform: translateX(-50%); width: 100px; height: 32px";
+
+    /// <summary>
+    /// Gets or sets the <see cref="DeviceInfoState"/>.
+    /// </summary>
+    [Inject]
+    private DeviceInfoState DeviceInfoState { get; set; } = default!;
 
     #endregion Properties
 
@@ -537,15 +560,55 @@ public partial class FluentCxSlideshow<TItem>
     /// <summary>
     /// Occurs when the autosize is set.
     /// </summary>
-    /// <param name="autoSize">Value indicating if the component autosizes to its parent's size.</param>
     /// <returns>Returns a task which autosizes the component to the parent's size.</returns>
-    private async ValueTask OnAutoSizeChangedAsync(bool autoSize)
+    private async Task OnAutoSizeChangedAsync()
     {
-        if (autoSize &&
+        if (AutoSize &&
             _module is not null)
         {
             await _module.InvokeVoidAsync("autoSize", Id);
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    private async Task OnAspectRatioChangedAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.InvokeVoidAsync("setImagesSize", Id, ImageAspectRatio, _images.Select(x => x.Id).ToArray());
+        }
+    }
+
+    /// <summary>
+    /// Occurs when the orientation changed.
+    /// </summary>
+    /// <param name="sender">Object which invokes the method.</param>
+    /// <param name="e">Args of the method.</param>
+    private void OnOrientationChanged(object? sender, DeviceOrientation e)
+    {
+        InvokeAsync(OnAutoSizeChangedAsync);
+        InvokeAsync(OnAspectRatioChangedAsync);
+    }
+
+    /// <summary>
+    /// Adds an image into the list of images.
+    /// </summary>
+    /// <param name="value">Image to add.</param>
+    internal void Add(SlideshowImage<TItem> value)
+    {
+        _images.Add(value);
+    }
+
+    /// <summary>
+    /// Removes an image from the list of images.
+    /// </summary>
+    /// <param name="value">Image to remove.</param>
+    internal void Remove(SlideshowImage<TItem> value)
+    {
+        _images.Remove(value);
     }
 
     /// <inheritdoc />
@@ -555,6 +618,7 @@ public partial class FluentCxSlideshow<TItem>
         _autoPlayChanged = parameters.HasValueChanged(nameof(Autoplay), Autoplay);
         _intervalChanged = parameters.HasValueChanged(nameof(Interval), Interval);
         _isAutoSizeChanged = parameters.HasValueChanged(nameof(AutoSize), AutoSize);
+        _isAspectRatioChanged = parameters.HasValueChanged(nameof(ImageAspectRatio), ImageAspectRatio);
 
         await base.SetParametersAsync(parameters);
     }
@@ -594,7 +658,12 @@ public partial class FluentCxSlideshow<TItem>
     {
         await base.OnParametersSetAsync();
 
-        await OnAutoSizeChangedAsync(_isAutoSizeChanged);
+        await OnAutoSizeChangedAsync();
+
+        if (_isAspectRatioChanged)
+        {
+            await OnAspectRatioChangedAsync();
+        }
     }
 
     /// <inheritdoc />
@@ -606,7 +675,8 @@ public partial class FluentCxSlideshow<TItem>
         {
             _module = await Runtime.InvokeAsync<IJSObjectReference>("import", JavascriptFileName);
             await _module.InvokeVoidAsync("initialize", Id, _dotnetReference);
-            await OnAutoSizeChangedAsync(AutoSize);
+            await OnAutoSizeChangedAsync();
+            await OnAspectRatioChangedAsync();
 
             if (Autoplay)
             {
@@ -634,6 +704,11 @@ public partial class FluentCxSlideshow<TItem>
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
+        if (DeviceInfoState.DeviceInfo is not null)
+        {
+            DeviceInfoState.DeviceInfo.OrientationChanged -= OnOrientationChanged;
+        }
+
         try
         {
             if (_module is not null)
@@ -652,12 +727,23 @@ public partial class FluentCxSlideshow<TItem>
     /// <param name="width">Width of the parent.</param>
     /// <param name="height">Height of the parent.</param>
     [JSInvokable("getParentSize")]
-    public void GetParentSize(double width, double height)
+    public void GetParentSize(int width, int height)
     {
-        Width = $"{Math.Floor(width).ToString(CultureInfo.InvariantCulture)}px";
-        Height = $"{Math.Floor(height).ToString(CultureInfo.InvariantCulture)}px";
+        Width = $"{width}px";
+        Height = $"{height}px";
         _showContent = true;
         StateHasChanged();
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (DeviceInfoState.DeviceInfo is not null)
+        {
+            DeviceInfoState.DeviceInfo.OrientationChanged += OnOrientationChanged;
+        }
     }
 
     #endregion Methods

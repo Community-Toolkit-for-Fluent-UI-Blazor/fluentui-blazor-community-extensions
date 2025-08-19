@@ -11,10 +11,31 @@
 <h2 id="example">Examples</h2>
 
 
-<DemoSection Component="typeof(SlideshowDefault)" Title="Default" />
+@* <DemoSection Component="typeof(SlideshowDefault)" Title="Default" />
+ *@<DemoSection Component="typeof(SlideshowImageRatioSample)" Title="Image ratio">
+    <Description>
+        This sample shows how to use ImageRatio for image inside a slideshow.
+
+        <code>SlideImageRatio</code> has three options :
+
+        <ul>
+            <li>None : The image is rendered without transformation</li>
+            <li>
+                Auto : If the dimensions of the image exceed those of the <code>FluentCxSlideshow</code>, then the image is resized to fit while maintaining its aspect ratio.
+            </li>
+
+            <li>
+                Fill : The first image in the list is stretched to fill the space horizontally, when, the height is computed.
+                       After that, the height of the container is set to be the same as the image.
+                       Finally, all other images is resized to fill the new size of the container.
+            </li>
+        </ul>
+    </Description>
+</DemoSection>
 
 <h2 id="documentation">Documentation</h2>
 
 <ApiDocumentation Component="typeof(FluentCxSlideshow<>)" />
 <ApiDocumentation Component="typeof(SlideshowItem<>)" />
 <ApiDocumentation Component="typeof(SlideshowCaption)" />
+<ApiDocumentation Component="typeof(SlideshowImage<>)" />

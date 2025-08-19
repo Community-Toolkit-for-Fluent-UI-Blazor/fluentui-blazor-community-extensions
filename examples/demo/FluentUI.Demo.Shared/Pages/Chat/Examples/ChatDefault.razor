@@ -1,10 +1,31 @@
-﻿<div style="height: 700px">
+﻿@using Microsoft.AspNetCore.Components.Web.Virtualization
+<div style="height: 700px">
+    <FluentStack Wrap>
+        <FluentCheckbox Label="Messages"
+                        Value=@_showMessages
+                        ValueChanged="@((p) => OnChange(ChatViews.Messages, p))" />
+
+        <FluentCheckbox Label="Pinned Messages"
+                        Value=@_showPinnedMessages
+                        ValueChanged="@((p) => OnChange(ChatViews.PinnedMessages, p))" />
+    </FluentStack>
+
     <FluentCxChat Owner=@_owner
                   RoomProvider=@GetRoomsAsync
-                  TItem="NoFileEntryData" />
+                  DocumentsProvider=@GetDocumentsAsync
+                  Views=@_selectedViews
+                  TItem="NoFileEntryData">
+            </FluentCxChat>
 </div>
 
 @code {
+    private bool _showMessages;
+    private bool _showPinnedMessages;
+    private bool _showImages;
+    private bool _showVideos;
+    private bool _showAudios;
+    private bool _showOther;
+
     private ChatUser _owner = new()
     {
         CultureId = 1,
@@ -14,9 +35,37 @@
         Id = 1,
     };
 
+    private static readonly ChatViews[] _availableViews = Enum.GetValues<ChatViews>();
+
+    private ChatUser _receiver = new()
+    {
+
+    };
+
+    private ChatViews _selectedViews;
+
+    private void OnChange(ChatViews value, bool active)
+    {
+        if (active)
+        {
+            _selectedViews |= value;
+        }
+        else
+        {
+            _selectedViews &= ~value;
+        }
+    }
+
     private async ValueTask<IEnumerable<ChatRoom>> GetRoomsAsync(ChatRoomItemsRequest request, CancellationToken cancellationToken = default)
     {
         var result = await ValueTask.FromResult<IEnumerable<ChatRoom>>([]);
+
+        return result;
+    }
+
+    private async ValueTask<ItemsProviderResult<IChatFile>> GetDocumentsAsync(ItemsProviderRequest request)
+    {
+        var result = await ValueTask.FromResult<ItemsProviderResult<IChatFile>>(new ItemsProviderResult<IChatFile>());
 
         return result;
     }

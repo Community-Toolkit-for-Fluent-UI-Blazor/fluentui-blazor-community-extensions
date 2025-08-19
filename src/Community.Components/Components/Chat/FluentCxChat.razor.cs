@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -7,6 +8,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// 
 /// </summary>
+[CascadingTypeParameter(nameof(TItem))]
 public partial class FluentCxChat<TItem>
     : FluentComponentBase
 {
@@ -22,6 +24,8 @@ public partial class FluentCxChat<TItem>
     private readonly RenderFragment<bool> _renderChatRoomListView;
     private readonly RenderFragment _renderTabs;
     private readonly RenderFragment<ChatOptions> _renderChatList;
+    private readonly RenderFragment<Expression<Func<IChatFile, bool>>> _renderDocumentList;
+
     private readonly ChatOptions _pinnedOptions = new()
     {
         WriterVisible = false,
@@ -112,13 +116,19 @@ public partial class FluentCxChat<TItem>
     public ChatRoomItemsProvider? RoomProvider { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the labels for the chat UI.
     /// </summary>
     [Parameter]
     public ChatLabels Labels { get; set; } = ChatLabels.Default;
 
     /// <summary>
-    /// 
+    /// Gets or sets the provider for the documents.
+    /// </summary>
+    [Parameter]
+    public ItemsProviderDelegate<IChatFile>? DocumentsProvider { get; set; }
+
+    /// <summary>
+    /// Gets a value indicating if the chat is render in tabs or not.
     /// </summary>
     private bool ShowTabs
     {
