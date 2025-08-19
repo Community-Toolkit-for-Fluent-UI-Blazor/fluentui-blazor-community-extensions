@@ -42,6 +42,12 @@ public partial class SlideshowImage<TItem>
     [Parameter]
     public string? Alt { get; set; }
 
+    /// <summary>
+    /// Gets or sets the title of the image.
+    /// </summary>
+    [Parameter]
+    public string? Title { get; set; }
+
     #endregion Properties
 
     #region Methods

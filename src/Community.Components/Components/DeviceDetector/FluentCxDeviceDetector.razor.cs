@@ -65,8 +65,6 @@ public partial class FluentCxDeviceDetector
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
-
         if (firstRender)
         {
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptFileName);
@@ -78,6 +76,8 @@ public partial class FluentCxDeviceDetector
                 await DeviceInfoUpdated.InvokeAsync(State.DeviceInfo);
             }
         }
+
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     /// <summary>

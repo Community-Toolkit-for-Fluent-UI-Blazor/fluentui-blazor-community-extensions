@@ -19,7 +19,7 @@ export function initialize(id, dotnetReference) {
     element: element,
     dotnetReference: dotnetReference,
     parent: element.parentElement,
-    lastHeight: element.style.height
+    originalSize: { width: 0, height: 0 }
   }
 
   _instances.push(instance);
@@ -30,7 +30,14 @@ export function autoSize(id) {
 
   if (instance) {
     const rect = instance.parent.getBoundingClientRect();
-    instance.dotnetReference.invokeMethodAsync('getParentSize', Math.round(rect.width), Math.round(rect.height));
+    const width = Math.round(rect.width);
+    const height = Math.round(rect.height);
+
+    instance.originalSize.width = width;
+    instance.originalSize.height = height;
+
+    instance.dotnetReference.invokeMethodAsync('getParentSize', width, height);
+
   }
 }
 
@@ -84,40 +91,72 @@ export function setImagesSize(containerId, imageRatio, imageIdCollection) {
     const rc = instance.element.getBoundingClientRect();
 
     if (imageRatio === auto) {
-      for (let i = 0; i < imageIdCollection.length; ++i) {
+      for (let i = 0; i < imageIdCollection.length; i++) {
         const img = document.getElementById(imageIdCollection[i]);
 
-        if (img) {
-          const size = getSize(rc.width, rc.height, img.naturalWidth, img.naturalHeight);
+        if (img.naturalWidth === 0 || img.naturalWidth === 0) {
+          img.loading = 'eager';
+          img.src = img.src;
 
-          if (size.width > 0 &&
-            size.height > 0) {
+          img.onload = () => {
+            const size = getSize(rc.width, instance.originalSize.height, img.naturalWidth, img.naturalHeight);
             img.width = size.width;
             img.height = size.height;
-          }
+          };
         }
-      }
-    }
-    else if (imageRatio === fill) {
-      let img = document.getElementById(imageIdCollection[0]);
-      let size = 0;
-
-      if (img) {
-        size = getFillSize(rc.width, rc.height, img.naturalWidth, img.naturalHeight);
-        img.width = size.width;
-        img.height = size.height;
-
-        instance.element.height = size.height;
-      }
-
-      for (let i = 1; i < imageIdCollection.length; ++i) {
-        img = document.getElementById(imageIdCollection[i]);
-
-        if (img) {
+        else {
+          const size = getSize(rc.width, instance.originalSize.height, img.naturalWidth, img.naturalHeight);
           img.width = size.width;
           img.height = size.height;
         }
       }
+
+      instance.dotnetReference.invokeMethodAsync('ResizeCompleted', instance.originalSize.height);
+    }
+    else if (imageRatio === fill) {
+      let img = document.getElementById(imageIdCollection[0]);
+
+      if (img) {
+        // If the image wasn't loaded.
+        if (img.naturalHeight === 0 || img.naturalWidth === 0) {
+          // Force loading
+          img.loading = 'eager';
+          img.src = img.src;
+
+          img.onload = () => {
+            const size = getFillSize(rc.width, rc.height, img.naturalWidth, img.naturalHeight);
+            img.width = size.width;
+            img.height = size.height;
+
+            for (let i = 1; i < imageIdCollection.length; ++i) {
+              img = document.getElementById(imageIdCollection[i]);
+
+              if (img) {
+                img.width = size.width;
+                img.height = size.height;
+              }
+            }
+
+            instance.dotnetReference.invokeMethodAsync('ResizeCompleted', size.height);
+          };
+        }
+        else {
+          const size = getFillSize(rc.width, rc.height, img.naturalWidth, img.naturalHeight);
+          img.width = size.width;
+          img.height = size.height;
+
+          for (let i = 1; i < imageIdCollection.length; ++i) {
+            img = document.getElementById(imageIdCollection[i]);
+
+            if (img) {
+              img.width = size.width;
+              img.height = size.height;
+            }
+          }
+
+          instance.dotnetReference.invokeMethodAsync('ResizeCompleted', size.height);
+        }
+      } 
     }
   }
 }

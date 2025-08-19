@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Timers;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -18,7 +19,7 @@ public partial class FluentCxSlideshow<TItem>
     : FluentComponentBase, IAsyncDisposable, IDisposable
 {
     #region Fields
-    
+
     /// <summary>
     /// Represents the slides.
     /// </summary>
@@ -86,6 +87,16 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     private bool _showContent;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    private int _originalHeight;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private int _originalWidth;
+
     #endregion Fields
 
     #region Properties
@@ -142,13 +153,13 @@ public partial class FluentCxSlideshow<TItem>
     /// Gets or sets the width of the component.
     /// </summary>
     [Parameter]
-    public string? Width { get; set; } = "100%";
+    public string? Width { get; set; }
 
     /// <summary>
     /// Gets or sets the height of the component.
     /// </summary>
     [Parameter]
-    public string? Height { get; set; } = "100%";
+    public string? Height { get; set; }
 
     /// <summary>
     /// Gets or sets the index of the item to show.
@@ -223,8 +234,10 @@ public partial class FluentCxSlideshow<TItem>
     /// Gets the internal style for the <see cref="FluentCxSlideshow{TItem}"/>.
     /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
-        .AddStyle("--slideshow-width", Width ?? "100%")
-        .AddStyle("--slideshow-height", Height ?? "100%")
+        .AddStyle("--slideshow-width", Width, !string.IsNullOrEmpty(Width) && !AutoSize)
+        .AddStyle("--slideshow-height", Height, !string.IsNullOrEmpty(Height) && !AutoSize)
+        .AddStyle("--slideshow-width", $"{_originalWidth}px", string.IsNullOrEmpty(Width))
+        .AddStyle("--slideshow-height", $"{_originalHeight}px", string.IsNullOrEmpty(Height))
         .AddStyle("--slideshow-item-count", Items.Any() ? Items.Count().ToString(CultureInfo.CurrentCulture) : _slides.Count.ToString(CultureInfo.CurrentCulture))
         .AddStyle("--slideshow-current-index", Index.ToString(CultureInfo.CurrentCulture))
         .AddStyle("--slideshow-duration", $"{Duration.TotalMilliseconds}ms")
@@ -310,6 +323,12 @@ public partial class FluentCxSlideshow<TItem>
     [Inject]
     private DeviceInfoState DeviceInfoState { get; set; } = default!;
 
+    /// <summary>
+    /// Gets or sets the callback to raise when a resizing operation is completed.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnResizeCompleted { get; set; }
+
     #endregion Properties
 
     #region Methods
@@ -384,7 +403,7 @@ public partial class FluentCxSlideshow<TItem>
 
         async Task SetInternalIndexAsync(int count)
         {
-            if(Index > 1)
+            if (Index > 1)
             {
                 await SetIndexAsync(Index - 1);
             }
@@ -483,7 +502,7 @@ public partial class FluentCxSlideshow<TItem>
 
         if (ChildContent is not null)
         {
-           await MoveToIndexInternalAsync(_slides.Count);
+            await MoveToIndexInternalAsync(_slides.Count);
         }
         else
         {
@@ -587,10 +606,10 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     /// <param name="sender">Object which invokes the method.</param>
     /// <param name="e">Args of the method.</param>
-    private void OnOrientationChanged(object? sender, DeviceOrientation e)
+    private async void OnOrientationChanged(object? sender, DeviceOrientation e)
     {
-        InvokeAsync(OnAutoSizeChangedAsync);
-        InvokeAsync(OnAspectRatioChangedAsync);
+        await OnAutoSizeChangedAsync();
+        await OnAspectRatioChangedAsync();
     }
 
     /// <summary>
@@ -658,7 +677,10 @@ public partial class FluentCxSlideshow<TItem>
     {
         await base.OnParametersSetAsync();
 
-        await OnAutoSizeChangedAsync();
+        if (_isAutoSizeChanged)
+        {
+            await OnAutoSizeChangedAsync();
+        }
 
         if (_isAspectRatioChanged)
         {
@@ -717,7 +739,7 @@ public partial class FluentCxSlideshow<TItem>
                 await _module.DisposeAsync();
             }
         }
-        catch(JSDisconnectedException)
+        catch (JSDisconnectedException)
         { }
     }
 
@@ -729,8 +751,8 @@ public partial class FluentCxSlideshow<TItem>
     [JSInvokable("getParentSize")]
     public void GetParentSize(int width, int height)
     {
-        Width = $"{width}px";
-        Height = $"{height}px";
+        _originalHeight = height;
+        _originalWidth = width;
         _showContent = true;
         StateHasChanged();
     }
@@ -743,6 +765,21 @@ public partial class FluentCxSlideshow<TItem>
         if (DeviceInfoState.DeviceInfo is not null)
         {
             DeviceInfoState.DeviceInfo.OrientationChanged += OnOrientationChanged;
+        }
+    }
+
+    /// <summary>
+    /// Occurs when all images have been resized.
+    /// </summary>
+    [JSInvokable("ResizeCompleted")]
+    public async Task OnResizeCompletedAsync(int height)
+    {
+        Height = $"{height}px";
+        await InvokeAsync(StateHasChanged);
+
+        if (OnResizeCompleted.HasDelegate)
+        {
+            await OnResizeCompleted.InvokeAsync();
         }
     }
 

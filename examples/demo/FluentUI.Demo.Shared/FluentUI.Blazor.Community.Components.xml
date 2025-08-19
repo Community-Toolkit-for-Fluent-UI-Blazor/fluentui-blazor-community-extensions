@@ -11162,6 +11162,16 @@
             Value indicating if the content is shown.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._originalHeight">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._originalWidth">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowControls">
             <summary>
             Gets or sets a value indicating that the controls are shown.
@@ -11340,6 +11350,11 @@
             Gets or sets the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DeviceInfoState"/>.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnResizeCompleted">
+            <summary>
+            Gets or sets the callback to raise when a resizing operation is completed.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.StartTimer">
             <summary>
             Starts the timer.
@@ -11492,6 +11507,11 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnInitialized">
             <inheritdoc />
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnResizeCompletedAsync(System.Int32)">
+            <summary>
+            Occurs when all images have been resized.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowCaption">
             <summary>
             Represents a caption for a <see cref="T:FluentUI.Blazor.Community.Components.SlideshowItem`1"/>.
@@ -11531,6 +11551,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Alt">
             <summary>
             Gets or sets the alternate text of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Title">
+            <summary>
+            Gets or sets the title of the image.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.OnInitialized">
