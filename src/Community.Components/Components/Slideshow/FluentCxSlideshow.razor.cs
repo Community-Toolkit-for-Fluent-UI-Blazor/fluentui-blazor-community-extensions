@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Threading.Tasks;
 using System.Timers;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -58,9 +57,14 @@ public partial class FluentCxSlideshow<TItem>
     private bool _intervalChanged;
 
     /// <summary>
-    /// Represents a value indicating if the autosize has changed.
+    /// Represents a value indicating if the element was resized on the width.
     /// </summary>
-    private bool _isAutoSizeChanged;
+    private bool _elementWidthResized;
+
+    /// <summary>
+    /// Represents a value indicating if the element was resized on the height.
+    /// </summary>
+    private bool _elementHeightResized;
 
     /// <summary>
     /// Represents a value indicating if the aspect ratio has changed.
@@ -87,15 +91,9 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     private bool _showContent;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    private int _originalHeight;
+    private int _resizedWidth;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    private int _originalWidth;
+    private int _resizedHeight;
 
     #endregion Fields
 
@@ -153,13 +151,13 @@ public partial class FluentCxSlideshow<TItem>
     /// Gets or sets the width of the component.
     /// </summary>
     [Parameter]
-    public string? Width { get; set; }
+    public int? Width { get; set; }
 
     /// <summary>
     /// Gets or sets the height of the component.
     /// </summary>
     [Parameter]
-    public string? Height { get; set; }
+    public int? Height { get; set; }
 
     /// <summary>
     /// Gets or sets the index of the item to show.
@@ -234,10 +232,10 @@ public partial class FluentCxSlideshow<TItem>
     /// Gets the internal style for the <see cref="FluentCxSlideshow{TItem}"/>.
     /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
-        .AddStyle("--slideshow-width", Width, !string.IsNullOrEmpty(Width) && !AutoSize)
-        .AddStyle("--slideshow-height", Height, !string.IsNullOrEmpty(Height) && !AutoSize)
-        .AddStyle("--slideshow-width", $"{_originalWidth}px", string.IsNullOrEmpty(Width))
-        .AddStyle("--slideshow-height", $"{_originalHeight}px", string.IsNullOrEmpty(Height))
+        .AddStyle("--slideshow-width", $"{Width}px", Width.HasValue && !_elementWidthResized)
+        .AddStyle("--slideshow-height", $"{Height}px", Height.HasValue && !_elementHeightResized)
+        .AddStyle("--slideshow-width", $"{_resizedWidth}px", _elementWidthResized)
+        .AddStyle("--slideshow-height", $"{_resizedHeight}px", _elementHeightResized)
         .AddStyle("--slideshow-item-count", Items.Any() ? Items.Count().ToString(CultureInfo.CurrentCulture) : _slides.Count.ToString(CultureInfo.CurrentCulture))
         .AddStyle("--slideshow-current-index", Index.ToString(CultureInfo.CurrentCulture))
         .AddStyle("--slideshow-duration", $"{Duration.TotalMilliseconds}ms")
@@ -275,14 +273,6 @@ public partial class FluentCxSlideshow<TItem>
     /// Gets the style of the previous button.
     /// </summary>
     private string? NextButtonStyle => Orientation == Orientation.Horizontal ? NextHorizontalStyle : NextVerticalStyle;
-
-    /// <summary>
-    /// Gets or sets a value indicating if the component takes the size of its direct parent.
-    /// </summary>
-    /// <remarks>If <see cref="AutoSize"/> is set to <see langword="true"/>, the parameters
-    ///  <see cref="Width"/> and <see cref="Height"/> are not used.</remarks>
-    [Parameter]
-    public bool AutoSize { get; set; }
 
     /// <summary>
     /// Gets or sets the javascript runtime.
@@ -327,7 +317,7 @@ public partial class FluentCxSlideshow<TItem>
     /// Gets or sets the callback to raise when a resizing operation is completed.
     /// </summary>
     [Parameter]
-    public EventCallback OnResizeCompleted { get; set; }
+    public EventCallback OnImagesResizeCompleted { get; set; }
 
     #endregion Properties
 
@@ -577,19 +567,6 @@ public partial class FluentCxSlideshow<TItem>
     }
 
     /// <summary>
-    /// Occurs when the autosize is set.
-    /// </summary>
-    /// <returns>Returns a task which autosizes the component to the parent's size.</returns>
-    private async Task OnAutoSizeChangedAsync()
-    {
-        if (AutoSize &&
-            _module is not null)
-        {
-            await _module.InvokeVoidAsync("autoSize", Id);
-        }
-    }
-
-    /// <summary>
     /// 
     /// </summary>
     /// <returns></returns>
@@ -608,7 +585,6 @@ public partial class FluentCxSlideshow<TItem>
     /// <param name="e">Args of the method.</param>
     private async void OnOrientationChanged(object? sender, DeviceOrientation e)
     {
-        await OnAutoSizeChangedAsync();
         await OnAspectRatioChangedAsync();
     }
 
@@ -636,7 +612,6 @@ public partial class FluentCxSlideshow<TItem>
         _currentIndexChanged = parameters.HasValueChanged(nameof(Index), Index);
         _autoPlayChanged = parameters.HasValueChanged(nameof(Autoplay), Autoplay);
         _intervalChanged = parameters.HasValueChanged(nameof(Interval), Interval);
-        _isAutoSizeChanged = parameters.HasValueChanged(nameof(AutoSize), AutoSize);
         _isAspectRatioChanged = parameters.HasValueChanged(nameof(ImageAspectRatio), ImageAspectRatio);
 
         await base.SetParametersAsync(parameters);
@@ -666,7 +641,8 @@ public partial class FluentCxSlideshow<TItem>
             }
         }
 
-        if (!AutoSize)
+        if (Width.HasValue &&
+            Height.HasValue)
         {
             _showContent = true;
         }
@@ -676,11 +652,6 @@ public partial class FluentCxSlideshow<TItem>
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-
-        if (_isAutoSizeChanged)
-        {
-            await OnAutoSizeChangedAsync();
-        }
 
         if (_isAspectRatioChanged)
         {
@@ -696,8 +667,7 @@ public partial class FluentCxSlideshow<TItem>
         if (firstRender)
         {
             _module = await Runtime.InvokeAsync<IJSObjectReference>("import", JavascriptFileName);
-            await _module.InvokeVoidAsync("initialize", Id, _dotnetReference);
-            await OnAutoSizeChangedAsync();
+            await _module.InvokeVoidAsync("initialize", Id, _dotnetReference, Width, Height);
             await OnAspectRatioChangedAsync();
 
             if (Autoplay)
@@ -744,15 +714,17 @@ public partial class FluentCxSlideshow<TItem>
     }
 
     /// <summary>
-    /// Occurs when the components gets the size of its parent.
+    /// Occurs when <see cref="Width"/> or <see cref="Height"/> are not provided.
     /// </summary>
     /// <param name="width">Width of the parent.</param>
     /// <param name="height">Height of the parent.</param>
-    [JSInvokable("getParentSize")]
-    public void GetParentSize(int width, int height)
+    /// <remarks>When <see cref="Width"/> or <see cref="Height"/> are not provided, we took the size from
+    ///  its parent.</remarks>
+    [JSInvokable("setSizeFromParent")]
+    public void SetParentSize(int width, int height)
     {
-        _originalHeight = height;
-        _originalWidth = width;
+        Width = width;
+        Height = height;
         _showContent = true;
         StateHasChanged();
     }
@@ -771,16 +743,73 @@ public partial class FluentCxSlideshow<TItem>
     /// <summary>
     /// Occurs when all images have been resized.
     /// </summary>
-    [JSInvokable("ResizeCompleted")]
-    public async Task OnResizeCompletedAsync(int height)
+    [JSInvokable("setAutoSizeCompleted")]
+    public async Task OnAutoSizeCompletedAsync()
     {
-        Height = $"{height}px";
+        if (OnImagesResizeCompleted.HasDelegate)
+        {
+            await OnImagesResizeCompleted.InvokeAsync();
+        }
+    }
+
+    [JSInvokable("setFillSizeCompleted")]
+    public async Task OnFillSizeCompletedAsync(int width, int height)
+    {
+        _elementHeightResized = true;
+        _elementWidthResized = true;
+        _resizedWidth = width;
+        _resizedHeight = height;
+
         await InvokeAsync(StateHasChanged);
 
-        if (OnResizeCompleted.HasDelegate)
+        if (OnImagesResizeCompleted.HasDelegate)
         {
-            await OnResizeCompleted.InvokeAsync();
+            await OnImagesResizeCompleted.InvokeAsync();
         }
+    }
+
+    /// <summary>
+    /// Occurs when the component is resized.
+    /// </summary>
+    /// <param name="value">Value of the new size of the component and is the value are fixed.</param>
+    /// <returns>The new size of the component.</returns>
+    /// <remarks>
+    /// If <see cref="Width"/> or <see cref="Height"/> are provided, these values are considered fixed,
+    ///  so even if the component container became greater than the component size, the component
+    ///  won't be greater than the fixed value.
+    /// </remarks>
+    [JSInvokable("resizeObserverEvent")]
+    public int?[] ResizeObserverEvent(SlideshowResize value)
+    {
+        if (value.Width > Width && value.FixedWidth)
+        {
+            _elementWidthResized = false;
+            _resizedWidth = 0;
+        }
+        else
+        {
+            _resizedWidth = value.Width;
+            _elementWidthResized = true;
+        }
+
+        if (value.Height > Height && value.FixedHeight)
+        {
+            _elementHeightResized = false;
+            _resizedHeight = 0;
+        }
+        else
+        {
+            _resizedHeight = value.Height;
+            _elementHeightResized = true;
+        }
+
+        StateHasChanged();
+
+        return
+        [
+            _elementWidthResized ? _resizedWidth : Width,
+            _elementHeightResized ? _resizedHeight : Height
+        ];
     }
 
     #endregion Methods

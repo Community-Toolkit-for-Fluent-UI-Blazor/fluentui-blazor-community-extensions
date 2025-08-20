@@ -11132,9 +11132,14 @@
             Represents a value indicating if the interval has changed.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isAutoSizeChanged">
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._elementWidthResized">
             <summary>
-            Represents a value indicating if the autosize has changed.
+            Represents a value indicating if the element was resized on the width.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._elementHeightResized">
+            <summary>
+            Represents a value indicating if the element was resized on the height.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isAspectRatioChanged">
@@ -11160,16 +11165,6 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._showContent">
             <summary>
             Value indicating if the content is shown.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._originalHeight">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._originalWidth">
-            <summary>
-            
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowControls">
@@ -11307,13 +11302,6 @@
             Gets the style of the previous button.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.AutoSize">
-            <summary>
-            Gets or sets a value indicating if the component takes the size of its direct parent.
-            </summary>
-            <remarks>If <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.AutoSize"/> is set to <see langword="true"/>, the parameters
-             <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> and <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are not used.</remarks>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Runtime">
             <summary>
             Gets or sets the javascript runtime.
@@ -11350,7 +11338,7 @@
             Gets or sets the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DeviceInfoState"/>.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnResizeCompleted">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnImagesResizeCompleted">
             <summary>
             Gets or sets the callback to raise when a resizing operation is completed.
             </summary>
@@ -11448,12 +11436,6 @@
             <param name="value">Value to check.</param>
             <returns>Returns <see langword="true" /> if the item is inside the component, <see langword="false" /> otherwise.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAutoSizeChangedAsync">
-            <summary>
-            Occurs when the autosize is set.
-            </summary>
-            <returns>Returns a task which autosizes the component to the parent's size.</returns>
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAspectRatioChangedAsync">
             <summary>
             
@@ -11497,20 +11479,34 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DisposeAsync">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.GetParentSize(System.Int32,System.Int32)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetParentSize(System.Int32,System.Int32)">
             <summary>
-            Occurs when the components gets the size of its parent.
+            Occurs when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> or <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are not provided.
             </summary>
             <param name="width">Width of the parent.</param>
             <param name="height">Height of the parent.</param>
+            <remarks>When <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> or <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are not provided, we took the size from
+             its parent.</remarks>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnInitialized">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnResizeCompletedAsync(System.Int32)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAutoSizeCompletedAsync">
             <summary>
             Occurs when all images have been resized.
             </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ResizeObserverEvent(FluentUI.Blazor.Community.Components.SlideshowResize)">
+            <summary>
+            Occurs when the component is resized.
+            </summary>
+            <param name="value">Value of the new size of the component and is the value are fixed.</param>
+            <returns>The new size of the component.</returns>
+            <remarks>
+            If <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> or <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are provided, these values are considered fixed,
+             so even if the component container became greater than the component size, the component
+             won't be greater than the fixed value.
+            </remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowCaption">
             <summary>
