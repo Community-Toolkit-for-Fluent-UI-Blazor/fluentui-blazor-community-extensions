@@ -673,6 +673,368 @@
         <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
             <inheritdoc/>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CookieChoices">
+            <summary>
+            Represents the available choices for the cookie.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CookieChoices.AcceptOnly">
+            <summary>
+            The user can only accept the cookies.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CookieChoices.AcceptDeny">
+            <summary>
+            The user can accept or deny the cookies.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CookieChoices.AcceptDenyManage">
+            <summary>
+            The user can accept, deny or manage the cookies.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CookieData">
+            <summary>
+            Represents the content of the <see cref="T:FluentUI.Blazor.Community.Components.ManageCookie"/> dialog.
+            </summary>
+            <param name="Items">Items to activate / deactivate.</param>
+            <param name="Labels">Labels to localize some part of the <see cref="T:FluentUI.Blazor.Community.Components.ManageCookie"/> dialog.</param>
+            <param name="ItemTemplate">Template to render the items in the dialog.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CookieData.#ctor(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.CookieItem},FluentUI.Blazor.Community.Components.CookieLabels,Microsoft.AspNetCore.Components.RenderFragment{FluentUI.Blazor.Community.Components.CookieItem})">
+            <summary>
+            Represents the content of the <see cref="T:FluentUI.Blazor.Community.Components.ManageCookie"/> dialog.
+            </summary>
+            <param name="Items">Items to activate / deactivate.</param>
+            <param name="Labels">Labels to localize some part of the <see cref="T:FluentUI.Blazor.Community.Components.ManageCookie"/> dialog.</param>
+            <param name="ItemTemplate">Template to render the items in the dialog.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieData.Items">
+            <summary>Items to activate / deactivate.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieData.Labels">
+            <summary>Labels to localize some part of the <see cref="T:FluentUI.Blazor.Community.Components.ManageCookie"/> dialog.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieData.ItemTemplate">
+            <summary>Template to render the items in the dialog.</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CookieItem">
+            <summary>
+            Represents a cookie item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItem.Name">
+            <summary>
+            Gets or sets the name of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItem.Title">
+            <summary>
+            Gets or sets the title of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItem.Description">
+            <summary>
+            Gets or sets the description of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItem.IsActive">
+            <summary>
+            Gets or sets a value indicating if the item is active.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItem.Disabled">
+            <summary>
+            Gets or sets a value indicating that the item is disabled.
+            </summary>
+            <remarks>
+            A disabled cookie item defines a mandatory item.
+            </remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CookieItem.CreateGoogleAnalyticsCookie(System.String)">
+            <summary>
+            Gets the cookie item for the google analytics view.
+            </summary>
+            <param name="description">Description of the cookie.</param>
+            <returns>Returns the cookie.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CookieItemView">
+            <summary>
+            Represents a view for a <see cref="T:FluentUI.Blazor.Community.Components.CookieItem"/>.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CookieItemView.#ctor">
+            <summary>
+            Initializes a new instance of the class <see cref="T:FluentUI.Blazor.Community.Components.CookieItemView"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItemView.Item">
+            <summary>
+            Gets or sets the item to render.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItemView.Template">
+            <summary>
+            Gets or sets the template of the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItemView.ShowDivider">
+            <summary>
+            Gets or sets a value indicating that a divider is shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItemView.AcceptLabel">
+            <summary>
+            Gets or sets the accept label button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItemView.DeclineLabel">
+            <summary>
+            Gets or sets the decline label button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieItemView.OnActivationChanged">
+            <summary>
+            Gets or sets the event callback to raise when the <see cref="P:FluentUI.Blazor.Community.Components.CookieItem.IsActive" /> parameter changed.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CookieItemView.OnActivationChangedAsync">
+            <summary>
+            Occurs when the activation has changed.
+            </summary>
+            <returns>Returns a task which invokes <see cref="P:FluentUI.Blazor.Community.Components.CookieItemView.OnActivationChanged"/> when completed.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CookieLabels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CookieView">
+            <summary>
+            Represents the view of the cookie dialog.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CookieView.Default">
+            <summary>
+            The cookie dialog is centered on the screen.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CookieView.Small">
+            <summary>
+            The cookie dialog is set to the bottom-right on the screen.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxCookie">
+            <summary>
+            Represents the cookie dialog.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._showCookieDialog">
+            <summary>
+            Represents a value that show the dialog or not.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie.JavascriptFilename">
+            <summary>
+            Represents the javascript file to load.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._module">
+            <summary>
+            Represents the javascript module.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie.GoogleAnalytics">
+            <summary>
+            Represents the google analytics item.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._cookieState">
+            <summary>
+            Represents the cookies to accept or deny.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._renderActionButtons">
+            <summary>
+            Represents the actions buttons to render.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.Runtime">
+            <summary>
+            Gets or sets the javascript runtime.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.DialogService">
+            <summary>
+            Gets or sets the dialog service.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.View">
+            <summary>
+            Gets or sets the view of the cookie dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.Choices">
+            <summary>
+            Gets or sets the choices to close the dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.DefaultViewContent">
+            <summary>
+            Gets or sets the default view content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.SmallViewContent">
+            <summary>
+            Gets or sets the small view content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.ItemTemplate">
+            <summary>
+            Gets or sets the template to render the item in the dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.Items">
+            <summary>
+            Gets or sets the cookies to accept or deny.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.Labels">
+            <summary>
+            Gets or sets the labels of the dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.PrivacyStatementUrl">
+            <summary>
+            Gets or sets the privacy statement url.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.ThirdPartyCookiesUrl">
+            <summary>
+            Gets or sets the third party cookie url.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.Width">
+            <summary>
+            Gets or sets the width of the dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.Height">
+            <summary>
+            Gets or sets the height of the dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.OnInitActiveCookie">
+            <summary>
+            Gets or sets the event callback to raise when an active cookie is selected.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.CookieEmoji">
+            <summary>
+            Gets or sets the emoji to represent the cookie.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.GoogleAnalyticsId">
+            <summary>
+            Gets or sets the Google analytics id.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.InternalCss">
+            <summary>
+            Gets the css to use for the dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.InternalStyle">
+            <summary>
+            Gets the style to use for the dialog.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxCookie.InitOtherCookiesAsync(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.CookieItem})">
+            <summary>
+            Initializes all other active cookies in an asynchronous way.
+            </summary>
+            <param name="items">Items to initialize.</param>
+            <returns>Returns a task which initialize all active cookies when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxCookie.StoreCookieAsync(System.Boolean)">
+            <summary>
+            Stores the cookies in the local storage in an asynchronous way.
+            </summary>
+            <param name="activated">Indicates if the cookie is active or not.</param>
+            <returns>Returns a task wich stores the cookies in the local storage in an asynchronous way.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxCookie.StoreCookieInternalAsync(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.CookieItem})">
+            <summary>
+            Stores the cookies in the local storage in an asynchronous way.
+            </summary>
+            <param name="value">Cookies to store.</param>
+            <returns>Returns a task wich stores the cookies in the local storage in an asynchronous way.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxCookie.InitGoogleAnalyticsAsync">
+            <summary>
+            Initializes the Google Analytics cookie if activated.
+            </summary>
+            <returns>Returns a task which actives the Google Analytics cookie when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxCookie.DeleteCookieAsync">
+            <summary>
+            Deletes the cookie from the local storage in an asynchronous way.
+            </summary>
+            <returns>Returns a task which deletes the cookie from the local storage when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxCookie.OnAcceptAsync">
+            <summary>
+            Occurs when the Accept button is clicked.
+            </summary>
+            <returns>Returns a task which active all cookies when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxCookie.OnDeclineAsync">
+            <summary>
+            Occurs when the Decline button is clicked.
+            </summary>
+            <returns>Returns a task which deactive all cookies when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxCookie.OnManageCookiesAsync">
+            <summary>
+            Occurs when the Manage Cookies button is clicked.
+            </summary>
+            <returns>Returns a task which manage the cookie dialog when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxCookie.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ManageCookie">
+            <summary>
+            Represents the dialog to manage the cookies.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ManageCookie.Dialog">
+            <summary>
+            Gets or sets the parent dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ManageCookie.Content">
+            <summary>
+            Gets or sets the content of the dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ManageCookie.ButtonsDisabled">
+            <summary>
+            Gets a value indicating that the buttons are disabled or not.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ManageCookie.OnCancelAsync">
+            <summary>
+            Closes the dialog with a cancel result.
+            </summary>
+            <returns>Returns a task which closes the dialog with a cancel result.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ManageCookie.OnSaveAsync">
+            <summary>
+            Closes the dialog with an ok result.
+            </summary>
+            <returns>Returns a task which closes the dialog with an ok result.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.Browser">
             <summary>
             Represents the browser used to running the app.

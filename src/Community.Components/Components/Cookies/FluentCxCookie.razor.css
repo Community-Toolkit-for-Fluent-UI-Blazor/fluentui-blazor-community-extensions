@@ -1,0 +1,17 @@
+.cookie-dialog {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--cookie-width, 50%);
+  height: var(--cookie-height, 50%);
+}
+
+.cookie-small {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: var(--cookie-width, 500px);
+  height: var(--cookie-height, 250px);
+  z-index: 997;
+}
