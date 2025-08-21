@@ -1,6 +1,6 @@
 ﻿@inject IToastService ToastService
 
-<div style="height: 850px">
+<div style="height: 950px">
     <FluentGrid>
         <FluentGridItem>
             <FluentSelect Label="View" @bind-Value=_view TOption="string">
@@ -37,6 +37,7 @@
                     PrivacyStatementUrl="@_privacyStatementUrl"
                     ThirdPartyCookiesUrl="@_thirdPartyCookieUrl"
                     Items="@GetItems()"
+                    Labels="CookieLabels.French"
                     OnInitActiveCookie="@OnInitCookie"
                     @ref=_fluentCxCookie />
 </div>
