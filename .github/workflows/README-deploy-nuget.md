@@ -1,13 +1,13 @@
 # NuGet Deployment Workflow
 
-This document explains how to use the GitHub Actions workflow to deploy the `Community.Toolkit.For.Blazor` package to NuGet.org.
+This document explains how to use the GitHub Actions workflow to deploy the `FluentUI.Blazor.Community.Components` package to NuGet.org under the `Community.Toolkit.For.Blazor` organization.
 
 ## Prerequisites
 
 ### NuGet API Key Setup
 
 1. Create a NuGet.org account at https://nuget.org
-2. Generate an API key with permissions to push packages for `Community.Toolkit.For.Blazor`
+2. Generate an API key with permissions to push packages under the `Community.Toolkit.For.Blazor` organization
 3. Add the API key as a repository secret:
    - Go to your repository settings
    - Navigate to **Secrets and variables** → **Actions**
@@ -58,8 +58,8 @@ The deployment workflow performs the following steps:
 
 The workflow creates two packages:
 
-- **Main Package**: `Community.Toolkit.For.Blazor.{version}.nupkg`
-- **Symbol Package**: `Community.Toolkit.For.Blazor.{version}.snupkg`
+- **Main Package**: `FluentUI.Blazor.Community.Components.{version}.nupkg`
+- **Symbol Package**: `FluentUI.Blazor.Community.Components.{version}.snupkg`
 
 Both packages are uploaded to NuGet.org for public consumption.
 

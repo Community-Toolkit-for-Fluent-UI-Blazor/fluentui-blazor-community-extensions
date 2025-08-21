@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>Community.Toolkit.For.Blazor</PackageId>
+    <PackageId>FluentUI.Blazor.Community.Components</PackageId>
     <PackageTags>Fluent UI, Blazor, Web Components, Community, Extensions</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>

@@ -31,7 +31,7 @@ jobs:
     
     environment: 
       name: NuGet
-      url: https://www.nuget.org/packages/Community.Toolkit.For.Blazor
+      url: https://www.nuget.org/packages/FluentUI.Blazor.Community.Components
     
     permissions:
       contents: read
@@ -140,9 +140,9 @@ jobs:
         run: |
           echo "## 🚀 NuGet Package Deployed Successfully" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Package:** Community.Toolkit.For.Blazor" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** FluentUI.Blazor.Community.Components" >> $GITHUB_STEP_SUMMARY
           echo "**Version:** ${{ env.VERSION }}" >> $GITHUB_STEP_SUMMARY
-          echo "**NuGet URL:** https://www.nuget.org/packages/Community.Toolkit.For.Blazor/${{ env.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "**NuGet URL:** https://www.nuget.org/packages/FluentUI.Blazor.Community.Components/${{ env.VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📦 Generated Packages" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
