@@ -1,0 +1,150 @@
+name: Deploy to NuGet
+
+on:
+  # Trigger on release tags (v1.0.0, v1.1.0, etc.)
+  push:
+    tags:
+      - 'v*'
+  
+  # Allow manual triggering with version input
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy (e.g., 1.0.0)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Is this a prerelease?'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  PROJECT_PATH: './src/Community.Components/FluentUI.Blazor.Community.Components.csproj'
+  TESTS_PATH: './tests/FluentUI.Blazor.Community.Components.Tests/FluentUI.Blazor.Community.Components.Tests.csproj'
+  DOTNET_VERSION: '9.0.x'
+
+jobs:
+  deploy:
+    name: Build and Deploy to NuGet
+    runs-on: ubuntu-latest
+    
+    environment: 
+      name: NuGet
+      url: https://www.nuget.org/packages/FluentUI.Blazor.Community.Components
+    
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: Determine version
+        id: version
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+            echo "Using manual version: $VERSION"
+          else
+            # Extract version from tag (remove 'v' prefix)
+            VERSION=${GITHUB_REF#refs/tags/v}
+            echo "Using tag version: $VERSION"
+          fi
+          
+          # Validate version format (basic semver check)
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?$ ]]; then
+            echo "Error: Invalid version format: $VERSION"
+            exit 1
+          fi
+          
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          
+      - name: Update version in project files
+        shell: bash
+        run: |
+          # Update Directory.Build.props with the new version
+          sed -i "s/<VersionPrefix>.*<\/VersionPrefix>/<VersionPrefix>${{ env.VERSION }}<\/VersionPrefix>/" Directory.Build.props
+          
+          # Clear any version suffix for releases (unless it's a prerelease)
+          if [ "${{ inputs.prerelease }}" != "true" ] && [[ ! "${{ env.VERSION }}" =~ - ]]; then
+            sed -i "s/<VersionSuffix>.*<\/VersionSuffix>/<VersionSuffix><\/VersionSuffix>/" Directory.Build.props
+          fi
+          
+          echo "Updated version to ${{ env.VERSION }}"
+          cat Directory.Build.props | grep -A 3 -B 3 "Version"
+          
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
+        
+      - name: Run tests
+        run: |
+          dotnet test ${{ env.TESTS_PATH }} \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger trx \
+            --results-directory ./TestResults
+            
+      - name: Pack NuGet packages
+        run: |
+          dotnet pack ${{ env.PROJECT_PATH }} \
+            --configuration Release \
+            --no-build \
+            --output ./nupkgs \
+            --include-symbols \
+            --include-source \
+            -p:SymbolPackageFormat=snupkg
+            
+      - name: List generated packages
+        run: |
+          echo "Generated NuGet packages:"
+          ls -la ./nupkgs/
+          
+      - name: Upload packages as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages-${{ env.VERSION }}
+          path: ./nupkgs/
+          retention-days: 30
+          
+      - name: Publish to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if [ -z "$NUGET_API_KEY" ]; then
+            echo "Error: NUGET_API_KEY secret is not set"
+            echo "Please add your NuGet API key to repository secrets"
+            exit 1
+          fi
+          
+          dotnet nuget push "./nupkgs/*.nupkg" \
+            --api-key $NUGET_API_KEY \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+            
+      - name: Create release summary
+        run: |
+          echo "## 🚀 NuGet Package Deployed Successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** FluentUI.Blazor.Community.Components" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ env.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "**NuGet URL:** https://www.nuget.org/packages/FluentUI.Blazor.Community.Components/${{ env.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 Generated Packages" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          ls -la ./nupkgs/ >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

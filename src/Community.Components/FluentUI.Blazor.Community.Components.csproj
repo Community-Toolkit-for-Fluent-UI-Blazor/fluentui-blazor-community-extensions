@@ -11,12 +11,14 @@
 
   <PropertyGroup>
     <PackageId>FluentUI.Blazor.Community.Components</PackageId>
-    <PackageTags>Fluent UI, Blazor, Web Components</PackageTags>
+    <PackageTags>Fluent UI, Blazor, Web Components, Community, Extensions</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Title>Fluent UI Blazor Community Components</Title>
+    <Description>A collection of open-source Razor components that extend the official Microsoft FluentUI Blazor Library with additional community-contributed components.</Description>
     <Authors>$(Authors)</Authors>
     <Company>$(Owners)</Company>
+    <PackageReleaseNotes>See https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/releases for release notes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

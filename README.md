@@ -32,6 +32,27 @@ After the package is added, you need to add the following in your `_Imports.razo
 @using FluentUI.Blazor.Community.Components
 ```
 
+## Development
+
+### Building and Testing
+
+To build the project locally:
+
+```bash
+dotnet restore
+dotnet build --configuration Release
+dotnet test
+```
+
+### NuGet Package Deployment
+
+This repository includes automated GitHub Actions workflows for deploying packages to NuGet.org:
+
+- **Automatic Deployment**: Push a version tag (e.g., `v1.0.1`) to trigger deployment
+- **Manual Deployment**: Use the "Deploy to NuGet" workflow in GitHub Actions
+
+For detailed instructions, see [.github/workflows/README-deploy-nuget.md](.github/workflows/README-deploy-nuget.md).
+
 ### Support
 
 The FluentUI Blazor Community Extensions is an open source project. It is built and maintained by community members and offers support, like most other open source projects, on a best effort base through the GitHub repository **only**.
