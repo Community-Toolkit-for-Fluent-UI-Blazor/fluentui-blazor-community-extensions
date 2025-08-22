@@ -157,6 +157,10 @@ public partial class FluentCxCookie
     /// <summary>
     /// Gets or sets a value indicating whether the open button is visible or not.
     /// </summary>
+    /// <remarks>
+    /// When this property is set to <c>true</c>, the user can open the cookie dialog again to change his cookie preferences.
+    /// But the button will only be visible after the first time the cookie was rejected or accepted.
+    /// </remarks>
     [Parameter]
     public bool IsOpenButtonVisible { get; set; }
 
