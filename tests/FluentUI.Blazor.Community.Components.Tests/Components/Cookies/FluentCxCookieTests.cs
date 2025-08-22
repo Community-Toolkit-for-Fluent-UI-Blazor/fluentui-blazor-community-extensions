@@ -60,7 +60,7 @@ public class FluentCxCookieTests : TestBase
         }
 
         // Assert
-        JSInterop.VerifyInvoke("import");
+        JSInterop.VerifyInvoke("import", 2); // One time for FluentCxCookie and one time for FluentCxMediaQuery.
         JSInterop.VerifyInvoke("setCookiePolicy", 1);
     }
 
