@@ -9870,56 +9870,6 @@
         <member name="P:FluentUI.Blazor.Community.Components.UploadFileEventArgs.Extension">
             <summary>Extension of the file.</summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.Markup(System.String)">
-            <summary>
-            Gets the markup for the emoji associated with the alias.
-            </summary>
-            <param name="alias">The name uniquely referring to an emoji.</param>
-            <returns>An HTML <c>string</c>.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.Markup(GEmojiSharp.GEmoji)">
-            <summary>
-            Gets the markup for the emoji.
-            </summary>
-            <param name="emoji">The emoji.</param>
-            <returns>An HTML <c>string</c>.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.MarkupContent(System.String)">
-            <summary>
-            Gets emojified markup.
-            </summary>
-            <param name="content">The content.</param>
-            <returns>An HTML <c>string</c>.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.EmojiRegexComplied">
-            <remarks>
-            Pattern:<br/>
-            <code>(:[\\w+-]+:)</code><br/>
-            Options:<br/>
-            <code>RegexOptions.Compiled</code><br/>
-            Explanation:<br/>
-            <code>
-            ○ 1st capture group.<br/>
-                ○ Match ':'.<br/>
-                ○ Match a character in the set [+-\w] atomically at least once.<br/>
-                ○ Match ':'.<br/>
-            </code>
-            </remarks>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.TagRegexCompiled">
-            <remarks>
-            Pattern:<br/>
-            <code>&lt;[^&gt;]*&gt;?</code><br/>
-            Options:<br/>
-            <code>RegexOptions.Compiled | RegexOptions.RightToLeft</code><br/>
-            Explanation:<br/>
-            <code>
-            ○ Match '&gt;' greedily, optionally right-to-left.<br/>
-            ○ Match a character other than '&gt;' greedily any number of times right-to-left.<br/>
-            ○ Match '&lt;' right-to-left.<br/>
-            </code>
-            </remarks>
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FloatingPosition">
             <summary>
             Represents the position of the floating button.
@@ -10049,6 +9999,56 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFloatingButton.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.Markup(System.String)">
+            <summary>
+            Gets the markup for the emoji associated with the alias.
+            </summary>
+            <param name="alias">The name uniquely referring to an emoji.</param>
+            <returns>An HTML <c>string</c>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.Markup(GEmojiSharp.GEmoji)">
+            <summary>
+            Gets the markup for the emoji.
+            </summary>
+            <param name="emoji">The emoji.</param>
+            <returns>An HTML <c>string</c>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.MarkupContent(System.String)">
+            <summary>
+            Gets emojified markup.
+            </summary>
+            <param name="content">The content.</param>
+            <returns>An HTML <c>string</c>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.EmojiRegexComplied">
+            <remarks>
+            Pattern:<br/>
+            <code>(:[\\w+-]+:)</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ 1st capture group.<br/>
+                ○ Match ':'.<br/>
+                ○ Match a character in the set [+-\w] atomically at least once.<br/>
+                ○ Match ':'.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.EmojiExtensions.TagRegexCompiled">
+            <remarks>
+            Pattern:<br/>
+            <code>&lt;[^&gt;]*&gt;?</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled | RegexOptions.RightToLeft</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match '&gt;' greedily, optionally right-to-left.<br/>
+            ○ Match a character other than '&gt;' greedily any number of times right-to-left.<br/>
+            ○ Match '&lt;' right-to-left.<br/>
+            </code>
+            </remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.GridLayoutBase">
             <summary>
@@ -11564,600 +11564,6 @@
             <param name="localizationDirection">Direction used by the app.</param>
             <returns>Returns the <see cref="T:System.Collections.Generic.Dictionary`2"/> of the resize handler to use.</returns>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.DotIndicator`1">
-            <summary>
-            Represents a dot indicator for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
-            </summary>
-            <typeparam name="TItem">Type of the item.</typeparam>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.AriaLabel">
-            <summary>
-            Gets the aria-label.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Index">
-            <summary>
-            Gets or sets the index of the dot.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.CurrentSlideshowIndex">
-            <summary>
-            Gets or sets the slide show index.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Orientation">
-            <summary>
-            Gets or sets the orientation of the dot.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Parent">
-            <summary>
-            Gets the parent component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Css">
-            <summary>
-            Gets the css of the indicator.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.DotIndicator`1.MoveToIndexAsync">
-            <summary>
-            Occurs when the dot is clicked.
-            </summary>
-            <returns>Returns the task which moves to the dot index when completed.</returns>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1">
-            <summary>
-            Represents a slide show component.
-            </summary>
-            <typeparam name="TItem">Type of the item.</typeparam>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._slides">
-            <summary>
-            Represents the slides.
-            </summary>
-            <remarks>Use when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ChildContent"/> is not null.</remarks>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._images">
-            <summary>
-            Represents the images.
-            </summary>
-            <remarks>When orientation or ImageRatio changes, we need to update the image size.</remarks>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._renderDots">
-            <summary>
-            Represents the fragment to render the dots.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._timer">
-            <summary>
-            Represents the timer.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._currentIndexChanged">
-            <summary>
-            Represents a value indicating if the current index has changed.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._autoPlayChanged">
-            <summary>
-            Represents a value indicating if the autoplay has changed.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._intervalChanged">
-            <summary>
-            Represents a value indicating if the interval has changed.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._elementWidthResized">
-            <summary>
-            Represents a value indicating if the element was resized on the width.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._elementHeightResized">
-            <summary>
-            Represents a value indicating if the element was resized on the height.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isAspectRatioChanged">
-            <summary>
-            Represents a value indicating if the aspect ratio has changed.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._dotnetReference">
-            <summary>
-            Represents the reference of the component.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._module">
-            <summary>
-            Represents the module.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.JavascriptFileName">
-            <summary>
-            Represents the name of the javascript filename.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._showContent">
-            <summary>
-            Value indicating if the content is shown.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowControls">
-            <summary>
-            Gets or sets a value indicating that the controls are shown.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ChildContent">
-            <summary>
-            Gets or sets the render fragment for the child content.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowIndicators">
-            <summary>
-            Gets or sets a value indicating that the indicators are shown.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Items">
-            <summary>
-            Gets or sets the items to render.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ItemTemplate">
-            <summary>
-            Gets or sets the item template for rendering the items.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Autoplay">
-            <summary>
-            Gets or sets a value indicating that the slide show is autoplay.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Interval">
-            <summary>
-            Gets or sets the interval between items.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Duration">
-            <summary>
-            Gets or sets a the duration of the animation.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width">
-            <summary>
-            Gets or sets the width of the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height">
-            <summary>
-            Gets or sets the height of the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index">
-            <summary>
-            Gets or sets the index of the item to show.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IndexChanged">
-            <summary>
-            Gets or sets the callback to raise when the index has changed.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsLoopingEnabled">
-            <summary>
-            Gets or sets a value indicating that the slide show loops after reaching the last item.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousLabel">
-            <summary>
-            Gets or sets the label for previous button tooltip.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextLabel">
-            <summary>
-            Gets or sets the label for next button tooltip.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ItemFunc">
-            <summary>
-            Gets or sets the function to retrieve the identifier of an item.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IndicatorPosition">
-            <summary>
-            Gets or sets the position of the indicator.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Count">
-            <summary>
-            Gets the number of items.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsPreviousDisabled">
-            <summary>
-            Gets a value indicating if the previous button is disabled.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsNextDisabled">
-            <summary>
-            Gets a value indicating if the next button disabled.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Css">
-            <summary>
-            Gets or sets the css for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Orientation">
-            <summary>
-            Gets the orientation of the indicators.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.InternalStyle">
-            <summary>
-            Gets the internal style for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.InternalContainerCss">
-            <summary>
-            Gets the css for the internal container of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1" />.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.InternalIndicatorsCss">
-            <summary>
-            Gets the css for the indicators of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1" />.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousButtonStyle">
-            <summary>
-            Gets the style of the previous button.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextButtonStyle">
-            <summary>
-            Gets the style of the previous button.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Runtime">
-            <summary>
-            Gets or sets the javascript runtime.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ImageAspectRatio">
-            <summary>
-            Gets or sets a value indicating if the image keeps the aspect ratio.
-            </summary>
-            <remarks>Works only if the item contains an img div.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousHorizontalStyle">
-            <summary>
-            Gets the style for previous button on horizontal orientation.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousVerticalStyle">
-            <summary>
-            Gets the style for previous button on vertical orientation.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextHorizontalStyle">
-            <summary>
-            Gets the style for next button on horizontal orientation.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextVerticalStyle">
-            <summary>
-            Gets the style for next button on vertical orientation.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DeviceInfoState">
-            <summary>
-            Gets or sets the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DeviceInfoState"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnImagesResizeCompleted">
-            <summary>
-            Gets or sets the callback to raise when a resizing operation is completed.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.StartTimer">
-            <summary>
-            Starts the timer.
-            </summary>
-            <remarks>The timer starts if the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Autoplay" /> is set to <see langword="true" />.</remarks>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.StopTimer">
-            <summary>
-            Stops the timer.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnTimerTick(System.Object,System.Timers.ElapsedEventArgs)">
-            <summary>
-            Occurs when the timer ticks.
-            </summary>
-            <param name="sender">Sender of the event.</param>
-            <param name="e">Event args of the timer.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsCurrent(System.Int32)">
-            <summary>
-            Checks if the <paramref name="index"/> is equals to the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/>.
-            </summary>
-            <param name="index">Index to check.</param>
-            <returns>Returns <see langword="true"/> if the <paramref name="index"/> is equal to <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/>.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnMovePreviousAsync">
-            <summary>
-            Move to the previous slide.
-            </summary>
-            <returns>Returns a task which moves to the previous slide when completed.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetIndexAsync(System.Int32)">
-            <summary>
-            Sets the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/> to <paramref name="index"/>.
-            </summary>
-            <param name="index">Index of the slide to slow.</param>
-            <returns>Returns a task which set the index to the <paramref name="index"/> and
-             raise <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IndexChanged"/> when completed.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.GetAriaHiddenValue(FluentUI.Blazor.Community.Components.SlideshowItem{`0})">
-            <summary>
-            Gets the aria-hidden value.
-            </summary>
-            <param name="item">Hidden item.</param>
-            <returns>Returns the aria-hidden value.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnMoveNextAsync">
-            <summary>
-            Move to the next slide.
-            </summary>
-            <returns>Returns a task which moves to the next slide when completed.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.MoveToIndexAsync(System.Int32)">
-            <summary>
-            Move the slide to the specified <paramref name="index"/>.
-            </summary>
-            <param name="index">Index of the slide.</param>
-            <returns>Returns a task which moves the slide to the current index.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.GetAriaHiddenValue(System.Int32)">
-            <summary>
-            Gets the aria-hidden value.
-            </summary>
-            <param name="index">Index to check.</param>
-            <returns>Returns <see langword="true"/> if the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/> is equal to <paramref name="index"/>,
-             <see langword="false" /> otherwise.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnKeyDownAsync(Microsoft.FluentUI.AspNetCore.Components.FluentKeyCodeEventArgs)">
-            <summary>
-            Occurs when a key of the keyboard is down.
-            </summary>
-            <param name="e">Event args of the keyboard.</param>
-            <returns>Returns a task which moves the slide when completed.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Remove(FluentUI.Blazor.Community.Components.SlideshowItem{`0})">
-            <summary>
-            Removes the <paramref name="value"/> from the component.
-            </summary>
-            <param name="value">Value to remove.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Add(FluentUI.Blazor.Community.Components.SlideshowItem{`0})">
-            <summary>
-            Adds the <paramref name="value"/> from the component.
-            </summary>
-            <param name="value">Value to add.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Contains(FluentUI.Blazor.Community.Components.SlideshowItem{`0})">
-            <summary>
-            Check if the <paramref name="value"/> is inside the component.
-            </summary>
-            <param name="value">Value to check.</param>
-            <returns>Returns <see langword="true" /> if the item is inside the component, <see langword="false" /> otherwise.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAspectRatioChangedAsync">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnOrientationChanged(System.Object,FluentUI.Blazor.Community.Components.DeviceOrientation)">
-            <summary>
-            Occurs when the orientation changed.
-            </summary>
-            <param name="sender">Object which invokes the method.</param>
-            <param name="e">Args of the method.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Add(FluentUI.Blazor.Community.Components.SlideshowImage{`0})">
-            <summary>
-            Adds an image into the list of images.
-            </summary>
-            <param name="value">Image to add.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Remove(FluentUI.Blazor.Community.Components.SlideshowImage{`0})">
-            <summary>
-            Removes an image from the list of images.
-            </summary>
-            <param name="value">Image to remove.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnParametersSet">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnParametersSetAsync">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAfterRenderAsync(System.Boolean)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DisposeAsync">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetParentSize(System.Int32,System.Int32)">
-            <summary>
-            Occurs when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> or <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are not provided.
-            </summary>
-            <param name="width">Width of the parent.</param>
-            <param name="height">Height of the parent.</param>
-            <remarks>When <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> or <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are not provided, we took the size from
-             its parent.</remarks>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAutoSizeCompletedAsync">
-            <summary>
-            Occurs when all images have been resized.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ResizeObserverEvent(FluentUI.Blazor.Community.Components.SlideshowResize)">
-            <summary>
-            Occurs when the component is resized.
-            </summary>
-            <param name="value">Value of the new size of the component and is the value are fixed.</param>
-            <returns>The new size of the component.</returns>
-            <remarks>
-            If <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> or <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are provided, these values are considered fixed,
-             so even if the component container became greater than the component size, the component
-             won't be greater than the fixed value.
-            </remarks>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.SlideshowCaption">
-            <summary>
-            Represents a caption for a <see cref="T:FluentUI.Blazor.Community.Components.SlideshowItem`1"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.ChildContent">
-            <summary>
-            Gets or sets the child content of the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.Css">
-            <summary>
-            Gets the css classes to use.
-            </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.SlideshowImage`1">
-            <summary>
-            Represents the image inside a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
-            </summary>
-            <typeparam name="TItem">Type of the item.</typeparam>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SlideshowImage`1"/> class.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Parent">
-            <summary>
-            Gets or sets the parent of the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Source">
-            <summary>
-            Gets or sets the source of the image.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Alt">
-            <summary>
-            Gets or sets the alternate text of the image.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Title">
-            <summary>
-            Gets or sets the title of the image.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.SlideshowImageRatio">
-            <summary>
-            Represents the available ratios for images in the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1" />.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.Auto">
-            <summary>
-            If the image natural dimensions are greater than the container dimensions,
-             the image is shrinked, and the aspect ratio is maintened.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.Fill">
-            <summary>
-            The image fill the container.
-            </summary>
-            <remarks>When the dimensions of the container are not set, the width of the container is set to 100%,
-             after that, the first image in the slideshow, when stretched, gives the height of the container,
-             and the other images will take that height.</remarks>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition">
-            <summary>
-            Gets or sets the position of the indicator.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition.Top">
-            <summary>
-            The indicator is on the top of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition.Bottom">
-            <summary>
-            The indicator is on the bottom of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition.Left">
-            <summary>
-            The indicator is on the left of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition.Right">
-            <summary>
-            The indicator is on the right of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
-            </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.SlideshowItem`1">
-            <summary>
-            Represents an item for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
-            </summary>
-            <typeparam name="TItem">Type of the item.</typeparam>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.#ctor">
-            <summary>
-            Initializes a new instance of the class <see cref="T:FluentUI.Blazor.Community.Components.SlideshowItem`1"/>.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.ChildContent">
-            <summary>
-            Gets or sets the child content of the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.AriaLabel">
-            <summary>
-            Gets or sets the aria label of the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.Parent">
-            <summary>
-            Gets or sets the parent of the component.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.Css">
-            <summary>
-            Gets the css of the component.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.Dispose">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial">
             <summary>
             Represents a sleek dial.
@@ -13065,6 +12471,600 @@
             <summary>
             Gets or sets the direction of the items.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DotIndicator`1">
+            <summary>
+            Represents a dot indicator for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.AriaLabel">
+            <summary>
+            Gets the aria-label.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Index">
+            <summary>
+            Gets or sets the index of the dot.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.CurrentSlideshowIndex">
+            <summary>
+            Gets or sets the slide show index.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Orientation">
+            <summary>
+            Gets or sets the orientation of the dot.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Parent">
+            <summary>
+            Gets the parent component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DotIndicator`1.Css">
+            <summary>
+            Gets the css of the indicator.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DotIndicator`1.MoveToIndexAsync">
+            <summary>
+            Occurs when the dot is clicked.
+            </summary>
+            <returns>Returns the task which moves to the dot index when completed.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1">
+            <summary>
+            Represents a slide show component.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._slides">
+            <summary>
+            Represents the slides.
+            </summary>
+            <remarks>Use when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ChildContent"/> is not null.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._images">
+            <summary>
+            Represents the images.
+            </summary>
+            <remarks>When orientation or ImageRatio changes, we need to update the image size.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._renderDots">
+            <summary>
+            Represents the fragment to render the dots.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._timer">
+            <summary>
+            Represents the timer.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._currentIndexChanged">
+            <summary>
+            Represents a value indicating if the current index has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._autoPlayChanged">
+            <summary>
+            Represents a value indicating if the autoplay has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._intervalChanged">
+            <summary>
+            Represents a value indicating if the interval has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._elementWidthResized">
+            <summary>
+            Represents a value indicating if the element was resized on the width.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._elementHeightResized">
+            <summary>
+            Represents a value indicating if the element was resized on the height.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isAspectRatioChanged">
+            <summary>
+            Represents a value indicating if the aspect ratio has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._dotnetReference">
+            <summary>
+            Represents the reference of the component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._module">
+            <summary>
+            Represents the module.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.JavascriptFileName">
+            <summary>
+            Represents the name of the javascript filename.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._showContent">
+            <summary>
+            Value indicating if the content is shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowControls">
+            <summary>
+            Gets or sets a value indicating that the controls are shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ChildContent">
+            <summary>
+            Gets or sets the render fragment for the child content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowIndicators">
+            <summary>
+            Gets or sets a value indicating that the indicators are shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Items">
+            <summary>
+            Gets or sets the items to render.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ItemTemplate">
+            <summary>
+            Gets or sets the item template for rendering the items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Autoplay">
+            <summary>
+            Gets or sets a value indicating that the slide show is autoplay.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Interval">
+            <summary>
+            Gets or sets the interval between items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Duration">
+            <summary>
+            Gets or sets a the duration of the animation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width">
+            <summary>
+            Gets or sets the width of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height">
+            <summary>
+            Gets or sets the height of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index">
+            <summary>
+            Gets or sets the index of the item to show.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IndexChanged">
+            <summary>
+            Gets or sets the callback to raise when the index has changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsLoopingEnabled">
+            <summary>
+            Gets or sets a value indicating that the slide show loops after reaching the last item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousLabel">
+            <summary>
+            Gets or sets the label for previous button tooltip.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextLabel">
+            <summary>
+            Gets or sets the label for next button tooltip.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ItemFunc">
+            <summary>
+            Gets or sets the function to retrieve the identifier of an item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IndicatorPosition">
+            <summary>
+            Gets or sets the position of the indicator.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Count">
+            <summary>
+            Gets the number of items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsPreviousDisabled">
+            <summary>
+            Gets a value indicating if the previous button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsNextDisabled">
+            <summary>
+            Gets a value indicating if the next button disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Css">
+            <summary>
+            Gets or sets the css for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Orientation">
+            <summary>
+            Gets the orientation of the indicators.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.InternalStyle">
+            <summary>
+            Gets the internal style for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.InternalContainerCss">
+            <summary>
+            Gets the css for the internal container of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1" />.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.InternalIndicatorsCss">
+            <summary>
+            Gets the css for the indicators of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1" />.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousButtonStyle">
+            <summary>
+            Gets the style of the previous button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextButtonStyle">
+            <summary>
+            Gets the style of the previous button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Runtime">
+            <summary>
+            Gets or sets the javascript runtime.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ImageAspectRatio">
+            <summary>
+            Gets or sets a value indicating if the image keeps the aspect ratio.
+            </summary>
+            <remarks>Works only if the item contains an img div.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousHorizontalStyle">
+            <summary>
+            Gets the style for previous button on horizontal orientation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousVerticalStyle">
+            <summary>
+            Gets the style for previous button on vertical orientation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextHorizontalStyle">
+            <summary>
+            Gets the style for next button on horizontal orientation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextVerticalStyle">
+            <summary>
+            Gets the style for next button on vertical orientation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DeviceInfoState">
+            <summary>
+            Gets or sets the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DeviceInfoState"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnImagesResizeCompleted">
+            <summary>
+            Gets or sets the callback to raise when a resizing operation is completed.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.StartTimer">
+            <summary>
+            Starts the timer.
+            </summary>
+            <remarks>The timer starts if the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Autoplay" /> is set to <see langword="true" />.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.StopTimer">
+            <summary>
+            Stops the timer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnTimerTick(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>
+            Occurs when the timer ticks.
+            </summary>
+            <param name="sender">Sender of the event.</param>
+            <param name="e">Event args of the timer.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsCurrent(System.Int32)">
+            <summary>
+            Checks if the <paramref name="index"/> is equals to the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/>.
+            </summary>
+            <param name="index">Index to check.</param>
+            <returns>Returns <see langword="true"/> if the <paramref name="index"/> is equal to <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnMovePreviousAsync">
+            <summary>
+            Move to the previous slide.
+            </summary>
+            <returns>Returns a task which moves to the previous slide when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetIndexAsync(System.Int32)">
+            <summary>
+            Sets the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/> to <paramref name="index"/>.
+            </summary>
+            <param name="index">Index of the slide to slow.</param>
+            <returns>Returns a task which set the index to the <paramref name="index"/> and
+             raise <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IndexChanged"/> when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.GetAriaHiddenValue(FluentUI.Blazor.Community.Components.SlideshowItem{`0})">
+            <summary>
+            Gets the aria-hidden value.
+            </summary>
+            <param name="item">Hidden item.</param>
+            <returns>Returns the aria-hidden value.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnMoveNextAsync">
+            <summary>
+            Move to the next slide.
+            </summary>
+            <returns>Returns a task which moves to the next slide when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.MoveToIndexAsync(System.Int32)">
+            <summary>
+            Move the slide to the specified <paramref name="index"/>.
+            </summary>
+            <param name="index">Index of the slide.</param>
+            <returns>Returns a task which moves the slide to the current index.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.GetAriaHiddenValue(System.Int32)">
+            <summary>
+            Gets the aria-hidden value.
+            </summary>
+            <param name="index">Index to check.</param>
+            <returns>Returns <see langword="true"/> if the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/> is equal to <paramref name="index"/>,
+             <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnKeyDownAsync(Microsoft.FluentUI.AspNetCore.Components.FluentKeyCodeEventArgs)">
+            <summary>
+            Occurs when a key of the keyboard is down.
+            </summary>
+            <param name="e">Event args of the keyboard.</param>
+            <returns>Returns a task which moves the slide when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Remove(FluentUI.Blazor.Community.Components.SlideshowItem{`0})">
+            <summary>
+            Removes the <paramref name="value"/> from the component.
+            </summary>
+            <param name="value">Value to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Add(FluentUI.Blazor.Community.Components.SlideshowItem{`0})">
+            <summary>
+            Adds the <paramref name="value"/> from the component.
+            </summary>
+            <param name="value">Value to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Contains(FluentUI.Blazor.Community.Components.SlideshowItem{`0})">
+            <summary>
+            Check if the <paramref name="value"/> is inside the component.
+            </summary>
+            <param name="value">Value to check.</param>
+            <returns>Returns <see langword="true" /> if the item is inside the component, <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAspectRatioChangedAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnOrientationChanged(System.Object,FluentUI.Blazor.Community.Components.DeviceOrientation)">
+            <summary>
+            Occurs when the orientation changed.
+            </summary>
+            <param name="sender">Object which invokes the method.</param>
+            <param name="e">Args of the method.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Add(FluentUI.Blazor.Community.Components.SlideshowImage{`0})">
+            <summary>
+            Adds an image into the list of images.
+            </summary>
+            <param name="value">Image to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Remove(FluentUI.Blazor.Community.Components.SlideshowImage{`0})">
+            <summary>
+            Removes an image from the list of images.
+            </summary>
+            <param name="value">Image to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnParametersSet">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnParametersSetAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetParentSize(System.Int32,System.Int32)">
+            <summary>
+            Occurs when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> or <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are not provided.
+            </summary>
+            <param name="width">Width of the parent.</param>
+            <param name="height">Height of the parent.</param>
+            <remarks>When <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> or <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are not provided, we took the size from
+             its parent.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAutoSizeCompletedAsync">
+            <summary>
+            Occurs when all images have been resized.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ResizeObserverEvent(FluentUI.Blazor.Community.Components.SlideshowResize)">
+            <summary>
+            Occurs when the component is resized.
+            </summary>
+            <param name="value">Value of the new size of the component and is the value are fixed.</param>
+            <returns>The new size of the component.</returns>
+            <remarks>
+            If <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Width"/> or <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Height"/> are provided, these values are considered fixed,
+             so even if the component container became greater than the component size, the component
+             won't be greater than the fixed value.
+            </remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowCaption">
+            <summary>
+            Represents a caption for a <see cref="T:FluentUI.Blazor.Community.Components.SlideshowItem`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.ChildContent">
+            <summary>
+            Gets or sets the child content of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.Css">
+            <summary>
+            Gets the css classes to use.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowImage`1">
+            <summary>
+            Represents the image inside a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SlideshowImage`1"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Parent">
+            <summary>
+            Gets or sets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Source">
+            <summary>
+            Gets or sets the source of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Alt">
+            <summary>
+            Gets or sets the alternate text of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Title">
+            <summary>
+            Gets or sets the title of the image.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowImageRatio">
+            <summary>
+            Represents the available ratios for images in the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1" />.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.Auto">
+            <summary>
+            If the image natural dimensions are greater than the container dimensions,
+             the image is shrinked, and the aspect ratio is maintened.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.Fill">
+            <summary>
+            The image fill the container.
+            </summary>
+            <remarks>When the dimensions of the container are not set, the width of the container is set to 100%,
+             after that, the first image in the slideshow, when stretched, gives the height of the container,
+             and the other images will take that height.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition">
+            <summary>
+            Gets or sets the position of the indicator.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition.Top">
+            <summary>
+            The indicator is on the top of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition.Bottom">
+            <summary>
+            The indicator is on the bottom of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition.Left">
+            <summary>
+            The indicator is on the left of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition.Right">
+            <summary>
+            The indicator is on the right of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowItem`1">
+            <summary>
+            Represents an item for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
+            </summary>
+            <typeparam name="TItem">Type of the item.</typeparam>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.#ctor">
+            <summary>
+            Initializes a new instance of the class <see cref="T:FluentUI.Blazor.Community.Components.SlideshowItem`1"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.ChildContent">
+            <summary>
+            Gets or sets the child content of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.AriaLabel">
+            <summary>
+            Gets or sets the aria label of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.Parent">
+            <summary>
+            Gets or sets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.Css">
+            <summary>
+            Gets the css of the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.Dispose">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1">
             <summary>
