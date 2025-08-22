@@ -77,7 +77,7 @@ public class FileManagerTests : TestBase
     public void FluentCxFileManager_RendersCoreElements_WithDefaults()
     {
         // Arrange & Act
-        var cut = RenderFileManager();
+        var cut = RenderFileManager(p=> p.Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert: Core elements are present
         Assert.NotNull(cut.Find("fluent-toolbar"));
@@ -100,7 +100,8 @@ public class FileManagerTests : TestBase
         var width = "420px";
 
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.Width, width));
+        var cut = RenderFileManager(p => p.Add(x => x.Width, width)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         var splitter = cut.Find(".fluent-multi-splitter");
@@ -115,7 +116,8 @@ public class FileManagerTests : TestBase
         var height = "333px";
 
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.Height, height));
+        var cut = RenderFileManager(p => p.Add(x => x.Height, height)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         var splitter = cut.Find(".fluent-multi-splitter");
@@ -127,7 +129,8 @@ public class FileManagerTests : TestBase
     public void FluentCxFileManager_HidesCreateFolderButton_WhenSetToFalse()
     {
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.ShowCreateFolderButton, false));
+        var cut = RenderFileManager(p => p.Add(x => x.ShowCreateFolderButton, false)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.DoesNotContain("New Folder", cut.Markup);
@@ -137,7 +140,8 @@ public class FileManagerTests : TestBase
     public void FluentCxFileManager_HidesUploadButton_WhenSetToFalse()
     {
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.ShowUploadButton, false));
+        var cut = RenderFileManager(p => p.Add(x => x.ShowUploadButton, false)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.DoesNotContain("Upload", cut.Markup);
@@ -147,7 +151,8 @@ public class FileManagerTests : TestBase
     public void FluentCxFileManager_HidesViewMenu_WhenSetToFalse()
     {
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.ShowViewButton, false));
+        var cut = RenderFileManager(p => p.Add(x => x.ShowViewButton, false)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.DoesNotContain("View", cut.Markup);
@@ -157,7 +162,8 @@ public class FileManagerTests : TestBase
     public void FluentCxFileManager_HidesSortMenu_WhenSetToFalse()
     {
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.ShowSortButton, false));
+        var cut = RenderFileManager(p => p.Add(x => x.ShowSortButton, false)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.DoesNotContain("Sort", cut.Markup);
@@ -167,7 +173,8 @@ public class FileManagerTests : TestBase
     public void FluentCxFileManager_HidesPropertiesButtons_WhenSetToFalse()
     {
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.ShowPropertiesButton, false));
+        var cut = RenderFileManager(p => p.Add(x => x.ShowPropertiesButton, false)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.DoesNotContain("Rename", cut.Markup);
@@ -179,7 +186,8 @@ public class FileManagerTests : TestBase
     public void FluentCxFileManager_HidesDetailsSwitch_WhenSetToFalse()
     {
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.ShowDetailsButton, false));
+        var cut = RenderFileManager(p => p.Add(x => x.ShowDetailsButton, false)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.DoesNotContain("Show details", cut.Markup);
@@ -189,7 +197,8 @@ public class FileManagerTests : TestBase
     public void FluentCxFileManager_ShowsBusyIndicator_WhenIsBusyIsTrue()
     {
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.IsBusy, true));
+        var cut = RenderFileManager(p => p.Add(x => x.IsBusy, true)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.Contains("progress", cut.Markup, System.StringComparison.OrdinalIgnoreCase);
@@ -201,7 +210,8 @@ public class FileManagerTests : TestBase
         // Act
         var cut = RenderFileManager(p => p
             .Add(x => x.View, FileManagerView.Mobile)
-            .Add(x => x.ShowDetailsButton, true));
+            .Add(x => x.ShowDetailsButton, true)
+            .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         var detailsButton = cut.FindAll("fluent-button[title='Show details'], fluent-button[aria-label='Show details']");
@@ -218,7 +228,8 @@ public class FileManagerTests : TestBase
         // Act
         var cut = RenderFileManager(p => p
             .Add(x => x.View, FileManagerView.Desktop)
-            .Add(x => x.ShowDetailsButton, true));
+            .Add(x => x.ShowDetailsButton, true)
+            .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.Contains("Move to", cut.Markup);
@@ -237,7 +248,8 @@ public class FileManagerTests : TestBase
         var accept = ".pdf,.docx";
 
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.Accept, accept));
+        var cut = RenderFileManager(p => p.Add(x => x.Accept, accept)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         var input = cut.Find("input[type='file']");
@@ -252,7 +264,8 @@ public class FileManagerTests : TestBase
         Services.AddScoped(_ => mockDialogService.Object);
 
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.MaximumFileCount, 1));
+        var cut = RenderFileManager(p => p.Add(x => x.MaximumFileCount, 1)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
         var inputFile = cut.FindComponent<InputFile>();
         var files = new[]
         {
@@ -282,6 +295,7 @@ public class FileManagerTests : TestBase
         // Act
         var cut = RenderFileManager(p => p
             .Add(x => x.MaximumFileSize, 10L)
+            .Add(x => x.Root, FileManagerEntry<object>.Home)
             .Add(x => x.OnFileUploaded, EventCallback.Factory.Create<FileManagerEntry<object>>(this, (Action<FileManagerEntry<object>>)OnFileUploadedHandler)));
 
         var inputFile = cut.FindComponent<InputFile>();
@@ -303,7 +317,8 @@ public class FileManagerTests : TestBase
         Services.AddScoped(_ => mockDialogService.Object);
 
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.BufferSize, 4096u));
+        var cut = RenderFileManager(p => p.Add(x => x.BufferSize, 4096u)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.NotNull(cut);
@@ -326,7 +341,8 @@ public class FileManagerTests : TestBase
         Services.AddScoped(_ => mockDialogService.Object);
 
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.AcceptFiles, acceptFile));
+        var cut = RenderFileManager(p => p.Add(x => x.AcceptFiles, acceptFile)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         var input = cut.Find("input[type='file']");
@@ -492,7 +508,8 @@ public class FileManagerTests : TestBase
         };
 
         // Act
-        var cut = RenderFileManager(p => p.Add(x => x.FileManagerLabels, customLabels));
+        var cut = RenderFileManager(p => p.Add(x => x.FileManagerLabels, customLabels)
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.Contains("Custom New Folder", cut.Markup);
@@ -572,7 +589,8 @@ public class FileManagerTests : TestBase
         var cut = RenderFileManagerComponent<object>(p => p.Add(x => x.ToolbarItems, (RenderFragment)(builder =>
         {
             builder.AddMarkupContent(0, customContent);
-        })));
+        }))
+        .Add(x => x.Root, FileManagerEntry<object>.Home));
 
         // Assert
         Assert.Contains("Custom Toolbar Content", cut.Markup);

@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;

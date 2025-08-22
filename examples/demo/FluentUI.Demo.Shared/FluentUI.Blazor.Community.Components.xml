@@ -2513,21 +2513,16 @@
             <summary>
             Represents the event args for a chat group.
             </summary>
-            <param name="users">Users to add to the chat.</param>
+            <param name="Users">Users to add to the chat.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ChatGroupEventArgs.#ctor(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.ChatUser})">
             <summary>
             Represents the event args for a chat group.
             </summary>
-            <param name="users">Users to add to the chat.</param>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ChatGroupEventArgs.users">
-            <summary>Users to add to the chat.</summary>
+            <param name="Users">Users to add to the chat.</param>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatGroupEventArgs.Users">
-            <summary>
-            Gets the users inside the chat.
-            </summary>
+            <summary>Users to add to the chat.</summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ChatGroupEventArgs.ChatGroupIdReturnValue">
             <summary>

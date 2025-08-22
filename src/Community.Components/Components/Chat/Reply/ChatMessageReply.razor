@@ -19,10 +19,9 @@
 
     @if (AllowDismiss)
     {
-        <div class="chat-reply-messagebar-close">
+        <div class="chat-reply-messagebar-close" @onclick=@OnDismissAsync>
             <FluentIcon Value="@(new Regular.Size16.Dismiss())"
-                        Color=@Color.Neutral
-                        OnClick="OnDismissAsync" />
+                        Color=@Color.Neutral />
         </div>
     }
 </div>
