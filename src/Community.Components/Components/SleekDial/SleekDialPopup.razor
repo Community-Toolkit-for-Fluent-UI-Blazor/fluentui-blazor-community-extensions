@@ -1,0 +1,22 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Parent is not null)
+{
+    <FluentKeyCode OnKeyDown="@OnKeyDownHandlerAsync">
+        @if (Parent.IsModal)
+        {
+            <FluentOverlay Visible=IsOpen FullScreen OnClose="@OnOverlayCloseAsync" />
+        }
+
+        <div class="@InternalCss"
+             style="@InternalStyle"
+             id="@Id"
+             @attributes=AdditionalAttributes
+             @ref=Element
+             tabindex="1">
+            <SleekDialView />
+        </div>
+    </FluentKeyCode>
+}
+

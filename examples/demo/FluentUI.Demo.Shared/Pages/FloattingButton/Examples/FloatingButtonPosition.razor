@@ -1,0 +1,22 @@
+﻿<p>
+    You can position the button using the <code>Position</code> property.
+</p>
+
+<FluentSelect TOption="FloatingPosition"
+              Items="@_positions"
+              @bind-SelectedOption=_position></FluentSelect>
+
+<div style="position: relative; height: 400px" id="target2">
+    <FluentDataGrid TGridItem="string">
+        <PropertyColumn Title="Data 1" Property="@(s => s)" />
+        <PropertyColumn Title="Data 2" Property="@(s => s)" />
+        <PropertyColumn Title="Data 3" Property="@(s => s)" />
+        <PropertyColumn Title="Data 4" Property="@(s => s)" />
+    </FluentDataGrid>
+    <FluentCxFloatingButton Position=@_position IconStart=@(new Icons.Regular.Size24.Navigation()) RelativeContainerId="target2" />
+</div>
+
+@code {
+    private FloatingPosition _position = FloatingPosition.BottomRight;
+    private readonly FloatingPosition[] _positions = Enum.GetValues<FloatingPosition>();
+}
