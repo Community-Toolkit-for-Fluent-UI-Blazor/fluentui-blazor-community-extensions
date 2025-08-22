@@ -8511,5 +8511,35 @@
             <param name="services">Service collection.</param>
             <returns>Returns the collection of services.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.PathHelper">
+            <summary>
+            Represents a helper class for path operations.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.PathHelper.GetSegments(System.String)">
+            <summary>
+            Gets the segments of the specified path.
+            </summary>
+            <param name="path">Path to segment.</param>
+            <returns>Returns an array of <see cref="T:System.String"/> which represent the segments of the path.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.UnitFormatHelper">
+            <summary>
+            Represents a helper class for formatting CSS unit values.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Helpers.UnitFormatHelper.pattern">
+            <summary>
+            Represents a regex pattern to match valid CSS unit values.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.UnitFormatHelper.Format``1(``0)">
+            <summary>
+            Formats the specified value as a CSS unit string.
+            </summary>
+            <typeparam name="T">Type of the value.</typeparam>
+            <param name="value">Value to format.</param>
+            <returns>Returns the formatted value as a CSS unit string.</returns>
+        </member>
     </members>
 </doc>
