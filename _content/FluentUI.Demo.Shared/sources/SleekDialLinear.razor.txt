@@ -1,0 +1,84 @@
+﻿<div id="target-linear" style="height: 600px; position: relative; margin-bottom: 30px">
+     <FluentCxSleekDial Target="target-linear"
+                       Position="FloatingPosition.TopLeft"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+    </FluentCxSleekDial>
+
+    <FluentCxSleekDial Target="target-linear"
+                       Position="FloatingPosition.TopCenter"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+    </FluentCxSleekDial>
+ 
+    <FluentCxSleekDial Target="target-linear"
+                       Position="FloatingPosition.TopRight"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+    </FluentCxSleekDial>
+ 
+    <FluentCxSleekDial Target="target-linear"
+                       Position="FloatingPosition.MiddleLeft"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())"
+                       Direction="SleekDialLinearDirection.Right">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+    </FluentCxSleekDial>
+
+    <FluentCxSleekDial Target="target-linear"
+                       Position="FloatingPosition.MiddleCenter"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+    </FluentCxSleekDial>
+
+    <FluentCxSleekDial Target="target-linear"
+                       Position="FloatingPosition.MiddleRight"
+                       Direction="SleekDialLinearDirection.Left"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+    </FluentCxSleekDial> 
+
+    <FluentCxSleekDial Target="target-linear"
+                       Position="FloatingPosition.BottomLeft"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+    </FluentCxSleekDial> 
+ 
+    <FluentCxSleekDial Target="target-linear"
+                       Position="FloatingPosition.BottomCenter"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+    </FluentCxSleekDial>
+
+    <FluentCxSleekDial Target="target-linear"
+                       Position="FloatingPosition.BottomRight"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+    </FluentCxSleekDial> 
+</div>
