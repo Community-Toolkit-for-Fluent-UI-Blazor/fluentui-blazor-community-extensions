@@ -5000,6 +5000,16 @@
             Represents a value indicating if the details of an entry is shown.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._hasRootChanged">
+            <summary>
+            Represents a value indicating if the root has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._forceMobileView">
+            <summary>
+            Represents a value indicating if the mobile view is forced.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._fileManagerView">
             <summary>
             Represents the file manager component.
@@ -5090,9 +5100,9 @@
             Represents the path for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar"/> component.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.#ctor">
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._renderLabel">
             <summary>
-            Initialize a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> class.
+            Represents the render fragment to use for the label of a button.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.State">
@@ -5506,8 +5516,16 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnParametersSet">
+            <inheritdoc />
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.#ctor">
+            <summary>
+            Initialize a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> class.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.IDeletable">
             <summary>

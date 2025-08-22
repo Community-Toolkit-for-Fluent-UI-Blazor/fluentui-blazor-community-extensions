@@ -50,6 +50,17 @@ public partial class FluentCxFileManager<TItem>
     /// Represents a value indicating if the details of an entry is shown.
     /// </summary>
     private bool _showDetails;
+
+    /// <summary>
+    /// Represents a value indicating if the root has changed.
+    /// </summary>
+    private bool _hasRootChanged;
+
+    /// <summary>
+    /// Represents a value indicating if the mobile view is forced.
+    /// </summary>
+    private bool _forceMobileView;
+
     /// <summary>
     /// Represents the file manager component.
     /// </summary>
@@ -141,13 +152,9 @@ public partial class FluentCxFileManager<TItem>
     private string? _path;
 
     /// <summary>
-    /// Initialize a new instance of the <see cref="FluentCxFileManager{TItem}"/> class.
+    /// Represents the render fragment to use for the label of a button.
     /// </summary>
-    public FluentCxFileManager() : base()
-    {
-        Id = Identifier.NewId();
-        _flattenEntry = FileManagerEntry<TItem>.Home;
-    }
+    private readonly RenderFragment<string> _renderLabel;
 
     /// <summary>
     /// Gets or sets the state of the file manager.
@@ -1365,15 +1372,23 @@ public partial class FluentCxFileManager<TItem>
     }
 
     /// <inheritdoc />
-    public override async Task SetParametersAsync(ParameterView parameters)
+    protected override void OnParametersSet()
     {
-        await base.SetParametersAsync(parameters);
+        base.OnParametersSet();
 
-        if (parameters.HasValueChanged(nameof(Root), Root))
+        if (_hasRootChanged)
         {
             BuildFlatView();
             BuildTreeView();
             BuildPathRoot();
         }
+    }
+
+    /// <inheritdoc />
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        _hasRootChanged = parameters.HasValueChanged(nameof(Root), Root);
+
+        await base.SetParametersAsync(parameters);
     }
 }

@@ -1,10 +1,14 @@
-﻿<h3>Default</h3>
-<FluentCxFileManager TItem="NoFileEntryData"
-                     Root="@_root" />
+﻿<div style="height: 750px">
+    <FluentSwitch Label="Smartphone view" @bind-Value="_isMobileView" />
 
+    <FluentCxFileManager TItem="NoFileEntryData"
+                         Root="@_root"
+                         View="@(_isMobileView ? FileManagerView.Mobile : FileManagerView.Desktop)"/>
+</div>
 
 @code {
     private FileManagerEntry<NoFileEntryData> _root = default!;
+    private bool _isMobileView = false;
 
     [Inject]
     public IFileManagerItemsProvider<NoFileEntryData>? ItemsProvider{ get; set; }
