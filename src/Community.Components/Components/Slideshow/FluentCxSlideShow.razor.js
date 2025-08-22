@@ -118,44 +118,47 @@ function setSizeFromParent(instance, width, height) {
 
 export function initialize(id, dotnetReference, width, height) {
   const element = document.getElementById(id);
-  const instance = {
-    id: id,
-    element: element,
-    dotnetReference: dotnetReference,
-    parent: element.parentElement,
-    resizeObserver: null,
-    imageRatio: auto,
-    imageIdCollection: [],
-    width: width,
-    height: height,
-    fixedWidth: width !== undefined && width !== null,
-    fixedHeight: height !== undefined && height !== null
-  }
 
-  _instances.push(instance);
-
-  const resizeObserver = new ResizeObserver((entries) => {
-    for (let entry of entries) {
-      instance.dotnetReference.invokeMethodAsync('resizeObserverEvent',
-        {
-          width: Math.ceil(entry.contentRect.width),
-          height: Math.ceil(entry.contentRect.height),
-          fixedWidth: instance.fixedWidth,
-          fixedHeight: instance.fixedHeight
-        })
-        .then(data => {
-          instance.width = data[0];
-          instance.height = data[1];
-          setImagesSize(instance.id, instance.imageRatio, instance.imageIdCollection);
-        });
+  if (element) {
+    const instance = {
+      id: id,
+      element: element,
+      dotnetReference: dotnetReference,
+      parent: element.parentElement,
+      resizeObserver: null,
+      imageRatio: auto,
+      imageIdCollection: [],
+      width: width,
+      height: height,
+      fixedWidth: width !== undefined && width !== null,
+      fixedHeight: height !== undefined && height !== null
     }
-  });
 
-  resizeObserver.observe(instance.parent);
-  instance.resizeObserver = resizeObserver;
+    _instances.push(instance);
 
-  if (width === undefined || width === null || height === undefined || height === null) {
-    setSizeFromParent(instance, width, height);
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        instance.dotnetReference.invokeMethodAsync('resizeObserverEvent',
+          {
+            width: Math.ceil(entry.contentRect.width),
+            height: Math.ceil(entry.contentRect.height),
+            fixedWidth: instance.fixedWidth,
+            fixedHeight: instance.fixedHeight
+          })
+          .then(data => {
+            instance.width = data[0];
+            instance.height = data[1];
+            setImagesSize(instance.id, instance.imageRatio, instance.imageIdCollection);
+          });
+      }
+    });
+
+    resizeObserver.observe(instance.parent);
+    instance.resizeObserver = resizeObserver;
+
+    if (width === undefined || width === null || height === undefined || height === null) {
+      setSizeFromParent(instance, width, height);
+    }
   }
 }
 
