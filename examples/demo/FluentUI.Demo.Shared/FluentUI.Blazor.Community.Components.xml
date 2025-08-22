@@ -5185,6 +5185,26 @@
             Gets or sets a value indicating whether the dialog is modal or not.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.OpenButtonPosition">
+            <summary>
+            Gets or sets the position of the open button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.IsOpenButtonVisible">
+            <summary>
+            Gets or sets a value indicating whether the open button is visible or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.CloseButtonIcon">
+            <summary>
+            Gets or sets the icon of the close button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.OpenButtonIcon">
+            <summary>
+            Gets or sets the icon of the open button.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.InternalCss">
             <summary>
             Gets the css to use for the dialog.

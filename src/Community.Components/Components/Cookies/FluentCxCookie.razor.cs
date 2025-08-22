@@ -149,6 +149,30 @@ public partial class FluentCxCookie
     public bool Modal { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets the position of the open button.
+    /// </summary>
+    [Parameter]
+    public FloatingPosition OpenButtonPosition { get; set; } = FloatingPosition.BottomLeft;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the open button is visible or not.
+    /// </summary>
+    [Parameter]
+    public bool IsOpenButtonVisible { get; set; }
+
+    /// <summary>
+    /// Gets or sets the icon of the close button.
+    /// </summary>
+    [Parameter]
+    public Icon CloseButtonIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Dismiss();
+
+    /// <summary>
+    /// Gets or sets the icon of the open button.
+    /// </summary>
+    [Parameter]
+    public Icon OpenButtonIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Cookies();
+
+    /// <summary>
     /// Gets the css to use for the dialog.
     /// </summary>
     private string? InternalCss => new CssBuilder(Class)
