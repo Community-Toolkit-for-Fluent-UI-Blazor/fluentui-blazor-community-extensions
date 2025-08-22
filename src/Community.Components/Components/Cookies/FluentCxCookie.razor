@@ -1,17 +1,27 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
+@if (Modal)
+{
+    <FluentOverlay Transparent=false
+                   FullScreen
+                   Dismissable=false
+                   Opacity="0.6"
+                   @bind-Visible=_showCookieDialog />
+}
+
+@if (IsOpenButtonVisible)
+{
+    <FluentCxFloatingButton Position="OpenButtonPosition"
+                            IconStart="@(_showCookieDialog ? CloseButtonIcon : OpenButtonIcon)"
+                            OnClick="@(() => _showCookieDialog = !_showCookieDialog)"
+                            Style="z-index: 9991" />
+}
+
 @if (_showCookieDialog)
 {
     <FluentCxMediaQuery OnMediaChanged="@(p => _isMobile = p)"
                         Query="(max-width: 640px)" />
-    if (Modal)
-    {
-        <FluentOverlay Transparent=false
-                       FullScreen
-                       Dismissable=false
-                       Opacity="0.6"/>
-    }
 
     <div id="@Id" class="@InternalCss" style="@InternalStyle">
         <FluentCard>
@@ -115,6 +125,7 @@
     </div>
 }
 
+
 @code {
     public FluentCxCookie()
     {
@@ -135,9 +146,9 @@
 
                     <FluentSpacer Width="20" />
                 }
-          
+
                 @if (Choices == CookieChoices.AcceptDeny ||
-                     Choices == CookieChoices.AcceptDenyManage)
+                    Choices == CookieChoices.AcceptDenyManage)
                 {
                     <FluentButton OnClick=@OnDeclineAsync
                                   Style="width: 120px"
@@ -149,8 +160,8 @@
                 }
 
                 @if (Choices == CookieChoices.AcceptOnly ||
-                     Choices == CookieChoices.AcceptDeny ||
-                     Choices == CookieChoices.AcceptDenyManage)
+                    Choices == CookieChoices.AcceptDeny ||
+                    Choices == CookieChoices.AcceptDenyManage)
                 {
                     <FluentButton OnClick=@OnAcceptAsync
                                   Style="width: 120px"
