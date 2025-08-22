@@ -2,14 +2,22 @@
 
 <div id="relative-container" style="height: 750px;">
     <FluentGrid>
-        <FluentGridItem>
+        <FluentGridItem xs="3"
+                        sm="3"
+                        lg="3"
+                        xl="3"
+                        xxl="3">
             <FluentSelect Label="View" @bind-Value=_view TOption="string">
                 <FluentOption Value="Default" Selected>Default</FluentOption>
                 <FluentOption Value="Small">Small</FluentOption>
             </FluentSelect>
         </FluentGridItem>
 
-        <FluentGridItem>
+        <FluentGridItem xs="3"
+                        sm="3"
+                        lg="3"
+                        xl="3"
+                        xxl="3">
             <FluentSelect Label="Choices" @bind-Value=_capabilities TOption="string">
                 <FluentOption Value="AcceptOnly" Selected>Accept only</FluentOption>
                 <FluentOption Value="AcceptDeny">Accept & deny</FluentOption>
@@ -17,7 +25,11 @@
             </FluentSelect>
         </FluentGridItem>
 
-        <FluentGridItem>
+        <FluentGridItem xs="3"
+                        sm="3"
+                        lg="3"
+                        xl="3"
+                        xxl="3">
             <FluentSelect Label="Open cookie button visibility" @bind-Value=_openConsentVisibility TOption="string">
                 <FluentOption Value="@OpenCookieVisibility.Always.ToString()" Selected>Always</FluentOption>
                 <FluentOption Value="@OpenCookieVisibility.Never.ToString()">Never</FluentOption>
@@ -25,15 +37,45 @@
             </FluentSelect>
         </FluentGridItem>
 
-        <FluentGridItem>
+        <FluentGridItem xs="3"
+                        sm="3"
+                        lg="3"
+                        xl="3"
+                        xxl="3">
+            <FluentSelect Label="Open cookie button position" @bind-Value=_openConsentPosition TOption="string">
+                <FluentOption Value="@FloatingPosition.TopLeft.ToString()">Top left</FluentOption>
+                <FluentOption Value="@FloatingPosition.TopCenter.ToString()">Top center</FluentOption>
+                <FluentOption Value="@FloatingPosition.TopRight.ToString()">Top right</FluentOption>
+                <FluentOption Value="@FloatingPosition.MiddleLeft.ToString()">Middle left</FluentOption>
+                <FluentOption Value="@FloatingPosition.MiddleCenter.ToString()">Middle center</FluentOption>
+                <FluentOption Value="@FloatingPosition.MiddleRight.ToString()">Middle right</FluentOption>
+                <FluentOption Value="@FloatingPosition.BottomLeft.ToString()" Selected>Bottom left</FluentOption>
+                <FluentOption Value="@FloatingPosition.BottomCenter.ToString()">Bottom center</FluentOption>
+                <FluentOption Value="@FloatingPosition.BottomRight.ToString()">Bottom right</FluentOption>
+            </FluentSelect>
+        </FluentGridItem>
+
+        <FluentGridItem xs="3"
+                        sm="3"
+                        lg="3"
+                        xl="3"
+                        xxl="3">
             <FluentTextField Label="Privacy statement url" @bind-Value=_privacyStatementUrl Immediate />
         </FluentGridItem>
 
-        <FluentGridItem>
+        <FluentGridItem xs="3"
+                        sm="3"
+                        lg="3"
+                        xl="3"
+                        xxl="3">
             <FluentTextField Label="Third-party Cookie url" @bind-Value=_thirdPartyCookieUrl Immediate />
         </FluentGridItem>
 
-        <FluentGridItem>
+        <FluentGridItem xs="3"
+                        sm="3"
+                        lg="3"
+                        xl="3"
+                        xxl="3">
             <FluentButton OnClick=OnDeleteCookieAsync Appearance="Appearance.Neutral">
                 Delete cookies
             </FluentButton>
@@ -42,6 +84,8 @@
 
     <FluentCxCookie View="@(Enum.Parse<CookieView>(_view))"
                     Choices="@(Enum.Parse<CookieChoices>(_capabilities))"
+                    OpenConsentVisibility="@(Enum.Parse<OpenCookieVisibility>(_openConsentVisibility))"
+                    OpenButtonPosition="@(Enum.Parse<FloatingPosition>(_openConsentPosition))"
                     PrivacyStatementUrl="@_privacyStatementUrl"
                     ThirdPartyCookiesUrl="@_thirdPartyCookieUrl"
                     Items="@GetItems()"
@@ -58,6 +102,7 @@
     private string? _thirdPartyCookieUrl;
     private FluentCxCookie? _fluentCxCookie;
     private string _openConsentVisibility = OpenCookieVisibility.Always.ToString();
+    private string _openConsentPosition = FloatingPosition.BottomLeft.ToString();
 
     private IEnumerable<CookieItem> GetItems()
     {
