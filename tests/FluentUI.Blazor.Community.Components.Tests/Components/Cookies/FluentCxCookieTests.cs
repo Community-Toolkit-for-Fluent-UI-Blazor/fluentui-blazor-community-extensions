@@ -78,6 +78,7 @@ public class FluentCxCookieTests : TestBase
         var comp = RenderComponent<FluentCxCookie>(
             param => param.Add(p => p.Items, items)
                           .Add(p => p.GoogleAnalyticsId, "GA_ID")
+                          .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
@@ -158,6 +159,7 @@ public class FluentCxCookieTests : TestBase
             param => param.Add(p => p.Items, items)
                           .Add(p => p.GoogleAnalyticsId, "GA_ID")
                           .Add(p => p.OnInitActiveCookie, callback)
+                          .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
@@ -224,6 +226,7 @@ public class FluentCxCookieTests : TestBase
 
         var comp = RenderComponent<FluentCxCookie>(
             param => param.Add(p => p.Items, items)
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
@@ -279,10 +282,11 @@ public class FluentCxCookieTests : TestBase
         // Arrange
         var component = RenderComponent<FluentCxCookie>(parameters => parameters
             .Add(p => p.PrivacyStatementUrl, "https://privacy")
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
-        var link = component.FindAll("a").FirstOrDefault(a => a.GetAttribute("href") == "https://privacy");
+        var link = component.FindAll("fluent-anchor").FirstOrDefault(a => a.GetAttribute("href") == "https://privacy");
 
         // Assert
         Assert.NotNull(link);
@@ -294,10 +298,11 @@ public class FluentCxCookieTests : TestBase
         // Arrange
         var component = RenderComponent<FluentCxCookie>(parameters => parameters
             .Add(p => p.ThirdPartyCookiesUrl, "https://thirdparty")
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
-        var link = component.FindAll("a").FirstOrDefault(a => a.GetAttribute("href") == "https://thirdparty");
+        var link = component.FindAll("fluent-anchor").FirstOrDefault(a => a.GetAttribute("href") == "https://thirdparty");
 
         // Assert
         Assert.NotNull(link);
@@ -309,10 +314,11 @@ public class FluentCxCookieTests : TestBase
         // Arrange
         var component = RenderComponent<FluentCxCookie>(parameters => parameters
             .Add(p => p.Choices, CookieChoices.AcceptOnly)
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
-        var acceptButton = component.FindAll("button").FirstOrDefault(b => b.TextContent.Contains("Accept"));
+        var acceptButton = component.FindAll("fluent-button").FirstOrDefault(b => b.TextContent.Contains("Accept"));
 
         // Assert
         Assert.NotNull(acceptButton);
@@ -324,10 +330,11 @@ public class FluentCxCookieTests : TestBase
         // Arrange
         var component = RenderComponent<FluentCxCookie>(parameters => parameters
             .Add(p => p.Choices, CookieChoices.AcceptDeny)
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
-        var buttons = component.FindAll("button");
+        var buttons = component.FindAll("fluent-button");
 
         // Assert
         Assert.Contains(buttons, b => b.TextContent.Contains("Accept"));
@@ -342,10 +349,11 @@ public class FluentCxCookieTests : TestBase
         var component = RenderComponent<FluentCxCookie>(parameters => parameters
             .Add(p => p.Choices, CookieChoices.AcceptDenyManage)
             .Add(p => p.Items, items)
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
-        var manageButton = component.FindAll("button").FirstOrDefault(b => b.TextContent.Contains("Manage"));
+        var manageButton = component.FindAll("fluent-button").FirstOrDefault(b => b.TextContent.Contains("Manage"));
 
         // Assert
         Assert.NotNull(manageButton);
