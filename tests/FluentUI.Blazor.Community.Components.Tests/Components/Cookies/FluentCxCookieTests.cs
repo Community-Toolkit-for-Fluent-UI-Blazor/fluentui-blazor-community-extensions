@@ -272,4 +272,82 @@ public class FluentCxCookieTests : TestBase
 
         Assert.Equal(items, cookieState);
     }
+
+    [Fact]
+    public void Renders_Privacy_Statement_Link_When_Url_Provided()
+    {
+        // Arrange
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.PrivacyStatementUrl, "https://privacy")
+        );
+
+        // Act
+        var link = component.FindAll("a").FirstOrDefault(a => a.GetAttribute("href") == "https://privacy");
+
+        // Assert
+        Assert.NotNull(link);
+    }
+
+    [Fact]
+    public void Renders_Third_Party_Cookies_Link_When_Url_Provided()
+    {
+        // Arrange
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.ThirdPartyCookiesUrl, "https://thirdparty")
+        );
+
+        // Act
+        var link = component.FindAll("a").FirstOrDefault(a => a.GetAttribute("href") == "https://thirdparty");
+
+        // Assert
+        Assert.NotNull(link);
+    }
+
+    [Fact]
+    public void Renders_Accept_Only_Button_When_Choices_Is_AcceptOnly()
+    {
+        // Arrange
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.Choices, CookieChoices.AcceptOnly)
+        );
+
+        // Act
+        var acceptButton = component.FindAll("button").FirstOrDefault(b => b.TextContent.Contains("Accept"));
+
+        // Assert
+        Assert.NotNull(acceptButton);
+    }
+
+    [Fact]
+    public void Renders_Accept_And_Decline_Buttons_When_Choices_Is_AcceptDeny()
+    {
+        // Arrange
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.Choices, CookieChoices.AcceptDeny)
+        );
+
+        // Act
+        var buttons = component.FindAll("button");
+
+        // Assert
+        Assert.Contains(buttons, b => b.TextContent.Contains("Accept"));
+        Assert.Contains(buttons, b => b.TextContent.Contains("Decline"));
+    }
+
+    [Fact]
+    public void Renders_Manage_Button_When_Choices_Is_AcceptDenyManage_And_Items_Not_Empty()
+    {
+        // Arrange
+        var items = new[] { new CookieItem() };
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.Choices, CookieChoices.AcceptDenyManage)
+            .Add(p => p.Items, items)
+        );
+
+        // Act
+        var manageButton = component.FindAll("button").FirstOrDefault(b => b.TextContent.Contains("Manage"));
+
+        // Assert
+        Assert.NotNull(manageButton);
+    }
 }

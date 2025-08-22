@@ -806,7 +806,87 @@
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.CookieLabels">
             <summary>
-            
+            Represents the labels used in a cookie consent component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Default">
+            <summary>
+            Gets the default instance of the <see cref="T:FluentUI.Blazor.Community.Components.CookieLabels"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.French">
+            <summary>
+            Gets the french instance of the <see cref="T:FluentUI.Blazor.Community.Components.CookieLabels"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Title">
+            <summary>
+            Gets or sets the title of the cookie consent dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.PrimaryDescription">
+            <summary>
+            Gets or sets the primary description of the cookie consent dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.SecondaryDescription">
+            <summary>
+            Gets or sets the secondary description of the cookie consent dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Accept">
+            <summary>
+            Gets or sets the label for the accept button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Decline">
+            <summary>
+            Gets or sets the label for the decline button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.ManageCookies">
+            <summary>
+            Gets or sets the label for the manage cookies button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.PrivacyStatement">
+            <summary>
+            Gets or sets the label for the privacy statement link.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.ThirdPartyCookies">
+            <summary>
+            Gets or sets the label for third-party cookies section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.ManageCookiesTitle">
+            <summary>
+            Gets or sets the title for the manage cookies dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.SaveChanges">
+            <summary>
+            Gets or sets the label for the save changes button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Cancel">
+            <summary>
+            Gets or sets the label for the cancel button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.GoogleAnalyticsDescription">
+            <summary>
+            Gets or sets the description for Google Analytics cookies.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.ShowCookieDialogTitle">
+            <summary>
+            Gets or sets the title for the button that shows the cookie dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.HideCookieDialogTitle">
+            <summary>
+            Gets or sets the title for the button that hides the cookie dialog.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.CookieView">
@@ -954,13 +1034,14 @@
             Gets or sets the position of the open button.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.IsOpenButtonVisible">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.OpenConsentVisibility">
             <summary>
             Gets or sets a value indicating whether the open button is visible or not.
             </summary>
             <remarks>
-            When this property is set to <c>true</c>, the user can open the cookie dialog again to change his cookie preferences.
-            But the button will only be visible after the first time the cookie was rejected or accepted.
+            When this property is set to <see cref="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.Always" />, the user can open the cookie dialog again to change his cookie preferences.
+            When this property is set to <see cref="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.Never" />, the user cannot open the cookie dialog again after he accepted or declined the cookies.
+            When this property is set to <see cref="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.WhenFirstHidden" />, the user can open the cookie dialog again only if he accepted or declined the cookies the first time.
             </remarks>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.CloseButtonIcon">
@@ -971,6 +1052,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.OpenButtonIcon">
             <summary>
             Gets or sets the icon of the open button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.RelativeContainerId">
+            <summary>
+            Gets or sets the id of the container to which the dialog is relative.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.InternalCss">
@@ -1068,6 +1154,26 @@
             Closes the dialog with an ok result.
             </summary>
             <returns>Returns a task which closes the dialog with an ok result.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.OpenCookieVisibility">
+            <summary>
+            Represents the visibility options for the open button in a cookie consent component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.Always">
+            <summary>
+            The open button is always visible.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.Never">
+            <summary>
+            The open button is never visible.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.WhenFirstHidden">
+            <summary>
+            The open button is visible only when the first cookie consent banner is hidden.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.Browser">
             <summary>

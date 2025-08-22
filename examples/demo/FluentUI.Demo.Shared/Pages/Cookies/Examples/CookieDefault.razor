@@ -1,6 +1,6 @@
 ﻿@inject IToastService ToastService
 
-<div style="height: 950px">
+<div id="relative-container" style="height: 750px;">
     <FluentGrid>
         <FluentGridItem>
             <FluentSelect Label="View" @bind-Value=_view TOption="string">
@@ -10,10 +10,18 @@
         </FluentGridItem>
 
         <FluentGridItem>
-            <FluentSelect Label="Capabilities" @bind-Value=_capabilities TOption="string">
+            <FluentSelect Label="Choices" @bind-Value=_capabilities TOption="string">
                 <FluentOption Value="AcceptOnly" Selected>Accept only</FluentOption>
                 <FluentOption Value="AcceptDeny">Accept & deny</FluentOption>
                 <FluentOption Value="AcceptDenyManage">Accept, deny & manage cookies</FluentOption>
+            </FluentSelect>
+        </FluentGridItem>
+
+        <FluentGridItem>
+            <FluentSelect Label="Open cookie button visibility" @bind-Value=_openConsentVisibility TOption="string">
+                <FluentOption Value="@OpenCookieVisibility.Always.ToString()" Selected>Always</FluentOption>
+                <FluentOption Value="@OpenCookieVisibility.Never.ToString()">Never</FluentOption>
+                <FluentOption Value="@OpenCookieVisibility.WhenFirstHidden.ToString()">When first hidden</FluentOption>
             </FluentSelect>
         </FluentGridItem>
 
@@ -37,6 +45,8 @@
                     PrivacyStatementUrl="@_privacyStatementUrl"
                     ThirdPartyCookiesUrl="@_thirdPartyCookieUrl"
                     Items="@GetItems()"
+                    Modal=false
+                    RelativeContainerId="relative-container"
                     OnInitActiveCookie="@OnInitCookie"
                     @ref=_fluentCxCookie />
 </div>
@@ -47,6 +57,7 @@
     private string? _privacyStatementUrl;
     private string? _thirdPartyCookieUrl;
     private FluentCxCookie? _fluentCxCookie;
+    private string _openConsentVisibility = OpenCookieVisibility.Always.ToString();
 
     private IEnumerable<CookieItem> GetItems()
     {
