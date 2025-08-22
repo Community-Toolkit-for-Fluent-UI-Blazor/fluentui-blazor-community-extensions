@@ -1,0 +1,164 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (_showCookieDialog)
+{
+    <FluentCxMediaQuery OnMediaChanged="@(p => _isMobile = p)"
+                        Query="(max-width: 640px)" />
+    if (Modal)
+    {
+        <FluentOverlay Transparent=false
+                       FullScreen
+                       Dismissable=false
+                       Opacity="0.6"/>
+    }
+
+    <div id="@Id" class="@InternalCss" style="@InternalStyle">
+        <FluentCard>
+            @if (View == CookieView.Default)
+            {
+                if (DefaultViewContent is not null)
+                {
+                    @DefaultViewContent
+                }
+                else
+                {
+                    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+                        <FluentStack Style="height: 100%" HorizontalAlignment="HorizontalAlignment.Center" Orientation="Orientation.Vertical">
+                            <FluentStack HorizontalAlignment=HorizontalAlignment.Center
+                                         Style="margin-bottom: 20px"
+                                         Orientation="Orientation.Vertical">
+                                <FluentEmoji Value="@(CookieEmoji)" Width="150px" />
+
+                                <FluentLabel Typo=Typography.H1 Weight="FontWeight.Bold">@Labels.Title</FluentLabel>
+                            </FluentStack>
+
+                            <FluentLabel>@Labels.PrimaryDescription</FluentLabel>
+
+                            <FluentLabel>@Labels.SecondaryDescription</FluentLabel>
+                        </FluentStack>
+
+                        @_renderActionButtons
+
+                        @if (!string.IsNullOrEmpty(PrivacyStatementUrl) || !string.IsNullOrEmpty(ThirdPartyCookiesUrl))
+                        {
+                            <FluentStack HorizontalAlignment="HorizontalAlignment.Center">
+                                @if (!string.IsNullOrEmpty(PrivacyStatementUrl))
+                                {
+                                    <FluentAnchor Href="@PrivacyStatementUrl"
+                                                  Appearance="Appearance.Hypertext">
+                                        @Labels.PrivacyStatement
+                                    </FluentAnchor>
+
+                                }
+
+                                @if (!string.IsNullOrEmpty(ThirdPartyCookiesUrl))
+                                {
+                                    <FluentAnchor Href="@ThirdPartyCookiesUrl"
+                                                  Appearance="Appearance.Hypertext">
+                                        @Labels.ThirdPartyCookies
+                                    </FluentAnchor>
+
+                                }
+                            </FluentStack>
+                        }
+                    </FluentStack>
+                }
+            }
+            else if (View == CookieView.Small)
+            {
+                @if (SmallViewContent is not null)
+                {
+                    @SmallViewContent
+                }
+                else
+                {
+                    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+                        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                            <FluentEmoji Value="@(CookieEmoji)" Width="36px" />
+                            <FluentLabel Typo=Typography.Subject Weight="FontWeight.Bold">@Labels.Title</FluentLabel>
+                        </FluentStack>
+
+                        <FluentLabel Style="height: 100%">
+                            @Labels.PrimaryDescription
+                        </FluentLabel>
+
+                        @_renderActionButtons
+
+                        @if (!string.IsNullOrEmpty(PrivacyStatementUrl) ||
+                                    !string.IsNullOrEmpty(ThirdPartyCookiesUrl))
+                        {
+                            <FluentStack HorizontalAlignment="HorizontalAlignment.Center">
+                                @if (!string.IsNullOrEmpty(PrivacyStatementUrl))
+                                {
+                                    <FluentAnchor Href="@PrivacyStatementUrl"
+                                                  Appearance="Appearance.Hypertext">
+                                        @Labels.PrivacyStatement
+                                    </FluentAnchor>
+
+                                }
+
+                                @if (!string.IsNullOrEmpty(ThirdPartyCookiesUrl))
+                                {
+                                    <FluentAnchor Href="@ThirdPartyCookiesUrl"
+                                                  Appearance="Appearance.Hypertext">
+                                        @Labels.ThirdPartyCookies
+                                    </FluentAnchor>
+
+                                }
+                            </FluentStack>
+                        }
+                    </FluentStack>
+                }
+            }
+        </FluentCard>
+    </div>
+}
+
+@code {
+    public FluentCxCookie()
+    {
+        Id = Identifier.NewId();
+
+        _renderActionButtons = __builder =>
+        {
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Right"
+                         VerticalAlignment="VerticalAlignment.Bottom"
+                         HorizontalGap="0">
+                @if (Choices == CookieChoices.AcceptDenyManage && Items.Any())
+                {
+                    <FluentButton OnClick=@OnManageCookiesAsync
+                                  Style="width: 120px"
+                                  Appearance="Appearance.Neutral">
+                        @Labels.ManageCookies
+                    </FluentButton>
+
+                    <FluentSpacer Width="20" />
+                }
+          
+                @if (Choices == CookieChoices.AcceptDeny ||
+                     Choices == CookieChoices.AcceptDenyManage)
+                {
+                    <FluentButton OnClick=@OnDeclineAsync
+                                  Style="width: 120px"
+                                  Appearance="Appearance.Neutral">
+                        @Labels.Decline
+                    </FluentButton>
+
+                    <FluentSpacer Width="20" />
+                }
+
+                @if (Choices == CookieChoices.AcceptOnly ||
+                     Choices == CookieChoices.AcceptDeny ||
+                     Choices == CookieChoices.AcceptDenyManage)
+                {
+                    <FluentButton OnClick=@OnAcceptAsync
+                                  Style="width: 120px"
+                                  Appearance="Appearance.Accent">
+                        @Labels.Accept
+                    </FluentButton>
+                }
+            </FluentStack>
+        };
+    }
+}
