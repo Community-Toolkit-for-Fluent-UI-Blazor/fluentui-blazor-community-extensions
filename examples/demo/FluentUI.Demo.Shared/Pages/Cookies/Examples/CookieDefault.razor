@@ -1,0 +1,87 @@
+﻿@inject IToastService ToastService
+
+<div style="height: 950px">
+    <FluentGrid>
+        <FluentGridItem>
+            <FluentSelect Label="View" @bind-Value=_view TOption="string">
+                <FluentOption Value="Default" Selected>Default</FluentOption>
+                <FluentOption Value="Small">Small</FluentOption>
+            </FluentSelect>
+        </FluentGridItem>
+
+        <FluentGridItem>
+            <FluentSelect Label="Capabilities" @bind-Value=_capabilities TOption="string">
+                <FluentOption Value="AcceptOnly" Selected>Accept only</FluentOption>
+                <FluentOption Value="AcceptDeny">Accept & deny</FluentOption>
+                <FluentOption Value="AcceptDenyManage">Accept, deny & manage cookies</FluentOption>
+            </FluentSelect>
+        </FluentGridItem>
+
+        <FluentGridItem>
+            <FluentTextField Label="Privacy statement url" @bind-Value=_privacyStatementUrl Immediate />
+        </FluentGridItem>
+
+        <FluentGridItem>
+            <FluentTextField Label="Third-party Cookie url" @bind-Value=_thirdPartyCookieUrl Immediate />
+        </FluentGridItem>
+
+        <FluentGridItem>
+            <FluentButton OnClick=OnDeleteCookieAsync Appearance="Appearance.Neutral">
+                Delete cookies
+            </FluentButton>
+        </FluentGridItem>
+    </FluentGrid>
+
+    <FluentCxCookie View="@(Enum.Parse<CookieView>(_view))"
+                    Choices="@(Enum.Parse<CookieChoices>(_capabilities))"
+                    PrivacyStatementUrl="@_privacyStatementUrl"
+                    ThirdPartyCookiesUrl="@_thirdPartyCookieUrl"
+                    Items="@GetItems()"
+                    OnInitActiveCookie="@OnInitCookie"
+                    @ref=_fluentCxCookie />
+</div>
+
+@code {
+    private string _view = "Default";
+    private string _capabilities = "AcceptOnly";
+    private string? _privacyStatementUrl;
+    private string? _thirdPartyCookieUrl;
+    private FluentCxCookie? _fluentCxCookie;
+
+    private IEnumerable<CookieItem> GetItems()
+    {
+        return new[]
+        {
+            new CookieItem()
+            {
+                Name = "Advertising",
+                Title = "Advertising targeting",
+                Description = "These cookies allow us to offer you personalized advertisements based on your interests, browsing, and online behavior. They are used to limit the number of times the same advertisement is shown, measure the effectiveness of advertising campaigns, and show you more relevant ads on this site and elsewhere on the web."
+            },
+
+            new CookieItem()
+            {
+                Name = "Performance",
+                Title = "Performance",
+                Description = "These cookies are essential for measuring and improving the performance of our application. They collect anonymous data on how you use the site — such as loading times, errors encountered, or the most used features. With this information, we can optimize the stability, speed, and efficiency of our service, in order to provide you with a smooth and reliable experience."
+            }
+        };
+    }
+
+    private void OnInitCookie(string activeCookieName)
+    {
+        ToastService.ShowToast(
+            ToastIntent.Info,
+            $"This cookie is active and need to be managed on your side : {activeCookieName}");
+    }
+
+    private async Task OnDeleteCookieAsync()
+    {
+        if (_fluentCxCookie is not null)
+        {
+            await _fluentCxCookie.DeleteCookieAsync();
+            ToastService.ShowToast(ToastIntent.Success, "All cookies have been deleted.");
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

@@ -1,0 +1,65 @@
+﻿@page "/cookies"
+@using FluentUI.Demo.Shared.Pages.Cookies.Examples
+
+<h1>Cookies</h1>
+
+<p>
+    The <code>FluentCxCookie</code> component allows the management of the cookies.
+
+    The component has two views :
+
+    <ul>
+        <li>
+            <strong>Default</strong> : The component is centerd on the screen like a dialog.
+        </li>
+
+        <li>
+            <strong>Small</strong> : The component is displayed on the bottom right corner of the screen.
+        </li>
+    </ul>
+
+    The user can build its own design with these two parameters :
+
+    <ul>
+        <li>DefaultViewContent</li>
+        <li>SmallViewContent</li>
+    </ul>
+
+    The user can create CookieItem like this :
+
+    <code>
+        <pre>
+        var cookie = new CookieItem()
+        {   
+            Name = "Advertising",
+            Title = "Advertising targeting",
+            Description = "These cookies allow us to offer you personalized advertisements based on your interests, browsing, and online behavior. They are used to limit the number of times the same advertisement is shown, measure the effectiveness of advertising campaigns, and show you more relevant ads on this site and elsewhere on the web."
+        };
+
+        var cookie2 = new CookieItem()
+        {
+            Name = "Performance",
+            Title = "Performance",
+            Description = "These cookies are essential for measuring and improving the performance of our application. They collect anonymous data on how you use the site — such as loading times, errors encountered, or the most used features. With this information, we can optimize the stability, speed, and efficiency of our service, in order to provide you with a smooth and reliable experience."
+        };
+        </pre>
+    </code>
+
+    The only thing to do is to set the OnActiveItemCallback to receive all activated cookies and handle them on your side.
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(CookieDefault)" Title="Default">
+    <Description>
+        The FluentCxCookie component reduce the amount of work to handle cookies.
+    </Description>
+</DemoSection>
+
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(FluentCxCookie)" />
+<ApiDocumentation Component="typeof(CookieItem)" />
+<ApiDocumentation Component="typeof(CookieItemView)" />
+<ApiDocumentation Component="typeof(ManageCookie)" />

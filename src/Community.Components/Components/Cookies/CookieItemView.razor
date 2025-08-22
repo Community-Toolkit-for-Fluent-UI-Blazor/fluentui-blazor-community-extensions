@@ -1,0 +1,50 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Item is not null)
+{
+    if(Template is not null)
+    {
+        @Template(Item)
+    }
+    else
+    {
+        <FluentStack>
+            <FluentSpacer Width="30" />
+
+            <FluentStack Style="height: 100%"
+                         HorizontalAlignment=HorizontalAlignment.Center
+                         Orientation="Orientation.Vertical">
+                <FluentLabel Weight=FontWeight.Bold Style="margin-bottom: 30px;" Typo="Typography.H1">
+                    @Item.Title
+                </FluentLabel>
+
+                @if (!string.IsNullOrEmpty(Item.Description))
+                {
+                    <div style="height: 100%; overflow-y: auto">
+                        @((MarkupString)Item.Description)
+                    </div>
+                }
+
+                <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalAlignment="VerticalAlignment.Bottom">
+                    <FluentRadioGroup Style="margin-bottom: 12px"
+                                      Name="AcceptCookie"
+                                      Disabled=@Item.Disabled
+                                      @bind-Value="@Item.IsActive"
+                                      @bind-Value:after=@OnActivationChangedAsync>
+                        <FluentRadio Value="true">@AcceptLabel</FluentRadio>
+                        <FluentRadio Value="false">@DeclineLabel</FluentRadio>
+                    </FluentRadioGroup>
+                </FluentStack>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            @if (ShowDivider)
+            {
+                <FluentDivider Orientation="Orientation.Vertical" />
+            }
+        </FluentStack>
+    }
+}
