@@ -138,6 +138,12 @@ public partial class FluentCxCookie
     public string? GoogleAnalyticsId { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the dialog is modal or not.
+    /// </summary>
+    [Parameter]
+    public bool Modal { get; set; } = true;
+
+    /// <summary>
     /// Gets the css to use for the dialog.
     /// </summary>
     private string? InternalCss => new CssBuilder(Class)

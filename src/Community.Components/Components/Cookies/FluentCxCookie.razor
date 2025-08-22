@@ -3,6 +3,14 @@
 
 @if (_showCookieDialog)
 {
+    if (Modal)
+    {
+        <FluentOverlay Transparent=false
+                       FullScreen
+                       Dismissable=false
+                       Opacity="0.6"/>
+    }
+
     <div id="@Id" class="@InternalCss" style="@InternalStyle">
         <FluentCard>
             @if (View == CookieView.Default)

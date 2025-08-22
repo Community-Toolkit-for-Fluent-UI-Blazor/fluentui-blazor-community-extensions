@@ -939,6 +939,11 @@
             Gets or sets the Google analytics id.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.Modal">
+            <summary>
+            Gets or sets a value indicating whether the dialog is modal or not.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.InternalCss">
             <summary>
             Gets the css to use for the dialog.
