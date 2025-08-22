@@ -834,6 +834,11 @@
             Represents a value that show the dialog or not.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._isMobile">
+            <summary>
+            Represents a value indicating whether the device is mobile or not.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie.JavascriptFilename">
             <summary>
             Represents the javascript file to load.

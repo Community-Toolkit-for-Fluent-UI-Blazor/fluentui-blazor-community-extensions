@@ -17,6 +17,11 @@ public partial class FluentCxCookie
     private bool _showCookieDialog;
 
     /// <summary>
+    /// Represents a value indicating whether the device is mobile or not.
+    /// </summary>
+    private bool _isMobile;
+
+    /// <summary>
     /// Represents the javascript file to load.
     /// </summary>
     private const string JavascriptFilename = "./_content/FluentUI.Blazor.Community.Components/Components/Cookies/FluentCxCookie.razor.js";
@@ -157,6 +162,7 @@ public partial class FluentCxCookie
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("--cookie-width", Width, !string.IsNullOrEmpty(Width))
         .AddStyle("--cookie-height", Height, !string.IsNullOrEmpty(Height))
+        .AddStyle("--cookie-width", "97%", string.IsNullOrEmpty(Width) && View == CookieView.Default && _isMobile)
         .Build();
 
     /// <summary>

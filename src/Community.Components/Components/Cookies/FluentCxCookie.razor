@@ -3,6 +3,8 @@
 
 @if (_showCookieDialog)
 {
+    <FluentCxMediaQuery OnMediaChanged="@(p => _isMobile = p)"
+                        Query="(max-width: 640px)" />
     if (Modal)
     {
         <FluentOverlay Transparent=false

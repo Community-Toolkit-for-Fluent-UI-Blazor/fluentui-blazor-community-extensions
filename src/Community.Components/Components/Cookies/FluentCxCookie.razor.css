@@ -4,7 +4,8 @@
   top: 50%;
   transform: translate(-50%, -50%);
   width: var(--cookie-width, 50%);
-  height: var(--cookie-height, 50%);
+  height: var(--cookie-height, auto);
+  z-index: 9901;
 }
 
 .cookie-small {
@@ -13,5 +14,5 @@
   bottom: 16px;
   width: var(--cookie-width, 500px);
   height: var(--cookie-height, 250px);
-  z-index: 997;
+  z-index: 9901;
 }
