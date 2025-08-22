@@ -10,7 +10,7 @@
                    @bind-Visible=_showCookieDialog />
 }
 
-@if (IsOpenButtonVisible)
+@if (IsOpenButtonVisible && _cookieState != null)
 {
     <FluentCxFloatingButton Position="OpenButtonPosition"
                             IconStart="@(_showCookieDialog ? CloseButtonIcon : OpenButtonIcon)"

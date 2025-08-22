@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Tests;
+using Microsoft.JSInterop;
 using Moq;
 
 namespace FluentUI.Blazor.Community.Components.Tests.Components.Cookies;
@@ -175,6 +176,28 @@ public class FluentCxCookieTests : TestBase
         JSInterop.VerifyInvoke("setCookiePolicy", 1);
 
         Assert.Contains("Another cookie", called);
+    }
+
+    [Fact]
+    public async Task DeleteCookieAsync_Should_Invoke_DeleteCookiePolicy_And_ShowDialog()
+    {
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Cookies/FluentCxCookie.razor.js");
+        mockModule.SetupVoid("deleteCookiePolicy").SetVoidResult();
+
+        var comp = RenderComponent<FluentCxCookie>();
+
+        // Act
+        var task = comp.Instance.GetType().GetMethod("DeleteCookieAsync", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)!
+            .Invoke(comp.Instance, null) as Task;
+
+        if (task is not null)
+        {
+            await task;
+        }
+
+        // Assert
+        JSInterop.VerifyInvoke("import", 2);
+        JSInterop.VerifyInvoke("deleteCookiePolicy", 1);
     }
 
     [Fact]
