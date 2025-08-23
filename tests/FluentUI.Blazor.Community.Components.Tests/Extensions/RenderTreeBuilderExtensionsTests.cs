@@ -18,10 +18,12 @@ public class RenderTreeBuilderExtensionsTests
         // Arrange
         var builder = new RenderTreeBuilder();
         var sequence = 123;
-        RenderFragment fragment = b => b.AddContent(0, "Test content");
+        RenderFragment fragment = b => b.AddContent(1, "Test content");
 
         // Act
+        builder.OpenComponent<FluentCxSleekDial>(0);
         builder.AddChildContent(sequence, fragment);
+        builder.CloseElement();
 
         // Assert
         var frames = builder.GetFrames().Array;
@@ -37,11 +39,12 @@ public class RenderTreeBuilderExtensionsTests
     {
         // Arrange
         var builder = new RenderTreeBuilder();
-        var sequence = 42;
         RenderFragment fragment = null;
 
         // Act
-        builder.AddChildContent(sequence, fragment);
+        builder.OpenComponent<FluentCxSleekDial>(0);
+        builder.AddChildContent(1, fragment);
+        builder.CloseElement();
 
         // Assert
         var frames = builder.GetFrames().Array;
@@ -61,7 +64,10 @@ public class RenderTreeBuilderExtensionsTests
         RenderFragment fragment = b => b.AddContent(0, "Another content");
 
         // Act
+        builder.OpenComponent<FluentCxSleekDial>(0);
         builder.AddChildContent(sequence, fragment);
+        builder.CloseComponent();
+
 
         // Assert
         var frames = builder.GetFrames().Array;
