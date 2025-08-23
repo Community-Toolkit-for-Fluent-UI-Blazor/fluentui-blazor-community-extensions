@@ -914,6 +914,11 @@
             Represents a value that show the dialog or not.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._manageCookieVisible">
+            <summary>
+            Gets or sets a value indicating whether the open button is disabled when the manage cookies dialog is visible.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._isMobile">
             <summary>
             Represents a value indicating whether the device is mobile or not.

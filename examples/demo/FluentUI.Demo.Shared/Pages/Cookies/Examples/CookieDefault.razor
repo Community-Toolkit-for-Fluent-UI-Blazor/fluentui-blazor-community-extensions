@@ -1,7 +1,7 @@
 ﻿@inject IToastService ToastService
 
-<div id="relative-container" style="height: 750px;">
-    <FluentGrid>
+<div style="height: 750px;">
+    <FluentGrid Style="margin-bottom: 20px">
         <FluentGridItem xs="3"
                         sm="3"
                         lg="3"
@@ -80,19 +80,29 @@
                 Delete cookies
             </FluentButton>
         </FluentGridItem>
+
+        <FluentGridItem xs="3"
+                        sm="3"
+                        lg="3"
+                        xl="3"
+                        xxl="3">
+            <FluentSwitch @bind-Value=_modal Label="Modal" />
+        </FluentGridItem>
     </FluentGrid>
 
-    <FluentCxCookie View="@(Enum.Parse<CookieView>(_view))"
-                    Choices="@(Enum.Parse<CookieChoices>(_capabilities))"
-                    OpenConsentVisibility="@(Enum.Parse<OpenCookieVisibility>(_openConsentVisibility))"
-                    OpenButtonPosition="@(Enum.Parse<FloatingPosition>(_openConsentPosition))"
-                    PrivacyStatementUrl="@_privacyStatementUrl"
-                    ThirdPartyCookiesUrl="@_thirdPartyCookieUrl"
-                    Items="@GetItems()"
-                    Modal=false
-                    RelativeContainerId="relative-container"
-                    OnInitActiveCookie="@OnInitCookie"
-                    @ref=_fluentCxCookie />
+    <div id="relative-container" style="height: 550px; position: relative">
+        <FluentCxCookie View="@(Enum.Parse<CookieView>(_view))"
+                        Choices="@(Enum.Parse<CookieChoices>(_capabilities))"
+                        OpenConsentVisibility="@(Enum.Parse<OpenCookieVisibility>(_openConsentVisibility))"
+                        OpenButtonPosition="@(Enum.Parse<FloatingPosition>(_openConsentPosition))"
+                        PrivacyStatementUrl="@_privacyStatementUrl"
+                        ThirdPartyCookiesUrl="@_thirdPartyCookieUrl"
+                        Items="@GetItems()"
+                        Modal=@_modal
+                        RelativeContainerId="relative-container"
+                        OnInitActiveCookie="@OnInitCookie"
+                        @ref=_fluentCxCookie />
+    </div>
 </div>
 
 @code {
@@ -103,6 +113,7 @@
     private FluentCxCookie? _fluentCxCookie;
     private string _openConsentVisibility = OpenCookieVisibility.Always.ToString();
     private string _openConsentPosition = FloatingPosition.BottomLeft.ToString();
+    private bool _modal;
 
     private IEnumerable<CookieItem> GetItems()
     {

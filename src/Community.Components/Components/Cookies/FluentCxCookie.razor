@@ -4,14 +4,13 @@
 @if (Modal)
 {
     <FluentOverlay Transparent=false
-                   FullScreen
                    Dismissable=false
-                   Opacity="0.6"
                    @bind-Visible=_showCookieDialog />
 }
 
 @if ((OpenConsentVisibility == OpenCookieVisibility.WhenFirstHidden && _cookieState != null) ||
-     OpenConsentVisibility == OpenCookieVisibility.Always)
+     OpenConsentVisibility == OpenCookieVisibility.Always &&
+     !_manageCookieVisible)
 {
     <FluentCxFloatingButton Position="OpenButtonPosition"
                             IconStart="@(_showCookieDialog ? CloseButtonIcon : OpenButtonIcon)"
