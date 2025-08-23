@@ -16,7 +16,7 @@ internal static class RenderTreeBuilderExtensions
     /// <param name="renderFragment">RenderFragment which represents the child content.</param>
     public static void AddChildContent(this RenderTreeBuilder renderTreeBuilder,
                                        int sequence,
-                                       RenderFragment renderFragment)
+                                       RenderFragment? renderFragment)
     {
         renderTreeBuilder.AddComponentParameter(sequence, "ChildContent", renderFragment);
     }
