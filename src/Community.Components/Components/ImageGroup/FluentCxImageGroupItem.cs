@@ -29,6 +29,12 @@ public class FluentCxImageGroupItem
     public string? Alt { get; set; }
 
     /// <summary>
+    /// Gets or sets the title property.
+    /// </summary>
+    [Parameter]
+    public string? Title { get; set; }
+
+    /// <summary>
     /// Gets the parent of the component.
     /// </summary>
     [CascadingParameter]
@@ -75,10 +81,13 @@ public class FluentCxImageGroupItem
     protected override void OnInitialized()
     {
         base.OnInitialized();
+
         if (Parent is null)
         {
             throw new InvalidOperationException("FluentCxImageGroupItem must be used inside a FluentCxImageGroup component.");
         }
+
+        Parent.Add(this);
 
         InternalRenderer = builder =>
         {
@@ -86,20 +95,10 @@ public class FluentCxImageGroupItem
             builder.AddAttribute(1, "src", Source);
             builder.AddAttribute(2, "alt", Alt);
             builder.AddAttribute(3, "style", InternalStyle);
+            builder.AddAttribute(4, "title", Title);
             builder.CloseElement();
         };
 
-    }
-
-    /// <inheritdoc />
-    protected override void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-
-        if (firstRender)
-        {
-            Parent.Add(this);
-        }
     }
 
     /// <inheritdoc />

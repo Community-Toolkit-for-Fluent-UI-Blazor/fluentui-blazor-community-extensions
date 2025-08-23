@@ -88,7 +88,7 @@ public partial class FluentCxImageGroup
     internal void Add(FluentCxImageGroupItem imageGroupItem)
     {
         _children.Add(imageGroupItem);
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public partial class FluentCxImageGroup
     internal void Remove(FluentCxImageGroupItem imageGroupItem)
     {
         _children.Remove(imageGroupItem);
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -171,11 +171,5 @@ public partial class FluentCxImageGroup
     protected internal virtual void OnItemParemetersChanged(FluentCxImageGroupItem imageGroupItem)
     {
         StateHasChanged();
-    }
-
-    /// <inheritdoc />
-    public override async Task SetParametersAsync(ParameterView parameters)
-    {
-        await base.SetParametersAsync(parameters);
     }
 }

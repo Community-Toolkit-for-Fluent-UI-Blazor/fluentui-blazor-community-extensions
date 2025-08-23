@@ -6132,9 +6132,6 @@
             </summary>
             <param name="imageGroupItem">Image which the parameters have changed.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem">
             <summary>
             Represents an image.
@@ -6153,6 +6150,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Alt">
             <summary>
             Gets or sets the alt property.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Title">
+            <summary>
+            Gets or sets the title property.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Parent">
@@ -6180,9 +6182,6 @@
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnAfterRender(System.Boolean)">
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnParametersSet">
