@@ -99,7 +99,7 @@
   right: 0px;
 }
 
-sleekdialitem-radial-bottom[b-nupc10y2mj] {
+.sleekdialitem-radial-bottom[b-nupc10y2mj] {
     bottom: 0px;
 }
 /* _content/FluentUI.Blazor.Community.Components/Components/SleekDial/SleekDialPopup.razor.rz.scp.css */
@@ -259,7 +259,7 @@ sleekdialitem-radial-bottom[b-nupc10y2mj] {
 }
 
 .sleekdial-popup-radial-bottom[b-r91sbni5ka] {
-  top: var(--sleekdial-vertical-offset);
+  bottom: 16px;
 }
 
 .sleekdial-popup-radial-left[b-r91sbni5ka] {
