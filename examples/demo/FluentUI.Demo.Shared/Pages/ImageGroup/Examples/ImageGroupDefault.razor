@@ -16,7 +16,7 @@
                     <FluentSelect Items="@(Enum.GetValues<ImageSize>())"
                                   Label="Size of the image"
                                   AriaLabel="Size of the image"
-                                  @bind-SelectedOption="_imageSize"/>
+                                  @bind-SelectedOption="ImageSize"/>
                 </FluentStack>
             </FluentGridItem>
             <FluentGridItem>
@@ -38,7 +38,7 @@
             </FluentGridItem>
         </FluentGrid>
 
-        <FluentCxImageGroup Size="@_imageSize"
+        <FluentCxImageGroup Size="@ImageSize"
                             Shape="@_imageShape"
                             GroupLayout=@_imageLayout
                             BorderStyle="2px solid black"
@@ -70,8 +70,8 @@
 </div>
 
 @code {
-    private ImageSize _imageSize = ImageSize.Size32;
-    private ImageShape _imageShape = ImageShape.Square;
+    private ImageSize ImageSize { get; set; } = ImageSize.Size32;
+    private ImageShape _imageShape { get; set; } = ImageShape.Square;
     private int _maxItemVisible = 3;
     private ImageGroupLayout _imageLayout = ImageGroupLayout.Spread;
 }

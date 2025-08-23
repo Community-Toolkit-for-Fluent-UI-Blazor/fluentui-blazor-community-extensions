@@ -15,7 +15,7 @@
 
             @if(_children.Count > VisibleCount)
             {
-                <FluentButton Id="@($"ImageGroupPopover{Id}")" 
+                <FluentButton Id="@($"ImageGroupPopover{Id}")"
                               Style="@GetButtonStyle()"
                               Appearance="Appearance.Neutral"
                               OnClick="@(() => _isPopoverOpen = !_isPopoverOpen)">

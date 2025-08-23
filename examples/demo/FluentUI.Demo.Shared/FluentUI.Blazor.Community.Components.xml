@@ -6140,11 +6140,6 @@
             Represents an image.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._isRendered">
-            <summary>
-            Represents a value indicating if the component is rendered on the screen.
-            </summary>
-        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._hasParameterChanged">
             <summary>
             Represents a value indicating if a parameter has changed.
@@ -6183,12 +6178,6 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.DisposeAsync">
             <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.SetGroupSize(System.Int32)">
-            <summary>
-            Sets the size of the image.
-            </summary>
-            <param name="size">Size of the image.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnInitialized">
             <inheritdoc />

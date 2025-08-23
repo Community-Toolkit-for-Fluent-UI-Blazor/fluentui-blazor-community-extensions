@@ -12,18 +12,9 @@ public class FluentCxImageGroupItem
     : FluentComponentBase, IAsyncDisposable
 {
     /// <summary>
-    /// Represents a value indicating if the component is rendered on the screen.
-    /// </summary>
-    private bool _isRendered;
-
-    /// <summary>
     /// Represents a value indicating if a parameter has changed.
     /// </summary>
     private bool _hasParameterChanged;
-
-    private int? _width;
-
-    private int? _height;
 
     /// <summary>
     /// Gets or sets the source of the image.
@@ -47,8 +38,8 @@ public class FluentCxImageGroupItem
     /// Gets the style of the component.
     /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
-        .AddStyle("width", $"{_width}px", _width is not null)
-        .AddStyle("height", $"{_height}px", _height is not null)
+        .AddStyle("width", $"{(int)Parent.Size}px")
+        .AddStyle("height", $"{(int)Parent.Size}px")
         .AddStyle("margin-left", GetMarginLeft())
         .AddStyle("border-radius", $"{Parent.Shape.ToBorderRadius()}")
         .AddStyle("background-color", Parent.BackgroundStyle, !string.IsNullOrEmpty(Parent.BackgroundStyle) && string.IsNullOrWhiteSpace(Style))
@@ -80,17 +71,6 @@ public class FluentCxImageGroupItem
         return ValueTask.CompletedTask;
     }
 
-    /// <summary>
-    /// Sets the size of the image.
-    /// </summary>
-    /// <param name="size">Size of the image.</param>
-    internal void SetGroupSize(int size)
-    {
-        _width = size;
-        _height = size;
-        Parent.OnItemParemetersChanged(this);
-    }
-
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -108,6 +88,7 @@ public class FluentCxImageGroupItem
             builder.AddAttribute(3, "style", InternalStyle);
             builder.CloseElement();
         };
+
     }
 
     /// <inheritdoc />
@@ -118,7 +99,6 @@ public class FluentCxImageGroupItem
         if (firstRender)
         {
             Parent.Add(this);
-            _isRendered = true;
         }
     }
 
@@ -127,8 +107,7 @@ public class FluentCxImageGroupItem
     {
         base.OnParametersSet();
 
-        if (_isRendered &&
-            _hasParameterChanged)
+        if (_hasParameterChanged)
         {
             Parent.OnItemParemetersChanged(this);
         }
