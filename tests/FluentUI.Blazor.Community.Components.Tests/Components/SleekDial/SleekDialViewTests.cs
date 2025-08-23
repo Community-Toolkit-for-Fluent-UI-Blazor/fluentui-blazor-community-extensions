@@ -6,23 +6,10 @@ public class SleekDialViewTests
     : TestBase
 {
     [Fact]
-    public void SleekDialView_CanBeInstantiated()
+    public void SleekDialView_WithNoParent_ThrowsInvalidOperationException()
     {
-        // Arrange & Act
-        var cut = RenderComponent<SleekDialView>();
-
         // Assert
-        Assert.NotNull(cut.Instance);
-    }
-
-    [Fact]
-    public void SleekDialView_WithNoParent_ReturnsEmptyMarkup()
-    {
-        // Arrange & Act
-        var cut = RenderComponent<SleekDialView>();
-
-        // Assert
-        Assert.Empty(cut.Markup);
+        Assert.Throws<InvalidOperationException>(()=>RenderComponent<SleekDialView>());
     }
 
     [Fact]

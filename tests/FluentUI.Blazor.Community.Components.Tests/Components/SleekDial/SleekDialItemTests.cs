@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Tests;
 using Moq;
 
 namespace FluentUI.Blazor.Community.Components.Tests.Components;
 
 public class SleekDialItemTests
+    : TestBase
 {
     [Fact]
     public void Dispose_Calls_RemoveChild_On_Parent()
@@ -76,6 +78,18 @@ public class SleekDialItemTests
 
         // Should not throw
         await item.OnClickAsync();
+    }
+
+    [Fact]
+    public void IsVisible_Raise_IsVisibleChanged_Callback()
+    {
+        var called = false;
+
+        var comp = RenderComponent<SleekDialItem>(
+            parameters => parameters.Add(p => p.IsVisibleChanged, new EventCallback<bool>(null, () => { called = true; }))
+                                    .Add(p => p.IsVisible, false));
+
+        Assert.True(called);
     }
 
     // Helpers
