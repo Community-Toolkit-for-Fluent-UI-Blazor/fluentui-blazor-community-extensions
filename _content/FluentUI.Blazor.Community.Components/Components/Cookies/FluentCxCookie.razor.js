@@ -1,3 +1,6 @@
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments) };
+
 const injectGAScript = (measurementId) => {
   // Load the Google tag manager script dynamically
   const script = document.createElement('script');
