@@ -7628,66 +7628,6 @@
             Fade and zoom animation.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipLeftDown">
-            <summary>
-            Flip left and down animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipLeftUp">
-            <summary>
-            Flip left and up animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipRightDown">
-            <summary>
-            Flip down and right animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipRightUp">
-            <summary>
-            Flip right and up animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipXDown">
-            <summary>
-            Flip on X axis and down animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipXUp">
-            <summary>
-            Flip on X axis and up animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipYLeft">
-            <summary>
-            Flip on Y axis and left animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipYRight">
-            <summary>
-            Flip on Y axis and right animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideBottom">
-            <summary>
-            Slide from top to bottom animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideLeft">
-            <summary>
-            Slide from right to left animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideRight">
-            <summary>
-            Slide from left to right animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideTop">
-            <summary>
-            Slide from bottom to top animation.
-            </summary>
-        </member>
         <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.Zoom">
             <summary>
             Zoom animation.
