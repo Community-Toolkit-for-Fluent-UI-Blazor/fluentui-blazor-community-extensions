@@ -1936,6 +1936,13 @@
             <param name="view">View used from the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.</param>
             <returns>Returns the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from its extension and its view.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.GetFolderFromGridViewOptions(FluentUI.Blazor.Community.Components.FileView)">
+            <summary>
+            Gets the folder <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from the <paramref name="view"/>.
+            </summary>
+            <param name="view">View used from the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.</param>
+            <returns>Returns the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from its view.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileIcons.GetIconForDetails(System.String,System.Boolean)">
             <summary>
             Gets the icons from the extension.
@@ -3593,6 +3600,13 @@
             Gets the icon from an extension and the current used view.
             </summary>
             <param name="extension">Extension of the file.</param>
+            <param name="options">Current used view.</param>
+            <returns>Returns the icons to render.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerBase`1.GetFolderIconFromGridViewOptions(FluentUI.Blazor.Community.Components.FileView)">
+            <summary>
+            Gets the folder icon from the current used view.
+            </summary>
             <param name="options">Current used view.</param>
             <returns>Returns the icons to render.</returns>
         </member>
@@ -5275,6 +5289,21 @@
             By default, the number is 4.
             </remarks>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SmartphoneSwitchViewWidth">
+            <summary>
+            Gets or sets the width of the component when the view is switched to smartphone.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SmartphoneSwitchViewWidthQuery">
+            <summary>
+            Gets the smartphone switch view width query.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.AcceptFilter">
+            <summary>
+            Gets the accept filter to use for the upload input.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SelectedItems">
             <summary>
             Gets the selected items.
@@ -5299,6 +5328,12 @@
             <summary>
             Gets a value indicating if the move button is disabled.
             </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.GetEntry">
+            <summary>
+            Gets the current entry to use depending of the view.
+            </summary>
+            <returns>Returns the entry to use depending of the view.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnMoveAsync">
             <summary>
@@ -5354,6 +5389,26 @@
             <param name="e">Event args for the created folder.</param>
             <returns>Returns a task which raised the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnFolderCreated"/> event callback when completed.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.UpdateTreeView(FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs{`0})">
+            <summary>
+            Updates the tree view when a folder is created.
+            </summary>
+            <param name="e">Event args of the created folder.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.FindPathBarItem(FluentUI.Blazor.Community.Components.IPathBarItem,System.String)">
+            <summary>
+            Finds a <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> by its id.
+            </summary>
+            <param name="root">Root of the path.</param>
+            <param name="id">Id to find.</param>
+            <returns>Returns <see langword="null" /> if the item wasn't found, the item otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.UpdatePathBar(FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs{`0})">
+            <summary>
+            Updates the path bar when a folder is created.
+            </summary>
+            <param name="e">Event args of the created folder.</param>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnShowDetailsAsync">
             <summary>
             Occurs when the user clicks on the show details button.
@@ -5378,6 +5433,12 @@
             </summary>
             <param name="values">Values use to transform each item into an instance of <see cref="T:FluentUI.Blazor.Community.Components.PathBarItem"/>.</param>
             <returns>Returns the list of items.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnPathChanged(System.String)">
+            <summary>
+            Occurs when the path is changed.
+            </summary>
+            <param name="path">Represents the new path.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildTreeView">
             <summary>

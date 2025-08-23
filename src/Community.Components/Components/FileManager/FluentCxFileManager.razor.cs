@@ -358,6 +358,22 @@ public partial class FluentCxFileManager<TItem>
     public int? MaxVisibleItems { get; set; } = 4;
 
     /// <summary>
+    /// Gets or sets the width of the component when the view is switched to smartphone.
+    /// </summary>
+    [Parameter]
+    public string? SmartphoneSwitchViewWidth { get; set; }
+
+    /// <summary>
+    /// Gets the smartphone switch view width query.
+    /// </summary>
+    private string SmartphoneSwitchViewWidthQuery => $"(max-width: {SmartphoneSwitchViewWidth})";
+
+    /// <summary>
+    /// Gets the accept filter to use for the upload input.
+    /// </summary>
+    private string? AcceptFilter => AcceptFiles == AcceptFile.None ? Accept : AcceptFileProvider.Get(AcceptFiles);
+
+    /// <summary>
     /// Gets the selected items.
     /// </summary>
     public IEnumerable<FileManagerEntry<TItem>> SelectedItems
@@ -487,6 +503,15 @@ public partial class FluentCxFileManager<TItem>
     }
 
     /// <summary>
+    /// Gets the current entry to use depending of the view.
+    /// </summary>
+    /// <returns>Returns the entry to use depending of the view.</returns>
+    private FileManagerEntry<TItem>? GetEntry()
+    {
+        return _searchEntry is not null ? _searchEntry : FileStructureView == FileStructureView.Hierarchical ? _currentEntry : _flattenEntry;
+    }
+
+    /// <summary>
     /// Occurs when the user wants to move a file or a folder into an another folder.
     /// </summary>
     /// <returns>Returns a task which moves the file or the folder into the selected folder when completed.</returns>
@@ -494,8 +519,8 @@ public partial class FluentCxFileManager<TItem>
     {
         var dialog = await DialogService.ShowDialogAsync<FileMoverDialog<TItem>>(Root, new()
         {
-            Width = View == Components.FileManagerView.Mobile ? "100%" : null,
-            Height = View == Components.FileManagerView.Mobile ? "100%" : null,
+            Width = View == FileManagerView.Mobile ? "100%" : null,
+            Height = View == FileManagerView.Mobile ? "100%" : null,
             Title = FileManagerLabels.MoveToLabel,
             PrimaryAction = FileManagerLabels.DialogOkLabel,
             SecondaryAction = FileManagerLabels.DialogCancelLabel,
@@ -639,6 +664,10 @@ public partial class FluentCxFileManager<TItem>
         SetDisabled(false);
     }
 
+    /// <summary>
+    /// Updates the tree view when a folder is created.
+    /// </summary>
+    /// <param name="e">Event args of the created folder.</param>
     private void UpdateTreeView(CreateFileManagerEntryEventArgs<TItem> e)
     {
         if (View == FileManagerView.Desktop)
@@ -657,14 +686,20 @@ public partial class FluentCxFileManager<TItem>
         }
     }
 
+    /// <summary>
+    /// Finds a <see cref="IPathBarItem"/> by its id.
+    /// </summary>
+    /// <param name="root">Root of the path.</param>
+    /// <param name="id">Id to find.</param>
+    /// <returns>Returns <see langword="null" /> if the item wasn't found, the item otherwise.</returns>
     private static IPathBarItem? FindPathBarItem(IPathBarItem? root, string id)
     {
-        if(root is null)
+        if (root is null)
         {
             return null;
         }
 
-        if(string.Equals(root.Id, id, StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(root.Id, id, StringComparison.OrdinalIgnoreCase))
         {
             return root;
         }
@@ -672,6 +707,10 @@ public partial class FluentCxFileManager<TItem>
         return PathBarItem.Find(root.Items, id);
     }
 
+    /// <summary>
+    /// Updates the path bar when a folder is created.
+    /// </summary>
+    /// <param name="e">Event args of the created folder.</param>
     private void UpdatePathBar(CreateFileManagerEntryEventArgs<TItem> e)
     {
         var item = FindPathBarItem(_pathRoot, e.Parent.Id);
@@ -798,6 +837,10 @@ public partial class FluentCxFileManager<TItem>
         }
     }
 
+    /// <summary>
+    /// Occurs when the path is changed.
+    /// </summary>
+    /// <param name="path">Represents the new path.</param>
     private void OnPathChanged(string? path)
     {
         if (string.IsNullOrEmpty(path))
@@ -833,7 +876,7 @@ public partial class FluentCxFileManager<TItem>
     /// <remarks>The tree view is only build in <see cref="FileManagerView.Desktop"/></remarks>
     private void BuildTreeView()
     {
-        if (View == Components.FileManagerView.Desktop)
+        if (View == FileManagerView.Desktop)
         {
             _currentTreeViewItem = null;
             _treeViewItems = null;
@@ -874,7 +917,7 @@ public partial class FluentCxFileManager<TItem>
     /// <param name="e">The current selected entry.</param>
     private void OnUpdateEntry(FileManagerEntryEventArgs<TItem> e)
     {
-        if (View == Components.FileManagerView.Desktop)
+        if (View == FileManagerView.Desktop)
         {
             var node = FindTreeViewItem(_treeViewItems, e.Entry.Id);
 
@@ -926,7 +969,7 @@ public partial class FluentCxFileManager<TItem>
     /// </summary>
     private void OnUpdateCurrentEntry()
     {
-        if (View == Components.FileManagerView.Desktop &&
+        if (View == FileManagerView.Desktop &&
             _currentTreeViewItem is not null)
         {
             var node = FileManagerEntry<TItem>.Find(Root, _currentTreeViewItem.Id);
@@ -1226,11 +1269,6 @@ public partial class FluentCxFileManager<TItem>
             var items = FileManagerEntry<TItem>.FindByName(entry, _searchValue);
             _searchEntry = FileManagerEntry<TItem>.Home;
             _searchEntry.AddRange([.. items]);
-
-            if (FileStructureView == FileStructureView.Hierarchical)
-            {
-                // UpdateNavigationView(_searchEntry);
-            }
         }
     }
 
@@ -1242,7 +1280,7 @@ public partial class FluentCxFileManager<TItem>
     {
         _isDisabled = isDisabled;
 
-        if (View == Components.FileManagerView.Desktop)
+        if (View == FileManagerView.Desktop)
         {
             SetDisabled(_treeViewItems, isDisabled);
         }

@@ -3,7 +3,11 @@
 @inherits FluentComponentBase
 
 <CascadingValue Value="this" IsFixed>
-    <FluentCxMediaQuery Query="(max-width: 640px)" OnMediaChanged="@(e => _forceMobileView = e)" />
+    @if (!string.IsNullOrEmpty(SmartphoneSwitchViewWidth))
+    {
+        <FluentCxMediaQuery Query="@SmartphoneSwitchViewWidthQuery"
+                            OnMediaChanged="@(e => _forceMobileView = e)" />
+    }
 
     <FluentStack Style="height: calc(100% - 50px);" Orientation="Orientation.Vertical">
         <FluentToolbar  Style="width: 100%">
@@ -19,7 +23,7 @@
 
             @if (ShowUploadButton)
             {
-                <FluentButton Id="FileLoaderId"
+                <FluentButton Id="@($"FileLoader{Id}")"
                               Disabled=@_isDisabled
                               Title="@FileManagerLabels.UploadLabel"
                               IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowUpload())
@@ -246,7 +250,7 @@
                                          Size="@(_showDetails ? "45%" : "70%")">
                     <FileManager @ref=_fileManagerView
                                  IsIndeterminateProgress=@(!ProgressPercent.HasValue)
-                                 Entry="@(_searchEntry is not null ? _searchEntry : FileStructureView == FileStructureView.Hierarchical ? _currentEntry : _flattenEntry)"
+                                 Entry="@(GetEntry())"
                                  ProgressLabel="@GetProgressLabelFromState()"
                                  ProgressPercent=@ProgressPercent
                                  TItem="@TItem"
@@ -276,7 +280,7 @@
         {
             <FileManager @ref=_fileManagerView
                          IsIndeterminateProgress=@(!ProgressPercent.HasValue)
-                         Entry="@(_searchEntry is not null ? _searchEntry : FileStructureView == FileStructureView.Hierarchical ? _currentEntry : _flattenEntry)"
+                         Entry="@(GetEntry())"
                          IsMobile
                          ProgressLabel="@GetProgressLabelFromState()"
                          ProgressPercent=@ProgressPercent
@@ -305,7 +309,7 @@
                  OnFileUploaded=@OnFileUploadedAsync
                  OnProgressChange="@OnProgressChange"
                  OnFileCountExceeded="OnFileCountExceededAsync"
-                 Accept="@(AcceptFiles == AcceptFile.None ? Accept : AcceptFileProvider.Get(AcceptFiles))" />
+                 Accept="@(AcceptFilter)" />
 
 @code {
     /// <summary>
