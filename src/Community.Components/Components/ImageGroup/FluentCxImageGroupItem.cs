@@ -40,7 +40,7 @@ public class FluentCxImageGroupItem
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("width", $"{(int)Parent.Size}px")
         .AddStyle("height", $"{(int)Parent.Size}px")
-        .AddStyle("margin-left", GetMarginLeft())
+        .AddStyle("margin-left", GetMarginLeft(), !Parent.IsInPopover(this))
         .AddStyle("border-radius", $"{Parent.Shape.ToBorderRadius()}")
         .AddStyle("background-color", Parent.BackgroundStyle, !string.IsNullOrEmpty(Parent.BackgroundStyle) && string.IsNullOrWhiteSpace(Style))
         .AddStyle("border", Parent.BorderStyle, !string.IsNullOrEmpty(Parent.BorderStyle) && string.IsNullOrWhiteSpace(Style))

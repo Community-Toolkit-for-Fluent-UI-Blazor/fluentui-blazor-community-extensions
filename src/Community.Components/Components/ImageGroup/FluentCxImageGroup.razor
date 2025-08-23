@@ -13,7 +13,7 @@
                 @_children[i].InternalRenderer
             }
 
-            @if(_children.Count > VisibleCount)
+            @if (_children.Count > VisibleCount)
             {
                 <FluentButton Id="@($"ImageGroupPopover{Id}")"
                               Style="@GetButtonStyle()"
@@ -26,12 +26,12 @@
                                @bind-Open=_isPopoverOpen
                                Style="max-height: 350px; overflow-y: auto">
                     <Body>
-                       <FluentStack Orientation="Orientation.Vertical">
-                            @foreach (var item in _children.Skip(VisibleCount))
-                            {
-                                @item.InternalRenderer
-                            }
-                       </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical">
+                        @foreach (var item in _children.Skip(VisibleCount))
+                        {
+                            @item.InternalRenderer
+                        }
+                    </FluentStack>
                     </Body>
                 </FluentPopover>
             }
