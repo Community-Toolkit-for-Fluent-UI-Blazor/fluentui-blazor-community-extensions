@@ -1,17 +1,30 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
+@if (Modal)
+{
+    <FluentOverlay Transparent=false
+                   FullScreen
+                   Dismissable=false
+                   Opacity="0.6"
+                   @bind-Visible=_showCookieDialog />
+}
+
+@if ((OpenConsentVisibility == OpenCookieVisibility.WhenFirstHidden && _cookieState != null) ||
+     OpenConsentVisibility == OpenCookieVisibility.Always)
+{
+    <FluentCxFloatingButton Position="OpenButtonPosition"
+                            IconStart="@(_showCookieDialog ? CloseButtonIcon : OpenButtonIcon)"
+                            OnClick="@(() => _showCookieDialog = !_showCookieDialog)"
+                            Title="@(_showCookieDialog ? Labels.HideCookieDialogTitle : Labels.ShowCookieDialogTitle)"
+                            RelativeContainerId="@RelativeContainerId"
+                            Style="z-index: 9991" />
+}
+
 @if (_showCookieDialog)
 {
     <FluentCxMediaQuery OnMediaChanged="@(p => _isMobile = p)"
                         Query="(max-width: 640px)" />
-    if (Modal)
-    {
-        <FluentOverlay Transparent=false
-                       FullScreen
-                       Dismissable=false
-                       Opacity="0.6"/>
-    }
 
     <div id="@Id" class="@InternalCss" style="@InternalStyle">
         <FluentCard>
@@ -24,7 +37,9 @@
                 else
                 {
                     <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
-                        <FluentStack Style="height: 100%" HorizontalAlignment="HorizontalAlignment.Center" Orientation="Orientation.Vertical">
+                        <FluentStack Style="height: 100%; margin-bottom: 30px"
+                                     HorizontalAlignment="HorizontalAlignment.Center"
+                                     Orientation="Orientation.Vertical">
                             <FluentStack HorizontalAlignment=HorizontalAlignment.Center
                                          Style="margin-bottom: 20px"
                                          Orientation="Orientation.Vertical">
@@ -115,6 +130,7 @@
     </div>
 }
 
+
 @code {
     public FluentCxCookie()
     {
@@ -135,9 +151,9 @@
 
                     <FluentSpacer Width="20" />
                 }
-          
+
                 @if (Choices == CookieChoices.AcceptDeny ||
-                     Choices == CookieChoices.AcceptDenyManage)
+                    Choices == CookieChoices.AcceptDenyManage)
                 {
                     <FluentButton OnClick=@OnDeclineAsync
                                   Style="width: 120px"
@@ -149,8 +165,8 @@
                 }
 
                 @if (Choices == CookieChoices.AcceptOnly ||
-                     Choices == CookieChoices.AcceptDeny ||
-                     Choices == CookieChoices.AcceptDenyManage)
+                    Choices == CookieChoices.AcceptDeny ||
+                    Choices == CookieChoices.AcceptDenyManage)
                 {
                     <FluentButton OnClick=@OnAcceptAsync
                                   Style="width: 120px"

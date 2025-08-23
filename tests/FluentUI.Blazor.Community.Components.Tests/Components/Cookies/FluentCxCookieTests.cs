@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Tests;
+using Microsoft.JSInterop;
 using Moq;
 
 namespace FluentUI.Blazor.Community.Components.Tests.Components.Cookies;
@@ -77,6 +78,7 @@ public class FluentCxCookieTests : TestBase
         var comp = RenderComponent<FluentCxCookie>(
             param => param.Add(p => p.Items, items)
                           .Add(p => p.GoogleAnalyticsId, "GA_ID")
+                          .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
@@ -157,6 +159,7 @@ public class FluentCxCookieTests : TestBase
             param => param.Add(p => p.Items, items)
                           .Add(p => p.GoogleAnalyticsId, "GA_ID")
                           .Add(p => p.OnInitActiveCookie, callback)
+                          .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
@@ -175,6 +178,28 @@ public class FluentCxCookieTests : TestBase
         JSInterop.VerifyInvoke("setCookiePolicy", 1);
 
         Assert.Contains("Another cookie", called);
+    }
+
+    [Fact]
+    public async Task DeleteCookieAsync_Should_Invoke_DeleteCookiePolicy_And_ShowDialog()
+    {
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Cookies/FluentCxCookie.razor.js");
+        mockModule.SetupVoid("deleteCookiePolicy").SetVoidResult();
+
+        var comp = RenderComponent<FluentCxCookie>();
+
+        // Act
+        var task = comp.Instance.GetType().GetMethod("DeleteCookieAsync", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)!
+            .Invoke(comp.Instance, null) as Task;
+
+        if (task is not null)
+        {
+            await task;
+        }
+
+        // Assert
+        JSInterop.VerifyInvoke("import", 2);
+        JSInterop.VerifyInvoke("deleteCookiePolicy", 1);
     }
 
     [Fact]
@@ -201,6 +226,7 @@ public class FluentCxCookieTests : TestBase
 
         var comp = RenderComponent<FluentCxCookie>(
             param => param.Add(p => p.Items, items)
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
         );
 
         // Act
@@ -248,5 +274,88 @@ public class FluentCxCookieTests : TestBase
         var cookieState = comp.Instance.GetType().GetField("_cookieState", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(comp.Instance) as IEnumerable<CookieItem>;
 
         Assert.Equal(items, cookieState);
+    }
+
+    [Fact]
+    public void Renders_Privacy_Statement_Link_When_Url_Provided()
+    {
+        // Arrange
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.PrivacyStatementUrl, "https://privacy")
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
+        );
+
+        // Act
+        var link = component.FindAll("fluent-anchor").FirstOrDefault(a => a.GetAttribute("href") == "https://privacy");
+
+        // Assert
+        Assert.NotNull(link);
+    }
+
+    [Fact]
+    public void Renders_Third_Party_Cookies_Link_When_Url_Provided()
+    {
+        // Arrange
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.ThirdPartyCookiesUrl, "https://thirdparty")
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
+        );
+
+        // Act
+        var link = component.FindAll("fluent-anchor").FirstOrDefault(a => a.GetAttribute("href") == "https://thirdparty");
+
+        // Assert
+        Assert.NotNull(link);
+    }
+
+    [Fact]
+    public void Renders_Accept_Only_Button_When_Choices_Is_AcceptOnly()
+    {
+        // Arrange
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.Choices, CookieChoices.AcceptOnly)
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
+        );
+
+        // Act
+        var acceptButton = component.FindAll("fluent-button").FirstOrDefault(b => b.TextContent.Contains("Accept"));
+
+        // Assert
+        Assert.NotNull(acceptButton);
+    }
+
+    [Fact]
+    public void Renders_Accept_And_Decline_Buttons_When_Choices_Is_AcceptDeny()
+    {
+        // Arrange
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.Choices, CookieChoices.AcceptDeny)
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
+        );
+
+        // Act
+        var buttons = component.FindAll("fluent-button");
+
+        // Assert
+        Assert.Contains(buttons, b => b.TextContent.Contains("Accept"));
+        Assert.Contains(buttons, b => b.TextContent.Contains("Decline"));
+    }
+
+    [Fact]
+    public void Renders_Manage_Button_When_Choices_Is_AcceptDenyManage_And_Items_Not_Empty()
+    {
+        // Arrange
+        var items = new[] { new CookieItem() };
+        var component = RenderComponent<FluentCxCookie>(parameters => parameters
+            .Add(p => p.Choices, CookieChoices.AcceptDenyManage)
+            .Add(p => p.Items, items)
+            .Add(p => p.OpenConsentVisibility, OpenCookieVisibility.Never)
+        );
+
+        // Act
+        var manageButton = component.FindAll("fluent-button").FirstOrDefault(b => b.TextContent.Contains("Manage"));
+
+        // Assert
+        Assert.NotNull(manageButton);
     }
 }
