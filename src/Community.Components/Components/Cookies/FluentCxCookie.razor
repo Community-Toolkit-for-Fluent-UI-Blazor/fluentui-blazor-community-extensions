@@ -4,17 +4,19 @@
 @if (Modal)
 {
     <FluentOverlay Transparent=false
-                   FullScreen
                    Dismissable=false
-                   Opacity="0.6"
                    @bind-Visible=_showCookieDialog />
 }
 
-@if (IsOpenButtonVisible && _cookieState != null)
+@if ((OpenConsentVisibility == OpenCookieVisibility.WhenFirstHidden && _cookieState != null) ||
+     OpenConsentVisibility == OpenCookieVisibility.Always &&
+     !_manageCookieVisible)
 {
     <FluentCxFloatingButton Position="OpenButtonPosition"
                             IconStart="@(_showCookieDialog ? CloseButtonIcon : OpenButtonIcon)"
                             OnClick="@(() => _showCookieDialog = !_showCookieDialog)"
+                            Title="@(_showCookieDialog ? Labels.HideCookieDialogTitle : Labels.ShowCookieDialogTitle)"
+                            RelativeContainerId="@RelativeContainerId"
                             Style="z-index: 9991" />
 }
 
@@ -34,7 +36,9 @@
                 else
                 {
                     <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
-                        <FluentStack Style="height: 100%" HorizontalAlignment="HorizontalAlignment.Center" Orientation="Orientation.Vertical">
+                        <FluentStack Style="height: 100%; margin-bottom: 30px"
+                                     HorizontalAlignment="HorizontalAlignment.Center"
+                                     Orientation="Orientation.Vertical">
                             <FluentStack HorizontalAlignment=HorizontalAlignment.Center
                                          Style="margin-bottom: 20px"
                                          Orientation="Orientation.Vertical">

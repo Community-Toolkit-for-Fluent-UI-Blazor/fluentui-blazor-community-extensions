@@ -17,6 +17,11 @@ public partial class FluentCxCookie
     private bool _showCookieDialog;
 
     /// <summary>
+    /// Gets or sets a value indicating whether the open button is disabled when the manage cookies dialog is visible.
+    /// </summary>
+    private bool _manageCookieVisible;
+
+    /// <summary>
     /// Represents a value indicating whether the device is mobile or not.
     /// </summary>
     private bool _isMobile;
@@ -39,7 +44,7 @@ public partial class FluentCxCookie
     /// <summary>
     /// Represents the cookies to accept or deny.
     /// </summary>
-    private IEnumerable<CookieItem> _cookieState = [];
+    private IEnumerable<CookieItem>? _cookieState;
 
     /// <summary>
     /// Represents the actions buttons to render.
@@ -158,11 +163,12 @@ public partial class FluentCxCookie
     /// Gets or sets a value indicating whether the open button is visible or not.
     /// </summary>
     /// <remarks>
-    /// When this property is set to <c>true</c>, the user can open the cookie dialog again to change his cookie preferences.
-    /// But the button will only be visible after the first time the cookie was rejected or accepted.
+    /// When this property is set to <see cref="OpenCookieVisibility.Always" />, the user can open the cookie dialog again to change his cookie preferences.
+    /// When this property is set to <see cref="OpenCookieVisibility.Never" />, the user cannot open the cookie dialog again after he accepted or declined the cookies.
+    /// When this property is set to <see cref="OpenCookieVisibility.WhenFirstHidden" />, the user can open the cookie dialog again only if he accepted or declined the cookies the first time.
     /// </remarks>
     [Parameter]
-    public bool IsOpenButtonVisible { get; set; }
+    public OpenCookieVisibility OpenConsentVisibility { get; set; } = OpenCookieVisibility.WhenFirstHidden;
 
     /// <summary>
     /// Gets or sets the icon of the close button.
@@ -175,6 +181,12 @@ public partial class FluentCxCookie
     /// </summary>
     [Parameter]
     public Icon OpenButtonIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Cookies();
+
+    /// <summary>
+    /// Gets or sets the id of the container to which the dialog is relative.
+    /// </summary>
+    [Parameter]
+    public string? RelativeContainerId { get; set; }
 
     /// <summary>
     /// Gets the css to use for the dialog.
@@ -229,7 +241,7 @@ public partial class FluentCxCookie
         {
             result.Add(new()
             {
-                IsActive = activated,
+                IsActive = true,
                 Name = GoogleAnalytics,
             });
         }
@@ -275,6 +287,7 @@ public partial class FluentCxCookie
         {
             await _module.InvokeVoidAsync("deleteCookiePolicy");
             _showCookieDialog = true;
+            _cookieState = null;
             await InvokeAsync(StateHasChanged);
         }
     }
@@ -309,6 +322,9 @@ public partial class FluentCxCookie
     public async Task OnManageCookiesAsync()
     {
         List<CookieItem> cookies = [];
+        _manageCookieVisible = true;
+        var showDialog = _showCookieDialog;
+        _showCookieDialog = false;
 
         if (_module is not null)
         {
@@ -316,7 +332,18 @@ public partial class FluentCxCookie
 
             if (items != null)
             {
-                cookies.AddRange(items);
+                // We store the name of the cookies and their active state,
+                // so we need to find the items in the Items collection to get all information.
+                foreach(var item in items)
+                {
+                    var existingItem = Items.FirstOrDefault(x => x.Name == item.Name);
+
+                    if (existingItem != null)
+                    {
+                        existingItem.IsActive = item.IsActive;
+                        cookies.Add(existingItem);
+                    }
+                }
             }
         }
 
@@ -338,6 +365,7 @@ public partial class FluentCxCookie
                 PrimaryAction = Labels.SaveChanges,
                 SecondaryAction = Labels.Cancel,
                 ShowDismiss = true,
+                Modal = true,
                 PreventDismissOnOverlayClick = true,
                 PreventScroll = true,
             });
@@ -353,6 +381,12 @@ public partial class FluentCxCookie
             await InitGoogleAnalyticsAsync();
             await InitOtherCookiesAsync(_cookieState!.Where(x => x.Name != GoogleAnalytics && x.IsActive == true));
         }
+        else
+        {
+            _showCookieDialog = showDialog;
+        }
+
+        _manageCookieVisible = false;
     }
 
     /// <inheritdoc />

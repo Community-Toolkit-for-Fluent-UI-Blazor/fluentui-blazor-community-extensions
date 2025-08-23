@@ -3,50 +3,32 @@
 @inherits FluentComponentBase
 
 <CascadingValue Value="this" IsFixed>
-    <FluentCxMediaQuery Query="(max-width: 640px)" OnMediaChanged="@OnMediaChanged" />
+    @if (!string.IsNullOrEmpty(SmartphoneSwitchViewWidth))
+    {
+        <FluentCxMediaQuery Query="@SmartphoneSwitchViewWidthQuery"
+                            OnMediaChanged="@(e => _forceMobileView = e)" />
+    }
 
     <FluentStack Style="height: calc(100% - 50px);" Orientation="Orientation.Vertical">
         <FluentToolbar  Style="width: 100%">
             @if (ShowCreateFolderButton)
             {
-                if (!_isMobile && View == Components.FileManagerView.Desktop)
-                {
-                    <FluentButton IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.FolderAdd())
-                                  Appearance="Appearance.Neutral"
-                                  Disabled=@_isDisabled
-                                  OnClick="@OnCreateFolderAsync">
-                            @FileManagerLabels.NewFolderLabel
-                    </FluentButton>
-                }
-                else
-                {
-                    <FluentButton IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.FolderAdd())
-                                  Appearance="Appearance.Neutral"
-                                  Disabled=@_isDisabled
-                                  Title="@FileManagerLabels.NewFolderLabel"
-                                  OnClick="@OnCreateFolderAsync" />
-                }
+                <FluentButton IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.FolderAdd())
+                              Appearance="Appearance.Neutral"
+                              Disabled=@_isDisabled
+                              Title="@FileManagerLabels.NewFolderLabel"
+                              OnClick="@OnCreateFolderAsync"
+                              ChildContent="@((_forceMobileView || View == FileManagerView.Mobile) ? null : _renderLabel(FileManagerLabels.NewFolderLabel))" />
             }
 
             @if (ShowUploadButton)
             {
-                if (!_isMobile && View == Components.FileManagerView.Desktop)
-                {
-                    <FluentButton Id="@($"FileLoader{Id}")"
-                                  Disabled=@_isDisabled
-                                  IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowUpload())
-                                  Appearance="Appearance.Neutral">
-                        @FileManagerLabels.UploadLabel
-                    </FluentButton>
-                }
-                else
-                {
-                    <FluentButton Id="@($"FileLoader{Id}")"
-                                  Disabled=@_isDisabled
-                                  Title="@FileManagerLabels.UploadLabel"
-                                  IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowUpload())
-                                  Appearance="Appearance.Neutral" />
-                }
+                <FluentButton Id="@($"FileLoader{Id}")"
+                              Disabled=@_isDisabled
+                              Title="@FileManagerLabels.UploadLabel"
+                              IconStart=@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ArrowUpload())
+                              Appearance="Appearance.Neutral"
+                              ChildContent="@((_forceMobileView || View == FileManagerView.Mobile) ? null : _renderLabel(FileManagerLabels.UploadLabel))" />
             }
 
             @if (ShowViewButton)
@@ -218,7 +200,7 @@
                 @ToolbarItems
             }
 
-            @if (_isMobile || View == Components.FileManagerView.Mobile && ShowDetailsButton)
+            @if ((View == Components.FileManagerView.Mobile && ShowDetailsButton) || _forceMobileView)
             {
                 <FluentButton Title="@FileManagerLabels.ShowDetailsLabel"
                               IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.DocumentSettings())"
@@ -228,7 +210,9 @@
             }
 
             <FluentStack VerticalAlignment="VerticalAlignment.Center" slot="end">
-                @if (!_isMobile && View == Components.FileManagerView.Desktop && ShowDetailsButton)
+                @if (View == Components.FileManagerView.Desktop &&
+                     ShowDetailsButton &&
+                     !_forceMobileView)
                 {
                     <FluentSwitch Label="@FileManagerLabels.ShowDetailsLabel"
                                   @bind-Value=_showDetails
@@ -246,13 +230,12 @@
             </FluentStack>
         </FluentToolbar>
 
-        @if(!_isMobile && View == FileManagerView.Desktop)
+        @if(View == FileManagerView.Desktop && !_forceMobileView)
         {
             <FluentMultiSplitter Width="@(!string.IsNullOrEmpty(Width) ? Width : "100%")" Height="@(!string.IsNullOrEmpty(Height) ? Height : "100%")">
                 @if (FileStructureView == FileStructureView.Hierarchical)
                 {
-                    <FluentMultiSplitterPane Collapsed=false
-                                             Collapsible=false
+                    <FluentMultiSplitterPane Collapsible=false
                                              Resizable
                                              Size="30%"
                                              Min="20%"
@@ -262,15 +245,12 @@
                                         @bind-SelectedItem:after=OnUpdateCurrentEntry />
                     </FluentMultiSplitterPane>
                 }
-
-                <FluentMultiSplitterPane Collapsed=false
-                                         Collapsible=false
-                                         Resizable
-                                         Style="height: 100%"
-                                         Size="@(_isMobile ? "100%" : View == Components.FileManagerView.Desktop ? ( _showDetails ? "45%" : "70%") : "100%")">
+                              
+                <FluentMultiSplitterPane Style="height: 100%"
+                                         Size="@(_showDetails ? "45%" : "70%")">
                     <FileManager @ref=_fileManagerView
                                  IsIndeterminateProgress=@(!ProgressPercent.HasValue)
-                                 Entry="@(_searchEntry is not null ? _searchEntry : FileStructureView == FileStructureView.Hierarchical ? _currentEntry : _flattenEntry)"
+                                 Entry="@(GetEntry())"
                                  ProgressLabel="@GetProgressLabelFromState()"
                                  ProgressPercent=@ProgressPercent
                                  TItem="@TItem"
@@ -279,18 +259,16 @@
                                  PathRoot="@_pathRoot"
                                  Path="@_path"
                                  OnPathChanged="@OnPathChanged"
-                                 @bind-SelectedItems=_currentSelectedItems
+                                 @bind-SelectedItems=_currentSelectedItems 
                                  ColumnLabels="@ColumnLabels"
                                  MaxVisibleItems=@MaxVisibleItems
-                                 FileNavigationViewVisible=@(FileStructureView == FileStructureView.Hierarchical) />
+                                 FileNavigationViewVisible=@(FileStructureView == FileStructureView.Hierarchical)/>
                 </FluentMultiSplitterPane>
 
                 @if (_showDetails)
                 {
-                    <FluentMultiSplitterPane Collapsible=false
-                                             Collapsed=false
-                                             Resizable=false
-                                             Size="25%">
+                    <FluentMultiSplitterPane Resizable=false
+                                              Size="25%">
                         <FileManagerEntryDetails FileExtensionTypeLabels=@FileExtensionTypeLabels
                                                  DetailsLabel=@DetailsLabels
                                                  Entries="@(_currentSelectedItems.Any() ? _currentSelectedItems : _currentEntry is null ? [] : [_currentEntry])" />
@@ -302,7 +280,7 @@
         {
             <FileManager @ref=_fileManagerView
                          IsIndeterminateProgress=@(!ProgressPercent.HasValue)
-                         Entry="@(_searchEntry is not null ? _searchEntry : FileStructureView == FileStructureView.Hierarchical ? _currentEntry : _flattenEntry)"
+                         Entry="@(GetEntry())"
                          IsMobile
                          ProgressLabel="@GetProgressLabelFromState()"
                          ProgressPercent=@ProgressPercent
@@ -331,4 +309,19 @@
                  OnFileUploaded=@OnFileUploadedAsync
                  OnProgressChange="@OnProgressChange"
                  OnFileCountExceeded="OnFileCountExceededAsync"
-                 Accept="@(AcceptFiles == AcceptFile.None ? Accept : AcceptFileProvider.Get(AcceptFiles))" />
+                 Accept="@(AcceptFilter)" />
+
+@code {
+    /// <summary>
+    /// Initialize a new instance of the <see cref="FluentCxFileManager{TItem}"/> class.
+    /// </summary>
+    public FluentCxFileManager() : base()
+    {
+        Id = Identifier.NewId();
+        _flattenEntry = FileManagerEntry<TItem>.Home;
+        _renderLabel = label => __builder =>
+        {
+            <FluentLabel>@label</FluentLabel>
+        };
+    }
+}

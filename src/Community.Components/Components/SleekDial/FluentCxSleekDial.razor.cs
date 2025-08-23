@@ -203,6 +203,11 @@ public partial class FluentCxSleekDial
     internal List<SleekDialItem> InternalItems { get; private set; } = [];
 
     /// <summary>
+    /// Gets or sets the viewer of the dial.
+    /// </summary>
+    internal SleekDialView Viewer { get; set; } = default!;
+
+    /// <summary>
     /// Gets or sets the focused index.
     /// </summary>
     internal int FocusedIndex { get; set; } = -1;
@@ -218,6 +223,12 @@ public partial class FluentCxSleekDial
     /// </summary>
     [Parameter]
     public SleekDialAnimationSettings AnimationSettings { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets a value indicating if the dial stay open when an item is clicked.
+    /// </summary>
+    [Parameter]
+    public bool StayOpen { get; set; }
 
     /// <summary>
     /// Gets the identifier of the <see cref="FluentCxFloatingButton"/>.
@@ -245,7 +256,7 @@ public partial class FluentCxSleekDial
     /// <summary>
     /// Event raised when a radial settings has changed.
     /// </summary>
-    internal event EventHandler RadialSettingsChanged;
+    internal event EventHandler? RadialSettingsChanged;
 
     /// <summary>
     /// Occurs on a click on the <see cref="FluentCxFloatingButton"/>.
@@ -259,7 +270,7 @@ public partial class FluentCxSleekDial
             return;
         }
 
-        await ShowOrHidePopupAsync(!_isOpen);
+        await ShowOrHidePopupInternalAsync(!_isOpen, false);
     }
 
     /// <summary>
@@ -270,6 +281,22 @@ public partial class FluentCxSleekDial
     [JSInvokable]
     public async Task ShowOrHidePopupAsync(bool isOpen)
     {
+        await ShowOrHidePopupInternalAsync(isOpen, StayOpen);
+    }
+
+    /// <summary>
+    /// Shows or hides the dial in an asynchronous way.
+    /// </summary>
+    /// <param name="isOpen">Value indicating if the dial is open or hide.</param>
+    /// <param name="stayOpen">Value indicating if the dial stay open when the item is clicked.</param>
+    /// <returns>Returns a task which shows or hides the popup when completed.</returns>
+    private async Task ShowOrHidePopupInternalAsync(bool isOpen, bool stayOpen)
+    {
+        if (stayOpen && _isOpen)
+        {
+            return;
+        }
+
         if (_isOpen == isOpen)
         {
             return;
@@ -332,14 +359,14 @@ public partial class FluentCxSleekDial
                         return;
                     }
 
-                    await ShowOrHidePopupAsync(!_isOpen);
+                    await ShowOrHidePopupInternalAsync(!_isOpen, false);
                 }
 
                 break;
 
             case KeyCode.Escape:
                 {
-                    await ShowOrHidePopupAsync(false);
+                    await ShowOrHidePopupInternalAsync(false, false);
                 }
 
                 break;
@@ -421,6 +448,15 @@ public partial class FluentCxSleekDial
         }
     }
 
+    /// <summary>
+    /// Focus the selected index.
+    /// </summary>
+    /// <returns>Returns a task which focus the selected element when completed.</returns>
+    internal async Task FocusAsync()
+    {
+        await InternalItems[FocusedIndex].Element.FocusAsync();
+    }
+
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -437,22 +473,10 @@ public partial class FluentCxSleekDial
     }
 
     /// <inheritdoc />
-    public override async Task SetParametersAsync(ParameterView parameters)
+    public override Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
+        _linearDirectionChanged = parameters.HasValueChanged(nameof(Direction), Direction);
 
-        if (parameters.HasValueChanged(nameof(Direction), Direction))
-        {
-            _linearDirectionChanged = true;
-        }
-    }
-
-    /// <summary>
-    /// Focus the selected index.
-    /// </summary>
-    /// <returns>Returns a task which focus the selected element when completed.</returns>
-    internal async Task FocusAsync()
-    {
-        await InternalItems[FocusedIndex].Element.FocusAsync();
+        return base.SetParametersAsync(parameters);
     }
 }

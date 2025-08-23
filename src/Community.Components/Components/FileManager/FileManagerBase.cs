@@ -143,6 +143,16 @@ public class FileManagerBase<TItem> : ComponentBase where TItem : class, new()
     }
 
     /// <summary>
+    /// Gets the folder icon from the current used view.
+    /// </summary>
+    /// <param name="options">Current used view.</param>
+    /// <returns>Returns the icons to render.</returns>
+    protected static Icon GetFolderIconFromGridViewOptions(FileView options)
+    {
+        return FileIcons.GetFolderFromGridViewOptions(options);
+    }
+
+    /// <summary>
     /// Occurs when a rename operation is performed.
     /// </summary>
     /// <param name="entry">Entry to rename.</param>

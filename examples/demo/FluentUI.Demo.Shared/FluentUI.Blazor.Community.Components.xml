@@ -5052,7 +5052,87 @@
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.CookieLabels">
             <summary>
-            
+            Represents the labels used in a cookie consent component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Default">
+            <summary>
+            Gets the default instance of the <see cref="T:FluentUI.Blazor.Community.Components.CookieLabels"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.French">
+            <summary>
+            Gets the french instance of the <see cref="T:FluentUI.Blazor.Community.Components.CookieLabels"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Title">
+            <summary>
+            Gets or sets the title of the cookie consent dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.PrimaryDescription">
+            <summary>
+            Gets or sets the primary description of the cookie consent dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.SecondaryDescription">
+            <summary>
+            Gets or sets the secondary description of the cookie consent dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Accept">
+            <summary>
+            Gets or sets the label for the accept button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Decline">
+            <summary>
+            Gets or sets the label for the decline button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.ManageCookies">
+            <summary>
+            Gets or sets the label for the manage cookies button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.PrivacyStatement">
+            <summary>
+            Gets or sets the label for the privacy statement link.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.ThirdPartyCookies">
+            <summary>
+            Gets or sets the label for third-party cookies section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.ManageCookiesTitle">
+            <summary>
+            Gets or sets the title for the manage cookies dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.SaveChanges">
+            <summary>
+            Gets or sets the label for the save changes button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.Cancel">
+            <summary>
+            Gets or sets the label for the cancel button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.GoogleAnalyticsDescription">
+            <summary>
+            Gets or sets the description for Google Analytics cookies.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.ShowCookieDialogTitle">
+            <summary>
+            Gets or sets the title for the button that shows the cookie dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CookieLabels.HideCookieDialogTitle">
+            <summary>
+            Gets or sets the title for the button that hides the cookie dialog.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.CookieView">
@@ -5078,6 +5158,11 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._showCookieDialog">
             <summary>
             Represents a value that show the dialog or not.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._manageCookieVisible">
+            <summary>
+            Gets or sets a value indicating whether the open button is disabled when the manage cookies dialog is visible.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._isMobile">
@@ -5200,13 +5285,14 @@
             Gets or sets the position of the open button.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.IsOpenButtonVisible">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.OpenConsentVisibility">
             <summary>
             Gets or sets a value indicating whether the open button is visible or not.
             </summary>
             <remarks>
-            When this property is set to <c>true</c>, the user can open the cookie dialog again to change his cookie preferences.
-            But the button will only be visible after the first time the cookie was rejected or accepted.
+            When this property is set to <see cref="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.Always" />, the user can open the cookie dialog again to change his cookie preferences.
+            When this property is set to <see cref="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.Never" />, the user cannot open the cookie dialog again after he accepted or declined the cookies.
+            When this property is set to <see cref="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.WhenFirstHidden" />, the user can open the cookie dialog again only if he accepted or declined the cookies the first time.
             </remarks>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.CloseButtonIcon">
@@ -5217,6 +5303,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.OpenButtonIcon">
             <summary>
             Gets or sets the icon of the open button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.RelativeContainerId">
+            <summary>
+            Gets or sets the id of the container to which the dialog is relative.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.InternalCss">
@@ -5314,6 +5405,26 @@
             Closes the dialog with an ok result.
             </summary>
             <returns>Returns a task which closes the dialog with an ok result.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.OpenCookieVisibility">
+            <summary>
+            Represents the visibility options for the open button in a cookie consent component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.Always">
+            <summary>
+            The open button is always visible.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.Never">
+            <summary>
+            The open button is never visible.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.OpenCookieVisibility.WhenFirstHidden">
+            <summary>
+            The open button is visible only when the first cookie consent banner is hidden.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.Browser">
             <summary>
@@ -6205,6 +6316,13 @@
             <param name="extension">Extension of the file.</param>
             <param name="view">View used from the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.</param>
             <returns>Returns the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from its extension and its view.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileIcons.GetFolderFromGridViewOptions(FluentUI.Blazor.Community.Components.FileView)">
+            <summary>
+            Gets the folder <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from the <paramref name="view"/>.
+            </summary>
+            <param name="view">View used from the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.</param>
+            <returns>Returns the <see cref="T:Microsoft.FluentUI.AspNetCore.Components.Icon"/> from its view.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileIcons.GetIconForDetails(System.String,System.Boolean)">
             <summary>
@@ -7866,6 +7984,13 @@
             <param name="options">Current used view.</param>
             <returns>Returns the icons to render.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManagerBase`1.GetFolderIconFromGridViewOptions(FluentUI.Blazor.Community.Components.FileView)">
+            <summary>
+            Gets the folder icon from the current used view.
+            </summary>
+            <param name="options">Current used view.</param>
+            <returns>Returns the icons to render.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManagerBase`1.OnRenameAsync(FluentUI.Blazor.Community.Components.FileManagerEntry{`0})">
             <summary>
             Occurs when a rename operation is performed.
@@ -9282,6 +9407,16 @@
             Represents a value indicating if the details of an entry is shown.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._hasRootChanged">
+            <summary>
+            Represents a value indicating if the root has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._forceMobileView">
+            <summary>
+            Represents a value indicating if the mobile view is forced.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._fileManagerView">
             <summary>
             Represents the file manager component.
@@ -9372,9 +9507,9 @@
             Represents the path for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar"/> component.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.#ctor">
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._renderLabel">
             <summary>
-            Initialize a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> class.
+            Represents the render fragment to use for the label of a button.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.State">
@@ -9547,6 +9682,21 @@
             By default, the number is 4.
             </remarks>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SmartphoneSwitchViewWidth">
+            <summary>
+            Gets or sets the width of the component when the view is switched to smartphone.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SmartphoneSwitchViewWidthQuery">
+            <summary>
+            Gets the smartphone switch view width query.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.AcceptFilter">
+            <summary>
+            Gets the accept filter to use for the upload input.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SelectedItems">
             <summary>
             Gets the selected items.
@@ -9571,6 +9721,12 @@
             <summary>
             Gets a value indicating if the move button is disabled.
             </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.GetEntry">
+            <summary>
+            Gets the current entry to use depending of the view.
+            </summary>
+            <returns>Returns the entry to use depending of the view.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnMoveAsync">
             <summary>
@@ -9626,6 +9782,26 @@
             <param name="e">Event args for the created folder.</param>
             <returns>Returns a task which raised the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnFolderCreated"/> event callback when completed.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.UpdateTreeView(FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs{`0})">
+            <summary>
+            Updates the tree view when a folder is created.
+            </summary>
+            <param name="e">Event args of the created folder.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.FindPathBarItem(FluentUI.Blazor.Community.Components.IPathBarItem,System.String)">
+            <summary>
+            Finds a <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> by its id.
+            </summary>
+            <param name="root">Root of the path.</param>
+            <param name="id">Id to find.</param>
+            <returns>Returns <see langword="null" /> if the item wasn't found, the item otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.UpdatePathBar(FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs{`0})">
+            <summary>
+            Updates the path bar when a folder is created.
+            </summary>
+            <param name="e">Event args of the created folder.</param>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnShowDetailsAsync">
             <summary>
             Occurs when the user clicks on the show details button.
@@ -9650,6 +9826,12 @@
             </summary>
             <param name="values">Values use to transform each item into an instance of <see cref="T:FluentUI.Blazor.Community.Components.PathBarItem"/>.</param>
             <returns>Returns the list of items.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnPathChanged(System.String)">
+            <summary>
+            Occurs when the path is changed.
+            </summary>
+            <param name="path">Represents the new path.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildTreeView">
             <summary>
@@ -9800,8 +9982,16 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnParametersSet">
+            <inheritdoc />
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.#ctor">
+            <summary>
+            Initialize a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/> class.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.IDeletable">
             <summary>
@@ -11743,6 +11933,11 @@
             Gets the <see cref="T:FluentUI.Blazor.Community.Components.SleekDialItem"/> inside this instance of <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Viewer">
+            <summary>
+            Gets or sets the viewer of the dial.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FocusedIndex">
             <summary>
             Gets or sets the focused index.
@@ -11756,6 +11951,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.AnimationSettings">
             <summary>
             Gets or sets the settings of the animation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.StayOpen">
+            <summary>
+            Gets or sets a value indicating if the dial stay open when an item is clicked.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FloatingButtonId">
@@ -11790,6 +11990,14 @@
             </summary>
             <param name="isOpen">Value indicating if the dial is open or hide.</param>
             <returns>Returns a task which hides or shows the dial when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ShowOrHidePopupInternalAsync(System.Boolean,System.Boolean)">
+            <summary>
+            Shows or hides the dial in an asynchronous way.
+            </summary>
+            <param name="isOpen">Value indicating if the dial is open or hide.</param>
+            <param name="stayOpen">Value indicating if the dial stay open when the item is clicked.</param>
+            <returns>Returns a task which shows or hides the popup when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnKeyDownHandlerAsync(Microsoft.FluentUI.AspNetCore.Components.FluentKeyCodeEventArgs)">
             <summary>
@@ -11830,17 +12038,17 @@
             <param name="value">Represents the created item.</param>
             <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ItemRendered"/> callback.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnAfterRenderAsync(System.Boolean)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FocusAsync">
             <summary>
             Focus the selected index.
             </summary>
             <returns>Returns a task which focus the selected element when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialAnimation">
             <summary>
@@ -11860,66 +12068,6 @@
         <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FadeZoom">
             <summary>
             Fade and zoom animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipLeftDown">
-            <summary>
-            Flip left and down animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipLeftUp">
-            <summary>
-            Flip left and up animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipRightDown">
-            <summary>
-            Flip down and right animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipRightUp">
-            <summary>
-            Flip right and up animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipXDown">
-            <summary>
-            Flip on X axis and down animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipXUp">
-            <summary>
-            Flip on X axis and up animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipYLeft">
-            <summary>
-            Flip on Y axis and left animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.FlipYRight">
-            <summary>
-            Flip on Y axis and right animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideBottom">
-            <summary>
-            Slide from top to bottom animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideLeft">
-            <summary>
-            Slide from right to left animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideRight">
-            <summary>
-            Slide from left to right animation.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.SlideTop">
-            <summary>
-            Slide from bottom to top animation.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.SleekDialAnimation.Zoom">
@@ -11950,6 +12098,11 @@
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialItem">
             <summary>
             Represents the item of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialItem._isVisbleChanged">
+            <summary>
+            Represents a value if the <see cref="P:FluentUI.Blazor.Community.Components.SleekDialItem.IsVisible"/> property has changed.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Parent">
@@ -11983,6 +12136,19 @@
             Gets or sets the callback to raise on a click on the item.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.IsVisible">
+            <summary>
+            Gets or sets if the item is visible.
+            </summary>
+            <remarks>
+            The value is <see langword="true"/> by default.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.IsVisibleChanged">
+            <summary>
+            Gets or sets the callback to raise when the <see cref="P:FluentUI.Blazor.Community.Components.SleekDialItem.IsVisible"/> property changes.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Index">
             <summary>
             Gets the index of the item inside the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
@@ -11993,6 +12159,12 @@
             Gets or sets the angle of the item.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.OnClickAsync">
+            <summary>
+            Occurs when the item is clicked.
+            </summary>
+            <returns>Returns a task which raise the <see cref="P:FluentUI.Blazor.Community.Components.SleekDialItem.OnClick"/> callback when completed.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.Dispose">
             <inheritdoc />
         </member>
@@ -12000,6 +12172,12 @@
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.OnParametersSetAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialItemView">
@@ -13074,6 +13252,24 @@
             Gets the css of the component.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialView">
+            <summary>
+            Represents the viewer of a <see cref="T:FluentUI.Blazor.Community.Components.SleekDialItem"/> collection.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialView.Parent">
+            <summary>
+            Represents the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/> component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialView.Refresh">
+            <summary>
+            Refreshes the component state.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialView.OnInitialized">
+            <inheritdoc />
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.OnInitialized">
             <inheritdoc />
         </member>
@@ -13555,6 +13751,36 @@
             </summary>
             <param name="services">Collection of services.</param>
             <returns>Returns the collection of services.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.PathHelper">
+            <summary>
+            Represents a helper class for path operations.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.PathHelper.GetSegments(System.String)">
+            <summary>
+            Gets the segments of the specified path.
+            </summary>
+            <param name="path">Path to segment.</param>
+            <returns>Returns an array of <see cref="T:System.String"/> which represent the segments of the path.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.UnitFormatHelper">
+            <summary>
+            Represents a helper class for formatting CSS unit values.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Helpers.UnitFormatHelper.pattern">
+            <summary>
+            Represents a regex pattern to match valid CSS unit values.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.UnitFormatHelper.Format``1(``0)">
+            <summary>
+            Formats the specified value as a CSS unit string.
+            </summary>
+            <typeparam name="T">Type of the value.</typeparam>
+            <param name="value">Value to format.</param>
+            <returns>Returns the formatted value as a CSS unit string.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Hubs.ChatHub.OnConnectedAsync">
             <inheritdoc />

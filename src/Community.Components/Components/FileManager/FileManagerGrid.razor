@@ -65,7 +65,7 @@
 
                                         @if (item.IsDirectory)
                                         {
-                                            <img src="@(new FileIcons.Size24.FolderIcon().ToDataUri())" />
+                                            <FluentIcon Value="@(new FileIcons.Size24.FolderIcon())" />
                                         }
                                         else
                                         {
@@ -105,7 +105,7 @@
                                                      VerticalAlignment="VerticalAlignment.Center">
                                             @if (item.IsDirectory)
                                             {
-                                                <img src="@(new FileIcons.Size32.FolderIcon().ToDataUri(GetIconSizeFromGridViewOptions()))" />
+                                                @GetFolderIconFromGridViewOptions(Parent.State.View).ToMarkup(GetIconSizeFromGridViewOptions())             
                                             }
                                             else
                                             {

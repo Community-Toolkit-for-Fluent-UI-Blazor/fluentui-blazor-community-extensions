@@ -1,11 +1,25 @@
-﻿<h3>Default</h3>
+﻿<div style="height: 850px">
+    <FluentStack>
+        <FluentSwitch Label="Smartphone view" @bind-Value="_isMobileView" />
 
-<FluentCxFileManager TItem="NoFileEntryData"
-                     Root="@_root" />
+        <FluentNumberField HideStep
+                           Immediate
+                           Label="Smartphone switch view width (px)"
+                           @bind-Value=_smartphoneSwitchViewWidthValue />
+    </FluentStack>
 
+    <FluentCxFileManager TItem="NoFileEntryData"
+                         Root="@_root"
+                         SmartphoneSwitchViewWidth="@SmartphoneSwitchViewWidth"
+                         View="@(_isMobileView ? FileManagerView.Mobile : FileManagerView.Desktop)"/>
+</div>
 
 @code {
     private FileManagerEntry<NoFileEntryData> _root = default!;
+    private bool _isMobileView = false;
+    private int? _smartphoneSwitchViewWidthValue;
+
+    private string? SmartphoneSwitchViewWidth => _smartphoneSwitchViewWidthValue.HasValue ? $"{_smartphoneSwitchViewWidthValue}px" : null;
 
     [Inject]
     public IFileManagerItemsProvider<NoFileEntryData>? ItemsProvider{ get; set; }

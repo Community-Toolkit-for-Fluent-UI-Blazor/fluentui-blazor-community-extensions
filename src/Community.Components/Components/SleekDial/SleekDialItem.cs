@@ -1,5 +1,5 @@
+using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -10,6 +10,11 @@ namespace FluentUI.Blazor.Community.Components;
 public class SleekDialItem
     : FluentComponentBase, IDisposable
 {
+    /// <summary>
+    /// Represents a value if the <see cref="IsVisible"/> property has changed.
+    /// </summary>
+    private bool _isVisbleChanged;
+
     /// <summary>
     /// Gets or sets the parent of the item.
     /// </summary>
@@ -48,6 +53,21 @@ public class SleekDialItem
     public EventCallback OnClick { get; set; }
 
     /// <summary>
+    /// Gets or sets if the item is visible.
+    /// </summary>
+    /// <remarks>
+    /// The value is <see langword="true"/> by default.
+    /// </remarks>
+    [Parameter]
+    public bool IsVisible { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the callback to raise when the <see cref="IsVisible"/> property changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> IsVisibleChanged { get; set; }
+
+    /// <summary>
     /// Gets the index of the item inside the <see cref="FluentCxSleekDial"/>.
     /// </summary>
     internal int Index => Parent?.InternalItems.IndexOf(this) ?? -1;
@@ -56,6 +76,18 @@ public class SleekDialItem
     /// Gets or sets the angle of the item.
     /// </summary>
     internal string? Angle { get; private set; }
+
+    /// <summary>
+    /// Occurs when the item is clicked.
+    /// </summary>
+    /// <returns>Returns a task which raise the <see cref="OnClick"/> callback when completed.</returns>
+    internal async Task OnClickAsync()
+    {
+        if (OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync();
+        }
+    }
 
     /// <inheritdoc />
     public void Dispose()
@@ -83,11 +115,23 @@ public class SleekDialItem
         }
     }
 
-    internal async Task OnClickAsync()
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
     {
-        if (OnClick.HasDelegate)
+        await base.OnParametersSetAsync();
+
+        if (_isVisbleChanged && IsVisibleChanged.HasDelegate)
         {
-            await OnClick.InvokeAsync();
+            await IsVisibleChanged.InvokeAsync(IsVisible);
+            Parent?.Viewer?.Refresh();
         }
+    }
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _isVisbleChanged = parameters.HasValueChanged(nameof(IsVisible), IsVisible);
+
+        return base.SetParametersAsync(parameters);
     }
 }

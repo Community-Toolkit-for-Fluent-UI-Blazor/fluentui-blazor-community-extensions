@@ -436,6 +436,7 @@ public static partial class FileIcons
             [".exe"] = new Size32.ProgramIcon(),
 
             ["Default"] = new Size32.DefaultFileIcon(),
+            ["Folder"] = new Size32.FolderIcon()
         },
 
         [FileView.SmallIcons] = new()
@@ -575,6 +576,7 @@ public static partial class FileIcons
             [".exe"] = new Size24.ProgramIcon(),
 
             ["Default"] = new Size24.DefaultFileIcon(),
+            ["Folder"] = new Size24.FolderIcon()
         },
 
         [FileView.MediumIcons] = new()
@@ -714,6 +716,7 @@ public static partial class FileIcons
             [".exe"] = new Size72.ProgramIcon(),
 
             ["Default"] = new Size72.DefaultFileIcon(),
+            ["Folder"] = new Size72.FolderIcon()
         },
 
         [FileView.LargeIcons] = new()
@@ -853,6 +856,7 @@ public static partial class FileIcons
             [".exe"] = new Size96.ProgramIcon(),
 
             ["Default"] = new Size96.DefaultFileIcon(),
+            ["Folder"] = new Size96.FolderIcon()
         },
 
         [FileView.VeryLargeIcons] = new()
@@ -992,6 +996,7 @@ public static partial class FileIcons
             [".exe"] = new Size128.ProgramIcon(),
 
             ["Default"] = new Size128.DefaultFileIcon(),
+            ["Folder"] = new Size128.FolderIcon()
         }
     };
 
@@ -1037,6 +1042,16 @@ public static partial class FileIcons
         }
 
         return _sizedGridOptionsIconFromExtensions[view]["Default"];
+    }
+
+    /// <summary>
+    /// Gets the folder <see cref="Icon"/> from the <paramref name="view"/>.
+    /// </summary>
+    /// <param name="view">View used from the <see cref="FluentCxFileManager{TItem}"/>.</param>
+    /// <returns>Returns the <see cref="Icon"/> from its view.</returns>
+    internal static Icon GetFolderFromGridViewOptions(FileView view)
+    {
+        return _sizedGridOptionsIconFromExtensions[view]["Folder"];
     }
 
     /// <summary>

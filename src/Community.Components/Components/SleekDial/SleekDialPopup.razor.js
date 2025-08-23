@@ -160,19 +160,18 @@ export function setRadialPosition(id) {
 export function animateOpen(id, animation, duration, delay) {
   const instance = getInstance(id);
   if (instance) {
+    const animationName = 'animation-' + animation + 'in';
+
     instance.element.addEventListener('animationend', () => {
-      instance.element.classList.remove('animation-' + animation + 'in');
+      instance.element.classList.remove(animationName);
       instance.element.removeEventListener('animationend', () => { });
       instance.dotnetReference.invokeMethodAsync('OnAnimationCompletedAsync', true);
     });
 
-    instance.element.addEventListener('animationstart', () => {
-      instance.element.classList.remove('sleekdial-popup-hidden');
-    });
-
+    instance.element.classList.remove('sleekdial-popup-hidden');
     instance.element.style.setProperty('--animation-duration', `${duration}ms`);
     instance.element.style.setProperty('--animation-delay', `${delay}ms`);
-    instance.element.classList.add('animation-' + animation + 'in');
+    instance.element.classList.add(animationName);
   }
 }
 
