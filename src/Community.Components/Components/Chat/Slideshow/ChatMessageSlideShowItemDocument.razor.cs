@@ -73,8 +73,6 @@ public partial class ChatMessageSlideShowItemDocument<TItem>
 
         if (firstRender)
         {
-            _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptFile);
-
             if (Item is not null && !_itemLoaded)
             {
                 if (Item is BinaryChatFile binaryChatFile)
@@ -83,6 +81,7 @@ public partial class ChatMessageSlideShowItemDocument<TItem>
 
                     if (Item.ContentType.StartsWith("video") && _content?.Length > 0)
                     {
+                        _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptFile);
                         await _module!.InvokeVoidAsync("loadVideo", Id, _content, Item!.ContentType);
                     }
                 }

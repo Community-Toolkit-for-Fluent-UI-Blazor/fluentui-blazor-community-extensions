@@ -75,7 +75,9 @@ public record ChatRoomLabels
         HideRoomMessage = "Êtes-vous sûr de vouloir masquer la salle de discussion ?",
         HideRoomTitle = "Masquer la salle de discussion",
         UnhideRoomMessage = "Êtes-vous sûr de vouloir démasquer la salle de discussion ?",
-        UnhideRoomTitle = "Démasquer la salle de discussion"
+        UnhideRoomTitle = "Démasquer la salle de discussion",
+        ShowBlockedRooms = "Afficher les salles bloquées",
+        ShowHiddenRooms = "Afficher les salles masquées"
     };
 
     /// <summary>
@@ -367,4 +369,14 @@ public record ChatRoomLabels
     /// Gets or sets the title to unhide a room.
     /// </summary>
     public string UnhideRoomTitle { get; set; } = "Unhide the chat room";
+
+    /// <summary>
+    /// Gets or sets the label to show blocked rooms.
+    /// </summary>
+    public string ShowBlockedRooms { get; set; } = "Show blocked rooms";
+
+    /// <summary>
+    /// Gets or sets the label to show hidden rooms.
+    /// </summary>
+    public string ShowHiddenRooms { get; set; } = "Show hidden rooms";
 }

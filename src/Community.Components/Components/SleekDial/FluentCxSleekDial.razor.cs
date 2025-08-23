@@ -112,13 +112,13 @@ public partial class FluentCxSleekDial
     /// Gets or sets the icon to close the popup.
     /// </summary>
     [Parameter]
-    public Icon? CloseIcon { get; set; }
+    public Icon? CloseIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Dismiss();
 
     /// <summary>
     /// Gets or sets the icon to open the popup.
     /// </summary>
     [Parameter]
-    public Icon? OpenIcon { get; set; }
+    public Icon? OpenIcon { get; set; } = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Add();
 
     /// <summary>
     /// Gets or sets if the popup opens on hover.

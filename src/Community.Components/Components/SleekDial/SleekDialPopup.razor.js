@@ -119,38 +119,41 @@ export function setRadialPosition(id) {
 
   if (instance) {
     var item = instance.element.querySelector(".sleekdialitem-radial");
-    const width = item.offsetWidth;
-    const height = item.offsetHeight;
-    let yOffset = -1;
-    let xOffset = -1;
 
-    if (instance.radialOptions.isMiddle) {
-      const height = instance.isFixed ? window.innerHeight : instance.target.clientHeight;
-      yOffset = (height - instance.floatingButton.offsetTop - instance.element.offsetHeight / 2);
+    if (item) {
+      const width = item.offsetWidth;
+      const height = item.offsetHeight;
+      let yOffset = -1;
+      let xOffset = -1;
+
+      if (instance.radialOptions.isMiddle) {
+        const height = instance.isFixed ? window.innerHeight : instance.target.clientHeight;
+        yOffset = (height - instance.floatingButton.offsetTop - instance.element.offsetHeight / 2);
+      }
+
+      if (instance.radialOptions.isCenter) {
+        const w = instance.isFixed ? window.innerWidth : instance.target.clientWidth;
+        xOffset = (w - instance.floatingButton.offsetLeft - instance.element.offsetWidth / 2);
+      }
+
+      if (instance.radialOptions.isRight) {
+        const w = instance.isFixed ? window.innerWidth : instance.target.clientWidth;
+        xOffset = w;
+      }
+
+      if (instance.radialOptions.isBottom) {
+        yOffset = instance.floatingButton.offsetTop;
+      }
+
+      const value = {
+        x: xOffset,
+        y: yOffset,
+        width: width,
+        height: height
+      }
+
+      instance.dotnetReference.invokeMethodAsync('RadialPositionUpdated', value);
     }
-
-    if (instance.radialOptions.isCenter) {
-      const w = instance.isFixed ? window.innerWidth : instance.target.clientWidth;
-      xOffset = (w - instance.floatingButton.offsetLeft - instance.element.offsetWidth / 2);
-    }
-
-    if (instance.radialOptions.isRight) {
-      const w = instance.isFixed ? window.innerWidth : instance.target.clientWidth;
-      xOffset = w;
-    }
-
-    if (instance.radialOptions.isBottom) {
-      yOffset = instance.floatingButton.offsetTop;
-    }
-
-    const value = {
-      x: xOffset,
-      y: yOffset,
-      width: width,
-      height: height
-    }
-
-    instance.dotnetReference.invokeMethodAsync('RadialPositionUpdated', value);
   }
 }
 

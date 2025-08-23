@@ -3843,6 +3843,16 @@
             Gets or sets the title to unhide a room.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomLabels.ShowBlockedRooms">
+            <summary>
+            Gets or sets the label to show blocked rooms.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChatRoomLabels.ShowHiddenRooms">
+            <summary>
+            Gets or sets the label to show hidden rooms.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ChatRoomListException">
             <summary>
             Represents an exception for the chat room list.
