@@ -1,0 +1,315 @@
+/* _content/FluentUI.Blazor.Community.Components/Components/Cookies/FluentCxCookie.razor.rz.scp.css */
+.cookie-dialog[b-kwu7h9u05o] {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--cookie-width, 50%);
+  height: var(--cookie-height, auto);
+  z-index: 9901;
+}
+
+.cookie-small[b-kwu7h9u05o] {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: var(--cookie-width, 500px);
+  height: var(--cookie-height, 250px);
+  z-index: 9901;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/FloatingButton/FluentCxFloatingButton.razor.rz.scp.css */
+.fluentcx-floatingbutton-middle-center[b-5k3xn055tf] {
+    left:50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fluentcx-floatingbutton-middle[b-5k3xn055tf] {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.fluentcx-floatingbutton-center[b-5k3xn055tf] {
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/Resizer/FluentCxResizer.razor.rz.scp.css */
+.fluentcx-resizer[b-67tzm6rfoa] {
+  display: inline-flex;
+  position: relative;
+  min-height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
+}
+
+.fluentcx-resizer-handler[b-67tzm6rfoa] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.fluentcx-resizer-child-content-container[b-67tzm6rfoa] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.fluentcx-resizer-handler-cursor-ew[b-67tzm6rfoa] {
+  cursor: ew-resize;
+}
+
+.fluentcx-resizer-handler-cursor-ns[b-67tzm6rfoa] {
+  cursor: ns-resize;
+}
+
+.fluentcx-resizer-handler-cursor-nwse[b-67tzm6rfoa] {
+  cursor: nwse-resize;
+}
+
+[b-67tzm6rfoa] fluent-button {
+  min-height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
+  height: 100%;
+  width: 100%;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/SleekDial/SleekDialItemView.razor.rz.scp.css */
+.sleekdialitem-radial[b-nupc10y2mj] {
+  position: absolute !important;
+  transform: rotate(var(--sleekdial-radial-angle)) translate(var(--sleekdial-radial-offset)) rotate(calc(-1 * var(--sleekdial-radial-angle)))
+}
+
+.sleekdialitem-text-radial[b-nupc10y2mj] {
+  position: absolute;
+  visibility: hidden
+}
+
+.sleekdialitem-radial-center[b-nupc10y2mj] {
+  left: calc(.5 * var(--sleekdial-radial-min-width) + var(--sleekdial-radial-offset));
+}
+
+.sleekdialitem-radial-middle[b-nupc10y2mj] {
+  top: calc(.5 * var(--sleekdial-radial-min-width) + var(--sleekdial-radial-offset));
+}
+
+.sleekdialitem-radial-top[b-nupc10y2mj] {
+    top: 0px;
+}
+
+.sleekdialitem-radial-right[b-nupc10y2mj] {
+  right: 0px;
+}
+
+sleekdialitem-radial-bottom[b-nupc10y2mj] {
+    bottom: 0px;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/SleekDial/SleekDialPopup.razor.rz.scp.css */
+@keyframes FadeIn-b-r91sbni5ka {
+  0% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+@keyframes FadeOut-b-r91sbni5ka {
+  from {
+    opacity: 1
+  }
+
+  to {
+    opacity: 0
+  }
+}
+
+@keyframes ZoomIn-b-r91sbni5ka {
+  from {
+    transform: translate(0, 0) scale(0)
+  }
+
+  to {
+    transform: translate(0, 0) scale(1)
+  }
+}
+
+@keyframes ZoomOut-b-r91sbni5ka {
+  from {
+    transform: translate(0, 0) scale(1)
+  }
+
+  to {
+    transform: translate(0, 0) scale(0)
+  }
+}
+
+@keyframes FadeZoomIn-b-r91sbni5ka {
+  from {
+    opacity: 0;
+    transform: scale(0)
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1)
+  }
+}
+
+@keyframes FadeZoomOut-b-r91sbni5ka {
+  from {
+    opacity: 1;
+    transform: scale(1)
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0)
+  }
+}
+
+.animation-fadein[b-r91sbni5ka] {
+  animation-name: FadeIn-b-r91sbni5ka;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
+}
+
+.animation-fadeout[b-r91sbni5ka] {
+  animation-name: FadeOut-b-r91sbni5ka;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
+}
+
+.animation-zoomin[b-r91sbni5ka] {
+  animation-name: ZoomIn-b-r91sbni5ka;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
+}
+
+.animation-zoomout[b-r91sbni5ka] {
+  animation-name: ZoomOut-b-r91sbni5ka;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
+}
+
+.animation-fadezoomin[b-r91sbni5ka] {
+  animation-name: FadeZoomIn-b-r91sbni5ka;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in;
+}
+
+.animation-fadezoomout[b-r91sbni5ka] {
+  animation-name: FadeZoomOut-b-r91sbni5ka;
+  animation-delay: var(--animation-delay);
+  animation-duration: var(--animation-duration);
+  animation-timing-function: ease-out;
+}
+
+.sleekdial-popup-hidden[b-r91sbni5ka] {
+    visibility: hidden;
+}
+
+.sleekdial-popup[b-r91sbni5ka] {
+    position: absolute;
+    z-index: 998;
+}
+
+.sleekdial-popup-linear-middle[b-r91sbni5ka] {
+    bottom: var(--sleekdial-vertical-offset);
+}
+
+.sleekdial-popup-linear-left[b-r91sbni5ka] {
+    left: var(--sleekdial-horizontal-offset);
+}
+
+.sleekdial-popup-linear-right[b-r91sbni5ka] {
+  right: var(--sleekdial-horizontal-offset);
+}
+
+.sleekdial-popup-linear-direction-left .sleekdial-popup-ul[b-r91sbni5ka] {
+  flex-direction: row ;
+}
+
+.sleekdial-popup-linear-direction-right .sleekdial-popup-ul[b-r91sbni5ka] {
+  flex-direction: row-reverse;
+}
+
+.sleekdial-popup-linear-direction-down .sleekdial-popup-ul[b-r91sbni5ka] {
+  flex-direction: column-reverse;
+}
+
+.sleekdial-popup-linear-center[b-r91sbni5ka] {
+  left: var(--sleekdial-horizontal-offset);
+}
+
+.sleekdial-popup-linear-top[b-r91sbni5ka] {
+  top: var(--sleekdial-vertical-offset);
+}
+
+.sleekdial-popup-linear-bottom[b-r91sbni5ka] {
+  bottom: var(--sleekdial-vertical-offset);
+}
+
+.sleekdial-popup-radial-top[b-r91sbni5ka] {
+  top: 16px;
+}
+
+.sleekdial-popup-radial-bottom[b-r91sbni5ka] {
+  top: var(--sleekdial-vertical-offset);
+}
+
+.sleekdial-popup-radial-left[b-r91sbni5ka] {
+  left: 16px;
+}
+
+.sleekdial-popup-radial-right[b-r91sbni5ka] {
+  right: 16px;
+}
+
+.sleekdial-popup-radial[b-r91sbni5ka] {
+  height: calc(var(--sleekdial-radial-offset) + 2 * var(--sleekdial-radial-min-height));
+  width: calc(var(--sleekdial-radial-offset) + 2*var(--sleekdial-radial-min-width));
+}
+
+.sleekdial-popup-radial-middle[b-r91sbni5ka] {
+  height: calc(2 * var(--sleekdial-radial-offset) + 2 * var(--sleekdial-radial-min-height));
+  top: var(--sleekdial-vertical-offset);
+}
+
+.sleekdial-popup-radial-center[b-r91sbni5ka] {
+  width: calc(2 * var(--sleekdial-radial-offset) + 2 * var(--sleekdial-radial-min-width));
+  left: var(--sleekdial-horizontal-offset);
+}
+
+.sleekdial-popup-radial-top-left[b-r91sbni5ka] {
+  border-bottom-right-radius: 100%
+}
+
+.sleekdial-popup-radial-top-right[b-r91sbni5ka] {
+  border-bottom-left-radius: 100%
+}
+
+.sleekdial-popup-radial-bottom-left[b-r91sbni5ka] {
+  border-top-right-radius: 100%
+}
+
+.sleekdial-popup-radial-bottom-right[b-r91sbni5ka] {
+  border-top-left-radius: 100%
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/SleekDial/SleekDialView.razor.rz.scp.css */
+.sleekdial-view-radial[b-hxine644y0] {
+  height: inherit;
+  width: inherit;
+  position: relative;
+  border-radius: inherit;
+  padding: 5px 3px;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0;
+}
