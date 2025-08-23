@@ -7593,6 +7593,11 @@
             Gets the <see cref="T:FluentUI.Blazor.Community.Components.SleekDialItem"/> inside this instance of <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Viewer">
+            <summary>
+            Gets or sets the viewer of the dial.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FocusedIndex">
             <summary>
             Gets or sets the focused index.
@@ -7606,6 +7611,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.AnimationSettings">
             <summary>
             Gets or sets the settings of the animation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.StayOpen">
+            <summary>
+            Gets or sets a value indicating if the dial stay open when an item is clicked.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FloatingButtonId">
@@ -7640,6 +7650,14 @@
             </summary>
             <param name="isOpen">Value indicating if the dial is open or hide.</param>
             <returns>Returns a task which hides or shows the dial when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ShowOrHidePopupInternalAsync(System.Boolean,System.Boolean)">
+            <summary>
+            Shows or hides the dial in an asynchronous way.
+            </summary>
+            <param name="isOpen">Value indicating if the dial is open or hide.</param>
+            <param name="stayOpen">Value indicating if the dial stay open when the item is clicked.</param>
+            <returns>Returns a task which shows or hides the popup when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnKeyDownHandlerAsync(Microsoft.FluentUI.AspNetCore.Components.FluentKeyCodeEventArgs)">
             <summary>
@@ -7680,17 +7698,17 @@
             <param name="value">Represents the created item.</param>
             <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.ItemRendered"/> callback.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnAfterRenderAsync(System.Boolean)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FocusAsync">
             <summary>
             Focus the selected index.
             </summary>
             <returns>Returns a task which focus the selected element when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialAnimation">
             <summary>
@@ -7742,6 +7760,11 @@
             Represents the item of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialItem._isVisbleChanged">
+            <summary>
+            Represents a value if the <see cref="P:FluentUI.Blazor.Community.Components.SleekDialItem.IsVisible"/> property has changed.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Parent">
             <summary>
             Gets or sets the parent of the item.
@@ -7773,6 +7796,19 @@
             Gets or sets the callback to raise on a click on the item.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.IsVisible">
+            <summary>
+            Gets or sets if the item is visible.
+            </summary>
+            <remarks>
+            The value is <see langword="true"/> by default.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.IsVisibleChanged">
+            <summary>
+            Gets or sets the callback to raise when the <see cref="P:FluentUI.Blazor.Community.Components.SleekDialItem.IsVisible"/> property changes.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.SleekDialItem.Index">
             <summary>
             Gets the index of the item inside the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
@@ -7783,6 +7819,12 @@
             Gets or sets the angle of the item.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.OnClickAsync">
+            <summary>
+            Occurs when the item is clicked.
+            </summary>
+            <returns>Returns a task which raise the <see cref="P:FluentUI.Blazor.Community.Components.SleekDialItem.OnClick"/> callback when completed.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.Dispose">
             <inheritdoc />
         </member>
@@ -7790,6 +7832,12 @@
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.OnParametersSetAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialItem.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialItemView">
@@ -8275,6 +8323,24 @@
             <summary>
             Gets or sets the direction of the items.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialView">
+            <summary>
+            Represents the viewer of a <see cref="T:FluentUI.Blazor.Community.Components.SleekDialItem"/> collection.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SleekDialView.Parent">
+            <summary>
+            Represents the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/> component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialView.Refresh">
+            <summary>
+            Refreshes the component state.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SleekDialView.OnInitialized">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1">
             <summary>

@@ -154,7 +154,7 @@
 }
 
 .sleekdial-popup-radial-bottom {
-  top: var(--sleekdial-vertical-offset);
+  bottom: 16px;
 }
 
 .sleekdial-popup-radial-left {

@@ -1,7 +1,9 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-@if (Item is not null && Parent is not null)
+@if (Item is not null &&
+     Parent is not null &&
+     Item.IsVisible)
 {
     @if (Parent.ItemTemplate is not null)
     {

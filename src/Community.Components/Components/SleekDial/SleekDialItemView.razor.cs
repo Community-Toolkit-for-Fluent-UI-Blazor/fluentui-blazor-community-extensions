@@ -113,11 +113,12 @@ public partial class SleekDialItemView
         }
 
         var radialSettings = Parent.CorrectRadialSettings;
-        var count = Parent.InternalItems.Count;
+        var visibiliyIndices = Parent.InternalItems.FindAll(x => x.IsVisible);
+        var count = visibiliyIndices.Count;
         var delta = Math.Abs(radialSettings.EndAngle - radialSettings.StartAngle);
         var itemCount = delta == 360 || delta == 0 || count == 1 ? count : count - 1;
         var stepAngle = delta / itemCount;
-        var itemAngle = stepAngle * Item.Index;
+        var itemAngle = stepAngle * visibiliyIndices.FindIndex(x => x.Index == Item.Index);
         var angle = radialSettings.Direction == SleekDialRadialDirection.Clockwise ? radialSettings.StartAngle + itemAngle : radialSettings.StartAngle - itemAngle;
         var finalAngle = angle % 360;
 
