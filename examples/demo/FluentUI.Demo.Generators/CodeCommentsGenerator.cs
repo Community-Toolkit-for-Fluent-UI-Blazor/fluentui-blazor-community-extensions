@@ -67,7 +67,7 @@ public class CodeCommentsGenerator : IIncrementalGenerator
         sb.AppendLine("\t}");
         sb.AppendLine("}");
 #pragma warning disable RS1035 // Do not use APIs banned for analyzers
-        File.WriteAllText("C:\\Code\\CodeComments.cs", sb.ToString());
+        File.WriteAllText("D:\\CodeComments.cs", sb.ToString());
 #pragma warning restore RS1035 // Do not use APIs banned for analyzers
         context.AddSource($"CodeComments.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
     }
