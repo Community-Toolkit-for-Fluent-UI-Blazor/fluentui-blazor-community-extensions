@@ -13,7 +13,7 @@ public class SleekDialItem
     /// <summary>
     /// Represents a value if the <see cref="IsVisible"/> property has changed.
     /// </summary>
-    private bool _isVisbleChanged;
+    private bool _isVisibleChanged;
 
     /// <summary>
     /// Gets or sets the parent of the item.
@@ -120,7 +120,7 @@ public class SleekDialItem
     {
         await base.OnParametersSetAsync();
 
-        if (_isVisbleChanged)
+        if (_isVisibleChanged)
         {
             if (IsVisibleChanged.HasDelegate)
             {
@@ -134,7 +134,7 @@ public class SleekDialItem
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        _isVisbleChanged = parameters.HasValueChanged(nameof(IsVisible), IsVisible);
+        _isVisibleChanged = parameters.HasValueChanged(nameof(IsVisible), IsVisible);
 
         await base.SetParametersAsync(parameters);
     }

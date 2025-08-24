@@ -7796,7 +7796,7 @@
             Represents the item of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SleekDialItem._isVisbleChanged">
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialItem._isVisibleChanged">
             <summary>
             Represents a value if the <see cref="P:FluentUI.Blazor.Community.Components.SleekDialItem.IsVisible"/> property has changed.
             </summary>
