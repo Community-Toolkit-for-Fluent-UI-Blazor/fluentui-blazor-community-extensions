@@ -12,18 +12,9 @@ public class FluentCxImageGroupItem
     : FluentComponentBase, IAsyncDisposable
 {
     /// <summary>
-    /// Represents a value indicating if the component is rendered on the screen.
-    /// </summary>
-    private bool _isRendered;
-
-    /// <summary>
     /// Represents a value indicating if a parameter has changed.
     /// </summary>
     private bool _hasParameterChanged;
-
-    private int? _width;
-
-    private int? _height;
 
     /// <summary>
     /// Gets or sets the source of the image.
@@ -38,6 +29,12 @@ public class FluentCxImageGroupItem
     public string? Alt { get; set; }
 
     /// <summary>
+    /// Gets or sets the title property.
+    /// </summary>
+    [Parameter]
+    public string? Title { get; set; }
+
+    /// <summary>
     /// Gets the parent of the component.
     /// </summary>
     [CascadingParameter]
@@ -47,9 +44,9 @@ public class FluentCxImageGroupItem
     /// Gets the style of the component.
     /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
-        .AddStyle("width", $"{_width}px", _width is not null)
-        .AddStyle("height", $"{_height}px", _height is not null)
-        .AddStyle("margin-left", GetMarginLeft())
+        .AddStyle("width", $"{(int)Parent.Size}px")
+        .AddStyle("height", $"{(int)Parent.Size}px")
+        .AddStyle("margin-left", GetMarginLeft(), !Parent.IsInPopover(this))
         .AddStyle("border-radius", $"{Parent.Shape.ToBorderRadius()}")
         .AddStyle("background-color", Parent.BackgroundStyle, !string.IsNullOrEmpty(Parent.BackgroundStyle) && string.IsNullOrWhiteSpace(Style))
         .AddStyle("border", Parent.BorderStyle, !string.IsNullOrEmpty(Parent.BorderStyle) && string.IsNullOrWhiteSpace(Style))
@@ -80,25 +77,17 @@ public class FluentCxImageGroupItem
         return ValueTask.CompletedTask;
     }
 
-    /// <summary>
-    /// Sets the size of the image.
-    /// </summary>
-    /// <param name="size">Size of the image.</param>
-    internal void SetGroupSize(int size)
-    {
-        _width = size;
-        _height = size;
-        Parent.OnItemParemetersChanged(this);
-    }
-
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
+
         if (Parent is null)
         {
             throw new InvalidOperationException("FluentCxImageGroupItem must be used inside a FluentCxImageGroup component.");
         }
+
+        Parent.Add(this);
 
         InternalRenderer = builder =>
         {
@@ -106,20 +95,10 @@ public class FluentCxImageGroupItem
             builder.AddAttribute(1, "src", Source);
             builder.AddAttribute(2, "alt", Alt);
             builder.AddAttribute(3, "style", InternalStyle);
+            builder.AddAttribute(4, "title", Title);
             builder.CloseElement();
         };
-    }
 
-    /// <inheritdoc />
-    protected override void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-
-        if (firstRender)
-        {
-            Parent.Add(this);
-            _isRendered = true;
-        }
     }
 
     /// <inheritdoc />
@@ -127,8 +106,7 @@ public class FluentCxImageGroupItem
     {
         base.OnParametersSet();
 
-        if (_isRendered &&
-            _hasParameterChanged)
+        if (_hasParameterChanged)
         {
             Parent.OnItemParemetersChanged(this);
         }

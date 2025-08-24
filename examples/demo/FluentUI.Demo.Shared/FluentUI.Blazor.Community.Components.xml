@@ -6132,17 +6132,9 @@
             </summary>
             <param name="imageGroupItem">Image which the parameters have changed.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem">
             <summary>
             Represents an image.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._isRendered">
-            <summary>
-            Represents a value indicating if the component is rendered on the screen.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._hasParameterChanged">
@@ -6158,6 +6150,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Alt">
             <summary>
             Gets or sets the alt property.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Title">
+            <summary>
+            Gets or sets the title property.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Parent">
@@ -6184,16 +6181,7 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.DisposeAsync">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.SetGroupSize(System.Int32)">
-            <summary>
-            Sets the size of the image.
-            </summary>
-            <param name="size">Size of the image.</param>
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnAfterRender(System.Boolean)">
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnParametersSet">
