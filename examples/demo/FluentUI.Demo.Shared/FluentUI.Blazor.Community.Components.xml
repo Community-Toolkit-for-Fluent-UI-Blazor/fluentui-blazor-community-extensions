@@ -6945,6 +6945,163 @@
             <param name="change">Value indicating if the media has changed.</param>
             <returns>Returns a task which raises the event callback <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged"/> when completed.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxMenuBar">
+            <summary>
+            A horizontal menu bar component that integrates with Fluent UI styling and theming.
+            </summary>
+            <remarks>
+            <para>
+            The FluentCxMenuBar provides a horizontal navigation menu with features including:
+            </para>
+            <list type="bullet">
+            <item>Support for flat menu items and dropdown menus</item>
+            <item>Integration with Fluent UI buttons and styling</item>
+            <item>Navigation links and click handlers</item>
+            <item>Icons and text labels</item>
+            <item>Disabled state support</item>
+            <item>Custom content areas</item>
+            <item>Keyboard navigation support</item>
+            </list>
+            <para>
+            The component follows Fluent UI design principles and integrates seamlessly with
+            other Fluent UI components.
+            </para>
+            </remarks>
+            <example>
+            <code>
+            &lt;FluentCxMenuBar Items="menuItems" OnItemClick="HandleItemClick" /&gt;
+            </code>
+            </example>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMenuBar.Items">
+            <summary>
+            Gets or sets the collection of menu items to display.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMenuBar.OnItemClick">
+            <summary>
+            Gets or sets the callback invoked when a menu item is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMenuBar.ChildContent">
+            <summary>
+            Gets or sets custom content to display in the menu bar (e.g., search box, user profile).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMenuBar.ItemAppearance">
+            <summary>
+            Gets or sets the appearance style for menu items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMenuBar.SelectedItemAppearance">
+            <summary>
+            Gets or sets the appearance style for selected menu items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMenuBar.ShowBorder">
+            <summary>
+            Gets or sets whether the menu bar should have a visible border.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxMenuBar.ItemCssClass">
+            <summary>
+            Gets or sets additional CSS classes to apply to menu items.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MenuBarItem">
+            <summary>
+            Represents an item in a horizontal menu bar.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.Id">
+            <summary>
+            Gets or sets the unique identifier for this menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.Text">
+            <summary>
+            Gets or sets the text displayed for this menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.Icon">
+            <summary>
+            Gets or sets the icon to display next to the text.
+            Use Fluent UI icon objects (e.g., new Icons.Regular.Size20.Add()).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.Disabled">
+            <summary>
+            Gets or sets whether this menu item is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.Selected">
+            <summary>
+            Gets or sets whether this menu item is currently selected/active.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.OnClick">
+            <summary>
+            Gets or sets the callback invoked when this menu item is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.Children">
+            <summary>
+            Gets or sets the child menu items for creating dropdown menus.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.Href">
+            <summary>
+            Gets or sets the URL to navigate to when this item is clicked.
+            Takes precedence over OnClick if both are specified.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.Target">
+            <summary>
+            Gets or sets the target for navigation (e.g., "_blank", "_self").
+            Only used when Href is specified.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.CssClass">
+            <summary>
+            Gets or sets additional CSS classes to apply to this menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.Data">
+            <summary>
+            Gets or sets custom data associated with this menu item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuBarItem.HasChildren">
+            <summary>
+            Gets whether this menu item has child items.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.MenuBarItem.Create(System.String,Microsoft.AspNetCore.Components.EventCallback{FluentUI.Blazor.Community.Components.MenuBarItem})">
+            <summary>
+            Creates a simple menu item with text and click handler.
+            </summary>
+            <param name="text">The text to display</param>
+            <param name="onClick">The click handler</param>
+            <returns>A new MenuBarItem</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.MenuBarItem.Create(System.String,Microsoft.FluentUI.AspNetCore.Components.Icon,Microsoft.AspNetCore.Components.EventCallback{FluentUI.Blazor.Community.Components.MenuBarItem})">
+            <summary>
+            Creates a menu item with text, icon, and click handler.
+            </summary>
+            <param name="text">The text to display</param>
+            <param name="icon">The Fluent UI icon object</param>
+            <param name="onClick">The click handler</param>
+            <returns>A new MenuBarItem</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.MenuBarItem.CreateLink(System.String,System.String,Microsoft.FluentUI.AspNetCore.Components.Icon)">
+            <summary>
+            Creates a navigation menu item.
+            </summary>
+            <param name="text">The text to display</param>
+            <param name="href">The URL to navigate to</param>
+            <param name="icon">Optional icon object</param>
+            <returns>A new MenuBarItem</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryPathBarItemComparer">
             <summary>
             Represents the comparer to compare two instance of <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> together.

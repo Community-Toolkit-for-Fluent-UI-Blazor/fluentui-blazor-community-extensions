@@ -1,0 +1,120 @@
+.fluentcx-menubar {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    background: var(--neutral-fill-layer-rest);
+    border-bottom: calc(var(--stroke-width, 1) * 1px) solid var(--neutral-stroke-divider-rest);
+    gap: calc(var(--design-unit, 4) * 1px);
+    min-height: calc(var(--base-height-multiplier, 8) * var(--design-unit, 4) * 1px);
+    font-family: var(--body-font);
+    font-size: var(--type-ramp-base-font-size);
+    line-height: var(--type-ramp-base-line-height);
+}
+
+.fluentcx-menubar.no-border {
+    border-bottom: none;
+}
+
+.fluentcx-menubar-item-container {
+    display: flex;
+    align-items: center;
+}
+
+.fluentcx-menubar-item {
+    height: calc((var(--base-height-multiplier, 8) * var(--design-unit, 4) - 4) * 1px);
+    padding: 0 calc(var(--design-unit, 4) * 2px);
+    border-radius: calc(var(--control-corner-radius, 4) * 1px);
+    font-weight: var(--font-weight);
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--design-unit, 4) * 1px);
+}
+
+.fluentcx-menubar-item:hover {
+    background: var(--neutral-fill-stealth-hover);
+}
+
+.fluentcx-menubar-item:active {
+    background: var(--neutral-fill-stealth-active);
+}
+
+.fluentcx-menubar-item.selected {
+    background: var(--neutral-fill-secondary-rest);
+    font-weight: 600;
+}
+
+.fluentcx-menubar-item.selected:hover {
+    background: var(--neutral-fill-secondary-hover);
+}
+
+.fluentcx-menubar-item.disabled {
+    opacity: var(--disabled-opacity, 0.3);
+    cursor: not-allowed;
+}
+
+.fluentcx-menubar-item.has-children::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid var(--neutral-foreground-rest);
+    margin-left: calc(var(--design-unit, 4) * 1px);
+}
+
+.fluentcx-menubar-custom-content {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--design-unit, 4) * 2px);
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .fluentcx-menubar {
+        flex-wrap: wrap;
+        padding: calc(var(--design-unit, 4) * 1px);
+        gap: calc(var(--design-unit, 4) * 1px);
+    }
+
+    .fluentcx-menubar-custom-content {
+        width: 100%;
+        margin-left: 0;
+        justify-content: flex-end;
+        margin-top: calc(var(--design-unit, 4) * 1px);
+    }
+}
+
+/* Focus states for accessibility */
+.fluentcx-menubar-item:focus-visible {
+    outline: calc(var(--focus-stroke-width, 2) * 1px) solid var(--focus-stroke-outer);
+    outline-offset: calc(var(--focus-stroke-width, 2) * 1px);
+}
+
+/* Integration with Fluent UI button styling */
+.fluentcx-menubar ::deep .fluent-button {
+    height: auto;
+    min-height: calc((var(--base-height-multiplier, 8) * var(--design-unit, 4) - 4) * 1px);
+}
+
+.fluentcx-menubar ::deep .fluent-anchor {
+    text-decoration: none;
+    color: var(--neutral-foreground-rest);
+    padding: 0 calc(var(--design-unit, 4) * 2px);
+    height: calc((var(--base-height-multiplier, 8) * var(--design-unit, 4) - 4) * 1px);
+    display: flex;
+    align-items: center;
+    border-radius: calc(var(--control-corner-radius, 4) * 1px);
+    transition: background-color 0.2s ease-in-out;
+}
+
+.fluentcx-menubar ::deep .fluent-anchor:hover {
+    background: var(--neutral-fill-stealth-hover);
+}
+
+.fluentcx-menubar ::deep .fluent-anchor:active {
+    background: var(--neutral-fill-stealth-active);
+}
