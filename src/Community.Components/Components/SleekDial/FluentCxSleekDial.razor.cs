@@ -453,7 +453,7 @@ public partial class FluentCxSleekDial
     internal void AddChild(SleekDialItem value)
     {
         InternalItems.Add(value);
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -463,7 +463,7 @@ public partial class FluentCxSleekDial
     internal void RemoveChild(SleekDialItem value)
     {
         InternalItems.Remove(value);
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
