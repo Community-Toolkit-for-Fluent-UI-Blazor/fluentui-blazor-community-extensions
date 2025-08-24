@@ -34,6 +34,11 @@
     <ProjectReference Include="..\FluentUI.Demo.Generators\FluentUI.Demo.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\CodeEditor\CodeEditorPage.razor" />
+    <UpToDateCheckInput Remove="Pages\CodeEditor\Examples\CodeEditorDefault.razor" />
+  </ItemGroup>
+
   <Target Name="CopySources" BeforeTargets="BeforeBuild">
     <ItemGroup>
       <Sources Include="$(ProjectDir)Pages/**/Examples/*" />

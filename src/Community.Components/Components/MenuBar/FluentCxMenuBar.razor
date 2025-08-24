@@ -1,0 +1,69 @@
+@using Microsoft.FluentUI.AspNetCore.Components
+@inherits FluentComponentBase
+@namespace FluentUI.Blazor.Community.Components
+
+<nav class="fluentcx-menubar @Class" style="@Style" @attributes="AdditionalAttributes" role="menubar">
+    @if (Items != null)
+    {
+        @foreach (var item in Items)
+        {
+            <div class="fluentcx-menubar-item-container" role="none">
+                @if (item.HasChildren)
+                {
+                    <FluentMenuButton Text="@item.Text"
+                                      IconStart="@item.Icon"
+                                      Disabled="@item.Disabled"
+                                      Class="@GetItemCssClass(item)">
+                        @foreach (var child in item.Children)
+                        {
+                            @if (child.Text == "---")
+                            {
+                                <FluentDivider Role="DividerRole.Separator" />
+                            }
+                            else
+                            {
+                                <FluentMenuItem OnClick="@(() => OnMenuItemClick(child))"
+                                                Disabled="@child.Disabled">
+                                    @if (child.Icon != null)
+                                    {
+                                        <FluentIcon Value="@child.Icon" Slot="start" />
+                                    }
+                                    @child.Text
+                                </FluentMenuItem>
+                            }
+                        }
+                    </FluentMenuButton>
+                }
+                else if (!string.IsNullOrEmpty(item.Href))
+                {
+                    <FluentAnchor Href="@item.Href" 
+                                  Target="@item.Target"
+                                  Class="@GetItemCssClass(item)">
+                        @if (item.Icon != null)
+                        {
+                            <FluentIcon Value="@item.Icon" Style="margin-right: 8px;" />
+                        }
+                        @item.Text
+                    </FluentAnchor>
+                }
+                else
+                {
+                    <FluentButton Appearance="@GetButtonAppearance(item)"
+                                  IconStart="@item.Icon"
+                                  Disabled="@item.Disabled"
+                                  Class="@GetItemCssClass(item)"
+                                  OnClick="@(() => OnMenuItemClick(item))">
+                        @item.Text
+                    </FluentButton>
+                }
+            </div>
+        }
+    }
+
+    @if (ChildContent != null)
+    {
+        <div class="fluentcx-menubar-custom-content">
+            @ChildContent
+        </div>
+    }
+</nav>

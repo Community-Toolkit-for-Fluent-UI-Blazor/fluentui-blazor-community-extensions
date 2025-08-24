@@ -1,0 +1,62 @@
+@using FluentUI.Blazor.Community.Components
+
+<FluentStack Orientation="Orientation.Vertical" VerticalGap="40">
+
+    <!-- Basic Menu Bar -->
+    <div>
+        <FluentLabel Typo="Typography.PageTitle">Basic Menu Bar</FluentLabel>
+        <FluentCxMenuBar Items="@_basicMenuItems" OnItemClick="@OnMenuItemClick" />
+    </div>
+
+    <!-- Menu Bar with Dropdowns -->
+    <div>
+        <FluentLabel Typo="Typography.PageTitle">Menu Bar with Dropdowns</FluentLabel>
+        <FluentCxMenuBar Items="@_dropdownMenuItems" OnItemClick="@OnMenuItemClick" />
+    </div>
+
+    <!-- Menu Bar with Custom Content -->
+    <div>
+        <FluentLabel Typo="Typography.PageTitle">Menu Bar with Custom Content</FluentLabel>
+        <FluentCxMenuBar Items="@_appMenuItems" OnItemClick="@OnMenuItemClick">
+            <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="12">
+                <FluentSearch @bind-Value="_searchText"
+                              Placeholder="Search..."
+                              Style="width: 200px;" />
+                <FluentPersona Name="John Doe" />
+            </FluentStack>
+        </FluentCxMenuBar>
+    </div>
+
+    <!-- Different Appearances -->
+    <div>
+        <FluentLabel Typo="Typography.PageTitle">Different Appearances</FluentLabel>
+
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16">
+            <div>
+                <FluentLabel Typo="Typography.Body">Accent Appearance:</FluentLabel>
+                <FluentCxMenuBar Items="@_accentMenuItems"
+                                 ItemAppearance="Appearance.Accent"
+                                 SelectedItemAppearance="Appearance.Accent"
+                                 OnItemClick="@OnMenuItemClick" />
+            </div>
+
+            <div>
+                <FluentLabel Typo="Typography.Body">Outline Appearance:</FluentLabel>
+                <FluentCxMenuBar Items="@_outlineMenuItems"
+                                 ItemAppearance="Appearance.Outline"
+                                 SelectedItemAppearance="Appearance.Accent"
+                                 OnItemClick="@OnMenuItemClick" />
+            </div>
+        </FluentStack>
+    </div>
+
+    <!-- Status Messages -->
+    @if (!string.IsNullOrEmpty(_statusMessage))
+    {
+        <FluentMessageBar Intent="MessageIntent.Success"
+                          AllowDismiss="true">
+            @_statusMessage
+        </FluentMessageBar>
+    }
+
+</FluentStack>
