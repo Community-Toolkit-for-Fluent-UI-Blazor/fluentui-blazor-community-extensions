@@ -18,6 +18,11 @@ public partial class FluentCxSleekDial
     private bool _isOpen;
 
     /// <summary>
+    /// Represents if it's the first render.
+    /// </summary>
+    private bool _firstRender;
+
+    /// <summary>
     /// Represents the correct radial settings to position the items on the radial panel.
     /// </summary>
     private SleekDialRadialSettings? _correctRadialSettings;
@@ -231,6 +236,12 @@ public partial class FluentCxSleekDial
     public bool StayOpen { get; set; }
 
     /// <summary>
+    /// Gets or sets the hide mode of the dial.
+    /// </summary>
+    [Parameter]
+    public SleekDialHideMode HideMode { get; set; } = SleekDialHideMode.None;
+
+    /// <summary>
     /// Gets the identifier of the <see cref="FluentCxFloatingButton"/>.
     /// </summary>
     internal string? FloatingButtonId => _floatingButton?.Id;
@@ -257,6 +268,24 @@ public partial class FluentCxSleekDial
     /// Event raised when a radial settings has changed.
     /// </summary>
     internal event EventHandler? RadialSettingsChanged;
+
+    /// <summary>
+    /// Gets a value indicating if the dial is visible.
+    /// </summary>
+    private bool IsVisible
+    {
+        get
+        {
+            return HideMode switch
+            {
+                SleekDialHideMode.None => true,
+                SleekDialHideMode.WhenEmpty => !_firstRender || InternalItems.Count > 0,
+                SleekDialHideMode.WhenNoVisible => !_firstRender || InternalItems.Any(i => i.IsVisible),
+                SleekDialHideMode.WhenEmptyOrNoVisible => !_firstRender || InternalItems.Count > 0 && InternalItems.Any(i => i.IsVisible),
+                _ => true,
+            };
+        }
+    }
 
     /// <summary>
     /// Occurs on a click on the <see cref="FluentCxFloatingButton"/>.
@@ -424,6 +453,7 @@ public partial class FluentCxSleekDial
     internal void AddChild(SleekDialItem value)
     {
         InternalItems.Add(value);
+        StateHasChanged();
     }
 
     /// <summary>
@@ -433,6 +463,7 @@ public partial class FluentCxSleekDial
     internal void RemoveChild(SleekDialItem value)
     {
         InternalItems.Remove(value);
+        StateHasChanged();
     }
 
     /// <summary>
@@ -473,10 +504,30 @@ public partial class FluentCxSleekDial
     }
 
     /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (firstRender)
+        {
+            _firstRender = true;
+        }
+    }
+
+    /// <inheritdoc />
     public override Task SetParametersAsync(ParameterView parameters)
     {
         _linearDirectionChanged = parameters.HasValueChanged(nameof(Direction), Direction);
 
         return base.SetParametersAsync(parameters);
+    }
+
+    /// <summary>
+    /// Refreshes the <see cref="FluentCxSleekDial"/>.
+    /// </summary>
+    public void Refresh()
+    {
+        Viewer?.Refresh();
+        StateHasChanged();
     }
 }

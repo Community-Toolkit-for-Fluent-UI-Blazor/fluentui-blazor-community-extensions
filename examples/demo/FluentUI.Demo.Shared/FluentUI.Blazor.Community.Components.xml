@@ -7426,6 +7426,11 @@
             Value indicating if the dial is open.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._firstRender">
+            <summary>
+            Represents if it's the first render.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSleekDial._correctRadialSettings">
             <summary>
             Represents the correct radial settings to position the items on the radial panel.
@@ -7606,6 +7611,11 @@
             Gets or sets a value indicating if the dial stay open when an item is clicked.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.HideMode">
+            <summary>
+            Gets or sets the hide mode of the dial.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.FloatingButtonId">
             <summary>
             Gets the identifier of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFloatingButton"/>.
@@ -7624,6 +7634,11 @@
         <member name="E:FluentUI.Blazor.Community.Components.FluentCxSleekDial.RadialSettingsChanged">
             <summary>
             Event raised when a radial settings has changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSleekDial.IsVisible">
+            <summary>
+            Gets a value indicating if the dial is visible.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnClickAsync">
@@ -7695,8 +7710,16 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.OnAfterRender(System.Boolean)">
+            <inheritdoc />
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSleekDial.Refresh">
+            <summary>
+            Refreshes the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial"/>.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialAnimation">
             <summary>
@@ -7741,6 +7764,31 @@
         <member name="P:FluentUI.Blazor.Community.Components.SleekDialAnimationSettings.Animation">
             <summary>
             Gets or sets the animation to play.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SleekDialHideMode">
+            <summary>
+            Represents the hide mode for a SleekDial component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialHideMode.None">
+            <summary>
+            SleekDial is always visible.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialHideMode.WhenEmpty">
+            <summary>
+            SleekDial is hidden when there are no items to display.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialHideMode.WhenNoVisible">
+            <summary>
+            SleekDial is hidden when there are no visible items to display.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SleekDialHideMode.WhenEmptyOrNoVisible">
+            <summary>
+            SleekDial is hidden when there are no items or no visible items to display.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SleekDialItem">

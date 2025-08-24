@@ -120,18 +120,22 @@ public class SleekDialItem
     {
         await base.OnParametersSetAsync();
 
-        if (_isVisbleChanged && IsVisibleChanged.HasDelegate)
+        if (_isVisbleChanged)
         {
-            await IsVisibleChanged.InvokeAsync(IsVisible);
+            if (IsVisibleChanged.HasDelegate)
+            {
+                await IsVisibleChanged.InvokeAsync(IsVisible);
+            }
+
             Parent?.Viewer?.Refresh();
         }
     }
 
     /// <inheritdoc />
-    public override Task SetParametersAsync(ParameterView parameters)
+    public override async Task SetParametersAsync(ParameterView parameters)
     {
         _isVisbleChanged = parameters.HasValueChanged(nameof(IsVisible), IsVisible);
 
-        return base.SetParametersAsync(parameters);
+        await base.SetParametersAsync(parameters);
     }
 }
