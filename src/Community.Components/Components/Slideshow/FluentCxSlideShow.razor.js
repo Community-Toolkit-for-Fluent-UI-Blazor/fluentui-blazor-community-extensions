@@ -208,7 +208,7 @@ function onTouchEnd(instance, e, touchThreshold) {
     }
   }
   else {
-    if (Math.abs(deltaY) > 30) {
+    if (Math.abs(deltaY) > touchThreshold) {
       if (deltaY > 0) {
         instance.dotnetReference.invokeMethodAsync('onTouchSwipe', 'down');
       }
