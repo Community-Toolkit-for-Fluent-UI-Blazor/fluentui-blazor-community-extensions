@@ -40,11 +40,17 @@ public partial class SlideshowItem<TItem>
     private FluentCxSlideshow<TItem> Parent { get; set; } = default!;
 
     /// <summary>
+    /// Gets or sets the interval to show the image.
+    /// </summary>
+    [Parameter]
+    public TimeSpan? Interval { get; set; }
+
+    /// <summary>
     /// Gets the css of the component.
     /// </summary>
     private string? Css => new CssBuilder(Class)
         .AddClass("slideshow-item")
-        .AddClass("slideshow-item-vertical", Parent?.Orientation == Orientation.Vertical)
+        .AddClass("slideshow-item-vertical", Parent?.InternalOrientation == Orientation.Vertical)
         .Build();
 
     /// <inheritdoc />

@@ -131,7 +131,11 @@ export function initialize(id, dotnetReference, width, height) {
       width: width,
       height: height,
       fixedWidth: width !== undefined && width !== null,
-      fixedHeight: height !== undefined && height !== null
+      fixedHeight: height !== undefined && height !== null,
+      startX: 0,
+      startY: 0,
+      endX: 0,
+      endY: 0
     }
 
     _instances.push(instance);
@@ -178,6 +182,76 @@ export function setImagesSize(containerId, imageRatio, imageIdCollection) {
     }
     else if (imageRatio === fill) {
       setFillSizeImages(instance, imageIdCollection);
+    }
+  }
+}
+
+function onTouchStart(instance, e) {
+  instance.startX = e.touches[0].clientX;
+  instance.startY = e.touches[0].clientY;
+}
+
+function onTouchEnd(instance, e, touchThreshold) {
+  instance.endX = e.changedTouches[0].clientX;
+  instance.endY = e.changedTouches[0].clientY;
+  const deltaX = instance.endX - instance.startX;
+  const deltaY = instance.endY - instance.startY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (Math.abs(deltaX) > touchThreshold) {
+      if (deltaX > 0) {
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', 'right');
+      }
+      else {
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', 'left');
+      }
+    }
+  }
+  else {
+    if (Math.abs(deltaY) > 30) {
+      if (deltaY > 0) {
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', 'down');
+      }
+      else {
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', 'up');
+      }
+    }
+  }
+}
+
+function onTouchMove(e) {
+  e.preventDefault();
+}
+
+export function disableOrEnableTouch(containerId, isTouchEnabled, touchThreshold) {
+  const instance = getInstance(containerId);
+
+  if (instance) {
+    if (isTouchEnabled) {
+      instance.element.addEventListener('touchstart', e => {
+        onTouchStart(instance, e);
+      });
+
+      instance.element.addEventListener('touchend', e => {
+        onTouchEnd(instance, e, touchThreshold);
+      });
+
+      instance.element.addEventListener('touchmove', e => {
+        onTouchMove(e);
+      }, { passive: false });
+    }
+    else {
+      instance.element.removeEventListener('touchstart', e => {
+        onTouchStart(instance, e);
+      });
+
+      instance.element.removeEventListener('touchend', e => {
+        onTouchEnd(instance, e, touchThreshold);
+      });
+
+      instance.element.removeEventListener('touchmove', e => {
+        onTouchMove(e);
+      });
     }
   }
 }

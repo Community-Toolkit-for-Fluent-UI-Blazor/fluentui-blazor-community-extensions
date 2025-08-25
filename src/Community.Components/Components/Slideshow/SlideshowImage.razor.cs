@@ -52,7 +52,7 @@ public partial class SlideshowImage<TItem>
     /// Gets or sets a value indicating whether the image should be lazy loaded.
     /// </summary>
     [Parameter]
-    public bool IsLazyLoading { get; set; } = true; 
+    public bool IsLazyLoading { get; set; } = true;
 
     #endregion Properties
 

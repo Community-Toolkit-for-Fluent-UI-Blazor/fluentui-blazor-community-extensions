@@ -3,7 +3,7 @@
 @typeparam TItem
 
 <CascadingValue Value="(this)" IsFixed="true">
-    <FluentKeyCode Anchor="@Id" OnKeyDown="@OnKeyDownAsync" />
+    <FluentKeyCode PreventDefault Anchor="@Id" OnKeyDown="@OnKeyDownAsync" />
 
     <div @ref="@Element"
          id="@Id"
@@ -45,7 +45,7 @@
                           aria-label="@PreviousLabel"
                           Title="@PreviousLabel"
                           Disabled=@IsPreviousDisabled
-                          IconStart="@(new Regular.Size24.ChevronLeft())"
+                          IconStart="@(PreviousIcon)"
                           Style="@PreviousButtonStyle" />
 
             <FluentButton Appearance="Appearance.Stealth"
@@ -53,7 +53,7 @@
                           aria-label="@NextLabel"
                           Title="@NextLabel"
                           Disabled=@IsNextDisabled
-                          IconStart="@(new Regular.Size24.ChevronRight())"
+                          IconStart="@(NextIcon)"
                           Style="@NextButtonStyle" />
         }
 
@@ -61,7 +61,7 @@
         {
             <div class="@InternalIndicatorsCss">
                 <FluentStack Style="height: 100%;"
-                             Orientation="@Orientation"
+                             Orientation="@InternalOrientation"
                              HorizontalAlignment="HorizontalAlignment.Center"
                              VerticalAlignment="VerticalAlignment.Center">
                     @if (ChildContent is not null)
@@ -98,7 +98,7 @@
                 {
                     <DotIndicator TItem="TItem"
                                   Index="@i"
-                                  Orientation="@Orientation"
+                                  Orientation="@InternalOrientation"
                                   CurrentSlideshowIndex="@Index"/>
                 }
             }

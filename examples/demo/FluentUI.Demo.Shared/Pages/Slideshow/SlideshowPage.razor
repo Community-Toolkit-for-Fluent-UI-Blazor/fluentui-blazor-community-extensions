@@ -39,9 +39,24 @@
     the height will be calculated based on the first image in the slideshow.
 </p>
 
+<p>
+    The slideshow component is accessible and supports keyboard navigation.
+    The user can navigate through the slides using the arrow keys.
+    The user can also navigate to a specific slide by clicking on the indicators.
+    The user can also swipe to navigate through the slides if the parameter <code>IsTouchEnabled</code> is set to <code>true</code>.
+</p>
+
 <h2 id="example">Examples</h2>
 
 <DemoSection Component="typeof(SlideshowDefault)" Title="Default" />
+<DemoSection Component="typeof(SlideshowItemInterval)" Title="Interval">
+    <Description>
+        Each slide has an <code>aria-label</code> attribute that indicates the position of the slide in the slideshow (e.g., "Slide 1", "Slide 2", etc.).
+        Each slide also has an <code>aria-hidden</code> attribute that indicates whether the slide is currently visible or not.
+        Each slide also has an <code>Interval</code> parameter that indicates the time interval to wait before automatically transitioning to the next slide when autoplay is enabled.
+        if the <code>Interval</code> parameter is not set, the default interval set in the <code>FluentCxSlideshow</code> component is used.
+    </Description>
+</DemoSection>
 
 <h2 id="documentation">Documentation</h2>
 

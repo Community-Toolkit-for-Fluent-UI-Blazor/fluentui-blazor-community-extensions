@@ -3,6 +3,7 @@ using System.Timers;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 using Microsoft.JSInterop;
 using Timer = System.Timers.Timer;
@@ -18,6 +19,26 @@ public partial class FluentCxSlideshow<TItem>
     : FluentComponentBase, IAsyncDisposable, IDisposable
 {
     #region Fields
+
+    /// <summary>
+    /// Represents the left chevron icon.
+    /// </summary>
+    private static readonly Icon _chevronLeft = new Size24.ChevronLeft();
+
+    /// <summary>
+    /// Represents the right chevron icon.
+    /// </summary>
+    private static readonly Icon _chevronRight = new Size24.ChevronRight();
+
+    /// <summary>
+    /// Represents the up chevron icon.
+    /// </summary>
+    private static readonly Icon _chevronUp = new Size24.ChevronUp();
+
+    /// <summary>
+    /// Represents the down chevron icon.
+    /// </summary>
+    private static readonly Icon _chevronDown = new Size24.ChevronDown();
 
     /// <summary>
     /// Represents the slides.
@@ -91,9 +112,30 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     private bool _showContent;
 
+    /// <summary>
+    /// Represents the resized width.
+    /// </summary>
     private int _resizedWidth;
 
+    /// <summary>
+    /// Represents the resized height.
+    /// </summary>
     private int _resizedHeight;
+
+    /// <summary>
+    /// Represents a value indicating if the position of the indicator has changed. 
+    /// </summary>
+    private bool _isIndicatorPositionChanged;
+
+    /// <summary>
+    /// Represents a value indicating if the orientation has changed.
+    /// </summary>
+    private bool _isOrientationChanged;
+
+    /// <summary>
+    /// Represents a value indicating if the touch enabled has changed.
+    /// </summary>
+    private bool _isTouchEnabledChanged;
 
     #endregion Fields
 
@@ -138,14 +180,16 @@ public partial class FluentCxSlideshow<TItem>
     /// <summary>
     /// Gets or sets the interval between items.
     /// </summary>
+    /// <remarks>If an item has its <see cref="SlideshowImage{TItem}.Interval"/> set, it will override
+    ///  the <see cref="AutoplayInterval"/>.</remarks>
     [Parameter]
-    public TimeSpan Interval { get; set; } = TimeSpan.FromSeconds(5);
+    public TimeSpan AutoplayInterval { get; set; } = TimeSpan.FromSeconds(5);
 
     /// <summary>
     /// Gets or sets a the duration of the animation.
     /// </summary>
     [Parameter]
-    public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(300);
+    public TimeSpan SlideDuration { get; set; } = TimeSpan.FromMilliseconds(300);
 
     /// <summary>
     /// Gets or sets the width of the component.
@@ -208,6 +252,21 @@ public partial class FluentCxSlideshow<TItem>
     public RenderFragment<int>? IndicatorTemplate { get; set; }
 
     /// <summary>
+    /// Gets or sets the orientation of the slide show.
+    /// </summary>
+    /// <remarks>If the indicator is visible, the position of it override this value.</remarks>
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Horizontal;
+
+    /// <summary>
+    /// Gets or sets if the touch is enabled, allow the user to use its fingers to swipe between slides.
+    /// </summary>
+    /// <remarks>If <see cref="Autoplay"/> is <see langword="true" /> and <see cref="IsTouchEnabled"/>
+    ///  is <see langword="true" />, <see cref="Autoplay"/> will be desactivated.</remarks>
+    [Parameter]
+    public bool IsTouchEnabled { get; set; }
+
+    /// <summary>
     /// Gets the number of items.
     /// </summary>
     private int Count => ChildContent is not null ? _slides.Count : Items.Count();
@@ -232,7 +291,7 @@ public partial class FluentCxSlideshow<TItem>
     /// <summary>
     /// Gets the orientation of the indicators.
     /// </summary>
-    internal Orientation Orientation => IndicatorPosition == SlideshowIndicatorPosition.Top || IndicatorPosition == SlideshowIndicatorPosition.Bottom ? Orientation.Horizontal : Orientation.Vertical;
+    internal Orientation InternalOrientation => GetInternalOrientation();
 
     /// <summary>
     /// Gets the internal style for the <see cref="FluentCxSlideshow{TItem}"/>.
@@ -244,7 +303,7 @@ public partial class FluentCxSlideshow<TItem>
         .AddStyle("--slideshow-height", $"{_resizedHeight}px", _elementHeightResized)
         .AddStyle("--slideshow-item-count", Items.Any() ? Items.Count().ToString(CultureInfo.CurrentCulture) : _slides.Count.ToString(CultureInfo.CurrentCulture))
         .AddStyle("--slideshow-current-index", Index.ToString(CultureInfo.CurrentCulture))
-        .AddStyle("--slideshow-duration", $"{Duration.TotalMilliseconds}ms")
+        .AddStyle("--slideshow-duration", $"{SlideDuration.TotalMilliseconds}ms")
         .Build();
 
     /// <summary>
@@ -253,8 +312,8 @@ public partial class FluentCxSlideshow<TItem>
     private string? InternalContainerCss => new CssBuilder()
         .AddClass("slideshow-container")
         .AddClass("slideshow-animate")
-        .AddClass("slideshow-animate-horizontal", Orientation == Orientation.Horizontal)
-        .AddClass("slideshow-animate-vertical", Orientation == Orientation.Vertical)
+        .AddClass("slideshow-animate-horizontal", InternalOrientation == Orientation.Horizontal)
+        .AddClass("slideshow-animate-vertical", InternalOrientation == Orientation.Vertical)
         .Build();
 
     /// <summary>
@@ -262,8 +321,8 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     private string? InternalIndicatorsCss => new CssBuilder()
         .AddClass("slideshow-indicators")
-        .AddClass("slideshow-indicators-vertical", Orientation == Orientation.Vertical)
-        .AddClass("slideshow-indicators-horizontal", Orientation == Orientation.Horizontal)
+        .AddClass("slideshow-indicators-vertical", InternalOrientation == Orientation.Vertical)
+        .AddClass("slideshow-indicators-horizontal", InternalOrientation == Orientation.Horizontal)
         .AddClass("slideshow-indicators-top", IndicatorPosition == SlideshowIndicatorPosition.Top)
         .AddClass("slideshow-indicators-bottom", IndicatorPosition == SlideshowIndicatorPosition.Bottom)
         .AddClass("slideshow-indicators-left", IndicatorPosition == SlideshowIndicatorPosition.Left)
@@ -273,12 +332,12 @@ public partial class FluentCxSlideshow<TItem>
     /// <summary>
     /// Gets the style of the previous button.
     /// </summary>
-    private string? PreviousButtonStyle => Orientation == Orientation.Horizontal ? PreviousHorizontalStyle : PreviousVerticalStyle;
+    private string? PreviousButtonStyle => InternalOrientation == Orientation.Horizontal ? PreviousHorizontalStyle : PreviousVerticalStyle;
 
     /// <summary>
     /// Gets the style of the previous button.
     /// </summary>
-    private string? NextButtonStyle => Orientation == Orientation.Horizontal ? NextHorizontalStyle : NextVerticalStyle;
+    private string? NextButtonStyle => InternalOrientation == Orientation.Horizontal ? NextHorizontalStyle : NextVerticalStyle;
 
     /// <summary>
     /// Gets or sets the javascript runtime.
@@ -292,6 +351,18 @@ public partial class FluentCxSlideshow<TItem>
     /// <remarks>Works only if the item contains an img div.</remarks>
     [Parameter]
     public SlideshowImageRatio ImageAspectRatio { get; set; } = SlideshowImageRatio.Auto;
+
+    /// <summary>
+    /// Gets or sets the previous icon.
+    /// </summary>
+    [Parameter]
+    public Icon PreviousIcon { get; set; } = new Size24.ChevronLeft();
+
+    /// <summary>
+    /// Gets or sets the next icon.
+    /// </summary>
+    [Parameter]
+    public Icon NextIcon { get; set; } = new Size24.ChevronRight();
 
     /// <summary>
     /// Gets the style for previous button on horizontal orientation.
@@ -325,9 +396,40 @@ public partial class FluentCxSlideshow<TItem>
     [Parameter]
     public EventCallback OnImagesResizeCompleted { get; set; }
 
+    /// <summary>
+    /// Gets or sets the minimum distance in pixels that the user should swipe to move the slide.
+    /// </summary>
+    [Parameter]
+    public int TouchThreshold { get; set; } = 50;
+
+    /// <summary>
+    /// Gets or sets a value indicating if the autoplay stops when the touch is enabled.
+    /// </summary>
+    [Parameter]
+    public bool StopAutoplayWhenTouchEnabled { get; set; } = true;
+
     #endregion Properties
 
     #region Methods
+
+    /// <summary>
+    /// Gets the internal orientation.
+    /// </summary>
+    /// <returns>Returns the orientation from the indicator position if <see cref="ShowIndicators"/>
+    ///  is set to <see langword="true" />, or use the <see cref="Orientation"/> otherwise.</returns>
+    private Orientation GetInternalOrientation()
+    {
+        if (ShowIndicators)
+        {
+            return IndicatorPosition switch
+            {
+                SlideshowIndicatorPosition.Top or SlideshowIndicatorPosition.Bottom => Orientation.Horizontal,
+                _ => Orientation.Vertical,
+            };
+        }
+
+        return Orientation;
+    }
 
     /// <summary>
     /// Starts the timer.
@@ -341,7 +443,16 @@ public partial class FluentCxSlideshow<TItem>
         }
 
         StopTimer();
-        _timer = new Timer(Interval);
+
+        var interval = AutoplayInterval;
+
+        if (_slides.Count > Index - 1 &&
+            _slides[Index - 1].Interval.HasValue)
+        {
+            interval = _slides[Index - 1].Interval.GetValueOrDefault();
+        }
+        
+        _timer = new Timer(interval);
         _timer.Elapsed += OnTimerTick;
         _timer.Start();
     }
@@ -536,10 +647,10 @@ public partial class FluentCxSlideshow<TItem>
     {
         return e.Key switch
         {
-            KeyCode.Left => Orientation == Orientation.Horizontal ? OnMovePreviousAsync() : Task.CompletedTask,
-            KeyCode.Right => Orientation == Orientation.Horizontal ? OnMoveNextAsync() : Task.CompletedTask,
-            KeyCode.Up => Orientation == Orientation.Vertical ? OnMovePreviousAsync() : Task.CompletedTask,
-            KeyCode.Down => Orientation == Orientation.Vertical ? OnMoveNextAsync() : Task.CompletedTask,
+            KeyCode.Left => InternalOrientation == Orientation.Horizontal ? OnMovePreviousAsync() : Task.CompletedTask,
+            KeyCode.Right => InternalOrientation == Orientation.Horizontal ? OnMoveNextAsync() : Task.CompletedTask,
+            KeyCode.Up => InternalOrientation == Orientation.Vertical ? OnMovePreviousAsync() : Task.CompletedTask,
+            KeyCode.Down => InternalOrientation == Orientation.Vertical ? OnMoveNextAsync() : Task.CompletedTask,
             _ => Task.CompletedTask,
         };
     }
@@ -575,7 +686,7 @@ public partial class FluentCxSlideshow<TItem>
     }
 
     /// <summary>
-    /// 
+    /// Occurs when the aspect ratio has changed.
     /// </summary>
     /// <returns></returns>
     private async Task OnAspectRatioChangedAsync()
@@ -583,6 +694,18 @@ public partial class FluentCxSlideshow<TItem>
         if (_module is not null)
         {
             await _module.InvokeVoidAsync("setImagesSize", Id, ImageAspectRatio, _images.Select(x => x.Id).ToArray());
+        }
+    }
+
+    /// <summary>
+    /// Occurs when touch is enabled or disabled.
+    /// </summary>
+    /// <returns></returns>
+    private async Task OnEnableOrDisableTouchAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.InvokeVoidAsync("disableOrEnableTouch", Id, IsTouchEnabled, TouchThreshold);
         }
     }
 
@@ -619,8 +742,11 @@ public partial class FluentCxSlideshow<TItem>
     {
         _currentIndexChanged = parameters.HasValueChanged(nameof(Index), Index);
         _autoPlayChanged = parameters.HasValueChanged(nameof(Autoplay), Autoplay);
-        _intervalChanged = parameters.HasValueChanged(nameof(Interval), Interval);
+        _intervalChanged = parameters.HasValueChanged(nameof(AutoplayInterval), AutoplayInterval);
         _isAspectRatioChanged = parameters.HasValueChanged(nameof(ImageAspectRatio), ImageAspectRatio);
+        _isIndicatorPositionChanged = parameters.HasValueChanged(nameof(IndicatorPosition), IndicatorPosition);
+        _isOrientationChanged = parameters.HasValueChanged(nameof(Orientation), Orientation);
+        _isTouchEnabledChanged = parameters.HasValueChanged(nameof(IsTouchEnabled), IsTouchEnabled);
 
         return base.SetParametersAsync(parameters);
     }
@@ -635,6 +761,12 @@ public partial class FluentCxSlideshow<TItem>
             _currentIndexChanged = false;
             StopTimer();
             StartTimer();
+        }
+
+        if (_isOrientationChanged || _isIndicatorPositionChanged)
+        {
+            PreviousIcon = InternalOrientation == Orientation.Horizontal ? _chevronLeft : _chevronUp;
+            NextIcon = InternalOrientation == Orientation.Horizontal ? _chevronRight : _chevronDown;
         }
 
         if (_autoPlayChanged || _intervalChanged)
@@ -665,6 +797,11 @@ public partial class FluentCxSlideshow<TItem>
         {
             await OnAspectRatioChangedAsync();
         }
+
+        if (_isTouchEnabledChanged)
+        {
+            await OnEnableOrDisableTouchAsync();
+        }
     }
 
     /// <inheritdoc />
@@ -676,6 +813,7 @@ public partial class FluentCxSlideshow<TItem>
         {
             _module = await Runtime.InvokeAsync<IJSObjectReference>("import", JavascriptFileName);
             await _module.InvokeVoidAsync("initialize", Id, _dotnetReference, Width, Height);
+            await OnEnableOrDisableTouchAsync();
             await OnAspectRatioChangedAsync();
 
             if (Autoplay)
@@ -760,6 +898,12 @@ public partial class FluentCxSlideshow<TItem>
         }
     }
 
+    /// <summary>
+    /// Occurs when all images have been resized to fill the container.
+    /// </summary>
+    /// <param name="width">Width of the container.</param>
+    /// <param name="height">Height of the container.</param>
+    /// <returns>Returns a task which set the container size when completed.</returns>
     [JSInvokable("setFillSizeCompleted")]
     public async Task OnFillSizeCompletedAsync(int width, int height)
     {
@@ -818,6 +962,40 @@ public partial class FluentCxSlideshow<TItem>
             _elementWidthResized ? _resizedWidth : Width,
             _elementHeightResized ? _resizedHeight : Height
         ];
+    }
+
+    /// <summary>
+    /// Occurs when the user swipe the slide.
+    /// </summary>
+    /// <param name="direction">Direction of the slide.</param>
+    /// <returns>Returns a task wich moves the slide according to the <paramref name="direction"/>
+    ///  when completed.</returns>
+    [JSInvokable("onTouchSwipe")]
+    public async Task OnTouchSwipeAsync(string direction)
+    {
+        if (Autoplay)
+        {
+            StopTimer();
+        }
+
+        var isHorizontal = InternalOrientation == Orientation.Horizontal;
+
+        if ((isHorizontal && direction == "left") ||
+            (!isHorizontal && direction == "up"))
+        {
+            await OnMoveNextAsync();
+        }
+        else if ((isHorizontal && direction == "right") ||
+                 (!isHorizontal && direction == "down"))
+        {
+            await OnMovePreviousAsync();
+        }
+
+        if (!StopAutoplayWhenTouchEnabled &&
+            Autoplay)
+        {
+            StartTimer();
+        }
     }
 
     #endregion Methods

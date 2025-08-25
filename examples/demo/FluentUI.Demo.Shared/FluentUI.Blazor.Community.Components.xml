@@ -8426,6 +8426,26 @@
             </summary>
             <typeparam name="TItem">Type of the item.</typeparam>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._chevronLeft">
+            <summary>
+            Represents the left chevron icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._chevronRight">
+            <summary>
+            Represents the right chevron icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._chevronUp">
+            <summary>
+            Represents the up chevron icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._chevronDown">
+            <summary>
+            Represents the down chevron icon.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._slides">
             <summary>
             Represents the slides.
@@ -8498,6 +8518,31 @@
             Value indicating if the content is shown.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._resizedWidth">
+            <summary>
+            Represents the resized width.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._resizedHeight">
+            <summary>
+            Represents the resized height.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isIndicatorPositionChanged">
+            <summary>
+            Represents a value indicating if the position of the indicator has changed. 
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isOrientationChanged">
+            <summary>
+            Represents a value indicating if the orientation has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isTouchEnabledChanged">
+            <summary>
+            Represents a value indicating if the touch enabled has changed.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowControls">
             <summary>
             Gets or sets a value indicating that the controls are shown.
@@ -8528,12 +8573,14 @@
             Gets or sets a value indicating that the slide show is autoplay.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Interval">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.AutoplayInterval">
             <summary>
             Gets or sets the interval between items.
             </summary>
+            <remarks>If an item has its <see cref="!:SlideshowImage&lt;TItem&gt;.Interval"/> set, it will override
+             the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.AutoplayInterval"/>.</remarks>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Duration">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SlideDuration">
             <summary>
             Gets or sets a the duration of the animation.
             </summary>
@@ -8588,6 +8635,19 @@
             Gets or sets the template for an indicator item.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Orientation">
+            <summary>
+            Gets or sets the orientation of the slide show.
+            </summary>
+            <remarks>If the indicator is visible, the position of it override this value.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsTouchEnabled">
+            <summary>
+            Gets or sets if the touch is enabled, allow the user to use its fingers to swipe between slides.
+            </summary>
+            <remarks>If <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Autoplay"/> is <see langword="true" /> and <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsTouchEnabled"/>
+             is <see langword="true" />, <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Autoplay"/> will be desactivated.</remarks>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Count">
             <summary>
             Gets the number of items.
@@ -8608,7 +8668,7 @@
             Gets or sets the css for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1"/>.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Orientation">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.InternalOrientation">
             <summary>
             Gets the orientation of the indicators.
             </summary>
@@ -8649,6 +8709,16 @@
             </summary>
             <remarks>Works only if the item contains an img div.</remarks>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousIcon">
+            <summary>
+            Gets or sets the previous icon.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.NextIcon">
+            <summary>
+            Gets or sets the next icon.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.PreviousHorizontalStyle">
             <summary>
             Gets the style for previous button on horizontal orientation.
@@ -8678,6 +8748,23 @@
             <summary>
             Gets or sets the callback to raise when a resizing operation is completed.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.TouchThreshold">
+            <summary>
+            Gets or sets the minimum distance in pixels that the user should swipe to move the slide.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.StopAutoplayWhenTouchEnabled">
+            <summary>
+            Gets or sets a value indicating if the autoplay stops when the touch is enabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.GetInternalOrientation">
+            <summary>
+            Gets the internal orientation.
+            </summary>
+            <returns>Returns the orientation from the indicator position if <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowIndicators"/>
+             is set to <see langword="true" />, or use the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Orientation"/> otherwise.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.StartTimer">
             <summary>
@@ -8774,7 +8861,13 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAspectRatioChangedAsync">
             <summary>
-            
+            Occurs when the aspect ratio has changed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnEnableOrDisableTouchAsync">
+            <summary>
+            Occurs when touch is enabled or disabled.
             </summary>
             <returns></returns>
         </member>
@@ -8832,6 +8925,14 @@
             Occurs when all images have been resized.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnFillSizeCompletedAsync(System.Int32,System.Int32)">
+            <summary>
+            Occurs when all images have been resized to fill the container.
+            </summary>
+            <param name="width">Width of the container.</param>
+            <param name="height">Height of the container.</param>
+            <returns>Returns a task which set the container size when completed.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ResizeObserverEvent(FluentUI.Blazor.Community.Components.SlideshowResize)">
             <summary>
             Occurs when the component is resized.
@@ -8843,6 +8944,14 @@
              so even if the component container became greater than the component size, the component
              won't be greater than the fixed value.
             </remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnTouchSwipeAsync(System.String)">
+            <summary>
+            Occurs when the user swipe the slide.
+            </summary>
+            <param name="direction">Direction of the slide.</param>
+            <returns>Returns a task wich moves the slide according to the <paramref name="direction"/>
+             when completed.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowCaption">
             <summary>
@@ -8969,6 +9078,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.Parent">
             <summary>
             Gets or sets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.Interval">
+            <summary>
+            Gets or sets the interval to show the image.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.Css">
