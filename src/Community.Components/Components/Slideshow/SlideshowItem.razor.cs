@@ -1,0 +1,65 @@
+using FluentUI.Blazor.Community.Extensions;
+using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
+using Microsoft.JSInterop;
+
+namespace FluentUI.Blazor.Community.Components;
+
+/// <summary>
+/// Represents an item for the <see cref="FluentCxSlideshow{TItem}"/>.
+/// </summary>
+/// <typeparam name="TItem">Type of the item.</typeparam>
+public partial class SlideshowItem<TItem>
+    : FluentComponentBase, IDisposable
+{
+    /// <summary>
+    /// Initializes a new instance of the class <see cref="SlideshowItem{TItem}"/>.
+    /// </summary>
+    public SlideshowItem()
+    {
+        Id = Identifier.NewId();
+    }
+
+    /// <summary>
+    /// Gets or sets the child content of the component.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the aria label of the component.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the parent of the component.
+    /// </summary>
+    [CascadingParameter]
+    private FluentCxSlideshow<TItem> Parent { get; set; } = default!;
+
+    /// <summary>
+    /// Gets the css of the component.
+    /// </summary>
+    private string? Css => new CssBuilder(Class)
+        .AddClass("slideshow-item")
+        .AddClass("slideshow-item-vertical", Parent?.Orientation == Orientation.Vertical)
+        .Build();
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Parent?.Add(this);
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        Parent?.Remove(this);
+
+        GC.SuppressFinalize(this);
+    }
+}

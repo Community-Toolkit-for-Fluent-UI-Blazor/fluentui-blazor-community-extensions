@@ -1,0 +1,107 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<CascadingValue Value="(this)" IsFixed="true">
+    <FluentKeyCode Anchor="@Id" OnKeyDown="@OnKeyDownAsync" />
+
+    <div @ref="@Element"
+         id="@Id"
+         class="@Css"
+         style="@InternalStyle"
+         role="list"
+         tabindex="0"
+         @attributes="@AdditionalAttributes">
+        <div class="@InternalContainerCss">
+            @if (_showContent)
+            {
+                if (ChildContent is not null)
+                {
+                    @ChildContent
+                }
+                else if (ItemTemplate is not null && ItemFunc is not null)
+                {
+                    var i = 1;
+
+                    foreach (var item in Items)
+                    {
+                        <SlideshowItem TItem="TItem"
+                                       @key=ItemFunc(item)
+                                       aria-hidden="@GetAriaHiddenValue(i)"
+                                       AriaLabel="@($"Slide {i}")">
+                            @ItemTemplate(item)
+                        </SlideshowItem>
+
+                        i++;
+                    }
+                }
+            }
+        </div>
+
+        @if (ShowControls)
+        {
+            <FluentButton Appearance="Appearance.Stealth"
+                          OnClick="@OnMovePreviousAsync"
+                          aria-label="@PreviousLabel"
+                          Title="@PreviousLabel"
+                          Disabled=@IsPreviousDisabled
+                          IconStart="@(new Regular.Size24.ChevronLeft())"
+                          Style="@PreviousButtonStyle" />
+
+            <FluentButton Appearance="Appearance.Stealth"
+                          OnClick="@OnMoveNextAsync"
+                          aria-label="@NextLabel"
+                          Title="@NextLabel"
+                          Disabled=@IsNextDisabled
+                          IconStart="@(new Regular.Size24.ChevronRight())"
+                          Style="@NextButtonStyle" />
+        }
+
+        @if (ShowIndicators)
+        {
+            <div class="@InternalIndicatorsCss">
+                <FluentStack Style="height: 100%;"
+                             Orientation="@Orientation"
+                             HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalAlignment="VerticalAlignment.Center">
+                    @if (ChildContent is not null)
+                    {
+                        @_renderIndicatorItems(_slides.Count)
+                    }
+                    else
+                    {
+                        @_renderIndicatorItems(Items.Count())
+                    }
+                </FluentStack>
+            </div>
+        }
+    </div>
+</CascadingValue>
+
+@code {
+    public FluentCxSlideshow()
+    {
+        Id = Identifier.NewId();
+        _dotnetReference = DotNetObjectReference.Create(this);
+
+        _renderIndicatorItems = count => __builder =>
+        {
+            bool customIndicators = IndicatorTemplate is not null;
+
+            for(int i = 0; i < count; ++i)
+            {
+                if (customIndicators)
+                {
+                    @IndicatorTemplate!(i)
+                }
+                else
+                {
+                    <DotIndicator TItem="TItem"
+                                  Index="@i"
+                                  Orientation="@Orientation"
+                                  CurrentSlideshowIndex="@Index"/>
+                }
+            }
+        };
+    }
+}

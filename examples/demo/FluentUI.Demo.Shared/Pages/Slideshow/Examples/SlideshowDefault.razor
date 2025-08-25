@@ -1,0 +1,79 @@
+﻿<div style="width: 100%; height: 850px">
+    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+        <FluentStack Wrap>
+            <FluentSwitch @bind-Value=_showControls Label="Show controls" />
+            <FluentSpacer Width="60" />
+            <FluentSwitch @bind-Value=_showIndicators Label="Show indicators" />
+            <FluentSpacer Width="60" />
+            <FluentSwitch @bind-Value=_autoPlay Label="Autoplay" />
+            <FluentSpacer Width="60" />
+            <FluentSwitch @bind-Value=_loop Label="Loop" />
+            <FluentSpacer Width="60" />
+            <FluentNumberField @bind-Value=_interval Label="Interval (seconds)" />
+            <FluentSpacer Width="60" />
+            <FluentNumberField @bind-Value=_duration Label="Animation duration (miliseconds)" />
+            <FluentSpacer Width="60" />
+            <FluentSelect @bind-Value="@_indicatorPosition" Label="Position of the indicator" TOption="string">
+                <FluentOption Value="Top">Top</FluentOption>
+                <FluentOption Value="Bottom" Selected="true">Bottom</FluentOption>
+                <FluentOption Value="Left">Left</FluentOption>
+                <FluentOption Value="Right">Right</FluentOption>
+            </FluentSelect>
+            <FluentSpacer />
+            <FluentSelect @bind-Value="@_imageRatio"
+                          Label="Image Ratio"
+                          TOption="string"
+                          Style="margin-bottom: 20px">
+                <FluentOption Value="Auto" Selected="true">Auto</FluentOption>
+                <FluentOption Value="Fill">Fill</FluentOption>
+            </FluentSelect>
+        </FluentStack>
+
+        <div style="width: 100%; height: calc(100% - 150px)">
+            <FluentCxSlideshow ShowIndicators=@_showIndicators
+                               ShowControls=@_showControls
+                               Autoplay="@_autoPlay"
+                               Interval="@TimeSpan.FromSeconds(_interval)"
+                               Duration=@TimeSpan.FromMilliseconds(_duration)
+                               IsLoopingEnabled=@_loop
+                               ImageAspectRatio=@(Enum.Parse<SlideshowImageRatio>(_imageRatio))
+                               IndicatorPosition="@(Enum.Parse<SlideshowIndicatorPosition>(_indicatorPosition))"
+                               TItem="string">
+                <SlideshowItem>
+                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
+                </SlideshowItem>
+
+                <SlideshowItem>
+                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
+                </SlideshowItem>
+
+                <SlideshowItem>
+                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
+                </SlideshowItem>
+                <SlideshowItem>
+                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
+                </SlideshowItem>
+
+                <SlideshowItem>
+                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
+                </SlideshowItem>
+
+                <SlideshowItem>
+                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
+                </SlideshowItem>
+            </FluentCxSlideshow>
+        </div>
+
+    </FluentStack>
+</div>
+
+@code {
+    private bool _showControls;
+    private bool _showIndicators;
+    private bool _autoPlay;
+    private int _interval = 5;
+    private int _duration = 300;
+    private bool _loop;
+    private string _indicatorPosition = "Bottom";
+    private string _imageRatio = "Auto";
+}
