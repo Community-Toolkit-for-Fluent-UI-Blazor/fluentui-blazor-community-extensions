@@ -1,0 +1,16 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<CascadingValue Value="this" IsFixed>
+    <div @ref="@Element"
+         aria-label="@AriaLabel"
+         id="@Id"
+         class="@Css"
+         style="@Style"
+         aria-hidden="@Parent?.GetAriaHiddenValue(this)"
+         role="listitem"
+         @attributes="@AdditionalAttributes">
+        @ChildContent
+    </div>
+</CascadingValue>

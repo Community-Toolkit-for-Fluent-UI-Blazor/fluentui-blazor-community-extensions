@@ -1,0 +1,9 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<span role="button"
+      aria-label="@AriaLabel"
+      aria-roledescription="slide"
+      class="@Css"
+      @onclick=@(MoveToIndexAsync) />

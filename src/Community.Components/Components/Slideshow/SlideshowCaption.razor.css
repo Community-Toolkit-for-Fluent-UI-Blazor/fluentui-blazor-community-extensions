@@ -1,0 +1,11 @@
+.slideshow-caption {
+  position: absolute;
+  right: 15%;
+  bottom: 1.25rem;
+  left: 15%;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  color: var(--neutral-foreground-rest);
+  text-align: center;
+  display: block !important;
+}
