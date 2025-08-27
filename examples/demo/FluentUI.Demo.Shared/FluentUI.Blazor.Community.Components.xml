@@ -1287,6 +1287,11 @@
             Gets a value if the app is running on a mobile.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.IsIPad">
+            <summary>
+            Gets or sets a value indicating if the app is running on an iPad.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.DeviceInfo.Orientation">
             <summary>
             Gets the orientation of the device.

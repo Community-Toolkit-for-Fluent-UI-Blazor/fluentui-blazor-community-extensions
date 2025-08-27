@@ -22,8 +22,8 @@ public class DeviceInfoStateTests
     [Theory]
     [InlineData(["userAgent", Browser.Edge, OperatingSystem.Windows11, true, Mobile.WindowsPhone, true, DeviceOrientation.Landscape])]
     [InlineData(["unknownText", Browser.Safari, OperatingSystem.Undefined, false, Mobile.IPod, false, DeviceOrientation.Portrait])]
-    [InlineData(["text_of_an_user_agent", Browser.Chrome, OperatingSystem.Windows8, true, Mobile.BlackBerry, false, DeviceOrientation.Landscape])]
-    [InlineData(["an another unuseful text", Browser.Firefox, OperatingSystem.Windows7, true, Mobile.Android, true, DeviceOrientation.Portrait])]
+    [InlineData(["text_of_an_user_agent", Browser.Chrome, OperatingSystem.Windows8, true, Mobile.BlackBerry, false, DeviceOrientation.LandscapeReversed])]
+    [InlineData(["an another unuseful text", Browser.Firefox, OperatingSystem.Windows7, true, Mobile.Android, true, DeviceOrientation.PortraitReversed])]
     public void DeviceInfoState_With_Info(
         string userAgent,
         Browser browser,
