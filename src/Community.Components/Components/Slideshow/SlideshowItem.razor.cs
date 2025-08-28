@@ -1,8 +1,6 @@
-using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
-using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -14,7 +12,7 @@ public partial class SlideshowItem<TItem>
     : FluentComponentBase, IDisposable
 {
     /// <summary>
-    /// Initializes a new instance of the class <see cref="SlideshowItem{TItem}"/>.
+    /// Initializes a new instance of the <see cref="SlideshowItem{TItem}"/> class.
     /// </summary>
     public SlideshowItem()
     {

@@ -4,21 +4,32 @@
 }
 
 .slideshow-animate-horizontal {
-    flex-direction: row;
-    transform: translateX(calc(-100% / var(--slideshow-item-count, 1) * (var(--slideshow-current-index, 1) - 1)));
-    width: calc(var(--slideshow-item-count, 1) * var(--slideshow-width));
-    height: var(--slideshow-height);
+  flex-direction: row;
+  height: var(--slideshow-height);
+  width: calc(var(--slideshow-item-count, 1) * var(--slideshow-width));
 }
 
 .slideshow-animate-vertical {
   flex-direction: column;
-  transform: translateY(calc(-100% / var(--slideshow-item-count, 1) * (var(--slideshow-current-index, 1) - 1)));
   height: calc(var(--slideshow-item-count, 1) * var(--slideshow-height));
   width: var(--slideshow-width);
 }
 
+.slideshow-translate-vertical {
+  transform: translateY(calc(-100% / var(--slideshow-item-count, 1) * (var(--slideshow-current-index, 1) - 1)));
+}
+
+.slideshow-translate-horizontal {
+  transform: translateX(calc(-100% / var(--slideshow-item-count, 1) * (var(--slideshow-current-index, 1) - 1)));
+}
+
 .slideshow-container {
     display: flex;
+}
+
+.slideshow-container-animation-end {
+  transition: none;
+  transform: translateX(0%);
 }
 
 .slideshow {

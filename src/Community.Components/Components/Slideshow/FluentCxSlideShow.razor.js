@@ -1,6 +1,7 @@
 const _instances = [];
 const auto = 0;
 const fill = 1;
+const horizontal = 0;
 
 function getInstance(id) {
   for (let i = _instances.length - 1; i >= 0; i--) {
@@ -118,8 +119,9 @@ function setSizeFromParent(instance, width, height) {
 
 export function initialize(id, dotnetReference, width, height) {
   const element = document.getElementById(id);
+  const itemsContainer = document.getElementById(`slide-show-items-container-${id}`);
 
-  if (element) {
+  if (element && itemsContainer) {
     const instance = {
       id: id,
       element: element,
@@ -134,8 +136,7 @@ export function initialize(id, dotnetReference, width, height) {
       fixedHeight: height !== undefined && height !== null,
       startX: 0,
       startY: 0,
-      endX: 0,
-      endY: 0
+      itemsContainer: itemsContainer,
     }
 
     _instances.push(instance);
@@ -192,10 +193,10 @@ function onTouchStart(instance, e) {
 }
 
 function onTouchEnd(instance, e, touchThreshold) {
-  instance.endX = e.changedTouches[0].clientX;
-  instance.endY = e.changedTouches[0].clientY;
-  const deltaX = instance.endX - instance.startX;
-  const deltaY = instance.endY - instance.startY;
+  const endY = e.changedTouches[0].clientY;
+  const endX = e.changedTouches[0].clientX;
+  const deltaX = endX - instance.startX;
+  const deltaY = endY - instance.startY;
 
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
     if (Math.abs(deltaX) > touchThreshold) {
@@ -261,7 +262,58 @@ export function destroy(id) {
     if (_instances[i].id == id) {
       _instances[i].resizeObserver.unobserve(_instances[i].parent);
       _instances[i].resizeObserver.disconnect();
+
+      instance.element.removeEventListener('touchstart', e => {
+        onTouchStart(instance, e);
+      });
+
+      instance.element.removeEventListener('touchend', e => {
+        onTouchEnd(instance, e, touchThreshold);
+      });
+
+      instance.element.removeEventListener('touchmove', e => {
+        onTouchMove(e);
+      });
+
+      instance.itemsContainer.removeEventListener('transitionend', () => {
+        onTransitionEnd(instance);
+      });
+
       _instances.splice(i, 1);
     }
+  }
+}
+
+// These two functions are used for infinite loop mode only.
+// We need to do this to reduce the complexity of the Blazor code and avoid manipulating the DOM from Blazor.
+export function infiniteLoopMoveNext(id, orientation) {
+  const instance = getInstance(id);
+
+  if (instance) {
+    const firstElement = instance.itemsContainer.firstElementChild;
+    instance.itemsContainer.style.transition = 'transform var(--slideshow-duration) ease-in-out';
+    instance.itemsContainer.style.transform = orientation === horizontal ? 'translateX(calc(-100% / var(--slideshow-item-count, 1)))' : 'translateY(calc(-100% / var(--slideshow-item-count, 1)))';
+
+    instance.itemsContainer.addEventListener('transitionend', () => {
+      instance.itemsContainer.style.transition = 'none';
+      instance.itemsContainer.append(firstElement);
+      instance.itemsContainer.style.transform = orientation === horizontal ? 'translateX(0%)' : 'translateY(0%)';
+    }, { once: true });
+  }
+}
+
+export function infiniteLoopMovePrevious(id, orientation) {
+  const instance = getInstance(id);
+
+  if (instance) {
+    const lastElement = instance.itemsContainer.lastElementChild;
+    instance.itemsContainer.style.transition = 'none';
+    instance.itemsContainer.prepend(lastElement);
+    instance.itemsContainer.style.transform = orientation === horizontal ? 'translateX(calc(-100% / var(--slideshow-item-count, 1)))' : 'translateY(calc(-100% / var(--slideshow-item-count, 1)))';
+
+    requestAnimationFrame(() => {
+      instance.itemsContainer.style.transition = 'transform var(--slideshow-duration) ease-in-out';
+      instance.itemsContainer.style.transform = orientation === horizontal ? 'translateX(0%)' : 'translateY(0%)';
+    });
   }
 }

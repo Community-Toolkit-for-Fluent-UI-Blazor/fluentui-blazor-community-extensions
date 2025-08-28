@@ -10,7 +10,14 @@
         <FluentStack VerticalAlignment="VerticalAlignment.Center" Wrap>
             <FluentSwitch @bind-Value=_autoPlay Label="Autoplay" />
             <FluentSpacer Width="60" />
-            <FluentSwitch @bind-Value=_loop Label="Looping" />
+            <FluentSelect @bind-Value="@_loopMode"
+                          Label="Looping"
+                          TOption="string"
+                          Style="margin-bottom: 20px">
+                <FluentOption Value="None" Selected="true">None</FluentOption>
+                <FluentOption Value="Rewind">Rewind</FluentOption>
+                <FluentOption Value="Infinite">Infinite</FluentOption>
+            </FluentSelect>
             <FluentSpacer Width="60" />
             <FluentSwitch @bind-Value=_touchEnabled Label="Touch enabled" />
         </FluentStack>
@@ -30,7 +37,7 @@
         </FluentStack>
 
         <FluentStack VerticalAlignment="VerticalAlignment.Center">
-            @if (_showIndicators)
+            @if (_showIndicators && _loopMode != SlideshowLoopingMode.Infinite.ToString())
             {
                 <FluentSelect @bind-Value="@_indicatorPosition" Label="Position of the indicator" TOption="string">
                     <FluentOption Value="Top">Top</FluentOption>
@@ -54,23 +61,12 @@
                                Autoplay="@_autoPlay"
                                AutoplayInterval="@TimeSpan.FromSeconds(_interval)"
                                SlideDuration=@TimeSpan.FromMilliseconds(_duration)
-                               IsLoopingEnabled=@_loop
+                               LoopMode=@(Enum.Parse<SlideshowLoopingMode>(_loopMode))
                                Orientation="@(Enum.Parse<Orientation>(_orientation))"
                                IsTouchEnabled=@_touchEnabled
                                ImageAspectRatio=@(Enum.Parse<SlideshowImageRatio>(_imageRatio))
                                IndicatorPosition="@(Enum.Parse<SlideshowIndicatorPosition>(_indicatorPosition))"
                                TItem="string">
-                <SlideshowItem>
-                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
-                </SlideshowItem>
-
-                <SlideshowItem>
-                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
-                </SlideshowItem>
-
-                <SlideshowItem>
-                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
-                </SlideshowItem>
                 <SlideshowItem>
                     <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
                 </SlideshowItem>
@@ -94,7 +90,7 @@
     private bool _autoPlay;
     private int _interval = 5;
     private int _duration = 300;
-    private bool _loop;
+    private string _loopMode = "None";
     private string _indicatorPosition = "Bottom";
     private string _imageRatio = "Auto";
     private string _orientation = "Horizontal";

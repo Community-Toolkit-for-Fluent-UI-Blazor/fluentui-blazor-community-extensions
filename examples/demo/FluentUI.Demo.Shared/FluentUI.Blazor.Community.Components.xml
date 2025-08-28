@@ -8448,9 +8448,8 @@
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._slides">
             <summary>
-            Represents the slides.
+            Represents the slides to render.
             </summary>
-            <remarks>Use when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ChildContent"/> is not null.</remarks>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._images">
             <summary>
@@ -8543,6 +8542,11 @@
             Represents a value indicating if the touch enabled has changed.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isLoopingModeChanged">
+            <summary>
+            Represents a value indicating if the looping mode has changed.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowControls">
             <summary>
             Gets or sets a value indicating that the controls are shown.
@@ -8557,6 +8561,9 @@
             <summary>
             Gets or sets a value indicating that the indicators are shown.
             </summary>
+            <remarks>
+            When <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.LoopMode"/> is set to <see cref="F:FluentUI.Blazor.Community.Components.SlideshowLoopingMode.Infinite"/>, the indicators are not shown.
+            </remarks>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Items">
             <summary>
@@ -8605,7 +8612,7 @@
             Gets or sets the callback to raise when the index has changed.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IsLoopingEnabled">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.LoopMode">
             <summary>
             Gets or sets a value indicating that the slide show loops after reaching the last item.
             </summary>
@@ -8791,20 +8798,6 @@
             <param name="index">Index to check.</param>
             <returns>Returns <see langword="true"/> if the <paramref name="index"/> is equal to <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/>.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnMovePreviousAsync">
-            <summary>
-            Move to the previous slide.
-            </summary>
-            <returns>Returns a task which moves to the previous slide when completed.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetIndexAsync(System.Int32)">
-            <summary>
-            Sets the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/> to <paramref name="index"/>.
-            </summary>
-            <param name="index">Index of the slide to slow.</param>
-            <returns>Returns a task which set the index to the <paramref name="index"/> and
-             raise <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IndexChanged"/> when completed.</returns>
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.GetAriaHiddenValue(FluentUI.Blazor.Community.Components.SlideshowItem{`0})">
             <summary>
             Gets the aria-hidden value.
@@ -8817,6 +8810,12 @@
             Move to the next slide.
             </summary>
             <returns>Returns a task which moves to the next slide when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnMovePreviousAsync">
+            <summary>
+            Move to the previous slide.
+            </summary>
+            <returns>Returns a task which moves to the previous slide when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.MoveToIndexAsync(System.Int32)">
             <summary>
@@ -8859,6 +8858,13 @@
             <param name="value">Value to check.</param>
             <returns>Returns <see langword="true" /> if the item is inside the component, <see langword="false" /> otherwise.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Contains(FluentUI.Blazor.Community.Components.SlideshowImage{`0})">
+            <summary>
+            Check if the <paramref name="value"/> is inside the component.
+            </summary>
+            <param name="value">Value to check.</param>
+            <returns>Returns <see langword="true" /> if the item is inside the component, <see langword="false" /> otherwise.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAspectRatioChangedAsync">
             <summary>
             Occurs when the aspect ratio has changed.
@@ -8889,6 +8895,20 @@
             Removes an image from the list of images.
             </summary>
             <param name="value">Image to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnLoopingModeChanged">
+            <summary>
+            Occurs when the looping mode has changed.
+            </summary>
+            <returns>Returns a task which changes the looping mode when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetIndexAsync(System.Int32)">
+            <summary>
+            Sets the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Index"/> to <paramref name="index"/>.
+            </summary>
+            <param name="index">Index of the slide to slow.</param>
+            <returns>Returns a task which set the index to the <paramref name="index"/> and
+             raise <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.IndexChanged"/> when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
@@ -9062,7 +9082,7 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.#ctor">
             <summary>
-            Initializes a new instance of the class <see cref="T:FluentUI.Blazor.Community.Components.SlideshowItem`1"/>.
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SlideshowItem`1"/> class.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.ChildContent">
@@ -9095,6 +9115,27 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowItem`1.Dispose">
             <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowLoopingMode">
+            <summary>
+            Represents the looping mode of a slideshow.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowLoopingMode.None">
+            <summary>
+            No looping.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowLoopingMode.Rewind">
+            <summary>
+            The slideshow will loop back to the start after reaching the end.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowLoopingMode.Infinite">
+            <summary>
+            The slideshow will loop by pushing the first slide at the end of the last slide,
+             to create a smooth and infinity loop.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowResize">
             <summary>

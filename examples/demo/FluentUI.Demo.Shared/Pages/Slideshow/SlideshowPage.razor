@@ -49,12 +49,20 @@
 <h2 id="example">Examples</h2>
 
 <DemoSection Component="typeof(SlideshowDefault)" Title="Default" />
+
 <DemoSection Component="typeof(SlideshowItemInterval)" Title="Interval">
     <Description>
         Each slide has an <code>aria-label</code> attribute that indicates the position of the slide in the slideshow (e.g., "Slide 1", "Slide 2", etc.).
         Each slide also has an <code>aria-hidden</code> attribute that indicates whether the slide is currently visible or not.
         Each slide also has an <code>Interval</code> parameter that indicates the time interval to wait before automatically transitioning to the next slide when autoplay is enabled.
         if the <code>Interval</code> parameter is not set, the default interval set in the <code>FluentCxSlideshow</code> component is used.
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(SlideshowCaptions)" Title="Captions">
+    <Description>
+        The <code>SlideshowCaption</code> component is used to display a caption for the image.
+        The caption is displayed at the bottom of the image.
     </Description>
 </DemoSection>
 

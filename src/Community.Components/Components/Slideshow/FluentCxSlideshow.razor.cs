@@ -41,9 +41,8 @@ public partial class FluentCxSlideshow<TItem>
     private static readonly Icon _chevronDown = new Size24.ChevronDown();
 
     /// <summary>
-    /// Represents the slides.
+    /// Represents the slides to render.
     /// </summary>
-    /// <remarks>Use when <see cref="ChildContent"/> is not null.</remarks>
     private readonly List<SlideshowItem<TItem>> _slides = [];
 
     /// <summary>
@@ -137,6 +136,11 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     private bool _isTouchEnabledChanged;
 
+    /// <summary>
+    /// Represents a value indicating if the looping mode has changed.
+    /// </summary>
+    private bool _isLoopingModeChanged;
+
     #endregion Fields
 
     #region Properties
@@ -156,6 +160,9 @@ public partial class FluentCxSlideshow<TItem>
     /// <summary>
     /// Gets or sets a value indicating that the indicators are shown.
     /// </summary>
+    /// <remarks>
+    /// When <see cref="LoopMode"/> is set to <see cref="SlideshowLoopingMode.Infinite"/>, the indicators are not shown.
+    /// </remarks>
     [Parameter]
     public bool ShowIndicators { get; set; } = true;
 
@@ -219,7 +226,7 @@ public partial class FluentCxSlideshow<TItem>
     /// Gets or sets a value indicating that the slide show loops after reaching the last item.
     /// </summary>
     [Parameter]
-    public bool IsLoopingEnabled { get; set; } = true;
+    public SlideshowLoopingMode LoopMode { get; set; } = SlideshowLoopingMode.None;
 
     /// <summary>
     /// Gets or sets the label for previous button tooltip.
@@ -274,12 +281,12 @@ public partial class FluentCxSlideshow<TItem>
     /// <summary>
     /// Gets a value indicating if the previous button is disabled.
     /// </summary>
-    private bool IsPreviousDisabled => !IsLoopingEnabled && Index == 1;
+    private bool IsPreviousDisabled => LoopMode == SlideshowLoopingMode.None && Index == 1;
 
     /// <summary>
     /// Gets a value indicating if the next button disabled.
     /// </summary>
-    private bool IsNextDisabled => !IsLoopingEnabled && Index == Count;
+    private bool IsNextDisabled => LoopMode == SlideshowLoopingMode.None && Index == Count;
 
     /// <summary>
     /// Gets or sets the css for the <see cref="FluentCxSlideshow{TItem}"/>.
@@ -314,6 +321,8 @@ public partial class FluentCxSlideshow<TItem>
         .AddClass("slideshow-animate")
         .AddClass("slideshow-animate-horizontal", InternalOrientation == Orientation.Horizontal)
         .AddClass("slideshow-animate-vertical", InternalOrientation == Orientation.Vertical)
+        .AddClass("slideshow-translate-horizontal", LoopMode != SlideshowLoopingMode.Infinite && InternalOrientation == Orientation.Horizontal)
+        .AddClass("slideshow-translate-vertical", LoopMode != SlideshowLoopingMode.Infinite && InternalOrientation == Orientation.Vertical)
         .Build();
 
     /// <summary>
@@ -451,7 +460,7 @@ public partial class FluentCxSlideshow<TItem>
         {
             interval = _slides[Index - 1].Interval.GetValueOrDefault();
         }
-        
+
         _timer = new Timer(interval);
         _timer.Elapsed += OnTimerTick;
         _timer.Start();
@@ -486,62 +495,12 @@ public partial class FluentCxSlideshow<TItem>
     /// <returns>Returns <see langword="true"/> if the <paramref name="index"/> is equal to <see cref="Index"/>.</returns>
     private bool IsCurrent(int index)
     {
+        if (index < 0)
+        {
+            return false;
+        }
+
         return Index == index + 1;
-    }
-
-    /// <summary>
-    /// Move to the previous slide.
-    /// </summary>
-    /// <returns>Returns a task which moves to the previous slide when completed.</returns>
-    private async Task OnMovePreviousAsync()
-    {
-        StopTimer();
-
-        if (ChildContent is not null)
-        {
-            await SetInternalIndexAsync(_slides.Count);
-        }
-        else
-        {
-            await SetInternalIndexAsync(Items.Count());
-        }
-
-        StartTimer();
-
-        async Task SetInternalIndexAsync(int count)
-        {
-            if (Index > 1)
-            {
-                await SetIndexAsync(Index - 1);
-            }
-            else if (IsLoopingEnabled)
-            {
-                await SetIndexAsync(count);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Sets the <see cref="Index"/> to <paramref name="index"/>.
-    /// </summary>
-    /// <param name="index">Index of the slide to slow.</param>
-    /// <returns>Returns a task which set the index to the <paramref name="index"/> and
-    ///  raise <see cref="IndexChanged"/> when completed.</returns>
-    private async Task SetIndexAsync(int index)
-    {
-        if (index == Index)
-        {
-            return;
-        }
-
-        Index = index;
-
-        if (IndexChanged.HasDelegate)
-        {
-            await IndexChanged.InvokeAsync(index);
-        }
-
-        await InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -562,22 +521,32 @@ public partial class FluentCxSlideshow<TItem>
     {
         StopTimer();
 
-        if (ChildContent is not null)
+        if (LoopMode == SlideshowLoopingMode.Infinite)
         {
-            await SetInternalIndexAsync(_slides.Count);
+            if (_module is not null)
+            {
+                await _module.InvokeVoidAsync("infiniteLoopMoveNext", Id, InternalOrientation);
+            }
         }
         else
         {
-            await SetInternalIndexAsync(Items.Count());
+            if (ChildContent is not null)
+            {
+                await SetInternalIndexAsync(_slides.Count);
+            }
+            else
+            {
+                await SetInternalIndexAsync(Items.Count());
+            }
         }
-
+        
         StartTimer();
 
         async Task SetInternalIndexAsync(int count)
         {
             if (Index >= count)
             {
-                if (IsLoopingEnabled)
+                if (LoopMode != SlideshowLoopingMode.None)
                 {
                     await SetIndexAsync(1);
                 }
@@ -594,6 +563,46 @@ public partial class FluentCxSlideshow<TItem>
             else
             {
                 await SetIndexAsync(Index + 1);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Move to the previous slide.
+    /// </summary>
+    /// <returns>Returns a task which moves to the previous slide when completed.</returns>
+    private async Task OnMovePreviousAsync()
+    {
+        StopTimer();
+
+        if (LoopMode == SlideshowLoopingMode.Infinite)
+        {
+            if (_module is not null)
+            {
+                await _module.InvokeVoidAsync("infiniteLoopMovePrevious", Id, InternalOrientation);
+            }
+        }
+
+        if (ChildContent is not null)
+        {
+            await SetInternalIndexAsync(_slides.Count);
+        }
+        else
+        {
+            await SetInternalIndexAsync(Items.Count());
+        }
+
+        StartTimer();
+
+        async Task SetInternalIndexAsync(int count)
+        {
+            if (Index > 1)
+            {
+                await SetIndexAsync(Index - 1);
+            }
+            else if (LoopMode != SlideshowLoopingMode.None)
+            {
+                await SetIndexAsync(count);
             }
         }
     }
@@ -662,7 +671,7 @@ public partial class FluentCxSlideshow<TItem>
     internal void Remove(SlideshowItem<TItem> value)
     {
         _slides.Remove(value);
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -672,7 +681,7 @@ public partial class FluentCxSlideshow<TItem>
     internal void Add(SlideshowItem<TItem> value)
     {
         _slides.Add(value);
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -683,6 +692,16 @@ public partial class FluentCxSlideshow<TItem>
     internal bool Contains(SlideshowItem<TItem> value)
     {
         return _slides.Contains(value);
+    }
+
+    /// <summary>
+    /// Check if the <paramref name="value"/> is inside the component.
+    /// </summary>
+    /// <param name="value">Value to check.</param>
+    /// <returns>Returns <see langword="true" /> if the item is inside the component, <see langword="false" /> otherwise.</returns>
+    internal bool Contains(SlideshowImage<TItem> value)
+    {
+        return _images.Contains(value);
     }
 
     /// <summary>
@@ -737,6 +756,39 @@ public partial class FluentCxSlideshow<TItem>
         _images.Remove(value);
     }
 
+    /// <summary>
+    /// Occurs when the looping mode has changed.
+    /// </summary>
+    /// <returns>Returns a task which changes the looping mode when completed.</returns>
+    private void OnLoopingModeChanged()
+    {
+        Index = 1;
+        InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>
+    /// Sets the <see cref="Index"/> to <paramref name="index"/>.
+    /// </summary>
+    /// <param name="index">Index of the slide to slow.</param>
+    /// <returns>Returns a task which set the index to the <paramref name="index"/> and
+    ///  raise <see cref="IndexChanged"/> when completed.</returns>
+    private async Task SetIndexAsync(int index)
+    {
+        if (index == Index)
+        {
+            return;
+        }
+
+        Index = index;
+
+        if (IndexChanged.HasDelegate)
+        {
+            await IndexChanged.InvokeAsync(index);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
     /// <inheritdoc />
     public override Task SetParametersAsync(ParameterView parameters)
     {
@@ -747,6 +799,7 @@ public partial class FluentCxSlideshow<TItem>
         _isIndicatorPositionChanged = parameters.HasValueChanged(nameof(IndicatorPosition), IndicatorPosition);
         _isOrientationChanged = parameters.HasValueChanged(nameof(Orientation), Orientation);
         _isTouchEnabledChanged = parameters.HasValueChanged(nameof(IsTouchEnabled), IsTouchEnabled);
+        _isLoopingModeChanged = parameters.HasValueChanged(nameof(LoopMode), LoopMode);
 
         return base.SetParametersAsync(parameters);
     }
@@ -771,7 +824,7 @@ public partial class FluentCxSlideshow<TItem>
 
         if (_autoPlayChanged || _intervalChanged)
         {
-            if (_autoPlayChanged)
+            if (Autoplay)
             {
                 StartTimer();
             }
@@ -785,6 +838,11 @@ public partial class FluentCxSlideshow<TItem>
             Height.HasValue)
         {
             _showContent = true;
+        }
+
+        if (_isLoopingModeChanged)
+        {
+            OnLoopingModeChanged();
         }
     }
 
@@ -872,7 +930,7 @@ public partial class FluentCxSlideshow<TItem>
         Width = width;
         Height = height;
         _showContent = true;
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     /// <inheritdoc />
@@ -955,7 +1013,7 @@ public partial class FluentCxSlideshow<TItem>
             _elementHeightResized = true;
         }
 
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
 
         return
         [

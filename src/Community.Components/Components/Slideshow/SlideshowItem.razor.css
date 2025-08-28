@@ -1,10 +1,11 @@
 .slideshow-item {
-    width: var(--slideshow-width);
-    height: var(--slideshow-height);
-    display: inline-flex;
-    overflow: hidden;
-    flex: 0 0 var(--slideshow-width);
-    justify-content: center;
+  width: var(--slideshow-width);
+  height: var(--slideshow-height);
+  display: inline-flex;
+  overflow: hidden;
+  flex: 0 0 var(--slideshow-width);
+  justify-content: center;
+  position: relative;
 }
 
 .slideshow-item-vertical {
