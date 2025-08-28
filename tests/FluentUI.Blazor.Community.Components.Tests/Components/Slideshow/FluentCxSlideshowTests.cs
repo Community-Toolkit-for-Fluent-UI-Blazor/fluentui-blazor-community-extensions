@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Tests;
+using Moq;
 
 namespace FluentUI.Blazor.Community.Components.Tests.Components.Slideshow;
 
@@ -135,7 +137,7 @@ public class FluentCxSlideshowTests : TestBase
     }
 
     [Fact]
-    public void IsCurrent_ShouldReturnTrue_WhenIndexMatches()
+    public void IsCurrent_ShouldReturnFalse_WhenIndexMatches()
     {
         // Arrange
         var comp = RenderComponent<FluentCxSlideshow<string>>(parameters => parameters
@@ -148,7 +150,7 @@ public class FluentCxSlideshowTests : TestBase
         var result = comp.Instance.GetAriaHiddenValue(item);
 
         // Assert
-        Assert.Equal("true", result);
+        Assert.Equal("false", result);
     }
 
     [Fact]
@@ -262,7 +264,7 @@ public class FluentCxSlideshowTests : TestBase
     }
 
     [Fact]
-    public void OnLoopingModeChanged_ShouldResetIndex()
+    public async Task OnLoopingModeChanged_ShouldResetIndex()
     {
         // Arrange
         var comp = RenderComponent<FluentCxSlideshow<string>>(parameters => parameters
@@ -270,11 +272,35 @@ public class FluentCxSlideshowTests : TestBase
         );
 
         // Act
-        comp.Instance.GetType().GetMethod("OnLoopingModeChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            .Invoke(comp.Instance, null);
+        var task = comp.Instance.GetType().GetMethod("OnLoopingModeChangedAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .Invoke(comp.Instance, [false]) as Task;
+
+        if (task != null)
+        {
+            await task;
+        }
 
         // Assert
         Assert.Equal(1, comp.Instance.Index);
+    }
+
+    [Fact]
+    public void OnLoopingModeChanged_ShouldStoreItemsAndClearTransition()
+    {
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Slideshow/FluentCxSlideshow.razor.js");
+        mockModule.SetupVoid("storeItems", It.IsAny<string>(), It.IsAny<IEnumerable<string>>()).SetVoidResult();
+        mockModule.SetupVoid("clearTransition", It.IsAny<string>()).SetVoidResult();
+
+        // Act
+        var cut = RenderComponent<FluentCxSlideshow<string>>(
+            p => p.AddChildContent<SlideshowItem<string>>()
+            .Add(p => p.Width, 100)
+            .Add(p => p.Height, 100));
+
+        // Assert
+        JSInterop.VerifyInvoke("import", 2);
+        mockModule.VerifyInvoke("storeItems");
+        mockModule.VerifyInvoke("clearTransition");
     }
 
     [Fact]

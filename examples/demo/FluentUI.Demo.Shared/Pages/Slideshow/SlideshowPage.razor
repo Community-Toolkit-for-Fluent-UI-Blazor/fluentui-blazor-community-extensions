@@ -46,6 +46,16 @@
     The user can also swipe to navigate through the slides if the parameter <code>IsTouchEnabled</code> is set to <code>true</code>.
 </p>
 
+<p>
+    When using the slideshow with a collection of items, the <code>ItemTemplate</code> parameter must be set to define the template for each item.
+</p>
+
+<p>
+    When LoopMode is set to <code>Rewind</code>, the slideshow will rewind to the first slide after reaching the last slide.
+    When LoopMode is set to <code>Infinite</code>, the slideshow will loop infinitely, meaning that after the last slide, the first slide will be shown again without any rewind effect.
+    The indicators are not shown when LoopMode is set to <code>Infinite</code>.
+</p>
+
 <h2 id="example">Examples</h2>
 
 <DemoSection Component="typeof(SlideshowDefault)" Title="Default" />

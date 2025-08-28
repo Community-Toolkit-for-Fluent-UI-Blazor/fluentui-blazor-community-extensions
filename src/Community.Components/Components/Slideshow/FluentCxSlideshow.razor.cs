@@ -428,7 +428,8 @@ public partial class FluentCxSlideshow<TItem>
     ///  is set to <see langword="true" />, or use the <see cref="Orientation"/> otherwise.</returns>
     private Orientation GetInternalOrientation()
     {
-        if (ShowIndicators)
+        if (ShowIndicators &&
+            LoopMode != SlideshowLoopingMode.Infinite)
         {
             return IndicatorPosition switch
             {
@@ -760,10 +761,18 @@ public partial class FluentCxSlideshow<TItem>
     /// Occurs when the looping mode has changed.
     /// </summary>
     /// <returns>Returns a task which changes the looping mode when completed.</returns>
-    private void OnLoopingModeChanged()
+    private async Task OnLoopingModeChangedAsync(bool store = false)
     {
         Index = 1;
-        InvokeAsync(StateHasChanged);
+
+        if (_slides.Count > 0 &&
+            _module is not null)
+        {
+            await _module.InvokeVoidAsync(store ? "storeItems" : "restoreItems", Id, _slides.Select(x=> x.Id).ToArray());
+            await _module.InvokeVoidAsync("clearTransition", Id);
+        }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -839,11 +848,6 @@ public partial class FluentCxSlideshow<TItem>
         {
             _showContent = true;
         }
-
-        if (_isLoopingModeChanged)
-        {
-            OnLoopingModeChanged();
-        }
     }
 
     /// <inheritdoc />
@@ -860,6 +864,11 @@ public partial class FluentCxSlideshow<TItem>
         {
             await OnEnableOrDisableTouchAsync();
         }
+
+        if (_isLoopingModeChanged)
+        {
+            await OnLoopingModeChangedAsync();
+        }
     }
 
     /// <inheritdoc />
@@ -873,6 +882,7 @@ public partial class FluentCxSlideshow<TItem>
             await _module.InvokeVoidAsync("initialize", Id, _dotnetReference, Width, Height);
             await OnEnableOrDisableTouchAsync();
             await OnAspectRatioChangedAsync();
+            await OnLoopingModeChangedAsync(true);
 
             if (Autoplay)
             {

@@ -8896,7 +8896,7 @@
             </summary>
             <param name="value">Image to remove.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnLoopingModeChanged">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnLoopingModeChangedAsync(System.Boolean)">
             <summary>
             Occurs when the looping mode has changed.
             </summary>

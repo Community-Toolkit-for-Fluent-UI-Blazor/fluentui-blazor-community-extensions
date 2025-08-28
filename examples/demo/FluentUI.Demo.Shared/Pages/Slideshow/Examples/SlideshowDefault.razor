@@ -3,8 +3,35 @@
         <FluentStack VerticalAlignment="VerticalAlignment.Center" Wrap>
             <FluentSwitch @bind-Value=_showControls Label="Show controls" />
             <FluentSpacer Width="60" />
-            <FluentSwitch @bind-Value=_showIndicators Label="Show indicators" />
-            <FluentSpacer Width="60" />
+           
+            @if (_loopMode != SlideshowLoopingMode.Infinite.ToString())
+            {
+                <FluentSwitch @bind-Value=_showIndicators Label="Show indicators" />
+                <FluentSpacer Width="60" />
+                @if (_showIndicators)
+                {
+                    <FluentSelect @bind-Value="@_indicatorPosition" Label="Position of the indicator" TOption="string">
+                        <FluentOption Value="Top">Top</FluentOption>
+                        <FluentOption Value="Bottom" Selected="true">Bottom</FluentOption>
+                        <FluentOption Value="Left">Left</FluentOption>
+                        <FluentOption Value="Right">Right</FluentOption>
+                    </FluentSelect>
+                }
+                else
+                {
+                    <FluentSelect @bind-Value="@_orientation" Label="Orientation of the Slideshow" TOption="string">
+                        <FluentOption Value="Horizontal" Selected>Horizontal</FluentOption>
+                        <FluentOption Value="Vertical" Selected="true">Vertical</FluentOption>
+                    </FluentSelect>
+                }
+            }
+            else
+            {
+                <FluentSelect @bind-Value="@_orientation" Label="Orientation of the Slideshow" TOption="string">
+                    <FluentOption Value="Horizontal" Selected>Horizontal</FluentOption>
+                    <FluentOption Value="Vertical" Selected="true">Vertical</FluentOption>
+                </FluentSelect>
+            }
         </FluentStack>
 
         <FluentStack VerticalAlignment="VerticalAlignment.Center" Wrap>
@@ -36,26 +63,7 @@
             </FluentSelect>
         </FluentStack>
 
-        <FluentStack VerticalAlignment="VerticalAlignment.Center">
-            @if (_showIndicators && _loopMode != SlideshowLoopingMode.Infinite.ToString())
-            {
-                <FluentSelect @bind-Value="@_indicatorPosition" Label="Position of the indicator" TOption="string">
-                    <FluentOption Value="Top">Top</FluentOption>
-                    <FluentOption Value="Bottom" Selected="true">Bottom</FluentOption>
-                    <FluentOption Value="Left">Left</FluentOption>
-                    <FluentOption Value="Right">Right</FluentOption>
-                </FluentSelect>
-            }
-            else
-            {
-                <FluentSelect @bind-Value="@_orientation" Label="Orientation of the Slideshow" TOption="string">
-                    <FluentOption Value="Horizontal" Selected>Horizontal</FluentOption>
-                    <FluentOption Value="Vertical" Selected="true">Vertical</FluentOption>
-                </FluentSelect>
-            }
-        </FluentStack>
-
-        <div style="width: 100%; height: calc(100% - 150px)">
+        <div style="width: 100%; height: calc(100% - 250px)">
             <FluentCxSlideshow ShowIndicators=@_showIndicators
                                ShowControls=@_showControls
                                Autoplay="@_autoPlay"

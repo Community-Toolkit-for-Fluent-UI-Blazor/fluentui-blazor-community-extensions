@@ -137,6 +137,7 @@ export function initialize(id, dotnetReference, width, height) {
       startX: 0,
       startY: 0,
       itemsContainer: itemsContainer,
+      items: []
     }
 
     _instances.push(instance);
@@ -315,5 +316,42 @@ export function infiniteLoopMovePrevious(id, orientation) {
       instance.itemsContainer.style.transition = 'transform var(--slideshow-duration) ease-in-out';
       instance.itemsContainer.style.transform = orientation === horizontal ? 'translateX(0%)' : 'translateY(0%)';
     });
+  }
+}
+
+export function storeItems(id, idCollection) {
+  const instance = getInstance(id);
+
+  if (instance) {
+    for(let i = 0; i < idCollection.length; i++) {
+      const item = document.getElementById(idCollection[i]);
+
+      if (item) {
+        instance.items.push(item);
+      }
+    }
+  }
+}
+
+export function restoreItems(id) {
+  const instance = getInstance(id);
+
+  if (instance) {
+    for(let i = instance.itemsContainer.children.length - 1; i >= 0; i--) {
+      instance.itemsContainer.removeChild(instance.itemsContainer.children[i]);
+    }
+
+    for (let i = 0; i < instance.items.length; i++) {
+      instance.itemsContainer.appendChild(instance.items[i]);
+    }
+  }
+}
+
+export function clearTransition(id) {
+  const instance = getInstance(id);
+
+  if (instance) {
+    instance.itemsContainer.style.transition = '';
+    instance.itemsContainer.style.transform = '';
   }
 }
