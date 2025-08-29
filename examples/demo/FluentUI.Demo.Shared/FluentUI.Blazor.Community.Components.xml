@@ -5310,6 +5310,11 @@
             Gets or sets the id of the container to which the dialog is relative.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.IsDescriptionMarkup">
+            <summary>
+            Gets or sets a value indicating whether the descriptions contains markup or not.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.InternalCss">
             <summary>
             Gets the css to use for the dialog.
