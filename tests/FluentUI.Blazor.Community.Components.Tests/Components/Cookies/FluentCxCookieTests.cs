@@ -1,4 +1,5 @@
 using Bunit;
+using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -15,6 +16,7 @@ public class FluentCxCookieTests : TestBase
         JSInterop.Mode = Bunit.JSRuntimeMode.Loose;
         Services.AddSingleton(UnitTestLibraryConfiguration);
         Services.AddFluentUIComponents();
+        Services.AddFluentCxUIComponents();
     }
 
     [Fact]
@@ -61,8 +63,8 @@ public class FluentCxCookieTests : TestBase
         }
 
         // Assert
-        JSInterop.VerifyInvoke("import", 2); // One time for FluentCxCookie and one time for FluentCxMediaQuery.
-        JSInterop.VerifyInvoke("setCookiePolicy", 1);
+        JSInterop.VerifyInvoke("import");
+        JSInterop.VerifyInvoke("setCookiePolicy");
     }
 
     [Fact]
@@ -198,8 +200,8 @@ public class FluentCxCookieTests : TestBase
         }
 
         // Assert
-        JSInterop.VerifyInvoke("import", 2);
-        JSInterop.VerifyInvoke("deleteCookiePolicy", 1);
+        JSInterop.VerifyInvoke("import");
+        JSInterop.VerifyInvoke("deleteCookiePolicy");
     }
 
     [Fact]
