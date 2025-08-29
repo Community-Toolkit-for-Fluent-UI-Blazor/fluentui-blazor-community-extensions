@@ -12,6 +12,11 @@ public partial class FluentCxCookie
     : FluentComponentBase
 {
     /// <summary>
+    /// Gets or sets a value indicating whether the device is a mobile device or not.
+    /// </summary>
+    private bool _isMobile;
+
+    /// <summary>
     /// Represents a value that show the dialog or not.
     /// </summary>
     private bool _showCookieDialog;
@@ -20,11 +25,6 @@ public partial class FluentCxCookie
     /// Gets or sets a value indicating whether the open button is disabled when the manage cookies dialog is visible.
     /// </summary>
     private bool _manageCookieVisible;
-
-    /// <summary>
-    /// Represents a value indicating whether the device is mobile or not.
-    /// </summary>
-    private bool _isMobile;
 
     /// <summary>
     /// Represents the javascript file to load.
@@ -62,6 +62,12 @@ public partial class FluentCxCookie
     /// </summary>
     [Inject]
     private IDialogService DialogService { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the device info state.
+    /// </summary>
+    [Inject]
+    private DeviceInfoState DeviceInfoState { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the view of the cookie dialog.
@@ -189,6 +195,18 @@ public partial class FluentCxCookie
     public string? RelativeContainerId { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the descriptions contains markup or not.
+    /// </summary>
+    [Parameter]
+    public bool IsDescriptionMarkup { get; set; }
+
+    /// <summary>
+    /// Gets or sets the width under which the dialog switch to the mobile device view.
+    /// </summary>
+    [Parameter]
+    public string? SwitchToMobileDeviceWidth { get; set; }
+
+    /// <summary>
     /// Gets the css to use for the dialog.
     /// </summary>
     private string? InternalCss => new CssBuilder(Class)
@@ -202,7 +220,7 @@ public partial class FluentCxCookie
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("--cookie-width", Width, !string.IsNullOrEmpty(Width))
         .AddStyle("--cookie-height", Height, !string.IsNullOrEmpty(Height))
-        .AddStyle("--cookie-width", "97%", string.IsNullOrEmpty(Width) && View == CookieView.Default && _isMobile)
+        .AddStyle("--cookie-width", "97%", string.IsNullOrEmpty(Width) && View == CookieView.Default && ((DeviceInfoState.DeviceInfo?.IsMobile ?? false) || _isMobile))
         .Build();
 
     /// <summary>

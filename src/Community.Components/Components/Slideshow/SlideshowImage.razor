@@ -1,0 +1,10 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<img id="@Id"
+     loading="@(IsLazy ? "lazy" : "eager")"
+     fetchpriority="@(FetchPriorityHigh ? "high" : "low")"
+     src="@Source"
+     alt="@Alt"
+     title="@Title" />

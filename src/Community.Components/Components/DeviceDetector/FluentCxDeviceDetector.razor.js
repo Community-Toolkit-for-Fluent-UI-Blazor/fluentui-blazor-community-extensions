@@ -5,7 +5,8 @@ export function getDeviceInfo() {
     operatingsystem = /Windows NT 10/.test(userAgent) ? "Windows10" : /Windows NT 6\.0/.test(userAgent) ? "WindowsVista" : /Windows NT 6\.1/.test(userAgent) ? "Windows7" : /Windows NT 6\.\d/.test(userAgent) ? "Windows8" : /Windows NT 5\.1/.test(userAgent) ? "WindowsXp" : /Windows NT [1-5]\./.test(userAgent) ? "WindowsNT" : /Mac/.test(userAgent) ? "Mac" : /Linux/.test(userAgent) ? "Linux" : /X11/.test(userAgent) ? "Nix" : "Undefined",
     touch = 'ontouchstart' in document.documentElement,
     mobile = /IEMobile|Windows Phone|Lumia/i.test(userAgent) ? 'WindowsPhone' : /iPhone/.test(userAgent) ? 'IPhone' : /iPad/.test(userAgent) ? 'IPad' : /iPod/.test(userAgent) ? "IPod" : /Android/.test(userAgent) ? 'Android' : /BlackBerry|PlayBook|BB10/.test(userAgent) ? 'BlackBerry' : /Mobile Safari/.test(userAgent) ? 'Safari' : /webOS|Mobile|Tablet|Opera Mini|\bCrMo\/|Opera Mobi/i.test(userAgent) ? "UnknownMobileDevice" : "NotMobileDevice",
-    isTablet = /Tablet|iPad/i.test(userAgent);
+    isTablet = /Tablet|iPad/i.test(userAgent),
+    isIPad = /Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1; // iPadOS 13+ reports as Macintosh, but has touch support.
 
   const value = {
     userAgent,
@@ -13,7 +14,8 @@ export function getDeviceInfo() {
     operatingsystem,
     touch,
     mobile,
-    isTablet
+    isTablet,
+    isIPad
   }
 
   return value;

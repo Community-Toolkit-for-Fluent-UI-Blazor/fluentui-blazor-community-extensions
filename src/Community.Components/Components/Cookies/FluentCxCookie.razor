@@ -1,6 +1,12 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
+@if (!string.IsNullOrEmpty(SwitchToMobileDeviceWidth))
+{
+    <FluentCxMediaQuery OnMediaChanged="@(p => _isMobile = p)"
+                        Query="@($"(max-width: {SwitchToMobileDeviceWidth})")" />
+}
+
 @if (Modal)
 {
     <FluentOverlay Transparent=false
@@ -22,9 +28,6 @@
 
 @if (_showCookieDialog)
 {
-    <FluentCxMediaQuery OnMediaChanged="@(p => _isMobile = p)"
-                        Query="(max-width: 640px)" />
-
     <div id="@Id" class="@InternalCss" style="@InternalStyle">
         <FluentCard>
             @if (View == CookieView.Default)
@@ -47,9 +50,18 @@
                                 <FluentLabel Typo=Typography.H1 Weight="FontWeight.Bold">@Labels.Title</FluentLabel>
                             </FluentStack>
 
-                            <FluentLabel>@Labels.PrimaryDescription</FluentLabel>
+                            @if (!IsDescriptionMarkup)
+                            {
+                                <FluentLabel>@Labels.PrimaryDescription</FluentLabel>
 
-                            <FluentLabel>@Labels.SecondaryDescription</FluentLabel>
+                                <FluentLabel>@Labels.SecondaryDescription</FluentLabel>
+                            }
+                            else
+                            {
+                                <FluentLabel>@((MarkupString)Labels.PrimaryDescription)</FluentLabel>
+
+                                <FluentLabel>@((MarkupString)Labels.SecondaryDescription)</FluentLabel>
+                            }
                         </FluentStack>
 
                         @_renderActionButtons

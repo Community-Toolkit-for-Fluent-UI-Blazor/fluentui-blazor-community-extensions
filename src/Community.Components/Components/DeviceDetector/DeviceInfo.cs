@@ -47,6 +47,11 @@ public record DeviceInfo
     public bool IsMobile => Mobile != Mobile.NotMobileDevice;
 
     /// <summary>
+    /// Gets or sets a value indicating if the app is running on an iPad.
+    /// </summary>
+    public bool IsIPad { get; init; }
+
+    /// <summary>
     /// Gets the orientation of the device.
     /// </summary>
     public DeviceOrientation Orientation
@@ -81,6 +86,10 @@ public record DeviceInfo
         handler.AppendFormatted(Mobile);
         handler.AppendLiteral(Environment.NewLine);
 
+        handler.AppendLiteral("IPad : ");
+        handler.AppendFormatted(IsIPad);
+        handler.AppendLiteral(Environment.NewLine);
+
         handler.AppendLiteral("IsTablet : ");
         handler.AppendFormatted(IsTablet);
         handler.AppendLiteral(Environment.NewLine);
@@ -107,6 +116,10 @@ public record DeviceInfo
         handler.AppendLiteral("<strong>Browser : </strong>");
         handler.AppendFormatted(Browser);
         handler.AppendLiteral("<br />");
+
+        handler.AppendLiteral("IPad : ");
+        handler.AppendFormatted(IsIPad);
+        handler.AppendLiteral(Environment.NewLine);
 
         handler.AppendLiteral("<strong>Mobile : </strong>");
         handler.AppendFormatted(Mobile);

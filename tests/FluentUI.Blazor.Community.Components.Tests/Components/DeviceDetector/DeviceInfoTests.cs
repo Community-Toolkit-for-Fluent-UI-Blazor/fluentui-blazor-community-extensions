@@ -148,4 +148,14 @@ public class DeviceInfoTests
         // Assert
         Assert.True(deviceInfo.IsTablet);
     }
+
+    [Fact]
+    public void DeviceInfo_IsIPad_Property()
+    {
+        // Arrange & Act
+        var deviceInfo = new DeviceInfo { IsIPad = true };
+
+        // Assert
+        Assert.True(deviceInfo.IsIPad);
+    }
 }

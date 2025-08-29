@@ -1,0 +1,84 @@
+﻿@page "/slideshow"
+
+@using FluentUI.Demo.Shared.Pages.Slideshow.Examples
+
+<h1>Slideshow</h1>
+
+<p>
+    The slideshow component is a carousel which display content with a slide effect.
+</p>
+
+<p>
+    The original orientation of the slideshow is horizontal, but it can be changed to vertical.
+    To change it to vertical, set the parameter <code>IndicatorPosition</code> to <code>Left</code> or <code>Right</code>.
+</p>
+
+<p>
+    The slideshow can be configured to autoplay, loop, show indicators and controls.
+    The time interval between slides and the duration of the sliding animation of the content can also be configured.
+</p>
+
+<p>
+    The images in the slideshow can have two different behaviors: <code>Auto</code> and <code>Fill</code>.
+    When the behavior is set to <code>Auto</code>, the image is shrinked to fit the container, maintaining its aspect ratio.
+    When the behavior is set to <code>Fill</code>, the image fills the container, which means that the image can be cropped.
+    The default behavior is <code>Auto</code>.
+</p>
+
+<p>
+    The slideshow is implemented using the <code>FluentCxSlideshow</code> component.
+    Each item in the slideshow is represented by a <code>SlideshowItem</code> component, which can contain any content.
+    To display an image in the slideshow, use the <code>SlideshowImage</code> component inside a <code>SlideshowItem</code>.
+    The <code>SlideshowImage</code> component has a <code>Source</code> parameter to set the image source.
+    Optionally, a <code>SlideshowCaption</code> component can be used to display a caption for the image.
+</p>
+
+<p>
+    The slideshow component is fully responsive and works well on different screen sizes.
+    If you don't set the parameters <code>Width</code> and <code>Height</code>, the slideshow will take the width of its container and
+    the height will be calculated based on the first image in the slideshow.
+</p>
+
+<p>
+    The slideshow component is accessible and supports keyboard navigation.
+    The user can navigate through the slides using the arrow keys.
+    The user can also navigate to a specific slide by clicking on the indicators.
+    The user can also swipe to navigate through the slides if the parameter <code>IsTouchEnabled</code> is set to <code>true</code>.
+</p>
+
+<p>
+    When using the slideshow with a collection of items, the <code>ItemTemplate</code> parameter must be set to define the template for each item.
+</p>
+
+<p>
+    When LoopMode is set to <code>Rewind</code>, the slideshow will rewind to the first slide after reaching the last slide.
+    When LoopMode is set to <code>Infinite</code>, the slideshow will loop infinitely, meaning that after the last slide, the first slide will be shown again without any rewind effect.
+    The indicators are not shown when LoopMode is set to <code>Infinite</code>.
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(SlideshowDefault)" Title="Default" />
+
+<DemoSection Component="typeof(SlideshowItemInterval)" Title="Interval">
+    <Description>
+        Each slide has an <code>aria-label</code> attribute that indicates the position of the slide in the slideshow (e.g., "Slide 1", "Slide 2", etc.).
+        Each slide also has an <code>aria-hidden</code> attribute that indicates whether the slide is currently visible or not.
+        Each slide also has an <code>Interval</code> parameter that indicates the time interval to wait before automatically transitioning to the next slide when autoplay is enabled.
+        if the <code>Interval</code> parameter is not set, the default interval set in the <code>FluentCxSlideshow</code> component is used.
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(SlideshowCaptions)" Title="Captions">
+    <Description>
+        The <code>SlideshowCaption</code> component is used to display a caption for the image.
+        The caption is displayed at the bottom of the image.
+    </Description>
+</DemoSection>
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(FluentCxSlideshow<>)" />
+<ApiDocumentation Component="typeof(SlideshowItem<>)" />
+<ApiDocumentation Component="typeof(SlideshowCaption)" />
+<ApiDocumentation Component="typeof(SlideshowImage<>)" />

@@ -166,6 +166,9 @@ public class DeviceDetectorTests : TestBase
         Assert.Equal(expectedDeviceInfo.Mobile, cut.Instance.DeviceInfo.Mobile);
         Assert.Equal(expectedDeviceInfo.Touch, cut.Instance.DeviceInfo.Touch);
         Assert.Equal(expectedDeviceInfo.IsTablet, cut.Instance.DeviceInfo.IsTablet);
+        Assert.Equal(expectedDeviceInfo.UserAgent, cut.Instance.DeviceInfo.UserAgent);
+        Assert.Equal(expectedDeviceInfo.Orientation, cut.Instance.DeviceInfo.Orientation);
+        Assert.Equal(expectedDeviceInfo.IsIPad, cut.Instance.DeviceInfo.IsIPad);
     }
 
     [Fact]
