@@ -3,7 +3,8 @@
 @typeparam TItem
 
 <img id="@Id"
-     loading="lazy"
+     loading="@(IsLazy ? "lazy" : "eager")"
+     fetchpriority="@(FetchPriorityHigh ? "high" : "low")"
      src="@Source"
      alt="@Alt"
      title="@Title" />

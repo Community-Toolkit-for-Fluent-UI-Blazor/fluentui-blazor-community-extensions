@@ -48,6 +48,18 @@ public partial class SlideshowImage<TItem>
     [Parameter]
     public string? Title { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the image should be loaded lazily.
+    /// </summary>
+    [Parameter]
+    public bool IsLazy { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the image has high fetch priority.
+    /// </summary>
+    [Parameter]
+    public bool FetchPriorityHigh { get; set; } = false;
+
     #endregion Properties
 
     #region Methods

@@ -3,7 +3,7 @@
 @typeparam TItem
 
 <CascadingValue Value="(this)" IsFixed="true">
-    <FluentKeyCode Anchor="@Id" OnKeyDown="@OnKeyDownAsync" />
+    <FluentKeyCode PreventDefault Anchor="@Id" OnKeyDown="@OnKeyDownAsync" />
 
     <div @ref="@Element"
          id="@Id"
@@ -12,10 +12,11 @@
          role="list"
          tabindex="0"
          @attributes="@AdditionalAttributes">
-        <div class="@InternalContainerCss">
+
+        <div id="@($"slide-show-items-container-{Id}")" class="@InternalContainerCss">
             @if (_showContent)
             {
-                if (ChildContent is not null)
+                @if (ChildContent is not null)
                 {
                     @ChildContent
                 }
@@ -45,7 +46,7 @@
                           aria-label="@PreviousLabel"
                           Title="@PreviousLabel"
                           Disabled=@IsPreviousDisabled
-                          IconStart="@(new Regular.Size24.ChevronLeft())"
+                          IconStart="@(PreviousIcon)"
                           Style="@PreviousButtonStyle" />
 
             <FluentButton Appearance="Appearance.Stealth"
@@ -53,24 +54,25 @@
                           aria-label="@NextLabel"
                           Title="@NextLabel"
                           Disabled=@IsNextDisabled
-                          IconStart="@(new Regular.Size24.ChevronRight())"
+                          IconStart="@(NextIcon)"
                           Style="@NextButtonStyle" />
         }
 
-        @if (ShowIndicators)
+        @if (ShowIndicators &&
+             LoopMode != SlideshowLoopingMode.Infinite)
         {
             <div class="@InternalIndicatorsCss">
                 <FluentStack Style="height: 100%;"
-                             Orientation="@Orientation"
+                             Orientation="@InternalOrientation"
                              HorizontalAlignment="HorizontalAlignment.Center"
                              VerticalAlignment="VerticalAlignment.Center">
                     @if (ChildContent is not null)
                     {
-                        @_renderDots(_slides.Count)
+                        @_renderIndicatorItems(_slides.Count)
                     }
                     else
                     {
-                        @_renderDots(Items.Count())
+                        @_renderIndicatorItems(Items.Count())
                     }
                 </FluentStack>
             </div>
@@ -84,14 +86,23 @@
         Id = Identifier.NewId();
         _dotnetReference = DotNetObjectReference.Create(this);
 
-        _renderDots = count => __builder =>
+        _renderIndicatorItems = count => __builder =>
         {
-            for(int i = 0; i < count; ++i)
+            bool customIndicators = IndicatorTemplate is not null;
+
+            for (int i = 0; i < count; ++i)
             {
-                <DotIndicator TItem="TItem"
-                              Index="@i"
-                              Orientation="@Orientation"
-                              CurrentSlideshowIndex="@Index"/>
+                if (customIndicators)
+                {
+                    @IndicatorTemplate!(i)
+                }
+                else
+                {
+                    <DotIndicator TItem="TItem"
+                                  Index="@i"
+                                  Orientation="@InternalOrientation"
+                                  CurrentSlideshowIndex="@Index"/>
+                }
             }
         };
     }
