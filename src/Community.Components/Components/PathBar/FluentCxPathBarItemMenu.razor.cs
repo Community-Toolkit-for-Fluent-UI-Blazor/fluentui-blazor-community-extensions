@@ -52,7 +52,17 @@ public partial class FluentCxPathBarItemMenu
     private void OnItemTapped(IPathBarItem item)
     {
         _isMenuOpen = false;
-        
+
         Parent?.Ancestor?.SetPath(PathBarItem.GetPath(item));
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    private Task OnHandleKeyDownAsync(FluentKeyCodeEventArgs e)
+    {
+        return Task.CompletedTask;
     }
 }

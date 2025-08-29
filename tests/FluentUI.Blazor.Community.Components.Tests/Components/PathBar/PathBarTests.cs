@@ -66,7 +66,7 @@ public class PathBarTests : TestBase
         {
             a.Add(p => p.Root, root);
             a.Add(p => p.Path, path);
-            a.Add(p => p.MaxVisibleItems, maxVisibleItems);
+          //  a.Add(p => p.MaxVisibleItems, maxVisibleItems);
         });
 
         cut.InvokeAsync(() => { });

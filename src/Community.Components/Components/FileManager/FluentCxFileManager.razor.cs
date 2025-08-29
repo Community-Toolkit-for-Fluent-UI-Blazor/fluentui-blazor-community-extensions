@@ -726,7 +726,7 @@ public partial class FluentCxFileManager<TItem>
             }
 
             var l = subItems.ToList();
-            l.Sort(FileManagerEntryPathBarItemComparer.Default);
+            l.Sort(PathBarItemComparer.Default);
 
             item.Items = [.. l];
         }

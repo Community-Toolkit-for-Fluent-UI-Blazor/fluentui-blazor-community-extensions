@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
+using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -8,7 +10,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// Represents a path bar.
 /// </summary>
 public partial class FluentCxPathBar
-    : FluentComponentBase
+    : FluentComponentBase, IDisposable
 {
     /// <summary>
     /// Represents the home icon.
@@ -43,6 +45,58 @@ public partial class FluentCxPathBar
     private static readonly Icon _phoneIcon = new Size24.Phone();
 
     /// <summary>
+    /// Represents a flag indicating whether the path has changed.
+    /// </summary>
+    private bool _pathChanged = true;
+
+    /// <summary>
+    /// Represents the overflow items.
+    /// </summary>
+    private readonly List<IPathBarItem> _overflowItems = [];
+
+    /// <summary>
+    /// Represents the visible items.
+    /// </summary>
+    private readonly List<IPathBarItem> _visibleItems = [];
+
+    /// <summary>
+    /// Represents the JavaScript module for the component.
+    /// </summary>
+    private const string JavascriptModule = "./_content/FluentUI.Blazor.Community.Components/Components/PathBar/FluentCxPathBar.razor.js";
+
+    /// <summary>
+    /// Represents the JavaScript module reference.
+    /// </summary>
+    private IJSObjectReference? _jsModule;
+
+    /// <summary>
+    /// Represents the dot net object reference.
+    /// </summary>
+    private readonly DotNetObjectReference<FluentCxPathBar> _dotNetRef;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FluentCxPathBar"/> class.
+    /// </summary>
+    public FluentCxPathBar()
+    {
+        Id = Identifier.NewId();
+        _dotNetRef = DotNetObjectReference.Create(this);
+    }
+
+    /// <summary>
+    /// Gets the css class which is used internally.
+    /// </summary>
+    private string? InternalCss => new CssBuilder(Class)
+        .AddClass("fluentcx-path-bar")
+        .Build();
+
+    /// <summary>
+    /// Gets or sets the javaScript runtime.
+    /// </summary>
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; } = default!;
+
+    /// <summary>
     /// Gets or sets the root of the path, with all possible paths.
     /// </summary>
     [Parameter]
@@ -67,10 +121,10 @@ public partial class FluentCxPathBar
     private DeviceInfoState DeviceInfoState { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the maximum number items visible.
+    /// Gets or sets the maximum length of the path before it will be truncated.
     /// </summary>
     [Parameter]
-    public int? MaxVisibleItems { get; set; }
+    public int MaxLengthBeforeTruncate { get; set; } = 10;
 
     /// <summary>
     /// Occurs when the <paramref name="path"/> has changed.
@@ -92,6 +146,7 @@ public partial class FluentCxPathBar
     /// <returns>Returns a task which changes the path when completed.</returns>
     private async Task OnPathSelectedAsync(IPathBarItem item)
     {
+        _pathChanged = true;
         Path = PathBarItem.GetPath(item);
         await OnPathChangedAsync(Path);
         StateHasChanged();
@@ -103,6 +158,7 @@ public partial class FluentCxPathBar
     /// <param name="path">Selected path.</param>
     internal void SetPath(string? path)
     {
+        _pathChanged = true;
         Path = path;
         InvokeAsync(() => OnPathChangedAsync(path));
         StateHasChanged();
@@ -134,7 +190,7 @@ public partial class FluentCxPathBar
     /// </summary>
     /// <param name="segments">Array of string which represents the full path.</param>
     /// <returns>Returns a list of the <see cref="IPathBarItem"/>.</returns>
-    private IEnumerable<IPathBarItem> Find(string[] segments)
+    private List<IPathBarItem> Find(string[] segments)
     {
         if (segments.Length == 0)
         {
@@ -175,5 +231,114 @@ public partial class FluentCxPathBar
 
             return null;
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    private Task OnHandleOverflowKeyDownAsync(FluentKeyCodeEventArgs e)
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    private Task OnHandleMenuContainerKeyDownAsync(FluentKeyCodeEventArgs e)
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Updates the <paramref name="toUpdate"/> list with the <paramref name="updated"/> list.
+    /// </summary>
+    /// <param name="toUpdate">List to update.</param>
+    /// <param name="updated">Update items.</param>
+    private static void Update(List<IPathBarItem> toUpdate, IEnumerable<IPathBarItem> updated)
+    {
+        toUpdate.Clear();
+        toUpdate.AddRange(updated);
+    }
+
+    private static IEnumerable<IPathBarItem> GetAllItems(
+        IEnumerable<IPathBarItem>? items,
+        IEnumerable<string> ids)
+    {
+        if (items is null || !items.Any() || ids is null || !ids.Any())
+        {
+            yield break;
+        }
+
+        foreach (var id in ids)
+        {
+            var item = GetItem(items, id);
+
+            if (item is not null)
+            {
+                yield return item;
+            }
+        }
+    }
+
+    private static IPathBarItem? GetItem(IEnumerable<IPathBarItem> items, string id)
+    {
+        foreach (var item in items)
+        {
+            if (string.Equals(item.Id, id, StringComparison.OrdinalIgnoreCase))
+            {
+                return item;
+            }
+
+            var node = GetItem(item.Items, id);
+
+            if (node is not null)
+            {
+                return node;
+            }
+        }
+
+        return null;
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptModule);
+            await _jsModule.InvokeVoidAsync("initialize", Id, _dotNetRef, MaxLengthBeforeTruncate);
+        }
+
+        if (_pathChanged &&
+            _jsModule is not null)
+        {
+            await _jsModule.InvokeVoidAsync("refreshPathBar", Id);
+        }
+    }
+
+    [JSInvokable("updateOverflowAndVisible")]
+    public void UpdateOverflowAndVisible(RefreshPathBarResult? result)
+    {
+        if (result is not null)
+        {
+            Update(_overflowItems, GetAllItems(Root?.Items, result.OverflowItems));
+            Update(_visibleItems, GetAllItems(Root?.Items, result.VisibleItems));
+            _pathChanged = false;
+            StateHasChanged();
+        }
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        _dotNetRef.Dispose();
+
+        GC.SuppressFinalize(this);
     }
 }

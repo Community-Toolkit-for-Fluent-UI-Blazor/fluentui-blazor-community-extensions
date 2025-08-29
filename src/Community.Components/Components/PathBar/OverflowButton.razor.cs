@@ -23,7 +23,7 @@ public partial class OverflowButton : FluentComponentBase
     /// Gets or sets the items inside the overflow.
     /// </summary>
     [Parameter]
-    public IEnumerable<IPathBarItem> Items { get; set; } = [];
+    public List<IPathBarItem> Items { get; set; } = [];
 
     /// <summary>
     /// Occurs when the menu is selected.

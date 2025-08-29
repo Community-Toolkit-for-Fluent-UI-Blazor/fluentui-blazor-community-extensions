@@ -66,9 +66,14 @@ public sealed class PathBarItem
         return null;
     }
 
+    /// <summary>
+    /// Gets the full path of the specified <paramref name="value"/>.
+    /// </summary>
+    /// <param name="value">Last item of the bar.</param>
+    /// <returns>Returns the full path of the specified <paramref name="value" />.</returns>
     internal static string? GetPath(IPathBarItem? value)
     {
-        if(value is null)
+        if (value is null)
         {
             return null;
         }

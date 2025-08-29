@@ -1,0 +1,5 @@
+.fluentcx-path-bar {
+  height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
+  width: 100%;
+  background: var(--neutral-fill-stealth-rest);
+}
