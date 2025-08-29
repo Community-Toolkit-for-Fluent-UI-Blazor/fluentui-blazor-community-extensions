@@ -1,0 +1,36 @@
+﻿<div style="width: 100%; height: 850px">
+    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentNumberField @bind-Value=_intervalItem1 Label="Interval item 1 (seconds)" />
+            <FluentSpacer Width="60" />
+            <FluentNumberField @bind-Value=_intervalItem2 Label="Interval item 2 (seconds)" />
+            <FluentSpacer Width="60" />
+            <FluentNumberField @bind-Value=_intervalItem3 Label="Interval item 3 (seconds)" />
+        </FluentStack>
+
+        <div style="width: 100%; height: calc(100% - 150px)">
+            <FluentCxSlideshow TItem="string"
+                               LoopMode="SlideshowLoopingMode.Infinite"
+                               Autoplay>
+                <SlideshowItem Interval="@TimeSpan.FromSeconds(_intervalItem1)">
+                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
+                </SlideshowItem>
+
+                <SlideshowItem Interval="@TimeSpan.FromSeconds(_intervalItem2)">
+                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
+                </SlideshowItem>
+
+                <SlideshowItem Interval="@TimeSpan.FromSeconds(_intervalItem3)">
+                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
+                </SlideshowItem>
+            </FluentCxSlideshow>
+        </div>
+
+    </FluentStack>
+</div>
+
+@code {
+    private int _intervalItem1 = 3;
+    private int _intervalItem2 = 5;
+    private int _intervalItem3 = 7;
+}
