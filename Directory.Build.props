@@ -10,8 +10,8 @@
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
-    <VersionFile>0.0.2</VersionFile>
-    <VersionPrefix>0.0.2</VersionPrefix>
+    <VersionFile>0.0.3</VersionFile>
+    <VersionPrefix>0.0.3</VersionPrefix>
     <AssemblyVersion>$(VersionFile)</AssemblyVersion>
     <FileVersion>$(VersionFile)</FileVersion>
 
