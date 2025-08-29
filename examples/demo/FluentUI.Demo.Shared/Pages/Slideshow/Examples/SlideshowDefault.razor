@@ -7,12 +7,14 @@
             @if (_loopMode != SlideshowLoopingMode.Infinite.ToString())
             {
                 <FluentSwitch @bind-Value=_showIndicators Label="Show indicators" />
+
                 <FluentSpacer Width="60" />
+
                 @if (_showIndicators)
                 {
                     <FluentSelect @bind-Value="@_indicatorPosition" Label="Position of the indicator" TOption="string">
                         <FluentOption Value="Top">Top</FluentOption>
-                        <FluentOption Value="Bottom" Selected="true">Bottom</FluentOption>
+                        <FluentOption Value="Bottom">Bottom</FluentOption>
                         <FluentOption Value="Left">Left</FluentOption>
                         <FluentOption Value="Right">Right</FluentOption>
                     </FluentSelect>
@@ -20,16 +22,16 @@
                 else
                 {
                     <FluentSelect @bind-Value="@_orientation" Label="Orientation of the Slideshow" TOption="string">
-                        <FluentOption Value="Horizontal" Selected>Horizontal</FluentOption>
-                        <FluentOption Value="Vertical" Selected="true">Vertical</FluentOption>
+                        <FluentOption Value="Horizontal">Horizontal</FluentOption>
+                        <FluentOption Value="Vertical">Vertical</FluentOption>
                     </FluentSelect>
                 }
             }
             else
             {
                 <FluentSelect @bind-Value="@_orientation" Label="Orientation of the Slideshow" TOption="string">
-                    <FluentOption Value="Horizontal" Selected>Horizontal</FluentOption>
-                    <FluentOption Value="Vertical" Selected="true">Vertical</FluentOption>
+                    <FluentOption Value="Horizontal">Horizontal</FluentOption>
+                    <FluentOption Value="Vertical">Vertical</FluentOption>
                 </FluentSelect>
             }
         </FluentStack>
@@ -41,7 +43,7 @@
                           Label="Looping"
                           TOption="string"
                           Style="margin-bottom: 20px">
-                <FluentOption Value="None" Selected="true">None</FluentOption>
+                <FluentOption Value="None">None</FluentOption>
                 <FluentOption Value="Rewind">Rewind</FluentOption>
                 <FluentOption Value="Infinite">Infinite</FluentOption>
             </FluentSelect>
@@ -50,7 +52,7 @@
         </FluentStack>
 
         <FluentStack VerticalAlignment="VerticalAlignment.Center">
-            <FluentNumberField @bind-Value=_interval Label="Autoplay interval (seconds)" />
+            <FluentNumberField @bind-Value=_interval Label="Autoplay i nterval (seconds)" />
             <FluentSpacer Width="60" />
             <FluentNumberField @bind-Value=_duration Label="Slide animation duration (miliseconds)" />
             <FluentSpacer Width="60" />
@@ -58,7 +60,7 @@
                           Label="Image Ratio"
                           TOption="string"
                           Style="margin-bottom: 20px">
-                <FluentOption Value="Auto" Selected="true">Auto</FluentOption>
+                <FluentOption Value="Auto">Auto</FluentOption>
                 <FluentOption Value="Fill">Fill</FluentOption>
             </FluentSelect>
         </FluentStack>

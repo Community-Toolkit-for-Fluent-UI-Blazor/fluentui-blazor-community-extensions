@@ -141,6 +141,11 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     private bool _isLoopingModeChanged;
 
+    /// <summary>
+    /// Represents a value indicating if the show indicator has changed.
+    /// </summary>
+    private bool _showIndicatorChanged;
+
     #endregion Fields
 
     #region Properties
@@ -583,14 +588,16 @@ public partial class FluentCxSlideshow<TItem>
                 await _module.InvokeVoidAsync("infiniteLoopMovePrevious", Id, InternalOrientation);
             }
         }
-
-        if (ChildContent is not null)
-        {
-            await SetInternalIndexAsync(_slides.Count);
-        }
         else
         {
-            await SetInternalIndexAsync(Items.Count());
+            if (ChildContent is not null)
+            {
+                await SetInternalIndexAsync(_slides.Count);
+            }
+            else
+            {
+                await SetInternalIndexAsync(Items.Count());
+            }
         }
 
         StartTimer();
@@ -809,6 +816,7 @@ public partial class FluentCxSlideshow<TItem>
         _isOrientationChanged = parameters.HasValueChanged(nameof(Orientation), Orientation);
         _isTouchEnabledChanged = parameters.HasValueChanged(nameof(IsTouchEnabled), IsTouchEnabled);
         _isLoopingModeChanged = parameters.HasValueChanged(nameof(LoopMode), LoopMode);
+        _showIndicatorChanged = parameters.HasValueChanged(nameof(ShowIndicators), ShowIndicators);
 
         return base.SetParametersAsync(parameters);
     }
@@ -827,8 +835,7 @@ public partial class FluentCxSlideshow<TItem>
 
         if (_isOrientationChanged || _isIndicatorPositionChanged)
         {
-            PreviousIcon = InternalOrientation == Orientation.Horizontal ? _chevronLeft : _chevronUp;
-            NextIcon = InternalOrientation == Orientation.Horizontal ? _chevronRight : _chevronDown;
+            SetIcons();
         }
 
         if (_autoPlayChanged || _intervalChanged)
@@ -843,11 +850,32 @@ public partial class FluentCxSlideshow<TItem>
             }
         }
 
+        if (_showIndicatorChanged)
+        {
+            OnShowIndicatorChanged();
+        }
+
         if (Width.HasValue &&
             Height.HasValue)
         {
             _showContent = true;
         }
+    }
+
+    private void OnShowIndicatorChanged()
+    {
+        if (LoopMode == SlideshowLoopingMode.Infinite)
+        {
+            return;
+        }
+
+        SetIcons();
+    }
+
+    private void SetIcons()
+    {
+        PreviousIcon = InternalOrientation == Orientation.Horizontal ? _chevronLeft : _chevronUp;
+        NextIcon = InternalOrientation == Orientation.Horizontal ? _chevronRight : _chevronDown;
     }
 
     /// <inheritdoc />
@@ -883,6 +911,7 @@ public partial class FluentCxSlideshow<TItem>
             await OnEnableOrDisableTouchAsync();
             await OnAspectRatioChangedAsync();
             await OnLoopingModeChangedAsync(true);
+            OnShowIndicatorChanged();
 
             if (Autoplay)
             {
@@ -1039,24 +1068,22 @@ public partial class FluentCxSlideshow<TItem>
     /// <returns>Returns a task wich moves the slide according to the <paramref name="direction"/>
     ///  when completed.</returns>
     [JSInvokable("onTouchSwipe")]
-    public async Task OnTouchSwipeAsync(string direction)
+    public async Task OnTouchSwipeAsync(SlideshowSwipeDirection direction)
     {
         if (Autoplay)
         {
             StopTimer();
         }
 
-        var isHorizontal = InternalOrientation == Orientation.Horizontal;
+        switch (direction)
+        {
+            case SlideshowSwipeDirection.Next:
+                await OnMoveNextAsync();
+                break;
 
-        if ((isHorizontal && direction == "left") ||
-            (!isHorizontal && direction == "up"))
-        {
-            await OnMoveNextAsync();
-        }
-        else if ((isHorizontal && direction == "right") ||
-                 (!isHorizontal && direction == "down"))
-        {
-            await OnMovePreviousAsync();
+            case SlideshowSwipeDirection.Previous:
+                await OnMovePreviousAsync();
+                break;
         }
 
         if (!StopAutoplayWhenTouchEnabled &&

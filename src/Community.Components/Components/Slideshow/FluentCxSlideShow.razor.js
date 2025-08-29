@@ -2,6 +2,8 @@ const _instances = [];
 const auto = 0;
 const fill = 1;
 const horizontal = 0;
+const moveNext = 0;
+const movePrevious = 1;
 
 function getInstance(id) {
   for (let i = _instances.length - 1; i >= 0; i--) {
@@ -191,6 +193,9 @@ export function setImagesSize(containerId, imageRatio, imageIdCollection) {
 function onTouchStart(instance, e) {
   instance.startX = e.touches[0].clientX;
   instance.startY = e.touches[0].clientY;
+
+
+  console.log(`Touch start: (${instance.startX}, ${instance.startY})`);
 }
 
 function onTouchEnd(instance, e, touchThreshold) {
@@ -202,27 +207,31 @@ function onTouchEnd(instance, e, touchThreshold) {
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
     if (Math.abs(deltaX) > touchThreshold) {
       if (deltaX > 0) {
-        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', 'right');
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', moveNext);
       }
       else {
-        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', 'left');
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', movePrevious);
       }
     }
   }
   else {
     if (Math.abs(deltaY) > touchThreshold) {
       if (deltaY > 0) {
-        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', 'down');
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', moveNext);
       }
       else {
-        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', 'up');
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', movePrevious);
       }
     }
   }
+
+  console.log(`Touch end: (${endX}, ${endY}) - Delta: (${deltaX}, ${deltaY})`);
 }
 
 function onTouchMove(e) {
   e.preventDefault();
+
+  console.log(`Touch move: (${e.touches[0].clientX}, ${e.touches[0].clientY})`);
 }
 
 export function disableOrEnableTouch(containerId, isTouchEnabled, touchThreshold) {

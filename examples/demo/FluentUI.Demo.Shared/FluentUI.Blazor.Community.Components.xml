@@ -8547,6 +8547,11 @@
             Represents a value indicating if the looping mode has changed.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._showIndicatorChanged">
+            <summary>
+            Represents a value indicating if the show indicator has changed.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowControls">
             <summary>
             Gets or sets a value indicating that the controls are shown.
@@ -8965,7 +8970,7 @@
              won't be greater than the fixed value.
             </remarks>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnTouchSwipeAsync(System.String)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnTouchSwipeAsync(FluentUI.Blazor.Community.Components.SlideshowSwipeDirection)">
             <summary>
             Occurs when the user swipe the slide.
             </summary>
@@ -9160,6 +9165,21 @@
         <member name="P:FluentUI.Blazor.Community.Components.SlideshowResize.Height">
             <summary>
             Gets or sets the height of the slideshow.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowSwipeDirection">
+            <summary>
+            Represents the direction in which slides are swapped in a slideshow.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowSwipeDirection.Next">
+            <summary>
+            Move to the next slide.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowSwipeDirection.Previous">
+            <summary>
+            Move to the previous slide.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1">
