@@ -1,25 +1,131 @@
-﻿<div id="target-radial" style="height: 600px; position: relative; margin-bottom: 30px">
-    <FluentSwitch Label="Show Cut Item" @bind-Value=_isCutVisible />
-    <FluentSwitch Label="Show Copy Item" @bind-Value=_isCopyVisible />
-    <FluentSwitch Label="Show Paste Item" @bind-Value=_isPasteVisible />
-    <FluentSwitch Label="Show Delete Item" @bind-Value=_isDeleteVisible />
+﻿<div style="height:600px; position: relative; margin-bottom: 30px">
+    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+        <FluentStack Style="height: 100%">
+            <div id="clear-dial-target" Style="width: 50%; height: 100%; position: relative;">
+                <FluentLabel Style="margin-bottom: 15px">
+                    This sleek dial has an item inside it. When you click on delete button, we will remove programmatically the item
+                    and the sleek dial will be hidden because it has no more items.
+                </FluentLabel>
 
-    <FluentCxSleekDial Target="target-radial"
-                       Position="FloatingPosition.MiddleCenter"
-                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
-                       Mode="SleekDialMode.Radial"
-                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())"
-                       StayOpen>
-        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" @bind-IsVisible=_isCutVisible />
-        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" @bind-IsVisible=_isCopyVisible />
-        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" @bind-IsVisible=_isPasteVisible/>
-        <SleekDialItem Title="Delete" Icon="@(new Icons.Regular.Size24.Delete())" @bind-IsVisible=_isDeleteVisible />
-    </FluentCxSleekDial>
+                <FluentButton OnClick="@DeleteItem">Clear the sleek dial</FluentButton>
+                <FluentButton OnClick="@AddItem">Add a sleek dial item</FluentButton>
+
+                <FluentCxSleekDial Target="clear-dial-target"
+                                   @ref="_clearSleekDial"
+                                   Position="FloatingPosition.MiddleCenter"
+                                   OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                                   Mode="SleekDialMode.Radial"
+                                   CloseIcon="@(new Icons.Filled.Size24.Dismiss())"
+                                   HideMode="SleekDialHideMode.WhenEmpty">
+                    <SleekDialItem @ref=_item Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+                </FluentCxSleekDial>
+            </div>
+
+            <div id="hide-dial-target" Style="width:50%; height: 100%; position: relative;">
+                <FluentLabel Style="margin-bottom: 15px">
+                    This sleek dial has an item inside it. When you hide the item, the sleek dial will be hidden
+                    because it has no more visible items.
+                </FluentLabel>
+
+                <FluentSwitch @bind-Value=_showItem>Show the item</FluentSwitch>
+
+                <FluentCxSleekDial Target="hide-dial-target"
+                                   Position="FloatingPosition.MiddleCenter"
+                                   OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                                   Mode="SleekDialMode.Radial"
+                                   CloseIcon="@(new Icons.Filled.Size24.Dismiss())"
+                                   HideMode="SleekDialHideMode.WhenNoVisible">
+                    <SleekDialItem Title="Cut"
+                                   Icon="@(new Icons.Regular.Size24.Cut())"
+                                   @bind-IsVisible=@(_showItem) />
+                </FluentCxSleekDial>
+            </div>
+        </FluentStack>
+
+        <FluentStack Style="height: 100%">
+            <div id="empty-hide-dial-target" Style="width: 50%; height: 100%; position: relative;">
+                <FluentLabel Style="margin-bottom: 15px">
+                    This sleek dial has an item inside it. When you click on hide button, the item will be hidden
+                    and the sleek dial will be hidden because it has no more visible items.
+                    And if you clear the dial, it will be hidden beause it has no more items.
+                </FluentLabel>
+
+                <FluentSwitch @bind-Value=_showItem1>Hides the item</FluentSwitch>
+                <FluentButton OnClick="@DeleteItem1">Clear the sleek dial</FluentButton>
+                <FluentButton OnClick="@AddItem1">Add a sleek dial item</FluentButton>
+
+                <FluentCxSleekDial Target="hide-dial-target"
+                                   @ref="_clearSleekDial2"
+                                   Position="FloatingPosition.MiddleCenter"
+                                   OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                                   Mode="SleekDialMode.Radial"
+                                   CloseIcon="@(new Icons.Filled.Size24.Dismiss())"
+                                   HideMode="SleekDialHideMode.WhenEmptyOrNoVisible">
+                    <SleekDialItem Title="Cut"
+                                   @ref=_item2
+                                   Icon="@(new Icons.Regular.Size24.Cut())"
+                                   @bind-IsVisible=@(_showItem1) />
+                </FluentCxSleekDial>
+            </div>
+
+            <div id="always-dial-target" Style="width: 50%; height: 100%; position: relative;">
+                <FluentLabel Style="margin-bottom: 15px">
+                    This sleek dial is always visible even if there is no item.
+                </FluentLabel>
+
+                <FluentCxSleekDial Target="always-dial-target"
+                                   Position="FloatingPosition.MiddleCenter"
+                                   OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                                   Mode="SleekDialMode.Radial"
+                                   CloseIcon="@(new Icons.Filled.Size24.Dismiss())" />
+            </div>
+        </FluentStack>
+    </FluentStack>
 </div>
 
 @code {
-    private bool _isCutVisible = true;
-    private bool _isCopyVisible = true;
-    private bool _isPasteVisible = true;
-    private bool _isDeleteVisible = true;
+    private FluentCxSleekDial? _clearSleekDial;
+    private FluentCxSleekDial? _clearSleekDial2;
+    private SleekDialItem? _item;
+    private SleekDialItem? _item2;
+    private bool _showItem = true;
+    private bool _showItem1 = true;
+
+    private void DeleteItem()
+    {
+        _clearSleekDial?.GetType()?.GetProperty("InternalItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
+            .SetValue(_clearSleekDial, new List<SleekDialItem>());
+
+        _clearSleekDial?.Refresh();
+    }
+
+    private void AddItem()
+    {
+        _clearSleekDial?.GetType()?.GetProperty("InternalItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
+            .SetValue(_clearSleekDial, new List<SleekDialItem>()
+            {
+                _item
+            });
+
+        _clearSleekDial?.Refresh();
+    }
+
+    private void DeleteItem1()
+    {
+        _clearSleekDial2?.GetType()?.GetProperty("InternalItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
+            .SetValue(_clearSleekDial2, new List<SleekDialItem>());
+
+        _clearSleekDial2?.Refresh();
+    }
+
+    private void AddItem1()
+    {
+        _clearSleekDial2?.GetType()?.GetProperty("InternalItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
+            .SetValue(_clearSleekDial2, new List<SleekDialItem>()
+            {
+                _item2
+            });
+
+        _clearSleekDial2?.Refresh();
+    }
 }

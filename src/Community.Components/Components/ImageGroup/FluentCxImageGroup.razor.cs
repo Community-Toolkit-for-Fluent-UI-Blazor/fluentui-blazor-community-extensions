@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -87,8 +86,8 @@ public partial class FluentCxImageGroup
     /// <param name="imageGroupItem">Image to add.</param>
     internal void Add(FluentCxImageGroupItem imageGroupItem)
     {
-        imageGroupItem.SetGroupSize((int)Size);
         _children.Add(imageGroupItem);
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -98,6 +97,7 @@ public partial class FluentCxImageGroup
     internal void Remove(FluentCxImageGroupItem imageGroupItem)
     {
         _children.Remove(imageGroupItem);
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -170,19 +170,5 @@ public partial class FluentCxImageGroup
     protected internal virtual void OnItemParemetersChanged(FluentCxImageGroupItem imageGroupItem)
     {
         StateHasChanged();
-    }
-
-    /// <inheritdoc />
-    public override async Task SetParametersAsync(ParameterView parameters)
-    {
-        if (parameters.HasValueChanged(nameof(Size), Size))
-        {
-            foreach (var item in _children)
-            {
-                item.SetGroupSize((int)Size);
-            }
-        }
-
-        await base.SetParametersAsync(parameters);
     }
 }

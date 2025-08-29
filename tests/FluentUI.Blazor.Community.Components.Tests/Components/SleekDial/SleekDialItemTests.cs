@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Tests;
 using Moq;
 
@@ -12,18 +15,25 @@ namespace FluentUI.Blazor.Community.Components.Tests.Components;
 public class SleekDialItemTests
     : TestBase
 {
+    public SleekDialItemTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddSingleton(UnitTestLibraryConfiguration);
+        Services.AddFluentUIComponents();
+    }
+
     [Fact]
     public void Dispose_Calls_RemoveChild_On_Parent()
     {
-        // Arrange
-        var parent = new FluentCxSleekDial();
-        var item = CreateItemWithParent(parent);
+        var comp = RenderComponent<FluentCxSleekDial>(
+            p => p.AddChildContent<SleekDialItem>());
 
         // Act
-        item.Dispose();
+        var item = comp.FindComponent<SleekDialItem>().Instance;
+        item?.Dispose();
 
         // Assert
-        Assert.Empty(parent.InternalItems);
+        Assert.Empty(comp.Instance.InternalItems);
     }
 
     [Fact]
@@ -46,12 +56,10 @@ public class SleekDialItemTests
     [Fact]
     public void OnInitialized_Calls_AddChild_On_Parent()
     {
-        var parent = new FluentCxSleekDial();
-        var item = CreateItemWithParent(parent);
-
-        item.TestOnInitialized();
-
-        Assert.Single(parent.InternalItems);
+        var comp = RenderComponent<FluentCxSleekDial>(
+            p => p.AddChildContent<SleekDialItem>());
+       
+        Assert.Single(comp.Instance.InternalItems);
     }
 
     [Fact]
@@ -113,12 +121,6 @@ public class SleekDialItemTests
 
 public static class SleekDialItemTestExtensions
 {
-    public static void TestOnInitialized(this SleekDialItem item)
-    {
-        var method = typeof(SleekDialItem).GetMethod("OnInitialized", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        method.Invoke(item, null);
-    }
-
     public static Task TestOnAfterRenderAsync(this SleekDialItem item, bool firstRender)
     {
         var method = typeof(SleekDialItem).GetMethod("OnAfterRenderAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);

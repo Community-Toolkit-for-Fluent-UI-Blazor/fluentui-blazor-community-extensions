@@ -53,6 +53,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="GEmojiSharp" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+  </ItemGroup>
+
+  <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
@@ -62,19 +75,6 @@
     </ItemGroup>
     <Copy SourceFiles="@(XmlFiles)" DestinationFolder="$(SolutionDir)examples\demo\FluentUI.Demo.Shared" />
   </Target>
-
-  <ItemGroup>
-    <PackageReference Include="GEmojiSharp" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
-  </ItemGroup>
 
   <PropertyGroup>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
