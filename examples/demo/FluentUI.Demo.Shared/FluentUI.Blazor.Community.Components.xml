@@ -9024,9 +9024,14 @@
             Gets or sets the title of the image.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.IsLazyLoading">
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.IsLazy">
             <summary>
-            Gets or sets a value indicating whether the image should be lazy loaded.
+            Gets or sets a value indicating whether the image should be loaded lazily.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.FetchPriorityHigh">
+            <summary>
+            Gets or sets a value indicating whether the image has high fetch priority.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.OnInitialized">

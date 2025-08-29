@@ -207,20 +207,20 @@ function onTouchEnd(instance, e, touchThreshold) {
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
     if (Math.abs(deltaX) > touchThreshold) {
       if (deltaX > 0) {
-        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', moveNext);
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', movePrevious);
       }
       else {
-        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', movePrevious);
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', moveNext);
       }
     }
   }
   else {
     if (Math.abs(deltaY) > touchThreshold) {
       if (deltaY > 0) {
-        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', moveNext);
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', movePrevious);
       }
       else {
-        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', movePrevious);
+        instance.dotnetReference.invokeMethodAsync('onTouchSwipe', moveNext);
       }
     }
   }
