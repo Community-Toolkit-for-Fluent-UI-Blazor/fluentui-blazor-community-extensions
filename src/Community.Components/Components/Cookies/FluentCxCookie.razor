@@ -1,6 +1,12 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
+@if (!string.IsNullOrEmpty(SwitchToMobileDeviceWidth))
+{
+    <FluentCxMediaQuery OnMediaChanged="@(p => _isMobile = p)"
+                        Query="@($"(max-width: {SwitchToMobileDeviceWidth})")" />
+}
+
 @if (Modal)
 {
     <FluentOverlay Transparent=false
@@ -22,9 +28,6 @@
 
 @if (_showCookieDialog)
 {
-    <FluentCxMediaQuery OnMediaChanged="@(p => _isMobile = p)"
-                        Query="(max-width: 640px)" />
-
     <div id="@Id" class="@InternalCss" style="@InternalStyle">
         <FluentCard>
             @if (View == CookieView.Default)
