@@ -5155,6 +5155,11 @@
             Represents the cookie dialog.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._isMobile">
+            <summary>
+            Gets or sets a value indicating whether the device is a mobile device or not.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._showCookieDialog">
             <summary>
             Represents a value that show the dialog or not.
@@ -5163,11 +5168,6 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._manageCookieVisible">
             <summary>
             Gets or sets a value indicating whether the open button is disabled when the manage cookies dialog is visible.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie._isMobile">
-            <summary>
-            Represents a value indicating whether the device is mobile or not.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxCookie.JavascriptFilename">
@@ -5203,6 +5203,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.DialogService">
             <summary>
             Gets or sets the dialog service.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.DeviceInfoState">
+            <summary>
+            Gets or sets the device info state.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.View">
@@ -5313,6 +5318,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.IsDescriptionMarkup">
             <summary>
             Gets or sets a value indicating whether the descriptions contains markup or not.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.SwitchToMobileDeviceWidth">
+            <summary>
+            Gets or sets the width under which the dialog switch to the mobile device view.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxCookie.InternalCss">
