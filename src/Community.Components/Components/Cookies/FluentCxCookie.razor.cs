@@ -189,6 +189,12 @@ public partial class FluentCxCookie
     public string? RelativeContainerId { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the descriptions contains markup or not.
+    /// </summary>
+    [Parameter]
+    public bool IsDescriptionMarkup { get; set; }
+
+    /// <summary>
     /// Gets the css to use for the dialog.
     /// </summary>
     private string? InternalCss => new CssBuilder(Class)
