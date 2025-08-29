@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "FluentUI.Demo.Client",
   "resources": {
-    "hash": "sha256-IYoalGiW4yHQvjDqA51BWeFEdYsAK+zcj3WaLeQWx3c=",
+    "hash": "sha256-cr/5fE6FmG5/0fTa0zNjRNzd4Pwn/ATNv9BxC7CUC/4=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.uncbrxvywy.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Forms.07shrhq67j.wasm": "Microsoft.AspNetCore.Components.Forms.wasm",
@@ -73,9 +73,9 @@
       "System.t8xd33e5pv.wasm": "System.wasm",
       "netstandard.tty7t1ve6a.wasm": "netstandard.wasm",
       "System.Private.CoreLib.2b89ngrpg4.wasm": "System.Private.CoreLib.wasm",
-      "FluentUI.Blazor.Community.Components.3i45cw9vel.wasm": "FluentUI.Blazor.Community.Components.wasm",
-      "FluentUI.Demo.Shared.jr6simopgs.wasm": "FluentUI.Demo.Shared.wasm",
-      "FluentUI.Demo.Client.vymlrt1vei.wasm": "FluentUI.Demo.Client.wasm",
+      "FluentUI.Blazor.Community.Components.680n2dg0hq.wasm": "FluentUI.Blazor.Community.Components.wasm",
+      "FluentUI.Demo.Shared.e4x02v5nal.wasm": "FluentUI.Demo.Shared.wasm",
+      "FluentUI.Demo.Client.g3cw7tylq4.wasm": "FluentUI.Demo.Client.wasm",
       "dotnet.native.53mh7ryx6n.js": "dotnet.native.js",
       "dotnet.native.zb9d4j1fls.wasm": "dotnet.native.wasm",
       "dotnet.js": "dotnet.js",
@@ -171,9 +171,9 @@
       "System.Web.HttpUtility.513mxxev0n.wasm": "sha256-2T3F3wFyrYJQ1LvjQG0hMX4FQeerxw5OB+oj/cwtHbM=",
       "System.t8xd33e5pv.wasm": "sha256-jdi196RMQvJqOZVnwRK7DGSWJifChhgNljcOjGeHSUY=",
       "netstandard.tty7t1ve6a.wasm": "sha256-Ef0fJN8w9OpZnmowT9nrsMprrFbD08/cMcfix7OJMBU=",
-      "FluentUI.Blazor.Community.Components.3i45cw9vel.wasm": "sha256-CwI/1QyTH04K5DNLLFC7JxLY5/Rca2XkiQYjsyvExdU=",
-      "FluentUI.Demo.Shared.jr6simopgs.wasm": "sha256-wcQGGLoMSO+n/6QSJtn2FnSDNz2y3a3oKTSQpZx6Z/s=",
-      "FluentUI.Demo.Client.vymlrt1vei.wasm": "sha256-h8ZWy9zq5Jo9BCzhDRpxSmO5c6QoC44XR2P1A+h4zz0="
+      "FluentUI.Blazor.Community.Components.680n2dg0hq.wasm": "sha256-5vY3lgwAULccU3cg+0jgZEmEEi9k6vsrrH1Dtmotzog=",
+      "FluentUI.Demo.Shared.e4x02v5nal.wasm": "sha256-UipRbkjjKEb6dlFbawK+8Ks9YE3G05Pb5ub8cGwZzAY=",
+      "FluentUI.Demo.Client.g3cw7tylq4.wasm": "sha256-PGCkKfojDaE2A4Wau3snTenwCUEPkyAb4jLNc0e5cYE="
     },
     "libraryInitializers": {
       "_content/Microsoft.FluentUI.AspNetCore.Components/Microsoft.FluentUI.AspNetCore.Components.lib.module.js": "sha256-saocpjMzEV/5RzpPqa9RdvQ2/NJEkHJesyHry6qfD4U="
