@@ -124,7 +124,7 @@ public partial class FluentCxFileManager<TItem>
     /// <summary>
     /// Represents the list of all navigation items.
     /// </summary>
-    private IPathBarItem? _pathRoot;
+    private IPathBarItem? _rootPath;
 
     /// <summary>
     /// Represents the flatten entry.
@@ -347,15 +347,6 @@ public partial class FluentCxFileManager<TItem>
     /// </summary>
     [Parameter]
     public EventCallback<FileManagerEntriesMovedEventArgs<TItem>> Moved { get; set; }
-
-    /// <summary>
-    /// Gets or sets the maximum number of visible items.
-    /// </summary>
-    /// <remarks>
-    /// By default, the number is 4.
-    /// </remarks>
-    [Parameter]
-    public int? MaxVisibleItems { get; set; } = 4;
 
     /// <summary>
     /// Gets or sets the width of the component when the view is switched to smartphone.
@@ -687,40 +678,19 @@ public partial class FluentCxFileManager<TItem>
     }
 
     /// <summary>
-    /// Finds a <see cref="IPathBarItem"/> by its id.
-    /// </summary>
-    /// <param name="root">Root of the path.</param>
-    /// <param name="id">Id to find.</param>
-    /// <returns>Returns <see langword="null" /> if the item wasn't found, the item otherwise.</returns>
-    private static IPathBarItem? FindPathBarItem(IPathBarItem? root, string id)
-    {
-        if (root is null)
-        {
-            return null;
-        }
-
-        if (string.Equals(root.Id, id, StringComparison.OrdinalIgnoreCase))
-        {
-            return root;
-        }
-
-        return PathBarItem.Find(root.Items, id);
-    }
-
-    /// <summary>
     /// Updates the path bar when a folder is created.
     /// </summary>
     /// <param name="e">Event args of the created folder.</param>
     private void UpdatePathBar(CreateFileManagerEntryEventArgs<TItem> e)
     {
-        var item = FindPathBarItem(_pathRoot, e.Parent.Id);
+        var item = PathBarItemBuilder.Find([_rootPath!], e.Parent.Id, true);
 
         if (item is not null)
         {
             var subItems = item.Items?.ToHashSet(PathBarItemEqualityComparer.Default) ?? [];
-            var itemsToAdd = BuildPathRootItem([e.Entry]);
+            var itemsToAdd = PathBarItemBuilder.From([e.Entry]);
 
-            foreach(var i in itemsToAdd)
+            foreach (var i in itemsToAdd)
             {
                 subItems.Add(i);
             }
@@ -729,6 +699,8 @@ public partial class FluentCxFileManager<TItem>
             l.Sort(PathBarItemComparer.Default);
 
             item.Items = [.. l];
+
+            _fileManagerView?.InvalidatePathBarItemSize(e.Parent.Id);
         }
     }
 
@@ -785,7 +757,7 @@ public partial class FluentCxFileManager<TItem>
         {
             entry.SetName(s);
 
-            if (View == Components.FileManagerView.Desktop &&
+            if (View == FileManagerView.Desktop &&
                 entry.IsDirectory)
             {
                 var item = FindTreeViewItem(_treeViewItems, entry.Id);
@@ -795,6 +767,8 @@ public partial class FluentCxFileManager<TItem>
                     item.Text = entry.Name;
                 }
             }
+
+            PathBarItemBuilder.UpdateLabel(_rootPath, entry.Id, entry.Name);
         }
 
         if (OnRename.HasDelegate)
@@ -811,30 +785,12 @@ public partial class FluentCxFileManager<TItem>
     /// </summary>
     private void BuildPathRoot()
     {
-        _pathRoot = new PathBarItem()
+        _rootPath = new PathBarItem()
         {
             Label = Root.Name,
             Id = Root.Id,
-            Items = [.. BuildPathRootItem(Root.GetDirectories())]
+            Items = PathBarItemBuilder.From(Root.GetDirectories()) 
         };
-    }
-
-    /// <summary>
-    /// Build the items for the current path.
-    /// </summary>
-    /// <param name="values">Values use to transform each item into an instance of <see cref="PathBarItem"/>.</param>
-    /// <returns>Returns the list of items.</returns>
-    private static IEnumerable<IPathBarItem> BuildPathRootItem(IEnumerable<FileManagerEntry<TItem>> values)
-    {
-        foreach (var item in values)
-        {
-            yield return new PathBarItem()
-            {
-                Id = item.Id,
-                Label = item.Name,
-                Items = BuildPathRootItem(item.GetDirectories())
-            };
-        }
     }
 
     /// <summary>
@@ -1199,7 +1155,7 @@ public partial class FluentCxFileManager<TItem>
             SetDisabled(true);
             _fileManagerView?.SetBusy(true);
 
-            if (View == Components.FileManagerView.Desktop)
+            if (View == FileManagerView.Desktop)
             {
                 var item = FindTreeViewItem(_treeViewItems, entry.Id);
 
@@ -1222,6 +1178,7 @@ public partial class FluentCxFileManager<TItem>
                 }
             }
 
+            DeleteFromPathBar(_currentSelectedItems.Select(x => x.Id));
             RemoveSelectedItemFromMainEntries(entry.Id, _currentSelectedItems);
 
             if (OnDelete.HasDelegate)
@@ -1233,6 +1190,17 @@ public partial class FluentCxFileManager<TItem>
             SetDisabled(false);
             _progressState = ProgressState.None;
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="idCollection"></param>
+    private void DeleteFromPathBar(IEnumerable<string> idCollection)
+    {
+        PathBarItemBuilder.Remove(_rootPath, idCollection);
+        _fileManagerView?.ClearPathBar(idCollection);
     }
 
     /// <summary>

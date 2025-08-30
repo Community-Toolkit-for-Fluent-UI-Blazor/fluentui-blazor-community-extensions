@@ -1,11 +1,8 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-<FluentKeyCode Anchor="@($"Popover{Id}")" OnKeyDown="@OnHandleKeyDownAsync" />
-
-@if (Items is not null && Items.Any())
-{
-    <FluentButton IconStart=@(_isMenuOpen ? _chevronDown : _chevronRight)
+<div id="@Id" class="@Class" style="@Style">
+    <FluentButton IconStart=@(_isMenuOpen? _chevronDown : _chevronRight)
                   Id="@($"Button{Id}")"
                   OnClick="@(() => _isMenuOpen = !_isMenuOpen)"
                   Appearance="Appearance.Stealth" />
@@ -17,7 +14,8 @@
         {
             <FluentMenuItem Label="@item.Label"
                             Id="@item.Id"
-                            OnClick="@(() => OnItemTapped(item))" />
+                            OnClick="@(() => OnItemTappedAsync(item))" />
         }
     </FluentMenu>
-}
+</div>
+

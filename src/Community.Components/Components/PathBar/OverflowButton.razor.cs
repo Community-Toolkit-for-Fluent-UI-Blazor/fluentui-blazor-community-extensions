@@ -29,10 +29,13 @@ public partial class OverflowButton : FluentComponentBase
     /// Occurs when the menu is selected.
     /// </summary>
     /// <param name="item">Represents the selected item.</param>
-    private void OnItemTapped(IPathBarItem item)
+    private async Task OnItemTappedAsync(IPathBarItem item)
     {
         _isMenuOpen = false;
 
-        Parent?.SetPath(PathBarItem.GetPath(item));
+        if (Parent is not null)
+        {
+            await Parent.UpdatePathAsync(item);
+        }
     }
 }

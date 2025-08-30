@@ -49,20 +49,13 @@ public partial class FluentCxPathBarItemMenu
     /// Occurs when the menu is selected.
     /// </summary>
     /// <param name="item">Represents the selected item.</param>
-    private void OnItemTapped(IPathBarItem item)
+    private async Task OnItemTappedAsync(IPathBarItem item)
     {
         _isMenuOpen = false;
 
-        Parent?.Ancestor?.SetPath(PathBarItem.GetPath(item));
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="e"></param>
-    /// <returns></returns>
-    private Task OnHandleKeyDownAsync(FluentKeyCodeEventArgs e)
-    {
-        return Task.CompletedTask;
+        if (Parent?.Ancestor is not null)
+        {
+            await Parent.Ancestor.UpdatePathAsync(item);
+        }
     }
 }

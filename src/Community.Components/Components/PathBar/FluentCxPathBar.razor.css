@@ -2,4 +2,15 @@
   height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
   width: 100%;
   background: var(--neutral-fill-stealth-rest);
+  column-gap: 2px;
+  display: flex;
+  flex-direction: row;
+}
+
+.fluentcx-path-bar-container {
+  width: calc(100% - 64px);
+  height: 100%;
+  column-gap: 2px;
+  display: flex;
+  flex-direction: row;
 }

@@ -37,17 +37,17 @@ public class PathBarItemTests
     }
 
     [Theory]
-    [InlineData("01234")]
-    [InlineData("045678")]
-    [InlineData("bgddf-deedfsf-00fsdfsd-deazea")]
-    public void PathBarItem_Id(string id)
+    [InlineData("01234", "path-bar-item-01234")]
+    [InlineData("045678", "path-bar-item-045678")]
+    [InlineData("bgddf-deedfsf-00fsdfsd-deazea", "path-bar-item-bgddf-deedfsf-00fsdfsd-deazea")]
+    public void PathBarItem_Id(string id, string expected)
     {
         PathBarItem instance = new()
         {
             Id = id
         };
 
-        Assert.Equal(id, instance.Id);
+        Assert.Equal(expected, instance.Id);
     }
 
     [Fact]
@@ -103,10 +103,10 @@ public class PathBarItemTests
         child.Items = [grandChild];
         root.Items = [child];
 
-        var found = PathBarItem.Find([root], "grandchild");
+        var found = PathBarItemBuilder.Find([root], "path-bar-item-grandchild");
         Assert.Equal(grandChild, found);
 
-        var notFound = PathBarItem.Find([root], "notfound");
+        var notFound = PathBarItemBuilder.Find([root], "notfound");
         Assert.Null(notFound);
     }
 
@@ -120,7 +120,7 @@ public class PathBarItemTests
         root.Items = [child];
 
         var expected = string.Join(Path.DirectorySeparatorChar, new[] { "Root", "Child", "GrandChild" });
-        var actual = PathBarItem.GetPath(grandChild);
+        var actual = PathBarItemBuilder.GetPath(grandChild);
 
         Assert.Equal(expected, actual);
     }
@@ -128,6 +128,6 @@ public class PathBarItemTests
     [Fact]
     public void GetPath_Null_ReturnsNull()
     {
-        Assert.Null(PathBarItem.GetPath(null));
+        Assert.Null(PathBarItemBuilder.GetPath(null));
     }
 }

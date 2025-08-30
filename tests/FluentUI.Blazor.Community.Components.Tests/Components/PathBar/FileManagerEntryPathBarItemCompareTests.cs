@@ -17,7 +17,7 @@ public class PathBarItemMock : IPathBarItem
 
     public string? Id { get; }
 
-    public string? Label { get; }
+    public string? Label { get; set; }
 
     public IPathBarItem Parent { get; }
 

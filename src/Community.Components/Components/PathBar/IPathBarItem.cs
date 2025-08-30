@@ -10,7 +10,7 @@ public interface IPathBarItem
     /// <summary>
     /// Gets the label of the item.
     /// </summary>
-    string? Label { get; }
+    string? Label { get; set; }
 
     /// <summary>
     /// Gets the parent of the item.

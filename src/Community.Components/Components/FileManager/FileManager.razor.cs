@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 
@@ -15,6 +14,11 @@ public partial class FileManager<TItem>
     /// Represents a value indicating if the file manager is busy.
     /// </summary>
     private bool _isBusy;
+
+    /// <summary>
+    /// Represents the reference to the <see cref="FluentCxPathBar" />.
+    /// </summary>
+    private FluentCxPathBar? _fluentCxPathBar;
 
     /// <summary>
     /// Gets or sets a value indicating if the file navigation view is visible or not.
@@ -92,7 +96,7 @@ public partial class FileManager<TItem>
     /// Gets or sets the items of the <see cref="FluentCxPathBar" />.
     /// </summary>
     [Parameter]
-    public IPathBarItem? PathRoot { get; set; }
+    public IPathBarItem? RootPath { get; set; }
 
     /// <summary>
     /// Gets or sets the path of the navigation.
@@ -111,12 +115,6 @@ public partial class FileManager<TItem>
     /// </summary>
     [Inject]
     public required FileManagerState State { get; set; }
-
-    /// <summary>
-    /// Gets or sets the maximum visible items in the navigation bar
-    /// </summary>
-    [Parameter]
-    public int? MaxVisibleItems { get; set; }
 
     /// <summary>
     /// Occurs when the selected items has changed.
@@ -224,6 +222,15 @@ public partial class FileManager<TItem>
         State.OnViewUpdated += OnViewUpdated;
     }
 
+    /// <summary>
+    /// Invalidate the size of a specific item in the path bar.
+    /// </summary>
+    /// <param name="id">Identifier of the item</param>
+    internal void InvalidatePathBarItemSize(string id)
+    {
+        _fluentCxPathBar?.InvalidateItemSize(id);
+    }
+
     /// <inheritdoc />
     public void Dispose()
     {
@@ -231,6 +238,15 @@ public partial class FileManager<TItem>
         State.OnViewUpdated -= OnViewUpdated;
 
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    internal void ClearPathBar(IEnumerable<string?>? value)
+    {
+        _fluentCxPathBar?.ClearItems(value);
     }
 }
 

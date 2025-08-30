@@ -2,29 +2,32 @@
 @inherits FluentComponentBase
 
 <CascadingValue Value="this" IsFixed>
-    @if (ShowLabel)
-    {
+    <div id="@Id" class="@InternalClass" style="@Style">
         <FluentAnchor Appearance=Appearance.Stealth
                       Href="#"
-                      Id="@Id"
+                      ChildContent="@(ShowLabel ? _renderLabelFragment : null)"
+                      Id="@($"fluent-anchor-{Id}")"
                       aria-label="@Label"
                       IconStart="@(Icon is not null ? Icon : null)"
                       OnClick="@OnTappedAsync">
-            @Label
         </FluentAnchor>
-    }
-    else
-    {
-        <FluentAnchor Appearance=Appearance.Stealth
-                      Href="#"
-                      Id="@Id"
-                      aria-label="@Label"
-                      IconStart="@(Icon is not null ? Icon : null)"
-                      OnClick="@OnTappedAsync" />
-    }
 
-    <FluentCxPathBarItemMenu Items=@Items />
+        @if (Items is not null && Items.Any())
+        {
+            <FluentCxPathBarItemMenu Id="@($"fluent-menu-item-{Id}")" Items=@Items />
+        }
+    </div>
 </CascadingValue>
 
+@code {
+    public FluentCxPathBarItem()
+    {
+        Id = Identifier.NewId();
+        _renderLabelFragment = builder =>
+        {
+            builder.AddContent(0, Label);
+        };
+    }
+}
 
 
