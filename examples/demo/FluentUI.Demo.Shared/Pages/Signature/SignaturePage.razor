@@ -1,0 +1,39 @@
+﻿@page "/signature"
+
+@using FluentUI.Demo.Shared.Pages.Signature.Examples
+
+<h1>Signature</h1>
+
+<p>
+    The signature component is a control that allows users to draw their signature using touch, mouse, or stylus input.
+    The signature can be captured and exported in various formats, such as PNG, JPEG, WEBP, SVG and PDF.
+    The component provides various customization options, such as stroke color, stroke width, background color, and watermark settings.
+    The signature component is implemented using the <code>FluentCxSignature</code> component.
+    The component provides a toolbar with tools for drawing, erasing, undoing, redoing, and clearing the signature.
+    The toolbar can be positioned at the top, bottom, left, or right of the signature area.
+    The signature area can be configured to display a grid, lines, or no background.
+
+    If the component is running on server side, all export format are supported.
+    If the component is running on WebAssembly, only SVG is supported due to browser limitations.
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(SignatureDefault)" Title="Default" />
+
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(FluentCxSignature)" />
+<ApiDocumentation Component="typeof(SignatureCapabilities)" />
+<ApiDocumentation Component="typeof(SignatureExportFormat)" />
+<ApiDocumentation Component="typeof(SignatureGridType)" />
+<ApiDocumentation Component="typeof(SignatureLabels)" />
+<ApiDocumentation Component="typeof(SignatureLineStyle)" />
+<ApiDocumentation Component="typeof(SignatureStroke)" />
+<ApiDocumentation Component="typeof(SignatureTool)" />
+<ApiDocumentation Component="typeof(SignatureToolPosition)" />
+<ApiDocumentation Component="typeof(SignatureExportSettings)" />
+<ApiDocumentation Component="typeof(SignatureWatermarkSettings)" />
+<ApiDocumentation Component="typeof(SignatureSettings)" />
+

@@ -1,0 +1,253 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentInputBase<byte[]>
+
+<div id="@Id" class="@InternalClass" style="@Style">
+    @if (ToolPosition == SignatureToolPosition.Top ||
+        ToolPosition == SignatureToolPosition.Bottom)
+    {
+        <FluentStack Style="height: 100%"
+                     Orientation="Orientation.Vertical">
+            @if(ToolPosition == SignatureToolPosition.Top)
+            {
+                @_renderToolbar(Orientation.Horizontal)
+            }
+
+            @_renderSignature
+
+            @if(ToolPosition == SignatureToolPosition.Bottom)
+            {
+                @_renderToolbar(Orientation.Horizontal)
+            }
+        </FluentStack>
+    }
+    else
+    {
+        <FluentStack Style="height: 100%">
+            @if (ToolPosition == SignatureToolPosition.Left)
+            {
+                @_renderToolbar(Orientation.Vertical)
+            }
+
+            @_renderSignature
+
+            @if (ToolPosition == SignatureToolPosition.Right)
+            {
+                @_renderToolbar(Orientation.Vertical)
+            }
+        </FluentStack>
+    }
+
+    <FluentPopover AnchorId="@($"fluent-cx-signature-settings-{Id}")"
+                   @bind-Open="@_isSettingsOpen">
+        <Header>
+            @Labels.SignatureSettings
+        </Header>
+
+        <Body>
+            <FluentSlider Label="@Labels.StrokeWidth"
+                          Min="1"
+                          Max="16"
+                          Step="1"
+                          AriaLabel="@Labels.StrokeWidth"
+                          @bind-Value="@_strokeWidth"
+                          @bind-Value:after=OnValueChanged />
+
+            @* We don't have color picker now *@
+            <FluentTextField TextFieldType="TextFieldType.Color"
+                             Style="width: 100%"
+                             Label="@Labels.PenColor"
+                             AriaLabel="@Labels.PenColor"
+                             @bind-Value=@_penColor
+                             @bind-Value:after=OnValueChanged />
+
+            <FluentSlider Label="@Labels.PenOpacity"
+                          TValue="float"
+                          Min="0.1f"
+                          Max="1"
+                          Step="0.05f"
+                          AriaLabel="@Labels.PenOpacity"
+                          @bind-Value="@_penOpacity"
+                          @bind-Value:after=OnValueChanged />
+
+            <FluentSelect Label="@Labels.StrokeLineStyle"
+                          AriaLabel="@Labels.StrokeLineStyle"
+                          @bind-SelectedOption=_strokeStyle
+                          @bind-SelectedOption:after=OnValueChanged >
+                <FluentOption Value="@SignatureLineStyle.Solid.ToString()">@Labels.SolidLine</FluentOption>
+                <FluentOption Value="@SignatureLineStyle.Dashed.ToString()">@Labels.DashedLine</FluentOption>
+                <FluentOption Value="@SignatureLineStyle.Dotted.ToString()">@Labels.DottedLine</FluentOption>
+            </FluentSelect>
+
+            <FluentDivider />
+
+            <FluentSwitch Label="@Labels.ShowSeparatorLine"
+                          @bind-Value="_showSeparatorLine"
+                          @bind-Value:after=OnValueChanged />
+
+            <FluentSwitch Label="@Labels.UseSmoothing"
+                          AriaLabel="@Labels.UseSmoothing"
+                          @bind-Value="_useSmooth"
+                          @bind-Value:after=OnValueChanged />
+
+            <FluentSwitch Label="@Labels.UsePointerPressure"
+                          @bind-Value=_usePointerPressure
+                          @bind-Value:after=OnValueChanged />
+
+            <FluentDivider />
+
+            <FluentSwitch Label="@Labels.UseShadow"
+                          @bind-Value="_useShadow"
+                          @bind-Value:after=OnValueChanged />
+
+            <FluentTextField TextFieldType="TextFieldType.Color"
+                             Label="@Labels.ShadowColor"
+                             AriaLabel="@Labels.ShadowColor"
+                             Style="width: 100%"
+                             @bind-Value=@_shadowColor
+                             @bind-Value:after=OnValueChanged
+                             Disabled=@(!_useShadow) />
+
+            <FluentSlider Label="@Labels.ShadowOpacity"
+                          Min="0.1f"
+                          Max="1f"
+                          Step="0.05f"
+                          TValue="float"
+                          AriaLabel="@Labels.ShadowOpacity"
+                          @bind-Value="@_shadowOpacity"
+                          @bind-Value:after=OnValueChanged />
+
+            <FluentDivider />
+
+            <FluentSelect Label="@Labels.ExportFormat"
+                          AriaLabel="@Labels.ExportFormat"
+                          @bind-SelectedOption=_exportFormat
+                          @bind-SelectedOption:after=OnValueChanged>
+                <FluentOption Value="@SignatureExportFormat.Png.ToString()">PNG</FluentOption>
+                <FluentOption Value="@SignatureExportFormat.Jpeg.ToString()">JPEG</FluentOption>
+                <FluentOption Value="@SignatureExportFormat.Webp.ToString()">WEBP</FluentOption>
+                <FluentOption Value="@SignatureExportFormat.Svg.ToString()">SVG</FluentOption>
+                <FluentOption Value="@SignatureExportFormat.Pdf.ToString()">PDF</FluentOption>
+            </FluentSelect>
+        </Body>
+    </FluentPopover>
+</div>
+
+@code {
+    public FluentCxSignature()
+    {
+        Id = Identifier.NewId();
+        _signatureDotNetRef = DotNetObjectReference.Create(this);
+
+        _renderLabel = label => __builder =>
+        {
+            @label
+        };
+
+        _renderSignature = __builder =>
+        {
+            <div class="fluent-cx-signature-preview" style="@InternalPreviewStyle">
+                <canvas @ref="_previewCanvas" width="@Width" height="@Height"></canvas>
+
+                @if (SignatureSettings.ShowSeparatorLine)
+                {
+                    <div class="fluent-cx-signature-separator" style="top:@SeparatorYPx;"></div>
+                }
+            </div>
+
+            if (!string.IsNullOrEmpty(WatermarkSettings.Text))
+            {
+                <div class="fluent-cx-signature-watermark">@WatermarkSettings.Text</div>
+            }
+        };
+
+        _renderToolbar = orientation => __builder =>
+        {
+            <FluentToolbar Style="width: 100%;" Orientation="@orientation">
+                @if (Capabilities.CanExport)
+                {
+                    <FluentButton IconStart="@(new Regular.Size24.Save())"
+                                  Appearance="Appearance.Neutral"
+                                  Title="@Labels.Export"
+                                  OnClick="@OnExportAsync"
+                                  ChildContent="@(IsMobile ? null : _renderLabel(Labels.Export))" />
+                }
+
+                <FluentDivider Orientation="@orientation" />
+
+                @if (Capabilities.CanErase)
+                {
+                    <FluentButton IconStart="@(new Regular.Size24.Edit())"
+                                  Appearance="Appearance.Neutral"
+                                  Title="@Labels.Pen"
+                                  OnClick="@(() => OnChangeToolAsync(SignatureTool.Pen))"
+                                  ChildContent="@(IsMobile ? null : _renderLabel(Labels.Pen))" />
+
+                    <FluentButton IconStart="@(new Regular.Size24.Eraser())"
+                                  Appearance="Appearance.Neutral"
+                                  OnClick="@(() => OnChangeToolAsync(SignatureTool.Eraser))"
+                                  Title="@Labels.Eraser"
+                                  ChildContent="@(IsMobile ? null : _renderLabel(Labels.Eraser))" />
+
+                    <FluentDivider Orientation="@orientation" />
+                }
+
+                @if (Capabilities.CanUndo)
+                {
+                    <FluentButton IconStart="@(new Regular.Size24.ArrowUndo())"
+                                  Appearance="Appearance.Neutral"
+                                  Title="@Labels.Undo"
+                                  OnClick="@OnUndoAsync"
+                                  ChildContent="@(IsMobile ? null : _renderLabel(Labels.Undo))" />
+                }
+
+                @if (Capabilities.CanRedo)
+                {
+                    <FluentButton IconStart="@(new Regular.Size24.ArrowRedo())"
+                                  Appearance="Appearance.Neutral"
+                                  OnClick="@OnRedoAsync"
+                                  Title="@Labels.Redo"
+                                  ChildContent="@(IsMobile ? null : _renderLabel(Labels.Redo))" />
+                }
+
+                @if (Capabilities.CanUndo || Capabilities.CanRedo)
+                {
+                    <FluentDivider Orientation="@orientation" />
+                }
+
+                <FluentButton IconStart="@(new Regular.Size24.Settings())"
+                              Appearance="Appearance.Neutral"
+                              OnClick="@(() => _showGrid = !_showGrid)"
+                              Title="@Labels.ShowGrid"
+                              ChildContent="@(IsMobile ? null : _renderLabel(Labels.ShowGrid))" />
+
+                <FluentButton IconStart="@(new Regular.Size24.Settings())"
+                              Appearance="Appearance.Neutral"
+                              Id="@($"fluent-cx-signature-settings-{Id}")"
+                              OnClick="@(() => _isSettingsOpen = !_isSettingsOpen)"
+                              Title="@Labels.Settings"
+                              ChildContent="@(IsMobile ? null : _renderLabel(Labels.Settings))" />
+
+            
+                @if (Capabilities.CanClear)
+                {
+                    <FluentButton IconStart="@(new Regular.Size24.Delete())"
+                                  Appearance="Appearance.Neutral"
+                                  OnClick="@OnClearAsync"
+                                  Title="@Labels.Clear"
+                                  ChildContent="@(IsMobile ? null : _renderLabel(Labels.Clear))" 
+                                  slot="end" />
+                }
+
+                @if (Capabilities.CanMaximize)
+                {
+                    <FluentButton IconStart="@(new Regular.Size24.Maximize())"
+                                  Appearance="Appearance.Neutral"
+                                  OnClick="@OnMaximizeAsync"
+                                  Title="@Labels.Maximize"
+                                  ChildContent="@(IsMobile ? null : _renderLabel(Labels.Maximize))"
+                                  slot="end"/>
+                } 
+            </FluentToolbar>
+        };
+    }
+}

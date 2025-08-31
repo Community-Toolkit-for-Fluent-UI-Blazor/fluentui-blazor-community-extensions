@@ -1,0 +1,12 @@
+﻿<div style="height: 400px">
+    <FluentCxSignature OnExport="OnSignatureExported" />
+</div>
+
+@code {
+    private void OnSignatureExported(SignatureExportResult result)
+    {
+        // Handle the exported signature result here
+        // For example, you can save the image or display it
+        Console.WriteLine($"Signature exported in format: {result.Format}, Size: {result.Data.Length} bytes");
+    }
+}
