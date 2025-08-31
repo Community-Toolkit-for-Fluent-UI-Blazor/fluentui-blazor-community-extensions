@@ -157,16 +157,28 @@ public partial class FluentCxSignature
     public SignatureWatermarkSettings WatermarkSettings { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets the intrinsic width of the signature component.
+    /// </summary>
+    [Parameter]
+    public int IntrinsicWidth { get; set; } = 800;
+
+    /// <summary>
+    /// Gets or sets the intrinsic height of the signature component.
+    /// </summary>
+    [Parameter]
+    public int IntrinsicHeight { get; set; } = 300;
+
+    /// <summary>
     /// Gets or sets the width of the signature component.
     /// </summary>
     [Parameter]
-    public int Width { get; set; } = 300;
+    public string? Width { get; set; } = "100%";
 
     /// <summary>
     /// Gets or sets the height of the signature component.
     /// </summary>
     [Parameter]
-    public int Height { get; set; } = 150;
+    public string? Height { get; set; } = "100%";
 
     /// <summary>
     /// Gets or sets the callback function to be invoked when the signature is cleared.
@@ -198,8 +210,8 @@ public partial class FluentCxSignature
     /// as stroke width, pen color, grid type, and watermark text.</remarks>
     private SignatureOptions Options => new()
     {
-        Width = Width,
-        Height = Height,
+        Width = IntrinsicWidth,
+        Height = IntrinsicHeight,
         StrokeWidth = SignatureSettings.StrokeWidth,
         PenColor = SignatureSettings.PenColor,
         PenOpacity = SignatureSettings.PenOpacity,
@@ -265,15 +277,24 @@ public partial class FluentCxSignature
     /// Gets the internal style for the preview component.
     /// </summary>
     private string? InternalPreviewStyle => new StyleBuilder()
-        .AddStyle($"width", $"{Width}px")
-        .AddStyle($"height", $"{Height}px")
+        .AddStyle($"width", $"{Width}")
+        .AddStyle($"height", $"{Height}")
         .AddStyle($"background", SignatureSettings.BackgroundImage is null ? SignatureSettings.BackgroundColor : "transparent")
         .Build();
 
     /// <summary>
     /// Gets the separator Y position in pixels.
     /// </summary>
-    private string SeparatorYPx => $"{(int)(SignatureSettings.SeparatorY * Height)}px";
+    private string SeparatorYPx => $"{(int)(SignatureSettings.SeparatorY * IntrinsicHeight)}px";
+
+    /// <summary>
+    /// Gets the internal style for the canvas element.
+    /// </summary>
+    private string? InternalCanvasStyle => new StyleBuilder()
+        .AddStyle($"width", $"{Width}")
+        .AddStyle($"height", $"{Height}")
+        .AddStyle($"touch-action", "none")
+        .Build();
 
     #endregion Properties
 
@@ -514,7 +535,7 @@ public partial class FluentCxSignature
     /// </list></returns>
     private (byte[] bytes, string mime, string filename) Export()
     {
-        return SignatureExporter.Export(Width, Height, _strokes, ExportSettings, SignatureSettings, WatermarkSettings);
+        return SignatureExporter.Export(IntrinsicWidth, IntrinsicHeight, _strokes, ExportSettings, SignatureSettings, WatermarkSettings);
     }
 
     /// <inheritdoc />

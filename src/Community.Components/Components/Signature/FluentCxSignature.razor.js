@@ -286,8 +286,6 @@ function attachInput(canvas, dotnetRef) {
   const s = state.get(canvas);
   if (!s) return;
 
-  canvas.style.touchAction = 'none';
-
   const onDown = (e) => {
     if (!e.isPrimary) return;
     e.preventDefault();

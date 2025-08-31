@@ -147,8 +147,8 @@
 
         _renderSignature = __builder =>
         {
-            <div class="fluent-cx-signature-preview" style="@InternalPreviewStyle">
-                <canvas @ref="_previewCanvas" width="@Width" height="@Height"></canvas>
+            <div class="fluent-cx-signature-preview" style="width: 100%; height: 100%;">
+                <canvas @ref="_previewCanvas" width="@IntrinsicWidth" height="@IntrinsicHeight" style="@InternalCanvasStyle"></canvas>
 
                 @if (SignatureSettings.ShowSeparatorLine)
                 {

@@ -7576,6 +7576,16 @@
             Gets or sets the watermark settings for the signature.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.IntrinsicWidth">
+            <summary>
+            Gets or sets the intrinsic width of the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.IntrinsicHeight">
+            <summary>
+            Gets or sets the intrinsic height of the signature component.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.Width">
             <summary>
             Gets or sets the width of the signature component.
@@ -7656,6 +7666,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.SeparatorYPx">
             <summary>
             Gets the separator Y position in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.InternalCanvasStyle">
+            <summary>
+            Gets the internal style for the canvas element.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnSwapGridAsync">
