@@ -63,15 +63,15 @@ function loadImageFromB64(b64, onload) {
   return img;
 }
 
-function ensureImages(s, bgB64, wmB64, rerender) {
-  if (bgB64 !== undefined) {
-    s.bgB64 = bgB64;
-    s.bgImg = loadImageFromB64(bgB64, () => rerender && rerender());
+function ensureImages(s, backgroundImage, watermarkImage, rerender) {
+  if (backgroundImage !== undefined) {
+    s.backgroundImage = backgroundImage;
+    s.bgImg = loadImageFromB64(backgroundImage, () => rerender && rerender());
   }
 
-  if (wmB64 !== undefined) {
-    s.wmB64 = wmB64;
-    s.wmImg = loadImageFromB64(wmB64, () => rerender && rerender());
+  if (watermarkImage !== undefined) {
+    s.watermarkImage = watermarkImage;
+    s.wmImg = loadImageFromB64(watermarkImage, () => rerender && rerender());
   }
 }
 
@@ -252,8 +252,8 @@ function updateOptions(canvas, opts) {
       dotnet: null,
       bgImg: null,
       wmImg: null,
-      bgB64: null,
-      wmB64: null
+      backgroundImage: null,
+      watermarkImage: null
     };
     state.set(canvas, s);
   }
@@ -415,11 +415,11 @@ function buildCompletedStroke(s) {
 }
 
 export const fluentCxSignature = {
-  initialize: function (canvas, dotnetRef, opts, bgB64, wmB64) {
+  initialize: function (canvas, dotnetRef, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
     s.dotnet = dotnetRef;
 
-    ensureImages(s, bgB64, wmB64, () => {
+    ensureImages(s, backgroundImage, watermarkImage, () => {
       renderAll(canvas, s.strokes, s, null);
     });
 
@@ -428,10 +428,10 @@ export const fluentCxSignature = {
     renderAll(canvas, s.strokes, s, null);
   },
 
-  setOptions: function (canvas, opts, bgB64, wmB64) {
+  setOptions: function (canvas, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
 
-    ensureImages(s, bgB64, wmB64, () => {
+    ensureImages(s, backgroundImage, watermarkImage, () => {
       renderAll(canvas, s.strokes, s, null);
     });
 
@@ -448,22 +448,22 @@ export const fluentCxSignature = {
     s.tool = tool === eraser ? eraser : pen;
   },
 
-  render: function (canvas, strokes, opts, bgB64, wmB64) {
+  render: function (canvas, strokes, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
     s.strokes = Array.isArray(strokes) ? clone(strokes) : [];
 
-    ensureImages(s, bgB64, wmB64, () => {
+    ensureImages(s, backgroundImage, watermarkImage, () => {
       renderAll(canvas, s.strokes, s, null);
     });
 
     renderAll(canvas, s.strokes, s, null);
   },
 
-  clear: function (canvas, opts, bgB64, wmB64) {
+  clear: function (canvas, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
     s.strokes = [];
 
-    ensureImages(s, bgB64, wmB64, () => {
+    ensureImages(s, backgroundImage, watermarkImage, () => {
       renderAll(canvas, s.strokes, s, null);
     });
 
