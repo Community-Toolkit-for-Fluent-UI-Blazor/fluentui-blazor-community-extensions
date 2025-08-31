@@ -1,3 +1,5 @@
+  const _instances = {};
+
 export function initialize(id, dotNetReference, mutationConfiguration) {
   const element = document.getElementById(id);
   const itemContainer = document.getElementById(`fluentcx-path-bar-container-${id}`);
@@ -29,7 +31,7 @@ export function initialize(id, dotNetReference, mutationConfiguration) {
       resizeObserver: observer,
     };
 
-    window.fluentCxComponentInstances.addInstance(id, instance);
+    _instances[id] = instance;
   }
 }
 
@@ -44,7 +46,7 @@ export function getWidth(id) {
 }
 
 export function dispose(id) {
-  const instance = window.fluentCxComponentInstances.getInstance(id);
+  const instance = _instances[id];
 
   if (instance) {
     if (instance.resizeObserver) {
@@ -57,6 +59,6 @@ export function dispose(id) {
       instance.mutationObserver = null;
     }
 
-    window.fluentCxComponentInstances.removeInstance(id);
+    delete _instances[id];
   }
 }
