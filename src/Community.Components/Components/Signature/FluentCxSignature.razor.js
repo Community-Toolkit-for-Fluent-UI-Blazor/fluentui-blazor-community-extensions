@@ -36,7 +36,7 @@ function clone(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function setLineStyle(ctx, style, width) {
+function setstrokeStyle(ctx, style, width) {
   ctx.setLineDash([]);
 
   if (style === dashed) {
@@ -207,7 +207,7 @@ function renderAll(canvas, strokes, s, inProgressStroke) {
 
     const width = st.width || s.opts.strokeWidth || 3;
     ctx.lineWidth = width;
-    setLineStyle(ctx, st.style || s.opts.lineStyle, width);
+    setstrokeStyle(ctx, st.style || s.opts.strokeStyle, width);
     drawPath(ctx, st);
     ctx.restore();
   }
@@ -233,7 +233,7 @@ function renderAll(canvas, strokes, s, inProgressStroke) {
     }
     const width = st.width || s.opts.strokeWidth || 3;
     ctx.lineWidth = width;
-    setLineStyle(ctx, st.style || s.opts.lineStyle, width);
+    setstrokeStyle(ctx, st.style || s.opts.strokeStyle, width);
     drawPath(ctx, st);
     ctx.restore();
   }
@@ -262,7 +262,7 @@ function updateOptions(canvas, opts) {
     strokeWidth: opts.strokeWidth ?? 3,
     penColor: opts.penColor || '#000000',
     penOpacity: opts.penOpacity ?? 1,
-    lineStyle: opts.lineStyle || 0,
+    strokeStyle: opts.strokeStyle || 0,
     smooth: !!opts.smooth,
     useShadow: !!opts.useShadow,
     usePointerPressure: !!opts.usePointerPressure,
@@ -372,7 +372,7 @@ function detachInput(canvas) {
 
 function buildInProgressStroke(s) {
   const baseWidth = s.opts.strokeWidth || 3;
-  const style = s.opts.lineStyle || solid;
+  const style = s.opts.strokeStyle || solid;
   const opacity = s.opts.penOpacity ?? 1;
   const color = s.opts.penColor || '#000000';
 
@@ -409,7 +409,7 @@ function buildCompletedStroke(s) {
     opacity: s.opts.penOpacity ?? 1,
     smooth: !!s.opts.smooth,
     eraser: s.tool === eraser,
-    lineStyle: s.opts.lineStyle || solid,
+    strokeStyle: s.opts.strokeStyle || solid,
     points: s.points.map(p => ({ x: p.x, y: p.y }))
   };
 }

@@ -239,4 +239,15 @@ public class SignatureSettings
         ShowGrid = showGrid;
         Parent?.InvalidateRender();
     }
+
+    /// <summary>
+    /// Handles changes to the visibility of the grid.
+    /// </summary>
+    /// <param name="showGrid">A value indicating whether the grid should be displayed.  <see langword="true"/> to show the grid; otherwise,
+    /// <see langword="false"/>.</param>
+    internal void OnShowGridChanged(bool showGrid)
+    {
+        ShowGrid = showGrid;
+        Parent?.InvalidateRender();
+    }
 }

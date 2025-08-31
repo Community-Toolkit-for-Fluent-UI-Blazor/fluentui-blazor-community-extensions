@@ -7453,37 +7453,37 @@
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._previewCanvas">
             <summary>
-            
+            Represents the reference to the signature canvas element in the DOM.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._module">
             <summary>
-            
+            Represents the JavaScript module for interop calls.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._signatureDotNetRef">
             <summary>
-            
+            Represents the .NET object reference for JavaScript interop.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._invalidateRender">
             <summary>
-            
+            Value indicating whether the component needs to re-render.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._renderSignature">
             <summary>
-            
+            Represents the render fragment for the signature canvas.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._renderToolbar">
             <summary>
-            
+            Represents the render fragment for the toolbar.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._isSettingsOpen">
             <summary>
-            
+            Value indicating whether the settings panel is open.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._currentTool">
@@ -7493,7 +7493,7 @@
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._renderLabel">
             <summary>
-            
+            Represents the render fragment for the label.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._showGrid">
@@ -7554,6 +7554,11 @@
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._exportFormat">
             <summary>
             Represents the format of the export.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._strokeStyles">
+            <summary>
+            Represents the available stroke styles.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.ExportSettings">
@@ -7653,10 +7658,41 @@
             Gets the separator Y position in pixels.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnSwapGridAsync">
+            <summary>
+            Occurs when the grid visibility is toggled.
+            </summary>
+            <returns>Returns a task which shows or hides the grid.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnValueChanged">
             <summary>
             Occurs when a value has changed.
             </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnChangeToolAsync(FluentUI.Blazor.Community.Components.SignatureTool)">
+            <summary>
+            
+            </summary>
+            <param name="tool"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnExportAsync">
+            <summary>
+            Handles the export operation by generating the export data and invoking the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSignature.OnExport"/> callback, if
+            subscribed.
+            </summary>
+            <remarks>This method generates the export data, including the file content, MIME type, and filename,
+            and then triggers the  <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSignature.OnExport"/> event with the generated export result. The export format is
+            determined by the current  <see cref="!:ExportSettings.Format"/>.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnMaximizeAsync">
+            <summary>
+            Handles the maximize event asynchronously.
+            </summary>
+            <remarks>This method completes immediately and does not perform any operations. It can be overridden
+            in derived classes to provide custom behavior when a maximize event occurs.</remarks>
+            <returns></returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.GetBackgroundImage">
             <summary>
@@ -7670,6 +7706,80 @@
             </summary>
             <returns>Returns the base64 string of the watermark image if exists, <see langword="null" /> otherwise.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.SyncOptionsAsync(Microsoft.AspNetCore.Components.ElementReference)">
+            <summary>
+            Synchronizes the options for the specified element asynchronously.
+            </summary>
+            <remarks>This method updates the options for the specified element by invoking a JavaScript function. 
+            Ensure that the module is initialized before calling this method.</remarks>
+            <param name="elementReference">A reference to the HTML element whose options are being synchronized.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.GetLabelFromValue(FluentUI.Blazor.Community.Components.SignatureLineStyle)">
+            <summary>
+            Retrieves the label associated with the specified <see cref="T:FluentUI.Blazor.Community.Components.SignatureLineStyle"/> value.
+            </summary>
+            <param name="value">The <see cref="T:FluentUI.Blazor.Community.Components.SignatureLineStyle"/> value for which to retrieve the label.</param>
+            <returns>A string representing the label corresponding to the specified <paramref name="value"/>. If the value does not
+            match a predefined label, the string representation of the value is returned.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnClearAsync">
+            <summary>
+            Clears all strokes and resets the signature canvas to its initial state.
+            </summary>
+            <remarks>This method clears the internal stroke collections, resets the current value, and notifies
+            the  associated <see cref="!:EditContext"/> of the field change. If a JavaScript module is provided,  it invokes
+            the corresponding JavaScript function to clear the canvas. Finally, it triggers the  <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSignature.OnClear"/> event
+            if it has subscribers.</remarks>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnUndoAsync">
+            <summary>
+            Reverts the most recent stroke, moving it to the redo stack.
+            </summary>
+            <remarks>This method removes the last stroke from the collection of strokes and adds it to the redo
+            stack. If there are no strokes to undo, the method exits without performing any action. After undoing, the
+            canvas is refreshed and the current value is updated to its default state.</remarks>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnRedoAsync">
+            <summary>
+            Performs the redo operation by restoring the most recently undone stroke to the canvas.
+            </summary>
+            <remarks>This method moves a stroke from the redo stack back to the main collection of strokes  and
+            refreshes the canvas to reflect the change. If there are no strokes available to redo,  the method exits without
+            making any changes.</remarks>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.RefreshCanvasAsync">
+            <summary>
+            Refreshes the canvas by rendering the current strokes, options, background image, and watermark.
+            </summary>
+            <remarks>This method invokes a JavaScript function to update the canvas with the latest state.  Ensure
+            that the module is initialized before calling this method.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.UpdateCurrentValueDefault">
+            <summary>
+            Updates the current value to the default value derived from the export operation and notifies the edit context
+            of the field change.
+            </summary>
+            <remarks>This method sets the <see cref="!:CurrentValue"/> property to the byte data returned  by the
+            <c>Export</c> method and triggers a field change notification in the associated  <see cref="!:EditContext"/>, if
+            one is defined.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.Export">
+            <summary>
+            Exports the signature as a byte array along with its MIME type and suggested filename.
+            </summary>
+            <remarks>The exported signature includes the strokes, settings, and watermark as configured.  This
+            method is typically used to generate a file-ready representation of the signature.</remarks>
+            <returns>A tuple containing the following: <list type="bullet"> <item> <description><see cref="T:System.Byte"/>[]: The
+            binary data representing the exported signature.</description> </item> <item> <description><see
+            cref="T:System.String"/>: The MIME type of the exported file (e.g., "image/png").</description> </item> <item>
+            <description><see cref="T:System.String"/>: The suggested filename for the exported file.</description> </item>
+            </list></returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.TryParseValueFromString(System.String,System.Byte[]@,System.String@)">
             <inheritdoc />
         </member>
@@ -7680,6 +7790,16 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnStrokeCompletedAsync(FluentUI.Blazor.Community.Components.SignatureStroke)">
+            <summary>
+            Handles the completion of a stroke in the signature input, adding it to the collection of strokes.
+            </summary>
+            <param name="value">The completed stroke to be added to the signature.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SignatureExportFormat">
             <summary>
@@ -8199,6 +8319,13 @@
             <param name="shadowOpacity">Opacity of the shadow.</param>
             <param name="shadowColor">Color of the shadow.</param>
             <param name="showGrid">Shows the grid.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSettings.OnShowGridChanged(System.Boolean)">
+            <summary>
+            Handles changes to the visibility of the grid.
+            </summary>
+            <param name="showGrid">A value indicating whether the grid should be displayed.  <see langword="true"/> to show the grid; otherwise,
+            <see langword="false"/>.</param>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SignatureSkiaExporter">
             <summary>
@@ -10596,6 +10723,16 @@
             </summary>
             <param name="path">Path to segment.</param>
             <returns>Returns an array of <see cref="T:System.String"/> which represent the segments of the path.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.RunningWasmHelper">
+            <summary>
+            Helper class to determine if the application is running in a WebAssembly environment.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Helpers.RunningWasmHelper.IsWasm">
+            <summary>
+            Gets a value indicating whether the application is running in a WebAssembly environment.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Helpers.UnitFormatHelper">
             <summary>

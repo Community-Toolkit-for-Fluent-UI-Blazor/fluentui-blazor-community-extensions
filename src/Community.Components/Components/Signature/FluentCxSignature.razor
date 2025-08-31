@@ -71,11 +71,10 @@
 
             <FluentSelect Label="@Labels.StrokeLineStyle"
                           AriaLabel="@Labels.StrokeLineStyle"
+                          Items="@_strokeStyles"
+                          OptionText="@(e => GetLabelFromValue(e))"
                           @bind-SelectedOption=_strokeStyle
                           @bind-SelectedOption:after=OnValueChanged >
-                <FluentOption Value="@SignatureLineStyle.Solid.ToString()">@Labels.SolidLine</FluentOption>
-                <FluentOption Value="@SignatureLineStyle.Dashed.ToString()">@Labels.DashedLine</FluentOption>
-                <FluentOption Value="@SignatureLineStyle.Dotted.ToString()">@Labels.DottedLine</FluentOption>
             </FluentSelect>
 
             <FluentDivider />
@@ -116,18 +115,21 @@
                           @bind-Value="@_shadowOpacity"
                           @bind-Value:after=OnValueChanged />
 
-            <FluentDivider />
+            @if (!RunningWasmHelper.IsWasm)
+            {
+                <FluentDivider />
 
-            <FluentSelect Label="@Labels.ExportFormat"
-                          AriaLabel="@Labels.ExportFormat"
-                          @bind-SelectedOption=_exportFormat
-                          @bind-SelectedOption:after=OnValueChanged>
-                <FluentOption Value="@SignatureExportFormat.Png.ToString()">PNG</FluentOption>
-                <FluentOption Value="@SignatureExportFormat.Jpeg.ToString()">JPEG</FluentOption>
-                <FluentOption Value="@SignatureExportFormat.Webp.ToString()">WEBP</FluentOption>
-                <FluentOption Value="@SignatureExportFormat.Svg.ToString()">SVG</FluentOption>
-                <FluentOption Value="@SignatureExportFormat.Pdf.ToString()">PDF</FluentOption>
-            </FluentSelect>
+                <FluentSelect Label="@Labels.ExportFormat"
+                              AriaLabel="@Labels.ExportFormat"
+                              @bind-SelectedOption=_exportFormat
+                              @bind-SelectedOption:after=OnValueChanged>
+                    <FluentOption Value="@SignatureExportFormat.Png.ToString()">PNG</FluentOption>
+                    <FluentOption Value="@SignatureExportFormat.Jpeg.ToString()">JPEG</FluentOption>
+                    <FluentOption Value="@SignatureExportFormat.Webp.ToString()">WEBP</FluentOption>
+                    <FluentOption Value="@SignatureExportFormat.Svg.ToString()">SVG</FluentOption>
+                    <FluentOption Value="@SignatureExportFormat.Pdf.ToString()">PDF</FluentOption>
+                </FluentSelect>
+            }
         </Body>
     </FluentPopover>
 </div>
@@ -176,17 +178,20 @@
 
                 @if (Capabilities.CanErase)
                 {
-                    <FluentButton IconStart="@(new Regular.Size24.Edit())"
-                                  Appearance="Appearance.Neutral"
-                                  Title="@Labels.Pen"
-                                  OnClick="@(() => OnChangeToolAsync(SignatureTool.Pen))"
-                                  ChildContent="@(IsMobile ? null : _renderLabel(Labels.Pen))" />
+                    <FluentMenuButton ButtonAppearance=Appearance.Neutral
+                                      IconStart="@(_currentTool == SignatureTool.Pen ? new Regular.Size24.Edit() : new Regular.Size24.Eraser())">
+                        <FluentMenuItem Checked=@(_currentTool == SignatureTool.Pen)
+                                        Role=MenuItemRole.MenuItemRadio
+                                      OnClick="@(() => OnChangeToolAsync(SignatureTool.Pen))">
+                            @Labels.Pen
+                        </FluentMenuItem>
 
-                    <FluentButton IconStart="@(new Regular.Size24.Eraser())"
-                                  Appearance="Appearance.Neutral"
-                                  OnClick="@(() => OnChangeToolAsync(SignatureTool.Eraser))"
-                                  Title="@Labels.Eraser"
-                                  ChildContent="@(IsMobile ? null : _renderLabel(Labels.Eraser))" />
+                        <FluentMenuItem Checked=@(_currentTool == SignatureTool.Eraser)
+                                        Role=MenuItemRole.MenuItemRadio
+                                        OnClick="@(() => OnChangeToolAsync(SignatureTool.Eraser))">
+                            @Labels.Eraser
+                        </FluentMenuItem>
+                   </FluentMenuButton>
 
                     <FluentDivider Orientation="@orientation" />
                 }
@@ -214,9 +219,9 @@
                     <FluentDivider Orientation="@orientation" />
                 }
 
-                <FluentButton IconStart="@(new Regular.Size24.Settings())"
+                <FluentButton IconStart="@(new Regular.Size24.Grid())"
                               Appearance="Appearance.Neutral"
-                              OnClick="@(() => _showGrid = !_showGrid)"
+                              OnClick="@OnSwapGridAsync"
                               Title="@Labels.ShowGrid"
                               ChildContent="@(IsMobile ? null : _renderLabel(Labels.ShowGrid))" />
 

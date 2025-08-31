@@ -1,3 +1,4 @@
+using FluentUI.Blazor.Community.Helpers;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -11,7 +12,7 @@ internal static class SignatureExporter
         SignatureSettings signatureSettings,
         SignatureWatermarkSettings watermarkSettings)
     {
-        try
+        if (!RunningWasmHelper.IsWasm)
         {
             return exportSettings.Format switch
             {
@@ -23,11 +24,9 @@ internal static class SignatureExporter
                 _ => ([], "application/octet-stream", "signature.bin"),
             };
         }
-        catch (Exception)
+        else
         {
-            // Fallback to SVG export in case of any error during other export methods.
-            // Here, if the signature component is used in a Blazor WebAssembly app, it might be due to
-            // the lack of support for SkiaSharp's native libraries.
+            // On browser mode, we can only export SVG, for now.
             return SignatureSvgExporter.Export(width, height, strokes, signatureSettings, watermarkSettings);
         }
     }

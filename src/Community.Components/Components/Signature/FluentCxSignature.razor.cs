@@ -25,37 +25,37 @@ public partial class FluentCxSignature
     private readonly Stack<SignatureStroke> _redoStrokes = [];
 
     /// <summary>
-    /// 
+    /// Represents the reference to the signature canvas element in the DOM.
     /// </summary>
     private ElementReference _previewCanvas;
 
     /// <summary>
-    /// 
+    /// Represents the JavaScript module for interop calls.
     /// </summary>
     private IJSObjectReference? _module;
 
     /// <summary>
-    /// 
+    /// Represents the .NET object reference for JavaScript interop.
     /// </summary>
     private readonly DotNetObjectReference<FluentCxSignature> _signatureDotNetRef;
 
     /// <summary>
-    /// 
+    /// Value indicating whether the component needs to re-render.
     /// </summary>
     private bool _invalidateRender;
 
     /// <summary>
-    /// 
+    /// Represents the render fragment for the signature canvas.
     /// </summary>
     private readonly RenderFragment _renderSignature;
 
     /// <summary>
-    /// 
+    /// Represents the render fragment for the toolbar.
     /// </summary>
     private readonly RenderFragment<Orientation> _renderToolbar;
 
     /// <summary>
-    /// 
+    /// Value indicating whether the settings panel is open.
     /// </summary>
     private bool _isSettingsOpen;
 
@@ -65,7 +65,7 @@ public partial class FluentCxSignature
     private SignatureTool _currentTool;
 
     /// <summary>
-    /// 
+    /// Represents the render fragment for the label.
     /// </summary>
     private readonly RenderFragment<string> _renderLabel;
 
@@ -128,6 +128,11 @@ public partial class FluentCxSignature
     /// Represents the format of the export.
     /// </summary>
     private SignatureExportFormat _exportFormat;
+
+    /// <summary>
+    /// Represents the available stroke styles.
+    /// </summary>
+    private static readonly SignatureLineStyle[] _strokeStyles = Enum.GetValues<SignatureLineStyle>();
 
     #endregion Fields
 
@@ -275,6 +280,17 @@ public partial class FluentCxSignature
     #region Methods
 
     /// <summary>
+    /// Occurs when the grid visibility is toggled.
+    /// </summary>
+    /// <returns>Returns a task which shows or hides the grid.</returns>
+    private async Task OnSwapGridAsync()
+    {
+        _showGrid = !_showGrid;
+        SignatureSettings.OnShowGridChanged(_showGrid);
+        await SyncOptionsAsync(_previewCanvas);
+    }
+
+    /// <summary>
     /// Occurs when a value has changed.
     /// </summary>
     private async Task OnValueChanged()
@@ -295,6 +311,11 @@ public partial class FluentCxSignature
         await SyncOptionsAsync(_previewCanvas);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="tool"></param>
+    /// <returns></returns>
     private async Task OnChangeToolAsync(SignatureTool tool)
     {
         if (_currentTool != tool)
@@ -308,6 +329,14 @@ public partial class FluentCxSignature
         }
     }
 
+    /// <summary>
+    /// Handles the export operation by generating the export data and invoking the <see cref="OnExport"/> callback, if
+    /// subscribed.
+    /// </summary>
+    /// <remarks>This method generates the export data, including the file content, MIME type, and filename,
+    /// and then triggers the  <see cref="OnExport"/> event with the generated export result. The export format is
+    /// determined by the current  <see cref="ExportSettings.Format"/>.</remarks>
+    /// <returns></returns>
     private async Task OnExportAsync()
     {
         var (bytes, mime, filename) = Export();
@@ -318,6 +347,12 @@ public partial class FluentCxSignature
         }
     }
 
+    /// <summary>
+    /// Handles the maximize event asynchronously.
+    /// </summary>
+    /// <remarks>This method completes immediately and does not perform any operations. It can be overridden
+    /// in derived classes to provide custom behavior when a maximize event occurs.</remarks>
+    /// <returns></returns>
     private Task OnMaximizeAsync()
     {
         return Task.CompletedTask;
@@ -341,6 +376,13 @@ public partial class FluentCxSignature
         return WatermarkSettings.Image is null ? null : Convert.ToBase64String(WatermarkSettings.Image);
     }
 
+    /// <summary>
+    /// Synchronizes the options for the specified element asynchronously.
+    /// </summary>
+    /// <remarks>This method updates the options for the specified element by invoking a JavaScript function. 
+    /// Ensure that the module is initialized before calling this method.</remarks>
+    /// <param name="elementReference">A reference to the HTML element whose options are being synchronized.</param>
+    /// <returns></returns>
     private async Task SyncOptionsAsync(ElementReference elementReference)
     {
         if (_module is not null)
@@ -349,6 +391,31 @@ public partial class FluentCxSignature
         }
     }
 
+    /// <summary>
+    /// Retrieves the label associated with the specified <see cref="SignatureLineStyle"/> value.
+    /// </summary>
+    /// <param name="value">The <see cref="SignatureLineStyle"/> value for which to retrieve the label.</param>
+    /// <returns>A string representing the label corresponding to the specified <paramref name="value"/>. If the value does not
+    /// match a predefined label, the string representation of the value is returned.</returns>
+    private string GetLabelFromValue(SignatureLineStyle value)
+    {
+        return value switch
+        {
+            SignatureLineStyle.Solid => Labels.SolidLine,
+            SignatureLineStyle.Dashed => Labels.DashedLine,
+            SignatureLineStyle.Dotted => Labels.DottedLine,
+            _ => value.ToString() ?? string.Empty,
+        };
+    }
+
+    /// <summary>
+    /// Clears all strokes and resets the signature canvas to its initial state.
+    /// </summary>
+    /// <remarks>This method clears the internal stroke collections, resets the current value, and notifies
+    /// the  associated <see cref="EditContext"/> of the field change. If a JavaScript module is provided,  it invokes
+    /// the corresponding JavaScript function to clear the canvas. Finally, it triggers the  <see cref="OnClear"/> event
+    /// if it has subscribers.</remarks>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task OnClearAsync()
     {
         _strokes.Clear();
@@ -367,6 +434,13 @@ public partial class FluentCxSignature
         }
     }
 
+    /// <summary>
+    /// Reverts the most recent stroke, moving it to the redo stack.
+    /// </summary>
+    /// <remarks>This method removes the last stroke from the collection of strokes and adds it to the redo
+    /// stack. If there are no strokes to undo, the method exits without performing any action. After undoing, the
+    /// canvas is refreshed and the current value is updated to its default state.</remarks>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnUndoAsync()
     {
         if (_strokes.Count == 0)
@@ -381,6 +455,13 @@ public partial class FluentCxSignature
         UpdateCurrentValueDefault();
     }
 
+    /// <summary>
+    /// Performs the redo operation by restoring the most recently undone stroke to the canvas.
+    /// </summary>
+    /// <remarks>This method moves a stroke from the redo stack back to the main collection of strokes  and
+    /// refreshes the canvas to reflect the change. If there are no strokes available to redo,  the method exits without
+    /// making any changes.</remarks>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnRedoAsync()
     {
         if (_redoStrokes.Count == 0)
@@ -394,6 +475,12 @@ public partial class FluentCxSignature
         UpdateCurrentValueDefault();
     }
 
+    /// <summary>
+    /// Refreshes the canvas by rendering the current strokes, options, background image, and watermark.
+    /// </summary>
+    /// <remarks>This method invokes a JavaScript function to update the canvas with the latest state.  Ensure
+    /// that the module is initialized before calling this method.</remarks>
+    /// <returns></returns>
     private async Task RefreshCanvasAsync()
     {
         if (_module is not null)
@@ -402,12 +489,29 @@ public partial class FluentCxSignature
         }
     }
 
+    /// <summary>
+    /// Updates the current value to the default value derived from the export operation and notifies the edit context
+    /// of the field change.
+    /// </summary>
+    /// <remarks>This method sets the <see cref="CurrentValue"/> property to the byte data returned  by the
+    /// <c>Export</c> method and triggers a field change notification in the associated  <see cref="EditContext"/>, if
+    /// one is defined.</remarks>
     private void UpdateCurrentValueDefault()
     {
         CurrentValue = Export().bytes;
         EditContext?.NotifyFieldChanged(FieldIdentifier);
     }
 
+    /// <summary>
+    /// Exports the signature as a byte array along with its MIME type and suggested filename.
+    /// </summary>
+    /// <remarks>The exported signature includes the strokes, settings, and watermark as configured.  This
+    /// method is typically used to generate a file-ready representation of the signature.</remarks>
+    /// <returns>A tuple containing the following: <list type="bullet"> <item> <description><see cref="System.Byte"/>[]: The
+    /// binary data representing the exported signature.</description> </item> <item> <description><see
+    /// cref="System.String"/>: The MIME type of the exported file (e.g., "image/png").</description> </item> <item>
+    /// <description><see cref="System.String"/>: The suggested filename for the exported file.</description> </item>
+    /// </list></returns>
     private (byte[] bytes, string mime, string filename) Export()
     {
         return SignatureExporter.Export(Width, Height, _strokes, ExportSettings, SignatureSettings, WatermarkSettings);
@@ -456,6 +560,31 @@ public partial class FluentCxSignature
         }
     }
 
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var settings = SignatureSettings;
+
+        _strokeWidth = settings.StrokeWidth;
+        _penColor = settings.PenColor;
+        _penOpacity = settings.PenOpacity;
+        _strokeStyle = settings.StrokeStyle;
+        _showSeparatorLine = settings.ShowSeparatorLine;
+        _useSmooth = settings.Smooth;
+        _usePointerPressure = settings.UsePointerPressure;
+        _useShadow = settings.UseShadow;
+        _shadowOpacity = settings.ShadowOpacity;
+        _shadowColor = settings.ShadowColor;
+        _showGrid = settings.ShowGrid;
+    }
+
+    /// <summary>
+    /// Handles the completion of a stroke in the signature input, adding it to the collection of strokes.
+    /// </summary>
+    /// <param name="value">The completed stroke to be added to the signature.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [JSInvokable("OnStrokeCompleted")]
     public async Task OnStrokeCompletedAsync(SignatureStroke value)
     {
