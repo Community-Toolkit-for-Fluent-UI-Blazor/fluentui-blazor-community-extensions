@@ -241,9 +241,9 @@ public partial class FileManager<TItem>
     }
 
     /// <summary>
-    /// 
+    /// Clears the items of the path bar.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">All segments to remove.</param>
     internal void ClearPathBar(IEnumerable<string?>? value)
     {
         _fluentCxPathBar?.ClearItems(value);

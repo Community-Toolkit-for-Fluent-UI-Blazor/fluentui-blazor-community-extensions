@@ -1193,10 +1193,9 @@ public partial class FluentCxFileManager<TItem>
     }
 
     /// <summary>
-    /// 
+    /// Deletes the items from the path bar.
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="idCollection"></param>
+    /// <param name="idCollection">Collection of segments to remove from the pathbar.</param>
     private void DeleteFromPathBar(IEnumerable<string> idCollection)
     {
         PathBarItemBuilder.Remove(_rootPath, idCollection);
