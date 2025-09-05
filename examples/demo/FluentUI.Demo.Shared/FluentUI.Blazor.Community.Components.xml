@@ -673,6 +673,283 @@
         <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
             <inheritdoc/>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ArtisticScatterItem">
+            <summary>
+            Represents the image inside a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._top">
+            <summary>
+            Represents the top position of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._left">
+            <summary>
+            Represents the left position of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._rotation">
+            <summary>
+            Represents the rotation angle of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._rotationMobile">
+            <summary>
+            Represents the rotation angle of the image in the mobile.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._opacity">
+            <summary>
+            Represents the opacity of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._zIndex">
+            <summary>
+            Represents the z-index of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._animationDelay">
+            <summary>
+            Represents the animation delay of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem.InvariantCulture">
+            <summary>
+            Represents the invariant culture for formatting.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._translate">
+            <summary>
+            Represents the translation offset of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._animationCompleted">
+            <summary>
+            Represents whether the animation has completed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._dotNetRef">
+            <summary>
+            Represents a reference to the current instance for JavaScript interop.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ArtisticScatterItem._module">
+            <summary>
+            Represents the JavaScript module for interop.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.InternalRenderer">
+            <summary>
+            Gets or sets the internal renderer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.Parent">
+            <summary>
+            Gets or sets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.Source">
+            <summary>
+            Gets or sets the source of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.Alt">
+            <summary>
+            Gets or sets the alternate text of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.Title">
+            <summary>
+            Gets or sets the title of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.IsLazy">
+            <summary>
+            Gets or sets a value indicating whether the image should be loaded lazily.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.FetchPriorityHigh">
+            <summary>
+            Gets or sets a value indicating whether the image has high fetch priority.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.Width">
+            <summary>
+            Gets or sets the width of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.Height">
+            <summary>
+            Gets or sets the height of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.BorderRadius">
+            <summary>
+            Gets or sets the border radius of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.InternalCss">
+            <summary>
+            Gets the css for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.InternalStyle">
+            <summary>
+            Gets the style for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ArtisticScatterItem.Runtime">
+            <summary>
+            Gets or sets the JavaScript runtime.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ArtisticScatterItem.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ArtisticScatterItem.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ArtisticScatterItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ArtisticScatterItem.OnAnimationCompleted">
+            <summary>
+            Occurs when the animation is completed.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ArtisticScatterItem.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter">
+            <summary>
+            Represents a container for a collection of images to be displayed in an artistic scatter layout.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter._items">
+            <summary>
+            Represents the list of items in the scatter.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter._hasMaxItemChanged">
+            <summary>
+            Indicates whether the maximum item value has changed.
+            </summary>
+            <remarks>This field is used internally to track changes to the maximum item value.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter._module">
+            <summary>
+            Reference to the JavaScript module for interop.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter"/> class.
+            </summary>
+            <remarks>This constructor generates a new unique identifier for the instance using <see
+            cref="M:Microsoft.FluentUI.AspNetCore.Components.Identifier.NewId(System.Int32)"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.Runtime">
+            <summary>
+            Gets or sets the JavaScript runtime for interop.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.ChildContent">
+            <summary>
+            Gets or sets the unique identifier for the component instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.MaxItems">
+            <summary>
+            Gets or sets the maximum number of items to display in the scatter.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.IsMobile">
+            <summary>
+            Gets or sets a value indicating whether the component is being viewed on a mobile device.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.OnClick">
+            <summary>
+            Gets or sets the callback to invoke when the scatter is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.Width">
+            <summary>
+            Gets or sets the width of the scatter container.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.Height">
+            <summary>
+            Gets or sets the height of the scatter container.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.DisplayedItems">
+            <summary>
+            Gets the items currently displayed in the scatter, limited to the maximum number of items specified by <see cref="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.MaxItems"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.DisplayedItemCount">
+            <summary>
+            Gets the count of items currently displayed in the scatter.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.InternalCss">
+            <summary>
+            Gets the internal CSS classes for the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.InternalStyle">
+            <summary>
+            Gets the internal styles for the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.InternalScatterContainer">
+            <summary>
+            Gets the internal CSS classes for the scatter container.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.OnClickAsync">
+            <summary>
+            Asynchronously invokes the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.OnClick"/> event if it has been assigned a delegate.
+            </summary>
+            <remarks>This method checks whether the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.OnClick"/> event has a delegate before invoking it.
+            If no delegate is assigned, the method does nothing.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.IndexOf(FluentUI.Blazor.Community.Components.ArtisticScatterItem)">
+            <summary>
+            Determines the zero-based index of the specified <see cref="T:FluentUI.Blazor.Community.Components.ArtisticScatterItem"/> in the collection.
+            </summary>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ArtisticScatterItem"/> to locate in the collection.</param>
+            <returns>The zero-based index of the first occurrence of the specified item in the collection,  or -1 if the item is not
+            found.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.Add(FluentUI.Blazor.Community.Components.ArtisticScatterItem)">
+            <summary>
+            Adds the specified item to the collection if it is not already present.
+            </summary>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ArtisticScatterItem"/> to add to the collection. Cannot be <see langword="null"/>.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.Remove(FluentUI.Blazor.Community.Components.ArtisticScatterItem)">
+            <summary>
+            Removes the specified item from the collection.
+            </summary>
+            <param name="item">The item to remove from the collection. Cannot be <see langword="null"/>.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxArtisticScatter.InvalidateRender">
+            <summary>
+            Marks the component for re-rendering, causing the UI to be updated during the next render cycle.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.CookieChoices">
             <summary>
             Represents the available choices for the cookie.
