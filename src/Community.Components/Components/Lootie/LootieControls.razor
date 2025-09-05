@@ -1,0 +1,51 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <FluentToolbar>
+            <FluentSwitch Value="@_isLooping"
+                          ValueChanged="@(e => ToggleLoopAsync(e))"
+                          Label="@Labels.Loop" />
+
+            @if (!_isPlaying)
+            {
+                <FluentButton Appearance="Appearance.Neutral"
+                              IconStart="@(new Regular.Size24.Play())"
+                              OnClick="@PlayAsync"
+                              Title="@Labels.Play"
+                              ChildContent="@(IsMobile ? null : _renderLabel(@Labels.Play))" />
+            }
+            else
+            {
+                <FluentButton Appearance="Appearance.Neutral"
+                              IconStart="@(new Regular.Size24.Pause())"
+                              OnClick="@PauseAsync"
+                              Title="@Labels.Pause"
+                              ChildContent="@(IsMobile ? null : _renderLabel(@Labels.Pause))" />
+            }
+
+            <FluentButton Appearance="Appearance.Neutral"
+                          IconStart="@(new Regular.Size24.Stop())"
+                          OnClick="@StopAsync"
+                          Title="@Labels.Stop"
+                          ChildContent="@(IsMobile ? null : _renderLabel(@Labels.Stop))" />
+        </FluentToolbar>
+    }
+</div>
+
+@code {
+    public LootieControls()
+    {
+        Id = Identifier.NewId();
+        _renderLabel = label => __builder =>
+        {
+            <FluentLabel>@label</FluentLabel>
+        };
+    }
+}

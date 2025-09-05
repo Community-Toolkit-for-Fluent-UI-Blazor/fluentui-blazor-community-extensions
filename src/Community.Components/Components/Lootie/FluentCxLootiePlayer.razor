@@ -1,0 +1,13 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this">
+    <div id="lootie-container">
+        <div id="@Id"
+             style="@InternalStyle"
+             class="@InternalCss">
+        </div>
+
+        @ChildContent
+    </div>
+</CascadingValue>

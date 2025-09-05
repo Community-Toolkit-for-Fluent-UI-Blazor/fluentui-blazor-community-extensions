@@ -1,0 +1,30 @@
+﻿@page "/lootie"
+@using FluentUI.Demo.Shared.Pages.Lootie.Examples
+
+<h1>Lootie</h1>
+
+<p>
+    The <code>FluentCxLootiePlayer</code> component allows you to easily integrate Lottie animations into your Blazor applications.
+    The component supports various customization options, including setting the animation source, dimensions, playback controls, and interactivity features.
+    The <code>FluentCxLootieProvider</code> is required to use the <code>FluentCxLootie</code> component and should be added once in your application, typically in the MainLayout.
+    There are 3 renderers available: <code>Svg</code>, <code>Canvas</code> and <code>Html</code>. By default, the <code>Svg</code> renderer is used.
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(LootieDefault)" Title="Default">
+    <Description>
+        The FluentCxLootie component allows you to easily integrate Lottie animations into your Blazor applications.
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(LootieWithControls)" Title="With Controls">
+    <Description>
+        The FluentCxLootie component can be controlled using the Play, Pause and Stop methods.
+    </Description>
+</DemoSection>
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(FluentUI.Blazor.Community.Components.FluentCxLootiePlayer)" />
+<ApiDocumentation Component="typeof(FluentUI.Blazor.Community.Components.FluentCxLootieProvider)" />
