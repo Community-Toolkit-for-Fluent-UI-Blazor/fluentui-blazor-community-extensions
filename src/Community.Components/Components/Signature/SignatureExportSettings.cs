@@ -20,4 +20,14 @@ public sealed class SignatureExportSettings
     /// </summary>
     [Parameter]
     public int Quality { get; set; } = 90;
+
+    /// <summary>
+    /// Updates the internal values of the export settings based on the specified signature state.
+    /// </summary>
+    /// <param name="state">The <see cref="SignatureState"/> containing the updated quality and export format values.</param>
+    internal void UpdateInternalValues(SignatureState state)
+    {
+        Quality = state.Quality;
+        Format = state.ExportFormat;
+    }
 }

@@ -3,10 +3,40 @@ using System.Runtime.CompilerServices;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Provides functionality to export a signature as an SVG image.
+/// </summary>
+/// <remarks>This class generates an SVG representation of a signature based on the provided strokes, settings, 
+/// and optional watermark. The resulting SVG includes configurable elements such as background color or image,  grid
+/// lines, separator lines, and watermark text or image. The output is returned as a byte array along with  its MIME
+/// type and a suggested filename.</remarks>
 internal static class SignatureSvgExporter
 {
+    /// <summary>
+    /// Represents the invariant culture, which is culture-insensitive and associated with the English language but not
+    /// with any specific region.
+    /// </summary>
+    /// <remarks>The invariant culture is often used for operations that require culture-independent results,
+    /// such as formatting and parsing operations where consistent behavior is required regardless of the user's
+    /// locale.</remarks>
     private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
 
+    /// <summary>
+    /// Exports a signature as an SVG image based on the specified dimensions, strokes, and settings.
+    /// </summary>
+    /// <remarks>The method generates an SVG representation of the signature, including optional elements such
+    /// as a background, grid, separator line, and watermark.  Strokes marked as erasers are applied as masks to remove
+    /// parts of the signature. The output is optimized for rendering in SVG-compatible viewers.</remarks>
+    /// <param name="width">The width of the SVG image, in pixels.</param>
+    /// <param name="height">The height of the SVG image, in pixels.</param>
+    /// <param name="strokes">A collection of signature strokes to be rendered in the SVG image.</param>
+    /// <param name="signatureSettings">The settings that define the appearance and behavior of the signature, such as background color, grid
+    /// visibility, and separator line.</param>
+    /// <param name="watermarkSettings">The settings for the watermark, including text, image, and opacity.</param>
+    /// <returns>A tuple containing the following: <list type="bullet"> <item><description><see cref="byte[]"/>: The SVG image
+    /// data as a byte array.</description></item> <item><description><see cref="string"/>: The MIME type of the
+    /// exported image, which is always "image/svg+xml".</description></item> <item><description><see cref="string"/>:
+    /// The default filename for the exported image, which is "signature.svg".</description></item> </list></returns>
     internal static (byte[] bytes, string mime, string filename) Export(
         int width,
         int height,
@@ -218,6 +248,15 @@ internal static class SignatureSvgExporter
         return (svgBytes, "image/svg+xml", "signature.svg");
     }
 
+    /// <summary>
+    /// Generates an SVG stroke-dasharray attribute value based on the specified line style and width.
+    /// </summary>
+    /// <param name="style">The line style to apply. Supported values are <see cref="SignatureLineStyle.Dashed"/> and <see
+    /// cref="SignatureLineStyle.Dotted"/>.</param>
+    /// <param name="width">The width of the stroke, used to calculate the dash pattern. Must be a positive value.</param>
+    /// <returns>A string representing the SVG stroke-dasharray attribute value for the specified style and width. Returns an
+    /// empty string if the style is not <see cref="SignatureLineStyle.Dashed"/> or <see
+    /// cref="SignatureLineStyle.Dotted"/>.</returns>
     private static string SvgDashArray(SignatureLineStyle style, float width)
     {
         return style switch
@@ -228,6 +267,15 @@ internal static class SignatureSvgExporter
         };
     }
 
+    /// <summary>
+    /// Constructs an SVG path data string representing the points and curves of the specified signature stroke.
+    /// </summary>
+    /// <remarks>If the <paramref name="s"/> has smoothing enabled and contains at least three points, the
+    /// method generates quadratic Bézier curves between points. Otherwise, it generates straight line segments. The
+    /// resulting path data is formatted using invariant culture to ensure consistent numeric formatting.</remarks>
+    /// <param name="s">The <see cref="SignatureStroke"/> containing the points and smoothing information to generate the path data.</param>
+    /// <returns>A string representing the SVG path data. The path begins with a "Move To" command for the first point, followed
+    /// by "Line To" or "Quadratic Curve To" commands for subsequent points, depending on the smoothing setting.</returns>
     private static string BuildSvgPathData(SignatureStroke s)
     {
         var sb = new System.Text.StringBuilder();

@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CacheStorageAccessor>();
         services.AddHttpClient<IStaticAssetService, HttpBasedStaticAssetService>();
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
+        services.AddScoped<DownloadFile>();
 
         return services;
     }
@@ -30,6 +31,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CacheStorageAccessor>();
         services.AddHttpClient<IStaticAssetService, ServerStaticAssetService>();
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
+        services.AddScoped<DownloadFile>();
 
         return services;
     }

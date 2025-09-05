@@ -113,10 +113,9 @@ public class SignatureSettings
     public float SeparatorY { get; set; } = 0.6f;
 
     /// <summary>
-    /// Gets or sets the color of the separator line in the signature area.
+    /// Gets a value indicating whether a grid should be displayed in the signature area.
     /// </summary>
-    [Parameter]
-    public bool ShowGrid { get; set; }
+    public bool ShowGrid => GridType != SignatureGridType.None;
 
     /// <summary>
     /// Gets or sets the type of grid to be displayed in the signature area.
@@ -202,52 +201,87 @@ public class SignatureSettings
     /// <summary>
     /// Updates the internal values of the signature settings and triggers a re-render of the parent component.
     /// </summary>
-    /// <param name="strokeWidth">Width of the stroke.</param>
-    /// <param name="penColor">Color of the pen.</param>
-    /// <param name="penOpacity">Opacity of the pen.</param>
-    /// <param name="strokeStyle">Style of the stroke.</param>
-    /// <param name="showSeparatorLine">Show the separator line.</param>
-    /// <param name="useSmooth">True to use smooth, false otherwise.</param>
-    /// <param name="usePointerPressure">Use the pointer pressure.</param>
-    /// <param name="useShadow">Use the shadow.</param>
-    /// <param name="shadowOpacity">Opacity of the shadow.</param>
-    /// <param name="shadowColor">Color of the shadow.</param>
-    /// <param name="showGrid">Shows the grid.</param>
+    /// <param name="state">The current state of the signature component.</param>
     internal void UpdateInternalValues(
-        float strokeWidth,
-        string penColor,
-        float penOpacity,
-        SignatureLineStyle strokeStyle,
-        bool showSeparatorLine,
-        bool useSmooth,
-        bool usePointerPressure,
-        bool useShadow,
-        float shadowOpacity,
-        string shadowColor,
-        bool showGrid)
+        SignatureState state)
     {
-        StrokeWidth = strokeWidth;
-        PenColor = penColor;
-        PenOpacity = penOpacity;
-        StrokeStyle = strokeStyle;
-        ShowSeparatorLine = showSeparatorLine;
-        Smooth = useSmooth;
-        UsePointerPressure = usePointerPressure;
-        UseShadow = useShadow;
-        ShadowOpacity = shadowOpacity;
-        ShadowColor = shadowColor;
-        ShowGrid = showGrid;
+        if (state.StrokeWidth != StrokeWidth)
+        {
+            StrokeWidth = state.StrokeWidth;
+        }
+
+        if (state.PenColor != PenColor)
+        {
+            PenColor = state.PenColor;
+        }
+
+        if (state.PenOpacity != PenOpacity)
+        {
+            PenOpacity = state.PenOpacity;
+        }
+
+        if (state.StrokeStyle != StrokeStyle)
+        {
+            StrokeStyle = state.StrokeStyle;
+        }
+
+        if (state.ShowSeparatorLine != ShowSeparatorLine)
+        {
+            ShowSeparatorLine = state.ShowSeparatorLine;
+        }
+
+        if (state.UseShadow != UseShadow)
+        {
+            UseShadow = state.UseShadow;
+        }
+
+        if (state.ShadowOpacity != ShadowOpacity)
+        {
+            ShadowOpacity = state.ShadowOpacity;
+        }
+
+        if (state.ShadowColor != ShadowColor)
+        {
+            ShadowColor = state.ShadowColor;
+        }
+
+        if (state.GridType != GridType)
+        {
+            GridType = state.GridType;
+        }
+
+        if (state.UseSmooth != Smooth)
+        {
+            Smooth = state.UseSmooth;
+        }
+
+        if (state.UsePointerPressure != UsePointerPressure)
+        {
+            UsePointerPressure = state.UsePointerPressure;
+        }
+
         Parent?.InvalidateRender();
     }
 
     /// <summary>
-    /// Handles changes to the visibility of the grid.
+    /// Resets the signature settings to their default values.
     /// </summary>
-    /// <param name="showGrid">A value indicating whether the grid should be displayed.  <see langword="true"/> to show the grid; otherwise,
-    /// <see langword="false"/>.</param>
-    internal void OnShowGridChanged(bool showGrid)
+    internal void Reset()
     {
-        ShowGrid = showGrid;
-        Parent?.InvalidateRender();
+        Tool = SignatureTool.Pen;
+        GridType = SignatureGridType.None;
+        StrokeWidth = 2.0f;
+        StrokeColor = "#000000";
+        PenColor = "#000000";
+        ShadowColor = "#000000";
+        ShadowOpacity = 0.6f;
+        PenOpacity = 1.0f;
+        StrokeStyle = SignatureLineStyle.Solid;
+        Smooth = true;
+        UseShadow = false;
+        UsePointerPressure = false;
+        BackgroundColor = "#FFFFFF";
+        ShowSeparatorLine = false;
+        SeparatorLineColor = "#808080";
     }
 }

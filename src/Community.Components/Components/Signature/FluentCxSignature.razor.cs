@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
@@ -15,19 +16,24 @@ public partial class FluentCxSignature
     #region Fields
 
     /// <summary>
-    /// Represents the collection of strokes that make up the signature.
+    /// Represents all available line styles.
     /// </summary>
-    private readonly List<SignatureStroke> _strokes = [];
+    private static readonly SignatureLineStyle[] _allLineStyles = Enum.GetValues<SignatureLineStyle>();
 
     /// <summary>
-    /// Represents the stack of undone strokes for redo functionality.
+    /// Represents all available export formats.
     /// </summary>
-    private readonly Stack<SignatureStroke> _redoStrokes = [];
+    private static readonly SignatureExportFormat[] _exportFormats = Enum.GetValues<SignatureExportFormat>();
 
     /// <summary>
     /// Represents the reference to the signature canvas element in the DOM.
     /// </summary>
     private ElementReference _previewCanvas;
+
+    /// <summary>
+    /// Represents the reference to the pen preview canvas element in the DOM.
+    /// </summary>
+    private ElementReference _previewPenCanvas;
 
     /// <summary>
     /// Represents the JavaScript module for interop calls.
@@ -60,83 +66,19 @@ public partial class FluentCxSignature
     private bool _isSettingsOpen;
 
     /// <summary>
-    /// Represents the current tool selected for drawing on the signature canvas.
-    /// </summary>
-    private SignatureTool _currentTool;
-
-    /// <summary>
     /// Represents the render fragment for the label.
     /// </summary>
     private readonly RenderFragment<string> _renderLabel;
 
-    /// <summary>
-    /// Represents a value indicating whether the grid is shown.
-    /// </summary>
-    private bool _showGrid;
-
-    /// <summary>
-    /// Represents the width of the stroke.
-    /// </summary>
-    private float _strokeWidth;
-
-    /// <summary>
-    /// Represents the color of the stroke.
-    /// </summary>
-    private string _penColor = string.Empty;
-
-    /// <summary>
-    /// Represents the opacity of the stroke.
-    /// </summary>
-    private float _penOpacity;
-
-    /// <summary>
-    /// Represents the style of the stroke.
-    /// </summary>
-    private SignatureLineStyle _strokeStyle;
-
-    /// <summary>
-    /// Represents a value indicating if the line separator is visible.
-    /// </summary>
-    private bool _showSeparatorLine;
-
-    /// <summary>
-    /// Represents a value indicating if the signature use smoothing.
-    /// </summary>
-    private bool _useSmooth;
-
-    /// <summary>
-    /// Represents a value indicating if we use the pressure of the pointer.
-    /// </summary>
-    private bool _usePointerPressure;
-
-    /// <summary>
-    /// Represents a value indicating if the shadow is used.
-    /// </summary>
-    private bool _useShadow;
-
-    /// <summary>
-    /// Represents the opacity of the shadow.
-    /// </summary>
-    private float _shadowOpacity;
-
-    /// <summary>
-    /// Represents the color of the shadow.
-    /// </summary>
-    private string _shadowColor = string.Empty;
-
-    /// <summary>
-    /// Represents the format of the export.
-    /// </summary>
-    private SignatureExportFormat _exportFormat;
-
-    /// <summary>
-    /// Represents the available stroke styles.
-    /// </summary>
-    private static readonly SignatureLineStyle[] _strokeStyles = Enum.GetValues<SignatureLineStyle>();
-
     #endregion Fields
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the state of the signature.
+    /// </summary>
+    [Inject]
+    private SignatureState State { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the export settings for the signature.
@@ -212,35 +154,26 @@ public partial class FluentCxSignature
     {
         Width = IntrinsicWidth,
         Height = IntrinsicHeight,
-        StrokeWidth = SignatureSettings.StrokeWidth,
-        PenColor = SignatureSettings.PenColor,
-        PenOpacity = SignatureSettings.PenOpacity,
-        StrokeStyle = SignatureSettings.StrokeStyle,
-        Smooth = SignatureSettings.Smooth,
-        UseShadow = SignatureSettings.UseShadow,
-        UsePointerPressure = SignatureSettings.UsePointerPressure,
+        StrokeWidth = State.StrokeWidth,
+        PenColor = State.PenColor,
+        PenOpacity = State.PenOpacity,
+        StrokeStyle = State.StrokeStyle,
+        Smooth = State.UseSmooth,
+        UseShadow = State.UseShadow,
+        UsePointerPressure = State.UsePointerPressure,
         Background = SignatureSettings.BackgroundColor,
-        ShowSeparatorLine = SignatureSettings.ShowSeparatorLine,
+        ShowSeparatorLine = State.ShowSeparatorLine,
         SeparatorY = SignatureSettings.SeparatorY,
-        ShowGrid = SignatureSettings.ShowGrid,
+        ShowGrid = State.ShowGrid,
         GridType = SignatureSettings.GridType,
         GridSpacing = SignatureSettings.GridSpacing,
         GridColor = SignatureSettings.GridColor,
         GridOpacity = SignatureSettings.GridOpacity,
         WatermarkText = WatermarkSettings.Text,
-        WatermarkOpacity = WatermarkSettings.Opacity
+        WatermarkOpacity = WatermarkSettings.Opacity,
+        ShadowColor = State.ShadowColor,
+        ShadowOpacity = State.ShadowOpacity
     };
-
-    /// <summary>
-    /// Gets or sets the <see cref="FluentDialog"/> instance.
-    /// </summary>
-    [CascadingParameter]
-    private FluentDialog Dialog { get; set; } = default!;
-
-    /// <summary>
-    /// Gets a value indicating whether the component is currently displayed within a dialog.
-    /// </summary>
-    private bool IsInDialog => Dialog is not null;
 
     /// <summary>
     /// Gets or sets the capabilities of the signature component.
@@ -285,7 +218,7 @@ public partial class FluentCxSignature
     /// <summary>
     /// Gets the separator Y position in pixels.
     /// </summary>
-    private string SeparatorYPx => $"{(int)(SignatureSettings.SeparatorY * IntrinsicHeight)}px";
+    private string SeparatorYPx => $"calc(100% * {SignatureSettings.SeparatorY.ToString(CultureInfo.InvariantCulture)})";
 
     /// <summary>
     /// Gets the internal style for the canvas element.
@@ -301,34 +234,14 @@ public partial class FluentCxSignature
     #region Methods
 
     /// <summary>
-    /// Occurs when the grid visibility is toggled.
+    /// Occurs when the grid type has changed.
     /// </summary>
+    /// <param name="value">The new grid type.</param>
     /// <returns>Returns a task which shows or hides the grid.</returns>
-    private async Task OnSwapGridAsync()
+    private async Task OnChangeGridAsync(SignatureGridType value)
     {
-        _showGrid = !_showGrid;
-        SignatureSettings.OnShowGridChanged(_showGrid);
-        await SyncOptionsAsync(_previewCanvas);
-    }
-
-    /// <summary>
-    /// Occurs when a value has changed.
-    /// </summary>
-    private async Task OnValueChanged()
-    {
-        SignatureSettings.UpdateInternalValues(
-            _strokeWidth,
-            _penColor,
-            _penOpacity,
-            _strokeStyle,
-            _showSeparatorLine,
-            _useSmooth,
-            _usePointerPressure,
-            _useShadow,
-            _shadowOpacity,
-            _shadowColor,
-            _showGrid);
-
+        State.GridType = value;
+        SignatureSettings.UpdateInternalValues(State);
         await SyncOptionsAsync(_previewCanvas);
     }
 
@@ -339,9 +252,9 @@ public partial class FluentCxSignature
     /// <returns></returns>
     private async Task OnChangeToolAsync(SignatureTool tool)
     {
-        if (_currentTool != tool)
+        if (State.CurrentTool != tool)
         {
-            _currentTool = tool;
+            State.CurrentTool = tool;
 
             if (_module is not null)
             {
@@ -366,17 +279,6 @@ public partial class FluentCxSignature
         {
             await OnExport.InvokeAsync(new SignatureExportResult(filename, bytes, mime, ExportSettings.Format));
         }
-    }
-
-    /// <summary>
-    /// Handles the maximize event asynchronously.
-    /// </summary>
-    /// <remarks>This method completes immediately and does not perform any operations. It can be overridden
-    /// in derived classes to provide custom behavior when a maximize event occurs.</remarks>
-    /// <returns></returns>
-    private Task OnMaximizeAsync()
-    {
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -413,23 +315,6 @@ public partial class FluentCxSignature
     }
 
     /// <summary>
-    /// Retrieves the label associated with the specified <see cref="SignatureLineStyle"/> value.
-    /// </summary>
-    /// <param name="value">The <see cref="SignatureLineStyle"/> value for which to retrieve the label.</param>
-    /// <returns>A string representing the label corresponding to the specified <paramref name="value"/>. If the value does not
-    /// match a predefined label, the string representation of the value is returned.</returns>
-    private string GetLabelFromValue(SignatureLineStyle value)
-    {
-        return value switch
-        {
-            SignatureLineStyle.Solid => Labels.SolidLine,
-            SignatureLineStyle.Dashed => Labels.DashedLine,
-            SignatureLineStyle.Dotted => Labels.DottedLine,
-            _ => value.ToString() ?? string.Empty,
-        };
-    }
-
-    /// <summary>
     /// Clears all strokes and resets the signature canvas to its initial state.
     /// </summary>
     /// <remarks>This method clears the internal stroke collections, resets the current value, and notifies
@@ -439,8 +324,7 @@ public partial class FluentCxSignature
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task OnClearAsync()
     {
-        _strokes.Clear();
-        _redoStrokes.Clear();
+        State.Clear();
         CurrentValue = null;
         EditContext?.NotifyFieldChanged(FieldIdentifier);
 
@@ -464,14 +348,16 @@ public partial class FluentCxSignature
     /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnUndoAsync()
     {
-        if (_strokes.Count == 0)
+        var strokes = State.Strokes;
+
+        if (strokes.Count == 0)
         {
             return;
         }
 
-        var s = _strokes[^1];
-        _strokes.RemoveAt(_strokes.Count - 1);
-        _redoStrokes.Push(s);
+        var s = strokes[^1];
+        strokes.RemoveAt(strokes.Count - 1);
+        State.RedoStrokes.Push(s);
         await RefreshCanvasAsync();
         UpdateCurrentValueDefault();
     }
@@ -485,13 +371,15 @@ public partial class FluentCxSignature
     /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnRedoAsync()
     {
-        if (_redoStrokes.Count == 0)
+        var redoStrokes = State.RedoStrokes;
+
+        if (redoStrokes.Count == 0)
         {
             return;
         }
 
-        var s = _redoStrokes.Pop();
-        _strokes.Add(s);
+        var s = redoStrokes.Pop();
+        State.Strokes.Add(s);
         await RefreshCanvasAsync();
         UpdateCurrentValueDefault();
     }
@@ -506,7 +394,7 @@ public partial class FluentCxSignature
     {
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, _strokes, Options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, State.Strokes, Options, GetBackgroundImage(), GetWatermarkImage());
         }
     }
 
@@ -535,7 +423,58 @@ public partial class FluentCxSignature
     /// </list></returns>
     private (byte[] bytes, string mime, string filename) Export()
     {
-        return SignatureExporter.Export(IntrinsicWidth, IntrinsicHeight, _strokes, ExportSettings, SignatureSettings, WatermarkSettings);
+        return SignatureExporter.Export(IntrinsicWidth, IntrinsicHeight, State.Strokes, ExportSettings, SignatureSettings, WatermarkSettings);
+    }
+
+    /// <summary>
+    /// Updates the preview line on the canvas asynchronously based on the current pen settings.
+    /// </summary>
+    /// <remarks>This method invokes a JavaScript function to render the preview line using the specified pen
+    /// properties,  such as stroke width, opacity, color, and style. The method does nothing if the module is not
+    /// initialized.</remarks>
+    /// <returns>Returns a task which updates the preview of the line.</returns>
+    private async Task UpdatePreviewAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.InvokeVoidAsync("fluentCxSignature.drawPreviewLine", _previewPenCanvas, new
+            {
+                thickness = State.StrokeWidth,
+                opacity = State.PenOpacity,
+                color = State.PenColor,
+                smooth = State.UseSmooth,
+                shadow = State.UseShadow,
+                shadowOpacity = State.ShadowOpacity,
+                shadowColor = State.ShadowColor,
+                style = State.StrokeStyle
+            });
+        }
+    }
+
+    /// <summary>
+    /// Updates the preview asynchronously after a change has occurred.
+    /// </summary>
+    /// <returns>Returns a task which updates the preview of the line.</returns>
+    private async Task OnAfterChangeAsync()
+    {
+        SignatureSettings.UpdateInternalValues(State);
+        ExportSettings.UpdateInternalValues(State);
+        await UpdatePreviewAsync();
+        _invalidateRender = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>
+    /// Occurs when the active ID changes.
+    /// </summary>
+    /// <param name="id">Id which has changed.</param>
+    /// <returns>Returns a task which updates the pen.</returns>
+    private async Task OnActiveIdChangedAsync(string id)
+    {
+        if (string.Equals(id, $"accordion-item-{Id}"))
+        {
+            await OnAfterChangeAsync();
+        }
     }
 
     /// <inheritdoc />
@@ -566,17 +505,18 @@ public partial class FluentCxSignature
             var options = Options;
             _module = await Runtime.InvokeAsync<IJSObjectReference>("import", "./_content/FluentUI.Blazor.Community.Components/Components/Signature/FluentCxSignature.razor.js");
             await _module.InvokeVoidAsync("fluentCxSignature.initialize", _previewCanvas, _signatureDotNetRef, options, GetBackgroundImage(), GetWatermarkImage());
-            await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, _strokes, options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, State.Strokes, options, GetBackgroundImage(), GetWatermarkImage());
         }
-        else if (_invalidateRender)
+
+        if (_invalidateRender)
         {
             _invalidateRender = false;
 
             if (_module is not null)
             {
                 var options = Options;
-                await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, _strokes, options, GetBackgroundImage(), GetWatermarkImage());
-                await OnChangeToolAsync(_currentTool);
+                await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, State.Strokes, options, GetBackgroundImage(), GetWatermarkImage());
+                await OnChangeToolAsync(State.CurrentTool);
             }
         }
     }
@@ -586,19 +526,8 @@ public partial class FluentCxSignature
     {
         base.OnInitialized();
 
-        var settings = SignatureSettings;
-
-        _strokeWidth = settings.StrokeWidth;
-        _penColor = settings.PenColor;
-        _penOpacity = settings.PenOpacity;
-        _strokeStyle = settings.StrokeStyle;
-        _showSeparatorLine = settings.ShowSeparatorLine;
-        _useSmooth = settings.Smooth;
-        _usePointerPressure = settings.UsePointerPressure;
-        _useShadow = settings.UseShadow;
-        _shadowOpacity = settings.ShadowOpacity;
-        _shadowColor = settings.ShadowColor;
-        _showGrid = settings.ShowGrid;
+        State.Update(SignatureSettings);
+        State.Update(ExportSettings);
     }
 
     /// <summary>
@@ -609,8 +538,8 @@ public partial class FluentCxSignature
     [JSInvokable("OnStrokeCompleted")]
     public async Task OnStrokeCompletedAsync(SignatureStroke value)
     {
-        _redoStrokes.Clear();
-        _strokes.Add(value);
+        State.RedoStrokes.Clear();
+        State.Strokes.Add(value);
         await RefreshCanvasAsync();
         UpdateCurrentValueDefault();
     }

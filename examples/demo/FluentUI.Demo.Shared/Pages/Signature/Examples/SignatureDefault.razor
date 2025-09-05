@@ -1,14 +1,17 @@
-﻿<div style="height: 500px">
+﻿@using FluentUI.Demo.Shared.Infrastructure
+<div style="height: 500px">
     <FluentCxSignature IntrinsicHeight=150
                        IntrinsicWidth=600
                        OnExport="OnSignatureExported" />
 </div>
 
 @code {
-    private void OnSignatureExported(SignatureExportResult result)
+
+    [Inject]
+    private DownloadFile DownloadFile { get; set; } = null!;
+
+    private async Task OnSignatureExported(SignatureExportResult result)
     {
-        // Handle the exported signature result here
-        // For example, you can save the image or display it
-        Console.WriteLine($"Signature exported in format: {result.Format}, Size: {result.Data.Length} bytes");
+        await DownloadFile.DowloadAsync(result.FileName, result.Data, result.ContentType);
     }
 }

@@ -6,7 +6,8 @@ const solid = 0;
 const dashed = 1;
 const dotted = 2;
 
-const lines = 0;
+const lines = 1;
+const dots = 2;
 
 function getCtx(canvas) {
   const ctx = canvas.getContext('2d');
@@ -55,7 +56,7 @@ function pointerPos(canvas, e) {
   return { x, y };
 }
 
-function loadImageFromB64(b64, onload) {
+function loadImage(b64, onload) {
   if (!b64) return null;
   const img = new Image();
   img.onload = () => onload && onload();
@@ -66,12 +67,12 @@ function loadImageFromB64(b64, onload) {
 function ensureImages(s, backgroundImage, watermarkImage, rerender) {
   if (backgroundImage !== undefined) {
     s.backgroundImage = backgroundImage;
-    s.bgImg = loadImageFromB64(backgroundImage, () => rerender && rerender());
+    s.bgImg = loadImage(backgroundImage, () => rerender && rerender());
   }
 
   if (watermarkImage !== undefined) {
     s.watermarkImage = watermarkImage;
-    s.wmImg = loadImageFromB64(watermarkImage, () => rerender && rerender());
+    s.wmImg = loadImage(watermarkImage, () => rerender && rerender());
   }
 }
 
@@ -127,7 +128,7 @@ function drawGrid(ctx, s) {
   ctx.fillStyle = rgba;
   ctx.lineWidth = 1;
 
-  if (opts.gridType === 'Dots') {
+  if (opts.gridType === dots) {
     for (let x = 0; x < opts.width; x += spacing) {
       for (let y = 0; y < opts.height; y += spacing) {
         ctx.beginPath();
@@ -135,7 +136,7 @@ function drawGrid(ctx, s) {
         ctx.fill();
       }
     }
-  } else {
+  } else if(opts.gridType === lines) {
     // Lines
     for (let x = 0; x < opts.width; x += spacing) {
       ctx.beginPath();
@@ -197,7 +198,7 @@ function renderAll(canvas, strokes, s, inProgressStroke) {
       ctx.globalCompositeOperation = 'source-over';
       ctx.strokeStyle = hexToRgba(st.colorHex || s.opts.penColor, st.opacity ?? s.opts.penOpacity);
       if (s.opts.useShadow) {
-        ctx.shadowColor = 'rgba(0,0,0,0.24)';
+        ctx.shadowColor = hexToRgba(s.opts.shadowColor, s.opts.shadowOpacity);
         ctx.shadowBlur = 1.5;
       } else {
         ctx.shadowBlur = 0;
@@ -277,7 +278,9 @@ function updateOptions(canvas, opts) {
     gridColor: opts.gridColor || '#e5e7eb',
     gridOpacity: opts.gridOpacity ?? 0.8,
     watermarkText: opts.watermarkText || '',
-    watermarkOpacity: opts.watermarkOpacity ?? 0.15
+    watermarkOpacity: opts.watermarkOpacity ?? 0.15,
+    shadowColor: opts.shadowColor || '#000000',
+    shadowOpacity: opts.shadowOpacity ?? 0.24
   };
   return s;
 }
@@ -412,6 +415,44 @@ function buildCompletedStroke(s) {
   };
 }
 
+function drawPreviewLine(canvas, options) {
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.globalAlpha = options.opacity;
+  ctx.lineWidth = options.thickness;
+  ctx.strokeStyle = options.color;
+  ctx.lineJoin = "round";
+  ctx.lineCap = options.smooth ? "round" : "butt";
+
+  if (options.shadow) {
+    ctx.shadowColor = options.shadowColor;
+    ctx.shadowBlur = 4;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    ctx.globalAlpha = options.shadowOpacity;
+  } else {
+    ctx.shadowColor = "transparent";
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+  }
+
+  if (options.style === dashed) {
+    ctx.setLineDash([10, 5]);
+  } else if (options.style === dotted) {
+    ctx.setLineDash([2, 4]);
+  } else {
+    ctx.setLineDash([]);
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(20, canvas.height / 2);
+  ctx.lineTo(canvas.width - 20, canvas.height / 2);
+  ctx.stroke();
+  ctx.globalAlpha = 1.0;
+};
+
 export const fluentCxSignature = {
   initialize: function (canvas, dotnetRef, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
@@ -470,5 +511,9 @@ export const fluentCxSignature = {
 
   detachInput: function (canvas) {
     detachInput(canvas);
+  },
+
+  drawPreviewLine: function (canvas, options) {
+    drawPreviewLine(canvas, options);
   }
 };

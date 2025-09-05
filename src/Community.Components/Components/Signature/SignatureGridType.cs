@@ -6,6 +6,11 @@ namespace FluentUI.Blazor.Community.Components;
 public enum SignatureGridType
 {
     /// <summary>
+    /// No grid is displayed.
+    /// </summary>
+    None,
+
+    /// <summary>
     /// Represents a grid made up of lines.
     /// </summary>
     Lines,

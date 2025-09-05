@@ -2,8 +2,29 @@ using FluentUI.Blazor.Community.Helpers;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Exports a signature as a file in the specified format.
+/// </summary>
+/// <remarks>The export format is determined by the <see cref="SignatureExportSettings.Format"/> property. 
+/// Supported formats include PNG, JPEG, WebP, SVG, and PDF. If the application is running in a  browser environment,
+/// only SVG export is supported.</remarks>
 internal static class SignatureExporter
 {
+    /// <summary>
+    /// Exports a signature as a file in the specified format, including optional settings for quality, signature
+    /// appearance, and watermarking.
+    /// </summary>
+    /// <remarks>The export format is determined by the <see cref="SignatureExportSettings.Format"/> property.
+    /// Supported formats include PNG, JPEG, WebP, SVG, and PDF. If the application is running in a browser environment,
+    /// only SVG export is supported.</remarks>
+    /// <param name="width">The width of the signature canvas, in pixels.</param>
+    /// <param name="height">The height of the signature canvas, in pixels.</param>
+    /// <param name="strokes">A collection of strokes that define the signature.</param>
+    /// <param name="exportSettings">The settings that specify the export format and quality.</param>
+    /// <param name="signatureSettings">The settings that define the appearance of the signature.</param>
+    /// <param name="watermarkSettings">The settings for applying a watermark to the exported signature.</param>
+    /// <returns>A tuple containing the exported file's byte array, MIME type, and filename.  The MIME type and filename are
+    /// determined based on the export format.</returns>
     internal static (byte[] bytes, string mime, string filename) Export(
         int width,
         int height,

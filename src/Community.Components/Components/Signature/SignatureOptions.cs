@@ -8,10 +8,10 @@ namespace FluentUI.Blazor.Community.Components;
 /// watermark, and more. Default values are provided for all properties, allowing for  easy customization of only the
 /// desired options.</remarks>
 /// <param name="StrokeWidth">Represents the width of the stroke.</param>
-/// <param name="StrokeColor">Represents the color of the stroke.</param>
 /// <param name="PenColor">Represents the color of the pen.</param>
 /// <param name="PenOpacity">Represents the opacity of the pen.</param>
 /// <param name="ShadowColor">Represents the color of the shadow.</param>
+/// <param name="ShadowOpacity">Represents the opacity of the shadow.</param>
 /// <param name="StrokeStyle">Represents the style of the stroke.</param>
 /// <param name="Smooth">Represents if the stroke are smooth.</param>
 /// <param name="UseShadow">Value indicating if the shadow is used.</param>
@@ -31,10 +31,10 @@ namespace FluentUI.Blazor.Community.Components;
 /// <param name="WatermarkOpacity">Represents the opacity of the watermark.</param>
 internal record SignatureOptions(
     float StrokeWidth = 2.0f,
-    string StrokeColor = "#000000",
     string PenColor = "#000000",
     float PenOpacity = 1.0f,
     string ShadowColor = "#000000",
+    float ShadowOpacity = 0.3f,
     SignatureLineStyle StrokeStyle = SignatureLineStyle.Solid,
     bool Smooth = true,
     bool UseShadow = false,
