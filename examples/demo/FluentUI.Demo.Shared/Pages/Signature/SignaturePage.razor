@@ -15,6 +15,12 @@
 
     If the component is running on server side, all export format are supported.
     If the component is running on WebAssembly, only SVG is supported due to browser limitations.
+
+    Two ways to define the size of the signature area are supported:
+    <ul>
+        <li>Using the <code>IntrinsicWidth</code> and <code>IntrinsicHeight</code> parameters to set fixed dimensions, when <code>IntrinsicSize</code> is set to Manual.</li>
+        <li>When set <code>IntrinsicSize</code> to Auto to set the intrinsic size of the canvas to the size of its container.</li>
+    </ul>
 </p>
 
 <h2 id="example">Examples</h2>

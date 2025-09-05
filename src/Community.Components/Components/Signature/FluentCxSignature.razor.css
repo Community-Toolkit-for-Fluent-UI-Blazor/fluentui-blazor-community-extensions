@@ -3,6 +3,8 @@
   flex-direction: column;
   gap: 12px;
   font-family: 'Segoe UI', sans-serif;
+  width: 100%;
+  height: 100%;
 }
 
 .fluent-cx-signature-preview {

@@ -453,10 +453,32 @@ function drawPreviewLine(canvas, options) {
   ctx.globalAlpha = 1.0;
 };
 
+function setAutoIntrinsicSize(canvas) {
+  const el = canvas?.parentElement;
+
+  if (el) {
+    const rect = el.getBoundingClientRect();
+    const ratio = window.devicePixelRatio || 1;
+
+    canvas.width = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+
+    canvas.getContext("2d").scale(ratio, ratio);
+
+    const s = state.get(canvas);
+    s.dotnet?.invokeMethodAsync('OnIntrinsicSizeSet', Math.round(canvas.width), Math.round(canvas.height));
+  }
+}
+
 export const fluentCxSignature = {
   initialize: function (canvas, dotnetRef, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
     s.dotnet = dotnetRef;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+    });
+
+    resizeObserver.observe(canvas.parentElement);
 
     ensureImages(s, backgroundImage, watermarkImage, () => {
       renderAll(canvas, s.strokes, s, null);
@@ -515,5 +537,9 @@ export const fluentCxSignature = {
 
   drawPreviewLine: function (canvas, options) {
     drawPreviewLine(canvas, options);
+  },
+
+  setAutoIntrinsicSize: function (canvas) {
+    setAutoIntrinsicSize(canvas);
   }
 };

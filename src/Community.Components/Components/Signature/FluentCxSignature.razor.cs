@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
@@ -70,6 +71,16 @@ public partial class FluentCxSignature
     /// </summary>
     private readonly RenderFragment<string> _renderLabel;
 
+    /// <summary>
+    /// Represents the intrinsic width of the signature component.
+    /// </summary>
+    private int _intrinsicWidth;
+
+    /// <summary>
+    /// Represents the intrinsic height of the signature component.
+    /// </summary>
+    private int _intrinsicHeight;
+
     #endregion Fields
 
     #region Properties
@@ -97,18 +108,6 @@ public partial class FluentCxSignature
     /// </summary>
     [Parameter]
     public SignatureWatermarkSettings WatermarkSettings { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the intrinsic width of the signature component.
-    /// </summary>
-    [Parameter]
-    public int IntrinsicWidth { get; set; } = 800;
-
-    /// <summary>
-    /// Gets or sets the intrinsic height of the signature component.
-    /// </summary>
-    [Parameter]
-    public int IntrinsicHeight { get; set; } = 300;
 
     /// <summary>
     /// Gets or sets the width of the signature component.
@@ -152,8 +151,8 @@ public partial class FluentCxSignature
     /// as stroke width, pen color, grid type, and watermark text.</remarks>
     private SignatureOptions Options => new()
     {
-        Width = IntrinsicWidth,
-        Height = IntrinsicHeight,
+        Width = _intrinsicWidth,
+        Height = _intrinsicHeight,
         StrokeWidth = State.StrokeWidth,
         PenColor = State.PenColor,
         PenOpacity = State.PenOpacity,
@@ -423,7 +422,7 @@ public partial class FluentCxSignature
     /// </list></returns>
     private (byte[] bytes, string mime, string filename) Export()
     {
-        return SignatureExporter.Export(IntrinsicWidth, IntrinsicHeight, State.Strokes, ExportSettings, SignatureSettings, WatermarkSettings);
+        return SignatureExporter.Export(_intrinsicWidth, _intrinsicHeight, State.Strokes, ExportSettings, SignatureSettings, WatermarkSettings);
     }
 
     /// <summary>
@@ -502,10 +501,10 @@ public partial class FluentCxSignature
 
         if (firstRender)
         {
-            var options = Options;
             _module = await Runtime.InvokeAsync<IJSObjectReference>("import", "./_content/FluentUI.Blazor.Community.Components/Components/Signature/FluentCxSignature.razor.js");
-            await _module.InvokeVoidAsync("fluentCxSignature.initialize", _previewCanvas, _signatureDotNetRef, options, GetBackgroundImage(), GetWatermarkImage());
-            await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, State.Strokes, options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.initialize", _previewCanvas, _signatureDotNetRef, Options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.setAutoIntrinsicSize", _previewCanvas);
+            await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, State.Strokes, Options, GetBackgroundImage(), GetWatermarkImage());
         }
 
         if (_invalidateRender)
@@ -542,6 +541,23 @@ public partial class FluentCxSignature
         State.Strokes.Add(value);
         await RefreshCanvasAsync();
         UpdateCurrentValueDefault();
+    }
+
+    /// <summary>
+    /// Handles the completion of an auto-size operation by updating the intrinsic dimensions  and synchronizing the
+    /// canvas options.
+    /// </summary>
+    /// <param name="width">The new intrinsic width of the canvas, in pixels.</param>
+    /// <param name="height">The new intrinsic height of the canvas, in pixels.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [JSInvokable("OnIntrinsicSizeSet")]
+    public async Task OnIntrinsicSizeSetAsync(int width, int height)
+    {
+        _intrinsicWidth = width;
+        _intrinsicHeight = height;
+
+        await SyncOptionsAsync(_previewCanvas);
+        await RefreshCanvasAsync();
     }
 
     #endregion Methods
