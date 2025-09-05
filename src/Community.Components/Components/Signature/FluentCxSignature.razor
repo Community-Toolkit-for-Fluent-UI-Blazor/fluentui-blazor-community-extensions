@@ -48,7 +48,7 @@
             <FluentAccordion ActiveIdChanged="@OnActiveIdChangedAsync">
                 <FluentAccordionItem Id="@($"accordion-item-{Id}")" Heading="@Labels.Pen">
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="2">
-                        <FluentLabel>Aperçu du trait</FluentLabel>
+                        <FluentLabel>@Labels.StrokePreview</FluentLabel>
                         <canvas @ref="_previewPenCanvas" width="300" height="60" style="border:1px solid #ccc;"></canvas>
 
                         <FluentSlider Label="@Labels.StrokeWidth"

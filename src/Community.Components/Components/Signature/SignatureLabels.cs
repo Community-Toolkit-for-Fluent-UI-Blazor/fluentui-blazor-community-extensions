@@ -42,7 +42,8 @@ public record SignatureLabels
         ExportOptions = "Options d'exportation",
         NoGrid = "Aucune",
         LinesGrid = "Lignes",
-        DotsGrid = "Points"
+        DotsGrid = "Points",
+        StrokePreview = "Aperçu du trait"
     };
 
     /// <summary>
@@ -184,4 +185,9 @@ public record SignatureLabels
     /// Gets or sets the label to select the "Dots grid" option.
     /// </summary>
     public string DotsGrid { get; set; } = "Dots";
+
+    /// <summary>
+    /// Gets or sets the label for the stroke preview.
+    /// </summary>
+    public string StrokePreview { get; set; } = "Stroke preview";
 }

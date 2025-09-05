@@ -8083,6 +8083,11 @@
             Gets or sets the label to select the "Dots grid" option.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.StrokePreview">
+            <summary>
+            Gets or sets the label for the stroke preview.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.SignatureLineStyle">
             <summary>
             Represents the available line styles for the signature component.
