@@ -10,7 +10,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// Represents the image inside a <see cref="FluentCxArtisticScatter"/>.
 /// </summary>
 public partial class ArtisticScatterItem
-    : FluentComponentBase, IDisposable, IAsyncDisposable
+    : FluentComponentBase, IAsyncDisposable
 {
     #region Fields
 
@@ -195,14 +195,6 @@ public partial class ArtisticScatterItem
     }
 
     /// <inheritdoc />
-    public void Dispose()
-    {
-        Parent?.Remove(this);
-
-        GC.SuppressFinalize(this);
-    }
-
-    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -232,6 +224,8 @@ public partial class ArtisticScatterItem
                 await _module.InvokeVoidAsync("dispose", Element);
                 await _module.DisposeAsync();
             }
+
+            Parent?.Remove(this);
         }
         catch (JSDisconnectedException) { }
 

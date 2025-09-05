@@ -806,9 +806,6 @@
         <member name="M:FluentUI.Blazor.Community.Components.ArtisticScatterItem.OnInitialized">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ArtisticScatterItem.Dispose">
-            <inheritdoc />
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ArtisticScatterItem.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
