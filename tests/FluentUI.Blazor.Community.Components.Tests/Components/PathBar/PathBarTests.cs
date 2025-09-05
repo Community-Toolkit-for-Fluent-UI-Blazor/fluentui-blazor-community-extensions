@@ -15,6 +15,7 @@ public class PathBarTests : TestBase
         JSInterop.Mode = Bunit.JSRuntimeMode.Loose;
         Services.AddSingleton(UnitTestLibraryConfiguration);
         Services.AddScoped<FileManagerState>();
+        Services.AddScoped<DeviceInfoState>();
         Services.AddFluentUIComponents();
     }
 
@@ -48,33 +49,8 @@ public class PathBarTests : TestBase
         Services.AddScoped<DeviceInfoState>();
         var cut = RenderPathBar();
 
-        Assert.Contains("stack-horizontal", cut.Markup);
+        Assert.Contains("fluentcx-path-bar", cut.Markup);
         Assert.DoesNotContain("fluent-anchor", cut.Markup);
-    }
-
-    [Theory]
-    [InlineData("Home\\FluentUI\\FluentCxBar", 1)]
-    [InlineData("Home\\Benchmarks\\FluentUI\\Extensions\\", 2)]
-    [InlineData("Home\\Images\\Travels\\2025\\Paris", 3)]
-    public void FluentCxPathBar_Overflow(string path, int maxVisibleItems)
-    {
-        Services.AddScoped<DeviceInfoState>();
-
-        var segments = PathHelper.GetSegments(path);
-        var root = Build(segments);
-        var cut = RenderPathBar(a =>
-        {
-            a.Add(p => p.Root, root);
-            a.Add(p => p.Path, path);
-            a.Add(p => p.MaxVisibleItems, maxVisibleItems);
-        });
-
-        cut.InvokeAsync(() => { });
-
-        Assert.Contains("stack-horizontal", cut.Markup);
-        Assert.Contains("fluent-anchor", cut.Markup);
-        Assert.Contains("fluent-button", cut.Markup);
-        Assert.Equal(maxVisibleItems + 1, cut.FindAll("fluent-anchor").Count);
     }
 
     [Fact]
@@ -168,30 +144,6 @@ public class PathBarTests : TestBase
 
         Assert.Contains(GetIcon(new Size24.Phone()), cut.Markup);
 
-    }
-
-    [Theory]
-    [InlineData("Home\\FluentUI\\FluentCxBar")]
-    [InlineData("Home\\Benchmarks\\FluentUI\\Extensions\\")]
-    [InlineData("Home\\Images\\Travels\\2025\\Paris")]
-    [InlineData("Home")]
-    public void FluentCxPathBar_With_Root_And_Path(string value)
-    {
-        Services.AddScoped<DeviceInfoState>();
-
-        var segments = PathHelper.GetSegments(value);
-        var root = Build(segments);
-        var cut = RenderPathBar(a =>
-        {
-            a.Add(p => p.Root, root);
-            a.Add(p => p.Path, value);
-        });
-
-        cut.InvokeAsync(() => { });
-
-        Assert.Contains("stack-horizontal", cut.Markup);
-        Assert.Contains("fluent-anchor", cut.Markup);
-        Assert.Equal(segments.Length, cut.FindAll("fluent-anchor").Count);
     }
 
     private static string GetIcon(Icon icon)

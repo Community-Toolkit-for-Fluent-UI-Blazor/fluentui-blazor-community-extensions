@@ -5,10 +5,10 @@
 <FluentStack Orientation="Orientation.Vertical" Style="height: 100%" VerticalGap="1">
     @if (FileNavigationViewVisible)
     {
-       <FluentCxPathBar Root="@PathRoot"
+       <FluentCxPathBar Root="@RootPath"
                         Path="@Path"
                         PathChanged="@OnPathChanged"
-                        MaxVisibleItems="@MaxVisibleItems"/>
+                        @ref=_fluentCxPathBar/>
     }
 
     @switch (State.View)

@@ -3519,6 +3519,11 @@
             Represents a value indicating if the file manager is busy.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FileManager`1._fluentCxPathBar">
+            <summary>
+            Represents the reference to the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar" />.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.FileNavigationViewVisible">
             <summary>
             Gets or sets a value indicating if the file navigation view is visible or not.
@@ -3579,7 +3584,7 @@
             Gets or sets the event callback when an item is downloaded.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.PathRoot">
+        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.RootPath">
             <summary>
             Gets or sets the items of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar" />.
             </summary>
@@ -3597,11 +3602,6 @@
         <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.State">
             <summary>
             Gets or sets the state of the file manager.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManager`1.MaxVisibleItems">
-            <summary>
-            Gets or sets the maximum visible items in the navigation bar
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnSelectedItemsChangedAsync">
@@ -3654,8 +3654,20 @@
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.OnInitialized">
             <inheritdoc />
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.InvalidatePathBarItemSize(System.String)">
+            <summary>
+            Invalidate the size of a specific item in the path bar.
+            </summary>
+            <param name="id">Identifier of the item</param>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.Dispose">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.ClearPathBar(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerBase`1">
             <summary>
@@ -5239,7 +5251,7 @@
             Represents the buffer dictionary of all files currenlty uploading.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._pathRoot">
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxFileManager`1._rootPath">
             <summary>
             Represents the list of all navigation items.
             </summary>
@@ -5436,14 +5448,6 @@
             Gets or sets the callback to use when a file or a folder is moved.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.MaxVisibleItems">
-            <summary>
-            Gets or sets the maximum number of visible items.
-            </summary>
-            <remarks>
-            By default, the number is 4.
-            </remarks>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.SmartphoneSwitchViewWidth">
             <summary>
             Gets or sets the width of the component when the view is switched to smartphone.
@@ -5550,14 +5554,6 @@
             </summary>
             <param name="e">Event args of the created folder.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.FindPathBarItem(FluentUI.Blazor.Community.Components.IPathBarItem,System.String)">
-            <summary>
-            Finds a <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> by its id.
-            </summary>
-            <param name="root">Root of the path.</param>
-            <param name="id">Id to find.</param>
-            <returns>Returns <see langword="null" /> if the item wasn't found, the item otherwise.</returns>
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.UpdatePathBar(FluentUI.Blazor.Community.Components.CreateFileManagerEntryEventArgs{`0})">
             <summary>
             Updates the path bar when a folder is created.
@@ -5581,13 +5577,6 @@
             <summary>
             Build the complete path root for the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxFileManager`1"/>.
             </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.BuildPathRootItem(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
-            <summary>
-            Build the items for the current path.
-            </summary>
-            <param name="values">Values use to transform each item into an instance of <see cref="T:FluentUI.Blazor.Community.Components.PathBarItem"/>.</param>
-            <returns>Returns the list of items.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.OnPathChanged(System.String)">
             <summary>
@@ -5675,6 +5664,13 @@
             Deletes an entry in an asynchronous way.
             </summary>
             <returns>Returns a task which deletes the entry when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.DeleteFromPathBar(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="idCollection"></param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.RemoveSelectedItemFromMainEntries(System.String,System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
             <summary>
@@ -6965,19 +6961,6 @@
             <param name="change">Value indicating if the media has changed.</param>
             <returns>Returns a task which raises the event callback <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged"/> when completed.</returns>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.FileManagerEntryPathBarItemComparer">
-            <summary>
-            Represents the comparer to compare two instance of <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> together.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FileManagerEntryPathBarItemComparer.Default">
-            <summary>
-            Gets the default comparer.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FileManagerEntryPathBarItemComparer.Compare(FluentUI.Blazor.Community.Components.IPathBarItem,FluentUI.Blazor.Community.Components.IPathBarItem)">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBar">
             <summary>
             Represents a path bar.
@@ -7015,6 +6998,94 @@
             Used when the <see cref="T:FluentUI.Blazor.Community.Components.DeviceInfo"/> is not null and if the device is a smartphone.
             </remarks>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar.OverflowButtonWidth">
+            <summary>
+            Represents the width of the overflow button.
+            </summary>
+            <remarks>
+            This value is fixed because the button has a fixed width of 32px.
+            </remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._overflowItems">
+            <summary>
+            Represents the overflow items.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._visibleItems">
+            <summary>
+            Represents the visible items.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._allItems">
+            <summary>
+            Represents all items.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar.JavascriptModule">
+            <summary>
+            Represents the JavaScript module for the component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._jsModule">
+            <summary>
+            Represents the JavaScript module reference.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._dotNetRef">
+            <summary>
+            Represents the dot net object reference.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._hasPathChanged">
+            <summary>
+            Represents a value indicating if the path has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._cachedSizes">
+            <summary>
+            Represents the cached values.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._lastContainerWidth">
+            <summary>
+            Represents the last container width.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._measuredCount">
+            <summary>
+            Represents the number of elements to measure.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._containerWidth">
+            <summary>
+            Represents the current container width.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._mutationValue">
+            <summary>
+            Represents the mutation observer values.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBar._refreshItemsSize">
+            <summary>
+            Represents a value indicating if the items size should be refreshed. 
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.InternalCss">
+            <summary>
+            Gets the css class which is used internally.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.JSRuntime">
+            <summary>
+            Gets or sets the javaScript runtime.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.Root">
             <summary>
             Gets or sets the root of the path, with all possible paths.
@@ -7035,30 +7106,32 @@
             Gets or sets the state for the information of the current used device.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.MaxVisibleItems">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.InvalidationThresholdPercentage">
             <summary>
-            Gets or sets the maximum number items visible.
+            Gets or sets the percentage threshold to invalidate the path.
+            </summary>
+            <remarks>This value is between 0.0 and 1.0</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.InvalidationThresholdPixels">
+            <summary>
+            Gets or sets the pixel threshold to invalidate the path.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnPathChangedAsync(System.String)">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.MutationObserverConfig">
             <summary>
-            Occurs when the <paramref name="path"/> has changed.
+            Gets or sets the mutation observer configuration.
             </summary>
-            <param name="path">Current path.</param>
-            <returns>Returns a task which raise the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.PathChanged"/> callback when completed.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnPathSelectedAsync(FluentUI.Blazor.Community.Components.IPathBarItem)">
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnCacheInvalidated">
+            <summary>
+            Gets or sets the event callback which is invoked when the cache is invalidated.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnPathSelectedAsync">
             <summary>
             Occurs when the path is selected by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItem"/>.
             </summary>
-            <param name="item">Represents the selected item.</param>
             <returns>Returns a task which changes the path when completed.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.SetPath(System.String)">
-            <summary>
-            Occurs when the path is selected by <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu"/>.
-            </summary>
-            <param name="path">Selected path.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.GetHomeIcon">
             <summary>
@@ -7066,16 +7139,83 @@
             </summary>
             <returns>Returns the home icon.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.Find(System.String[])">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.UpdatePathAsync(FluentUI.Blazor.Community.Components.IPathBarItem)">
             <summary>
-            Find all path bar items which are represented by the <paramref name="segments"/>.
+            Updates the path and invokes the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.PathChanged"/> callback.
             </summary>
-            <param name="segments">Array of string which represents the full path.</param>
-            <returns>Returns a list of the <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/>.</returns>
+            <param name="value"></param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.InvalidateItemSize(System.String)">
+            <summary>
+            Invalidates the size of the item with the specified <paramref name="id"/>.
+            </summary>
+            <param name="id">Identifier of the item.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.ClearItems(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Clears the cached sizes of the specified <paramref name="values"/>.
+            </summary>
+            <param name="values">Values to remove from the cached sizes.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.InvalidatePath">
+            <summary>
+            Invalidate the path and recalculates the visible and overflow items.
+            </summary>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnCacheInvalidatedAsync">
+            <summary>
+            Invalidates the cache and invokes the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnCacheInvalidated"/> callback.
+            </summary>
+            <returns>Returns a task which invokes the callback when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.RefreshPathBarAsync">
+            <summary>
+            Refreshes the path bar and recalculates the visible and overflow items.
+            </summary>
+            <returns>Returns a task which computes the visible and overflow items when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.UpdateCacheSizesAsync(System.Int32)">
+            <summary>
+            Updates the cache sizes starting from the specified index.
+            </summary>
+            <param name="startIndex">Index of the starting cache.</param>
+            <returns>Returns <see langword="true"/> when the cache is updated,
+            <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnParametersSetAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnResizeAsync(System.Double)">
+            <summary>
+            Occurs when the component is resized.
+            </summary>
+            <param name="width">New size of the component.</param>
+            <returns>Returns a task which refresh the component.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.OnMutatedAsync">
+            <summary>
+            Occurs when a mutation has changed.
+            </summary>
+            <returns>Returns a task which invalidate the cache.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBar.DisposeAsync">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBarItem">
             <summary>
             Represents a component inside a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPathBar"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPathBarItem._renderLabelFragment">
+            <summary>
+            Represents the render fragment for the label.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.Label">
@@ -7106,6 +7246,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.OnTapped">
             <summary>
             Gets or sets the callback when the component is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.InternalClass">
+            <summary>
+            Gets the internal class for the component.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBarItem.OnTappedAsync">
@@ -7149,7 +7294,7 @@
             Gets or sets the items of this menu.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu.OnItemTapped(FluentUI.Blazor.Community.Components.IPathBarItem)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPathBarItemMenu.OnItemTappedAsync(FluentUI.Blazor.Community.Components.IPathBarItem)">
             <summary>
             Occurs when the menu is selected.
             </summary>
@@ -7205,7 +7350,7 @@
             Gets or sets the items inside the overflow.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.OverflowButton.OnItemTapped(FluentUI.Blazor.Community.Components.IPathBarItem)">
+        <member name="M:FluentUI.Blazor.Community.Components.OverflowButton.OnItemTappedAsync(FluentUI.Blazor.Community.Components.IPathBarItem)">
             <summary>
             Occurs when the menu is selected.
             </summary>
@@ -7236,13 +7381,117 @@
         <member name="P:FluentUI.Blazor.Community.Components.PathBarItem.Parent">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.PathBarItem.Find(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.IPathBarItem},System.String)">
+        <member name="T:FluentUI.Blazor.Community.Components.PathBarItemBuilder">
+            <summary>
+            Represents a builder for the <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/>.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PathBarItemBuilder.Prefix">
+            <summary>
+            Represents the prefix used for the identifiers.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemBuilder.Remove(FluentUI.Blazor.Community.Components.IPathBarItem,System.String)">
+            <summary>
+            Removes the item with the specified <paramref name="id"/> from the <paramref name="root"/>.
+            </summary>
+            <param name="root">Root to use for searching the value to remove.</param>
+            <param name="id">Identifier to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemBuilder.Remove(FluentUI.Blazor.Community.Components.IPathBarItem,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Removes all the items with the specified <paramref name="idCollection"/> from the <paramref name="root"/>.
+            </summary>
+            <param name="root">Root to use for searching the values to remove.</param>
+            <param name="idCollection">Collection of identifiers to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemBuilder.From``1(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{``0}})">
+            <summary>
+            Builds a collection of <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> from the specified <paramref name="values"/>.
+            </summary>
+            <typeparam name="TItem">Type of the items.</typeparam>
+            <param name="values">Values to use to create the <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/>.</param>
+            <returns>Returns the <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> items.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemBuilder.Merge(FluentUI.Blazor.Community.Components.IPathBarItem,System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.IPathBarItem})">
+            <summary>
+            Merge the specified <paramref name="items"/> into the <paramref name="root"/>.
+            </summary>
+            <param name="root">Root to use to merge items.</param>
+            <param name="items">Items to merge.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemBuilder.Find(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.IPathBarItem},System.String,System.Boolean)">
             <summary>
             Finds the item inside <paramref name="items"/> by its <paramref name="id"/>.
             </summary>
             <param name="items">Items to use for search.</param>
             <param name="id">Id to find.</param>
+            <param name="removePrefix">Value indicating if the prefix must be removed.</param>
             <returns>Returns the item when found, <see langword="null" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemBuilder.GetAllParts(FluentUI.Blazor.Community.Components.IPathBarItem,System.String[])">
+            <summary>
+            Gets all the parts from the specified <paramref name="root"/> matching the specified <paramref name="segments"/>.
+            </summary>
+            <param name="root">Root to use to build the path.</param>
+            <param name="segments">Segments which represent the path.</param>
+            <returns>Returns the <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> which represents the parts of the path.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemBuilder.GetIdentifier(System.String)">
+            <summary>
+            Gets the identifier of the specified <paramref name="value"/>.
+            </summary>
+            <param name="value">Identifier of the item.</param>
+            <returns>Returns the real identifier of the item.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemBuilder.UpdateLabel(FluentUI.Blazor.Community.Components.IPathBarItem,System.String,System.String)">
+            <summary>
+            Updates the label of the item with the specified <paramref name="id"/>.
+            </summary>
+            <param name="rootPath">Item where to begin the search.</param>
+            <param name="id">Identifier of the id.</param>
+            <param name="newLabel"></param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemBuilder.GetPath(FluentUI.Blazor.Community.Components.IPathBarItem)">
+            <summary>
+            Gets the full path of the specified <paramref name="value"/>.
+            </summary>
+            <param name="value">Last item of the bar.</param>
+            <returns>Returns the full path of the specified <paramref name="value" />.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PathBarItemComparer">
+            <summary>
+            Represents the comparer to compare two instance of <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> together.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PathBarItemComparer.Default">
+            <summary>
+            Gets the default comparer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemComparer.Compare(FluentUI.Blazor.Community.Components.IPathBarItem,FluentUI.Blazor.Community.Components.IPathBarItem)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PathBarItemEqualityComparer">
+            <summary>
+            Represents a comparer for <see cref="T:FluentUI.Blazor.Community.Components.IPathBarItem"/> instances.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemEqualityComparer.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:FluentUI.Blazor.Community.Components.PathBarItemEqualityComparer"/> class from being created.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PathBarItemEqualityComparer.Default">
+            <summary>
+            Gets the default instance of the <see cref="T:FluentUI.Blazor.Community.Components.PathBarItemEqualityComparer"/>.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemEqualityComparer.Equals(FluentUI.Blazor.Community.Components.IPathBarItem,FluentUI.Blazor.Community.Components.IPathBarItem)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PathBarItemEqualityComparer.GetHashCode(FluentUI.Blazor.Community.Components.IPathBarItem)">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxResizer">
             <summary>
