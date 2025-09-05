@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "FluentUI.Demo.Client",
   "resources": {
-    "hash": "sha256-cr/5fE6FmG5/0fTa0zNjRNzd4Pwn/ATNv9BxC7CUC/4=",
+    "hash": "sha256-cK2Yioi8tY01yaJR2CS0Rwpjy4bERu8T9fRr6dSLWAo=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.uncbrxvywy.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Forms.07shrhq67j.wasm": "Microsoft.AspNetCore.Components.Forms.wasm",
@@ -39,7 +39,7 @@
       "System.Collections.Immutable.l8sbpnbun8.wasm": "System.Collections.Immutable.wasm",
       "System.Collections.NonGeneric.d0m0s1dqrh.wasm": "System.Collections.NonGeneric.wasm",
       "System.Collections.Specialized.z3rrmmpd0q.wasm": "System.Collections.Specialized.wasm",
-      "System.Collections.v1crw2h9wm.wasm": "System.Collections.wasm",
+      "System.Collections.k2w8r91ra0.wasm": "System.Collections.wasm",
       "System.ComponentModel.Annotations.3cczuh3jgw.wasm": "System.ComponentModel.Annotations.wasm",
       "System.ComponentModel.Primitives.1rt4y6k978.wasm": "System.ComponentModel.Primitives.wasm",
       "System.ComponentModel.TypeConverter.knsox5stxj.wasm": "System.ComponentModel.TypeConverter.wasm",
@@ -53,7 +53,7 @@
       "System.IO.Pipelines.j7hw5n5kz8.wasm": "System.IO.Pipelines.wasm",
       "System.Linq.Expressions.1f0vxu8mfm.wasm": "System.Linq.Expressions.wasm",
       "System.Linq.Queryable.33n2wkwae9.wasm": "System.Linq.Queryable.wasm",
-      "System.Linq.wt5bt80wc6.wasm": "System.Linq.wasm",
+      "System.Linq.xiaunv6nuf.wasm": "System.Linq.wasm",
       "System.Memory.pxs7o64hzd.wasm": "System.Memory.wasm",
       "System.Net.Http.p9df09j6d4.wasm": "System.Net.Http.wasm",
       "System.Net.Primitives.1gw1vf0bcs.wasm": "System.Net.Primitives.wasm",
@@ -72,10 +72,10 @@
       "System.Web.HttpUtility.513mxxev0n.wasm": "System.Web.HttpUtility.wasm",
       "System.t8xd33e5pv.wasm": "System.wasm",
       "netstandard.tty7t1ve6a.wasm": "netstandard.wasm",
-      "System.Private.CoreLib.2b89ngrpg4.wasm": "System.Private.CoreLib.wasm",
-      "FluentUI.Blazor.Community.Components.680n2dg0hq.wasm": "FluentUI.Blazor.Community.Components.wasm",
-      "FluentUI.Demo.Shared.e4x02v5nal.wasm": "FluentUI.Demo.Shared.wasm",
-      "FluentUI.Demo.Client.g3cw7tylq4.wasm": "FluentUI.Demo.Client.wasm",
+      "System.Private.CoreLib.aa0l93zgtt.wasm": "System.Private.CoreLib.wasm",
+      "FluentUI.Blazor.Community.Components.26leq5ht4x.wasm": "FluentUI.Blazor.Community.Components.wasm",
+      "FluentUI.Demo.Shared.i3qki3onzc.wasm": "FluentUI.Demo.Shared.wasm",
+      "FluentUI.Demo.Client.3bugpbzve9.wasm": "FluentUI.Demo.Client.wasm",
       "dotnet.native.53mh7ryx6n.js": "dotnet.native.js",
       "dotnet.native.zb9d4j1fls.wasm": "dotnet.native.wasm",
       "dotnet.js": "dotnet.js",
@@ -100,7 +100,7 @@
     },
     "coreAssembly": {
       "System.Runtime.InteropServices.JavaScript.c36vvrjj6t.wasm": "sha256-aBRJfPKhw/iL7CjlvetfKmPRKwQ1yZQqCeNMa2RgXfc=",
-      "System.Private.CoreLib.2b89ngrpg4.wasm": "sha256-TjmZC/niUiQQBzuOC0teCalnUbIcfNL27htU1p+k4ck="
+      "System.Private.CoreLib.aa0l93zgtt.wasm": "sha256-srlpyvyiYWVmrS32Q4iAYQjvrOhpV2vsBDLu/YyaunM="
     },
     "assembly": {
       "Microsoft.AspNetCore.Components.uncbrxvywy.wasm": "sha256-2qPqnnObn8xnlr0ruvS9eu/KpKwqLUQ+DSbQ7Jfnndo=",
@@ -139,7 +139,7 @@
       "System.Collections.Immutable.l8sbpnbun8.wasm": "sha256-tQim5yTZd7ZICG+s49oB1iN4ujUOe4D/Pg5udOkSOwA=",
       "System.Collections.NonGeneric.d0m0s1dqrh.wasm": "sha256-kwDSibzyDoLVxA2ItFytMvMyRjzkTXVOPhh4GtKtH9E=",
       "System.Collections.Specialized.z3rrmmpd0q.wasm": "sha256-AYCEyknXe+L/K/BnBWZiyxy1HmjthLDzF9qdWvr5CTU=",
-      "System.Collections.v1crw2h9wm.wasm": "sha256-PdJaepQBvRSbK/sCvyncRuma2PEJc0G9CO1l6hxik8Q=",
+      "System.Collections.k2w8r91ra0.wasm": "sha256-XONTjdNjTvE598RK68kGRlFRp8m3kkazZlEIoeZiDkA=",
       "System.ComponentModel.Annotations.3cczuh3jgw.wasm": "sha256-M9saz81SYUJwKX6ciSoBl6ELvQpjZs/Wo1rNMKycSu8=",
       "System.ComponentModel.Primitives.1rt4y6k978.wasm": "sha256-Y9bwS1rd3Gr6GM8DPbmKdX3+RELGCxTo8TQyOAyi7bM=",
       "System.ComponentModel.TypeConverter.knsox5stxj.wasm": "sha256-8GPL+Nt2DeCWyVzjSnlvi4TeLL3ctSc3P0Bnu2Tw+q8=",
@@ -153,7 +153,7 @@
       "System.IO.Pipelines.j7hw5n5kz8.wasm": "sha256-H1CHBmaAMS4PKAPtP+BRNwndUH6Sgof2IjdMGHxUFvI=",
       "System.Linq.Expressions.1f0vxu8mfm.wasm": "sha256-I/NjKX4Os1atae+NeNB2SIQxkG6FzKKTrrukQylUCk8=",
       "System.Linq.Queryable.33n2wkwae9.wasm": "sha256-oa6iWkMD3sCyKezRAhhIWKqrfiZa9o1XWBn7upl8288=",
-      "System.Linq.wt5bt80wc6.wasm": "sha256-vLAPk1vpQGOEQyOyPtfv6DhV0rcIxAwzGor0x79n5WU=",
+      "System.Linq.xiaunv6nuf.wasm": "sha256-N/xWmyg47a7Fc0sabnGLPaGOQbntLn9f0iGAlettw/4=",
       "System.Memory.pxs7o64hzd.wasm": "sha256-Pf6hC4R8GeB9ax4pupINE7a8/je5y0bT/Wzzc1VZ6bE=",
       "System.Net.Http.p9df09j6d4.wasm": "sha256-7WQLsZRdDQhyZ89fdZdwfenE/RWRZLbedbNpC52XfU4=",
       "System.Net.Primitives.1gw1vf0bcs.wasm": "sha256-f8orGt7oNcfA3QFVqpxoeAyHy4bdoDLv6YwQVegKEzY=",
@@ -171,9 +171,9 @@
       "System.Web.HttpUtility.513mxxev0n.wasm": "sha256-2T3F3wFyrYJQ1LvjQG0hMX4FQeerxw5OB+oj/cwtHbM=",
       "System.t8xd33e5pv.wasm": "sha256-jdi196RMQvJqOZVnwRK7DGSWJifChhgNljcOjGeHSUY=",
       "netstandard.tty7t1ve6a.wasm": "sha256-Ef0fJN8w9OpZnmowT9nrsMprrFbD08/cMcfix7OJMBU=",
-      "FluentUI.Blazor.Community.Components.680n2dg0hq.wasm": "sha256-5vY3lgwAULccU3cg+0jgZEmEEi9k6vsrrH1Dtmotzog=",
-      "FluentUI.Demo.Shared.e4x02v5nal.wasm": "sha256-UipRbkjjKEb6dlFbawK+8Ks9YE3G05Pb5ub8cGwZzAY=",
-      "FluentUI.Demo.Client.g3cw7tylq4.wasm": "sha256-PGCkKfojDaE2A4Wau3snTenwCUEPkyAb4jLNc0e5cYE="
+      "FluentUI.Blazor.Community.Components.26leq5ht4x.wasm": "sha256-Vr/Q6U++OiixP/0I0p5CtCHFeLM1MiIhI4fpytODlqM=",
+      "FluentUI.Demo.Shared.i3qki3onzc.wasm": "sha256-4sAvhe9FG3GYNmInlbo8EP4/P/NrtsuDRssiT9YcdIk=",
+      "FluentUI.Demo.Client.3bugpbzve9.wasm": "sha256-b7K8m5tAcE4YluDK0aIkB2bXoWrQhJ2TrJKiGDstMaU="
     },
     "libraryInitializers": {
       "_content/Microsoft.FluentUI.AspNetCore.Components/Microsoft.FluentUI.AspNetCore.Components.lib.module.js": "sha256-saocpjMzEV/5RzpPqa9RdvQ2/NJEkHJesyHry6qfD4U="

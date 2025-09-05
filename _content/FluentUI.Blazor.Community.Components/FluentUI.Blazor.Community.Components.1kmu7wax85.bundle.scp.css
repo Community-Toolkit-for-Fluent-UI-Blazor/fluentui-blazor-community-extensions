@@ -33,6 +33,28 @@
   left: 50%;
   transform: translateX(-50%);
 }
+/* _content/FluentUI.Blazor.Community.Components/Components/PathBar/FluentCxPathBar.razor.rz.scp.css */
+.fluentcx-path-bar[b-vpqkvhut00] {
+  height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
+  width: 100%;
+  background: var(--neutral-fill-stealth-rest);
+  column-gap: 2px;
+  display: flex;
+  flex-direction: row;
+}
+
+.fluentcx-path-bar-container[b-vpqkvhut00] {
+  width: calc(100% - 64px);
+  height: 100%;
+  column-gap: 2px;
+  display: flex;
+  flex-direction: row;
+}
+/* _content/FluentUI.Blazor.Community.Components/Components/PathBar/FluentCxPathBarItem.razor.rz.scp.css */
+.fluentcx-path-bar-item[b-0b8zgkhmqr] {
+  display: flex;
+  flex-direction: row;
+}
 /* _content/FluentUI.Blazor.Community.Components/Components/Resizer/FluentCxResizer.razor.rz.scp.css */
 .fluentcx-resizer[b-67tzm6rfoa] {
   display: inline-flex;
