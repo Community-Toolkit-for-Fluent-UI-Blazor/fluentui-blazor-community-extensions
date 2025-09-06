@@ -1,5 +1,26 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@implements IAsyncDisposable
 
 <HeadContent>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
 </HeadContent>
+
+@code {
+    [Inject]
+    private LootieState State { get; set; } = default!;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        State.Register();
+    }
+
+    /// <inheritdoc />
+    public ValueTask DisposeAsync()
+    {
+        State.Unregister();
+
+        return ValueTask.CompletedTask;
+    }
+}
