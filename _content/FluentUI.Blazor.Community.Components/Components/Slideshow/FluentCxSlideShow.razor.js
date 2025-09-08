@@ -273,19 +273,19 @@ export function destroy(id) {
       _instances[i].resizeObserver.unobserve(_instances[i].parent);
       _instances[i].resizeObserver.disconnect();
 
-      instance.element.removeEventListener('touchstart', e => {
+      _instances[i].element.removeEventListener('touchstart', e => {
         onTouchStart(instance, e);
       });
 
-      instance.element.removeEventListener('touchend', e => {
+      _instances[i].element.removeEventListener('touchend', e => {
         onTouchEnd(instance, e, touchThreshold);
       });
 
-      instance.element.removeEventListener('touchmove', e => {
+      _instances[i].element.removeEventListener('touchmove', e => {
         onTouchMove(e);
       });
 
-      instance.itemsContainer.removeEventListener('transitionend', () => {
+      _instances[i].itemsContainer.removeEventListener('transitionend', () => {
         onTransitionEnd(instance);
       });
 
