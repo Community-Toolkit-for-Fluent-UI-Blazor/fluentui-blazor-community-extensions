@@ -950,6 +950,7 @@ public partial class FluentCxSlideshow<TItem>
             {
                 await _module.InvokeVoidAsync("destroy", Id);
                 await _module.DisposeAsync();
+                _module = null;
             }
         }
         catch (JSDisconnectedException)
