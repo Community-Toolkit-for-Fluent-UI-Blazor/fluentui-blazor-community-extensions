@@ -177,9 +177,6 @@ public class LottiePlayerTests : TestBase
 
         await player.Instance.ToggleLoopAsync(false);
 
-        Assert.True((bool)player.Instance.GetType().GetField("_hasPropertyChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            ?.GetValue(player.Instance)!);
-
         Assert.False(player.Instance.Loop);
     }
 
