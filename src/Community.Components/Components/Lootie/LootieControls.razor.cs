@@ -7,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// Represents the controls for a Lootie animation player.
 /// </summary>
 public partial class LootieControls
-    : FluentComponentBase
+    : FluentComponentBase, IDisposable
 {
     /// <summary>
     /// Indicates whether the animation is currently playing.
@@ -59,6 +59,7 @@ public partial class LootieControls
         }
 
         _isLooping = Parent.Loop;
+        Parent.Add(this);
     }
 
     /// <summary>
@@ -69,7 +70,7 @@ public partial class LootieControls
     /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
     private async ValueTask InvokeAsync(Func<ValueTask> func, bool isPlaying)
     {
-        if (!_isPlaying)
+        if (_isPlaying != isPlaying)
         {
             _isPlaying = isPlaying;
             await InvokeAsync(StateHasChanged);
@@ -154,6 +155,27 @@ public partial class LootieControls
         if (Parent is not null)
         {
             await Parent.ToggleLoopAsync(isLooping);
+        }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        Parent?.Remove(this);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Occurs when the animation has completed.
+    /// </summary>
+    /// <returns>Returns a task which stops the player if not looping.</returns>
+    internal async Task OnAnimationCompletedAsync()
+    {
+        if (!_isLooping)
+        {
+            _isPlaying = false;
+            await StopAsync();
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

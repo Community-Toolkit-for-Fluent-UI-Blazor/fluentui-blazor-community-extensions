@@ -35,6 +35,11 @@ public partial class FluentCxLootiePlayer
     private readonly DotNetObjectReference<FluentCxLootiePlayer> _dotNetRef;
 
     /// <summary>
+    /// Represents the controls for the Lootie animation player.
+    /// </summary>
+    private LootieControls? _controls;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="FluentCxLootiePlayer"/> class.
     /// </summary>
     /// <remarks>The constructor generates a unique identifier for the player by assigning a new value to the
@@ -141,6 +146,41 @@ public partial class FluentCxLootiePlayer
         if (_module is not null)
         {
             await _module.InvokeVoidAsync("fluentcxLootiePlayer.load", Id, _dotNetRef, Source, Loop, Autoplay, Speed, Renderer);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    /// <summary>
+    /// Updates the animation if a property has changed.
+    /// </summary>
+    /// <returns></returns>
+    private async Task OnUpdateAnimationAsync()
+    {
+        if (_hasPropertyChanged)
+        {
+            _hasPropertyChanged = false;
+            await LoadAnimationAsync();
+        }
+    }
+
+    /// <summary>
+    /// Adds the specified controls to the player.
+    /// </summary>
+    /// <param name="controls">Controls of the player.</param>
+    internal void Add(LootieControls controls)
+    {
+        _controls = controls;
+    }
+
+    /// <summary>
+    /// Removes the controls from the player.
+    /// </summary>
+    /// <param name="controls">Controls of the player to remove.</param>
+    internal void Remove(LootieControls controls)
+    {
+        if (_controls == controls)
+        {
+            _controls = null;
         }
     }
 
@@ -242,7 +282,7 @@ public partial class FluentCxLootiePlayer
     {
         Loop = isLooping;
         _hasPropertyChanged = true;
-        await InvokeAsync(StateHasChanged);
+        await OnUpdateAnimationAsync();
     }
 
     /// <inheritdoc />
@@ -279,11 +319,7 @@ public partial class FluentCxLootiePlayer
     {
         await base.OnParametersSetAsync();
 
-        if (_hasPropertyChanged)
-        {
-            _hasPropertyChanged = false;
-            await LoadAnimationAsync();
-        }
+        await OnUpdateAnimationAsync();
     }
 
     /// <summary>
@@ -296,6 +332,11 @@ public partial class FluentCxLootiePlayer
         if (OnComplete.HasDelegate)
         {
             await OnComplete.InvokeAsync();
+        }
+
+        if (_controls is not null)
+        {
+            await _controls.OnAnimationCompletedAsync();
         }
     }
 

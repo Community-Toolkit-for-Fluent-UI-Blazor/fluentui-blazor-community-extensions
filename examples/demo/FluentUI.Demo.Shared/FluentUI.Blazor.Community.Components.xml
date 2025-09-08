@@ -6931,6 +6931,11 @@
             JavaScript interop in Blazor.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxLootiePlayer._controls">
+            <summary>
+            Represents the controls for the Lootie animation player.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxLootiePlayer.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxLootiePlayer"/> class.
@@ -7013,6 +7018,24 @@
             Loads the animation asynchronously.
             </summary>
             <returns>Returns a task which loads the animation when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLootiePlayer.OnUpdateAnimationAsync">
+            <summary>
+            Updates the animation if a property has changed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLootiePlayer.Add(FluentUI.Blazor.Community.Components.LootieControls)">
+            <summary>
+            Adds the specified controls to the player.
+            </summary>
+            <param name="controls">Controls of the player.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLootiePlayer.Remove(FluentUI.Blazor.Community.Components.LootieControls)">
+            <summary>
+            Removes the controls from the player.
+            </summary>
+            <param name="controls">Controls of the player to remove.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxLootiePlayer.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
@@ -7185,6 +7208,15 @@
             <param name="isLooping">Value indicating if the animation loops.</param>
             <returns>A task that represents the asynchronous operation.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LootieControls.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LootieControls.OnAnimationCompletedAsync">
+            <summary>
+            Occurs when the animation has completed.
+            </summary>
+            <returns>Returns a task which stops the player if not looping.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.LootieDirection">
             <summary>
             Specifies the possible directions for a Lootie operation.
@@ -7325,6 +7357,27 @@
             <remarks>This class can be used to parse, modify, and generate HTML content. It provides functionality
             for working with elements, attributes, and text nodes within an HTML structure. Use this class to
             programmatically create or manipulate HTML documents.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LootieState">
+            <summary>
+            Represents the state of a Lootie component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LootieState.IsRegister">
+            <summary>
+            Gets a value indicating whether the component is registered.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LootieState.Register">
+            <summary>
+            Registers the component.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Occurs when the component is already registered.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LootieState.Unregister">
+            <summary>
+            Unregisters the component.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxMediaQuery">
             <summary>
@@ -9966,6 +10019,12 @@
             <summary>
             Gets or sets the row span of the item.
             </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLootieProvider.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLootieProvider.DisposeAsync">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions">
             <summary>
