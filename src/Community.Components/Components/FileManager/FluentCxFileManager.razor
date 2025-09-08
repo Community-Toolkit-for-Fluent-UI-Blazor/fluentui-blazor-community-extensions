@@ -256,12 +256,11 @@
                                  TItem="@TItem"
                                  OnItemDoubleClick="@OnUpdateEntry"
                                  Download="@OnDownloadSingleAsync"
-                                 PathRoot="@_pathRoot"
+                                 RootPath="@_rootPath"
                                  Path="@_path"
                                  OnPathChanged="@OnPathChanged"
                                  @bind-SelectedItems=_currentSelectedItems 
                                  ColumnLabels="@ColumnLabels"
-                                 MaxVisibleItems=@MaxVisibleItems
                                  FileNavigationViewVisible=@(FileStructureView == FileStructureView.Hierarchical)/>
                 </FluentMultiSplitterPane>
 
@@ -287,12 +286,11 @@
                          TItem="@TItem"
                          OnItemDoubleClick="@OnUpdateEntry"
                          Download="@OnDownloadSingleAsync"
-                         PathRoot="@_pathRoot"
+                         RootPath="@_rootPath"
                          Path="@_path"
                          OnPathChanged="@OnPathChanged"
                          @bind-SelectedItems=_currentSelectedItems
                          ColumnLabels="@ColumnLabels"
-                         MaxVisibleItems=@MaxVisibleItems
                          FileNavigationViewVisible=@(FileStructureView == FileStructureView.Hierarchical) />
         }
     </FluentStack>

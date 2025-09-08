@@ -3,13 +3,13 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents the comparer to compare two instance of <see cref="IPathBarItem"/> together.
 /// </summary>
-internal sealed class FileManagerEntryPathBarItemComparer
+internal sealed class PathBarItemComparer
     : IComparer<IPathBarItem>
 {
     /// <summary>
     /// Gets the default comparer.
     /// </summary>
-    public static FileManagerEntryPathBarItemComparer Default { get; } = new();
+    public static PathBarItemComparer Default { get; } = new();
 
     /// <inheritdoc />
     public int Compare(IPathBarItem? x, IPathBarItem? y)
