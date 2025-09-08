@@ -332,7 +332,7 @@ export function storeItems(id, idCollection) {
   const instance = getInstance(id);
 
   if (instance) {
-    for(let i = 0; i < idCollection.length; i++) {
+    for (let i = 0; i < idCollection.length; i++) {
       const item = document.getElementById(idCollection[i]);
 
       if (item) {
@@ -346,7 +346,7 @@ export function restoreItems(id) {
   const instance = getInstance(id);
 
   if (instance) {
-    for(let i = instance.itemsContainer.children.length - 1; i >= 0; i--) {
+    for (let i = instance.itemsContainer.children.length - 1; i >= 0; i--) {
       instance.itemsContainer.removeChild(instance.itemsContainer.children[i]);
     }
 
