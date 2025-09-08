@@ -1,0 +1,22 @@
+.fluent-cx-artistic-scatter-item {
+  width: var(--artistic-scatter-item-width, 100px);
+  height: var(--artistic-scatter-item-height, 100px);
+  border-radius: var(--artistic-scatter-item-border-radius, 10px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, opacity 0.4s ease;
+  animation: fadeInScatter 0.8s ease forwards;
+  opacity: 0;
+  will-change: transform;
+}
+
+@keyframes fadeInScatter {
+  from {
+    transform: scale(0.8) rotate(-10deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: var(--artistic-scatter-item-opacity, 1);
+  }
+}
