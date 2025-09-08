@@ -17,7 +17,7 @@ public class PathBarItemMock : IPathBarItem
 
     public string? Id { get; }
 
-    public string? Label { get; }
+    public string? Label { get; set; }
 
     public IPathBarItem Parent { get; }
 
@@ -28,7 +28,7 @@ public class PathBarItemMock : IPathBarItem
 
 public class FileManagerEntryPathBarItemComparerTests
 {
-    private readonly FileManagerEntryPathBarItemComparer _comparer = FileManagerEntryPathBarItemComparer.Default;
+    private readonly PathBarItemComparer _comparer = PathBarItemComparer.Default;
 
     [Fact]
     public void Compare_BothNull_ReturnsZero()

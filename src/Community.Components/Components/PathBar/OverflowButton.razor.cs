@@ -23,16 +23,19 @@ public partial class OverflowButton : FluentComponentBase
     /// Gets or sets the items inside the overflow.
     /// </summary>
     [Parameter]
-    public IEnumerable<IPathBarItem> Items { get; set; } = [];
+    public List<IPathBarItem> Items { get; set; } = [];
 
     /// <summary>
     /// Occurs when the menu is selected.
     /// </summary>
     /// <param name="item">Represents the selected item.</param>
-    private void OnItemTapped(IPathBarItem item)
+    private async Task OnItemTappedAsync(IPathBarItem item)
     {
         _isMenuOpen = false;
 
-        Parent?.SetPath(PathBarItem.GetPath(item));
+        if (Parent is not null)
+        {
+            await Parent.UpdatePathAsync(item);
+        }
     }
 }

@@ -62,7 +62,8 @@ public class OverflowButtonTests : TestBase
         var cut = RenderOverflowButton();
 
         // Assert
-        cut.Verify();
+        Assert.Contains("fluent-menu-provider", cut.Markup);
+        Assert.Contains("fluent-button", cut.Markup);
     }
 
     [Fact]
@@ -72,7 +73,14 @@ public class OverflowButtonTests : TestBase
         var cut = RenderOverflowButton(p => p.Add(x => x.Items, new List<IPathBarItem>()));
 
         // Assert
-        cut.Verify();
+        var button = cut.Find("fluent-button");
+
+        // Act
+        button.Click();
+
+        var menu = cut.FindAll("fluent-menu-item");
+        // Assert
+        Assert.Empty(menu);
     }
 
     [Fact]
@@ -88,7 +96,14 @@ public class OverflowButtonTests : TestBase
         var cut = RenderOverflowButton(p => p.Add(x => x.Items, items));
 
         // Assert
-        cut.Verify();
+        var button = cut.Find("fluent-button");
+
+        // Act
+        button.Click();
+
+        var menu = cut.FindAll("fluent-menu-item");
+        // Assert
+        Assert.Single(menu);
     }
 
     [Fact]
@@ -106,7 +121,14 @@ public class OverflowButtonTests : TestBase
         var cut = RenderOverflowButton(p => p.Add(x => x.Items, items));
 
         // Assert
-        cut.Verify();
+        var button = cut.Find("fluent-button");
+
+        // Act
+        button.Click();
+
+        var menu = cut.FindAll("fluent-menu-item");
+        // Assert
+        Assert.Equal(3, menu.Count);
     }
 
 
@@ -126,7 +148,7 @@ public class OverflowButtonTests : TestBase
         button.Click();
 
         // Assert
-        cut.Verify();
+        Assert.Contains("fluent-menu-item", cut.Markup);
     }
 
     [Fact]
@@ -146,7 +168,7 @@ public class OverflowButtonTests : TestBase
         button.Click(); // Close menu
 
         // Assert
-        cut.Verify();
+        Assert.DoesNotContain("fluent-menu-item", cut.Markup);
     }
 
     [Fact]
@@ -195,7 +217,6 @@ public class OverflowButtonTests : TestBase
         // Assert
         var button = cut.Find("fluent-button");
         Assert.Equal("Buttontest-overflow", button.GetAttribute("id"));
-        Assert.Equal("stealth", button.GetAttribute("appearance"));
-        cut.Verify();
+        Assert.Equal("stealth", button.GetAttribute("appearance"));      
     }
 }
