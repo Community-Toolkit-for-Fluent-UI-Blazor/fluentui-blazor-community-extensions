@@ -1,0 +1,36 @@
+﻿@page "/artisticscatter"
+@using FluentUI.Demo.Shared.Pages.ArtsticScatter.Examples
+
+<p>
+    The <code>FluentCxArtisticScatter</code> component allows to display images in a scattered way.
+    The images are displayed in a container and can be scattered randomly or in a grid.
+    The user can set the number of images to display, and the size of the images.
+    The user can also set if the component is in mobile mode or not.
+    The component is responsive and will adapt to the size of the container.
+    The items to display are <code>ArtisticScatterItem</code> components.
+    Theses components have the following parameters :
+    <ul>
+        <li><strong>Source</strong> : The source of the image. (required)</li>
+        <li><strong>Alt</strong> : The alt text of the image.</li>
+        <li><strong>Title</strong> : The title of the image.</li>
+        <li><strong>IsLazy</strong> : If true, the image will be lazy loaded. Default is true.</li>
+        <li><strong>FetchPriorityHigh</strong> : If true, the image will have a high fetch priority. Default is false.</li>
+        <li><strong>Width</strong> : The width of the image.</li>
+        <li><strong>Height</strong> : The height of the image.</li>
+        <li><strong>BorderRadius</strong> : The border radius of the image.</li>
+    </ul>
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(ArtisticScatterDefault)" Title="Default">
+    <Description>
+        The FluentCxArtisticScatter component reduce the amount of work to display images in a scattered way.
+    </Description>
+</DemoSection>
+
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(FluentCxArtisticScatter)" />
+<ApiDocumentation Component="typeof(ArtisticScatterItem)" />

@@ -1,0 +1,21 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div id="@Id"
+         class="@(InternalCss)"
+         style="@(InternalStyle)"
+         @ref=Element
+         @onclick=OnClickAsync>
+        <div class="@InternalScatterContainer">
+            @ChildContent
+
+            @foreach (var item in DisplayedItems)
+            {
+                @item.InternalRenderer
+            }
+        </div>
+
+    </div>
+</CascadingValue>
+
