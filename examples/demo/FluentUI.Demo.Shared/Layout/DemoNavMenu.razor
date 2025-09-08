@@ -1,29 +1,13 @@
-﻿<div class="navmenu">
+﻿@inject DemoNavProvider NavProvider
+<div class="navmenu">
     <input type="checkbox" title="Menu expand/collapse toggle" id="navmenu-toggle" class="navmenu-icon" />
     <label for="navmenu-toggle" class="navmenu-icon"><FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Fill" /></label>
     <nav class="sitenav" aria-labelledby="main-menu">
         <FluentNavMenu Id="main-menu" Collapsible="true" Width="250" Title="Navigation menu" @bind-Expanded="expanded" CustomToggle="true">
-            <FluentNavLink Href="" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
-            <FluentNavLink Href="devicedetector" Icon="@(new Icons.Regular.Size20.PhoneDesktop())" IconColor="Color.Accent">Device detector</FluentNavLink>
-            <FluentNavLink Href="resizers" Icon="@(new Icons.Regular.Size20.Resize())" IconColor="Color.Accent">Resizers</FluentNavLink>
-            <FluentNavLink Href="tilegrid" Icon="@(new Icons.Regular.Size20.Apps())" IconColor="Color.Accent">Tile Grid</FluentNavLink>
-            <FluentNavLink Href="filemanager" Icon="@(new Icons.Regular.Size20.FolderOpen())" IconColor="Color.Accent">File Manager</FluentNavLink>
-            <FluentNavLink Href="imagegroup" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.ImageMultiple())">Image group</FluentNavLink>
-            <FluentNavLink Href="pathbar" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Navigation())">Path bar</FluentNavLink>
-            <FluentNavLink Href="mediaquery" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.PhoneDesktop())">Media queries</FluentNavLink>
-            <FluentNavLink Href="cookies" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Cookies())">Cookies</FluentNavLink>
-            <FluentNavLink Href="floatingbutton" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">Floating button</FluentNavLink>
-            <FluentNavGroup Title="Sleek dial" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">
-                <FluentNavLink Href="sleekdial" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">Overview</FluentNavLink>
-                <FluentNavLink Href="sleekdial-default" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">Default</FluentNavLink>
-                <FluentNavLink Href="sleekdial-animations" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">Animations</FluentNavLink>
-                <FluentNavLink Href="sleekdial-linear" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">Linear mode</FluentNavLink>
-                <FluentNavLink Href="sleekdial-radial" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">Radial mode</FluentNavLink>
-                <FluentNavLink Href="sleekdial-click" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">Click item</FluentNavLink>
-                <FluentNavLink Href="sleekdial-item-visibility" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">Item visibility</FluentNavLink>
-                <FluentNavLink Href="sleekdial-visibility" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.Button())">Visibility</FluentNavLink>
-            </FluentNavGroup>
-            <FluentNavLink Href="slideshow" IconColor="Color.Accent" Icon="@(new Icons.Regular.Size20.SlideTransition())">Slideshow</FluentNavLink>
+            @foreach(var item in NavProvider.NavMenuItems)
+            {
+                <DemoNavMenuItem Value="item"/>
+            }
         </FluentNavMenu>
     </nav>
 </div>
