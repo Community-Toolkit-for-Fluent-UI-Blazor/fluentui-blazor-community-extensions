@@ -1,10 +1,10 @@
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Specifies the rendering format options for a Lootie animation.
+/// Specifies the rendering format options for a Lottie animation.
 /// </summary>
-/// <remarks>Use this enumeration to select the desired output format when rendering a Lootie animation.</remarks>
-public enum LootieRenderer
+/// <remarks>Use this enumeration to select the desired output format when rendering a Lottie animation.</remarks>
+public enum LottieRenderer
 {
     /// <summary>
     /// Represents an SVG (Scalable Vector Graphics) element, which is a vector-based image format for defining graphics

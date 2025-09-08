@@ -9,10 +9,10 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents a customizable player component for rendering and controlling animations.
 /// </summary>
-/// <remarks>The <see cref="FluentCxLootiePlayer"/> component allows developers to render animations using a specified
+/// <remarks>The <see cref="FluentCxLottiePlayer"/> component allows developers to render animations using a specified
 /// renderer and provides options to control playback behavior, such as looping, autoplay, and playback speed. The
 /// component also supports customizable dimensions and accepts a path to the animation file.</remarks>
-public partial class FluentCxLootiePlayer
+public partial class FluentCxLottiePlayer
     : FluentComponentBase
 {
     /// <summary>
@@ -29,22 +29,22 @@ public partial class FluentCxLootiePlayer
     private bool _hasPropertyChanged;
 
     /// <summary>
-    /// Represents a reference to a .NET object of type <see cref="FluentCxLootiePlayer"/>  that can be passed to
+    /// Represents a reference to a .NET object of type <see cref="FluentCxLottiePlayer"/>  that can be passed to
     /// JavaScript interop in Blazor.
     /// </summary>
-    private readonly DotNetObjectReference<FluentCxLootiePlayer> _dotNetRef;
+    private readonly DotNetObjectReference<FluentCxLottiePlayer> _dotNetRef;
 
     /// <summary>
-    /// Represents the controls for the Lootie animation player.
+    /// Represents the controls for the Lottie animation player.
     /// </summary>
-    private LootieControls? _controls;
+    private LottieControls? _controls;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FluentCxLootiePlayer"/> class.
+    /// Initializes a new instance of the <see cref="FluentCxLottiePlayer"/> class.
     /// </summary>
     /// <remarks>The constructor generates a unique identifier for the player by assigning a new value to the
     /// <see cref="FluentComponentBase.Id"/> property.</remarks>
-    public FluentCxLootiePlayer()
+    public FluentCxLottiePlayer()
     {
         Id = Identifier.NewId();
         _dotNetRef = DotNetObjectReference.Create(this);
@@ -87,10 +87,10 @@ public partial class FluentCxLootiePlayer
     public string? Height { get; set; }
 
     /// <summary>
-    /// Gets or sets the renderer to be used for rendering the animation. The default value is <see cref="LootieRenderer.Svg"/>.
+    /// Gets or sets the renderer to be used for rendering the animation. The default value is <see cref="LottieRenderer.Svg"/>.
     /// </summary>
     [Parameter]
-    public LootieRenderer Renderer { get; set; } = LootieRenderer.Svg;
+    public LottieRenderer Renderer { get; set; } = LottieRenderer.Svg;
 
     /// <summary>
     /// Gets or sets a callback that is invoked when the animation completes.
@@ -126,15 +126,15 @@ public partial class FluentCxLootiePlayer
     /// Gets the computed CSS classes for the component.
     /// </summary>
     private string? InternalCss => new CssBuilder(Class)
-        .AddClass("fluentcx-lootie-player")
+        .AddClass("fluentcx-lottie-player")
         .Build();
 
     /// <summary>
     /// Gets the computed inline styles for the component.
     /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
-        .AddStyle("--lootie-player-width", Width, !string.IsNullOrEmpty(Width))
-        .AddStyle("--lootie-player-height", Height, !string.IsNullOrEmpty(Height))
+        .AddStyle("--lottie-player-width", Width, !string.IsNullOrEmpty(Width))
+        .AddStyle("--lottie-player-height", Height, !string.IsNullOrEmpty(Height))
         .Build();
 
     /// <summary>
@@ -145,7 +145,7 @@ public partial class FluentCxLootiePlayer
     {
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentcxLootiePlayer.load", Id, _dotNetRef, Source, Loop, Autoplay, Speed, Renderer);
+            await _module.InvokeVoidAsync("fluentcxLottiePlayer.load", Id, _dotNetRef, Source, Loop, Autoplay, Speed, Renderer);
             await InvokeAsync(StateHasChanged);
         }
     }
@@ -167,7 +167,7 @@ public partial class FluentCxLootiePlayer
     /// Adds the specified controls to the player.
     /// </summary>
     /// <param name="controls">Controls of the player.</param>
-    internal void Add(LootieControls controls)
+    internal void Add(LottieControls controls)
     {
         _controls = controls;
     }
@@ -176,7 +176,7 @@ public partial class FluentCxLootiePlayer
     /// Removes the controls from the player.
     /// </summary>
     /// <param name="controls">Controls of the player to remove.</param>
-    internal void Remove(LootieControls controls)
+    internal void Remove(LottieControls controls)
     {
         if (_controls == controls)
         {
@@ -189,7 +189,7 @@ public partial class FluentCxLootiePlayer
     {
         if (firstRender)
         {
-            _module = await Runtime.InvokeAsync<IJSObjectReference>("import", "./_content/FluentUI.Blazor.Community.Components/Components/Lootie/FluentCxLootiePlayer.razor.js");
+            _module = await Runtime.InvokeAsync<IJSObjectReference>("import", "./_content/FluentUI.Blazor.Community.Components/Components/Lottie/FluentCxLottiePlayer.razor.js");
             await LoadAnimationAsync();
         }
     }
@@ -202,7 +202,7 @@ public partial class FluentCxLootiePlayer
     {
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentcxLootiePlayer.play", Id);
+            await _module.InvokeVoidAsync("fluentcxLottiePlayer.play", Id);
         }
     }
 
@@ -214,7 +214,7 @@ public partial class FluentCxLootiePlayer
     {
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentcxLootiePlayer.pause", Id);
+            await _module.InvokeVoidAsync("fluentcxLottiePlayer.pause", Id);
         }
     }
 
@@ -226,7 +226,7 @@ public partial class FluentCxLootiePlayer
     {
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentcxLootiePlayer.stop", Id);
+            await _module.InvokeVoidAsync("fluentcxLottiePlayer.stop", Id);
         }
     }
 
@@ -240,7 +240,7 @@ public partial class FluentCxLootiePlayer
         if (_module is not null)
         {
             Speed = speed;
-            await _module.InvokeVoidAsync("fluentcxLootiePlayer.setSpeed", Id, speed);
+            await _module.InvokeVoidAsync("fluentcxLottiePlayer.setSpeed", Id, speed);
         }
     }
 
@@ -249,11 +249,11 @@ public partial class FluentCxLootiePlayer
     /// </summary>
     /// <param name="direction">The new direction to apply to the element.</param>
     /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
-    public async ValueTask SetDirectionAsync(LootieDirection direction)
+    public async ValueTask SetDirectionAsync(LottieDirection direction)
     {
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentcxLootiePlayer.setDirection", Id, direction);
+            await _module.InvokeVoidAsync("fluentcxLottiePlayer.setDirection", Id, direction);
         }
     }
 
@@ -270,7 +270,7 @@ public partial class FluentCxLootiePlayer
     {
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentcxLootiePlayer.playSegments", Id, startSegment, endSegment, forceFlag);
+            await _module.InvokeVoidAsync("fluentcxLottiePlayer.playSegments", Id, startSegment, endSegment, forceFlag);
         }
     }
 
@@ -292,7 +292,7 @@ public partial class FluentCxLootiePlayer
         {
             if (_module is not null)
             {
-                await _module.InvokeVoidAsync("fluentcxLootiePlayer.dispose", Id);
+                await _module.InvokeVoidAsync("fluentcxLottiePlayer.dispose", Id);
                 await _module.DisposeAsync();
             }
         }

@@ -1,9 +1,9 @@
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents the state of a Lootie component.
+/// Represents the state of a Lottie component.
 /// </summary>
-public class LootieState
+public class LottieState
 {
     /// <summary>
     /// Gets a value indicating whether the component is registered.

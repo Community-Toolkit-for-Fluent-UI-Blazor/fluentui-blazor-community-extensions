@@ -1,19 +1,19 @@
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents the labels used in the Lootie component for localization.
+/// Represents the labels used in the Lottie component for localization.
 /// </summary>
-public record LootieLabels
+public record LottieLabels
 {
     /// <summary>
     /// Gets the default English labels.
     /// </summary>
-    public static LootieLabels Default { get; } = new();
+    public static LottieLabels Default { get; } = new();
 
     /// <summary>
     /// Gets the French labels.
     /// </summary>
-    public static LootieLabels French { get; } = new()
+    public static LottieLabels French { get; } = new()
     {
         Pause = "Pause",
         Play = "Lecture",

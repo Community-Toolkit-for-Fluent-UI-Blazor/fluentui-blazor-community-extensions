@@ -84,7 +84,7 @@ function dispose(id) {
   }
 }
 
-export const fluentcxLootiePlayer = {
+export const fluentcxLottiePlayer = {
   load: (id, path, loop, autoplay, speed, renderer) => load(id, path, loop, autoplay, speed, renderer),
   play: (id) => play(id),
   pause: (id) => pause(id),

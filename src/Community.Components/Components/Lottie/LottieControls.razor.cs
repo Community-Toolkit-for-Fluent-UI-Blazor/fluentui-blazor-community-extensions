@@ -4,9 +4,9 @@ using Microsoft.FluentUI.AspNetCore.Components;
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents the controls for a Lootie animation player.
+/// Represents the controls for a Lottie animation player.
 /// </summary>
-public partial class LootieControls
+public partial class LottieControls
     : FluentComponentBase, IDisposable
 {
     /// <summary>
@@ -25,10 +25,10 @@ public partial class LootieControls
     private readonly RenderFragment<string> _renderLabel;
 
     /// <summary>
-    /// Gets or sets the parent <see cref="FluentCxLootiePlayer"/> component.
+    /// Gets or sets the parent <see cref="FluentCxLottiePlayer"/> component.
     /// </summary>
     [CascadingParameter]
-    private FluentCxLootiePlayer? Parent { get; set; }
+    private FluentCxLottiePlayer? Parent { get; set; }
 
     /// <summary>
     /// Gets or sets the child content of the component.
@@ -46,7 +46,7 @@ public partial class LootieControls
     /// Gets or sets the labels used for localization in the controls.
     /// </summary>
     [Parameter]
-    public LootieLabels Labels { get; set; } = LootieLabels.Default;
+    public LottieLabels Labels { get; set; } = LottieLabels.Default;
 
     /// <inheritdoc/>
     protected override void OnInitialized()
@@ -55,7 +55,7 @@ public partial class LootieControls
 
         if (Parent is null)
         {
-            throw new InvalidOperationException($"{GetType()} must be used within a {nameof(FluentCxLootiePlayer)}.");
+            throw new InvalidOperationException($"{GetType()} must be used within a {nameof(FluentCxLottiePlayer)}.");
         }
 
         _isLooping = Parent.Loop;
@@ -133,9 +133,9 @@ public partial class LootieControls
     /// <summary>
     /// Asynchronously sets the direction for the current object.
     /// </summary>
-    /// <param name="direction">The <see cref="LootieDirection"/> to set for the object.</param>
+    /// <param name="direction">The <see cref="LottieDirection"/> to set for the object.</param>
     /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
-    public async Task SetDirectionAsync(LootieDirection direction)
+    public async Task SetDirectionAsync(LottieDirection direction)
     {
         if (Parent is not null)
         {

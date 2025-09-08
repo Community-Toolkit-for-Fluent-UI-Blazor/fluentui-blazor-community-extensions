@@ -4,33 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentUI.Blazor.Community.Components.Tests.Components.Lootie;
+namespace FluentUI.Blazor.Community.Components.Tests.Components.Lottie;
 
-public class LootieRendererTests
+public class LottieRendererTests
 {
     [Fact]
-    public void LootieRenderer_ShouldContainAllExpectedValues()
+    public void LottieRenderer_ShouldContainAllExpectedValues()
     {
-        Assert.Equal(0, (int)LootieRenderer.Svg);
-        Assert.Equal(1, (int)LootieRenderer.Canvas);
-        Assert.Equal(2, (int)LootieRenderer.Html);
+        Assert.Equal(0, (int)LottieRenderer.Svg);
+        Assert.Equal(1, (int)LottieRenderer.Canvas);
+        Assert.Equal(2, (int)LottieRenderer.Html);
     }
 
     [Theory]
-    [InlineData(LootieRenderer.Svg, "Svg")]
-    [InlineData(LootieRenderer.Canvas, "Canvas")]
-    [InlineData(LootieRenderer.Html, "Html")]
-    public void LootieRenderer_ToString_ReturnsExpectedString(LootieRenderer renderer, string expected)
+    [InlineData(LottieRenderer.Svg, "Svg")]
+    [InlineData(LottieRenderer.Canvas, "Canvas")]
+    [InlineData(LottieRenderer.Html, "Html")]
+    public void LottieRenderer_ToString_ReturnsExpectedString(LottieRenderer renderer, string expected)
     {
         Assert.Equal(expected, renderer.ToString());
     }
 
     [Theory]
-    [InlineData(0, LootieRenderer.Svg)]
-    [InlineData(1, LootieRenderer.Canvas)]
-    [InlineData(2, LootieRenderer.Html)]
-    public void LootieRenderer_CastFromInt_ReturnsExpectedEnum(int value, LootieRenderer expected)
+    [InlineData(0, LottieRenderer.Svg)]
+    [InlineData(1, LottieRenderer.Canvas)]
+    [InlineData(2, LottieRenderer.Html)]
+    public void LottieRenderer_CastFromInt_ReturnsExpectedEnum(int value, LottieRenderer expected)
     {
-        Assert.Equal(expected, (LootieRenderer)value);
+        Assert.Equal(expected, (LottieRenderer)value);
     }
 }

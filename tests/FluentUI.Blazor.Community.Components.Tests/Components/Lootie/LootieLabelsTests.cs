@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentUI.Blazor.Community.Components.Tests.Components.Lootie;
+namespace FluentUI.Blazor.Community.Components.Tests.Components.Lottie;
 
-public class LootieLabelsTests
+public class LottieLabelsTests
 {
     [Fact]
     public void Default_Should_Have_English_Labels()
     {
-        var labels = LootieLabels.Default;
+        var labels = LottieLabels.Default;
 
         Assert.Equal("Pause", labels.Pause);
         Assert.Equal("Play", labels.Play);
@@ -24,7 +24,7 @@ public class LootieLabelsTests
     [Fact]
     public void French_Should_Have_French_Labels()
     {
-        var labels = LootieLabels.French;
+        var labels = LottieLabels.French;
 
         Assert.Equal("Pause", labels.Pause);
         Assert.Equal("Lecture", labels.Play);
@@ -37,7 +37,7 @@ public class LootieLabelsTests
     [Fact]
     public void Can_Create_Custom_Labels()
     {
-        var custom = new LootieLabels
+        var custom = new LottieLabels
         {
             Pause = "P",
             Play = "L",

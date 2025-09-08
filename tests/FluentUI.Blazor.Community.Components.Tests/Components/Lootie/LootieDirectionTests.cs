@@ -4,36 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentUI.Blazor.Community.Components.Tests.Components.Lootie;
-public class LootieDirectionTests
+namespace FluentUI.Blazor.Community.Components.Tests.Components.Lottie;
+public class LottieDirectionTests
 {
     [Fact]
     public void Forward_Should_Have_Value_One()
     {
-        Assert.Equal(1, (int)LootieDirection.Forward);
+        Assert.Equal(1, (int)LottieDirection.Forward);
     }
 
     [Fact]
     public void Backward_Should_Have_Value_MinusOne()
     {
-        Assert.Equal(-1, (int)LootieDirection.Backward);
+        Assert.Equal(-1, (int)LottieDirection.Backward);
     }
 
     [Theory]
-    [InlineData(1, LootieDirection.Forward)]
-    [InlineData(-1, LootieDirection.Backward)]
-    public void Can_Parse_Int_To_LootieDirection(int value, LootieDirection expected)
+    [InlineData(1, LottieDirection.Forward)]
+    [InlineData(-1, LottieDirection.Backward)]
+    public void Can_Parse_Int_To_LottieDirection(int value, LottieDirection expected)
     {
-        var direction = (LootieDirection)value;
+        var direction = (LottieDirection)value;
         Assert.Equal(expected, direction);
     }
 
     [Theory]
-    [InlineData("Forward", LootieDirection.Forward)]
-    [InlineData("Backward", LootieDirection.Backward)]
-    public void Can_Parse_Name_To_LootieDirection(string name, LootieDirection expected)
+    [InlineData("Forward", LottieDirection.Forward)]
+    [InlineData("Backward", LottieDirection.Backward)]
+    public void Can_Parse_Name_To_LottieDirection(string name, LottieDirection expected)
     {
-        var parsed = (LootieDirection)Enum.Parse(typeof(LootieDirection), name);
+        var parsed = (LottieDirection)Enum.Parse(typeof(LottieDirection), name);
         Assert.Equal(expected, parsed);
     }
 }

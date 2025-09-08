@@ -10,170 +10,170 @@ using Microsoft.FluentUI.AspNetCore.Components.Tests;
 using Microsoft.JSInterop;
 using Moq;
 
-namespace FluentUI.Blazor.Community.Components.Tests.Components.Lootie;
+namespace FluentUI.Blazor.Community.Components.Tests.Components.Lottie;
 
-public class LootiePlayerTests : TestBase
+public class LottiePlayerTests : TestBase
 {
-    public LootiePlayerTests()
+    public LottiePlayerTests()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         Services.AddSingleton(UnitTestLibraryConfiguration);
     }
 
     [Fact]
-    public void Renders_LootieContainer_With_ChildContent()
+    public void Renders_LottieContainer_With_ChildContent()
     {
         // Arrange & Act
-        var cut = RenderComponent<FluentCxLootiePlayer>(parameters => parameters
+        var cut = RenderComponent<FluentCxLottiePlayer>(parameters => parameters
             .AddChildContent("<span>Test Content</span>")
         );
 
         // Assert
-        cut.Markup.Contains("lootie-container");
+        cut.Markup.Contains("Lottie-container");
         cut.Markup.Contains("<span>Test Content</span>");
     }
 
     [Fact]
     public async Task PlayAsync_InvokesJsInterop()
     {
-        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lootie/FluentCxLootiePlayer.razor.js");
-        mockModule.SetupVoid("fluentcxLootiePlayer.play", It.IsAny<string>()).SetVoidResult();
-        mockModule.SetupVoid("fluentcxLootiePlayer.load",
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lottie/FluentCxLottiePlayer.razor.js");
+        mockModule.SetupVoid("fluentcxLottiePlayer.play", It.IsAny<string>()).SetVoidResult();
+        mockModule.SetupVoid("fluentcxLottiePlayer.load",
             It.IsAny<string>(),
-            It.IsAny<DotNetObjectReference<FluentCxLootiePlayer>>(),
+            It.IsAny<DotNetObjectReference<FluentCxLottiePlayer>>(),
             It.IsAny<string>(),
             It.IsAny<bool>(),
             It.IsAny<bool>(),
             It.IsAny<double>(),
-            It.IsAny<LootieRenderer>()).SetVoidResult();
+            It.IsAny<LottieRenderer>()).SetVoidResult();
 
-        var player = RenderComponent<FluentCxLootiePlayer>();
+        var player = RenderComponent<FluentCxLottiePlayer>();
 
         await player.Instance.PlayAsync();
 
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.load");
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.play");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.load");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.play");
     }
 
     [Fact]
     public async Task PauseAsync_InvokesJsInterop()
     {
-        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lootie/FluentCxLootiePlayer.razor.js");
-        mockModule.SetupVoid("fluentcxLootiePlayer.pause", It.IsAny<string>()).SetVoidResult();
-        mockModule.SetupVoid("fluentcxLootiePlayer.load",
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lottie/FluentCxLottiePlayer.razor.js");
+        mockModule.SetupVoid("fluentcxLottiePlayer.pause", It.IsAny<string>()).SetVoidResult();
+        mockModule.SetupVoid("fluentcxLottiePlayer.load",
             It.IsAny<string>(),
-            It.IsAny<DotNetObjectReference<FluentCxLootiePlayer>>(),
+            It.IsAny<DotNetObjectReference<FluentCxLottiePlayer>>(),
             It.IsAny<string>(),
             It.IsAny<bool>(),
             It.IsAny<bool>(),
             It.IsAny<double>(),
-            It.IsAny<LootieRenderer>()).SetVoidResult();
+            It.IsAny<LottieRenderer>()).SetVoidResult();
 
-        var player = RenderComponent<FluentCxLootiePlayer>();
+        var player = RenderComponent<FluentCxLottiePlayer>();
 
         await player.Instance.PauseAsync();
 
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.load");
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.pause");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.load");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.pause");
     }
 
     [Fact]
     public async Task StopAsync_InvokesJsInterop()
     {
-        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lootie/FluentCxLootiePlayer.razor.js");
-        mockModule.SetupVoid("fluentcxLootiePlayer.stop", It.IsAny<string>()).SetVoidResult();
-        mockModule.SetupVoid("fluentcxLootiePlayer.load",
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lottie/FluentCxLottiePlayer.razor.js");
+        mockModule.SetupVoid("fluentcxLottiePlayer.stop", It.IsAny<string>()).SetVoidResult();
+        mockModule.SetupVoid("fluentcxLottiePlayer.load",
             It.IsAny<string>(),
-            It.IsAny<DotNetObjectReference<FluentCxLootiePlayer>>(),
+            It.IsAny<DotNetObjectReference<FluentCxLottiePlayer>>(),
             It.IsAny<string>(),
             It.IsAny<bool>(),
             It.IsAny<bool>(),
             It.IsAny<double>(),
-            It.IsAny<LootieRenderer>()).SetVoidResult();
+            It.IsAny<LottieRenderer>()).SetVoidResult();
 
-        var player = RenderComponent<FluentCxLootiePlayer>();
+        var player = RenderComponent<FluentCxLottiePlayer>();
 
         await player.Instance.StopAsync();
 
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.load");
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.stop");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.load");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.stop");
     }
 
     [Fact]
     public async Task SetSpeedAsync_InvokesJsInterop()
     {
-        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lootie/FluentCxLootiePlayer.razor.js");
-        mockModule.SetupVoid("fluentcxLootiePlayer.setSpeed", It.IsAny<string>(), It.IsAny<double>()).SetVoidResult();
-        mockModule.SetupVoid("fluentcxLootiePlayer.load",
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lottie/FluentCxLottiePlayer.razor.js");
+        mockModule.SetupVoid("fluentcxLottiePlayer.setSpeed", It.IsAny<string>(), It.IsAny<double>()).SetVoidResult();
+        mockModule.SetupVoid("fluentcxLottiePlayer.load",
             It.IsAny<string>(),
-            It.IsAny<DotNetObjectReference<FluentCxLootiePlayer>>(),
+            It.IsAny<DotNetObjectReference<FluentCxLottiePlayer>>(),
             It.IsAny<string>(),
             It.IsAny<bool>(),
             It.IsAny<bool>(),
             It.IsAny<double>(),
-            It.IsAny<LootieRenderer>()).SetVoidResult();
+            It.IsAny<LottieRenderer>()).SetVoidResult();
 
-        var player = RenderComponent<FluentCxLootiePlayer>();
+        var player = RenderComponent<FluentCxLottiePlayer>();
 
         await player.Instance.SetSpeedAsync(2.5);
 
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.load");
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.setSpeed");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.load");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.setSpeed");
     }
 
     [Fact]
     public async Task SetDirectionAsync_InvokesJsInterop()
     {
-        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lootie/FluentCxLootiePlayer.razor.js");
-        mockModule.SetupVoid("fluentcxLootiePlayer.setDirection", It.IsAny<string>(), It.IsAny<LootieDirection>()).SetVoidResult();
-        mockModule.SetupVoid("fluentcxLootiePlayer.load",
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lottie/FluentCxLottiePlayer.razor.js");
+        mockModule.SetupVoid("fluentcxLottiePlayer.setDirection", It.IsAny<string>(), It.IsAny<LottieDirection>()).SetVoidResult();
+        mockModule.SetupVoid("fluentcxLottiePlayer.load",
             It.IsAny<string>(),
-            It.IsAny<DotNetObjectReference<FluentCxLootiePlayer>>(),
+            It.IsAny<DotNetObjectReference<FluentCxLottiePlayer>>(),
             It.IsAny<string>(),
             It.IsAny<bool>(),
             It.IsAny<bool>(),
             It.IsAny<double>(),
-            It.IsAny<LootieRenderer>()).SetVoidResult();
+            It.IsAny<LottieRenderer>()).SetVoidResult();
 
-        var player = RenderComponent<FluentCxLootiePlayer>();
+        var player = RenderComponent<FluentCxLottiePlayer>();
 
-        await player.Instance.SetDirectionAsync(LootieDirection.Backward);
+        await player.Instance.SetDirectionAsync(LottieDirection.Backward);
 
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.load");
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.setDirection");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.load");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.setDirection");
     }
 
     [Fact]
     public async Task PlaySegments_InvokesJsInterop()
     {
-        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lootie/FluentCxLootiePlayer.razor.js");
-        mockModule.SetupVoid("fluentcxLootiePlayer.playSegments",
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lottie/FluentCxLottiePlayer.razor.js");
+        mockModule.SetupVoid("fluentcxLottiePlayer.playSegments",
             It.IsAny<string>(),
             It.IsAny<int>(),
             It.IsAny<int>(),
             It.IsAny<bool>()).SetVoidResult();
 
-        mockModule.SetupVoid("fluentcxLootiePlayer.load",
+        mockModule.SetupVoid("fluentcxLottiePlayer.load",
             It.IsAny<string>(),
-            It.IsAny<DotNetObjectReference<FluentCxLootiePlayer>>(),
+            It.IsAny<DotNetObjectReference<FluentCxLottiePlayer>>(),
             It.IsAny<string>(),
             It.IsAny<bool>(),
             It.IsAny<bool>(),
             It.IsAny<double>(),
-            It.IsAny<LootieRenderer>()).SetVoidResult();
+            It.IsAny<LottieRenderer>()).SetVoidResult();
 
-        var player = RenderComponent<FluentCxLootiePlayer>();
+        var player = RenderComponent<FluentCxLottiePlayer>();
 
         await player.Instance.PlaySegments(2, 6, true);
 
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.load");
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.playSegments");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.load");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.playSegments");
     }
 
     [Fact]
     public async Task ToggleLoopAsync_UpdatesLoopAndTriggersStateHasChanged()
     {
-        var player = RenderComponent<FluentCxLootiePlayer>();
+        var player = RenderComponent<FluentCxLottiePlayer>();
 
         await player.Instance.ToggleLoopAsync(false);
 
@@ -186,7 +186,7 @@ public class LootiePlayerTests : TestBase
     [Fact]
     public async Task SetWidth()
     {
-        var player = RenderComponent<FluentCxLootiePlayer>(p => p.Add(p => p.Width, "50px"));
+        var player = RenderComponent<FluentCxLottiePlayer>(p => p.Add(p => p.Width, "50px"));
 
         Assert.Contains("width: 50px", player.Markup);
     }
@@ -194,7 +194,7 @@ public class LootiePlayerTests : TestBase
     [Fact]
     public async Task SetHeight()
     {
-        var player = RenderComponent<FluentCxLootiePlayer>(p => p.Add(p => p.Height, "80px"));
+        var player = RenderComponent<FluentCxLottiePlayer>(p => p.Add(p => p.Height, "80px"));
 
         Assert.Contains("height: 80px", player.Markup);
     }
@@ -202,15 +202,15 @@ public class LootiePlayerTests : TestBase
     [Fact]
     public async Task DisposeAsync_DisposesModule()
     {
-        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lootie/FluentCxLootiePlayer.razor.js");
-        mockModule.SetupVoid("fluentcxLootiePlayer.dispose",
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Lottie/FluentCxLottiePlayer.razor.js");
+        mockModule.SetupVoid("fluentcxLottiePlayer.dispose",
             It.IsAny<string>()).SetVoidResult();
 
-        var player = RenderComponent<FluentCxLootiePlayer>();
+        var player = RenderComponent<FluentCxLottiePlayer>();
 
         await player.Instance.DisposeAsync();
 
-        mockModule.VerifyInvoke("fluentcxLootiePlayer.dispose");
+        mockModule.VerifyInvoke("fluentcxLottiePlayer.dispose");
     }
 
     [Fact]
@@ -218,7 +218,7 @@ public class LootiePlayerTests : TestBase
     {
         var called = false;
 
-        var player = RenderComponent<FluentCxLootiePlayer>(p =>
+        var player = RenderComponent<FluentCxLottiePlayer>(p =>
         {
             p.Add(a => a.OnComplete, EventCallback.Factory.Create(this, () => called = true));
         });
@@ -233,7 +233,7 @@ public class LootiePlayerTests : TestBase
     {
         var called = false;
 
-        var player = RenderComponent<FluentCxLootiePlayer>(p =>
+        var player = RenderComponent<FluentCxLottiePlayer>(p =>
         {
             p.Add(a => a.OnLoop, EventCallback.Factory.Create(this, () => called = true));
         });
@@ -248,7 +248,7 @@ public class LootiePlayerTests : TestBase
     {
         var called = false;
 
-        var player = RenderComponent<FluentCxLootiePlayer>(p =>
+        var player = RenderComponent<FluentCxLottiePlayer>(p =>
         {
             p.Add(a => a.OnEnterFrame, EventCallback.Factory.Create(this, () => called = true));
         });
