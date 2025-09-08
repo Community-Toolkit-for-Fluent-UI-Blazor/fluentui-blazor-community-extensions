@@ -1,9 +1,17 @@
 ﻿@inherits LayoutComponentBase
 @using System.Runtime.InteropServices
 
+<FluentDesignTheme @bind-Mode="@Mode"
+                   @bind-OfficeColor="@OfficeColor"
+                   StorageName="theme" />
 <FluentLayout>
     <FluentHeader>
         FluentUI Blazor Community Extensions
+        <FluentSpacer />
+        <FluentSelect Width="250px"
+                      Style="float:right;"
+                      Items="@(Enum.GetValues<DesignThemeModes>())"
+                      @bind-SelectedOption="@Mode" />
     </FluentHeader>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
         <DemoNavMenu />
@@ -32,3 +40,9 @@
     <span class="dismiss">🗙</span>
 </div>
 
+@code
+{
+    public DesignThemeModes Mode { get; set; }
+
+    public OfficeColor? OfficeColor { get; set; }
+}

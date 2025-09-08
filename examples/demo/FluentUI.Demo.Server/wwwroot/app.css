@@ -4,8 +4,13 @@ body {
     --body-font: "Segoe UI Variable", "Segoe UI", sans-serif;
     font-family: var(--body-font);
     font-size: var(--type-ramp-base-font-size);
+    font-weight: var(--font-weight);
     line-height: var(--type-ramp-base-line-height);
+    color: var(--neutral-foreground-rest);
+    background: var(--neutral-fill-layer-rest);
     margin: 0;
+    padding: 0;
+    height: 100vh;
 }
 
 .navmenu-icon {
