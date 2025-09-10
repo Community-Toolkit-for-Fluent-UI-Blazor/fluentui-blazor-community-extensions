@@ -1,108 +1,74 @@
 ﻿<div style="width: 100%; height: 850px">
-    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
-        <FluentStack VerticalAlignment="VerticalAlignment.Center" Wrap>
-            <FluentSwitch @bind-Value=_showControls Label="Show controls" />
-            <FluentSpacer Width="60" />
-           
-            @if (_loopMode != SlideshowLoopingMode.Infinite.ToString())
-            {
-                <FluentSwitch @bind-Value=_showIndicators Label="Show indicators" />
+	<FluentToolbar id="toolbar-fluent-components">
+		<FluentSwitch @bind-Value=_showControls Label="Show controls" />
+		@if (_loopMode is not SlideshowLoopingMode.Infinite)
+		{
+			<FluentSwitch @bind-Value=_showIndicators Label="Show indicators" />
 
-                <FluentSpacer Width="60" />
+			@if (_showIndicators)
+			{
+				<FluentSelect @bind-SelectedOption="_indicatorPosition"
+							  Label="Position of the indicator"
+							  Items="Enum.GetValues<SlideshowIndicatorPosition>()" />
+			}
+		}
 
-                @if (_showIndicators)
-                {
-                    <FluentSelect @bind-Value="@_indicatorPosition" Label="Position of the indicator" TOption="string">
-                        <FluentOption Value="Top">Top</FluentOption>
-                        <FluentOption Value="Bottom">Bottom</FluentOption>
-                        <FluentOption Value="Left">Left</FluentOption>
-                        <FluentOption Value="Right">Right</FluentOption>
-                    </FluentSelect>
-                }
-                else
-                {
-                    <FluentSelect @bind-Value="@_orientation" Label="Orientation of the Slideshow" TOption="string">
-                        <FluentOption Value="Horizontal">Horizontal</FluentOption>
-                        <FluentOption Value="Vertical">Vertical</FluentOption>
-                    </FluentSelect>
-                }
-            }
-            else
-            {
-                <FluentSelect @bind-Value="@_orientation" Label="Orientation of the Slideshow" TOption="string">
-                    <FluentOption Value="Horizontal">Horizontal</FluentOption>
-                    <FluentOption Value="Vertical">Vertical</FluentOption>
-                </FluentSelect>
-            }
-        </FluentStack>
+		<FluentSelect @bind-SelectedOption="@_orientation"
+					  Label="Orientation of the Slideshow"
+					  Items="Enum.GetValues<Orientation>()" />
 
-        <FluentStack VerticalAlignment="VerticalAlignment.Center" Wrap>
-            <FluentSwitch @bind-Value=_autoPlay Label="Autoplay" />
-            <FluentSpacer Width="60" />
-            <FluentSelect @bind-Value="@_loopMode"
-                          Label="Looping"
-                          TOption="string"
-                          Style="margin-bottom: 20px">
-                <FluentOption Value="None">None</FluentOption>
-                <FluentOption Value="Rewind">Rewind</FluentOption>
-                <FluentOption Value="Infinite">Infinite</FluentOption>
-            </FluentSelect>
-            <FluentSpacer Width="60" />
-            <FluentSwitch @bind-Value=_touchEnabled Label="Touch enabled" />
-        </FluentStack>
+		<FluentSwitch @bind-Value=_autoPlay Label="Autoplay" />
+		<FluentSelect @bind-SelectedOption="_loopMode"
+					  Label="Looping"
+					  Items="Enum.GetValues<SlideshowLoopingMode>()" />
 
-        <FluentStack VerticalAlignment="VerticalAlignment.Center">
-            <FluentNumberField @bind-Value=_interval Label="Autoplay i nterval (seconds)" />
-            <FluentSpacer Width="60" />
-            <FluentNumberField @bind-Value=_duration Label="Slide animation duration (miliseconds)" />
-            <FluentSpacer Width="60" />
-            <FluentSelect @bind-Value="@_imageRatio"
-                          Label="Image Ratio"
-                          TOption="string"
-                          Style="margin-bottom: 20px">
-                <FluentOption Value="Auto">Auto</FluentOption>
-                <FluentOption Value="Fill">Fill</FluentOption>
-            </FluentSelect>
-        </FluentStack>
+		<FluentSwitch @bind-Value=_touchEnabled Label="Touch enabled" />
 
-        <div style="width: 100%; height: calc(100% - 250px)">
-            <FluentCxSlideshow ShowIndicators=@_showIndicators
-                               ShowControls=@_showControls
-                               Autoplay="@_autoPlay"
-                               AutoplayInterval="@TimeSpan.FromSeconds(_interval)"
-                               SlideDuration=@TimeSpan.FromMilliseconds(_duration)
-                               LoopMode=@(Enum.Parse<SlideshowLoopingMode>(_loopMode))
-                               Orientation="@(Enum.Parse<Orientation>(_orientation))"
-                               IsTouchEnabled=@_touchEnabled
-                               ImageAspectRatio=@(Enum.Parse<SlideshowImageRatio>(_imageRatio))
-                               IndicatorPosition="@(Enum.Parse<SlideshowIndicatorPosition>(_indicatorPosition))"
-                               TItem="string">
-                <SlideshowItem>
-                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
-                </SlideshowItem>
+		<FluentNumberField @bind-Value=_interval Label="Autoplay interval (seconds)" />
+		<FluentNumberField @bind-Value=_duration Label="Slide animation duration (miliseconds)" />
 
-                <SlideshowItem>
-                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
-                </SlideshowItem>
+		<FluentSelect @bind-SelectedOption="_imageRatio"
+					  Label="Image Ratio"
+					  Items="Enum.GetValues<SlideshowImageRatio>()" />
+	</FluentToolbar>
 
-                <SlideshowItem>
-                    <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
-                </SlideshowItem>
-            </FluentCxSlideshow>
-        </div>
 
-    </FluentStack>
+	<div style="width: 100%; height: calc(100% - 250px)">
+		<FluentCxSlideshow ShowIndicators="_showIndicators"
+						   ShowControls="_showControls"
+						   Autoplay="_autoPlay"
+						   AutoplayInterval="TimeSpan.FromSeconds(_interval)"
+						   SlideDuration="TimeSpan.FromMilliseconds(_duration)"
+						   LoopMode="_loopMode"
+						   Orientation="_orientation"
+						   IsTouchEnabled="_touchEnabled"
+						   ImageAspectRatio="_imageRatio"
+						   IndicatorPosition="_indicatorPosition"
+						   TItem="string">
+			<SlideshowItem>
+				<SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
+			</SlideshowItem>
+
+			<SlideshowItem>
+				<SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
+			</SlideshowItem>
+
+			<SlideshowItem>
+				<SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
+			</SlideshowItem>
+		</FluentCxSlideshow>
+	</div>
 </div>
 
 @code {
-    private bool _showControls;
-    private bool _showIndicators;
-    private bool _autoPlay;
-    private int _interval = 5;
-    private int _duration = 300;
-    private string _loopMode = "None";
-    private string _indicatorPosition = "Bottom";
-    private string _imageRatio = "Auto";
-    private string _orientation = "Horizontal";
-    private bool _touchEnabled;
+	private bool _showControls;
+	private bool _showIndicators;
+	private bool _autoPlay;
+	private int _interval = 5;
+	private int _duration = 300;
+	private SlideshowLoopingMode _loopMode = SlideshowLoopingMode.None;
+	private SlideshowIndicatorPosition _indicatorPosition = SlideshowIndicatorPosition.Bottom;
+	private SlideshowImageRatio _imageRatio = SlideshowImageRatio.Auto;
+	private Orientation _orientation = Orientation.Horizontal;
+	private bool _touchEnabled;
 }
