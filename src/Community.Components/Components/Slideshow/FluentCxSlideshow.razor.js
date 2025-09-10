@@ -273,19 +273,19 @@ export function destroy(id) {
       _instances[i].resizeObserver.unobserve(_instances[i].parent);
       _instances[i].resizeObserver.disconnect();
 
-      instance.element.removeEventListener('touchstart', e => {
+      _instances[i].element.removeEventListener('touchstart', e => {
         onTouchStart(instance, e);
       });
 
-      instance.element.removeEventListener('touchend', e => {
+      _instances[i].element.removeEventListener('touchend', e => {
         onTouchEnd(instance, e, touchThreshold);
       });
 
-      instance.element.removeEventListener('touchmove', e => {
+      _instances[i].element.removeEventListener('touchmove', e => {
         onTouchMove(e);
       });
 
-      instance.itemsContainer.removeEventListener('transitionend', () => {
+      _instances[i].itemsContainer.removeEventListener('transitionend', () => {
         onTransitionEnd(instance);
       });
 
@@ -332,7 +332,7 @@ export function storeItems(id, idCollection) {
   const instance = getInstance(id);
 
   if (instance) {
-    for(let i = 0; i < idCollection.length; i++) {
+    for (let i = 0; i < idCollection.length; i++) {
       const item = document.getElementById(idCollection[i]);
 
       if (item) {
@@ -346,7 +346,7 @@ export function restoreItems(id) {
   const instance = getInstance(id);
 
   if (instance) {
-    for(let i = instance.itemsContainer.children.length - 1; i >= 0; i--) {
+    for (let i = instance.itemsContainer.children.length - 1; i >= 0; i--) {
       instance.itemsContainer.removeChild(instance.itemsContainer.children[i]);
     }
 

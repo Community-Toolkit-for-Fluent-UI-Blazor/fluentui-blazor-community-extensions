@@ -2,8 +2,21 @@
 @using System.Runtime.InteropServices
 
 <FluentLayout>
-    <FluentHeader>
+    <FluentHeader Class="siteheader">
         FluentUI Blazor Community Extensions
+        <FluentSpacer />
+
+        <div class="links">
+            <FluentAnchor Appearance="Appearance.Hypertext"
+                          Href="https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions" Target="_blank" Rel="noreferrer noopener"
+                          title="Community Toolkit for Fluent UI Blazor source on GitHub" aria-label="Community Toolkit for Fluent UI Blazor source on GitHub">
+                <FluentIcon Value="@(new DemoIcons.Size20.GitHub())" Color="Color.FillInverse" />
+            </FluentAnchor>
+        </div>
+
+        <div class="settings">
+            <SiteSettings />
+        </div>
     </FluentHeader>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
         <DemoNavMenu />
