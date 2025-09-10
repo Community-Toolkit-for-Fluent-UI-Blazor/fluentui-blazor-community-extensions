@@ -87,6 +87,11 @@ public class DemoNavProvider
                         title: "Path bar"
                     ),
                     new NavLink(
+                        href: "signature",
+                        icon: new Icons.Regular.Size20.Signature(),
+                        title: "Signature"
+                    ),
+                    new NavLink(
                         href: "/sleekdial",
                         icon: new Icons.Regular.Size20.RadioButton(),
                         title: "Sleek dial"
