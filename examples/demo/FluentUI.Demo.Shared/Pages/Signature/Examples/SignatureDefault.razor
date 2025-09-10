@@ -1,0 +1,15 @@
+﻿@using FluentUI.Demo.Shared.Infrastructure
+<div style="height: 500px">
+    <FluentCxSignature OnExport="OnSignatureExported" />
+</div>
+
+@code {
+
+    [Inject]
+    private DownloadFile DownloadFile { get; set; } = null!;
+
+    private async Task OnSignatureExported(SignatureExportResult result)
+    {
+        await DownloadFile.DowloadAsync(result.FileName, result.Data, result.ContentType);
+    }
+}

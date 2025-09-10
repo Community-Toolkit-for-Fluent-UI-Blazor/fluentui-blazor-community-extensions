@@ -7958,6 +7958,1348 @@
             <param name="localizationDirection">Direction used by the app.</param>
             <returns>Returns the <see cref="T:System.Collections.Generic.Dictionary`2"/> of the resize handler to use.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxSignature">
+            <summary>
+            Represents a Fluent UI Signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._allLineStyles">
+            <summary>
+            Represents all available line styles.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._exportFormats">
+            <summary>
+            Represents all available export formats.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._previewCanvas">
+            <summary>
+            Represents the reference to the signature canvas element in the DOM.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._previewPenCanvas">
+            <summary>
+            Represents the reference to the pen preview canvas element in the DOM.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._module">
+            <summary>
+            Represents the JavaScript module for interop calls.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._signatureDotNetRef">
+            <summary>
+            Represents the .NET object reference for JavaScript interop.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._invalidateRender">
+            <summary>
+            Value indicating whether the component needs to re-render.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._renderSignature">
+            <summary>
+            Represents the render fragment for the signature canvas.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._renderToolbar">
+            <summary>
+            Represents the render fragment for the toolbar.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._isSettingsOpen">
+            <summary>
+            Value indicating whether the settings panel is open.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._renderLabel">
+            <summary>
+            Represents the render fragment for the label.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._intrinsicWidth">
+            <summary>
+            Represents the intrinsic width of the signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._intrinsicHeight">
+            <summary>
+            Represents the intrinsic height of the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.State">
+            <summary>
+            Gets or sets the state of the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.ExportSettings">
+            <summary>
+            Gets or sets the export settings for the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.SignatureSettings">
+            <summary>
+            Gets or sets the signature settings.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.WatermarkSettings">
+            <summary>
+            Gets or sets the watermark settings for the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.Width">
+            <summary>
+            Gets or sets the width of the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.Height">
+            <summary>
+            Gets or sets the height of the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.OnClear">
+            <summary>
+            Gets or sets the callback function to be invoked when the signature is cleared.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.OnExport">
+            <summary>
+            Gets or sets the callback function to be invoked when the signature is exported.
+            </summary>
+            <remarks>
+            Use this callback to handle the exported signature data, which includes the image bytes,
+            and for downloading or processing the signature as needed in the browser.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.Runtime">
+            <summary>
+            Gets or sets the JavaScript runtime for interop calls.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.Options">
+            <summary>
+            Gets the configuration options for rendering and customizing the signature.
+            </summary>
+            <remarks>The options are derived from the current signature and watermark settings, allowing for 
+            fine-grained control over the appearance and behavior of the signature. These settings include  properties such
+            as stroke width, pen color, grid type, and watermark text.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.Capabilities">
+            <summary>
+            Gets or sets the capabilities of the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.ToolPosition">
+            <summary>
+            Gets or sets the position of the signature tool.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.IsMobile">
+            <summary>
+            Gets or sets a value indicating whether the component is being rendered on a mobile device.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.Labels">
+            <summary>
+            Gets or sets the labels used in the signature component for localization.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.InternalClass">
+            <summary>
+            Gets the internal CSS class for the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.InternalPreviewStyle">
+            <summary>
+            Gets the internal style for the preview component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.SeparatorYPx">
+            <summary>
+            Gets the separator Y position in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.InternalCanvasStyle">
+            <summary>
+            Gets the internal style for the canvas element.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnChangeGridAsync(FluentUI.Blazor.Community.Components.SignatureGridType)">
+            <summary>
+            Occurs when the grid type has changed.
+            </summary>
+            <param name="value">The new grid type.</param>
+            <returns>Returns a task which shows or hides the grid.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnChangeToolAsync(FluentUI.Blazor.Community.Components.SignatureTool)">
+            <summary>
+            
+            </summary>
+            <param name="tool"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnExportAsync">
+            <summary>
+            Handles the export operation by generating the export data and invoking the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSignature.OnExport"/> callback, if
+            subscribed.
+            </summary>
+            <remarks>This method generates the export data, including the file content, MIME type, and filename,
+            and then triggers the  <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSignature.OnExport"/> event with the generated export result. The export format is
+            determined by the current  <see cref="!:ExportSettings.Format"/>.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.GetBackgroundImage">
+            <summary>
+            Gets the background image as a base64 string.
+            </summary>
+            <returns>Returns the base64 string of the background image if exists, <see langword="null" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.GetWatermarkImage">
+            <summary>
+            Gets the watermark image as a base64 string.
+            </summary>
+            <returns>Returns the base64 string of the watermark image if exists, <see langword="null" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.SyncOptionsAsync(Microsoft.AspNetCore.Components.ElementReference)">
+            <summary>
+            Synchronizes the options for the specified element asynchronously.
+            </summary>
+            <remarks>This method updates the options for the specified element by invoking a JavaScript function. 
+            Ensure that the module is initialized before calling this method.</remarks>
+            <param name="elementReference">A reference to the HTML element whose options are being synchronized.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnClearAsync">
+            <summary>
+            Clears all strokes and resets the signature canvas to its initial state.
+            </summary>
+            <remarks>This method clears the internal stroke collections, resets the current value, and notifies
+            the  associated <see cref="!:EditContext"/> of the field change. If a JavaScript module is provided,  it invokes
+            the corresponding JavaScript function to clear the canvas. Finally, it triggers the  <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSignature.OnClear"/> event
+            if it has subscribers.</remarks>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnUndoAsync">
+            <summary>
+            Reverts the most recent stroke, moving it to the redo stack.
+            </summary>
+            <remarks>This method removes the last stroke from the collection of strokes and adds it to the redo
+            stack. If there are no strokes to undo, the method exits without performing any action. After undoing, the
+            canvas is refreshed and the current value is updated to its default state.</remarks>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnRedoAsync">
+            <summary>
+            Performs the redo operation by restoring the most recently undone stroke to the canvas.
+            </summary>
+            <remarks>This method moves a stroke from the redo stack back to the main collection of strokes  and
+            refreshes the canvas to reflect the change. If there are no strokes available to redo,  the method exits without
+            making any changes.</remarks>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.RefreshCanvasAsync">
+            <summary>
+            Refreshes the canvas by rendering the current strokes, options, background image, and watermark.
+            </summary>
+            <remarks>This method invokes a JavaScript function to update the canvas with the latest state.  Ensure
+            that the module is initialized before calling this method.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.UpdateCurrentValueDefault">
+            <summary>
+            Updates the current value to the default value derived from the export operation and notifies the edit context
+            of the field change.
+            </summary>
+            <remarks>This method sets the <see cref="!:CurrentValue"/> property to the byte data returned  by the
+            <c>Export</c> method and triggers a field change notification in the associated  <see cref="!:EditContext"/>, if
+            one is defined.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.Export">
+            <summary>
+            Exports the signature as a byte array along with its MIME type and suggested filename.
+            </summary>
+            <remarks>The exported signature includes the strokes, settings, and watermark as configured.  This
+            method is typically used to generate a file-ready representation of the signature.</remarks>
+            <returns>A tuple containing the following: <list type="bullet"> <item> <description><see cref="T:System.Byte"/>[]: The
+            binary data representing the exported signature.</description> </item> <item> <description><see
+            cref="T:System.String"/>: The MIME type of the exported file (e.g., "image/png").</description> </item> <item>
+            <description><see cref="T:System.String"/>: The suggested filename for the exported file.</description> </item>
+            </list></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.UpdatePreviewAsync">
+            <summary>
+            Updates the preview line on the canvas asynchronously based on the current pen settings.
+            </summary>
+            <remarks>This method invokes a JavaScript function to render the preview line using the specified pen
+            properties,  such as stroke width, opacity, color, and style. The method does nothing if the module is not
+            initialized.</remarks>
+            <returns>Returns a task which updates the preview of the line.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnAfterChangeAsync">
+            <summary>
+            Updates the preview asynchronously after a change has occurred.
+            </summary>
+            <returns>Returns a task which updates the preview of the line.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnActiveIdChangedAsync(System.String)">
+            <summary>
+            Occurs when the active ID changes.
+            </summary>
+            <param name="id">Id which has changed.</param>
+            <returns>Returns a task which updates the pen.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.TryParseValueFromString(System.String,System.Byte[]@,System.String@)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.InvalidateRender">
+            <summary>
+            Invalidates the render.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnStrokeCompletedAsync(FluentUI.Blazor.Community.Components.SignatureStroke)">
+            <summary>
+            Handles the completion of a stroke in the signature input, adding it to the collection of strokes.
+            </summary>
+            <param name="value">The completed stroke to be added to the signature.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnIntrinsicSizeSetAsync(System.Int32,System.Int32)">
+            <summary>
+            Handles the completion of an auto-size operation by updating the intrinsic dimensions  and synchronizing the
+            canvas options.
+            </summary>
+            <param name="width">The new intrinsic width of the canvas, in pixels.</param>
+            <param name="height">The new intrinsic height of the canvas, in pixels.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureCapabilities">
+            <summary>
+            Represents the capabilities of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSignature"/> component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureCapabilities.CanUndo">
+            <summary>
+            Gets or sets a value indicating whether the user can undo the last stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureCapabilities.CanRedo">
+            <summary>
+            Gets or sets a value indicating whether the user can redo the last undone stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureCapabilities.CanClear">
+            <summary>
+            Gets or sets a value indicating whether the user can clear the entire signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureCapabilities.CanExport">
+            <summary>
+            Gets or sets a value indicating whether the user can export the signature as an image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureCapabilities.CanErase">
+            <summary>
+            Gets or sets a value indicating whether the user can erase parts of the signature.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureExporter">
+            <summary>
+            Exports a signature as a file in the specified format.
+            </summary>
+            <remarks>The export format is determined by the <see cref="P:FluentUI.Blazor.Community.Components.SignatureExportSettings.Format"/> property. 
+            Supported formats include PNG, JPEG, WebP, SVG, and PDF. If the application is running in a  browser environment,
+            only SVG export is supported.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureExporter.Export(System.Int32,System.Int32,System.Collections.Generic.List{FluentUI.Blazor.Community.Components.SignatureStroke},FluentUI.Blazor.Community.Components.SignatureExportSettings,FluentUI.Blazor.Community.Components.SignatureSettings,FluentUI.Blazor.Community.Components.SignatureWatermarkSettings)">
+            <summary>
+            Exports a signature as a file in the specified format, including optional settings for quality, signature
+            appearance, and watermarking.
+            </summary>
+            <remarks>The export format is determined by the <see cref="P:FluentUI.Blazor.Community.Components.SignatureExportSettings.Format"/> property.
+            Supported formats include PNG, JPEG, WebP, SVG, and PDF. If the application is running in a browser environment,
+            only SVG export is supported.</remarks>
+            <param name="width">The width of the signature canvas, in pixels.</param>
+            <param name="height">The height of the signature canvas, in pixels.</param>
+            <param name="strokes">A collection of strokes that define the signature.</param>
+            <param name="exportSettings">The settings that specify the export format and quality.</param>
+            <param name="signatureSettings">The settings that define the appearance of the signature.</param>
+            <param name="watermarkSettings">The settings for applying a watermark to the exported signature.</param>
+            <returns>A tuple containing the exported file's byte array, MIME type, and filename.  The MIME type and filename are
+            determined based on the export format.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureExportFormat">
+            <summary>
+            Represents the format of the signature image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureExportFormat.Png">
+            <summary>
+            Represents the PNG image format.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureExportFormat.Jpeg">
+            <summary>
+            Represents the JPEG image format.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureExportFormat.Webp">
+            <summary>
+            Represents the WebP image format.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureExportFormat.Svg">
+            <summary>
+            Represents the SVG image format.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureExportFormat.Pdf">
+            <summary>
+            Represents the PDF document format.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureExportResult">
+            <summary>
+            Represents the result of exporting a signature.
+            </summary>
+            <param name="FileName">Name of the file.</param>
+            <param name="Data">Raw data of the file.</param>
+            <param name="ContentType">Content type of the file.</param>
+            <param name="Format">Format of the image.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureExportResult.#ctor(System.String,System.Byte[],System.String,FluentUI.Blazor.Community.Components.SignatureExportFormat)">
+            <summary>
+            Represents the result of exporting a signature.
+            </summary>
+            <param name="FileName">Name of the file.</param>
+            <param name="Data">Raw data of the file.</param>
+            <param name="ContentType">Content type of the file.</param>
+            <param name="Format">Format of the image.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportResult.FileName">
+            <summary>Name of the file.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportResult.Data">
+            <summary>Raw data of the file.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportResult.ContentType">
+            <summary>Content type of the file.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportResult.Format">
+            <summary>Format of the image.</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureExportSettings">
+            <summary>
+            Represents settings for exporting a signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportSettings.Format">
+            <summary>
+            Gets or sets the format in which the signature will be exported.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportSettings.Quality">
+            <summary>
+            Gets or sets the quality of the exported image. This is relevant for lossy formats like JPEG and WebP.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureExportSettings.UpdateInternalValues(FluentUI.Blazor.Community.Components.SignatureState)">
+            <summary>
+            Updates the internal values of the export settings based on the specified signature state.
+            </summary>
+            <param name="state">The <see cref="T:FluentUI.Blazor.Community.Components.SignatureState"/> containing the updated quality and export format values.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureGridType">
+            <summary>
+            Represents the types of grids that can be displayed in the signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureGridType.None">
+            <summary>
+            No grid is displayed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureGridType.Lines">
+            <summary>
+            Represents a grid made up of lines.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureGridType.Dots">
+            <summary>
+            Represents a grid made up of dots.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureIntrinsicSize">
+            <summary>
+            Represents the intrinsic size behavior of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSignature"/> component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureIntrinsicSize.Manual">
+            <summary>
+            Represents a manual intrinsic size behavior where the user can define the size.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureIntrinsicSize.Auto">
+            <summary>
+            Represents an automatic intrinsic size behavior where the component adjusts its size based on content or context.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureLabels">
+            <summary>
+            Represents the labels used in the Signature component for localization.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Default">
+            <summary>
+            Gets the default English labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.French">
+            <summary>
+            Gets the French labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Clear">
+            <summary>
+            Gets or sets the label for the clear button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Undo">
+            <summary>
+            Gets or sets the label for the undo button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Redo">
+            <summary>
+            Gets or sets the label for the redo button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Eraser">
+            <summary>
+            Gets or sets the label for the eraser button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Pen">
+            <summary>
+            Gets or sets the label for the pen button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.PenOpacity">
+            <summary>
+            Gets or sets the label for the pen opacity.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Export">
+            <summary>
+            Gets or sets the label for the export button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Settings">
+            <summary>
+            Gets or sets the label for the settings button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.StrokeWidth">
+            <summary>
+            Gets or sets the label for the stroke width.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.PenColor">
+            <summary>
+            Gets or sets the label for the pen color.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.StrokeLineStyle">
+            <summary>
+            Gets or sets the label for the stroke line style.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.SolidLine">
+            <summary>
+            Gets or sets the label for solid line style.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.DottedLine">
+            <summary>
+            Gets or sets the label for dotted line style.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.DashedLine">
+            <summary>
+            Gets or sets the label for dashed line style.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Grid">
+            <summary>
+            Gets or sets the label for the grid option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ShowSeparatorLine">
+            <summary>
+            Gets or sets the label for the show separator line option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.UseSmoothing">
+            <summary>
+            Gets or sets the label for the use smoothing option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.UsePointerPressure">
+            <summary>
+            Gets or sets the label for the use pointer pressure option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.UseShadow">
+            <summary>
+            Gets or sets the label for the use shadow option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ShadowColor">
+            <summary>
+            Gets or sets the label for the shadow color option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ShadowOpacity">
+            <summary>
+            Gets or sets the label for the shadow opacity option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ExportFormat">
+            <summary>
+            Gets or sets the label for the export format option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.SignatureSettings">
+            <summary>
+            Gets or sets the label for the signature settings section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.DisplayOptions">
+            <summary>
+            Gets or sets the label for the display options section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ExportOptions">
+            <summary>
+            Gets or sets the label for the export options section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.NoGrid">
+            <summary>
+            Gets or sets the label to select the "No grid" option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.LinesGrid">
+            <summary>
+            Gets or sets the label to select the "Lines grid" option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.DotsGrid">
+            <summary>
+            Gets or sets the label to select the "Dots grid" option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.StrokePreview">
+            <summary>
+            Gets or sets the label for the stroke preview.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureLineStyle">
+            <summary>
+            Represents the available line styles for the signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureLineStyle.Solid">
+            <summary>
+            Represents a solid line style.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureLineStyle.Dashed">
+            <summary>
+            Represents a dashed line style.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureLineStyle.Dotted">
+            <summary>
+            Represents a dotted line style.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureOptions">
+            <summary>
+            Represents configuration options for customizing the appearance and behavior of a signature canvas.
+            </summary>
+            <remarks>This record provides a comprehensive set of options to control the visual style, dimensions, and 
+            interactive behavior of a signature canvas. It includes settings for stroke appearance, grid lines,  background,
+            watermark, and more. Default values are provided for all properties, allowing for  easy customization of only the
+            desired options.</remarks>
+            <param name="StrokeWidth">Represents the width of the stroke.</param>
+            <param name="PenColor">Represents the color of the pen.</param>
+            <param name="PenOpacity">Represents the opacity of the pen.</param>
+            <param name="ShadowColor">Represents the color of the shadow.</param>
+            <param name="ShadowOpacity">Represents the opacity of the shadow.</param>
+            <param name="StrokeStyle">Represents the style of the stroke.</param>
+            <param name="Smooth">Represents if the stroke are smooth.</param>
+            <param name="UseShadow">Value indicating if the shadow is used.</param>
+            <param name="UsePointerPressure">Value indicating if we use the pressure of the pointer.</param>
+            <param name="Width">Width of the signature zone.</param>
+            <param name="Height">Height of the signature zone.</param>
+            <param name="Background">Background color of the signature zone.</param>
+            <param name="ShowSeparatorLine">Value indicating if the separator line is visible.</param>
+            <param name="SeparatorY">Represents the height from the top where the signature line is drawn.</param>
+            <param name="SeparatorLineColor">Represents the color of the separator line.</param>
+            <param name="ShowGrid">Value indicating if the grid is visible.</param>
+            <param name="GridColor">Represents the color of the grid lines.</param>
+            <param name="GridSpacing">Represents the spacing between the grid lines.</param>
+            <param name="GridType">Represents the type of the grid.</param>
+            <param name="GridOpacity">Represents the opactiry of the grid.</param>
+            <param name="WatermarkText">Represents the text of the watermark.</param>
+            <param name="WatermarkOpacity">Represents the opacity of the watermark.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureOptions.#ctor(System.Single,System.String,System.Single,System.String,System.Single,FluentUI.Blazor.Community.Components.SignatureLineStyle,System.Boolean,System.Boolean,System.Boolean,System.Int32,System.Int32,System.String,System.Boolean,System.Single,System.String,System.Boolean,System.String,System.Single,FluentUI.Blazor.Community.Components.SignatureGridType,System.Single,System.String,System.Single)">
+            <summary>
+            Represents configuration options for customizing the appearance and behavior of a signature canvas.
+            </summary>
+            <remarks>This record provides a comprehensive set of options to control the visual style, dimensions, and 
+            interactive behavior of a signature canvas. It includes settings for stroke appearance, grid lines,  background,
+            watermark, and more. Default values are provided for all properties, allowing for  easy customization of only the
+            desired options.</remarks>
+            <param name="StrokeWidth">Represents the width of the stroke.</param>
+            <param name="PenColor">Represents the color of the pen.</param>
+            <param name="PenOpacity">Represents the opacity of the pen.</param>
+            <param name="ShadowColor">Represents the color of the shadow.</param>
+            <param name="ShadowOpacity">Represents the opacity of the shadow.</param>
+            <param name="StrokeStyle">Represents the style of the stroke.</param>
+            <param name="Smooth">Represents if the stroke are smooth.</param>
+            <param name="UseShadow">Value indicating if the shadow is used.</param>
+            <param name="UsePointerPressure">Value indicating if we use the pressure of the pointer.</param>
+            <param name="Width">Width of the signature zone.</param>
+            <param name="Height">Height of the signature zone.</param>
+            <param name="Background">Background color of the signature zone.</param>
+            <param name="ShowSeparatorLine">Value indicating if the separator line is visible.</param>
+            <param name="SeparatorY">Represents the height from the top where the signature line is drawn.</param>
+            <param name="SeparatorLineColor">Represents the color of the separator line.</param>
+            <param name="ShowGrid">Value indicating if the grid is visible.</param>
+            <param name="GridColor">Represents the color of the grid lines.</param>
+            <param name="GridSpacing">Represents the spacing between the grid lines.</param>
+            <param name="GridType">Represents the type of the grid.</param>
+            <param name="GridOpacity">Represents the opactiry of the grid.</param>
+            <param name="WatermarkText">Represents the text of the watermark.</param>
+            <param name="WatermarkOpacity">Represents the opacity of the watermark.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.StrokeWidth">
+            <summary>Represents the width of the stroke.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.PenColor">
+            <summary>Represents the color of the pen.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.PenOpacity">
+            <summary>Represents the opacity of the pen.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.ShadowColor">
+            <summary>Represents the color of the shadow.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.ShadowOpacity">
+            <summary>Represents the opacity of the shadow.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.StrokeStyle">
+            <summary>Represents the style of the stroke.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.Smooth">
+            <summary>Represents if the stroke are smooth.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.UseShadow">
+            <summary>Value indicating if the shadow is used.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.UsePointerPressure">
+            <summary>Value indicating if we use the pressure of the pointer.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.Width">
+            <summary>Width of the signature zone.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.Height">
+            <summary>Height of the signature zone.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.Background">
+            <summary>Background color of the signature zone.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.ShowSeparatorLine">
+            <summary>Value indicating if the separator line is visible.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.SeparatorY">
+            <summary>Represents the height from the top where the signature line is drawn.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.SeparatorLineColor">
+            <summary>Represents the color of the separator line.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.ShowGrid">
+            <summary>Value indicating if the grid is visible.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.GridColor">
+            <summary>Represents the color of the grid lines.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.GridSpacing">
+            <summary>Represents the spacing between the grid lines.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.GridType">
+            <summary>Represents the type of the grid.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.GridOpacity">
+            <summary>Represents the opactiry of the grid.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.WatermarkText">
+            <summary>Represents the text of the watermark.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.WatermarkOpacity">
+            <summary>Represents the opacity of the watermark.</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureSettings">
+            <summary>
+            Represents settings for the signature tool.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.Tool">
+            <summary>
+            Gets or sets the current tool being used in the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.StrokeWidth">
+            <summary>
+            Gets or sets the width of the stroke used for drawing the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.StrokeColor">
+            <summary>
+            Gets or sets the color of the stroke used for drawing the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.PenColor">
+            <summary>
+            Gets or sets the color of the pen used for drawing the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.ShadowColor">
+            <summary>
+            Gets or sets the color of the shadow used for drawing the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.ShadowOpacity">
+            <summary>
+            Gets or sets the opacity of the shadow used for drawing the signature.
+            Value should be between 0.0 (fully transparent) and 1.0 (fully opaque).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.PenOpacity">
+            <summary>
+            Gets or sets the opacity of the pen used for drawing the signature.
+            Value should be between 0.0 (fully transparent) and 1.0 (fully opaque).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.StrokeStyle">
+            <summary>
+            Gets or sets the style of the stroke used for drawing the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.Smooth">
+            <summary>
+            Gets or sets a value indicating whether the stroke should be smoothed for a more natural appearance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.UseShadow">
+            <summary>
+            Gets or sets a value indicating whether a shadow effect should be applied to the stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.UsePointerPressure">
+            <summary>
+            Gets or sets a value indicating whether pointer pressure sensitivity should be used when drawing the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.BackgroundColor">
+            <summary>
+            Gets or sets the background color of the signature area.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.BackgroundImage">
+            <summary>
+            Gets or sets the background image of the signature area as a byte array.
+            This can be used to set a custom background for the signature pad.
+            </summary>
+            <remarks>
+            If <see cref="P:FluentUI.Blazor.Community.Components.SignatureSettings.BackgroundImage"/> is set, it will override the <see cref="P:FluentUI.Blazor.Community.Components.SignatureSettings.BackgroundColor"/>."/>
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.ShowSeparatorLine">
+            <summary>
+            Gets or sets a value indicating whether a separator line should be displayed in the signature area.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.SeparatorLineColor">
+            <summary>
+            Gets or sets a value indicating whether a separator line should be displayed in the signature area.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.SeparatorY">
+            <summary>
+            Gets or sets the color of the separator line in the signature area.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.ShowGrid">
+            <summary>
+            Gets a value indicating whether a grid should be displayed in the signature area.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.GridType">
+            <summary>
+            Gets or sets the type of grid to be displayed in the signature area.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.GridSpacing">
+            <summary>
+            Gets or sets the spacing between grid lines in the signature area, in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.GridColor">
+            <summary>
+            Gets or sets the color of the grid lines in the signature area.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.GridOpacity">
+            <summary>
+            Gets or sets the opacity of the grid lines in the signature area. Value should be between 0.0 (fully transparent) and 1.0 (fully opaque).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureSettings.Parent">
+            <summary>
+            Gets or sets the parent signature component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSettings.OnParametersSet">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSettings.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSettings.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSettings.UpdateInternalValues(FluentUI.Blazor.Community.Components.SignatureState)">
+            <summary>
+            Updates the internal values of the signature settings and triggers a re-render of the parent component.
+            </summary>
+            <param name="state">The current state of the signature component.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSettings.Reset">
+            <summary>
+            Resets the signature settings to their default values.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureSkiaExporter">
+            <summary>
+            Represents a utility class for exporting signature images using SkiaSharp.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.Export(FluentUI.Blazor.Community.Components.SignatureExportFormat,System.Int32,System.Int32,System.Collections.Generic.List{FluentUI.Blazor.Community.Components.SignatureStroke},System.Int32,FluentUI.Blazor.Community.Components.SignatureSettings,FluentUI.Blazor.Community.Components.SignatureWatermarkSettings)">
+            <summary>
+            Exports a signature image based on the provided dimensions, strokes, and settings.
+            </summary>
+            <param name="format">The format of the exported image.</param>
+            <param name="width">The width of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="height">The height of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="strokes">A collection of signature strokes that define the signature to be exported. Cannot be null.</param>
+            <param name="quality">The quality of the exported image, as a percentage (1-100). Higher values indicate better quality.</param>
+            <param name="signatureSettings">The settings that define the appearance and behavior of the signature. Cannot be null.</param>
+            <param name="watermarkSettings">The settings for applying a watermark to the exported image. Cannot be null.</param>
+            <returns>A tuple containing the exported image data as a byte array, the MIME type of the image, and the suggested
+            filename.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.ExportPdf(System.Int32,System.Int32,System.Collections.Generic.List{FluentUI.Blazor.Community.Components.SignatureStroke},FluentUI.Blazor.Community.Components.SignatureSettings,FluentUI.Blazor.Community.Components.SignatureWatermarkSettings)">
+            <summary>
+            Exports a signature as a PDF document.
+            </summary>
+            <param name="width">The width of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="height">The height of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="strokes">A collection of signature strokes that define the signature to be exported. Cannot be null.</param>
+            <param name="signatureSettings">The settings that define the appearance and behavior of the signature. Cannot be null.</param>
+            <param name="watermarkSettings">The settings for applying a watermark to the exported image. Cannot be null.</param>
+            <returns>Returns the pdf as a <see cref="T:System.Byte"/> array.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.ExportInternal(FluentUI.Blazor.Community.Components.SignatureExportFormat,System.Int32,System.Int32,System.Collections.Generic.List{FluentUI.Blazor.Community.Components.SignatureStroke},System.Int32,FluentUI.Blazor.Community.Components.SignatureSettings,FluentUI.Blazor.Community.Components.SignatureWatermarkSettings)">
+            <summary>
+            Exports a signature image based on the provided dimensions, strokes, and settings.
+            </summary>
+            <param name="width">The width of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="height">The height of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="strokes">A collection of signature strokes that define the signature to be exported. Cannot be null.</param>
+            <param name="quality">The quality of the exported image, as a percentage (1-100). Higher values indicate better quality.</param>
+            <param name="signatureSettings">The settings that define the appearance and behavior of the signature. Cannot be null.</param>
+            <param name="watermarkSettings">The settings for applying a watermark to the exported image. Cannot be null.</param>
+            <param name="format">The format of the exported image.</param>
+            <returns>A byte array containing the exported image data.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.ParseColor(System.String)">
+            <summary>
+            Parses a hexadecimal color string and returns the corresponding <see cref="T:SkiaSharp.SKColor"/> value.
+            </summary>
+            <remarks>This method attempts to parse the provided hexadecimal color string using <see
+            cref="M:SkiaSharp.SKColor.TryParse(System.String,SkiaSharp.SKColor@)"/>. If the parsing fails, the method returns <see
+            cref="F:SkiaSharp.SKColors.Transparent"/>.</remarks>
+            <param name="hex">The hexadecimal color string to parse. The string should be in a valid hex color format, such as "#RRGGBB" or
+            "#AARRGGBB".</param>
+            <returns>The parsed <see cref="T:SkiaSharp.SKColor"/> if the input string is valid; otherwise, <see cref="F:SkiaSharp.SKColors.Transparent"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.DrawGrid(SkiaSharp.SKCanvas,System.Int32,System.Int32,FluentUI.Blazor.Community.Components.SignatureSettings)">
+            <summary>
+            Draws a grid on the provided canvas based on the specified settings.
+            </summary>
+            <param name="canvas">Canvas where the grid will be drawn.</param>
+            <param name="width">The width of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="height">The height of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="settings">The settings that define the appearance and behavior of the signature. Cannot be null.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.DrawGridDots(SkiaSharp.SKCanvas,System.Int32,System.Int32,SkiaSharp.SKPaint,System.Int32)">
+            <summary>
+            Draws a grid of dots on the provided canvas.
+            </summary>
+            <param name="canvas">Canvas where the grid will be drawn.</param>
+            <param name="width">The width of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="height">The height of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="paint">Paint information.</param>
+            <param name="gridSpacing">Spacing between each dot.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.DrawGridLines(SkiaSharp.SKCanvas,System.Int32,System.Int32,SkiaSharp.SKPaint,System.Int32)">
+            <summary>
+            Draws a grid of lines on the provided canvas.
+            </summary>
+            <param name="canvas">Canvas where the grid will be drawn.</param>
+            <param name="width">The width of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="height">The height of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="paint">Paint information.</param>
+            <param name="gridSpacing">Spacing between each dot.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.DrawSeparator(SkiaSharp.SKCanvas,System.Int32,System.Int32,FluentUI.Blazor.Community.Components.SignatureSettings)">
+            <summary>
+            Draws a separator line on the provided canvas based on the specified settings.
+            </summary>
+            <param name="canvas">Canvas where the grid will be drawn.</param>
+            <param name="width">The width of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="height">The height of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="settings">The settings that define the appearance and behavior of the signature. Cannot be null.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.DrawWatermark(SkiaSharp.SKCanvas,System.Int32,System.Int32,FluentUI.Blazor.Community.Components.SignatureWatermarkSettings)">
+            <summary>
+            Draws a watermark on the provided canvas based on the specified settings.
+            </summary>
+            <param name="canvas">Canvas where the grid will be drawn.</param>
+            <param name="width">The width of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="height">The height of the exported image, in pixels. Must be greater than 0.</param>
+            <param name="settings">The settings that define the appearance and behavior of the signature. Cannot be null.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSkiaExporter.DrawStrokes(SkiaSharp.SKCanvas,System.Collections.Generic.List{FluentUI.Blazor.Community.Components.SignatureStroke},FluentUI.Blazor.Community.Components.SignatureSettings)">
+            <summary>
+            Draws the signature strokes on the provided canvas based on the specified settings.
+            </summary>
+            <param name="canvas">Canvas where the grid will be drawn.</param>
+            <param name="strokes">Strokes to draw on the canvas.</param>
+            <param name="settings">The settings that define the appearance and behavior of the signature. Cannot be null.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureState">
+            <summary>
+            Represents the current state of the signature, including all strokes made by the user.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.Strokes">
+            <summary>
+            Gets the list of strokes that make up the signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.RedoStrokes">
+            <summary>
+            Gets the stack of undone strokes for redo functionality.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.CurrentTool">
+            <summary>
+            Gets or sets the current tool selected for drawing on the signature canvas.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.ShowGrid">
+            <summary>
+            Gets a value indicating whether the grid is shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.GridType">
+            <summary>
+            Gets or sets the type of grid to display on the signature canvas.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.StrokeWidth">
+            <summary>
+            Represents the width of the stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.PenColor">
+            <summary>
+            Gets or sets the color of the stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.PenOpacity">
+            <summary>
+            Represents the opacity of the stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.StrokeStyle">
+            <summary>
+            Gets or sets the style of the stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.ShowSeparatorLine">
+            <summary>
+            Gets or sets a value indicating if the line separator is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.UseSmooth">
+            <summary>
+            Gets or sets a value indicating if the signature use smoothing.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.UsePointerPressure">
+            <summary>
+            Gets or sets a value indicating if we use the pressure of the pointer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.UseShadow">
+            <summary>
+            Gets or sets a value indicating if the shadow is used.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.ShadowOpacity">
+            <summary>
+            Gets or sets the opacity of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.ShadowColor">
+            <summary>
+            Gets or sets the color of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.Quality">
+            <summary>
+            Gets or sets the quality of the exported image (1-100).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureState.ExportFormat">
+            <summary>
+            Gets or sets the format of the export.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureState.Clear">
+            <summary>
+            Clears all strokes from the signature.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureState.Update(FluentUI.Blazor.Community.Components.SignatureSettings)">
+            <summary>
+            Updates the current signature settings based on the specified <see cref="T:FluentUI.Blazor.Community.Components.SignatureSettings"/> instance.
+            </summary>
+            <remarks>This method updates various properties related to the signature tool, such as the tool type,
+            grid visibility,  stroke width, pen color, and other visual and functional settings. The caller must ensure that
+            the  <paramref name="signatureSettings"/> parameter is not null and contains valid values for the desired
+            updates.</remarks>
+            <param name="signatureSettings">An instance of <see cref="T:FluentUI.Blazor.Community.Components.SignatureSettings"/> containing the new settings to apply.  The properties of this
+            object determine the updated values for the signature tool, appearance, and behavior.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureState.Update(FluentUI.Blazor.Community.Components.SignatureExportSettings)">
+            <summary>
+            Updates the current export settings based on the specified <see cref="T:FluentUI.Blazor.Community.Components.SignatureExportSettings"/>.
+            </summary>
+            <param name="signatureExportSettings">The export settings to apply. This parameter must not be <see langword="null"/>.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureState.Reset(FluentUI.Blazor.Community.Components.SignatureSettings)">
+            <summary>
+            Resets the signature settings to their default values and updates the current state accordingly.
+            </summary>
+            <param name="signatureSettings">Settings of the signature.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureStroke">
+            <summary>
+            Represents a stroke in a signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureStroke.Points">
+            <summary>
+            Gets the points that make up the stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureStroke.Width">
+            <summary>
+            Gets or sets the width of the stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureStroke.Color">
+            <summary>
+            Gets or sets the color of the stroke in HEX format (e.g., "#000000" for black).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureStroke.Opacity">
+            <summary>
+            Gets or sets the opacity of the stroke (0.0 to 1.0).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureStroke.Smooth">
+            <summary>
+            Gets or sets a value indicating whether the stroke should be smoothed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureStroke.Eraser">
+            <summary>
+            Gets or sets a value indicating whether the stroke is an eraser stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureStroke.LineStyle">
+            <summary>
+            Gets or sets the line style of the stroke.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureSvgExporter">
+            <summary>
+            Provides functionality to export a signature as an SVG image.
+            </summary>
+            <remarks>This class generates an SVG representation of a signature based on the provided strokes, settings, 
+            and optional watermark. The resulting SVG includes configurable elements such as background color or image,  grid
+            lines, separator lines, and watermark text or image. The output is returned as a byte array along with  its MIME
+            type and a suggested filename.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureSvgExporter.InvariantCulture">
+            <summary>
+            Represents the invariant culture, which is culture-insensitive and associated with the English language but not
+            with any specific region.
+            </summary>
+            <remarks>The invariant culture is often used for operations that require culture-independent results,
+            such as formatting and parsing operations where consistent behavior is required regardless of the user's
+            locale.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSvgExporter.Export(System.Int32,System.Int32,System.Collections.Generic.List{FluentUI.Blazor.Community.Components.SignatureStroke},FluentUI.Blazor.Community.Components.SignatureSettings,FluentUI.Blazor.Community.Components.SignatureWatermarkSettings)">
+            <summary>
+            Exports a signature as an SVG image based on the specified dimensions, strokes, and settings.
+            </summary>
+            <remarks>The method generates an SVG representation of the signature, including optional elements such
+            as a background, grid, separator line, and watermark.  Strokes marked as erasers are applied as masks to remove
+            parts of the signature. The output is optimized for rendering in SVG-compatible viewers.</remarks>
+            <param name="width">The width of the SVG image, in pixels.</param>
+            <param name="height">The height of the SVG image, in pixels.</param>
+            <param name="strokes">A collection of signature strokes to be rendered in the SVG image.</param>
+            <param name="signatureSettings">The settings that define the appearance and behavior of the signature, such as background color, grid
+            visibility, and separator line.</param>
+            <param name="watermarkSettings">The settings for the watermark, including text, image, and opacity.</param>
+            <returns>A tuple containing the following: <list type="bullet"> <item><description><see cref="!:byte[]"/>: The SVG image
+            data as a byte array.</description></item> <item><description><see cref="T:System.String"/>: The MIME type of the
+            exported image, which is always "image/svg+xml".</description></item> <item><description><see cref="T:System.String"/>:
+            The default filename for the exported image, which is "signature.svg".</description></item> </list></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSvgExporter.SvgDashArray(FluentUI.Blazor.Community.Components.SignatureLineStyle,System.Single)">
+            <summary>
+            Generates an SVG stroke-dasharray attribute value based on the specified line style and width.
+            </summary>
+            <param name="style">The line style to apply. Supported values are <see cref="F:FluentUI.Blazor.Community.Components.SignatureLineStyle.Dashed"/> and <see
+            cref="F:FluentUI.Blazor.Community.Components.SignatureLineStyle.Dotted"/>.</param>
+            <param name="width">The width of the stroke, used to calculate the dash pattern. Must be a positive value.</param>
+            <returns>A string representing the SVG stroke-dasharray attribute value for the specified style and width. Returns an
+            empty string if the style is not <see cref="F:FluentUI.Blazor.Community.Components.SignatureLineStyle.Dashed"/> or <see
+            cref="F:FluentUI.Blazor.Community.Components.SignatureLineStyle.Dotted"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureSvgExporter.BuildSvgPathData(FluentUI.Blazor.Community.Components.SignatureStroke)">
+            <summary>
+            Constructs an SVG path data string representing the points and curves of the specified signature stroke.
+            </summary>
+            <remarks>If the <paramref name="s"/> has smoothing enabled and contains at least three points, the
+            method generates quadratic Bézier curves between points. Otherwise, it generates straight line segments. The
+            resulting path data is formatted using invariant culture to ensure consistent numeric formatting.</remarks>
+            <param name="s">The <see cref="T:FluentUI.Blazor.Community.Components.SignatureStroke"/> containing the points and smoothing information to generate the path data.</param>
+            <returns>A string representing the SVG path data. The path begins with a "Move To" command for the first point, followed
+            by "Line To" or "Quadratic Curve To" commands for subsequent points, depending on the smoothing setting.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureTool">
+            <summary>
+            Represents the available tools for the signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureTool.Pen">
+            <summary>
+            Represents the pen tool for drawing signatures.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureTool.Eraser">
+            <summary>
+            Represents the eraser tool for removing parts of the signature.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureToolPosition">
+            <summary>
+            Represents the position of the signature tool.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureToolPosition.Top">
+            <summary>
+            The tool is positioned at the top of the signature area.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureToolPosition.Bottom">
+            <summary>
+            The tool is positioned at the bottom of the signature area.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureToolPosition.Left">
+            <summary>
+            The tool is positioned on the left side of the signature area.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureToolPosition.Right">
+            <summary>
+            The tool is positioned on the right side of the signature area.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureWatermarkSettings">
+            <summary>
+            Represents a watermark that can be applied to a signature.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkSettings.Text">
+            <summary>
+            Gets or sets the text to be displayed as a watermark.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkSettings.Image">
+            <summary>
+            Gets or sets the image to be used as a watermark.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkSettings.Opacity">
+            <summary>
+            Gets or sets the opacity of the watermark. Default is 0.15 (15%).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkSettings.Color">
+            <summary>
+            Gets or sets the color of the watermark text. Default is black (#000000).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkSettings.Parent">
+            <summary>
+            Gets or sets the parent signature component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureWatermarkSettings.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureWatermarkSettings.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial">
             <summary>
             Represents a sleek dial.
@@ -10129,6 +11471,16 @@
             </summary>
             <param name="path">Path to segment.</param>
             <returns>Returns an array of <see cref="T:System.String"/> which represent the segments of the path.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.RunningWasmHelper">
+            <summary>
+            Helper class to determine if the application is running in a WebAssembly environment.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Helpers.RunningWasmHelper.IsWasm">
+            <summary>
+            Gets a value indicating whether the application is running in a WebAssembly environment.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Helpers.UnitFormatHelper">
             <summary>
