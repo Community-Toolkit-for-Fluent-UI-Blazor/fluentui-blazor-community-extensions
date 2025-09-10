@@ -7456,6 +7456,11 @@
             Represents the reference to the signature canvas element in the DOM.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._gridCanvas">
+            <summary>
+            Represents the reference to the grid canvas element in the DOM.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._previewPenCanvas">
             <summary>
             Represents the reference to the pen preview canvas element in the DOM.

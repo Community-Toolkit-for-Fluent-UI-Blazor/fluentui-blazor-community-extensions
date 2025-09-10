@@ -182,13 +182,24 @@ function drawPath(ctx, stroke) {
   ctx.stroke();
 }
 
-function renderAll(canvas, strokes, s, inProgressStroke) {
+function renderBackgroundAndGrid(canvas, s) {
   const ctx = getCtx(canvas);
+
   drawBackground(canvas, ctx, s);
   drawGrid(ctx, s);
+}
+
+function renderSignature(canvas, strokes, s, inProgressStroke) {
+  const ctx = getCtx(canvas);
+
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
 
   for (const st of strokes || []) {
-    ctx.save();
     if (st.eraser) {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.strokeStyle = 'rgba(0,0,0,1)';
@@ -302,7 +313,7 @@ function attachInput(canvas, dotnetRef) {
     s.pressures.push(pres);
 
     const strokePreview = buildInProgressStroke(s);
-    renderAll(canvas, s.strokes, s, strokePreview);
+    renderSignature(canvas, s.strokes, s, strokePreview);
   };
 
   const onMove = (e) => {
@@ -317,7 +328,7 @@ function attachInput(canvas, dotnetRef) {
     s.pressures.push(pres);
 
     const strokePreview = buildInProgressStroke(s);
-    renderAll(canvas, s.strokes, s, strokePreview);
+    renderSignature(canvas, s.strokes, s, strokePreview);
   };
 
   const onUp = (e) => {
@@ -330,7 +341,7 @@ function attachInput(canvas, dotnetRef) {
 
     const stroke = buildCompletedStroke(s);
 
-    renderAll(canvas, s.strokes, s, null);
+    renderSignature(canvas, s.strokes, s, null);
 
     if (s.dotnet && stroke.points && stroke.points.length > 1) {
       s.dotnet.invokeMethodAsync('OnStrokeCompleted', stroke);
@@ -342,7 +353,7 @@ function attachInput(canvas, dotnetRef) {
     s.drawing = false;
     s.points = [];
     s.pressures = [];
-    renderAll(canvas, s.strokes, s, null);
+    renderSignature(canvas, s.strokes, s, null);
   };
 
   detachInput(canvas);
@@ -458,45 +469,50 @@ function setAutoIntrinsicSize(canvas) {
 
   if (el) {
     const rect = el.getBoundingClientRect();
-    const ratio = window.devicePixelRatio || 1;
 
-    canvas.width = rect.width * ratio;
-    canvas.height = rect.height * ratio;
-
-    canvas.getContext("2d").scale(ratio, ratio);
-
-    const s = state.get(canvas);
-    s.dotnet?.invokeMethodAsync('OnIntrinsicSizeSet', Math.round(canvas.width), Math.round(canvas.height));
+    canvas.width = rect.width;
+    canvas.height = rect.height;
   }
 }
 
 export const fluentCxSignature = {
-  initialize: function (canvas, dotnetRef, opts, backgroundImage, watermarkImage) {
+  initialize: function (backgroundCanvas, canvas, dotnetRef, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
     s.dotnet = dotnetRef;
 
+    const p = updateOptions(backgroundCanvas, opts);
+
     const resizeObserver = new ResizeObserver((entries) => {
+      entries.forEach(entry => {
+        s.dotnet?.invokeMethodAsync('OnIntrinsicSizeSet', Math.round(entry.contentRect.width), Math.round(entry.contentRect.height));
+      })
     });
 
     resizeObserver.observe(canvas.parentElement);
 
     ensureImages(s, backgroundImage, watermarkImage, () => {
-      renderAll(canvas, s.strokes, s, null);
+      renderBackgroundAndGrid(backgroundCanvas, p);
+      renderSignature(canvas, s.strokes, s, null);
     });
 
     s.strokes = s.strokes || [];
     attachInput(canvas, dotnetRef);
-    renderAll(canvas, s.strokes, s, null);
+
+    renderBackgroundAndGrid(backgroundCanvas, p);
+    renderSignature(canvas, s.strokes, s, null);
   },
 
-  setOptions: function (canvas, opts, backgroundImage, watermarkImage) {
+  setOptions: function (backgroundCanvas, canvas, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
+    const p = updateOptions(backgroundCanvas, opts);
 
     ensureImages(s, backgroundImage, watermarkImage, () => {
-      renderAll(canvas, s.strokes, s, null);
+      renderBackgroundAndGrid(backgroundCanvas, p);
+      renderSignature(canvas, s.strokes, s, null);
     });
 
-    renderAll(canvas, s.strokes, s, null);
+    renderBackgroundAndGrid(backgroundCanvas, p);
+    renderSignature(canvas, s.strokes, s, null);
   },
 
   setTool: function (canvas, tool) {
@@ -509,26 +525,34 @@ export const fluentCxSignature = {
     s.tool = tool === eraser ? eraser : pen;
   },
 
-  render: function (canvas, strokes, opts, backgroundImage, watermarkImage) {
+  render: function (backgroundCanvas, canvas, strokes, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
     s.strokes = Array.isArray(strokes) ? clone(strokes) : [];
 
+    const p = updateOptions(backgroundCanvas, opts);
+
     ensureImages(s, backgroundImage, watermarkImage, () => {
-      renderAll(canvas, s.strokes, s, null);
+      renderBackgroundAndGrid(backgroundCanvas, p);
+      renderSignature(canvas, s.strokes, s, null);
     });
 
-    renderAll(canvas, s.strokes, s, null);
+    renderBackgroundAndGrid(backgroundCanvas, p);
+    renderSignature(canvas, s.strokes, s, null);
   },
 
-  clear: function (canvas, opts, backgroundImage, watermarkImage) {
+  clear: function (backgroundCanvas, canvas, opts, backgroundImage, watermarkImage) {
     const s = updateOptions(canvas, opts);
     s.strokes = [];
 
+    const p = updateOptions(backgroundCanvas, opts);
+
     ensureImages(s, backgroundImage, watermarkImage, () => {
-      renderAll(canvas, s.strokes, s, null);
+      renderBackgroundAndGrid(backgroundCanvas, p);
+      renderSignature(canvas, s.strokes, s, null);
     });
 
-    renderAll(canvas, s.strokes, s, null);
+    renderBackgroundAndGrid(backgroundCanvas, p);
+    renderSignature(canvas, s.strokes, s, null);
   },
 
   detachInput: function (canvas) {
@@ -539,7 +563,8 @@ export const fluentCxSignature = {
     drawPreviewLine(canvas, options);
   },
 
-  setAutoIntrinsicSize: function (canvas) {
+  setAutoIntrinsicSize: function (backgroundCanvas, canvas) {
+    setAutoIntrinsicSize(backgroundCanvas);
     setAutoIntrinsicSize(canvas);
   }
 };

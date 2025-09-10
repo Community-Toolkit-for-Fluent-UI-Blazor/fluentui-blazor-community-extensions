@@ -32,6 +32,11 @@ public partial class FluentCxSignature
     private ElementReference _previewCanvas;
 
     /// <summary>
+    /// Represents the reference to the grid canvas element in the DOM.
+    /// </summary>
+    private ElementReference _gridCanvas;
+
+    /// <summary>
     /// Represents the reference to the pen preview canvas element in the DOM.
     /// </summary>
     private ElementReference _previewPenCanvas;
@@ -223,9 +228,10 @@ public partial class FluentCxSignature
     /// Gets the internal style for the canvas element.
     /// </summary>
     private string? InternalCanvasStyle => new StyleBuilder()
-        .AddStyle($"width", $"{Width}")
-        .AddStyle($"height", $"{Height}")
-        .AddStyle($"touch-action", "none")
+        .AddStyle("width", $"{Width}")
+        .AddStyle("height", $"{Height}")
+        .AddStyle("touch-action", "none")
+        .AddStyle("position", "absolute")
         .Build();
 
     #endregion Properties
@@ -309,7 +315,8 @@ public partial class FluentCxSignature
     {
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentCxSignature.setOptions", elementReference, Options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.setOptions", _gridCanvas, elementReference, Options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.setAutoIntrinsicSize", _gridCanvas, _previewCanvas);
         }
     }
 
@@ -329,7 +336,7 @@ public partial class FluentCxSignature
 
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentCxSignature.clear", _previewCanvas, Options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.clear", _gridCanvas, _previewCanvas, Options, GetBackgroundImage(), GetWatermarkImage());
         }
 
         if (OnClear.HasDelegate)
@@ -393,7 +400,7 @@ public partial class FluentCxSignature
     {
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, State.Strokes, Options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.render", _gridCanvas, _previewCanvas, State.Strokes, Options, GetBackgroundImage(), GetWatermarkImage());
         }
     }
 
@@ -502,9 +509,9 @@ public partial class FluentCxSignature
         if (firstRender)
         {
             _module = await Runtime.InvokeAsync<IJSObjectReference>("import", "./_content/FluentUI.Blazor.Community.Components/Components/Signature/FluentCxSignature.razor.js");
-            await _module.InvokeVoidAsync("fluentCxSignature.initialize", _previewCanvas, _signatureDotNetRef, Options, GetBackgroundImage(), GetWatermarkImage());
-            await _module.InvokeVoidAsync("fluentCxSignature.setAutoIntrinsicSize", _previewCanvas);
-            await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, State.Strokes, Options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.initialize", _gridCanvas, _previewCanvas, _signatureDotNetRef, Options, GetBackgroundImage(), GetWatermarkImage());
+            await _module.InvokeVoidAsync("fluentCxSignature.setAutoIntrinsicSize", _gridCanvas, _previewCanvas);
+            await _module.InvokeVoidAsync("fluentCxSignature.render", _gridCanvas, _previewCanvas, State.Strokes, Options, GetBackgroundImage(), GetWatermarkImage());
         }
 
         if (_invalidateRender)
@@ -514,7 +521,7 @@ public partial class FluentCxSignature
             if (_module is not null)
             {
                 var options = Options;
-                await _module.InvokeVoidAsync("fluentCxSignature.render", _previewCanvas, State.Strokes, options, GetBackgroundImage(), GetWatermarkImage());
+                await _module.InvokeVoidAsync("fluentCxSignature.render", _gridCanvas, _previewCanvas, State.Strokes, options, GetBackgroundImage(), GetWatermarkImage());
                 await OnChangeToolAsync(State.CurrentTool);
             }
         }

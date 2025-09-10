@@ -122,7 +122,7 @@ internal static class SignatureSkiaExporter
             _ => SKEncodedImageFormat.Png,
         };
 
-        using var bitmap = new SKBitmap(width, height);
+        using var bitmap = new SKBitmap(width, height, SKColorType.Rgba8888, SKAlphaType.Premul);
         using var surface = SKSurface.Create(bitmap.Info);
         var canvas = surface.Canvas;
         canvas.Clear(ParseColor(signatureSettings.BackgroundColor));
@@ -325,7 +325,9 @@ internal static class SignatureSkiaExporter
     /// <param name="settings">The settings that define the appearance and behavior of the signature. Cannot be null.</param>
     private static void DrawStrokes(SKCanvas canvas, List<SignatureStroke> strokes, SignatureSettings settings)
     {
-        foreach (var s in strokes)
+        canvas.SaveLayer(null);
+
+        foreach (var s in strokes.Where(x=>!x.Eraser))
         {
             if (s.Points.Count < 2)
             {
@@ -341,12 +343,6 @@ internal static class SignatureSkiaExporter
                 StrokeCap = SKStrokeCap.Round,
                 StrokeJoin = SKStrokeJoin.Round,
             };
-
-            if (s.Eraser)
-            {
-                paint.BlendMode = SKBlendMode.Clear;
-                paint.Color = SKColors.Transparent;
-            }
 
             if (s.LineStyle == SignatureLineStyle.Dashed)
             {
@@ -389,5 +385,60 @@ internal static class SignatureSkiaExporter
 
             canvas.DrawPath(path, paint);
         }
+
+        foreach (var s in strokes.Where(x => x.Eraser))
+        {
+            if (s.Points.Count < 2)
+            {
+                continue;
+            }
+
+            using var paint = new SKPaint
+            {
+                BlendMode = SKBlendMode.Clear,
+                IsStroke = true,
+                IsAntialias = true,
+                StrokeCap = SKStrokeCap.Round,
+                StrokeJoin = SKStrokeJoin.Round,
+            };
+
+            if (s.LineStyle == SignatureLineStyle.Dashed)
+            {
+                paint.PathEffect = SKPathEffect.CreateDash([s.Width * 2, s.Width * 2], 0);
+            }
+            else if (s.LineStyle == SignatureLineStyle.Dotted)
+            {
+                paint.PathEffect = SKPathEffect.CreateDash([s.Width, s.Width * 2], 0);
+            }
+
+            using var path = new SKPath();
+            path.MoveTo(s.Points[0].X, s.Points[0].Y);
+
+            if (s.Smooth &&
+                s.Points.Count >= 3)
+            {
+                for (var i = 1; i < s.Points.Count - 1; i++)
+                {
+                    var p1 = s.Points[i];
+                    var p2 = s.Points[i + 1];
+                    path.QuadTo(p1.X, p1.Y, (p1.X + p2.X) / 2f, (p1.Y + p2.Y) / 2f);
+                }
+
+                var last = s.Points[^1];
+                path.LineTo(last.X, last.Y);
+            }
+            else
+            {
+                for (var i = 1; i < s.Points.Count; i++)
+                {
+                    var p = s.Points[i];
+                    path.LineTo(p.X, p.Y);
+                }
+            }
+
+            canvas.DrawPath(path, paint);
+        }
+
+        canvas.Restore();
     }
 }
