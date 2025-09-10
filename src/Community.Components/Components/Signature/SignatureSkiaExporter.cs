@@ -327,7 +327,7 @@ internal static class SignatureSkiaExporter
     {
         canvas.SaveLayer(null);
 
-        foreach (var s in strokes.Where(x=>!x.Eraser))
+        foreach (var s in strokes.Where(x => !x.Eraser))
         {
             if (s.Points.Count < 2)
             {
