@@ -8,6 +8,8 @@ namespace FluentUI.Blazor.Community.Components;
 public sealed class PathBarItem
     : IPathBarItem
 {
+    private string? _id;
+
     /// <summary>
     /// Represents the children of the current instance.
     /// </summary>
@@ -17,7 +19,11 @@ public sealed class PathBarItem
     public string? Label { get; set; }
 
     /// <inheritdoc />
-    public string? Id { get; set; }
+    public string? Id
+    {
+        get => _id;
+        set => _id ??= PathBarItemBuilder.GetIdentifier(value);
+    }
 
     /// <inheritdoc />
     public Icon? Icon { get; set; }
@@ -39,50 +45,4 @@ public sealed class PathBarItem
 
     /// <inheritdoc />
     public IPathBarItem Parent { get; private set; } = default!;
-
-    /// <summary>
-    /// Finds the item inside <paramref name="items"/> by its <paramref name="id"/>.
-    /// </summary>
-    /// <param name="items">Items to use for search.</param>
-    /// <param name="id">Id to find.</param>
-    /// <returns>Returns the item when found, <see langword="null" /> otherwise.</returns>
-    internal static IPathBarItem? Find(IEnumerable<IPathBarItem> items, string id)
-    {
-        foreach (var item in items)
-        {
-            if (string.Equals(item.Id, id, StringComparison.OrdinalIgnoreCase))
-            {
-                return item;
-            }
-
-            var node = Find(item.Items, id);
-
-            if (node is not null)
-            {
-                return node;
-            }
-        }
-
-        return null;
-    }
-
-    internal static string? GetPath(IPathBarItem? value)
-    {
-        if(value is null)
-        {
-            return null;
-        }
-
-        List<string?> paths = [];
-        paths.Insert(0, value.Label);
-        var currentItem = value;
-
-        while (currentItem.Parent is not null)
-        {
-            currentItem = currentItem.Parent;
-            paths.Insert(0, currentItem.Label);
-        }
-
-        return string.Join(Path.DirectorySeparatorChar, paths);
-    }
 }

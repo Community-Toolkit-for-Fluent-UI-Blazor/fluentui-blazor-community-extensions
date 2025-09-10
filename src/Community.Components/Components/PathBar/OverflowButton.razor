@@ -1,18 +1,26 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-<FluentButton Id="@($"Button{Id}")"
-              IconStart="@(new Regular.Size24.MoreHorizontal())"
-              Appearance="Appearance.Stealth"
-              OnClick="@(() => _isMenuOpen = !_isMenuOpen)" />
+<div id="@Id">
+    <FluentButton Id="@($"Button{Id}")"
+                  IconStart="@(new Regular.Size24.MoreHorizontal())"
+                  Appearance="Appearance.Stealth"
+                  aria-expanded="@_isMenuOpen"
+                  aria-haspopup="@(Items.Count > 0)"
+                  aria-controls="@($"Popover{Id}")"
+                  OnClick="@(() => _isMenuOpen = !_isMenuOpen)" />
 
-<FluentMenu Id="@($"Popover{Id}")"
-            Anchor="@($"Button{Id}")"
-            @bind-Open=_isMenuOpen>
-    @foreach (var item in Items)
-    {
-        <FluentMenuItem Label="@item.Label"
-                        Id="@item.Id"
-                        OnClick="@(() => OnItemTapped(item))" />
-    }
-</FluentMenu>
+    <FluentMenu Id="@($"Popover{Id}")"
+                Anchor="@($"Button{Id}")"
+                role="menu"
+                @bind-Open=_isMenuOpen>
+        @foreach (var item in Items)
+        {
+            <FluentMenuItem Label="@item.Label"
+                            Id="@item.Id"
+                            Role="MenuItemRole.MenuItem"
+                            OnClick="@(() => OnItemTappedAsync(item))" />
+        }
+    </FluentMenu>
+</div>
+

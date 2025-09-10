@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -9,6 +10,11 @@ namespace FluentUI.Blazor.Community.Components;
 public partial class FluentCxPathBarItem
     : FluentComponentBase
 {
+    /// <summary>
+    /// Represents the render fragment for the label.
+    /// </summary>
+    private readonly RenderFragment _renderLabelFragment;
+
     /// <summary>
     /// Gets or sets the label of the component.
     /// </summary>
@@ -44,6 +50,13 @@ public partial class FluentCxPathBarItem
     /// </summary>
     [Parameter]
     public EventCallback OnTapped { get; set; }
+
+    /// <summary>
+    /// Gets the internal class for the component.
+    /// </summary>
+    private string? InternalClass => new CssBuilder(Class)
+        .AddClass("fluentcx-path-bar-item")
+        .Build();
 
     /// <summary>
     /// Occurs when the component is clicked.

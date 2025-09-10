@@ -1,0 +1,25 @@
+.fluent-cx-artistic-scatter {
+  position: relative;
+  margin: auto;
+  overflow: hidden;
+  touch-action: none;
+  width: var(--artistic-scatter-width, 100%);
+  height: var(--artistic-scatter-height, 100%);
+}
+
+.fluent-cx-artistic-scatter-container {
+
+}
+
+.fluent-cx-artistic-scatter-container.mobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 20px;
+}
+
+  .fluent-cx-artistic-scatter-container.default {
+    height: 100%;
+    position: relative;
+  }

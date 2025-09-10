@@ -1,0 +1,35 @@
+﻿@using DemoNavLink = FluentUI.Demo.Shared.Layout.NavLink
+
+@switch (Value)
+{
+    case NavGroup group:
+        <FluentNavGroup @bind-Expanded="@group.Expanded" Gap="@group.Gap" Icon="@group.Icon" >
+            <TitleTemplate>
+                @group.Title
+            </TitleTemplate>
+            <ChildContent>
+                @foreach(var item in group.Children)
+                {
+                    <DemoNavMenuItem Value="item" />
+                }
+            </ChildContent>
+        </FluentNavGroup>
+        break;
+    case DemoNavLink:
+        <FluentNavLink Icon="@Value.Icon" Href="@Value.Href" Match="@Value.Match">
+            @if (Value.Match is NavLinkMatch.All)
+            {
+                @(new MarkupString(Value.Title))
+            }
+            else
+            {
+                @(new MarkupString(Value.Title))
+            }
+        </FluentNavLink>
+        break;
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public required NavItem Value { get; set; }
+}
