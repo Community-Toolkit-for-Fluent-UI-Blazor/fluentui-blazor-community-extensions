@@ -25,7 +25,7 @@ public class SignatureImageFormatTests
     public void Enum_Has_Expected_Values()
     {
         var values = (SignatureImageFormat[])System.Enum.GetValues(typeof(SignatureImageFormat));
-        Assert.Equal(8, values.Length);
+        Assert.Equal(7, values.Length);
         Assert.Contains(SignatureImageFormat.Bmp, values);
         Assert.Contains(SignatureImageFormat.Png, values);
         Assert.Contains(SignatureImageFormat.Jpeg, values);
