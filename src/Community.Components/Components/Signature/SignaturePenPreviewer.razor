@@ -1,0 +1,45 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Options is not null)
+{
+    <svg id="@Id"
+         width="200"
+         height="100"
+         xmlns="http://www.w3.org/2000/svg"
+         class="@Class"
+         style="@Style">
+        @if (Options.Shadow is not null)
+        {
+            <defs>
+                <filter id="shadow" filterUnits="userSpaceOnUse">
+                    <feFlood flood-color="@Options.Shadow.Color" flood-opacity="1" result="flood" />
+                    <feComposite in="flood" in2="SourceAlpha" operator="in" result="shadowColor" />
+                    <feOffset dx="@Options.Shadow.OffsetX" dy="@Options.Shadow.OffsetY" result="offsetShadow" />
+                    <feGaussianBlur stdDeviation="@Options.Shadow.Blur" in="offsetShadow" result="blurredShadow" />
+                    <feMerge>
+                        <feMergeNode in="blurredShadow" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <line x1="20"
+                  y1="50"
+                  x2="180"
+                  y2="50"
+                  stroke="@Options.Color"
+                  stroke-width="@Options.BaseWidth"
+                  filter="url(#shadow)" />
+        }
+        else
+        {
+            <line x1="20"
+                  y1="50"
+                  x2="180"
+                  y2="50"
+                  stroke="@Options.Color"
+                  stroke-width="@Options.BaseWidth" />
+        }
+    </svg>
+}

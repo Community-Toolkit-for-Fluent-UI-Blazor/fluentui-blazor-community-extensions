@@ -1,15 +1,16 @@
-﻿@using FluentUI.Demo.Shared.Infrastructure
+﻿
+@using FluentUI.Demo.Shared.Infrastructure
 <div style="height: 500px">
-    <FluentCxSignature OnExport="OnSignatureExported" />
+     <FluentCxSignature ExportCompleted="OnSignatureExported" />
 </div>
 
 @code {
 
-    [Inject]
-    private DownloadFile DownloadFile { get; set; } = null!;
+     [Inject]
+     private DownloadFile DownloadFile { get; set; } = null!;
 
-    private async Task OnSignatureExported(SignatureExportResult result)
-    {
-        await DownloadFile.DowloadAsync(result.FileName, result.Data, result.ContentType);
-    }
+     private async Task OnSignatureExported(SignatureExportEventArgs e)
+     {
+         await DownloadFile.DowloadAsync(e.FileName, e.Data, e.ContentType);
+     }
 }
