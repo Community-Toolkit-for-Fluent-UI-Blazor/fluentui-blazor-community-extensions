@@ -6,22 +6,15 @@
 <h1>Signature</h1>
 
 <p>
-    The signature component is a control that allows users to draw their signature using touch, mouse, or stylus input.
-    The signature can be captured and exported in various formats, such as PNG, JPEG, WEBP, SVG and PDF.
-    The component provides various customization options, such as stroke color, stroke width, background color, and watermark settings.
-    The signature component is implemented using the <code>FluentCxSignature</code> component.
-    The component provides a toolbar with tools for drawing, erasing, undoing, redoing, and clearing the signature.
-    The toolbar can be positioned at the top, bottom, left, or right of the signature area.
-    The signature area can be configured to display a grid, lines, or no background.
+    The Signature component allows users to draw and capture signatures or other freehand drawings using a mouse, stylus, or touch input.
+    It provides a user-friendly interface for creating and managing digital signatures, making it suitable for applications that require signature capture functionality.
 
-    If the component is running on server side, all export format are supported.
-    If the component is running on WebAssembly, only SVG is supported due to browser limitations.
+    Many options are available to customize the appearance and behavior of the signature component, including pen styles, grid settings, watermark options, and export formats.
+    Each options is displayed on the right inside a panel.
 
-    Two ways to define the size of the signature area are supported:
-    <ul>
-        <li>Using the <code>IntrinsicWidth</code> and <code>IntrinsicHeight</code> parameters to set fixed dimensions, when <code>IntrinsicSize</code> is set to Manual.</li>
-        <li>When set <code>IntrinsicSize</code> to Auto to set the intrinsic size of the canvas to the size of its container.</li>
-    </ul>
+    The component also includes a menu with buttons for various actions, such as exporting the signature, switching between pen and eraser tools, adjusting settings, and clearing the canvas.
+    The menu can be configured to show or hide specific buttons based on the application's requirements.
+
 </p>
 
 <h2 id="example">Examples</h2>
@@ -32,15 +25,11 @@
 <h2 id="documentation">Documentation</h2>
 
 <ApiDocumentation Component="typeof(FluentCxSignature)" />
-@* <ApiDocumentation Component="typeof(SignatureCapabilities)" />
-<ApiDocumentation Component="typeof(SignatureExportFormat)" />
-<ApiDocumentation Component="typeof(SignatureGridType)" />
-<ApiDocumentation Component="typeof(SignatureLabels)" />
-<ApiDocumentation Component="typeof(SignatureLineStyle)" />
-<ApiDocumentation Component="typeof(SignatureStroke)" />
-<ApiDocumentation Component="typeof(SignatureTool)" />
-<ApiDocumentation Component="typeof(SignatureToolPosition)" />
-<ApiDocumentation Component="typeof(SignatureExportSettings)" />
-<ApiDocumentation Component="typeof(SignatureWatermarkSettings)" />
-<ApiDocumentation Component="typeof(SignatureSettings)" /> *@
+<ApiDocumentation Component="typeof(MenuOptions)" />
+<ApiDocumentation Component="typeof(SignatureEraserOptions)" />
+<ApiDocumentation Component="typeof(SignaturePenOptions)" />
+<ApiDocumentation Component="typeof(SignatureExportOptions)" />
+<ApiDocumentation Component="typeof(SignatureOptions)" />
+<ApiDocumentation Component="typeof(SignatureGridOptions)" />
+<ApiDocumentation Component="typeof(SignatureWatermarkOptions)" />
 
