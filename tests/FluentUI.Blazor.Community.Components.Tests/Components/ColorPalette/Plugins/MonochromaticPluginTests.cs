@@ -63,6 +63,6 @@ public class MonochromaticPluginTests
 
         var reversed = plugin.Generate("#3366FF", 3, options);
 
-        Assert.Equal(normal, new List<string>(reversed).ToArray().Reverse());
+        Assert.Equal(normal, new List<string>(reversed).ToArray().Reverse().ToList());
     }
 }

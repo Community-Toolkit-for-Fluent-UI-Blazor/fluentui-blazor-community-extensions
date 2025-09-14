@@ -1189,6 +1189,16 @@
             Gets or sets the JavaScript runtime for interop calls.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.HarmonyLabel">
+            <summary>
+            Gets or sets the label for the harmony mode picker. Default is "Harmony".
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.PresetLabel">
+            <summary>
+            Gets or sets the label for the preset picker. Default is "Presets".
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.Columns">
             <summary>
             Gets or sets the number of columns in the color grid layout. Default is 10.
