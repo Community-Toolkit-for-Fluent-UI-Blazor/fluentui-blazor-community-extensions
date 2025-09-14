@@ -51,6 +51,7 @@ public partial class FluentCxColorPalette
             nameof(ColorPaletteMode.Complementary),
             nameof(ColorPaletteMode.Analogous),
             nameof(ColorPaletteMode.Triadic),
+            nameof(ColorPaletteMode.Tetradic),
             nameof(ColorPaletteMode.SplitComplementary),
             nameof(ColorPaletteMode.Monochrome),
         ]);
