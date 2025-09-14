@@ -10,8 +10,8 @@
             {
                 <FluentSelect TOption="string"
                               @bind-Value="HarmonyModeString"
-                              Label="Harmonie"
-                              AriaLabel="Harmonie"
+                              Label="@HarmonyLabel"
+                              AriaLabel="@HarmonyLabel"
                               Class="harmony-select">
                     @foreach (var value in HarmonyModes)
                     {
@@ -25,8 +25,8 @@
                 <FluentSelect TOption="string"
                               @bind-Value="SelectedPreset"
                               Class="preset-select"
-                              AriaLabel="Preset"
-                              Label="Presets">
+                              AriaLabel="@PresetLabel"
+                              Label="@PresetLabel">
                     @foreach (var kv in Presets)
                     {
                         <FluentOption Value="@kv.Key">@kv.Key</FluentOption>

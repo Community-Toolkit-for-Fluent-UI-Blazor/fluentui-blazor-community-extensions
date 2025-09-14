@@ -103,6 +103,18 @@ public partial class FluentCxColorPalette
     private IJSRuntime Runtime { get; set; } = default!;
 
     /// <summary>
+    /// Gets or sets the label for the harmony mode picker. Default is "Harmony".
+    /// </summary>
+    [Parameter]
+    public string HarmonyLabel { get; set; } = "Harmony";
+
+    /// <summary>
+    /// Gets or sets the label for the preset picker. Default is "Presets".
+    /// </summary>
+    [Parameter]
+    public string PresetLabel { get; set; } = "Presets";
+
+    /// <summary>
     /// Gets or sets the number of columns in the color grid layout. Default is 10.
     /// </summary>
     [Parameter]

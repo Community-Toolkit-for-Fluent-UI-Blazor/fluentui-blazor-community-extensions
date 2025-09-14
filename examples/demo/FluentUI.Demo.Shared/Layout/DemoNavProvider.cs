@@ -96,6 +96,11 @@ public class DemoNavProvider
                         icon: new Icons.Regular.Size20.SlideTransition(),
                         title: "Slideshow"
                     ),
+                    new NavLink(
+                        href: "colorpalette",
+                        icon: new Icons.Regular.Size20.Color(),
+                        title: "Color palette"
+                    ),
                 ]),
             new NavGroup(
                 icon: new Icons.Regular.Size20.Beaker(),
