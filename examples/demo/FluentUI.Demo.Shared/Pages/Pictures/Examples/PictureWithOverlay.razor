@@ -1,0 +1,38 @@
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Extensions
+
+<div class="height: 500px">
+    <FluentSelect @bind-Value="_overlayPosition"
+                  TOption="string"
+                  Style="margin-bottom">
+        <FluentOption Value="@PictureOverlayPosition.TopLeft.ToString()">Top Left</FluentOption>
+        <FluentOption Value="@PictureOverlayPosition.TopCenter.ToString()">Top Center</FluentOption>
+        <FluentOption Value="@PictureOverlayPosition.TopRight.ToString()">Top Right</FluentOption>
+
+        <FluentOption Value="@PictureOverlayPosition.MiddleLeft.ToString()">Middle Left</FluentOption>
+        <FluentOption Value="@PictureOverlayPosition.MiddleCenter.ToString()">Middle Center</FluentOption>
+        <FluentOption Value="@PictureOverlayPosition.MiddleRight.ToString()">Middle Right</FluentOption>
+
+        <FluentOption Value="@PictureOverlayPosition.BottomLeft.ToString()">Bottom Left</FluentOption>
+        <FluentOption Value="@PictureOverlayPosition.BottomCenter.ToString()">Bottom Center</FluentOption>
+        <FluentOption Value="@PictureOverlayPosition.BottomRight.ToString()">Bottom Right</FluentOption>
+    </FluentSelect>
+
+    <FluentCxPicture Caption="This is a caption for the FluentCxPicture"
+                     Source="./_content/FluentUI.Demo.Shared/pictures/red.png">
+        <ResponsiveContent>
+            <ResponsiveImage Source="./_content/FluentUI.Demo.Shared/pictures/butterfly.png" ContentType="image/png" Media="(max-width: 600px)" />
+            <ResponsiveImage Source="./_content/FluentUI.Demo.Shared/pictures/morpho.png" ContentType="image/png" Media="(max-width: 800px)" />
+            <ResponsiveImage Source="./_content/FluentUI.Demo.Shared/pictures/monarch.png" ContentType="image/png" Media="(min-width: 801px) and (max-width: 1100px)" />
+        </ResponsiveContent>
+
+        <OverlayContent>
+            <PictureOverlay Position="@(Enum.Parse<PictureOverlayPosition>(_overlayPosition))">
+                Overlay Text
+            </PictureOverlay>
+        </OverlayContent>
+    </FluentCxPicture>
+</div>
+
+@code{
+    private string _overlayPosition = "TopLeft";
+}

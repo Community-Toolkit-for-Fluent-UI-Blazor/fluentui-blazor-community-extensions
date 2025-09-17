@@ -32,9 +32,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\Pictures\Old\**" />
     <Compile Remove="Components\TaskBoard\**" />
+    <Content Remove="Components\Pictures\Old\**" />
     <Content Remove="Components\TaskBoard\**" />
+    <EmbeddedResource Remove="Components\Pictures\Old\**" />
     <EmbeddedResource Remove="Components\TaskBoard\**" />
+    <None Remove="Components\Pictures\Old\**" />
     <None Remove="Components\TaskBoard\**" />
   </ItemGroup>
 
@@ -67,9 +71,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Components" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+    <PackageReference Include="SkiaSharp" />
   </ItemGroup>
 
   <PropertyGroup>
