@@ -56,10 +56,143 @@ public class DemoNavProvider
                 gap: "10px",
                 children:
                [
-                    new NavLink(
-                        href: "artisticscatter",
+                    new NavGroup(
                         icon: new Icons.Regular.Size20.FilmstripImage(),
-                        title: "Artistic Scatter"
+                        title: "Animations",
+                        gap: "10px",
+                        expanded: false,
+                        children: [
+                            new NavLink(
+                            href: "animations-overview",
+                          icon: new Icons.Regular.Size20.FilmstripImage(),
+                          title: "Overview"
+                          ),
+                          new NavLink(
+                            href: "animation-default",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Default"
+                          ),
+                          new NavLink(
+                            href: "animation-bindstack",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Bindstack"
+                          ),
+                          new NavLink(
+                            href: "animation-cascade",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Cascade"
+                          ),
+                          new NavLink(
+                            href: "animation-chaos",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Chaos"
+                          ),
+                          new NavLink(
+                            href: "animation-fan",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Fan"
+                          ),
+                          new NavLink(
+                            href: "animation-float",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Float"
+                          ),
+                          new NavLink(
+                            href: "animation-flower",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Flower"
+                          ),
+                          new NavLink(
+                            href: "animation-galaxy",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Galaxy"
+                          ),
+                          new NavLink(
+                            href: "animation-goldenspiral",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Golden Spiral"
+                          ),
+                          new NavLink(
+                            href: "animation-grid",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Grid"
+                          ),
+                          new NavLink(
+                            href: "animation-heart",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Heart"
+                          ),
+                          new NavLink(
+                            href: "animation-helix",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Helix"
+                          ),
+                          new NavLink(
+                            href: "animation-magnet",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Magnet"
+                          ),
+                          new NavLink(
+                            href: "animation-morphing",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Morphing"
+                          ),
+                          new NavLink(
+                            href: "animation-orbit",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Orbit"
+                          ),
+                          new NavLink(
+                            href: "animation-pin",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Pin"
+                          ),
+                          new NavLink(
+                            href: "animation-pulse",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Pulse"
+                          ),
+                          new NavLink(
+                            href: "animation-snake",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Snake"
+                          ),
+                          new NavLink(
+                            href: "animation-spiral-galaxy",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Spiral Galaxy"
+                          ),
+                          new NavLink(
+                            href: "animation-spiral",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Spiral"
+                          ),
+                          new NavLink(
+                            href: "animation-stacked-rotating",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Stacked Rotating"
+                          ),
+                          new NavLink(
+                            href: "animation-stack",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Stack"
+                          ),
+                          new NavLink(
+                            href: "animation-sunburst",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Sunburst"
+                          ),
+                          new NavLink(
+                            href: "animation-vortex",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Vortex"
+                          ),
+                          new NavLink(
+                            href: "animation-wave",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Wave"
+                          ),
+                        ]
                     ),
                     new NavLink(
                         href: "cookies",
