@@ -6256,6 +6256,14 @@
             <param name="key">Key to find.</param>
             <returns>Returns the item if found, <see langword="false" /> otherwise.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GridLayoutBase.Get``1(System.Int32)">
+            <summary>
+            Gets the item from its index.
+            </summary>
+            <typeparam name="T">Type of the item.</typeparam>
+            <param name="index">Index of the item.</param>
+            <returns>Returns the index of the item.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.GridLayoutBase.AddRange(System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.GridLayoutBaseItem})">
             <summary>
             Adds a range of <paramref name="items"/> into the layout.
