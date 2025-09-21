@@ -16,7 +16,7 @@ public class DemoNavProvider
         NavMenuItems =
         [
             new NavLink(
-                href: "/",
+                href: "",
                 match: NavLinkMatch.All,
                 icon: new Icons.Regular.Size20.Home(),
                 title: "Home"
@@ -29,22 +29,22 @@ public class DemoNavProvider
                 children:
                 [
                     new NavLink(
-                        href: "/devicedetector",
+                        href: "devicedetector",
                         icon: new Icons.Regular.Size20.PhoneDesktop(),
                         title: "Device detector"
                     ),
                     new NavLink(
-                        href: "/tilegrid",
+                        href: "tilegrid",
                         icon: new Icons.Regular.Size20.Apps(),
                         title: "Tile Grid"
                     ),
                     new NavLink(
-                        href: "/mediaquery",
+                        href: "mediaquery",
                         icon: new Icons.Regular.Size20.PhoneDesktop(),
                         title: "Media queries"
                     ),
                     new NavLink(
-                        href: "/resizers",
+                        href: "resizers",
                         icon: new Icons.Regular.Size20.Resize(),
                         title: "Resizers"
                     ),
@@ -57,32 +57,32 @@ public class DemoNavProvider
                 children:
                [
                     new NavLink(
-                        href: "/artisticscatter",
+                        href: "artisticscatter",
                         icon: new Icons.Regular.Size20.FilmstripImage(),
                         title: "Artistic Scatter"
                     ),
                     new NavLink(
-                        href: "/cookies",
+                        href: "cookies",
                         icon: new Icons.Regular.Size20.Cookies(),
                         title: "Cookies"
                     ),
                     new NavLink(
-                        href: "/filemanager",
+                        href: "filemanager",
                         icon: new Icons.Regular.Size20.FolderOpen(),
                         title: "File Manager"
                     ),
                     new NavLink(
-                        href: "/floatingbutton",
+                        href: "floatingbutton",
                         icon: new Icons.Regular.Size20.Button(),
                         title: "Floating button"
                     ),
                     new NavLink(
-                        href: "/imagegroup",
+                        href: "imagegroup",
                         icon: new Icons.Regular.Size20.ImageMultiple(),
                         title: "Image group"
                     ),
                     new NavLink(
-                        href: "/pathbar",
+                        href: "pathbar",
                         icon: new Icons.Regular.Size20.Navigation(),
                         title: "Path bar"
                     ),
@@ -92,12 +92,12 @@ public class DemoNavProvider
                         title: "Signature"
                     ),
                     new NavLink(
-                        href: "/sleekdial",
+                        href: "sleekdial",
                         icon: new Icons.Regular.Size20.RadioButton(),
                         title: "Sleek dial"
                     ),
                     new NavLink(
-                        href: "/slideshow",
+                        href: "slideshow",
                         icon: new Icons.Regular.Size20.SlideTransition(),
                         title: "Slideshow"
                     ),
@@ -110,13 +110,13 @@ public class DemoNavProvider
                 children:
                 [
                     new NavLink(
-                        href: "/Lab/Overview",
+                        href: "Lab/Overview",
                         icon: new Icons.Regular.Size20.Beaker(),
                         title: "Overview"
                     ),
 
                     new NavLink(
-                        href: "/issue-tester",
+                        href: "issue-tester",
                         icon: new Icons.Regular.Size20.WrenchScrewdriver(),
                         title: "Issue Tester"
                     ),
