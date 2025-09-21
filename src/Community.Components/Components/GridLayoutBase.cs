@@ -42,6 +42,17 @@ public abstract class GridLayoutBase
     }
 
     /// <summary>
+    /// Gets the item from its index.
+    /// </summary>
+    /// <typeparam name="T">Type of the item.</typeparam>
+    /// <param name="index">Index of the item.</param>
+    /// <returns>Returns the index of the item.</returns>
+    protected T? Get<T>(int index) where T : GridLayoutBaseItem
+    {
+        return _items.Find(x => x.Index == index) as T;
+    }
+
+    /// <summary>
     /// Adds a range of <paramref name="items"/> into the layout.
     /// </summary>
     /// <param name="items">Items to add.</param>
