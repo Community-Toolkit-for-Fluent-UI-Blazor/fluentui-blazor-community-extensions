@@ -36,7 +36,7 @@ public class SignatureWatermarkPanelTests
             parameters.Add(p => p.Content, (SignatureLabels.Default, options))
         );
 
-        var opacityFormat = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:0.00 %}", options.Opacity);
+        var opacityFormat = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:P}", options.Opacity);
 
         // Assert
         cut.Markup.Contains("Test");
