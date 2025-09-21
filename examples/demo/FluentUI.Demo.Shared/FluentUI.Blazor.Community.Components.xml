@@ -9166,6 +9166,14 @@
             Gets or sets the options for configuring the signature pen.
             </summary>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignaturePenPanel.GetFormat(System.String,System.Double)">
+            <summary>
+            Gets the format string for displaying value in the good format.
+            </summary>
+            <param name="format">Format of the value.</param>
+            <param name="value">Value to format.</param>
+            <returns>Returns the formatted value.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.SignatureWatermarkPanel">
             <summary>
             Represents a panel for watermarking a signature with configurable content options.
@@ -9177,6 +9185,14 @@
             <summary>
             Gets or sets the content options for creating a watermark on a signature.
             </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureWatermarkPanel.GetFormat(System.String,System.Double)">
+            <summary>
+            Gets the format string for displaying value in the good format.
+            </summary>
+            <param name="format">Format of the value.</param>
+            <param name="value">Value to format.</param>
+            <returns>Returns the formatted value.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.Signature">
             <summary>

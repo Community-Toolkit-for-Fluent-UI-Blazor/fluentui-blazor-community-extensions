@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,8 +57,8 @@ public class SignaturePenPanelTests : TestBase
         // Assert
         cut.Markup.Contains(content.Item1.PreviewPenLabel);
         cut.Markup.Contains(content.Item1.PenColorLabel);
-        cut.Markup.Contains(content.Item1.PenOpacityLabel.Replace("{0}", content.Item2.Opacity.ToString()));
-        cut.Markup.Contains(content.Item1.StrokeWidthLabel.Replace("{0}", content.Item2.BaseWidth.ToString()));
+        cut.Markup.Contains(content.Item1.PenOpacityLabel.Replace("{0}", content.Item2.Opacity.ToString("P", CultureInfo.CurrentCulture)));
+        cut.Markup.Contains(content.Item1.StrokeWidthLabel.Replace("{0}", content.Item2.BaseWidth.ToString("P", CultureInfo.CurrentCulture)));
         cut.Markup.Contains(content.Item1.PressureEnabledLabel);
         cut.Markup.Contains(content.Item1.SmoothingLabel);
         cut.Markup.Contains(content.Item1.ShadowEnabledLabel);

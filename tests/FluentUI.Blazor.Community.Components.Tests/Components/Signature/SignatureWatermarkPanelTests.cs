@@ -36,11 +36,13 @@ public class SignatureWatermarkPanelTests
             parameters.Add(p => p.Content, (SignatureLabels.Default, options))
         );
 
+        var opacityFormat = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:0.00 %}", options.Opacity);
+
         // Assert
         cut.Markup.Contains("Test");
         cut.Markup.Contains("#FF0000");
         Assert.Contains("Font Size (12px)", cut.Markup);
-        Assert.Contains("Opacity (50,00 %)", cut.Markup);
+        Assert.Contains($"Opacity ({opacityFormat})", cut.Markup);
         Assert.Contains("Rotation (45°)", cut.Markup);
         Assert.Contains("Letter Spacing (2px)", cut.Markup);
         Assert.Contains("Repeat", cut.Markup);

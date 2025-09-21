@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -14,4 +15,15 @@ public partial class SignaturePenPanel
     /// </summary>
     [Parameter]
     public (SignatureLabels, SignaturePenOptions) Content { get; set; } = default!;
+
+    /// <summary>
+    /// Gets the format string for displaying value in the good format.
+    /// </summary>
+    /// <param name="format">Format of the value.</param>
+    /// <param name="value">Value to format.</param>
+    /// <returns>Returns the formatted value.</returns>
+    private static string GetFormat(string format, double value)
+    {
+        return string.Format(CultureInfo.CurrentCulture, format, value);
+    }
 }
