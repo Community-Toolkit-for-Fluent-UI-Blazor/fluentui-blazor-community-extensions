@@ -1,47 +1,44 @@
-﻿<h3>Reorder</h3>
-<p>The Tile Grid can reorder its items.</p>
+﻿<FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
+                  Columns="3"
+                  RowHeight="150px"
+              TItem="TileGridItemSample"
+                  CanReorder>
+    <FluentCxTileGridItem Value="@Item1">
+        <FluentCard>
+            @Item1.Title
+        </FluentCard>
+    </FluentCxTileGridItem>
 
-    <FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
-                      Columns="3"
-                      RowHeight="150px"
-                  TItem="TileGridItemSample"
-                      CanReorder>
-        <FluentCxTileGridItem Value="@Item1">
-            <FluentCard>
-                @Item1.Title
-            </FluentCard>
-        </FluentCxTileGridItem>
+<FluentCxTileGridItem Value="@Item2">
+        <FluentCard>
+            @Item2.Title
+        </FluentCard>
+    </FluentCxTileGridItem>
 
-    <FluentCxTileGridItem Value="@Item2">
-            <FluentCard>
-                @Item2.Title
-            </FluentCard>
-        </FluentCxTileGridItem>
+<FluentCxTileGridItem Value="@Item3">
+       <FluentCard>
+            @Item3.Title
+       </FluentCard>
+    </FluentCxTileGridItem>
 
-    <FluentCxTileGridItem Value="@Item3">
-           <FluentCard>
-                @Item3.Title
-           </FluentCard>
-        </FluentCxTileGridItem>
+<FluentCxTileGridItem ColumnSpan="2" Value="@Item4">
+        <FluentCard>
+            @Item4.Title
+        </FluentCard>
+    </FluentCxTileGridItem>
 
-    <FluentCxTileGridItem ColumnSpan="2" Value="@Item4">
-            <FluentCard>
-                @Item4.Title
-            </FluentCard>
-        </FluentCxTileGridItem>
+<FluentCxTileGridItem Value="@Item5" ColumnSpan="2" RowSpan="2">
+        <FluentCard>
+            @Item5.Title
+        </FluentCard>
+    </FluentCxTileGridItem>
 
-    <FluentCxTileGridItem Value="@Item5" ColumnSpan="2" RowSpan="2">
-            <FluentCard>
-                @Item5.Title
-            </FluentCard>
-        </FluentCxTileGridItem>
-
-    <FluentCxTileGridItem Value="@Item6" RowSpan="2">
-            <FluentCard>
-                @Item6.Title
-            </FluentCard>
-        </FluentCxTileGridItem>
-    </FluentCxTileGrid>
+<FluentCxTileGridItem Value="@Item6" RowSpan="2">
+        <FluentCard>
+            @Item6.Title
+        </FluentCard>
+    </FluentCxTileGridItem>
+</FluentCxTileGrid>
 
 @code {
     private readonly TileGridItemSample Item1 = new()
