@@ -1,0 +1,10 @@
+.animation-item {
+  position: absolute;
+  width: var(--animation-item-width, 100px);
+  height: var(--animation-item-height, 100px);
+  top: var(--animation-item-top, 0);
+  left: var(--animation-item-left, 0);
+  right: var(--animation-item-right, auto);
+  bottom: var(--animation-item-bottom, auto);
+  z-index: var(--animation-item-z-index, 1);
+}
