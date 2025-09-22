@@ -1,0 +1,57 @@
+﻿@page "/colorpalette"
+@using FluentUI.Demo.Shared.Pages.ColorPalette.Examples
+
+<h1>Color Palette</h1>
+
+<p>
+    The ColorPalette component is used to display a set of colors in a structured layout.
+    It can be useful for showcasing brand colors, theme colors, or any other color schemes in a visually appealing way.
+    You can provide a base color and the component will generate a harmonious color palette based on that color.
+    Many differents gradient strategies are available to choose from.
+    You can navigate through the colors using keyboard arrows and select one or multiple colors depending on the configuration.
+    A system of plugins is also available to extend the component's functionality.
+    If you use plugins, it could be very useful to use the <code>PaletteMode.None</code> mode.
+</p>
+
+<h2>Examples</h2>
+
+<DemoSection Title="Default Color Palette" Component="typeof(ColorPaletteDefault)">
+    <Description>
+        The <code>FluentCxColorPalette</code> component allows to display a set of colors in a structured layout.
+    </Description>
+</DemoSection>
+
+<DemoSection Title="Color Palette With Plugins" Component="typeof(ColorPalettePlugins)">
+    <Description>
+        The <code>FluentCxColorPalette</code> component can be extended with plugins to provide additional color generation strategies.
+
+        <p>
+            14 plugins are provided by default:
+            AccessibilitySafe, Analogous, Complementary, Cool
+            Desaturate, DualHue, Grayscale, Monochromactic,
+            Neon, Pastel, Tetradic, SplitComplementary,
+            Triadic, Warm
+        </p>
+
+        <p>
+            Warning : For this sample, the maximum number of colors that can be rendered is 256.
+            If you select too many plugins, the component will only render the 256 first colors.
+            There is 48 gradients steps by default, so if you select more than 5 plugins,
+            you may reach the limit of 256 colors.
+        </p>
+    </Description>
+</DemoSection>
+
+<DemoSection Title="Color Palette With PaletteMode" Component="typeof(ColorPaletteModes)">
+    <Description>
+        The <code>FluentCxColorPalette</code> provides a <code>ColorPaletteMode</code> with predefined presets.
+        You can choose between 19 different modes.
+        If the <code>ColorPaletteMode.None</code> mode is selected, no color will be generated. Use this value if you want to use plugins.
+        If you want to extract colors from an image, you can use the <code>ImageDataProvider</code> callback with <code>ColorPaletteMode.FromImage</code> mode.
+        For many modes, you can also provide a base color to generate a harmonious palette based on that color.
+        For gradient mode, you can choose your strategy to generate colors.
+        For custom gradient, you need to provide a start and end color.
+        For modes like Analogous, Triadic, Tetradic and so one, we use the associated plugin to generate colors.
+        For provided mode, if you don't provide the list of colors, a default list is used.
+    </Description>
+</DemoSection>
