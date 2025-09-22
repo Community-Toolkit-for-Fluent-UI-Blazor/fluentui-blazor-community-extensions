@@ -26,7 +26,6 @@ public static class ParameterViewExtensions
     /// <summary>
     /// Gets a value indicating if the <paramref name="parameterName"/> has changed.
     /// </summary>
-    /// <typeparam name="T">Type of the value.</typeparam>
     /// <param name="parameterView">Collection of parameters to use.</param>
     /// <param name="parameterName">Name of the parameter to check.</param>
     /// <param name="value">Value of the parameter.</param>

@@ -1,0 +1,58 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<(SignatureLabels, SignatureWatermarkOptions)>
+
+<FluentDialogBody>
+    <FluentStack VerticalGap="0"
+                 Style="width: 95%"
+                 Orientation="Orientation.Vertical">
+        <FluentTextField Label="@Content.Item1.WatermarkTextLabel"
+                         AriaLabel="@Content.Item1.WatermarkTextLabel"
+                         @bind-Value=Content.Item2.Text
+                         Style="margin-bottom: 20px; width: 100%" />
+
+        <FluentTextField TextFieldType="TextFieldType.Color"
+                         Label="@Content.Item1.WatermarkColorLabel"
+                         AriaLabel="@Content.Item1.WatermarkColorLabel"
+                         @bind-Value=Content.Item2.Color
+                         Style="margin-bottom: 20px; width: 100%" />
+
+        <FluentSlider Min="8"
+                      Max="128"
+                      Step="0.01"
+                      Label="@(GetFormat(Content.Item1.WatermarkFontSizeLabel, Content.Item2.FontSize))"
+                      AriaLabel="@(GetFormat(Content.Item1.WatermarkFontSizeLabel, Content.Item2.FontSize))"
+                      @bind-Value=Content.Item2.FontSize
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="0"
+                      Max="1"
+                      Step="0.01"
+                      Label="@(GetFormat(Content.Item1.WatermarkOpacityLabel, Content.Item2.Opacity))"
+                      AriaLabel="@(GetFormat(Content.Item1.WatermarkOpacityLabel, Content.Item2.Opacity))"
+                      @bind-Value=Content.Item2.Opacity
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="-360"
+                      Max="360"
+                      Step="1"
+                      Label="@(GetFormat(Content.Item1.WatermarkRotationLabel, Content.Item2.Rotation))"
+                      AriaLabel="@GetFormat(Content.Item1.WatermarkRotationLabel, Content.Item2.Rotation)"
+                      @bind-Value=Content.Item2.Rotation
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="0"
+                      Max="10"
+                      Step="1"
+                      Label="@(GetFormat(Content.Item1.WatermarkLetterSpacingLabel, Content.Item2.LetterSpacing))"
+                      AriaLabel="@GetFormat(Content.Item1.WatermarkLetterSpacingLabel, Content.Item2.LetterSpacing)"
+                      @bind-Value=Content.Item2.LetterSpacing
+                      Style="margin-bottom: 20px" />
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentLabel>@Content.Item1.WatermakRepeatLabel</FluentLabel>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value=Content.Item2.Repeat
+                          AriaLabel="@Content.Item1.WatermakRepeatLabel" />
+        </FluentStack>
+    </FluentStack>
+</FluentDialogBody>

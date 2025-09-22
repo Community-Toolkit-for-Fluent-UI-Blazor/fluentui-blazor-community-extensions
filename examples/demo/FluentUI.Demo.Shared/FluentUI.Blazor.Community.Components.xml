@@ -1469,6 +1469,191 @@
             The open button is visible only when the first cookie consent banner is hidden.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Cursor">
+            <summary>
+            Represents the different types of cursors that can be used in the Fluent UI Blazor Community components.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.None">
+            <summary>
+            No cursor is specified.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Auto">
+            <summary>
+            Cursor is set automatically based on context.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Default">
+            <summary>
+            Cursor is the default arrow cursor.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.ContextMenu">
+            <summary>
+            Cursor indicates a context menu is available, typically a pointer with a small menu icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Help">
+            <summary>
+            Cursor indicates help is available, typically a question mark or a pointer with a question mark.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Pointer">
+            <summary>
+            Cursor indicates a clickable item, typically a hand icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Progress">
+            <summary>
+            Cursor indicates a progress action is occurring, typically a pointer with a spinning circle or hourglass.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Wait">
+            <summary>
+            Cursor indicates that the user should wait, typically an hourglass or spinning circle.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Cell">
+            <summary>
+            Cursor indicates a cell selection, typically a plus sign.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Crosshair">
+            <summary>
+            Cursor indicates crosshair selection, typically a crosshair icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Text">
+            <summary>
+            Cursor indicates text selection, typically an I-beam icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.VerticalText">
+            <summary>
+            Cursor indicates vertical text selection, typically an horizontal I-beam icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Alias">
+            <summary>
+            Cursor indicates an alias action, typically a pointer with a small arrow.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Copy">
+            <summary>
+            Cursor indicates a copy action, typically a pointer with a small plus sign.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Move">
+            <summary>
+            Cursor indicates a move action, typically a pointer with four arrows.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.NoDrop">
+            <summary>
+            Cursor indicates no drop action, typically a circle with a line through it.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.NotAllowed">
+            <summary>
+            Cursor indicates that an action is not allowed, typically a circle with a line through it.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Grab">
+            <summary>
+            Cursor indicates grabbing action, typically a hand icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.Grabbing">
+            <summary>
+            Cursor indicates grabbing action, typically a closed hand icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.AllScroll">
+            <summary>
+            Cursor indicates all-direction scrolling, typically a four-arrow icon.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.ColResize">
+            <summary>
+            Cursor indicates column resizing, typically a horizontal double arrow.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.RowResize">
+            <summary>
+            Cursor indicates row resizing, typically a vertical double arrow.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.NResize">
+            <summary>
+            Cursor indicates north resizing, typically a vertical double arrow pointing up and down.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.EResize">
+            <summary>
+            Cursor indicates east resizing, typically a horizontal double arrow pointing left and right.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.SResize">
+            <summary>
+            Cursor indicates south resizing, typically a vertical double arrow pointing up and down.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.WResize">
+            <summary>
+            Cursor indicates west resizing, typically a horizontal double arrow pointing left and right.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.NeResize">
+            <summary>
+            Cursor indicates northeast resizing, typically a diagonal double arrow pointing top-right and bottom-left.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.NwResize">
+            <summary>
+            Cursor indicates northwest resizing, typically a diagonal double arrow pointing top-left and bottom-right.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.SeResize">
+            <summary>
+            Cursor indicates southeast resizing, typically a diagonal double arrow pointing top-left and bottom-right.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.SwResize">
+            <summary>
+            Cursor indicates southwest resizing, typically a diagonal double arrow pointing top-right and bottom-left.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.EwResize">
+            <summary>
+            Cursor indicates east-west resizing, typically a horizontal double arrow pointing left and right.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.NsResize">
+            <summary>
+            Cursor indicates north-south resizing, typically a vertical double arrow pointing up and down.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.NeswResize">
+            <summary>
+            Cursor indicates northeast-southwest resizing, typically a diagonal double arrow pointing top-right and bottom-left.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.NwseResize">
+            <summary>
+            Cursor indicates northwest-southeast resizing, typically a diagonal double arrow pointing top-left and bottom-right.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.ZoomIn">
+            <summary>
+            Cursor indicates zooming in, typically a magnifying glass with a plus sign.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Cursor.ZoomOut">
+            <summary>
+            Cursor indicates zooming out, typically a magnifying glass with a minus sign.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.Browser">
             <summary>
             Represents the browser used to running the app.
@@ -7242,6 +7427,106 @@
             <param name="change">Value indicating if the media has changed.</param>
             <returns>Returns a task which raises the event callback <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged"/> when completed.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserversProvider.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserversProvider.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IObserver">
+            <summary>
+            Represents an observer that responds to asynchronous events related to resizing, intersection, and measurement.
+            </summary>
+            <remarks>This interface defines methods for handling specific asynchronous events, such as changes in size,
+            intersection events,  and measurement updates. Implementations of this interface are expected to handle these events
+            appropriately and  support asynchronous disposal.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IObserver.Id">
+            <summary>
+            Gets the unique identifier for the observer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IObserver.OnResizedAsync(System.Int32,System.Int32)">
+            <summary>
+            Handles the event triggered when the size of a component or window is resized.
+            </summary>
+            <param name="width">The new width, in pixels, after the resize event.</param>
+            <param name="height">The new height, in pixels, after the resize event.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IObserver.OnIntersectAsync(FluentUI.Blazor.Community.Components.IntersectionEventArgs)">
+            <summary>
+            Handles the intersection event triggered when an observed element intersects with a specified threshold.
+            </summary>
+            <param name="e">The event arguments containing details about the intersection, such as the target element and intersection
+            ratio. Cannot be <see langword="null"/>.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IObserver.OnMeasuredAsync(System.Int32,System.Int32)">
+            <summary>
+            Handles the event triggered when a measurement is completed, providing the measured width and height.
+            </summary>
+            <param name="width">The measured width, in pixels. Must be a non-negative value.</param>
+            <param name="height">The measured height, in pixels. Must be a non-negative value.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ObserverService">
+            <summary>
+            Represents a service for managing observers that monitor changes to elements in the DOM.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverService._isInitialized">
+            <summary>
+            Value indicating whether the service has been initialized.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverService._module">
+            <summary>
+            Reference to the JavaScript module for observer functionality.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverService._providerId">
+            <summary>
+            Reference ID for the provider associated with this service.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverService.Observers">
+            <summary>
+            Gets a dictionary of observers managed by the service.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.AddObserverAsync(FluentUI.Blazor.Community.Components.IObserver)">
+            <summary>
+            Adds an observer to the service and initializes it if the service is already initialized.
+            </summary>
+            <param name="observer">Observer to add into the service.</param>
+            <returns>Returns a task which adds the observer into the service when completed.</returns>
+            <exception cref="T:System.ArgumentException">Occurs if <see cref="P:FluentUI.Blazor.Community.Components.IObserver.Id"/> is not provided.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.RemoveObserverAsync(FluentUI.Blazor.Community.Components.IObserver)">
+            <summary>
+            Removes an observer to the service and initializes it if the service is already initialized.
+            </summary>
+            <param name="observer">Observer to remove from the service.</param>
+            <returns>Returns a task which removes the observer from the service when completed.</returns>
+            <exception cref="T:System.ArgumentException">Occurs if <see cref="P:FluentUI.Blazor.Community.Components.IObserver.Id"/> is not provided.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.WaitInitializationCompleted">
+            <summary>
+            Waits until the service is initialized.
+            </summary>
+            <returns>Returns a task which waits until the service is initialized.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.Initialize(System.String,Microsoft.JSInterop.IJSObjectReference)">
+            <summary>
+            Initializes the instance with the specified provider ID and JavaScript module reference.
+            </summary>
+            <param name="id">The unique identifier for the provider. Cannot be null or empty.</param>
+            <param name="module">The JavaScript module reference to associate with the instance. Cannot be null.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.Dispose">
+            <inheritdoc />
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBar">
             <summary>
             Represents a path bar.
@@ -7965,6 +8250,1562 @@
             </summary>
             <param name="localizationDirection">Direction used by the app.</param>
             <returns>Returns the <see cref="T:System.Collections.Generic.Dictionary`2"/> of the resize handler to use.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.EraserShape">
+            <summary>
+            Specifies the shape of an eraser used in drawing or editing operations in the signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.EraserShape.Circle">
+            <summary>
+            Represents a geometric circle defined by its radius.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.EraserShape.Square">
+            <summary>
+            Represents a geometric square with equal-length sides.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.GridDisplayMode">
+            <summary>
+            Specifies the display mode for a grid, determining how the grid is visually rendered.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.GridDisplayMode.None">
+            <summary>
+            No grid is displayed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.GridDisplayMode.Lines">
+            <summary>
+            A grid with lines is displayed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.GridDisplayMode.Dots">
+            <summary>
+            A grid with dots is displayed.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LineCap">
+            <summary>
+            Represents the style of the endpoints of a line.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LineCap.Butt">
+            <summary>
+            Represents a flat edge at the end of the line.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LineCap.Round">
+            <summary>
+            Represents a rounded edge at the end of the line.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LineCap.Square">
+            <summary>
+            Represents a square edge at the end of the line.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LineJoin">
+            <summary>
+            Specifies the shape to be used at the join between two connected lines.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LineJoin.Miter">
+            <summary>
+            Represents a sharp corner or a pointed join between two lines.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LineJoin.Round">
+            <summary>
+            Represents a rounded join between two lines.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LineJoin.Bevel">
+            <summary>
+            Represents a beveled join, which creates a flattened corner between two lines.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureImageFormat">
+            <summary>
+            Represents the different image formats that can be used when exporting a signature from the Signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureImageFormat.Bmp">
+            <summary>
+            Represents the BMP (Bitmap) image format.
+            </summary>
+            <remarks>The BMP format is a widely used raster graphics image file format that stores bitmap digital
+            images. It supports various color depths and compression methods.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureImageFormat.Png">
+            <summary>
+            Represents the Portable Network Graphics (PNG) image format.
+            </summary>
+            <remarks>PNG is a raster-graphics file format that supports lossless data compression. It is commonly
+            used for web graphics and supports transparency.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureImageFormat.Jpeg">
+            <summary>
+            Represents a JPEG image format.
+            </summary>
+            <remarks>This class or enumeration is used to identify or work with JPEG image files,  which are
+            commonly used for storing and transmitting photographic images.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureImageFormat.Webp">
+            <summary>
+            Represents the WebP image format.
+            </summary>
+            <remarks>WebP is a modern image format that provides superior lossless and lossy compression for
+            images on the web. It is designed to reduce image file sizes while maintaining high visual quality.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureImageFormat.Gif">
+            <summary>
+            Represents an animated image in the Graphics Interchange Format (GIF).
+            </summary>
+            <remarks>This class provides functionality for working with GIF images, including accessing frames,
+            metadata, and playback properties. It can be used to load, manipulate, and display GIF animations.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureImageFormat.Svg">
+            <summary>
+            Represents an SVG (Scalable Vector Graphics) element, which is a vector-based image format  for defining
+            graphics using XML.
+            </summary>
+            <remarks>This class provides functionality for working with SVG elements, including creating, 
+            manipulating, and rendering SVG content. SVG is widely used for scalable and resolution-independent  graphics in
+            web and application development.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureImageFormat.Pdf">
+            <summary>
+            Represents a PDF (Portable Document Format) document, which is a file format used to present and exchange.
+            </summary>
+            <remarks>PDF documents are widely used for sharing and printing documents while preserving their formatting.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.WatermarkVerticalAlignment">
+            <summary>
+            Represents the vertical alignment options for the watermark in the signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.WatermarkVerticalAlignment.Start">
+            <summary>
+            The watermark is aligned to the top of the signature area.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.WatermarkVerticalAlignment.Middle">
+            <summary>
+            The watermark is centered vertically within the signature area.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.WatermarkVerticalAlignment.End">
+            <summary>
+            The watermark is aligned to the bottom of the signature area.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxSignature">
+            <summary>
+            Represents a signature component that allows users to draw and manage signatures with various options and features.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSignature._signature">
+            <summary>
+            Rerpresents the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.DialogService">
+            <summary>
+            Gets or sets the dialog service for displaying dialogs and panels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.Options">
+            <summary>
+            Gets or sets the signature options.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.MenuOptions">
+            <summary>
+            Gets or sets the menu options.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.Labels">
+            <summary>
+            Gets or sets the labels for the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.IsMobile">
+            <summary>
+            Gets or sets a value indicating whether the component is being rendered on a mobile device.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.ExportCompleted">
+            <summary>
+            Gets or sets the event callback that is invoked when the export operation is completed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxSignature.SignatureStyle">
+            <summary>
+            Gets the css for the signature area.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnExportClickedAsync">
+            <summary>
+            Displays the export settings panel to the user and allows them to configure and confirm export options.
+            </summary>
+            <remarks>This method asynchronously opens a dialog panel for exporting signatures. The panel includes
+            options  for configuring export settings, as well as primary and secondary actions for confirming or canceling 
+            the operation. The dialog is aligned to the right side of the screen.</remarks>
+            <returns>Returns a task which displays the export settings panel when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnPenSettingsClickedAsync">
+            <summary>
+            Displays the pen settings panel to the user and allows them to configure and confirm pen options.
+            </summary>
+            <remarks>This method asynchronously opens a dialog panel for configuring pen options,
+            as well as primary and secondary actions for confirming or canceling 
+            the operation. The dialog is aligned to the right side of the screen.</remarks>
+            <returns>Returns a task which displays the pen settings panel when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnEraserSettingsClickedAsync">
+            <summary>
+            Displays the eraser settings panel to the user and allows them to configure
+             and confirm eraser options.
+            </summary>
+            <remarks>This method asynchronously opens a dialog panel for configuring eraser options,
+            as well as primary and secondary actions for confirming or canceling 
+            the operation. The dialog is aligned to the right side of the screen.</remarks>
+            <returns>Returns a task which displays the pen settings panel when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnGridSettingsClickedAsync">
+            <summary>
+            Displays the grid settings panel to the user and allows them to configure
+             and confirm grid options.
+            </summary>
+            <remarks>This method asynchronously opens a dialog panel for configuring grid options,
+            as well as primary and secondary actions for confirming or canceling 
+            the operation. The dialog is aligned to the right side of the screen.</remarks>
+            <returns>Returns a task which displays the grid settings panel when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnWatermarkSettingsClickedAsync">
+            <summary>
+            Displays the watermark settings panel to the user and allows them to configure
+             and confirm watermark options.
+            </summary>
+            <remarks>This method asynchronously opens a dialog panel for configuring watermark options,
+            as well as primary and secondary actions for confirming or canceling 
+            the operation. The dialog is aligned to the right side of the screen.</remarks>
+            <returns>Returns a task which displays the watermark settings panel when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnUndoClickedAsync">
+            <summary>
+            Reverts the most recent action performed on the signature, if available.
+            </summary>
+            <remarks>This method performs an undo operation on the signature if a signature instance is present. 
+            If no signature is available, the method does nothing.</remarks>
+            <returns>A task that represents the asynchronous undo operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnRedoClickedAsync">
+            <summary>
+            Handles the redo action by invoking the redo operation on the associated signature, if available.
+            </summary>
+            <remarks>This method performs the redo operation asynchronously. If no signature is associated, the
+            method does nothing.</remarks>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnPenClickedAsync">
+            <summary>
+            Handles the event triggered when the pen is clicked, ensuring the signature control exits erase mode.
+            </summary>
+            <remarks>This method sets the signature control to non-erase mode if the signature control is
+            initialized.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnEraserClickedAsync">
+            <summary>
+            Enables erase mode for the signature component asynchronously.
+            </summary>
+            <remarks>This method sets the signature component to erase mode, allowing the user to erase content. 
+            If the signature component is not initialized, the method does nothing.</remarks>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnClearClickedAsync">
+            <summary>
+            Clears the signature if one is currently present.
+            </summary>
+            <remarks>This method asynchronously clears the signature data by invoking the <see cref="M:FluentUI.Blazor.Community.Components.Signature.ClearAsync"/>
+            method  on the signature object. If no signature is present, the method does nothing.</remarks>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureGridLayer">
+            <summary>
+            Represents a grid layer component for displaying a grid on a signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureGridLayer._gridLayerElement">
+            <summary>
+            Reference to the grid layer HTML element.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureGridLayer._module">
+            <summary>
+            Represents the JavaScript module for the grid layer.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureGridLayer._width">
+            <summary>
+            Represents the width of the grid layer.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureGridLayer._height">
+            <summary>
+            Represents the height of the grid layer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureGridLayer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SignatureGridLayer"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridLayer.JSRuntime">
+            <summary>
+            Gets or sets the JavaScript runtime for interop calls.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridLayer.Options">
+            <summary>
+            Get or sets the grid options for the grid layer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridLayer.InternalClass">
+            <summary>
+            Gets the internal CSS class for the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureGridLayer.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureGridLayer.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureGridLayer.UpdateViewboxAsync(System.Int32,System.Int32)">
+            <summary>
+            Updates the viewbox of the grid layer based on the provided width and height.
+            </summary>
+            <param name="width">Width of the component.</param>
+            <param name="height">Height of the component.</param>
+            <returns>Returns a task which updates the viewbox when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureGridLayer.RefreshAsync">
+            <summary>
+            Refreshes the grid layer by invoking the JavaScript function to update the grid.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureInkLayer">
+            <summary>
+            Represents an ink layer component for capturing and displaying user signatures.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureInkLayer._inkLayerElement">
+            <summary>
+            Reference to the grid layer HTML element.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureInkLayer._module">
+            <summary>
+            Represents the JavaScript module for the ink layer.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureInkLayer._width">
+            <summary>
+            Represents the width of the ink layer.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureInkLayer._height">
+            <summary>
+            Represents the height of the ink layer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureInkLayer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SignatureInkLayer"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureInkLayer.JSRuntime">
+            <summary>
+            Gets or sets the JavaScript runtime for interop calls.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureInkLayer.PenOptions">
+            <summary>
+            Get or sets the pen options for the ink layer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureInkLayer.EraserOptions">
+            <summary>
+            Get or sets the eraser options for the ink layer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureInkLayer.InternalClass">
+            <summary>
+            Gets the internal CSS class for the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureInkLayer.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureInkLayer.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureInkLayer.UpdateViewboxAsync(System.Int32,System.Int32)">
+            <summary>
+            Updates the viewbox of the grid layer based on the provided width and height.
+            </summary>
+            <param name="width">Width of the component.</param>
+            <param name="height">Height of the component.</param>
+            <returns>Returns a task which updates the viewbox when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureInkLayer.ClearAsync">
+            <summary>
+            Clears the current signature from the ink layer.
+            </summary>
+            <returns>Returns a task which clear the ink layer when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureInkLayer.UndoAsync">
+            <summary>
+            Undoes the last action on the ink layer.
+            </summary>
+            <returns>Returns a task which undo the last action on the ink layer when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureInkLayer.RedoAsync">
+            <summary>
+            Redos the last undone action on the ink layer.
+            </summary>
+            <returns>Returns a task which redo the last action on the ink layer when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureInkLayer.SetEraseModeAsync(System.Boolean)">
+            <summary>
+            Sets the erase mode on the ink layer.
+            </summary>
+            <param name="enabled">Value indicating if the erase mode is enabled.</param>
+            <returns>Returns a task which set the erase mode when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureInkLayer.RefreshAsync">
+            <summary>
+            Refreshes the ink layer with the current pen options.
+            </summary>
+            <returns>Returns a task which updates the pen options.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureOverlayLayer">
+            <summary>
+            Represents an overlay layer component for capturing and displaying user signatures.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureOverlayLayer._overlayLayerElement">
+            <summary>
+            Reference to the grid layer HTML element.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureOverlayLayer._module">
+            <summary>
+            Represents the JavaScript module for the ink layer.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureOverlayLayer._width">
+            <summary>
+            Represents the width of the ink layer.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureOverlayLayer._height">
+            <summary>
+            Represents the height of the ink layer.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureOverlayLayer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SignatureOverlayLayer"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOverlayLayer.JSRuntime">
+            <summary>
+            Gets or sets the JavaScript runtime for interop calls.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOverlayLayer.Options">
+            <summary>
+            Get or sets the pen options for the ink layer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOverlayLayer.InternalClass">
+            <summary>
+            Gets the internal CSS class for the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureOverlayLayer.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureOverlayLayer.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureOverlayLayer.UpdateViewboxAsync(System.Int32,System.Int32)">
+            <summary>
+            Updates the viewbox of the grid layer based on the provided width and height.
+            </summary>
+            <param name="width">Width of the component.</param>
+            <param name="height">Height of the component.</param>
+            <returns>Returns a task which updates the viewbox when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureOverlayLayer.RefreshAsync">
+            <summary>
+            Refreshes the overlay layer by invoking the JavaScript function to update the overlay with the current options.
+            </summary>
+            <returns>Returns a task which updates the overlayer when completed.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureGridOptions">
+            <summary>
+            Represents the grid options for the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.DisplayMode">
+            <summary>
+            Gets or sets the display mode of the grid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.CellSize">
+            <summary>
+            Gets or sets the size of each cell in the grid, in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.Color">
+            <summary>
+            Gets or sets the color of the grid lines or dots.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.Opacity">
+            <summary>
+            Gets or sets the opacity of the grid, ranging from 0.0 (fully transparent) to 1.0 (fully opaque).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.BoldEvery">
+            <summary>
+            Gets or sets how often to bold the grid lines. For example, a value of 5 will bold every 5th line.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.StrokeWidth">
+            <summary>
+            Gets or sets the width of the grid lines, in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.DashArray">
+            <summary>
+            Gets or sets the dash array for the grid lines, allowing for dashed or dotted lines.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.ShowAxes">
+            <summary>
+            Gets or sets a value indicating whether to show the X and Y axes in the grid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.BackgroundColor">
+            <summary>
+            Gets or sets the color of the background.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.Margin">
+            <summary>
+            Gets or sets the margin around the grid, in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridOptions.PointRadius">
+            <summary>
+            Gets or sets the radius of the points when the display mode is set to dots, in pixels.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureGridOptions.Reset">
+            <summary>
+            Resets all properties to their default values.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MenuOptions">
+            <summary>
+            Represents the options for displaying the menu in the Signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuOptions.IsVisible">
+            <summary>
+            Gets or sets a value indicating whether the menu is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuOptions.ShowExport">
+            <summary>
+            Gets or sets a value indicating whether the export button is shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuOptions.ShowUndo">
+            <summary>
+            Gets or sets a value indicating whether the undo button is shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuOptions.ShowRedo">
+            <summary>
+            Gets or sets a value indicating whether the redo button is shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuOptions.ShowClear">
+            <summary>
+            Gets or sets a value indicating whether the clear button is shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuOptions.ShowEraser">
+            <summary>
+            Gets or sets a value indicating whether the eraser button is shown.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MenuOptions.ShowCustomOptions">
+            <summary>
+            Gets or sets a value indicating whether the custom options button is shown.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ShadowOptions">
+            <summary>
+            Represents configuration options for applying a shadow effect.
+            </summary>
+            <remarks>This class provides properties to control the appearance of a shadow, including its visibility, 
+            color, blur radius, and offsets. These options can be used to customize the shadow effect  for visual
+            elements.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ShadowOptions.Enabled">
+            <summary>
+            Gets or sets a value indicating whether the shadow effect is enabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ShadowOptions.Color">
+            <summary>
+            Gets or sets the color of the shadow. This can be any valid CSS color value, such as a hex code, RGB, or RGBA.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ShadowOptions.Blur">
+            <summary>
+            Gets or sets the blur radius of the shadow. A higher value results in a more blurred shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ShadowOptions.OffsetX">
+            <summary>
+            Gets or sets the horizontal offset of the shadow. Positive values move the shadow to the right, while negative values move it to the left.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ShadowOptions.OffsetY">
+            <summary>
+            Gets or sets the vertical offset of the shadow. Positive values move the shadow down, while negative values move it up.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ShadowOptions.Reset">
+            <summary>
+            Resets all properties to their default values.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureEraserOptions">
+            <summary>
+            Represents the eraser options for the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureEraserOptions.Size">
+            <summary>
+            Gets or sets the size of the eraser in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureEraserOptions.Shape">
+            <summary>
+            Gets or sets the shape of the eraser. Can be either Circle or Square.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureEraserOptions.Opacity">
+            <summary>
+            Gets or sets the opacity of the eraser, ranging from 0.0 (fully transparent) to 1.0 (fully opaque).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureEraserOptions.SoftEdges">
+            <summary>
+            Gets or sets a value indicating whether the eraser should have soft edges.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureEraserOptions.Cursor">
+            <summary>
+            Gets or sets the cursor style when the eraser is active. This can be any valid CSS cursor value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureEraserOptions.CursorCss">
+            <summary>
+            Gets the CSS representation of the cursor style.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureEraserOptions.PartialErase">
+            <summary>
+            Gets or sets a value indicating whether the eraser performs a partial erase.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureEraserOptions.Reset">
+            <summary>
+            Resets all properties to their default values.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureExportOptions">
+            <summary>
+            Represents the export options for the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportOptions.Format">
+            <summary>
+            Gets or sets the image format for exporting the signature. Default is PNG.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportOptions.Quality">
+            <summary>
+            Gets or sets the quality of the exported image, ranging from 0 to 100.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureExportOptions.Reset">
+            <summary>
+            Resets all properties to their default values.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureOptions">
+            <summary>
+            Represents the configuration options for a signature component, including settings for the pen, eraser, grid, and
+            watermark.
+            </summary>
+            <remarks>This class provides a collection of customizable options that control the behavior and appearance of
+            a signature component. Use the properties to configure specific aspects such as the pen style, eraser functionality,
+            grid layout, and watermark display.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.Pen">
+            <summary>
+            Gets or sets the options for configuring the pen used in the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.Eraser">
+            <summary>
+            Gets or sets the options for configuring the eraser used in the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.Grid">
+            <summary>
+            Gets or sets the options for configuring the grid displayed in the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.Watermark">
+            <summary>
+            Gets or sets the options for configuring the watermark displayed in the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureOptions.Export">
+            <summary>
+            Gets or sets the options for configuring the export settings of the signature component.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignaturePenOptions">
+            <summary>
+            Represents the pen options for the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenOptions.Color">
+            <summary>
+            Gets or sets the color of the pen. This can be any valid CSS color value, such as a hex code, RGB, or RGBA.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenOptions.BaseWidth">
+            <summary>
+            Gets or sets the base width of the pen stroke in pixels. This is the default width when pressure sensitivity is not applied.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenOptions.DashArray">
+            <summary>
+            Gets or sets the minimum width of the pen stroke in pixels. This is the thinnest the stroke can be when pressure sensitivity is applied.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenOptions.PressureEnabled">
+            <summary>
+            Gets or sets a value indicating whether pressure sensitivity is enabled. When true, the stroke width will vary based on the pressure applied (if supported by the input device).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenOptions.Smoothing">
+            <summary>
+            Gets or sets a value indicating whether smoothing is applied to the pen strokes. When true, the strokes will be smoothed to reduce jitter and create a more natural appearance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenOptions.Opacity">
+            <summary>
+            Gets or sets the opacity of the pen strokes, ranging from 0.0 (fully transparent) to 1.0 (fully opaque).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenOptions.LineCap">
+            <summary>
+            Gets or sets the shape of the ends of the pen strokes. Can be either Butt, Round, or Square.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenOptions.LineJoin">
+            <summary>
+            Gets or sets the shape of the corners where two pen strokes meet. Can be either Bevel, Round, or Miter.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenOptions.Shadow">
+            <summary>
+            Gets or sets the shadow options for the pen strokes.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignaturePenOptions.Reset">
+            <summary>
+            Resets all properties to their default values.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions">
+            <summary>
+            Represents the watermark options for the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.Text">
+            <summary>
+            Gets or sets the text to be displayed as the watermark. If both Text and ImageUrl are provided, the image will take precedence.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.ImageUrl">
+            <summary>
+            Gets or sets the URL of the image to be used as the watermark. If both Text and ImageUrl are provided, the image will take precedence.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.Opacity">
+            <summary>
+            Gets or sets the opacity of the watermark, ranging from 0.0 (fully transparent) to 1.0 (fully opaque).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.FontFamily">
+            <summary>
+            Gets or sets the font family for the watermark text. This can be any valid CSS font-family value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.FontSize">
+            <summary>
+            Gets or sets the font size for the watermark text, in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.FontWeight">
+            <summary>
+            Gets or sets the font weight for the watermark text. This can be any valid CSS font-weight value, such as "normal", "bold", or a numeric value like "400" or "700".
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.Color">
+            <summary>
+            Gets or sets the color of the watermark text. This can be any valid CSS color value, such as a hex code, RGB, or RGBA.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.Rotation">
+            <summary>
+            Gets or sets the rotation angle of the watermark text or image, in degrees. Positive values rotate clockwise, while negative values rotate counterclockwise.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.Position">
+            <summary>
+            Gets or sets the position of the watermark within the signature area, represented as a Point with X and Y coordinates (in percentage). The default position is centered at (50, 50).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.Repeat">
+            <summary>
+            Gets or sets a value indicating whether the watermark should be repeated across the signature area. If true, the watermark will be tiled; if false, it will appear only once at the specified position.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.TextAlign">
+            <summary>
+            Gets or sets the vertical alignment of the watermark text. This can be "start", "middle", or "end".
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.LetterSpacing">
+            <summary>
+            Gets or sets the letter spacing for the watermark text, in pixels.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureWatermarkOptions.Reset">
+            <summary>
+            Resets all properties to their default values.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureEraserPanel">
+            <summary>
+            Represents a panel for erasing a signature with configurable content options.
+            </summary>
+            <remarks>This component allows users to specify the content options for erasing a signature. The <see
+            cref="P:FluentUI.Blazor.Community.Components.SignatureEraserPanel.Content"/> property can be used to configure the export settings.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureEraserPanel.Content">
+            <summary>
+            Gets or sets the content options for erasing a signature.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureExportPanel">
+            <summary>
+            Represents a panel for exporting a signature with configurable content options.
+            </summary>
+            <remarks>This component allows users to specify the content options for exporting a signature. The <see
+            cref="P:FluentUI.Blazor.Community.Components.SignatureExportPanel.Content"/> property can be used to configure the export settings.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportPanel.Content">
+            <summary>
+            Gets or sets the content options for exporting a signature.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureGridPanel">
+            <summary>
+            Represents a panel for creating a grid on a signature with configurable content options.
+            </summary>
+            <remarks>This component allows users to specify the content options for creating a grid on a signature. The <see
+            cref="P:FluentUI.Blazor.Community.Components.SignatureGridPanel.Content"/> property can be used to configure the grid settings.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureGridPanel.Content">
+            <summary>
+            Gets or sets the content options for exporting a signature.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignaturePenPanel">
+            <summary>
+            Represents a panel for configuring the signature pen settings.
+            </summary>
+            <remarks>This component allows users to customize the appearance and behavior of the signature pen by setting
+            various options through the <see cref="P:FluentUI.Blazor.Community.Components.SignaturePenPanel.Content"/> property.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenPanel.Content">
+            <summary>
+            Gets or sets the options for configuring the signature pen.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignaturePenPanel.GetFormat(System.String,System.Double)">
+            <summary>
+            Gets the format string for displaying value in the good format.
+            </summary>
+            <param name="format">Format of the value.</param>
+            <param name="value">Value to format.</param>
+            <returns>Returns the formatted value.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureWatermarkPanel">
+            <summary>
+            Represents a panel for watermarking a signature with configurable content options.
+            </summary>
+            <remarks>This component allows users to specify the content options for watermarking a signature. The <see
+            cref="P:FluentUI.Blazor.Community.Components.SignatureWatermarkPanel.Content"/> property can be used to configure the watermark settings.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureWatermarkPanel.Content">
+            <summary>
+            Gets or sets the content options for creating a watermark on a signature.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureWatermarkPanel.GetFormat(System.String,System.Double)">
+            <summary>
+            Gets the format string for displaying value in the good format.
+            </summary>
+            <param name="format">Format of the value.</param>
+            <param name="value">Value to format.</param>
+            <returns>Returns the formatted value.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Signature">
+            <summary>
+            Represents a signature component that allows users to draw and capture signatures.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Signature._module">
+            <summary>
+            Represents the JavaScript module reference used for interacting with JavaScript functions.
+            </summary>
+            <remarks>This field holds a reference to a JavaScript module loaded via the JavaScript interop system.
+            It may be <see langword="null"/> if the module has not been initialized or has been disposed.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Signature._gridLayer">
+            <summary>
+            Represents the grid layer component used for displaying a grid background.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Signature._inkLayer">
+            <summary>
+            Represents the ink layer component used for capturing and displaying user-drawn signatures.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Signature._overlayLayer">
+            <summary>
+            Represents the overlay layer component used for displaying additional overlays on top of the signature.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Signature"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Signature.JS">
+            <summary>
+            Gets or sets the JavaScript runtime for interop calls.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Signature.ObserverService">
+            <summary>
+            Gets or sets the observer service for managing observers.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Signature.Options">
+            <summary>
+            Gets or sets the signature options for configuring the signature component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Signature.InternalClass">
+            <summary>
+            Gets the internal CSS class for the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.ExportSvgAsync">
+            <summary>
+            Exports the current signature as an SVG string.
+            </summary>
+            <returns>Returns a task which exports the svg as a string when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.ClearAsync">
+            <summary>
+            Clears the current signature from the ink layer.
+            </summary>
+            <returns>Returns a task which clear the signature.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.UndoAsync">
+            <summary>
+            Undoes the last action on the ink layer.
+            </summary>
+            <returns>Returns a task which undo the last action on the ink layer when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.RedoAsync">
+            <summary>
+            Redos the last undone action on the ink layer.
+            </summary>
+            <returns>Returns a task which redo the last action on the ink layer when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.SetEraseModeAsync(System.Boolean)">
+            <summary>
+            Sets the erase mode on the ink layer.
+            </summary>
+            <param name="enabled">Value indicating if the erase mode is enabled.</param>
+            <returns>Returns a task which set the erase mode when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.RefreshGridAsync">
+            <summary>
+            Refreshes the grid layer to reflect any changes in options or state.
+            </summary>
+            <returns>Returns a task which refreshs the grid when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.RefreshInkAsync">
+            <summary>
+            Refreshes the ink layer to reflect any changes in options or state.
+            </summary>
+            <returns>Returns a task which refreshs the ink layer when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.RefreshOverlayAsync">
+            <summary>
+            Refreshes the overlay layer to reflect any changes in options or state.
+            </summary>
+            <returns>Returns a task which refreshs the overlay layer when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.OnResizedAsync(System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.OnIntersectAsync(FluentUI.Blazor.Community.Components.IntersectionEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.OnMeasuredAsync(System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Signature.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureExporter">
+            <summary>
+            Exports a signature in the specified format, returning the file name, content type, and binary data.    
+            </summary>
+            <remarks>The export format is determined by the <see cref="P:FluentUI.Blazor.Community.Components.SignatureExportOptions.Format"/> property: <list
+            type="bullet"> <item><description>If the format is <see cref="F:FluentUI.Blazor.Community.Components.SignatureImageFormat.Svg"/>, the method returns the
+            SVG data as-is.</description></item> <item><description>If the format is <see cref="F:FluentUI.Blazor.Community.Components.SignatureImageFormat.Pdf"/>, the
+            SVG is converted to a PDF document.</description></item> <item><description>For other image formats (e.g., PNG,
+            JPEG), the SVG is converted to the specified format using the provided quality setting.</description></item>
+            </list></remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureExporter.Export(FluentUI.Blazor.Community.Components.SignatureExportOptions,System.String)">
+            <summary>
+            Exports a signature image in the specified format.
+            </summary>
+            <remarks>The method supports exporting the signature in various formats, including SVG, PDF, and
+            common image formats such as PNG, JPEG, BMP, GIF, TIFF, and WebP. The content type and file extension are
+            determined based on the selected format. For SVG format, the method directly returns the input SVG data. For PDF
+            and other image formats, the method converts the SVG data using the appropriate conversion logic.</remarks>
+            <param name="options">The export options, including the desired image format and quality settings.</param>
+            <param name="svg">The SVG representation of the signature to be exported. Cannot be null or empty.</param>
+            <returns>A tuple containing the filename, content type, and binary data of the exported signature image. The filename
+            includes the appropriate file extension based on the selected format.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureExportEventArgs">
+            <summary>
+            Provides data for an event that occurs when a signature is exported.
+            </summary>
+            <remarks>This class contains information about the exported signature, including the file name, content type,
+            and binary data.</remarks>
+            <param name="FileName">The name of the file to which the signature is exported. This value cannot be null or empty.</param>
+            <param name="ContentType">The MIME type of the exported signature file, such as "application/pdf" or "image/png".</param>
+            <param name="Data">The binary data of the exported signature. This value cannot be null.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureExportEventArgs.#ctor(System.String,System.String,System.Byte[])">
+            <summary>
+            Provides data for an event that occurs when a signature is exported.
+            </summary>
+            <remarks>This class contains information about the exported signature, including the file name, content type,
+            and binary data.</remarks>
+            <param name="FileName">The name of the file to which the signature is exported. This value cannot be null or empty.</param>
+            <param name="ContentType">The MIME type of the exported signature file, such as "application/pdf" or "image/png".</param>
+            <param name="Data">The binary data of the exported signature. This value cannot be null.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportEventArgs.FileName">
+            <summary>The name of the file to which the signature is exported. This value cannot be null or empty.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportEventArgs.ContentType">
+            <summary>The MIME type of the exported signature file, such as "application/pdf" or "image/png".</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureExportEventArgs.Data">
+            <summary>The binary data of the exported signature. This value cannot be null.</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureLabels">
+            <summary>
+            Represents a collection of localized labels used for UI elements in a signature-related application.
+            </summary>
+            <remarks>This record provides a set of default labels in English, as well as predefined localized labels for
+            other languages, such as French. The labels can be customized by setting the properties to desired values.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Default">
+            <summary>
+            Gets the default instance of <see cref="T:FluentUI.Blazor.Community.Components.SignatureLabels"/> with labels in English.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.French">
+            <summary>
+            Gets an instance of <see cref="T:FluentUI.Blazor.Community.Components.SignatureLabels"/> with labels localized in French.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Export">
+            <summary>
+            Gets or sets the label for the export button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Undo">
+            <summary>
+            Gets or sets the label for the undo button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Redo">
+            <summary>
+            Gets or sets the label for the redo button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Clear">
+            <summary>
+            Gets or sets the label for the clear button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Eraser">
+            <summary>
+            Gets or sets the label for the eraser button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Pen">
+            <summary>
+            Gets or sets the label for the pen button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Settings">
+            <summary>
+            Gets or sets the label for the settings button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ExportSettings">
+            <summary>
+            Gets or sets the label for the export settings section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Cancel">
+            <summary>
+            Gets or sets the label for the cancel button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.PenSettings">
+            <summary>
+            Gets or sets the label for the pen settings section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.EraserSettings">
+            <summary>
+            Gets or sets the label for the eraser settings section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.GridSettings">
+            <summary>
+            Gets or sets the label for the grid settings section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.WatermarkSettings">
+            <summary>
+            Gets or sets the label for the watermark settings section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.Apply">
+            <summary>
+            Gets or sets the label for the apply.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ExportFormatLabel">
+            <summary>
+            Gets or sets the label for the export format selection.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ExportQualityLabel">
+            <summary>
+            Gets or sets the label for the export quality selection.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.BackgroundGridColorLabel">
+            <summary>
+            Gets or sets the label for the background grid color.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.GridColorLineLabel">
+            <summary>
+            Gets or sets the label for the grid line color.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.GridCellSizeLabel">
+            <summary>
+            Gets or sets the label for the grid cell size.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.GridOpacityLabel">
+            <summary>
+            Gets or sets the label for the grid opacity.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.BoldEveryLabel">
+            <summary>
+            Gets or sets the label for the Nth line bolding option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.StrokeWidthLabel">
+            <summary>
+            Gets or sets the label for the width of the stroke.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.MarginLabel">
+            <summary>
+            Gets or sets the label for the margin.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.PointRadiusLabel">
+            <summary>
+            Gets or sets the label for the point radius.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ShowAxesLabel">
+            <summary>
+            Gets or sets the label for the axes visibility option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.GridDisplayModeLabel">
+            <summary>
+            Gets or sets the label for the grid display mode option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.GridDisplayModeNoneLabel">
+            <summary>
+            Gets or sets the label for the grid display mode "None" option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.GridDisplayModeLinesLabel">
+            <summary>
+            Gets or sets the label for the grid display mode "Lines" option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.GridDisplayModeDotsLabel">
+            <summary>
+            Gets or sets the label for the grid display mode "Dots" option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.EraserShapeLabel">
+            <summary>
+            Gets or sets the label for the eraser shape option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.EraserShapeCircleLabel">
+            <summary>
+            Gets or sets the label for the eraser shape "Circle" option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.EraserShapeSquareLabel">
+            <summary>
+            Gets or sets the label for the eraser shape "Square" option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.EraserSizeLabel">
+            <summary>
+            Gets or sets the label for the eraser size option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.EraserOpacityLabel">
+            <summary>
+            Gets or sets the label for the eraser opacity option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.EraserSoftEdgeLabel">
+            <summary>
+            Gets or sets the label for the eraser soft edges option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.EraserPartialEraseLabel">
+            <summary>
+            Gets or sets the label for the eraser partial erase option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.PreviewPenLabel">
+            <summary>
+            Gets or sets the label for the pen preview section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.PenColorLabel">
+            <summary>
+            Gets or sets the label for the pen color selection.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.PenOpacityLabel">
+            <summary>
+            Gets or sets the label for the pen opacity selection.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.PressureEnabledLabel">
+            <summary>
+            Gets or sets the label for the pressure sensitivity enable option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.SmoothingLabel">
+            <summary>
+            Gets or sets the label for the smoothing enable option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ShadowEnabledLabel">
+            <summary>
+            Gets or sets the label for the shadow enable option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.ShadowColorLabel">
+            <summary>
+            Gets or sets the label for the shadow color option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.WatermarkTextLabel">
+            <summary>
+            Gets or sets the label for the watermark text option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.WatermarkColorLabel">
+            <summary>
+            Gets or sets the label for the watermark text color option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.WatermarkFontSizeLabel">
+            <summary>
+            Gets or sets the label for the watermark font size option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.WatermarkOpacityLabel">
+            <summary>
+            Gets or sets the label for the watermark opacity option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.WatermarkRotationLabel">
+            <summary>
+            Gets or sets the label for the watermark rotation option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.WatermarkLetterSpacingLabel">
+            <summary>
+            Gets or sets the label for the watermark letter spacing option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureLabels.WatermakRepeatLabel">
+            <summary>
+            Gets or sets the label for the watermark repeat option.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignatureMenu">
+            <summary>
+            Represents the menu component for the signature component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureMenu._isMultiSettingsPopoverOpen">
+            <summary>
+            Value indicating whether the multi-settings popover is open.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureMenu._isPenActive">
+            <summary>
+            Value indicating whether the pen is active.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SignatureMenu._renderLabel">
+            <summary>
+            Renders the label for a button.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SignatureMenu"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.Options">
+            <summary>
+            Gets or sets the menu options.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.IsMobile">
+            <summary>
+            Gets or sets a value indicating whether the device is mobile.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.Labels">
+            <summary>
+            Gets or sets the labels for the menu buttons.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnUndoClicked">
+            <summary>
+            Gets or sets the callback for when the undo button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnRedoClicked">
+            <summary>
+            Gets or sets the callback for when the redo button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnClearClicked">
+            <summary>
+            Gets or sets the callback for when the clear button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnEraserClicked">
+            <summary>
+            Gets or sets the callback for when the eraser button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnPenClicked">
+            <summary>
+            Gets or sets the callback for when the pen button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnExportClicked">
+            <summary>
+            Gets or sets the callback for when the settings button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnPenSettingsClicked">
+            <summary>
+            Gets or sets the callback for when the pen settings button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnEraserSettingsClicked">
+            <summary>
+            Gets or sets the callback for when the eraser settings button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnGridSettingsClicked">
+            <summary>
+            Gets or sets the callback for when the grid settings button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnWatermarkSettingsClicked">
+            <summary>
+            Gets or sets the callback for when the watermark settings button is clicked.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnExportClickedAsync">
+            <summary>
+            Occurs when the export button is clicked.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnPenOrEraserClickedAsync">
+            <summary>
+            Occurs when the pen button is clicked.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnUndoClickedAsync">
+            <summary>
+            Occurs when the undo button is clicked.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnRedoClickedAsync">
+            <summary>
+            Occurs when the redo button is clicked.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnSettingsClicked">
+            <summary>
+            Occurs when the settings button is clicked.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnGridSettingsClickedAsync">
+            <summary>
+            Handles the event triggered when the grid settings button is clicked.
+            </summary>
+            <remarks>This method closes the multi-settings popover and invokes the <see
+            cref="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnGridSettingsClicked"/> delegate if it has been assigned. Ensure that the delegate is set if additional
+            actions are required when the grid settings button is clicked.</remarks>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnWatermarkSettingsClickedAsync">
+            <summary>
+            Handles the event triggered when the watermark settings option is clicked.
+            </summary>
+            <remarks>This method closes the multi-settings popover and invokes the <see
+            cref="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnWatermarkSettingsClicked"/> callback  if it has been assigned. Ensure that the callback is properly set
+            to handle the event.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnPenSettingsClickedAsync">
+            <summary>
+            Handles the event triggered when the pen settings button is clicked.
+            </summary>
+            <remarks>This method closes the multi-settings popover and invokes the <see
+            cref="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnPenSettingsClicked"/> callback  if it has been assigned. Ensure that the callback is properly set to
+            handle the event.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnEraserSettingsClickedAsync">
+            <summary>
+            Handles the event triggered when the eraser settings button is clicked.
+            </summary>
+            <remarks>This method closes the multi-settings popover and invokes the <see
+            cref="P:FluentUI.Blazor.Community.Components.SignatureMenu.OnEraserSettingsClicked"/> callback if it has been assigned. Ensure that the callback is properly set to
+            handle the event.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SignatureMenu.OnClearClickedAsync">
+            <summary>
+            Occurs when the clear button is clicked.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SignaturePenPreviewer">
+            <summary>
+            Represents a previewer for the signature pen settings.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SignaturePenPreviewer.Options">
+            <summary>
+            Gets or sets the options for configuring the signature pen.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxSleekDial">
             <summary>
@@ -10094,7 +11935,6 @@
             <summary>
             Gets a value indicating if the <paramref name="parameterName"/> has changed.
             </summary>
-            <typeparam name="T">Type of the value.</typeparam>
             <param name="parameterView">Collection of parameters to use.</param>
             <param name="parameterName">Name of the parameter to check.</param>
             <param name="value">Value of the parameter.</param>
@@ -10137,6 +11977,37 @@
             </summary>
             <param name="path">Path to segment.</param>
             <returns>Returns an array of <see cref="T:System.String"/> which represent the segments of the path.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.RunningWasmHelper">
+            <summary>
+            Helper class to determine if the application is running in a WebAssembly environment.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Helpers.RunningWasmHelper.IsWasm">
+            <summary>
+            Gets a value indicating whether the application is running in a WebAssembly environment.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.SvgConverter.ConvertToImage(System.String,FluentUI.Blazor.Community.Components.SignatureImageFormat,System.Int32)">
+            <summary>
+            Converts an SVG string to an image in the specified format and quality.
+            </summary>
+            <remarks>The method uses SkiaSharp to render the SVG content and encode it into the specified image
+            format. The output image will have a transparent background if the SVG does not specify a background
+            color.</remarks>
+            <param name="svg">The SVG content as a string. This value cannot be <see langword="null"/> or empty.</param>
+            <param name="format">The desired image format, such as PNG or JPEG.</param>
+            <param name="quality">The quality of the output image, ranging from 0 to 100. Higher values indicate better quality.</param>
+            <returns>A byte array representing the image data in the specified format.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.SvgConverter.ConvertToPdf(System.String)">
+            <summary>
+            Converts an SVG string to a PDF document represented as a byte array.
+            </summary>
+            <remarks>This method uses SkiaSharp to render the SVG content and generate a PDF document.  The
+            dimensions of the PDF page are determined by the bounds of the SVG content.</remarks>
+            <param name="svg">The SVG content as a string. This must be a valid SVG document.</param>
+            <returns>A byte array containing the PDF representation of the provided SVG content.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Helpers.UnitFormatHelper">
             <summary>

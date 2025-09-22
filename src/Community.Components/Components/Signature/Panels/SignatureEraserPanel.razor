@@ -1,0 +1,45 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<(SignatureLabels, SignatureEraserOptions)>
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical"
+                 VerticalGap="0"
+                 Style="width: 95%">
+        <FluentRadioGroup @bind-Value=Content.Item2.Shape
+                          Orientation="Orientation.Vertical"
+                          Label="@Content.Item1.EraserShapeLabel"
+                          AriaLabel="@Content.Item1.EraserShapeLabel"
+                          Style="margin-bottom: 20px">
+            <FluentRadio Value=EraserShape.Circle>
+                @Content.Item1.EraserShapeCircleLabel
+            </FluentRadio>
+            <FluentRadio Value=EraserShape.Square>
+                @Content.Item1.EraserShapeSquareLabel
+            </FluentRadio>
+        </FluentRadioGroup>
+
+        <FluentSlider Min="1"
+                      Max="20"
+                      Step="1"
+                      Label="@(string.Format(Content.Item1.EraserSizeLabel, Content.Item2.Size))"
+                      AriaLabel="@(string.Format(Content.Item1.EraserSizeLabel, Content.Item2.Size))"
+                      @bind-Value=Content.Item2.Size
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="0"
+                      Max="1"
+                      Step="0.01"
+                      Label="@(string.Format(Content.Item1.EraserOpacityLabel, Content.Item2.Opacity))"
+                      AriaLabel="@(string.Format(Content.Item1.EraserOpacityLabel, Content.Item2.Opacity))"
+                      @bind-Value=Content.Item2.Opacity
+                      Style="margin-bottom: 20px" />
+
+        <FluentSwitch @bind-Value=Content.Item2.SoftEdges
+                      Label="@Content.Item1.EraserSoftEdgeLabel"
+                      AriaLabel="@Content.Item1.EraserSoftEdgeLabel" />
+
+        <FluentSwitch @bind-Value=Content.Item2.PartialErase
+                      Label="@Content.Item1.EraserPartialEraseLabel"
+                      AriaLabel="@Content.Item1.EraserPartialEraseLabel" />
+    </FluentStack>
+</FluentDialogBody>
