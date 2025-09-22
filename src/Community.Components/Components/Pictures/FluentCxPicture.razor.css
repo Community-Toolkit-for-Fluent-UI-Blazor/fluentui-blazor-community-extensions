@@ -1,0 +1,14 @@
+.fluentcx-image-picture {
+  position: relative;
+  overflow: hidden;
+  font-family: sans-serif;
+  line-height: 1.4;
+}
+
+.fluentcx-figure {
+    position: relative;
+}
+
+.fluentcx-picture {
+  display: flex;
+}

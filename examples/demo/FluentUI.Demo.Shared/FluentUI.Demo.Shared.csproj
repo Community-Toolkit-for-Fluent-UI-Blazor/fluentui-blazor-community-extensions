@@ -34,6 +34,10 @@
     <ProjectReference Include="..\FluentUI.Demo.Generators\FluentUI.Demo.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\pictures\" />
+  </ItemGroup>
+
   <Target Name="CopySources" BeforeTargets="BeforeBuild">
     <ItemGroup>
       <Sources Include="$(ProjectDir)Pages/**/Examples/*" />
