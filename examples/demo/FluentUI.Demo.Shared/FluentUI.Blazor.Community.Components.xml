@@ -3939,9 +3939,9 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FileManager`1.ClearPathBar(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
-            
+            Clears the items of the path bar.
             </summary>
-            <param name="value"></param>
+            <param name="value">All segments to remove.</param>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FileManagerBase`1">
             <summary>
@@ -5941,10 +5941,9 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.DeleteFromPathBar(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
-            
+            Deletes the items from the path bar.
             </summary>
-            <param name="id"></param>
-            <param name="idCollection"></param>
+            <param name="idCollection">Collection of segments to remove from the pathbar.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFileManager`1.RemoveSelectedItemFromMainEntries(System.String,System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.FileManagerEntry{`0}})">
             <summary>

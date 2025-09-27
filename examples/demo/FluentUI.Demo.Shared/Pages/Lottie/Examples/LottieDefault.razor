@@ -1,9 +1,34 @@
 ﻿<div style="height: 400px">
-    <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Center">
-        <FluentCxLottiePlayer Source="https://assets2.lottiefiles.com/packages/lf20_touohxv0.json"
-                              Width="300px"
-                              Height="300px"
-                              Loop="true"
-                              Autoplay="true" />
+    <FluentStack>
+
+        <FluentListbox Items="@Sources"
+                       @bind-Value="Source"
+                       Placeholder="Select a Lottie Animation"
+                       Style="margin-bottom: 20px;"
+                       Height="100%"
+                       Width="400px"
+                       OptionText="@(e => e.Key)"
+                       OptionValue="@(e => e.Value)" />
+
+
+        <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                 HorizontalAlignment="HorizontalAlignment.Center">
+            <FluentCxLottiePlayer Source="@Source"
+                                  Width="300px"
+                                  Height="300px"
+                                  Loop="true"
+                                  Autoplay="true" />
+        </FluentStack>
     </FluentStack>
 </div>
+
+@code {
+    private static readonly Dictionary<string, string> Sources = new()
+    {
+        ["Trophy"] = "https://assets10.lottiefiles.com/packages/lf20_touohxv0.json",
+        ["Book1"] = "https://lottie.host/6918cb79-0097-427d-9e33-763c70a8090e/fdfBQynp6I.json",
+        ["Book2"] = "https://lottie.host/3204b079-1565-4c21-8965-fbe96b9d09ab/c4azoY9oBc.json"
+    };
+
+    private string? Source{ get; set; }
+}
