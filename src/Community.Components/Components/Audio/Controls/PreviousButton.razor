@@ -1,0 +1,9 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentButton Appearance="Appearance.Stealth"
+              IconStart="@(PreviousIcon)"
+              Title="@PreviousLabel"
+              Disabled="@IsDisabled"
+              OnClick="@OnPreviousAsync"
+              Id="@Id"/>    

@@ -1,0 +1,31 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     class="compact-player @Class"
+     style="@InternalStyle"
+     @onpointerenter=OnPointerEnter
+     @onpointerleave="OnPointerLeave">
+
+     @if (!string.IsNullOrEmpty(CurrentTrack?.Cover))
+     {
+        <img src="@CurrentTrack?.Cover"
+             title="@CurrentTrack?.Title"
+             aria-label="@CurrentTrack?.Title"
+             class="compact-player-image" />
+     }
+
+     <div class="compact-player-controls">
+         <FluentSpacer />
+         <PreviousButton IsDisabled=@IsPreviousDisabled OnPrevious="@OnPrevious" PreviousLabel="@PreviousLabel" />
+         <FluentSpacer Width="30" />
+         <PlayOrPauseButton OnPlayChanged="@OnPlayPauseChanged" PlayLabel="@PlayLabel" PauseLabel="@PauseLabel" />
+         <FluentSpacer Width="30" />
+         <NextButton IsDisabled=@IsNextDisabled OnNext="@OnNext" NextLabel="@NextLabel" />
+         <FluentSpacer />
+     </div>
+
+    <div class="compact-seek-bar">
+        <CompactSeekBar  CurrentTime="@CurrentTime" Duration="@Duration" />
+    </div>
+</div>

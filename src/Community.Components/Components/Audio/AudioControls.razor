@@ -1,0 +1,29 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentStack Id="@Id"
+             VerticalAlignment=VerticalAlignment.Center
+             HorizontalAlignment="HorizontalAlignment.Center"
+             HorizontalGap="30">
+    <PlaylistButton OnPlaylist="@OnPlaylistToggled" />
+
+    <ShuffleButton OnShuffleChanged="@OnShuffleChanged" />
+
+    <PreviousButton IsDisabled=@IsPreviousDisabled OnPrevious="@OnPrevious" />
+
+    <PlayOrPauseButton @ref=_playOrPauseButton OnPlayChanged="@OnPlayPauseToggled" />
+
+    <StopButton OnStop="@OnStop" />
+
+    <NextButton IsDisabled=@IsNextDisabled OnNext="@OnNext" />
+
+    <RepeatButton OnRepeatModeChanged="@OnRepeatModeChanged" />
+
+    <VolumeButton OnVolumeChanged="@OnVolumeChanged" />
+
+    @if (IsDownloadVisible)
+    {
+        <DownloadButton OnDownload="@OnDownload" />
+    }
+
+</FluentStack>

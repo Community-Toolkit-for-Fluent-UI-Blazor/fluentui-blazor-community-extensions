@@ -1,0 +1,131 @@
+﻿@implements IDisposable
+
+<div style="height: 600px">
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentStack>
+            <FluentSelect Items="@(Enum.GetValues<AudioPlayerView>())"
+                          TOption="AudioPlayerView"
+                          Label="View"
+                          @bind-SelectedOption=_view />
+
+            <FluentSelect Items="@(Enum.GetValues<VisualizerMode>())"
+                          TOption="VisualizerMode"
+                          Label="Visualizer"
+                          @bind-SelectedOption=_mode />
+        </FluentStack>
+
+        <FluentStack>
+            <FluentInputFile Id="my-file-uploader"
+                             Mode="InputFileMode.SaveToTemporaryFolder"
+                             Multiple="true"
+                             MaximumFileCount="10"
+                             MaximumFileSize="@(10*1024*1024)"
+                             Accept="audio/*"
+                             @bind-ProgressPercent="@ProgressPercent"
+                             OnCompleted="@OnCompletedAsync"
+                             Style="height: 300px;">
+                <ChildContent>
+                    <label for="my-file-uploader">
+                        <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+                    </label>
+
+                    <div>
+                        Drag files here you wish to upload,
+                        or <label for="my-file-uploader">browse</label>
+                        for them<span style="color: red;">*</span>.
+                        <br />
+                        <em>Maximum of 10 files allowed.</em>
+                    </div>
+
+                    <div>
+                        <br />
+                        <a href="#">Read more about our supported file formats.</a>
+                    </div>
+                </ChildContent>
+            </FluentInputFile>
+
+            <FluentCxAudio VisualizerMode="@_mode" View="@_view">
+                @foreach (var item in _audioFiles)
+                {
+                    <AudioTrackItem Source="@GetPath(item.Value)"
+                                    Title="@item.Key"
+                                    Artist="Unknown Artist"
+                                    Cover="./_content/FluentUI.Demo.Shared/audio/cover.webp" />
+                }
+            </FluentCxAudio>
+        </FluentStack>
+  </FluentStack>
+</div>
+
+@code {
+    private VisualizerMode _mode;
+    private AudioPlayerView _view = AudioPlayerView.Default;
+
+    int ProgressPercent = 0;
+    private readonly Dictionary<string, string> _audioFiles = [];
+    private readonly List<FluentInputFileEventArgs> _files = [];
+
+    private static string GetPath(string path)
+    {
+        var index = path.IndexOf("uploads");
+
+        if (index >= 0)
+        {
+            return path[(index - 1)..].Replace("\\", "/");
+        }
+
+        return path.Replace(Directory.GetCurrentDirectory(), string.Empty)
+                   .Replace("wwwroot", string.Empty)
+                   .Replace("\\", "/")
+                   .Substring(2);
+    }   
+
+    private async Task OnCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
+    {
+        foreach(var file in files)
+        {
+            var newFileName = $"RenamedFile_{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
+
+            // Save the file with the new name
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
+            var directory = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory!);
+            }
+
+            await using var stream = File.OpenRead(file.LocalFile!.FullName);
+            await using var fileStream = File.Create(filePath);
+            await stream.CopyToAsync(fileStream);
+            _audioFiles.Add(file.Name, filePath);
+
+            _files.Add(file);   
+        }
+
+        await Task.Delay(1000);
+        ProgressPercent = 0;
+    }
+
+    public void Dispose()
+    {
+        try
+        {
+            foreach (var file in _audioFiles)
+            {
+                if (File.Exists(file.Value))
+                {
+                    File.Delete(file.Value);
+                }
+            }
+
+            foreach(var file in _files)
+            {
+                if (file.LocalFile is not null && File.Exists(file.LocalFile.FullName))
+                {
+                    File.Delete(file.LocalFile.FullName);
+                }
+            }
+        }
+        catch { }
+    }
+}

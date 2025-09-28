@@ -1,0 +1,14 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     class="audio-playlist @Class"
+     style="@Style">
+    <Virtualize ItemSize="70"
+                Items="@Playlist">
+        <AudioPlaylistItem Track="@context"
+                           IsSelected="@(context == CurrentTrack)"
+                           OnSelected="@OnTrackSelected" />
+    </Virtualize>
+</div>
+
