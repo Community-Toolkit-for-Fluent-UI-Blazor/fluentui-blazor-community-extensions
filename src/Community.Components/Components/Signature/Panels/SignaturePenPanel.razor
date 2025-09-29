@@ -1,0 +1,61 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<(SignatureLabels, SignaturePenOptions)>
+
+<FluentDialogBody>
+    <FluentStack VerticalGap="0"
+                 Style="width: 95%"
+                 Orientation="Orientation.Vertical">
+        <FluentLabel>
+            @Content.Item1.PreviewPenLabel
+        </FluentLabel>
+        <SignaturePenPreviewer Style="margin-bottom: 20px" Options="@Content.Item2" />
+        <FluentTextField TextFieldType="TextFieldType.Color"
+                         Label="@Content.Item1.PenColorLabel"
+                         AriaLabel="@Content.Item1.PenColorLabel"
+                         @bind-Value=Content.Item2.Color
+                         Style="margin-bottom: 20px; width: 100%" />
+
+        <FluentSlider Min="0"
+                      Max="1"
+                      Step="0.01"
+                      Label="@(GetFormat(Content.Item1.PenOpacityLabel, Content.Item2.Opacity))"
+                      AriaLabel="@(GetFormat(Content.Item1.PenOpacityLabel, Content.Item2.Opacity))"
+                      @bind-Value=Content.Item2.Opacity
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="1"
+                      Max="10"
+                      Step="1"
+                      Label="@(GetFormat(Content.Item1.StrokeWidthLabel, Content.Item2.BaseWidth))"
+                      AriaLabel="@GetFormat(Content.Item1.StrokeWidthLabel, Content.Item2.BaseWidth)"
+                      @bind-Value=Content.Item2.BaseWidth
+                      Style="margin-bottom: 20px" />
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentLabel>@Content.Item1.PressureEnabledLabel</FluentLabel>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value=Content.Item2.PressureEnabled                  
+                          AriaLabel="@Content.Item1.PressureEnabledLabel"/>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentLabel>@Content.Item1.SmoothingLabel</FluentLabel>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value=Content.Item2.Smoothing
+                          AriaLabel="@Content.Item1.SmoothingLabel" />
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentLabel>@Content.Item1.ShadowEnabledLabel</FluentLabel>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value=Content.Item2.Shadow.Enabled
+                          AriaLabel="@Content.Item1.ShadowEnabledLabel" />
+        </FluentStack>
+
+        <FluentTextField TextFieldType="TextFieldType.Color"
+                         Label="@Content.Item1.ShadowColorLabel"
+                         AriaLabel="@Content.Item1.ShadowColorLabel"
+                         @bind-Value=Content.Item2.Shadow.Color
+                         Style="margin-bottom: 20px; width: 100%" />
+    </FluentStack>
+</FluentDialogBody>
