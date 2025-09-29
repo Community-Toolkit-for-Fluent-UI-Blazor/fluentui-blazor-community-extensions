@@ -1,0 +1,118 @@
+﻿<FluentStack>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentSelect Items=@_plugins
+                      TOption="Option<string>"
+                      Label="Plugins"
+                      AriaLabel="Plugins"
+                      Multiple=true
+                      OptionText="@(i => i.Text)"
+                      OptionValue="@(i => i.Value)"
+                      OptionSelected="@(i => i.Selected)"
+                      @bind-SelectedOptions="@selectedStrings" />
+    </FluentStack>
+
+    <FluentCxColorPalette Columns="10"
+                          ItemSize="32"
+                          Mode="ColorPaletteMode.None"
+                          Plugins="@GetFromSelected(selectedStrings)"
+                          GradientSteps="48"
+                          MaxColors="256"
+                          ShowPreview="true"
+                          ShowHarmonyPicker=false />
+</FluentStack>
+
+
+
+@code {
+    private bool _analogous = false;
+    private bool _complementary = false;
+    private IEnumerable<Option<string>> selectedStrings = [];
+
+    static List<Option<string>> _plugins = new()
+    {
+        { new Option<string> { Value = "AccessibilitySafe", Text = "AccessibilitySafe", } },
+        { new Option<string> { Value = "Analogous", Text = "Analogous" } },
+        { new Option<string> { Value = "Complementary", Text = "Complementary" } },
+        { new Option<string> { Value = "Cool", Text = "Cool" } },
+        { new Option<string> { Value = "Desaturate", Text = "Desaturate" } },
+        { new Option<string> { Value = "DualHue", Text = "DualHue" } },
+        { new Option<string> { Value = "Grayscale", Text = "Grayscale" } },
+        { new Option<string> { Value = "Monochromactic", Text = "Monochromactic" } },
+        { new Option<string> { Value = "Neon", Text = "Neon" } },
+        { new Option<string> { Value = "Pastel", Text = "Pastel", Selected = true } },
+        { new Option<string> { Value = "Tetradic", Text = "Tetradic" } },
+        { new Option<string> { Value = "SplitComplementary", Text = "SplitComplementary" } },
+        { new Option<string> { Value = "Triadic", Text = "Triadic" } },
+        { new Option<string> { Value = "Warm", Text = "Warm" } }
+    };
+
+    private List<IColorPlugin> GetFromSelected(IEnumerable<Option<string>> selected)
+    {
+        var plugins = new List<IColorPlugin>(); 
+
+        foreach (var option in selected)
+        {
+            switch (option.Value)
+            {
+                case "AccessibilitySafe":
+                    plugins.Add(new AccessibilitySafePlugin());
+                    break;
+
+                case "Analogous":
+                    plugins.Add(new AnalogousPlugin());
+                    break;
+
+                case "Complementary":
+                    plugins.Add(new ComplementaryPlugin());
+                    break;
+
+                case "Cool":
+                    plugins.Add(new CoolPlugin());
+                    break;
+
+                case "Desaturate":
+                    plugins.Add(new DesaturatePlugin());
+                    break;
+
+                case "DualHue":
+                    plugins.Add(new DualHuePlugin("#FF58EB"));
+                    break;
+
+                case "Grayscale":
+                    plugins.Add(new GrayscalePlugin());
+                    break;
+
+                case "Monochromactic":
+                    plugins.Add(new MonochromaticPlugin());
+                    break;
+
+                case "Neon":
+                    plugins.Add(new NeonPlugin());
+                    break;
+
+                case "Pastel":
+                    plugins.Add(new PastelPlugin());
+                    break;
+
+                case "Tetradic":
+                    plugins.Add(new TetradicPlugin());
+                    break;
+
+                case "SplitComplementary":
+                    plugins.Add(new SplitComplementaryPlugin());
+                    break;
+
+                case "Triadic":
+                    plugins.Add(new TriadicPlugin());
+                    break;
+
+                case "Warm":
+                    plugins.Add(new WarmPlugin());
+                    break;
+            }
+        }
+
+        return plugins;
+    }
+}
+

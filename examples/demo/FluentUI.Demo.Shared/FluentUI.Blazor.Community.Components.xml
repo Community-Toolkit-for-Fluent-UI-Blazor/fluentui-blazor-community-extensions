@@ -947,6 +947,748 @@
             Marks the component for re-rendering, causing the UI to be updated during the next render cycle.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ColorPaletteEasing">
+            <summary>
+            Represents the easing functions available for color transitions in the ColorPalette component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteEasing.Linear">
+            <summary>
+            Represents a linear easing function, where the transition progresses at a constant rate.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteEasing.ExponentialIn">
+            <summary>
+            Represents an ease-in easing function, where the transition starts slowly and accelerates towards the end.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteEasing.ExponentialOut">
+            <summary>
+            Represents an ease-out easing function, where the transition starts quickly and decelerates towards the end.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteEasing.Sine">
+            <summary>
+            Represents an ease-in-out easing function, where the transition starts slowly, accelerates in the middle, and decelerates towards the end.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ColorPaletteItem">
+            <summary>
+            Represents an individual color option in a color palette.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ColorPaletteItem.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ColorPaletteItem"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ColorPaletteItem.Color">
+            <summary>
+            Gets or sets the color value for this palette item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ColorPaletteItem.Size">
+            <summary>
+            Gets or sets the size of the color square in pixels. Default is 32.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ColorPaletteItem.IsFocused">
+            <summary>
+            Gets or sets a value indicating whether this item is focused.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ColorPaletteItem.IsSelected">
+            <summary>
+            Gets or sets a value indicating whether this item is selected.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ColorPaletteItem.OnClick">
+            <summary>
+            Gets or sets the callback to invoke when the item is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ColorPaletteItem.IsAnimated">
+            <summary>
+            Gets or sets a value indicating whether the selection change should be animated.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ColorPaletteItem.OnReady">
+            <summary>
+            Gets or sets the callback to invoke when the component is ready.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ColorPaletteItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ColorPaletteMode">
+            <summary>
+            Represents the mode used for generating color palettes.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.None">
+            <summary>
+            Represents no specific palette mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Provided">
+            <summary>
+            Represents a palette mode where colors are provided directly.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Random">
+            <summary>
+            Represents a palette mode where colors are generated randomly.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Gradient">
+            <summary>
+            Represents a palette mode where colors are generated in a gradient.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.CustomGradient">
+            <summary>
+            Represents a palette mode where colors are generated using a custom gradient.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Complementary">
+            <summary>
+            Represents a palette mode where colors are generated using complementary colors.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Analogous">
+            <summary>
+            Represents a palette mode where colors are generated using analogous colors.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Triadic">
+            <summary>
+            Represents a palette mode where colors are generated using triadic colors.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Tetradic">
+            <summary>
+            Represents a palette mode where colors are generated using tetradic colors.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.SplitComplementary">
+            <summary>
+            Represents a palette mode where colors are generated using split-complementary colors.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Monochrome">
+            <summary>
+            Represents a palette mode where colors are generated in a monochrome scheme.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Warm">
+            <summary>
+            Represents a palette mode where colors are generated in a warm scheme with variations.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Cool">
+            <summary>
+            Represents a palette mode where colors are generated in a cool scheme with cool variations.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Pastel">
+            <summary>
+            Represents a palette mode where colors are generated in a pastel scheme.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Neon">
+            <summary>
+            Represents a palette mode where colors are generated in a vibrant scheme.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Greyscale">
+            <summary>
+            Represents a palette mode where colors are generated in a greyscale scheme.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.AccessibilitySafe">
+            <summary>
+            Represents a palette mode where colors are generated to be accessibility safe.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.FromImage">
+            <summary>
+            Represents a palette mode where colors are generated based on an image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Desaturate">
+            <summary>
+            Represents a palette mode where colors are generated in a desaturated scheme.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxColorPalette">
+            <summary>
+            Represents a customizable color palette component that supports various color generation modes, gradient strategies,
+            and selection options.
+            </summary>
+            <remarks>This component allows users to generate and interact with a color palette using predefined modes,
+            gradients, or custom plugins. It supports single and multi-selection of colors, as well as advanced customization
+            options such as grid layout, item size, and maximum color limits. The palette can also be populated from an image or
+            preset configurations.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxColorPalette.DefaultProvided">
+            <summary>
+            Represents the default set of colors provided by the palette when no custom colors are specified.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxColorPalette.JavaScriptModulePath">
+            <summary>
+            Represents the path to the JavaScript module associated with the color palette component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxColorPalette._jsModule">
+            <summary>
+            Represents the javascript module reference for the color palette component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxColorPalette._buttonsRef">
+            <summary>
+            Represents a unique identifier for the color palette instance.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxColorPalette.HarmonyModes">
+            <summary>
+            Represents the list of harmony modes available for color generation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxColorPalette._colors">
+            <summary>
+            Represents the list of colors currently generated and displayed in the palette.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxColorPalette._focusIndex">
+            <summary>
+            Represents the index of the currently focused item.
+            </summary>
+            <remarks>This field is used to track the position of the focused item within a collection or
+            list.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxColorPalette._errorMessage">
+            <summary>
+            Represents an error message that may be displayed to the user.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxColorPalette"/> class.
+            </summary>
+            <remarks>This constructor generates a unique identifier for the instance using <see
+            cref="M:Microsoft.FluentUI.AspNetCore.Components.Identifier.NewId(System.Int32)"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.GlobalState">
+            <summary>
+            Gets or sets the global state service for localization and directionality.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.Runtime">
+            <summary>
+            Gets or sets the JavaScript runtime for interop calls.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.HarmonyLabel">
+            <summary>
+            Gets or sets the label for the harmony mode picker. Default is "Harmony".
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.PresetLabel">
+            <summary>
+            Gets or sets the label for the preset picker. Default is "Presets".
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.Columns">
+            <summary>
+            Gets or sets the number of columns in the color grid layout. Default is 10.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.ItemSize">
+            <summary>
+            Gets or sets the size of each color item in the grid, in pixels. Default is 28.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.GridGap">
+            <summary>
+            Gets or sets the gap between grid items, in pixels. Default is 6.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.MaxHeight">
+            <summary>
+            Gets or sets the maximum height of the color palette container, in pixels. Default is 300.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.Mode">
+            <summary>
+            Gets or sets the color generation mode for the palette. Default is <see cref="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Provided"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.ProvidedColors">
+            <summary>
+            Gets or sets a list of user-provided colors to be used when the mode is set to <see cref="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.Provided"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.Presets">
+            <summary>
+            Gets or sets a dictionary of preset color lists that can be selected by the user.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.SelectedPreset">
+            <summary>
+            Gets or sets the key of the currently selected preset from the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.Presets"/> dictionary.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.BaseColor">
+            <summary>
+            Gets or sets the base color used for generating gradients and color schemes. Default is "#3B82F6".
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.GradientStrategy">
+            <summary>
+            Gets or sets the strategy used for generating gradients. Default is <see cref="F:FluentUI.Blazor.Community.Components.GradientStrategy.Shades"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.GradientSteps">
+            <summary>
+            Gets or sets the number of steps to use when generating gradients. Default is 24.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.GradientStart">
+            <summary>
+            Gets or sets the starting color for custom gradient generation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.GradientEnd">
+            <summary>
+            Gets or sets the ending color for custom gradient generation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.GenerationOptions">
+            <summary>
+            Gets or sets additional options for color generation, such as brightness and contrast adjustments.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.ShowHarmonyPicker">
+            <summary>
+            Gets or sets a value indicating whether to display the harmony mode picker when applicable.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.MultiSelect">
+            <summary>
+            Gets or sets a value indicating whether multiple colors can be selected simultaneously.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.SelectedColor">
+            <summary>
+            Gets or sets the currently selected color when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.MultiSelect"/> is false.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.SelectedColorChanged">
+            <summary>
+            Gets or sets an event callback that is invoked when the selected color changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.SelectedColors">
+            <summary>
+            Gets or sets the list of currently selected colors when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.MultiSelect"/> is true.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.SelectedColorsChanged">
+            <summary>
+            Gets or sets an event callback that is invoked when the list of selected colors changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.ShowPreview">
+            <summary>
+            Gets or sets a value indicating whether to show a preview of the selected color(s) above the palette.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.Plugins">
+            <summary>
+            Gets or sets a list of custom color plugins that can be used to generate additional color schemes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.MaxColors">
+            <summary>
+            Gets or sets the maximum number of colors to generate in the palette. Default is 120.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.ImageDataProvider">
+            <summary>
+            Gets or sets a function that provides the data of an image to extract colors from when the mode is set to <see cref="F:FluentUI.Blazor.Community.Components.ColorPaletteMode.FromImage"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.ComputedRows">
+            <summary>
+            Gets the computed number of rows in the color grid based on the number of colors and columns.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.SelectedColorsSet">
+            <summary>
+            Gets a set of selected colors for efficient lookup.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxColorPalette.HarmonyModeString">
+            <summary>
+            Gets or sets the harmony mode as a string for binding purposes.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.GenerateColorsAsync">
+            <summary>
+            Generates the color palette based on the current settings and parameters.
+            </summary>
+            <returns>Returns a task which generates the colors of the palette when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.ToggleSelectAsync(System.String,System.Int32)">
+            <summary>
+            Toggles the selection state of a color at the specified index.
+            </summary>
+            <param name="hex">Selected color to toggle.</param>
+            <param name="index">Index of the selected color.</param>
+            <returns>Returns a task which toggle the color when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.SetFocusAsync(System.Int32)">
+            <summary>
+            Sets focus to the button at the specified index.
+            </summary>
+            <param name="index">Index of the button to focus.</param>
+            <returns>Returns a task which focus the button at the specified index when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.OnGridKeyDownAsync(Microsoft.FluentUI.AspNetCore.Components.FluentKeyCodeEventArgs)">
+            <summary>
+            Manages keyboard navigation within the color grid.
+            </summary>
+            <param name="e">Event args associated to this instance.</param>
+            <returns>Returns a task which navigates withing the color grid when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.MoveLeft(System.Int32)">
+            <summary>
+            Moves the focus to the left in the color grid, wrapping around if necessary.
+            </summary>
+            <param name="index">Current index of the focus.</param>
+            <returns>Returns the new index of the focus.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.MoveRight(System.Int32)">
+            <summary>
+            Moves the focus to the right in the color grid, wrapping around if necessary.
+            </summary>
+            <param name="index">Current index of the focus.</param>
+            <returns>Returns the new index of the focus.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.MoveUp(System.Int32)">
+            <summary>
+            Moves the focus up in the color grid, wrapping around if necessary.
+            </summary>
+            <param name="index">Current index of the focus.</param>
+            <returns>Returns the new index of the focus.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.MoveDown(System.Int32)">
+            <summary>
+            Moves the focus down in the color grid, wrapping around if necessary.
+            </summary>
+            <param name="index">Current index of the focus.</param>
+            <returns>Returns the new index of the focus.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.OnParametersSetAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxColorPalette.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.GenerationOptions">
+            <summary>
+            Represents the options for generating a color palette in the ColorPalette component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GenerationOptions.SaturationMin">
+            <summary>
+            Gets or sets the minimum saturation value for the color palette generation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GenerationOptions.SaturationMax">
+            <summary>
+            Gets or sets the maximum saturation value for the color palette generation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GenerationOptions.LightnessMin">
+            <summary>
+            Gets or sets the minimum lightness value for the color palette generation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GenerationOptions.LightnessMax">
+            <summary>
+            Gets or sets the maximum lightness value for the color palette generation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GenerationOptions.Reverse">
+            <summary>
+            Gets or sets a value indicating whether the generated colors should be in reverse order.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GenerationOptions.Easing">
+            <summary>
+            Gets or sets the easing function to be used for color transitions in the palette.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.GradientStrategy">
+            <summary>
+            Represents the strategy used to generate color gradients.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.GradientStrategy.Shades">
+            <summary>
+            Represents a gradient strategy that generates shades of a color.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.GradientStrategy.Tints">
+            <summary>
+            Represents a gradient strategy that generates tints of a color.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.GradientStrategy.Saturation">
+            <summary>
+            Represents a gradient strategy that generates tones of a color.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.GradientStrategy.HueShift">
+            <summary>
+            Represents a gradient strategy that shifts the hue of a color.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IColorPlugin">
+            <summary>
+            Represents a plugin for generating color palettes based on a base color and specified options.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IColorPlugin.Name">
+            <summary>
+            Gets the name of the color plugin.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IColorPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <summary>
+            Generates a list of color variations based on the specified base color.
+            </summary>
+            <param name="baseColor">The base color from which variations will be generated. Must be a valid color string (e.g., a hex code or color
+            name).</param>
+            <param name="steps">The number of variations to generate. Must be a positive integer.</param>
+            <param name="options">An object specifying additional options for color generation, such as brightness or saturation adjustments.</param>
+            <returns>A list of strings representing the generated color variations. The list will contain exactly <paramref
+            name="steps"/> items.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AccessibilitySafePlugin">
+            <summary>
+            Returns a predefined set of colors that are designed to be accessible and distinguishable.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AccessibilitySafePlugin._safeColors">
+            <summary>
+            Represents a set of colors that are designed to be accessible and distinguishable.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccessibilitySafePlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AccessibilitySafePlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AnalogousPlugin">
+            <summary>
+            Represents a plugin that generates analogous color palettes based on a base color.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AnalogousPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AnalogousPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ComplementaryPlugin">
+            <summary>
+            Provides functionality to generate a complementary color gradient based on a specified base color.
+            </summary>
+            <remarks>This plugin calculates the complementary color of the given base color and generates a gradient using
+            the complementary color as the starting point. The gradient is created based on the specified number of steps and
+            generation options.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ComplementaryPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ComplementaryPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CoolPlugin">
+            <summary>
+            Represents a plugin that generates a gradient of colors based on a specified base color and options.
+            </summary>
+            <remarks>This plugin is designed to generate a gradient starting from a predefined base color of blue. The
+            gradient generation process can be customized using the specified number of steps and additional options.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CoolPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CoolPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DesaturatePlugin">
+            <summary>
+            Represents a plugin that desaturates a base color by reducing its saturation level.
+            </summary>
+            <remarks>The desaturation amount is specified as a value between 0 and 1, where 0 leaves the color unchanged
+            and 1 completely removes saturation, resulting in a grayscale color. This plugin generates a gradient of desaturated
+            colors based on the specified number of steps and generation options.</remarks>
+            <param name="amount"></param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DesaturatePlugin.#ctor(System.Double)">
+            <summary>
+            Represents a plugin that desaturates a base color by reducing its saturation level.
+            </summary>
+            <remarks>The desaturation amount is specified as a value between 0 and 1, where 0 leaves the color unchanged
+            and 1 completely removes saturation, resulting in a grayscale color. This plugin generates a gradient of desaturated
+            colors based on the specified number of steps and generation options.</remarks>
+            <param name="amount"></param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DesaturatePlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DesaturatePlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DualHuePlugin">
+            <summary>
+            Represents a color plugin that generates a gradient between two hues.
+            </summary>
+            <remarks>This plugin creates a gradient by blending a base color with a secondary color. The secondary color
+            is specified during the initialization of the plugin.</remarks>
+            <param name="secondaryHex"></param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DualHuePlugin.#ctor(System.String)">
+            <summary>
+            Represents a color plugin that generates a gradient between two hues.
+            </summary>
+            <remarks>This plugin creates a gradient by blending a base color with a secondary color. The secondary color
+            is specified during the initialization of the plugin.</remarks>
+            <param name="secondaryHex"></param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DualHuePlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DualHuePlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.GrayscalePlugin">
+            <summary>
+            Represents a plugin that generates a series of greyscale colors.
+            </summary>
+            <remarks>This plugin implements the <see cref="T:FluentUI.Blazor.Community.Components.IColorPlugin"/> interface and generates greyscale colors by
+            varying the lightness component while keeping hue and saturation fixed at zero.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GrayscalePlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GrayscalePlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MonochromaticPlugin">
+            <summary>
+            Represents a plugin that generates a monochromatic color palette based on a given base color.
+            </summary>
+            <remarks>This plugin creates a gradient of colors with a constant hue, varying only in saturation and
+            lightness. It is useful for generating visually cohesive color schemes where all colors share the same
+            hue.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MonochromaticPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.MonochromaticPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.NeonPlugin">
+            <summary>
+            Represents a plugin that generates a sequence of neon-like colors based on a specified base color.
+            </summary>
+            <remarks>This plugin implements the <see cref="T:FluentUI.Blazor.Community.Components.IColorPlugin"/> interface and generates colors by varying the
+            hue of the base color across the HSL color space. The resulting colors are designed to have maximum saturation and a
+            fixed lightness, creating a vibrant neon effect.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.NeonPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.NeonPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PastelPlugin">
+            <summary>
+            Represents a plugin that generates a pastel color gradient based on a specified base color.
+            </summary>
+            <remarks>This plugin adjusts the saturation and lightness of the base color to create a pastel effect and
+            generates a gradient using a hue-shifting strategy.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PastelPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PastelPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SplitComplementaryPlugin">
+            <summary>
+            Represents a plugin that generates color palettes based on the split-complementary color scheme.
+            </summary>
+            <remarks>The split-complementary color scheme is a variation of the complementary color scheme.  It uses a
+            base color and two colors adjacent to the base color's complement on the color wheel. This plugin generates
+            gradients for each of the three colors in the scheme, combining them into a single palette.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SplitComplementaryPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SplitComplementaryPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.TetradicPlugin">
+            <summary>
+            Generates a tetradic color scheme based on the specified base color, number of steps, and generation options.
+            </summary>
+            <remarks>A tetradic color scheme consists of four colors evenly spaced around the color wheel (90° apart).
+            This method generates gradients for each of the four colors, distributing the specified number of steps across the
+            gradients. The resulting list contains all generated colors in sequence.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TetradicPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.TetradicPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.TriadicPlugin">
+            <summary>
+            Generates a triadic color palette based on the specified base color.
+            </summary>
+            <remarks>A triadic color scheme is created by selecting three colors that are evenly spaced around the color
+            wheel (120 degrees apart in hue). This method generates gradients for each of the three colors and combines them
+            into a single palette.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TriadicPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.TriadicPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.WarmPlugin">
+            <summary>
+            Represents a plugin that generates a gradient of warm colors.
+            </summary>
+            <remarks>This plugin generates a gradient transitioning from red to gold. It can be used to create warm color
+            palettes for various applications, such as UI design or data visualization.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.WarmPlugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.WarmPlugin.Generate(System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <inheritdoc />
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.CookieChoices">
             <summary>
             Represents the available choices for the cookie.
@@ -12446,6 +13188,307 @@
             </summary>
             <param name="services">Service collection.</param>
             <returns>Returns the collection of services.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.ColorUtils">
+            <summary>
+            Provides utility methods for working with colors, including conversions between color formats, validation of color
+            values, and generation of color gradients and palettes.
+            </summary>
+            <remarks>This class includes methods for validating and normalizing hexadecimal color codes, converting
+            between RGB, HSL, and hexadecimal formats, and generating color gradients and palettes based on various strategies.
+            It is designed to simplify common color manipulation tasks in applications that work with color data. <para> The
+            methods in this class are static and thread-safe, making it suitable for use in multi-threaded environments.
+            </para></remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.IsValidHex(System.String)">
+            <summary>
+            Determines whether the specified string represents a valid hexadecimal color code.
+            </summary>
+            <remarks>A valid hexadecimal color code consists of either 3 or 6 hexadecimal digits, optionally
+            prefixed with a '#' character. The method ignores leading and trailing whitespace.</remarks>
+            <param name="hex">The string to validate. This can optionally include a leading '#' character.</param>
+            <returns><see langword="true"/> if the string is a valid hexadecimal color code with 3 or 6 digits; otherwise, <see
+            langword="false"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.IsValidHexOrCssName(System.String)">
+            <summary>
+            Determines whether the specified string represents a valid hexadecimal color code  or a recognized CSS color
+            name.
+            </summary>
+            <remarks>A valid hexadecimal color code must start with a '#' character followed by 3 or 6 
+            hexadecimal digits. Recognized CSS color names are determined by the  <c>CssColorNamesUtils</c>
+            utility.</remarks>
+            <param name="value">The string to validate. This can be a hexadecimal color code  (e.g., "#FFFFFF") or a CSS color name (e.g.,
+            "red").</param>
+            <returns><see langword="true"/> if the string is a valid hexadecimal color code or a recognized  CSS color name;
+            otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.NormalizeToHex(System.String)">
+            <summary>
+            Normalizes a color value to its hexadecimal representation.
+            </summary>
+            <remarks>This method trims whitespace from the input and attempts to interpret it as a valid
+            hexadecimal color code or a CSS color name. If the input is already a valid hexadecimal color code, it is
+            normalized to the standard format. If the input is a recognized CSS color name, it is converted to its
+            corresponding hexadecimal value.</remarks>
+            <param name="value">The input color value, which can be a hexadecimal color code, a CSS color name, or a string to be normalized.</param>
+            <returns>A normalized hexadecimal color code in the format "#RRGGBB". If the input is null, empty, or invalid, the method
+            returns "#000000".</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.NormalizeHex(System.String)">
+            <summary>
+            Normalizes a hexadecimal color code to a standard format.
+            </summary>
+            <remarks>If the input is in short form (e.g., "#123"), it will be expanded to long form (e.g.,
+            "#112233"). The method ensures the returned value always starts with a "#" and is in uppercase.</remarks>
+            <param name="hex">The hexadecimal color code to normalize. This can be in short form (e.g., "#123"), long form (e.g., "#112233"),
+            or null/whitespace.</param>
+            <returns>A normalized hexadecimal color code in uppercase long form (e.g., "#112233").  Returns "#000000" if <paramref
+            name="hex"/> is null, empty, or consists only of whitespace.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.HexToRgb(System.String)">
+            <summary>
+            Converts a hexadecimal color code to its RGB components.
+            </summary>
+            <remarks>The method normalizes the input hexadecimal string by removing the '#' character before
+            parsing.</remarks>
+            <param name="hex">A string representing the hexadecimal color code. The string must start with a '#' character followed by six
+            hexadecimal digits (e.g., "#FF5733").</param>
+            <returns>A tuple containing the red, green, and blue components of the color, each as an integer in the range 0 to 255.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.HexToRgbString(System.String)">
+            <summary>
+            Converts a hexadecimal color code to its RGB string representation.
+            </summary>
+            <param name="hex">The hexadecimal color code, starting with a '#' character, followed by 6 or 3 hexadecimal digits.</param>
+            <returns>A string representing the RGB values in the format "R,G,B", where R, G, and B are integers between 0 and 255.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.RgbToHex(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Converts RGB color values to a hexadecimal color code.
+            </summary>
+            <param name="r">The red component of the color, ranging from 0 to 255.</param>
+            <param name="g">The green component of the color, ranging from 0 to 255.</param>
+            <param name="b">The blue component of the color, ranging from 0 to 255.</param>
+            <returns>A string representing the hexadecimal color code, prefixed with '#'.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.HexToHsl(System.String)">
+            <summary>
+            Converts a hexadecimal color code to its equivalent HSL (Hue, Saturation, Lightness) representation.
+            </summary>
+            <remarks>The input hexadecimal color code must be in the format "#RRGGBB" or "#RRGGBBAA". If the alpha
+            channel is included, it is ignored in the conversion.</remarks>
+            <param name="hex">The hexadecimal color code, starting with a '#' character, followed by 6 or 8 hexadecimal digits.</param>
+            <returns>A tuple containing the HSL representation of the color: <list type="bullet"> <item><description><c>H</c>: The
+            hue, in degrees, ranging from 0 to 360.</description></item> <item><description><c>S</c>: The saturation, as a
+            percentage, ranging from 0 to 1.</description></item> <item><description><c>L</c>: The lightness, as a
+            percentage, ranging from 0 to 1.</description></item> </list></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.HslToHex(System.Double,System.Double,System.Double)">
+            <summary>
+            Converts a color from HSL (Hue, Saturation, Lightness) format to its hexadecimal color representation.
+            </summary>
+            <remarks>The method internally converts the HSL values to RGB and then formats the RGB values as a
+            hexadecimal string.</remarks>
+            <param name="h">The hue of the color, specified as a value between 0 and 360 degrees.</param>
+            <param name="s">The saturation of the color, specified as a value between 0.0 and 1.0.</param>
+            <param name="l">The lightness of the color, specified as a value between 0.0 and 1.0.</param>
+            <returns>A string representing the color in hexadecimal format, prefixed with a '#' character.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.RgbToHsl(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Converts an RGB color value to its equivalent HSL (Hue, Saturation, Lightness) representation.
+            </summary>
+            <remarks>The method normalizes the hue to ensure it is always within the range 0 to 360 degrees.
+            Saturation and lightness values are clamped to the range 0 to 1.</remarks>
+            <param name="r">The red component of the color, in the range 0 to 255.</param>
+            <param name="g">The green component of the color, in the range 0 to 255.</param>
+            <param name="b">The blue component of the color, in the range 0 to 255.</param>
+            <returns>A tuple containing the HSL representation of the color: <list type="bullet"> <item><description><c>H</c> (Hue):
+            The hue of the color, in degrees, in the range 0 to 360.</description></item> <item><description><c>S</c>
+            (Saturation): The saturation of the color, in the range 0 to 1.</description></item> <item><description><c>L</c>
+            (Lightness): The lightness of the color, in the range 0 to 1.</description></item> </list></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.HslToRgb(System.Double,System.Double,System.Double)">
+            <summary>
+            Converts a color from HSL (Hue, Saturation, Lightness) color space to RGB (Red, Green, Blue) color space.
+            </summary>
+            <remarks>This method normalizes the hue value to ensure it falls within the valid range [0, 360] and
+            clamps the saturation and lightness values to the range [0, 1]. The resulting RGB values are calculated based on
+            the HSL-to-RGB conversion formula and are clamped to the range [0, 255].</remarks>
+            <param name="h">The hue of the color, in degrees. Must be in the range [0, 360].</param>
+            <param name="s">The saturation of the color, as a value between 0 and 1. Must be in the range [0, 1].</param>
+            <param name="l">The lightness of the color, as a value between 0 and 1. Must be in the range [0, 1].</param>
+            <returns>A tuple containing the RGB representation of the color: <list type="bullet"> <item><description><c>R</c>: The
+            red component, as an integer in the range [0, 255].</description></item> <item><description><c>G</c>: The green
+            component, as an integer in the range [0, 255].</description></item> <item><description><c>B</c>: The blue
+            component, as an integer in the range [0, 255].</description></item> </list></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.GenerateRandomHex(System.Int32)">
+            <summary>
+            Generates a list of unique random hexadecimal color codes.
+            </summary>
+            <remarks>The method ensures that all generated color codes are unique and case-insensitive. The format
+            of each color code is a six-digit hexadecimal value prefixed with a hash symbol (#), representing RGB
+            values.</remarks>
+            <param name="count">The number of unique hexadecimal color codes to generate. Must be a non-negative integer.</param>
+            <returns>A list of strings, where each string is a unique hexadecimal color code in the format "#RRGGBB".</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.GenerateGradient(System.String,System.Int32,FluentUI.Blazor.Community.Components.GradientStrategy,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <summary>
+            Generates a gradient of colors based on the specified base color, number of steps, and gradient strategy.
+            </summary>
+            <remarks>The gradient generation strategy determines how the colors are interpolated: <list
+            type="bullet"> <item> <description><see cref="F:FluentUI.Blazor.Community.Components.GradientStrategy.Shades"/>: Adjusts the lightness of the base
+            color to create darker or lighter shades.</description> </item> <item> <description><see
+            cref="F:FluentUI.Blazor.Community.Components.GradientStrategy.Tints"/>: Adjusts both saturation and lightness to create tints of the base
+            color.</description> </item> <item> <description><see cref="F:FluentUI.Blazor.Community.Components.GradientStrategy.Saturation"/>: Adjusts the
+            saturation of the base color while keeping lightness constant.</description> </item> <item> <description><see
+            cref="F:FluentUI.Blazor.Community.Components.GradientStrategy.HueShift"/>: Shifts the hue of the base color to create a range of colors around the
+            color wheel.</description> </item> </list> If the <paramref name="opts"/> parameter specifies <see
+            cref="P:FluentUI.Blazor.Community.Components.GenerationOptions.Reverse"/> as <see langword="true"/>, the resulting gradient will be reversed.</remarks>
+            <param name="baseHex">The base color in hexadecimal format (e.g., "#FF5733").</param>
+            <param name="steps">The number of colors to generate in the gradient. Must be greater than zero.</param>
+            <param name="strategy">The strategy used to generate the gradient, such as shades, tints, saturation, or hue shift.</param>
+            <param name="opts">Optional configuration for gradient generation, including lightness, saturation, and reversal options. If null,
+            default options are used.</param>
+            <returns>A list of hexadecimal color strings representing the generated gradient. The list will contain distinct colors,
+            and its order may be reversed based on the specified options.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.GenerateCustomGradient(System.String,System.String,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <summary>
+            Generates a gradient of colors between two specified hex color values.
+            </summary>
+            <remarks>The gradient is generated by interpolating the HSL (Hue, Saturation, Lightness) values of the
+            start and end colors. The interpolation can be customized using the <paramref name="opts"/> parameter.</remarks>
+            <param name="startHex">The starting color of the gradient, represented as a hex string (e.g., "#FF0000").</param>
+            <param name="endHex">The ending color of the gradient, represented as a hex string (e.g., "#0000FF").</param>
+            <param name="steps">The number of colors to generate in the gradient. Must be greater than zero.</param>
+            <param name="opts">Optional configuration for gradient generation, such as saturation and lightness constraints,  and whether to
+            reverse the gradient. If null, default options are used.</param>
+            <returns>A list of hex color strings representing the gradient. The list contains <paramref name="steps"/> colors, 
+            starting with <paramref name="startHex"/> and ending with <paramref name="endHex"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.GenerateScheme(System.String,FluentUI.Blazor.Community.Components.ColorPaletteMode,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <summary>
+            Generates a color scheme based on the specified base color, palette mode, and number of steps.
+            </summary>
+            <remarks>The generated color scheme varies depending on the specified <paramref name="mode"/>: <list
+            type="bullet"> <item> <term>Complementary</term> <description>Generates a scheme with complementary colors split
+            evenly across the specified steps.</description> </item> <item> <term>Analogous</term> <description>Generates a
+            scheme with colors adjacent to the base color on the color wheel.</description> </item> <item>
+            <term>Triadic</term> <description>Generates a scheme with three evenly spaced colors on the color
+            wheel.</description> </item> <item> <term>SplitComplementary</term> <description>Generates a scheme with colors
+            split from the complementary color.</description> </item> <item> <term>Monochrome</term> <description>Generates
+            a scheme with shades of the base color.</description> </item> <item> <term>Warm</term> <description>Generates a
+            scheme with warm colors (e.g., reds and yellows).</description> </item> <item> <term>Cool</term>
+            <description>Generates a scheme with cool colors (e.g., blues and cyans).</description> </item> <item>
+            <term>Pastel</term> <description>Generates a scheme with soft, light colors.</description> </item> <item>
+            <term>Neon</term> <description>Generates a scheme with bright, vibrant colors.</description> </item> <item>
+            <term>Greyscale</term> <description>Generates a scheme with shades of grey.</description> </item> <item>
+            <term>AccessibilitySafe</term> <description>Generates a predefined scheme of colors optimized for
+            accessibility.</description> </item> </list> The method ensures that the returned list contains distinct colors,
+            ignoring case.</remarks>
+            <param name="baseHex">The base color in hexadecimal format (e.g., "#FF5733").</param>
+            <param name="mode">The <see cref="T:FluentUI.Blazor.Community.Components.ColorPaletteMode"/> that determines the type of color scheme to generate.</param>
+            <param name="steps">The number of colors to include in the generated scheme. Must be greater than zero.</param>
+            <param name="opts">Optional configuration for color generation, such as gradient strategy or blending options. If null, default
+            options are used.</param>
+            <returns>A list of hexadecimal color strings representing the generated color scheme. The list will contain distinct
+            colors.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.InterpolateEasingValue(System.Int32,System.Int32,FluentUI.Blazor.Community.Components.GenerationOptions)">
+            <summary>
+            Calculates the interpolated value based on the current step, total steps, and easing options.
+            </summary>
+            <remarks>The method supports multiple easing functions, including exponential and sine-based easing.
+            If <paramref name="steps"/> is 1, the method returns 1.0 regardless of the easing function.</remarks>
+            <param name="i">The current step index, where 0 represents the first step.</param>
+            <param name="steps">The total number of steps. Must be greater than 0.</param>
+            <param name="opts">The options specifying the easing function to apply.</param>
+            <returns>A double representing the interpolated value, adjusted according to the specified easing function.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.Lerp(System.Double,System.Double,System.Double)">
+            <summary>
+            Linearly interpolates between two values based on a weighting factor.
+            </summary>
+            <param name="a">The starting value of the interpolation.</param>
+            <param name="b">The ending value of the interpolation.</param>
+            <param name="t">The interpolation factor, where 0.0 returns <paramref name="a"/> and 1.0 returns <paramref name="b"/>. Values
+            outside the range [0.0, 1.0] will result in extrapolation.</param>
+            <returns>The interpolated value, calculated as a weighted average of <paramref name="a"/> and <paramref name="b"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.ShortestHueLerp(System.Double,System.Double,System.Double)">
+            <summary>
+            Interpolates between two hue values along the shortest path on the color wheel.
+            </summary>
+            <remarks>This method ensures that the interpolation follows the shortest path on the hue circle,
+            accounting for the circular nature of hue values. The result is always normalized to the range [0,
+            360).</remarks>
+            <param name="h1">The starting hue, in degrees, where 0 ≤ <paramref name="h1"/> &lt; 360.</param>
+            <param name="h2">The ending hue, in degrees, where 0 ≤ <paramref name="h2"/> &lt; 360.</param>
+            <param name="t">A value between 0.0 and 1.0 representing the interpolation factor.  A value of 0.0 returns <paramref
+            name="h1"/>, and a value of 1.0 returns <paramref name="h2"/>.</param>
+            <returns>The interpolated hue, in degrees, normalized to the range [0, 360).</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.Clamp01(System.Double)">
+            <summary>
+            Clamps the specified value to the range [0.0, 1.0].
+            </summary>
+            <param name="value">The value to clamp.</param>
+            <returns>The clamped value, which will be between 0.0 and 1.0, inclusive.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.Clamp255(System.Int32)">
+            <summary>
+            Clamps the specified integer value to the range of 0 to 255, inclusive.
+            </summary>
+            <param name="value">The integer value to clamp.</param>
+            <returns>The clamped value, which will be 0 if <paramref name="value"/> is less than 0,  255 if <paramref name="value"/> is
+            greater than 255, or <paramref name="value"/> itself if it is within the range.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ColorUtils.NormalizeHue(System.Double)">
+            <summary>
+            Normalizes a hue value to ensure it falls within the range of 0 to 360 degrees.
+            </summary>
+            <param name="h">The hue value, in degrees, which may be any real number.</param>
+            <returns>The normalized hue value, in the range [0, 360).</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.CssColorNamesUtils">
+            <summary>
+            Retrieves hex values for standard CSS color names.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Helpers.CssColorNamesUtils.DefaultHex">
+            <summary>
+            Default hex value used when no color name is provided.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Helpers.CssColorNamesUtils._map">
+            <summary>
+            Represents a mapping of standard CSS color names to their corresponding hex values.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.CssColorNamesUtils.TryGetHex(System.String,System.String@)">
+            <summary>
+            Tries to get the hex value for a given CSS color name.
+            </summary>
+            <param name="name">Name of the CSS color.</param>
+            <param name="hex">Hex value of the color.</param>
+            <returns>Returns <see langword="true" /> if the value was found,
+            <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.ImagePalette">
+            <summary>
+            Retrieves the dominant colors from an image using SkiaSharp.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.ImagePalette.ExtractColorsFromImage(System.IO.Stream,System.Int32)">
+            <summary>
+            Extracts the most frequent colors from an image stream.
+            </summary>
+            <param name="imageStream">Stream of the image.</param>
+            <param name="count">Number of color to take.</param>
+            <returns>Returns the list of the most frequent colors extracted from the image.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Helpers.PathHelper">
             <summary>
