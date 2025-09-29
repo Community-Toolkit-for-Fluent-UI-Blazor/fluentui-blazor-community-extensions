@@ -7366,6 +7366,481 @@
             Gets the height of the tile grid.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer">
+            <summary>
+            Represents a customizable player component for rendering and controlling animations.
+            </summary>
+            <remarks>The <see cref="T:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer"/> component allows developers to render animations using a specified
+            renderer and provides options to control playback behavior, such as looping, autoplay, and playback speed. The
+            component also supports customizable dimensions and accepts a path to the animation file.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer._module">
+            <summary>
+            Represents a JavaScript module reference that can be used to invoke JavaScript functions.
+            </summary>
+            <remarks>This field holds a reference to a JavaScript module loaded via an interop mechanism, such as
+            Blazor's JavaScript interop. The value is <see langword="null"/> if the module has not been initialized or has
+            been disposed.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer._hasPropertyChanged">
+            <summary>
+            Indicates whether a property value has been modified.   
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer._dotNetRef">
+            <summary>
+            Represents a reference to a .NET object of type <see cref="T:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer"/>  that can be passed to
+            JavaScript interop in Blazor.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer._controls">
+            <summary>
+            Represents the controls for the Lottie animation player.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer"/> class.
+            </summary>
+            <remarks>The constructor generates a unique identifier for the player by assigning a new value to the
+            <see cref="P:Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase.Id"/> property.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Source">
+            <summary>
+            Gets or sets the source to be used for the animation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Loop">
+            <summary>
+            Gets or sets a value indicating whether the animation should loop.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Autoplay">
+            <summary>
+            Gets or sets a value indicating whether the animation should start playing automatically.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Speed">
+            <summary>
+            Gets or sets the speed of the animation playback. The default value is 1, which represents normal speed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Width">
+            <summary>
+            Gets or sets the width of the player. This can be specified in any valid CSS unit (e.g., "100px", "50%", "10rem").
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Height">
+            <summary>
+            Gets or sets the height of the player. This can be specified in any valid CSS unit (e.g., "100px", "50%", "10rem").
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Renderer">
+            <summary>
+            Gets or sets the renderer to be used for rendering the animation. The default value is <see cref="F:FluentUI.Blazor.Community.Components.LottieRenderer.Svg"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.OnComplete">
+            <summary>
+            Gets or sets a callback that is invoked when the animation completes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.OnLoop">
+            <summary>
+            Gets or sets a callback that is invoked when the animation loops.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.OnEnterFrame">
+            <summary>
+            Gets or sets a callback that is invoked when the animation enters a new frame.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Runtime">
+            <summary>
+            Gets or sets the JavaScript runtime instance used for interop calls.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.ChildContent">
+            <summary>
+            Gets or sets the child content of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.InternalCss">
+            <summary>
+            Gets the computed CSS classes for the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.InternalStyle">
+            <summary>
+            Gets the computed inline styles for the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.LoadAnimationAsync">
+            <summary>
+            Loads the animation asynchronously.
+            </summary>
+            <returns>Returns a task which loads the animation when completed.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.OnUpdateAnimationAsync">
+            <summary>
+            Updates the animation if a property has changed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Add(FluentUI.Blazor.Community.Components.LottieControls)">
+            <summary>
+            Adds the specified controls to the player.
+            </summary>
+            <param name="controls">Controls of the player.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.Remove(FluentUI.Blazor.Community.Components.LottieControls)">
+            <summary>
+            Removes the controls from the player.
+            </summary>
+            <param name="controls">Controls of the player to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.PlayAsync">
+            <summary>
+            Plays the animation.
+            </summary>
+            <returns>Returns a task wich plays the animation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.PauseAsync">
+            <summary>
+            Pauses the operation associated with the current instance asynchronously.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.StopAsync">
+            <summary>
+            Stops the operation associated with the current instance asynchronously.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.SetSpeedAsync(System.Double)">
+            <summary>
+            Asynchronously sets the speed of the object identified by the current instance.
+            </summary>
+            <param name="speed">The new speed value to set. Must be a valid double representing the desired speed.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.SetDirectionAsync(FluentUI.Blazor.Community.Components.LottieDirection)">
+            <summary>
+            Asynchronously sets the direction of the specified element.
+            </summary>
+            <param name="direction">The new direction to apply to the element.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.PlaySegments(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Plays a range of segments within the animation.
+            </summary>
+            <param name="startSegment">The index of the segment at which playback should start. Must be a non-negative integer.</param>
+            <param name="endSegment">The index of the segment at which playback should end. Must be greater than or equal to <paramref
+            name="startSegment"/>.</param>
+            <param name="forceFlag">A value indicating whether to force playback, overriding any current playback state. Defaults to <see
+            langword="false"/>.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.ToggleLoopAsync(System.Boolean)">
+            <summary>
+            Toggles the loop state of the current instance.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.OnParametersSetAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.NotifyCompleteAsync">
+            <summary>
+            Occurs when the animation completes.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.OnComplete"/> callback.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.NotifyLoopAsync">
+            <summary>
+            Occurs when a loop completes.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.OnLoop"/> callback.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.NotifyEnterFrameAsync">
+            <summary>
+            Occurs when entering a new frame.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer.OnEnterFrame"/> callback.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LottieControls">
+            <summary>
+            Represents the controls for a Lottie animation player.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LottieControls._isPlaying">
+            <summary>
+            Indicates whether the animation is currently playing.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LottieControls._isLooping">
+            <summary>
+            Indicates whether the animation is set to loop.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LottieControls._renderLabel">
+            <summary>
+            Represents the label rendering fragment.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieControls.Parent">
+            <summary>
+            Gets or sets the parent <see cref="T:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer"/> component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieControls.ChildContent">
+            <summary>
+            Gets or sets the child content of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieControls.IsMobile">
+            <summary>
+            Gets or sets a value indicating whether the controls are displayed in a mobile layout.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieControls.Labels">
+            <summary>
+            Gets or sets the labels used for localization in the controls.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.OnInitialized">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.InvokeAsync(System.Func{System.Threading.Tasks.ValueTask},System.Boolean)">
+            <summary>
+            Invokes the specified asynchronous function and updates the playing state if necessary.
+            </summary>
+            <param name="func">Func to invoke.</param>
+            <param name="isPlaying">Value indicating if the animation is playing.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.PlayAsync">
+            <summary>
+            Plays the current instance asynchronously, delegating the operation to the parent if one exists.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous play operation. If no parent exists, the task
+            completes immediately.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.PauseAsync">
+            <summary>
+            Pauses the current operation asynchronously.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous pause operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.StopAsync">
+            <summary>
+            Asynchronously stops the current operation, delegating the stop request to the parent if one exists.    
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.SetSpeedAsync(System.Double)">
+            <summary>
+            Asynchronously sets the speed of the current object.
+            </summary>
+            <param name="speed">The desired speed to set, represented as a double. The value must be within the valid range supported by the
+            parent object.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.SetDirectionAsync(FluentUI.Blazor.Community.Components.LottieDirection)">
+            <summary>
+            Asynchronously sets the direction for the current object.
+            </summary>
+            <param name="direction">The <see cref="T:FluentUI.Blazor.Community.Components.LottieDirection"/> to set for the object.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.ToggleLoopAsync(System.Boolean)">
+            <summary>
+            Toggles the loop state of the parent asynchronously.
+            </summary>
+            <param name="isLooping">Value indicating if the animation loops.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieControls.OnAnimationCompletedAsync">
+            <summary>
+            Occurs when the animation has completed.
+            </summary>
+            <returns>Returns a task which stops the player if not looping.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LottieDirection">
+            <summary>
+            Specifies the possible directions for a Lottie operation.
+            </summary>
+            <remarks>This enumeration is used to define directional behavior or orientation in the context of a Lottie
+            operation.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LottieDirection.Forward">
+            <summary>
+            Represents the forward direction.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LottieDirection.Backward">
+            <summary>
+            Represents the backward direction.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LottieLabels">
+            <summary>
+            Represents the labels used in the Lottie component for localization.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieLabels.Default">
+            <summary>
+            Gets the default English labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieLabels.French">
+            <summary>
+            Gets the French labels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieLabels.Pause">
+            <summary>
+            Gets or sets the label for the "Pause" action.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieLabels.Play">
+            <summary>
+            Gets or sets the label for the "Play" action.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieLabels.Stop">
+            <summary>
+            Gets or sets the label for the "Stop" action.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieLabels.Loop">
+            <summary>
+            Gets or sets the label for the "Loop" action.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieLabels.Speed">
+            <summary>
+            Gets or sets the label for the "Speed" action.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieLabels.Direction">
+            <summary>
+            Gets or sets the label for the "Direction" action.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LottieOptions">
+            <summary>
+            Represents configuration options for a Lottie animation.
+            </summary>
+            <remarks>This record is used to configure the behavior and rendering of a Lottie animation.  It includes
+            options for the animation's file path, playback settings, speed, and rendering type.</remarks>
+            <param name="Path">The file path to the Lottie animation. This must be a valid path to the animation file.</param>
+            <param name="Loop">A value indicating whether the animation should loop continuously.  The default value is <see langword="true"/>.</param>
+            <param name="Autoplay">A value indicating whether the animation should start playing automatically.  The default value is <see
+            langword="true"/>.</param>
+            <param name="Speed">The playback speed of the animation. A value of 1 represents normal speed.  Values greater than 1 increase the
+            speed, while values between 0 and 1 decrease it.  The default value is 1.</param>
+            <param name="Renderer">The rendering type for the animation. This determines how the animation is rendered  (e.g., as SVG or Canvas). The
+            default value is <see cref="F:FluentUI.Blazor.Community.Components.LottieRenderer.Svg"/>.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieOptions.#ctor(System.String,System.Boolean,System.Boolean,System.Double,FluentUI.Blazor.Community.Components.LottieRenderer)">
+            <summary>
+            Represents configuration options for a Lottie animation.
+            </summary>
+            <remarks>This record is used to configure the behavior and rendering of a Lottie animation.  It includes
+            options for the animation's file path, playback settings, speed, and rendering type.</remarks>
+            <param name="Path">The file path to the Lottie animation. This must be a valid path to the animation file.</param>
+            <param name="Loop">A value indicating whether the animation should loop continuously.  The default value is <see langword="true"/>.</param>
+            <param name="Autoplay">A value indicating whether the animation should start playing automatically.  The default value is <see
+            langword="true"/>.</param>
+            <param name="Speed">The playback speed of the animation. A value of 1 represents normal speed.  Values greater than 1 increase the
+            speed, while values between 0 and 1 decrease it.  The default value is 1.</param>
+            <param name="Renderer">The rendering type for the animation. This determines how the animation is rendered  (e.g., as SVG or Canvas). The
+            default value is <see cref="F:FluentUI.Blazor.Community.Components.LottieRenderer.Svg"/>.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieOptions.Path">
+            <summary>The file path to the Lottie animation. This must be a valid path to the animation file.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieOptions.Loop">
+            <summary>A value indicating whether the animation should loop continuously.  The default value is <see langword="true"/>.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieOptions.Autoplay">
+            <summary>A value indicating whether the animation should start playing automatically.  The default value is <see
+            langword="true"/>.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieOptions.Speed">
+            <summary>The playback speed of the animation. A value of 1 represents normal speed.  Values greater than 1 increase the
+            speed, while values between 0 and 1 decrease it.  The default value is 1.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieOptions.Renderer">
+            <summary>The rendering type for the animation. This determines how the animation is rendered  (e.g., as SVG or Canvas). The
+            default value is <see cref="F:FluentUI.Blazor.Community.Components.LottieRenderer.Svg"/>.</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LottieRenderer">
+            <summary>
+            Specifies the rendering format options for a Lottie animation.
+            </summary>
+            <remarks>Use this enumeration to select the desired output format when rendering a Lottie animation.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LottieRenderer.Svg">
+            <summary>
+            Represents an SVG (Scalable Vector Graphics) element, which is a vector-based image format for defining graphics
+            using XML.
+            </summary>
+            <remarks>This class provides functionality for working with SVG elements, including creating,
+            manipulating, and rendering SVG content. SVG is widely used for scalable and resolution-independent graphics in
+            web and application development.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LottieRenderer.Canvas">
+            <summary>
+            Represents a drawable surface for rendering graphical elements.
+            </summary>
+            <remarks>The <see cref="F:FluentUI.Blazor.Community.Components.LottieRenderer.Canvas"/> class provides a surface for drawing shapes, images, and other
+            graphical content. It can be used in graphical applications to manage and render visual elements.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LottieRenderer.Html">
+            <summary>
+            Represents an HTML document or fragment, providing methods and properties to manipulate and interact with its
+            structure and content.
+            </summary>
+            <remarks>This class can be used to parse, modify, and generate HTML content. It provides functionality
+            for working with elements, attributes, and text nodes within an HTML structure. Use this class to
+            programmatically create or manipulate HTML documents.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LottieState">
+            <summary>
+            Represents the state of a Lottie component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LottieState.IsRegister">
+            <summary>
+            Gets a value indicating whether the component is registered.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieState.Register">
+            <summary>
+            Registers the component.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Occurs when the component is already registered.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LottieState.Unregister">
+            <summary>
+            Unregisters the component.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxMediaQuery">
             <summary>
             Represents a Media Query detector.
@@ -11915,6 +12390,12 @@
             <summary>
             Gets or sets the row span of the item.
             </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottieProvider.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottieProvider.DisposeAsync">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions">
             <summary>

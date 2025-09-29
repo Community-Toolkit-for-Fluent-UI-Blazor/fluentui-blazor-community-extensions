@@ -82,6 +82,11 @@ public class DemoNavProvider
                         title: "Image group"
                     ),
                     new NavLink(
+                        href: "lottie",
+                        icon: new Icons.Regular.Size20.Play(),
+                        title: "Lottie player"
+                    ),
+                    new NavLink(
                         href: "pathbar",
                         icon: new Icons.Regular.Size20.Navigation(),
                         title: "Path bar"

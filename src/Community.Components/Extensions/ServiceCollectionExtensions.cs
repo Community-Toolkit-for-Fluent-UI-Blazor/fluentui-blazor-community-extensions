@@ -19,6 +19,7 @@ public static class ServiceCollectionExtensions
         return services.AddScoped(typeof(DropZoneState<>))
                        .AddScoped<FileManagerState>()
                        .AddScoped<DeviceInfoState>()
+                       .AddScoped<LottieState>()
                        .AddSingleton<ObserverService>();
     }
 }
