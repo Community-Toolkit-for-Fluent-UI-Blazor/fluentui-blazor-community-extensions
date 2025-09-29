@@ -57,7 +57,8 @@ internal sealed class FluentCxDropZoneContainer<TItem>
                 }
                 else
                 {
-                    var content = _children.Find(x => x is IItemValue<TItem> t && CheckEquality(t.Value, value));
+                    var content = _children.Find(x => x is IItemValue<TItem> t &&
+                                                      CheckEquality(t.Value, value));
 
                     if (content is not null && content is IDropZoneComponent<TItem> t)
                     {
@@ -732,29 +733,39 @@ internal sealed class FluentCxDropZoneContainer<TItem>
     /// Reorders the children using a layout.
     /// </summary>
     /// <returns>Returns the ordered components.</returns>
-    private IList<FluentComponentBase> ReorderChildrenFromLayout()
+    private List<FluentComponentBase> ReorderChildrenFromLayout()
     {
-        if (!PersistenceEnabled || Layout is null || !Layout.Items.Any() || Layout.IsDirty || ItemKey is null)
+        if (!PersistenceEnabled ||
+            Layout is null ||
+            !Layout.Items.Any() ||
+            Layout.IsDirty ||
+            ItemKey is null)
         {
-            return _children;
+            return [.. _children];
         }
 
-        var sortedList = new SortedList<int, FluentComponentBase>();
-        var sortedItems =new SortedList<int, TItem>();
+        SortedList<int, FluentComponentBase> reorderChildren = [];
+        var sortedItems = new SortedList<int, TItem>();
 
         foreach (var layoutItem in Layout)
         {
-            var item = _children.Find(x => x is IItemValue<TItem> t && t.Value is not null && string.Equals(ItemKey(t.Value), layoutItem.Key, StringComparison.OrdinalIgnoreCase));
+            var index = _children.FindIndex(x => x is IItemValue<TItem> t &&
+                                           t.Value is not null &&
+                                           string.Equals(ItemKey(t.Value), layoutItem.Key, StringComparison.OrdinalIgnoreCase));
 
-            if (item is not null)
+            if (index == -1)
             {
-                if (item is FluentCxTileGridItem<TItem> tg &&
-                    layoutItem is TileGridLayoutItem tgli)
-                {
-                    tg.SetSpan(tgli.ColumnSpan, tgli.RowSpan);
-                }
+                continue;
+            }
 
-                sortedList.Add(layoutItem.Index, item);
+            var item = _children[index];
+
+            reorderChildren.Add(layoutItem.Index, item);
+
+            if (item is FluentCxTileGridItem<TItem> tg &&
+                layoutItem is TileGridLayoutItem tgli)
+            {
+                tg.SetSpan(tgli.ColumnSpan, tgli.RowSpan);
             }
 
             var orderedItem = Items.FirstOrDefault(x => string.Equals(ItemKey(x), layoutItem.Key, StringComparison.OrdinalIgnoreCase));
@@ -772,7 +783,7 @@ internal sealed class FluentCxDropZoneContainer<TItem>
             Items.Add(item.Value);
         }
 
-        return sortedList.Values;
+        return [.. reorderChildren.Values];
     }
 
     /// <inheritdoc />
@@ -809,9 +820,11 @@ internal sealed class FluentCxDropZoneContainer<TItem>
             {
                 builder2.AddContent(24, ChildContent);
 
-                var children = ReorderChildrenFromLayout();
+                var reorderedChildren = ReorderChildrenFromLayout();
+                _children.Clear();
+                _children.AddRange(reorderedChildren);
 
-                foreach (var child in children)
+                foreach(var child in reorderedChildren)
                 {
                     if (child is FluentCxDropZone<TItem> c)
                     {

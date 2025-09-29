@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Demo.Shared.Infrastructure;
+using FluentUI.Demo.Shared.Layout;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FluentUI.Demo.Shared;
@@ -16,6 +17,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CacheStorageAccessor>();
         services.AddHttpClient<IStaticAssetService, HttpBasedStaticAssetService>();
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
+        services.AddSingleton<DemoNavProvider>();
+        services.AddScoped<DownloadFile>();
 
         return services;
     }
@@ -30,6 +33,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CacheStorageAccessor>();
         services.AddHttpClient<IStaticAssetService, ServerStaticAssetService>();
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
+        services.AddSingleton<DemoNavProvider>();
+        services.AddScoped<DownloadFile>();
 
         return services;
     }
