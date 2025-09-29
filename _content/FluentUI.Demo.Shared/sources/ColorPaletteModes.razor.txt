@@ -1,0 +1,134 @@
+﻿<div style="height: 700px">
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentStack>
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="2">
+                <FluentSelect Items=@_allModes
+                              TOption="ColorPaletteMode"
+                              Label="Modes"
+                              AriaLabel="Modes"
+                              OptionText="@(i => i.ToString())"
+                              OptionValue="@(i => i.ToString())"
+                              @bind-SelectedOption="@selectedMode" />
+
+                <FluentSwitch Label="Show Harmony Picker" @bind-Value=_showHarmonyPicker />
+                <FluentSwitch Label="Show Preview" @bind-Value=_showPreview />
+                <FluentSwitch Label="MultiSelect" @bind-Value=_multiSelect />
+                <FluentNumberField Style="width: 100%" Label="Columns" Min="1" Max="20" Step="1" @bind-Value=_numColumns />
+                <FluentNumberField Style="width: 100%" Label="Item Size" Min="32" Max="64" Step="1" @bind-Value=_itemSize />
+            </FluentStack>
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="2">
+                <FluentNumberField Style="width: 100%" Label="Max Colors" Min="5" Max="256" Step="1" @bind-Value=_numColors />
+                <FluentNumberField Style="width: 100%" Label="Gradient Step" Min="24" Max="64" Step="1" @bind-Value=_gradientSteps />
+
+                @if(selectedMode == ColorPaletteMode.CustomGradient)
+                {
+                    <FluentTextField Style="width: 100%" TextFieldType="TextFieldType.Color" @bind-Value=_gradientStart Label="Gradient Start" />
+                    <FluentTextField Style="width: 100%" TextFieldType="TextFieldType.Color" @bind-Value=_gradientEnd Label="Gradient End" />
+                }
+
+                <FluentTextField Style="width: 100%" TextFieldType="TextFieldType.Color" @bind-Value=_baseColor Label="Base color" />
+
+                @if (selectedMode == ColorPaletteMode.Gradient)
+                {
+                    <FluentSelect Items=@_allStrategies
+                                  TOption="GradientStrategy"
+                                  Label="Gradient Strategy"
+                                  AriaLabel="Gradient Strategy"
+                                  OptionText="@(i => i.ToString())"
+                                  OptionValue="@(i => i.ToString())"
+                                  @bind-SelectedOption="@selectedStrategy" />
+                }
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack>
+            @if (selectedMode == ColorPaletteMode.FromImage)
+            {
+                <FluentInputFile Id="my-file-uploader"
+                                 Mode="InputFileMode.Buffer"
+                                 Multiple="false"
+                                 MaximumFileCount="1"
+                                 MaximumFileSize="@(10*1024*1024)"
+                                 Accept="image/*"
+                                 @bind-ProgressPercent="@ProgressPercent"
+                                 OnProgressChange=@OnProgressChangeAsync
+                                 OnCompleted="@OnCompleted"
+                                 Style="height: 300px;">
+                    <ChildContent>
+                        <label for="my-file-uploader">
+                            <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+                        </label>
+
+                        <div>
+                            Drag files here you wish to upload,
+                            or <label for="my-file-uploader">browse</label>
+                            for them<span style="color: red;">*</span>.
+                            <br />
+                            <em>Maximum of 1 files allowed.</em>
+                        </div>
+                    </ChildContent>
+                </FluentInputFile>
+            }
+
+            <FluentCxColorPalette Columns="@_numColumns"
+                                  ItemSize="@_itemSize"
+                                  Mode="@selectedMode"
+                                  GradientSteps="@_gradientSteps"
+                                  GradientEnd="@_gradientEnd"
+                                  GradientStart="@_gradientStart"
+                                  BaseColor="@_baseColor"
+                                  GradientStrategy="@selectedStrategy"
+                                  MultiSelect=@_multiSelect
+                                  ImageDataProvider=@OnImageProviderAsync
+                                  MaxColors="@_numColors"
+                                  ShowPreview="@_showPreview"
+                                  ShowHarmonyPicker=@_showHarmonyPicker />
+        </FluentStack>
+       
+    </FluentStack>
+    
+</div>
+
+@code {
+
+    private static ColorPaletteMode[] _allModes = Enum.GetValues<ColorPaletteMode>();
+    private static GradientStrategy[] _allStrategies = Enum.GetValues<GradientStrategy>();
+    private ColorPaletteMode selectedMode = ColorPaletteMode.None;
+    private GradientStrategy selectedStrategy = GradientStrategy.Shades;
+    private bool _showHarmonyPicker = false;
+    private bool _showPreview = true;
+    private int _numColors = 256;
+    private int _itemSize = 32;
+    private int _gradientSteps = 48;
+    private string _gradientStart = "#ffffff";
+    private string _gradientEnd = "#000000";
+    private string _baseColor = "#0078d4";
+    private bool _multiSelect = false;
+    private int _numColumns = 10;
+    private int ProgressPercent { get; set; }
+    private MemoryStream? uploadImageStream;
+    private byte[] _data = [];
+
+    private async Task OnProgressChangeAsync(FluentInputFileEventArgs e)
+    {
+        uploadImageStream ??= new MemoryStream();
+        await uploadImageStream.WriteAsync(e.Buffer.Data, 0, e.Buffer.BytesRead);
+    }
+
+    private void OnCompleted(IEnumerable<FluentInputFileEventArgs> e)
+    {
+        _data = uploadImageStream?.ToArray() ?? [];
+        uploadImageStream?.Dispose();
+    }   
+
+    private async Task<byte[]> OnImageProviderAsync()
+    {
+        while (_data.Length == 0)
+        {
+            await Task.Delay(100);
+        }
+
+        return _data;
+    }
+}
