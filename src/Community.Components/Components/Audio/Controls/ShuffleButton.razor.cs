@@ -28,10 +28,16 @@ public partial class ShuffleButton
     public EventCallback<bool> OnShuffleChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the label for the shuffle button.
+    /// Gets or sets the label for the shuffle on button.
     /// </summary>
     [Parameter]
-    public string? ShuffleLabel { get; set; } = "Shuffle";
+    public string? ShuffleOnLabel { get; set; } = "Shuffle on";
+
+    /// <summary>
+    /// Gets or sets the label displayed when the shuffle feature is turned off.
+    /// </summary>
+    [Parameter]
+    public string? ShuffleOffLabel { get; set; } = "Shuffle off";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ShuffleButton"/> class.

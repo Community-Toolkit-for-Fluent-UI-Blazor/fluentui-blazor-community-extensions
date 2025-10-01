@@ -21,7 +21,7 @@ public class VolumeButtonTests : TestBase
     public void VolumeLabel_DefaultValue_IsVolume()
     {
         var cut = RenderComponent<VolumeButton>();
-        Assert.Equal("Volume", cut.Instance.VolumeLabel);
+        Assert.Equal("Volume", cut.Instance.Label);
     }
 
     [Fact]

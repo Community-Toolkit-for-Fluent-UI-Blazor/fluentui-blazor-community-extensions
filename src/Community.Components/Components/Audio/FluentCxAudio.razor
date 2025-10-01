@@ -55,7 +55,8 @@
                                            IsPlayOrPauseDisabled=@IsPlayOrPauseDisabled
                                            IsPreviousDisabled=@IsPreviousDisabled
                                            IsNextDisabled=@IsNextDisabled
-                                           IsStopDisabled=@IsStopDisabled/>
+                                           IsStopDisabled=@IsStopDisabled
+                                           Labels="@Labels"/>
                         </FluentStack>
                     </div>
                 </FluentCard>
@@ -72,10 +73,10 @@
                            OnPrevious="@OnPreviousTrackAsync"
                            OnNext="@OnNextTrackAsync"
                            OnPlayPauseChanged="@OnTogglePlayPauseAsync"
-                           NextLabel=""
-                           PreviousLabel=""
-                           PauseLabel=""
-                           PlayLabel=""                          
+                           NextLabel="@Labels.NextLabel"
+                           PreviousLabel="@Labels.PreviousLabel"
+                           PauseLabel="@Labels.PauseLabel"
+                           PlayLabel="@Labels.PlayLabel"                          
                            IsFloating="@(View == AudioPlayerView.Floating)"
                            Duration="@_duration"
                            CurrentTime="@_currentTime"/>
@@ -84,7 +85,9 @@
         {
             <Audio @ref=_audioReference />
 
-            <MinimalPlayer OnPlayPause="@OnTogglePlayPauseAsync" />
+            <MinimalPlayer PlayLabel="@Labels.PlayLabel"
+                           PauseLabel="@Labels.PauseLabel"
+                           OnPlayPause="@OnTogglePlayPauseAsync" />
         }
     </div>
 </CascadingValue>

@@ -208,6 +208,12 @@ public sealed partial class FluentCxAudio
     public int Height { get; set; } = 280;
 
     /// <summary>
+    /// Gets or sets the labels for the audio control buttons.
+    /// </summary>
+    [Parameter]
+    public AudioLabels Labels { get; set; } = AudioLabels.Default;
+
+    /// <summary>
     /// Occurs when the download button is clicked.
     /// </summary>
     /// <returns>Returns a task which downloads the track.</returns>

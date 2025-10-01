@@ -21,4 +21,16 @@ public partial class MinimalPlayer : FluentComponentBase
     /// </summary>
     [Parameter]
     public EventCallback<bool> OnPlayPause { get; set; }
+
+    /// <summary>
+    /// Gets or sets the label for the play button.
+    /// </summary>
+    [Parameter]
+    public string PlayLabel { get; set; } = "Play";
+
+    /// <summary>
+    /// Gets or sets the label for the pause button.
+    /// </summary>
+    [Parameter]
+    public string PauseLabel { get; set; } = "Pause";
 }

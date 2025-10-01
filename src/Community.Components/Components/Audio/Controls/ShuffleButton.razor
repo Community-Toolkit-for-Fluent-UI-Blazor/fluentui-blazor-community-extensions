@@ -3,5 +3,5 @@
 
 <FluentButton Appearance="Appearance.Stealth"
               IconStart="@(_isShuffling ? ShuffleOnIcon : ShuffleOffIcon)"
-              Title="@ShuffleLabel"
+              Title="@(_isShuffling ? ShuffleOnLabel : ShuffleOffLabel)"
               OnClick="@OnToggleShuffleAsync" />    

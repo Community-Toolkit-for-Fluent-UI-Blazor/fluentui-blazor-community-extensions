@@ -962,6 +962,11 @@
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.AudioControls"/> class.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.Labels">
+            <summary>
+            Gets or sets the labels for the audio control buttons.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsDownloadVisible">
             <summary>
             Gets or sets a value indicating whether the download button is visible.
@@ -1038,6 +1043,76 @@
             </summary>
             <param name="isPlaying">A value indicating whether the control should reflect the "playing" state.  <see langword="true"/> if the
             control should indicate playback is active; otherwise, <see langword="false"/>.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PlayLabel">
+            <summary>
+            Gets the label for the play button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PauseLabel">
+            <summary>
+            Gets the label for the pause button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PreviousLabel">
+            <summary>
+            Gets the label for the previous button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.NextLabel">
+            <summary>
+            Gets the label for the next button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.VolumeLabel">
+            <summary>
+            Gets the label for the volume control.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.ShuffleOnLabel">
+            <summary>
+            Gets the label for the shuffle on button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.ShuffleOffLabel">
+            <summary>
+            Gets the label for the shuffle off button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PlaylistLabel">
+            <summary>
+            Gets the label for the playlist button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.DownloadLabel">
+            <summary>
+            Gets the label for the download button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.StopLabel">
+            <summary>
+            Gets the label for the stop button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PlaylistLoopLabel">
+            <summary>
+            Gets the label for the playlist loop mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PlaylistOnceLabel">
+            <summary>
+            Gets the label for the playlist once mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.SingleLoopLabel">
+            <summary>
+            Gets the label for the single loop mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.SingleOnceLabel">
+            <summary>
+            Gets the label for the single once mode.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.AudioPlayerView">
             <summary>
@@ -2037,9 +2112,14 @@
             Gets or sets the event callback that is invoked when the shuffle state changes.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ShuffleButton.ShuffleLabel">
+        <member name="P:FluentUI.Blazor.Community.Components.ShuffleButton.ShuffleOnLabel">
             <summary>
-            Gets or sets the label for the shuffle button.
+            Gets or sets the label for the shuffle on button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ShuffleButton.ShuffleOffLabel">
+            <summary>
+            Gets or sets the label displayed when the shuffle feature is turned off.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ShuffleButton.#ctor">
@@ -2136,7 +2216,7 @@
             Gets or sets the callback that is invoked when the volume changes.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.VolumeButton.VolumeLabel">
+        <member name="P:FluentUI.Blazor.Community.Components.VolumeButton.Label">
             <summary>
             Gets or sets the label for the volume button.
             </summary>
@@ -2309,6 +2389,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.Height">
             <summary>
             Gets or sets the height of the visualizer or the playlist viewer in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.Labels">
+            <summary>
+            Gets or sets the labels for the audio control buttons.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnDownloadAsync">
@@ -2820,6 +2905,16 @@
         <member name="P:FluentUI.Blazor.Community.Components.MinimalPlayer.OnPlayPause">
             <summary>
             Gets or sets the event callback that is triggered when the play/pause button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MinimalPlayer.PlayLabel">
+            <summary>
+            Gets or sets the label for the play button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MinimalPlayer.PauseLabel">
+            <summary>
+            Gets or sets the label for the pause button.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.TrackInfo">

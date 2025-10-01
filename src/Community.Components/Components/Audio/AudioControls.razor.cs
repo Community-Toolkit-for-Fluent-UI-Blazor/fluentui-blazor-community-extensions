@@ -22,6 +22,12 @@ public partial class AudioControls : FluentComponentBase
     }
 
     /// <summary>
+    /// Gets or sets the labels for the audio control buttons.
+    /// </summary>
+    [Parameter]
+    public AudioLabels Labels { get; set; } = AudioLabels.Default;
+
+    /// <summary>
     /// Gets or sets a value indicating whether the download button is visible.
     /// </summary>
     [Parameter]

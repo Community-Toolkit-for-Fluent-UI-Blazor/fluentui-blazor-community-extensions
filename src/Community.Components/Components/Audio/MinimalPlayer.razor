@@ -5,5 +5,7 @@
      class="minimal-player @Class"
      style="@Style">
     <Audio Id="@($"audio-{Id}")" />
-    <PlayOrPauseButton OnPlayChanged="@OnPlayPause" />
+    <PlayOrPauseButton PlayLabel="@PlayLabel"
+                       PauseLabel="@PauseLabel"
+                       OnPlayChanged="@OnPlayPause" />
 </div>

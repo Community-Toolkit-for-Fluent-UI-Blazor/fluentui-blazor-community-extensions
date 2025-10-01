@@ -64,12 +64,12 @@ public partial class VolumeButton
     /// Gets or sets the label for the volume button.
     /// </summary>
     [Parameter]
-    public string VolumeLabel { get; set; } = "Volume";
+    public string Label { get; set; } = "Volume";
 
     /// <summary>
     /// Gets the ARIA label for the volume button, combining the volume label and the current volume percentage.
     /// </summary>
-    private string AriaLabel => $"{VolumeLabel} ({_volume * 100:0}%)";
+    private string AriaLabel => $"{Label} ({_volume * 100:0}%)";
 
     /// <summary>
     /// Handles the volume change event asynchronously.
