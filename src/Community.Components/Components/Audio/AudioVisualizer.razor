@@ -1,9 +1,12 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-<canvas id="@Id"
-        @ref=Element
-        width="@Width"
-        height="@Height"
-        style="width:100%; max-width:100%; height: @(Height)px">
-</canvas>
+@if (IsVisible)
+{
+    <canvas id="@Id"
+            @ref=Element
+            width="@Width"
+            height="@Height"
+            style="width:100%; max-width:100%; height: @(Height)px;">
+    </canvas>
+}

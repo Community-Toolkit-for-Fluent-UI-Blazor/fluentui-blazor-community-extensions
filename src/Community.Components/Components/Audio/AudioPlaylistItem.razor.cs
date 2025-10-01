@@ -1,3 +1,4 @@
+using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -21,6 +22,16 @@ public partial class AudioPlaylistItem
     /// Represents the icon used to indicate the poll action for an audio track.
     /// </summary>
     private static readonly Icon PollIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.Poll();
+
+    /// <summary>
+    /// Represents whether the track has changed since the last render.
+    /// </summary>
+    private bool _hasTrackChanged;
+
+    /// <summary>
+    /// Represents the performers of the audio track.
+    /// </summary>
+    private string? _performers;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AudioPlaylistItem"/> class.
@@ -66,6 +77,34 @@ public partial class AudioPlaylistItem
         if (OnSelected.HasDelegate && Track != null)
         {
             await OnSelected.InvokeAsync(Track);
+        }
+    }
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _hasTrackChanged = parameters.HasValueChanged(nameof(Track), Track);
+
+        return base.SetParametersAsync(parameters);
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if(_hasTrackChanged)
+        {
+            _hasTrackChanged = false;
+
+            if (Track?.Metadata?.Descriptive?.Performers.Length > 0)
+            {
+                _performers = string.Join(", ", Track.Metadata.Descriptive.Performers);
+            }
+            else
+            {
+                _performers = null;
+            }
         }
     }
 }

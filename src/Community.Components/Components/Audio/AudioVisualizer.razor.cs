@@ -24,7 +24,7 @@ public partial class AudioVisualizer
     /// <summary>
     /// Value indicating whether the visualizer mode has changed.
     /// </summary>
-    private bool _hasModeChanged;
+    private bool _hasChanged;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AudioVisualizer"/> class.
@@ -65,6 +65,12 @@ public partial class AudioVisualizer
     public string? Anchor { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the visualizer is visible.
+    /// </summary>
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    /// <summary>
     /// Gets or sets the JavaScript runtime.
     /// </summary>
     [Inject]
@@ -81,6 +87,14 @@ public partial class AudioVisualizer
             await _module.InvokeVoidAsync("fluentCxAudioVisualizer.initialize", Id, Anchor, Mode, Cover);
             await _module.InvokeVoidAsync("fluentCxAudioVisualizer.setMode", Id, Mode);
         }
+
+        if (_hasChanged &&
+            _module is not null &&
+            IsVisible)
+        {
+            _hasChanged = false;
+            await _module.InvokeVoidAsync("fluentCxAudioVisualizer.setMode", Id, Mode);
+        }
     }
 
     /// <inheritdoc />
@@ -95,21 +109,10 @@ public partial class AudioVisualizer
     }
 
     /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
-    {
-        if (_hasModeChanged && _module is not null)
-        {
-            _hasModeChanged = false;
-            await _module.InvokeVoidAsync("fluentCxAudioVisualizer.setMode", Id, Mode);
-        }
-
-        await base.OnParametersSetAsync();
-    }
-
-    /// <inheritdoc />
     public override Task SetParametersAsync(ParameterView parameters)
     {
-        _hasModeChanged = parameters.HasValueChanged(nameof(Mode), Mode);
+        _hasChanged = parameters.HasValueChanged(nameof(Mode), Mode) ||
+                      parameters.HasValueChanged(nameof(IsVisible), IsVisible);
 
         return base.SetParametersAsync(parameters);
     }

@@ -94,6 +94,18 @@ public partial class AudioControls : FluentComponentBase
     public bool IsNextDisabled { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the stop button is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsStopDisabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the play/pause button is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsPlayOrPauseDisabled { get; set; }
+
+    /// <summary>
     /// Sets the play/pause state of the associated control.
     /// </summary>
     /// <param name="isPlaying">A value indicating whether the control should reflect the "playing" state.  <see langword="true"/> if the

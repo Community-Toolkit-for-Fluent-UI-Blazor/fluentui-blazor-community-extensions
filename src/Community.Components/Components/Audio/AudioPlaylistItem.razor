@@ -9,19 +9,21 @@
                  VerticalAlignment="VerticalAlignment.Center">
         @if (Track is not null)
         {
-            @if (!string.IsNullOrEmpty(Track.Cover))
-            {
+             @if (!string.IsNullOrEmpty(Track?.Metadata?.Visual?.CoverUrl))
+        {
+            <div style="width: 48px; height: 48px; border-radius: 8px; background-color: white">
                 <img width="48"
                      height="48"
-                     src="@Track.Cover"
-                     title="@Track.Title"
-                     aria-label="@Track.Title" />
-            }
+                     src="@Track?.Metadata?.Visual?.CoverUrl"
+                     title="@Track?.Metadata?.Descriptive?.Title"
+                     aria-label="Track?.Metadata?.Descriptive?.Title" />
+            </div>
+        }
 
-            <FluentStack VerticalGap=1 Orientation="Orientation.Vertical">
-                <FluentLabel Color=Color.Accent Weight="FontWeight.Bold">@Track.Title</FluentLabel>
-                <FluentLabel Color="Color.FillInverse">@Track.Artist</FluentLabel>
-            </FluentStack>
+        <FluentStack VerticalGap=1 Orientation="Orientation.Vertical">
+            <FluentLabel Color=Color.Accent Style="font-size: 18px" Weight="FontWeight.Bold">@Track?.Metadata?.Descriptive?.Title</FluentLabel>
+            <FluentLabel Color="Color.FillInverse">@_performers</FluentLabel>
+        </FluentStack>
 
             <FluentIcon Value="@TrackIcon" />
         }

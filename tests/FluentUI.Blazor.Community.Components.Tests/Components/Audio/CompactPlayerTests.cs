@@ -37,7 +37,7 @@ public class CompactPlayerTests : TestBase
     public void CompactPlayer_CurrentTrack_ParameterIsSet()
     {
         // Arrange
-        var track = new AudioTrackItem { Title = "Test", Artist = "Art", Source = "src.mp3", Cover = "cover.png" };
+        var track = new AudioTrackItem { Source = "src.mp3" };
 
         // Act
         var cut = RenderComponent<CompactPlayer>(parameters => parameters

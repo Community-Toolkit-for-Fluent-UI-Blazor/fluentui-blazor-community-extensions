@@ -14,7 +14,7 @@ public partial class DownloadButton : FluentComponentBase
     /// <summary>
     /// Represents the icon to be displayed on the button.
     /// </summary>
-    private static readonly Icon DownloadIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.ArrowDownload();
+    private static readonly Icon Icon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.ArrowDownload();
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the download button is clicked.
@@ -26,7 +26,7 @@ public partial class DownloadButton : FluentComponentBase
     /// Gets or sets the label for the download button.
     /// </summary>
     [Parameter]
-    public string? DownloadLabel { get; set; } = "Download";
+    public string? Label { get; set; } = "Download";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DownloadButton"/> class.
@@ -40,7 +40,7 @@ public partial class DownloadButton : FluentComponentBase
     /// Occurs when the download button is clicked.
     /// </summary>
     /// <returns>Returns a task which invokes the <see cref="OnDownload" /> callback.</returns>
-    private async Task OnDownloadAsync()
+    private async Task OnClickAsync()
     {
         if (OnDownload.HasDelegate)
         {

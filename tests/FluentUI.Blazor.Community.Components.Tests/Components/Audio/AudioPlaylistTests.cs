@@ -35,8 +35,8 @@ public class AudioPlaylistTests : TestBase
     public void AudioPlaylist_Playlist_ParameterIsSet()
     {
         // Arrange
-        var track1 = new AudioTrackItem { Title = "Track 1", Artist = "Artist 1", Source = "track1.mp3", Cover = "cover1.png" };
-        var track2 = new AudioTrackItem { Title = "Track 2", Artist = "Artist 2", Source = "track2.mp3", Cover = "cover2.png" };
+        var track1 = new AudioTrackItem { Source = "track1.mp3" };
+        var track2 = new AudioTrackItem { Source = "track2.mp3" };
         var playlist = new List<AudioTrackItem> { track1, track2 };
 
         // Act
@@ -52,7 +52,7 @@ public class AudioPlaylistTests : TestBase
     public void AudioPlaylist_CurrentTrack_ParameterIsSet()
     {
         // Arrange
-        var track = new AudioTrackItem { Title = "Current", Artist = "Artist", Source = "current.mp3", Cover = "cover.png" };
+        var track = new AudioTrackItem { Source = "current.mp3" };
 
         // Act
         var cut = RenderComponent<AudioPlaylist>(parameters => parameters
@@ -67,7 +67,7 @@ public class AudioPlaylistTests : TestBase
     public async Task AudioPlaylist_OnTrackSelected_EventCallbackIsTriggered()
     {
         // Arrange
-        var track = new AudioTrackItem { Title = "Selected", Artist = "Artist", Source = "selected.mp3", Cover = "cover.png" };
+        var track = new AudioTrackItem { Source = "selected.mp3" };
         bool callbackInvoked = false;
         var cut = RenderComponent<AudioPlaylist>(parameters => parameters
             .Add(p => p.OnTrackSelected, EventCallback.Factory.Create<AudioTrackItem>(this, (selectedTrack) => { callbackInvoked = true; }))

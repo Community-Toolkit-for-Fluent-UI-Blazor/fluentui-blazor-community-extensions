@@ -12,7 +12,7 @@ public partial class NextButton
     /// <summary>
     /// Represents the icon displayed when shuffling is disabled.
     /// </summary>
-    private static readonly Icon NextIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Next();
+    private static readonly Icon Icon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Next();
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the next button is clicked.
@@ -24,7 +24,7 @@ public partial class NextButton
     /// Gets or sets the label for the next button.
     /// </summary>
     [Parameter]
-    public string? NextLabel { get; set; } = "Next";
+    public string? Label { get; set; } = "Next";
 
     /// <summary>
     /// Gets or sets a value indicating whether the next button is disabled.
@@ -44,7 +44,7 @@ public partial class NextButton
     /// Occurs when the next button is clicked.
     /// </summary>
     /// <returns>Returns a task which invokes the <see cref="OnNext" /> callback.</returns>
-    private async Task OnNextAsync()
+    private async Task OnClickAsync()
     {
         if (OnNext.HasDelegate)
         {

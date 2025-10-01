@@ -24,16 +24,28 @@ public class TrackInfoTests : TestBase
     {
         var track = new AudioTrackItem
         {
-            Title = "Test Title",
-            Artist = "Test Artist",
-            Cover = "cover.png"
+            Source = "track.mp3",
+            Metadata = new()
+            {
+                Descriptive = new()
+                {
+                    Title = "Test Title",
+                    Performers = ["Test Artist"],
+                },
+                Visual = new()
+                {
+                    CoverUrl = "cover.png",
+                },
+            }
         };
 
         var cut = RenderComponent<TrackInfo>(parameters => parameters
             .Add(p => p.Track, track)
         );
 
-        cut.Find("img").MarkupMatches(@"<img width=""48"" height=""48"" src=""cover.png"" title=""Test Title"" aria-label=""Test Title"">");
+        var img = cut.Find("img");
+
+        img.MarkupMatches(@"<img width=""96"" height=""96"" src=""cover.png"" title=""Test Title"" aria-label=""Test Title"">");
 
         cut.Markup.Contains("Test Title");
         cut.Markup.Contains("Test Artist");
@@ -46,9 +58,8 @@ public class TrackInfoTests : TestBase
     {
         var track = new AudioTrackItem
         {
-            Title = "Test Title",
-            Artist = "Test Artist",
-            Cover = null
+            Source = "track.mp3",
+            Metadata = new()
         };
 
         var cut = RenderComponent<TrackInfo>(parameters => parameters
@@ -63,9 +74,8 @@ public class TrackInfoTests : TestBase
     {
         var track = new AudioTrackItem
         {
-            Title = "Test Title",
-            Artist = "Test Artist",
-            Cover = "cover.png"
+            Source = "track.mp3",
+            Metadata = new()
         };
 
         var clicked = false;

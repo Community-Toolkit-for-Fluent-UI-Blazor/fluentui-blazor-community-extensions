@@ -11,9 +11,9 @@
 
     <PreviousButton IsDisabled=@IsPreviousDisabled OnPrevious="@OnPrevious" />
 
-    <PlayOrPauseButton @ref=_playOrPauseButton OnPlayChanged="@OnPlayPauseToggled" />
+    <PlayOrPauseButton @ref=_playOrPauseButton IsDisabled="@IsPlayOrPauseDisabled" OnPlayChanged="@OnPlayPauseToggled" />
 
-    <StopButton OnStop="@OnStop" />
+    <StopButton OnStop="@OnStop" IsDisabled=@IsStopDisabled />
 
     <NextButton IsDisabled=@IsNextDisabled OnNext="@OnNext" />
 

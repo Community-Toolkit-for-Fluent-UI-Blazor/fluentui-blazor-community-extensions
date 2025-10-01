@@ -25,7 +25,7 @@ public class NextButtonTests : TestBase
             .Add(p => p.OnNext, EventCallback.Factory.Create(this, () => invoked = true))
         );
 
-        cut.InvokeAsync(() => cut.Instance.GetType().GetMethod("OnNextAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+        cut.InvokeAsync(() => cut.Instance.GetType().GetMethod("OnClickAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
             .Invoke(cut.Instance, null));
 
         Assert.True(invoked);

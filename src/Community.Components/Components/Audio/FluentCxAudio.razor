@@ -10,27 +10,23 @@
         @if (View == AudioPlayerView.Default)
         {
             <FluentStack>
-                @if (_showPlaylist)
-                {
-                    <FluentCard Width="240px" Height="@_containerHeight">
-                        <AudioPlaylist Playlist="@(_isShuffling? _shuffledPlaylist : _originalPlaylist)"
-                                       CurrentTrack="@CurrentTrack"
-                                       OnTrackSelected="@OnPlayTrackAsync" />
-                    </FluentCard>
-                }
-
-                <FluentCard AreaRestricted=false>
+                <FluentCard>
                     <Audio @ref=_audioReference />
 
                     <div class="main-ui">
                         <FluentStack Style="height: 100%">
-                            @if (ShowVisualizer)
-                            {
-                                <AudioVisualizer Anchor="@_audioReference!.Id"
-                                                 Mode="@VisualizerMode"
-                                                 Cover="@CurrentTrack?.Cover"
-                                                 @ref="_audioVisualizer" />
-                            }
+                            <AudioPlaylist Playlist="@(_isShuffling? _shuffledPlaylist : _originalPlaylist)"
+                                           CurrentTrack="@CurrentTrack"
+                                           IsVisible="@_showPlaylist"
+                                           Height="@Height"
+                                           OnTrackSelected="@OnPlayTrackAsync" />
+
+                            <AudioVisualizer Anchor="@_audioReference!.Id"
+                                             Mode="@VisualizerMode"
+                                             Cover="@CurrentTrack?.Metadata?.Visual?.CoverUrl"
+                                             @ref="_audioVisualizer"
+                                             Height="@Height"
+                                             IsVisible="@(ShowVisualizer && !_showPlaylist)"/>                            
                         </FluentStack>
 
                         <FluentDivider Orientation="Orientation.Horizontal" />
@@ -56,33 +52,33 @@
                                            OnDownload="@OnDownloadAsync"
                                            OnPlaylistToggled="@OnPlaylistToogled"
                                            OnStop="@OnStopAsync"
+                                           IsPlayOrPauseDisabled=@IsPlayOrPauseDisabled
                                            IsPreviousDisabled=@IsPreviousDisabled
-                                           IsNextDisabled=@IsNextDisabled />
+                                           IsNextDisabled=@IsNextDisabled
+                                           IsStopDisabled=@IsStopDisabled/>
                         </FluentStack>
                     </div>
                 </FluentCard>
             </FluentStack>
         }
-        else if (View == AudioPlayerView.Compact || View == AudioPlayerView.Floating)
+        else if (View == AudioPlayerView.Compact ||
+                 View == AudioPlayerView.Floating)
         {
-            var viewClass = View == AudioPlayerView.Compact ? "compact" : "floating-player";
-
             <Audio @ref=_audioReference />
 
-            <div class="@viewClass">
-                <CompactPlayer CurrentTrack="CurrentTrack"
-                               IsPreviousDisabled="@IsPreviousDisabled"
-                               IsNextDisabled="@IsNextDisabled"
-                               OnPrevious="@OnPreviousTrackAsync"
-                               OnNext="@OnNextTrackAsync"
-                               OnPlayPauseChanged="@OnTogglePlayPauseAsync"
-                               NextLabel=""
-                               PreviousLabel=""
-                               PauseLabel=""
-                               PlayLabel=""
-                               Duration="@_duration"
-                               CurrentTime="@_currentTime"/>
-            </div>
+            <CompactPlayer CurrentTrack="CurrentTrack"
+                           IsPreviousDisabled="@IsPreviousDisabled"
+                           IsNextDisabled="@IsNextDisabled"
+                           OnPrevious="@OnPreviousTrackAsync"
+                           OnNext="@OnNextTrackAsync"
+                           OnPlayPauseChanged="@OnTogglePlayPauseAsync"
+                           NextLabel=""
+                           PreviousLabel=""
+                           PauseLabel=""
+                           PlayLabel=""                          
+                           IsFloating="@(View == AudioPlayerView.Floating)"
+                           Duration="@_duration"
+                           CurrentTime="@_currentTime"/>
         }
         else if (View == AudioPlayerView.Minimal)
         {

@@ -24,7 +24,7 @@ public class DownloadButtonTests : TestBase
         var cut = RenderComponent<DownloadButton>();
 
         // Assert
-        Assert.Equal("Download", cut.Instance.DownloadLabel);
+        Assert.Equal("Download", cut.Instance.Label);
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class DownloadButtonTests : TestBase
 
         // Act
         await (Task)cut.Instance.GetType()
-            .GetMethod("OnDownloadAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
+            .GetMethod("OnClickAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
             .Invoke(cut.Instance, null);
 
         // Assert
@@ -64,7 +64,7 @@ public class DownloadButtonTests : TestBase
 
         // Act & Assert (should not throw)
         await (Task)cut.Instance.GetType()
-            .GetMethod("OnDownloadAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
+            .GetMethod("OnClickAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
             .Invoke(cut.Instance, null);
     }
 }

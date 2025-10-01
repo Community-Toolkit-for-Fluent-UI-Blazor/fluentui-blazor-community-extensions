@@ -39,16 +39,6 @@ input[type=range] {
     border-radius: 6px;
 }
 
-.floating-player {
-  box-shadow: 0 4px 16px #0003;
-  background: #fff;
-  border-radius: 10px;
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 1000;
-}
-
 @media (max-width: 600px) {
     .fluent-audio-player {
         max-width: 100vw;

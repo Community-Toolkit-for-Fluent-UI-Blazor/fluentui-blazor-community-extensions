@@ -17,7 +17,7 @@ public partial class PlaylistButton
     /// <summary>
     /// Represents the icon displayed when shuffling is disabled.
     /// </summary>
-    private static readonly Icon PlaylistIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.AppsList();
+    private static readonly Icon Icon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.AppsList();
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the stop button is clicked.
@@ -29,7 +29,7 @@ public partial class PlaylistButton
     /// Gets or sets the label for the previous button.
     /// </summary>
     [Parameter]
-    public string? PlaylistLabel { get; set; } = "Playlist";
+    public string? Label { get; set; } = "Playlist";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PlaylistButton"/> class.

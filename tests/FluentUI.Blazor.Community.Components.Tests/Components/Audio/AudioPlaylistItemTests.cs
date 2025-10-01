@@ -36,7 +36,7 @@ public class AudioPlaylistItemTests : TestBase
     public void AudioPlaylistItem_Track_ParameterIsSet()
     {
         // Arrange
-        var track = new AudioTrackItem { Title = "Track", Artist = "Artist", Source = "track.mp3", Cover = "cover.png" };
+        var track = new AudioTrackItem { Source = "track.mp3" };
 
         // Act
         var cut = RenderComponent<AudioPlaylistItem>(parameters => parameters
@@ -93,7 +93,7 @@ public class AudioPlaylistItemTests : TestBase
     public async Task AudioPlaylistItem_OnHandleClickAsync_InvokesCallback_WhenTrackAndDelegateSet()
     {
         // Arrange
-        var track = new AudioTrackItem { Title = "Track", Artist = "Artist", Source = "track.mp3", Cover = "cover.png" };
+        var track = new AudioTrackItem { Source = "track.mp3" };
         bool callbackInvoked = false;
         var cut = RenderComponent<AudioPlaylistItem>(parameters => parameters
             .Add(p => p.Track, track)
@@ -129,7 +129,7 @@ public class AudioPlaylistItemTests : TestBase
     public async Task AudioPlaylistItem_OnHandleClickAsync_DoesNotInvokeCallback_WhenDelegateNotSet()
     {
         // Arrange
-        var track = new AudioTrackItem { Title = "Track", Artist = "Artist", Source = "track.mp3", Cover = "cover.png" };
+        var track = new AudioTrackItem { Source = "track.mp3" };
         var cut = RenderComponent<AudioPlaylistItem>(parameters => parameters
             .Add(p => p.Track, track)
         );

@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Globalization;
+using System.Threading.Tasks;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -161,6 +162,16 @@ public sealed partial class FluentCxAudio
     private AudioTrackItem? CurrentTrack => _originalPlaylist.Count > 0 && _currentTrackIndex >= 0 && _currentTrackIndex < _originalPlaylist.Count ? _originalPlaylist[_currentTrackIndex] : null;
 
     /// <summary>
+    /// Gets a value indicating whether the stop button should be disabled.
+    /// </summary>
+    private bool IsStopDisabled => CurrentTrack is null;
+
+    /// <summary>
+    /// Gets a value indicating whether the play or pause button should be disabled.
+    /// </summary>
+    private bool IsPlayOrPauseDisabled => CurrentTrack is null;
+
+    /// <summary>
     /// Gets or sets the render mode of the audio player.
     /// </summary>
     [Parameter]
@@ -191,6 +202,12 @@ public sealed partial class FluentCxAudio
     private IJSRuntime JSRuntime { get; set; } = default!;
 
     /// <summary>
+    /// Gets or sets the height of the visualizer or the playlist viewer in pixels.
+    /// </summary>
+    [Parameter]
+    public int Height { get; set; } = 280;
+
+    /// <summary>
     /// Occurs when the download button is clicked.
     /// </summary>
     /// <returns>Returns a task which downloads the track.</returns>
@@ -199,7 +216,7 @@ public sealed partial class FluentCxAudio
         if (CurrentTrack is not null &&
             _module is not null)
         {
-            await _module.InvokeVoidAsync("fluentCxAudio.download", CurrentTrack.Source, CurrentTrack.Title);
+            await _module.InvokeVoidAsync("fluentCxAudio.download", CurrentTrack.Source, CurrentTrack?.Metadata?.Descriptive?.Title);
         }
     }
 
@@ -530,18 +547,38 @@ public sealed partial class FluentCxAudio
     /// Adds an audio track to the playlist.
     /// </summary>
     /// <param name="audioTrack">Audio track to add.</param>
-    internal void AddTrack(AudioTrackItem audioTrack)
+    internal async Task AddTrackAsync(AudioTrackItem audioTrack)
     {
         _originalPlaylist.Add(audioTrack);
+
+        if (_currentTrackIndex != 0)
+        {
+            _currentTrackIndex = 0;
+            await SetAudioSourceAsync();
+        }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
     /// Removes an audio track from the playlist.
     /// </summary>
     /// <param name="audioTrack">Audio track to remove.</param>
-    internal void RemoveTrack(AudioTrackItem audioTrack)
+    internal async Task RemoveTrackAsync(AudioTrackItem audioTrack)
     {
         _originalPlaylist.Remove(audioTrack);
+
+        if(_currentTrackIndex != 0 && _originalPlaylist.Count > 0)
+        {
+            _currentTrackIndex = 0;
+            await SetAudioSourceAsync();
+        }
+        else if (_originalPlaylist.Count == 0)
+        {
+            _currentTrackIndex = -1;
+        }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     /// <inheritdoc />

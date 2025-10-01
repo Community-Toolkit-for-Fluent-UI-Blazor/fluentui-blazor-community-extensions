@@ -12,7 +12,7 @@ public partial class StopButton
     /// <summary>
     /// Represents the icon displaye.
     /// </summary>
-    private static readonly Icon StopIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Stop();
+    private static readonly Icon Icon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Stop();
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the stop button is clicked.
@@ -24,7 +24,13 @@ public partial class StopButton
     /// Gets or sets the label for the stop button.
     /// </summary>
     [Parameter]
-    public string? StopLabel { get; set; } = "Stop";
+    public string? Label { get; set; } = "Stop";
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the stop button is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsDisabled { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StopButton"/> class.

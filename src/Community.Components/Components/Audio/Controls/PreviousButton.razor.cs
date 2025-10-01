@@ -15,7 +15,7 @@ public partial class PreviousButton
     /// <summary>
     /// Represents the icon displayed when shuffling is disabled.
     /// </summary>
-    private static readonly Icon PreviousIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Previous();
+    private static readonly Icon Icon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Previous();
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the stop button is clicked.
@@ -27,7 +27,7 @@ public partial class PreviousButton
     /// Gets or sets the label for the previous button.
     /// </summary>
     [Parameter]
-    public string? PreviousLabel { get; set; } = "Previous";
+    public string? Label { get; set; } = "Previous";
 
     /// <summary>
     /// Gets or sets a value indicating whether the previous button is disabled.

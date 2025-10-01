@@ -2,26 +2,26 @@
 @inherits FluentComponentBase
 
 <div id="@Id"
-     class="compact-player @Class"
+     class="compact-player @(IsFloating ? "floating" : "") @Class"
      style="@InternalStyle"
      @onpointerenter=OnPointerEnter
      @onpointerleave="OnPointerLeave">
 
-     @if (!string.IsNullOrEmpty(CurrentTrack?.Cover))
+     @if (!string.IsNullOrEmpty(CurrentTrack?.Metadata?.Visual?.CoverUrl))
      {
-        <img src="@CurrentTrack?.Cover"
-             title="@CurrentTrack?.Title"
-             aria-label="@CurrentTrack?.Title"
+        <img src="@CurrentTrack?.Metadata?.Visual?.CoverUrl"
+             title="@CurrentTrack?.Metadata?.Descriptive?.Title"
+             aria-label="@CurrentTrack?.Metadata?.Descriptive?.Title"
              class="compact-player-image" />
      }
 
      <div class="compact-player-controls">
          <FluentSpacer />
-         <PreviousButton IsDisabled=@IsPreviousDisabled OnPrevious="@OnPrevious" PreviousLabel="@PreviousLabel" />
+         <PreviousButton IsDisabled=@IsPreviousDisabled OnPrevious="@OnPrevious" Label="@PreviousLabel" />
          <FluentSpacer Width="30" />
          <PlayOrPauseButton OnPlayChanged="@OnPlayPauseChanged" PlayLabel="@PlayLabel" PauseLabel="@PauseLabel" />
          <FluentSpacer Width="30" />
-         <NextButton IsDisabled=@IsNextDisabled OnNext="@OnNext" NextLabel="@NextLabel" />
+         <NextButton IsDisabled=@IsNextDisabled OnNext="@OnNext" Label="@NextLabel" />
          <FluentSpacer />
      </div>
 

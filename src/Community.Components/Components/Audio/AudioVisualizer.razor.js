@@ -23,76 +23,74 @@ function bandEnergy(data, startHz, endHz) {
 function initialize(id, audioElement, mode, cover, color) {
   const canvas = document.getElementById(id);
 
-  if (canvas) {
-    const circles = Array.from({ length: 50 }, (x, i) => (
-      {
-        r: i * 40
-      }));
-
-    const stars = Array.from({ length: 300 }, () => ({
-      x: (Math.random() - 0.5) * canvas.width,
-      y: (Math.random() - 0.5) * canvas.height,
-      z: Math.random() * 1 + 0.2
+  const circles = Array.from({ length: 50 }, (x, i) => (
+    {
+      r: i * 40
     }));
 
-    const particles = Array.from({ length: 200 }, () => ({
-      x: canvas.width / 2,
-      y: canvas.height / 2,
-      angle: Math.random() * Math.PI * 2,
-      speed: Math.random() * 2,
-      size: Math.random() * 3
-    }));
+  const stars = Array.from({ length: 300 }, () => ({
+    x: (Math.random() - 0.5) * canvas.width,
+    y: (Math.random() - 0.5) * canvas.height,
+    z: Math.random() * 1 + 0.2
+  }));
 
-    const constellations = Array.from({ length: 100 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height
-    }));
+  const particles = Array.from({ length: 200 }, () => ({
+    x: canvas.width / 2,
+    y: canvas.height / 2,
+    angle: Math.random() * Math.PI * 2,
+    speed: Math.random() * 2,
+    size: Math.random() * 3
+  }));
 
-    const audio = document.getElementById(audioElement);
-    const audioCtx = new AudioContext();
-    const analyser = audioCtx.createAnalyser();
-    const source = audioCtx.createMediaElementSource(audio);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
+  const constellations = Array.from({ length: 100 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height
+  }));
 
-    audio.addEventListener("play", () => {
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
-    });
+  const audio = document.getElementById(audioElement);
+  const audioCtx = new AudioContext();
+  const analyser = audioCtx.createAnalyser();
+  const source = audioCtx.createMediaElementSource(audio);
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
 
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
+  audio.addEventListener("play", () => {
+    if (audioCtx.state === "suspended") {
+      audioCtx.resume();
+    }
+  });
 
-    _instances[id] = {
-      audio: audio,
-      mode: mode,
-      cover: cover,
-      color: color,
-      ctx: canvas.getContext("2d"),
-      width: canvas.width,
-      height: canvas.height,
-      centerX: canvas.width / 2,
-      centerY: canvas.height / 2,
-      radius: 100,
-      circles: circles,
-      stars: stars,
-      particles: particles,
-      constellations: constellations,
-      analyzer: analyser,
-      bufferLength: bufferLength,
-      dataArray: dataArray,
-      audioCtx: audioCtx
-    };
-  }
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+
+  _instances[id] = {
+    audio: audio,
+    mode: mode,
+    cover: cover,
+    color: color,
+    width: canvas.width,
+    height: canvas.height,
+    centerX: canvas.width / 2,
+    centerY: canvas.height / 2,
+    radius: 100,
+    circles: circles,
+    stars: stars,
+    particles: particles,
+    constellations: constellations,
+    analyzer: analyser,
+    bufferLength: bufferLength,
+    dataArray: dataArray,
+    audioCtx: audioCtx
+  };
 }
 
 function setMode(id, mode) {
   const instance = _instances[id];
+  const canvas = document.getElementById(id);
 
-  if (instance) {
+  if (instance && canvas) {
     const analyser = instance.analyzer;
-    const ctx = instance.ctx;
+    const ctx = canvas.getContext("2d");
     const dataArray = instance.dataArray;
     const width = instance.width;
     const height = instance.height;
@@ -337,17 +335,6 @@ function setMode(id, mode) {
             }
           }
         }
-      }
-      else if (mode === liquid) {
-        analyser.getByteTimeDomainData(dataArray);
-        ctx.beginPath();
-        for (let i = 0; i < dataArray.length; i++) {
-          const x = (i / dataArray.length) * width;
-          const y = centerY + (dataArray[i] - 128);
-          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = color ?? "#78e8ff";
-        ctx.stroke();
       }
       else if (mode === fractal) {
         analyser.getByteFrequencyData(dataArray);

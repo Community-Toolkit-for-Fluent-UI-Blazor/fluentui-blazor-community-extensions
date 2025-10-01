@@ -53,6 +53,12 @@ public partial class PlayOrPauseButton
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the button is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsDisabled { get; set; }
+
+    /// <summary>
     /// Occurs when the shuffle button is clicked.
     /// </summary>
     /// <returns>Returns a task which toggles on / off the shuffle</returns>

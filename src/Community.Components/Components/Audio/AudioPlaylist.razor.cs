@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -35,4 +36,23 @@ public partial class AudioPlaylist
     /// </summary>
     [Parameter]
     public EventCallback<AudioTrackItem> OnTrackSelected { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the playlist is visible.
+    /// </summary>
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    /// <summary>
+    /// Gets or sets the height of the playlist component.
+    /// </summary>
+    [Parameter]
+    public int Height { get; set; } = 280;
+
+    /// <summary>
+    /// Gets the internal style for the component, including the height.
+    /// </summary>
+    private string? InternalStyle => new StyleBuilder(Style)
+        .AddStyle("--audio-playlist-height", $"{Height}px")
+        .Build();
 }

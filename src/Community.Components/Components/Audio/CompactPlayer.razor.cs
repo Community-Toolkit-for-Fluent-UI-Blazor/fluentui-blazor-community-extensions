@@ -97,6 +97,12 @@ public sealed partial class CompactPlayer
     public double CurrentTime { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the player is floating.
+    /// </summary>
+    [Parameter]
+    public bool IsFloating { get; set; }
+
+    /// <summary>
     /// Gets the style string that includes the opacity for the playback controls based on the current state.
     /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)

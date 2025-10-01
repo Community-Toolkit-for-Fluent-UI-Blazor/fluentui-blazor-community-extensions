@@ -2,7 +2,8 @@
 @inherits FluentComponentBase
 
 <FluentButton Appearance="Appearance.Stealth"
-              IconStart="@(StopIcon)"
-              Title="@StopLabel"
+              IconStart="@(Icon)"
+              Title="@Label"
+              Disabled=@IsDisabled
               Id="@Id"
               OnClick="@OnStopAsync" />    
