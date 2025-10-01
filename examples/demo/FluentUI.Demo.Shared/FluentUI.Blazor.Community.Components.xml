@@ -7247,6 +7247,295 @@
             Gets or sets the key of the item.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxImageGroup">
+            <summary>
+            Represents a group of images.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroup._children">
+            <summary>
+            Represents the images inside this component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroup._isPopoverOpen">
+            <summary>
+            Represents a value if the popover is opened.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxImageGroup"/> component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.ChildContent">
+            <summary>
+            Gets or sets the child content of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.MaxVisibleItems">
+            <summary>
+            Gets or sets the number of visible items in the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Size">
+            <summary>
+            Gets or sets the size of each image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Shape">
+            <summary>
+            Gets or sets the shape of each image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.BorderStyle">
+            <summary>
+            Gets or sets the border style of each image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.BackgroundStyle">
+            <summary>
+            Gets or sets the background style of each image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GroupLayout">
+            <summary>
+            Gets or sets the layout of the group.
+            </summary>
+            <remarks>
+            By default, the layout is set to <see cref="F:FluentUI.Blazor.Community.Components.ImageGroupLayout.Spread"/>.
+            </remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroup.VisibleCount">
+            <summary>
+            Gets the number of visible items.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Add(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
+            <summary>
+            Add an image into the group.
+            </summary>
+            <param name="imageGroupItem">Image to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.Remove(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
+            <summary>
+            Remove an image from the group.
+            </summary>
+            <param name="imageGroupItem"></param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetSpreadMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
+            <summary>
+            Gets the margin left for the spread layout.
+            </summary>
+            <param name="imageGroupItem">Image where the margin left will be set.</param>
+            <returns>Returns the margin left.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetStackMarginLeft(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
+            <summary>
+            Gets the margin left for the stack layout.
+            </summary>
+            <param name="imageGroupItem">Image where the margin left will be set.</param>
+            <returns>Returns the margin left.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.IsInPopover(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
+            <summary>
+            Gets a value indicating if the current image is inside the popover.
+            </summary>
+            <param name="imageGroupItem">Image to check if it is inside a popover.</param>
+            <returns>Returns <see langword="true" /> if the image is inside a popover, <see langword="false" /> otherwise.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.GetButtonStyle">
+            <summary>
+            Gets the style of the popover button.
+            </summary>
+            <returns>Returns the style of the button.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroup.OnItemParemetersChanged(FluentUI.Blazor.Community.Components.FluentCxImageGroupItem)">
+            <summary>
+            Occurs when a parameter of a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem"/> changed.
+            </summary>
+            <param name="imageGroupItem">Image which the parameters have changed.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem">
+            <summary>
+            Represents an image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem._hasParameterChanged">
+            <summary>
+            Represents a value indicating if a parameter has changed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Source">
+            <summary>
+            Gets or sets the source of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Alt">
+            <summary>
+            Gets or sets the alt property.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Title">
+            <summary>
+            Gets or sets the title property.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.Parent">
+            <summary>
+            Gets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.InternalStyle">
+            <summary>
+            Gets the style of the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.GetMarginLeft">
+            <summary>
+            Gets the margin-left of the component.
+            </summary>
+            <returns>Returns the margin-left of the component.</returns>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.InternalRenderer">
+            <summary>
+            Gets or sets the internal renderer for the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.OnParametersSet">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxImageGroupItem.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ImageGroupLayout">
+            <summary>
+            Represents the layout of the image group.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageGroupLayout.Spread">
+            <summary>
+            The images are represented in a spread way in the group.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageGroupLayout.Stack">
+            <summary>
+            The images are represented in an horizontal stack in the group.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ImageShape">
+            <summary>
+            Represents the shape of the image.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageShape.Square">
+            <summary>
+            The image is square.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageShape.RoundSquare">
+            <summary>
+            The image is round square.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageShape.Circle">
+            <summary>
+            The image is circle.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ImageShapeExtensions">
+            <summary>
+            Extensions for the <see cref="T:FluentUI.Blazor.Community.Components.ImageShape"/> enum.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ImageShapeExtensions.ToBorderRadius(FluentUI.Blazor.Community.Components.ImageShape)">
+            <summary>
+            Converts the <see cref="T:FluentUI.Blazor.Community.Components.ImageShape"/> to a CSS class.
+            </summary>
+            <param name="shape">The image shape.</param>
+            <returns>The CSS class representing the image shape.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ImageSize">
+            <summary>
+            Represents the sizes options for the image group.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size16">
+            <summary>
+            Uniform size : 16px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size20">
+            <summary>
+            Uniform size : 20px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size24">
+            <summary>
+            Uniform size : 24px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size28">
+            <summary>
+            Uniform size : 28px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size32">
+            <summary>
+            Uniform size : 32px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size36">
+            <summary>
+            Uniform size : 36px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size40">
+            <summary>
+            Uniform size : 40px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size48">
+            <summary>
+            Uniform size : 48px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size56">
+            <summary>
+            Uniform size : 56px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size64">
+            <summary>
+            Uniform size : 64px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size72">
+            <summary>
+            Uniform size : 72px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size96">
+            <summary>
+            Uniform size : 96px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size120">
+            <summary>
+            Uniform size : 120px.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ImageSize.Size128">
+            <summary>
+            Uniform size : 128px.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.Internal.ChildComponentValueEqualityComparer`1">
             <summary>
             Represents the comparer for a value item of a component.
@@ -13420,6 +13709,22 @@
         <member name="M:FluentUI.Blazor.Community.Components.RgbaColor.ToString">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.AzureBlobImageStrategy">
+            <summary>
+            Provides an image source strategy for retrieving image data from Azure Blob Storage.
+            </summary>
+            <remarks>This strategy is designed to handle URLs pointing to Azure Blob Storage resources.  It determines
+            whether a given URL can be processed and retrieves the image data as a byte array.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.AzureBlobImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.AzureBlobImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.AzureBlobImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy">
             <summary>
             Represents a strategy for handling Base64-encoded image URLs.
@@ -13457,6 +13762,24 @@
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.GoogleCloudImageStrategy">
+            <summary>
+            Provides an implementation of <see cref="T:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy"/> for handling image URLs hosted on Google Cloud
+            Storage.
+            </summary>
+            <remarks>This strategy is specifically designed to handle URLs that point to objects in Google Cloud Storage,
+            identified by the presence of "storage.googleapis.com" in the URL. It uses the Google Cloud Storage API to fetch the
+            image bytes.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.GoogleCloudImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.GoogleCloudImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.GoogleCloudImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy">
@@ -13627,6 +13950,37 @@
             <param name="mimeType">When the method returns, contains the MIME type corresponding to the encoded image format.  If the format is not
             recognized, the MIME type defaults to "image/jpeg".</param>
             <returns>A byte array containing the encoded image data.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy">
+            <summary>
+            Provides an implementation of <see cref="T:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy"/> for handling image retrieval from Amazon S3.
+            </summary>
+            <remarks>This strategy is designed to handle URLs that point to Amazon S3 resources, specifically those
+            containing ".s3.amazonaws.com" in the URL. It uses an <see cref="T:Amazon.S3.IAmazonS3"/> client to fetch the image
+            data.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy._s3Client">
+            <summary>
+            Represents the S3 client used to fetch images.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy.#ctor(Amazon.S3.IAmazonS3)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottieProvider.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottieProvider.DisposeAsync">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.EffectBuilder">
             <summary>
