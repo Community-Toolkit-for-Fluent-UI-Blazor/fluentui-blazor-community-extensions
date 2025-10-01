@@ -36,7 +36,7 @@ public class IpfsImageStrategy : IImageSourceStrategy
         catch (Exception ex)
         {
             logger.LogWarning(ex, $"IPFS fetch failed for {url}");
-            return null;
+            return [];
         }
     }
 }
