@@ -1,0 +1,35 @@
+﻿@page "/signature"
+
+@using FluentUI.Blazor.Community.Components
+@using FluentUI.Demo.Shared.Pages.Signature.Examples
+
+<h1>Signature</h1>
+
+<p>
+    The Signature component allows users to draw and capture signatures or other freehand drawings using a mouse, stylus, or touch input.
+    It provides a user-friendly interface for creating and managing digital signatures, making it suitable for applications that require signature capture functionality.
+
+    Many options are available to customize the appearance and behavior of the signature component, including pen styles, grid settings, watermark options, and export formats.
+    Each options is displayed on the right inside a panel.
+
+    The component also includes a menu with buttons for various actions, such as exporting the signature, switching between pen and eraser tools, adjusting settings, and clearing the canvas.
+    The menu can be configured to show or hide specific buttons based on the application's requirements.
+
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(SignatureDefault)" Title="Default" />
+
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(FluentCxSignature)" />
+<ApiDocumentation Component="typeof(MenuOptions)" />
+<ApiDocumentation Component="typeof(SignatureEraserOptions)" />
+<ApiDocumentation Component="typeof(SignaturePenOptions)" />
+<ApiDocumentation Component="typeof(SignatureExportOptions)" />
+<ApiDocumentation Component="typeof(SignatureOptions)" />
+<ApiDocumentation Component="typeof(SignatureGridOptions)" />
+<ApiDocumentation Component="typeof(SignatureWatermarkOptions)" />
+
