@@ -32,9 +32,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\Signature\Old\**" />
+    <Compile Remove="Components\Signature\ToDelete\**" />
     <Compile Remove="Components\TaskBoard\**" />
+    <Content Remove="Components\Signature\Old\**" />
+    <Content Remove="Components\Signature\ToDelete\**" />
     <Content Remove="Components\TaskBoard\**" />
+    <EmbeddedResource Remove="Components\Signature\Old\**" />
+    <EmbeddedResource Remove="Components\Signature\ToDelete\**" />
     <EmbeddedResource Remove="Components\TaskBoard\**" />
+    <None Remove="Components\Signature\Old\**" />
+    <None Remove="Components\Signature\ToDelete\**" />
     <None Remove="Components\TaskBoard\**" />
   </ItemGroup>
 
@@ -70,6 +78,8 @@
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="Svg.Skia" />
     <PackageReference Include="TagLibSharp" />
   </ItemGroup>
 

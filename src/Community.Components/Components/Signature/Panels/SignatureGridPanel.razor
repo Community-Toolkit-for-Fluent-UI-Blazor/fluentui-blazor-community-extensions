@@ -1,0 +1,88 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@implements IDialogContentComponent<(SignatureLabels, SignatureGridOptions)>
+
+<FluentDialogBody>
+   <FluentStack Orientation="Orientation.Vertical"
+                VerticalGap="0"
+                Style="width: 95%">
+        <FluentRadioGroup @bind-Value=Content.Item2.DisplayMode
+                          Orientation="Orientation.Vertical"
+                          Label="@Content.Item1.GridDisplayModeLabel"
+                          AriaLabel="@Content.Item1.GridDisplayModeLabel"
+                          Style="margin-bottom: 20px">
+            <FluentRadio Value=GridDisplayMode.None>
+                @Content.Item1.GridDisplayModeNoneLabel
+            </FluentRadio>
+            <FluentRadio Value=GridDisplayMode.Lines>
+                @Content.Item1.GridDisplayModeLinesLabel
+            </FluentRadio>
+            <FluentRadio Value=GridDisplayMode.Dots>
+                @Content.Item1.GridDisplayModeDotsLabel
+            </FluentRadio>
+        </FluentRadioGroup>
+
+        <FluentTextField TextFieldType="TextFieldType.Color"
+                         Label="@Content.Item1.BackgroundGridColorLabel"
+                         AriaLabel="@Content.Item1.BackgroundGridColorLabel"
+                         @bind-Value=Content.Item2.BackgroundColor
+                         Style="margin-bottom: 20px; width: 100%" />
+
+       <FluentTextField TextFieldType="TextFieldType.Color"
+                         Label="@Content.Item1.GridColorLineLabel"
+                         AriaLabel="@Content.Item1.GridColorLineLabel"
+                         @bind-Value=Content.Item2.Color
+                         Style="margin-bottom: 20px; width: 100%" />
+
+        <FluentSlider Min="10"
+                      Max="100"
+                      Step="10"
+                      Label="@(string.Format(Content.Item1.GridCellSizeLabel, Content.Item2.CellSize))"
+                      AriaLabel="@(string.Format(Content.Item1.GridCellSizeLabel, Content.Item2.CellSize))"
+                      @bind-Value=Content.Item2.CellSize
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="0"
+                      Max="1"
+                      Step="0.01"
+                      Label="@(string.Format(Content.Item1.GridOpacityLabel, Content.Item2.Opacity))"
+                      AriaLabel="@(string.Format(Content.Item1.GridOpacityLabel, Content.Item2.Opacity))"
+                      @bind-Value=Content.Item2.Opacity
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="5"
+                      Max="50"
+                      Step="5"
+                      Label="@(string.Format(Content.Item1.BoldEveryLabel, Content.Item2.BoldEvery))"
+                      AriaLabel="@(string.Format(Content.Item1.BoldEveryLabel, Content.Item2.BoldEvery))"
+                      @bind-Value=Content.Item2.BoldEvery
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="1"
+                      Max="10"
+                      Step="1"
+                      Label="@(string.Format(Content.Item1.StrokeWidthLabel, Content.Item2.StrokeWidth))"
+                      AriaLabel="@(string.Format(Content.Item1.StrokeWidthLabel, Content.Item2.StrokeWidth))"
+                      @bind-Value=Content.Item2.StrokeWidth
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="1"
+                      Max="10"
+                      Step="1"
+                      Label="@(string.Format(Content.Item1.MarginLabel, Content.Item2.Margin))"
+                      AriaLabel="@(string.Format(Content.Item1.MarginLabel, Content.Item2.Margin))"
+                      @bind-Value=Content.Item2.Margin
+                      Style="margin-bottom: 20px" />
+
+        <FluentSlider Min="1"
+                      Max="10"
+                      Step="0.5"
+                      Label="@(string.Format(Content.Item1.PointRadiusLabel, Content.Item2.PointRadius))"
+                      AriaLabel="@(string.Format(Content.Item1.PointRadiusLabel, Content.Item2.PointRadius))"
+                      @bind-Value=Content.Item2.PointRadius
+                      Style="margin-bottom: 20px" />
+
+        <FluentSwitch @bind-Value=Content.Item2.ShowAxes
+                      Label="@Content.Item1.ShowAxesLabel"
+                      AriaLabel="@Content.Item1.ShowAxesLabel" />
+    </FluentStack>
+</FluentDialogBody>

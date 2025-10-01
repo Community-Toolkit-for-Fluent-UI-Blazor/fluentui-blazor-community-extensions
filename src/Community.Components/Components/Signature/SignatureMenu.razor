@@ -1,0 +1,98 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Options.IsVisible)
+{
+    <FluentToolbar Id=@Id Style="width: 100%">
+        @if (Options.ShowExport)
+        {
+            <FluentButton IconStart="@(new Regular.Size24.Save())"
+                          ChildContent="@(IsMobile ? null : _renderLabel(Labels.Export))"
+                          Id="@($"export-button-{Id}")"
+                          OnClick="OnExportClickedAsync"
+                          Title="@Labels.Export"
+                          Appearance="Appearance.Stealth" />
+        }
+
+        @if (Options.ShowEraser)
+        {
+                <FluentButton IconStart="@(_isPenActive ? new Regular.Size24.Edit() : new Regular.Size24.Eraser())"
+                              ChildContent="@(IsMobile ? null : _renderLabel(_isPenActive ? Labels.Pen : Labels.Eraser))"
+                              OnClick="OnPenOrEraserClickedAsync"
+                              Title="@(_isPenActive ? Labels.Pen : Labels.Eraser)"
+                              Appearance="Appearance.Stealth" />
+        }
+
+        @if (Options.ShowUndo)
+        {
+            <FluentButton IconStart="@(new Regular.Size24.ArrowCircleLeft())"
+                          ChildContent="@(IsMobile ? null : _renderLabel(Labels.Undo))"
+                          OnClick="OnUndoClickedAsync"
+                          Title="@Labels.Undo"
+                          Appearance="Appearance.Stealth" />
+        }
+
+        @if (Options.ShowRedo)
+        {
+            <FluentButton IconStart="@(new Regular.Size24.ArrowCircleRight())"
+                          ChildContent="@(IsMobile ? null : _renderLabel(Labels.Redo))"
+                          OnClick="OnRedoClickedAsync"
+                          Title="@Labels.Redo"
+                          Appearance="Appearance.Stealth"/>
+        }
+
+        @if (Options.ShowCustomOptions)
+        {
+            <FluentButton IconStart="@(new Regular.Size24.Settings())"
+                          ChildContent="@(IsMobile ? null : _renderLabel(Labels.Settings))"
+                          OnClick="OnSettingsClicked"
+                          Title="@Labels.Settings"
+                          Id="@($"signature-menu-settings-{Id}")"
+                          Appearance="Appearance.Stealth" />
+        }
+
+        @if (Options.ShowClear)
+        {
+            <FluentButton IconStart="@(new Regular.Size24.Dismiss())"
+                          slot="end"
+                          ChildContent="@(IsMobile ? null : _renderLabel(Labels.Clear))"
+                          OnClick="OnClearClickedAsync"
+                          Title="@Labels.Clear"
+                          Appearance="Appearance.Stealth" />
+        }
+    </FluentToolbar>
+
+    <FluentPopover AnchorId="@($"signature-menu-settings-{Id}")" @bind-Open=_isMultiSettingsPopoverOpen>
+        <Body>
+            <FluentStack Orientation="Orientation.Vertical">
+                <FluentButton Appearance="Appearance.Stealth"
+                              IconStart="@(new Regular.Size24.Grid())"
+                              Style="width: 100%"
+                              OnClick="@OnGridSettingsClickedAsync">
+                    @Labels.GridSettings
+                </FluentButton>
+
+                <FluentButton Appearance="Appearance.Stealth"
+                              IconStart="@(new Regular.Size24.Pen())"
+                              Style="width: 100%"
+                              OnClick="@OnPenSettingsClickedAsync">
+                    @Labels.PenSettings
+                </FluentButton>
+
+                <FluentButton Appearance="Appearance.Stealth"
+                              IconStart="@(new Regular.Size24.Eraser())"
+                              Style="width: 100%"
+                              OnClick="@OnEraserSettingsClickedAsync">
+                    @Labels.EraserSettings
+                </FluentButton>
+
+                <FluentButton Appearance="Appearance.Stealth"
+                              IconStart="@(new Regular.Size24.TextEditStyle())"
+                              Style="width: 100%"
+                              OnClick="@OnWatermarkSettingsClickedAsync">
+                    @Labels.WatermarkSettings
+                </FluentButton>
+            </FluentStack>
+        </Body>
+    </FluentPopover>
+}
