@@ -1,0 +1,8 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id" class="@InternalClass" style="@Style">
+    <SignatureGridLayer @ref=_gridLayer Options="@Options.Grid" />
+    <SignatureInkLayer @ref=_inkLayer PenOptions="@Options.Pen" EraserOptions="@Options.Eraser" />
+    <SignatureOverlayLayer @ref=_overlayLayer Options="@Options.Watermark" />
+</div>

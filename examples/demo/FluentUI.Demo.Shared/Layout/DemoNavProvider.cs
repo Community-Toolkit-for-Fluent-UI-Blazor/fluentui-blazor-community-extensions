@@ -95,9 +95,19 @@ public class DemoNavProvider
                         title: "Image group"
                     ),
                     new NavLink(
+                        href: "lottie",
+                        icon: new Icons.Regular.Size20.Play(),
+                        title: "Lottie player"
+                    ),
+                    new NavLink(
                         href: "pathbar",
                         icon: new Icons.Regular.Size20.Navigation(),
                         title: "Path bar"
+                    ),
+                    new NavLink(
+                        href: "signature",
+                        icon: new Icons.Regular.Size20.Signature(),
+                        title: "Signature"
                     ),
                     new NavLink(
                         href: "sleekdial",
@@ -108,6 +118,11 @@ public class DemoNavProvider
                         href: "slideshow",
                         icon: new Icons.Regular.Size20.SlideTransition(),
                         title: "Slideshow"
+                    ),
+                    new NavLink(
+                        href: "colorpalette",
+                        icon: new Icons.Regular.Size20.Color(),
+                        title: "Color palette"
                     ),
                 ]),
             new NavGroup(

@@ -1,51 +1,49 @@
-﻿<h3>Default</h3>
+﻿<FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
+                  Columns="5"
+                  TItem="TileGridItemSample"
+                  RowHeight="150px">
+    <FluentCxTileGridItem Value="@Item1">
+        <FluentCard>
+            CS : 1 | RS : 1
+        </FluentCard>
+    </FluentCxTileGridItem>
 
-    <FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
-                      Columns="5"
-                      TItem="TileGridItemSample"
-                      RowHeight="150px">
-        <FluentCxTileGridItem Value="@Item1">
-            <FluentCard>
-                CS : 1 | RS : 1
-            </FluentCard>
-        </FluentCxTileGridItem>
+    <FluentCxTileGridItem Value="@Item2" ColumnSpan="3">
+       <FluentCard>
+            CS : 3 | RS : 1
+       </FluentCard>
+    </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Value="@Item2" ColumnSpan="3">
-           <FluentCard>
-                CS : 3 | RS : 1
-           </FluentCard>
-        </FluentCxTileGridItem>
+    <FluentCxTileGridItem Value="@Item3">
+        <FluentCard>
+            CS : 1 | RS : 1
+        </FluentCard>
+    </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Value="@Item3">
-            <FluentCard>
-                CS : 1 | RS : 1
-            </FluentCard>
-        </FluentCxTileGridItem>
+    <FluentCxTileGridItem Value="@Item4" ColumnSpan="5" RowSpan="2">
+        <FluentCard>
+            CS : 5 | RS : 2
+        </FluentCard>
+    </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Value="@Item4" ColumnSpan="5" RowSpan="2">
-            <FluentCard>
-                CS : 5 | RS : 2
-            </FluentCard>
-        </FluentCxTileGridItem>
+    <FluentCxTileGridItem Value="@Item5" ColumnSpan="2" RowSpan="3">
+        <FluentCard>
+            CS : 2 | RS : 3
+        </FluentCard>
+    </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Value="@Item5" ColumnSpan="2" RowSpan="3">
-            <FluentCard>
-                CS : 2 | RS : 3
-            </FluentCard>
-        </FluentCxTileGridItem>
+    <FluentCxTileGridItem Value="@Item6" RowSpan="2">
+        <FluentCard>
+            CS : 1 | RS : 2
+        </FluentCard>
+    </FluentCxTileGridItem>
 
-        <FluentCxTileGridItem Value="@Item6" RowSpan="2">
-            <FluentCard>
-                CS : 1 | RS : 2
-            </FluentCard>
-        </FluentCxTileGridItem>
-
-        <FluentCxTileGridItem Value="@Item7" ColumnSpan="2" RowSpan="3">
-            <FluentCard>
-                CS : 2 | RS : 3
-            </FluentCard>
-        </FluentCxTileGridItem>
-    </FluentCxTileGrid>
+    <FluentCxTileGridItem Value="@Item7" ColumnSpan="2" RowSpan="3">
+        <FluentCard>
+            CS : 2 | RS : 3
+        </FluentCard>
+    </FluentCxTileGridItem>
+</FluentCxTileGrid>
 
 @code {
     private readonly TileGridItemSample Item1 = new()
