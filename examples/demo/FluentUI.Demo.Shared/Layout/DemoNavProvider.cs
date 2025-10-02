@@ -29,17 +29,17 @@ public class DemoNavProvider
                 children:
                 [
                     new NavLink(
-                        href: "/WhatsNew",
+                        href: "WhatsNew",
                         icon: new Icons.Regular.Size20.Info(),
                         title: "What's new"
                     ),
                     new NavLink(
-                        href: "/UpgradeGuide",
+                        href: "UpgradeGuide",
                         icon: new Icons.Regular.Size20.ArrowUp(),
                         title: "Upgrade guide"
                     ),
                     new NavLink(
-                        href: "/CodeSetup",
+                        href: "CodeSetup",
                         icon: new Icons.Regular.Size20.DocumentOnePageSparkle(),
                         title: "Code setup"
                     ),
