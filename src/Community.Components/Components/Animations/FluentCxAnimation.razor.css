@@ -1,0 +1,6 @@
+.fluentcx-animation {
+  width: var(--animation-width, 100%);
+  height: var(--animation-height, 100%);
+  display: flex;
+  position: relative;
+}
