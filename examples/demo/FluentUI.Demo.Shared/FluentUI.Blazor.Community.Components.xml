@@ -146,6 +146,11 @@
             </summary>
             <returns>Returns the cloned element.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AnimatedElement.ResetStates">
+            <summary>
+            Resets all animation states to <c>null</c>, effectively stopping any ongoing animations for the element.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.AnimatedElementGroup">
             <summary>
             Represents a group of animated elements that can be laid out and animated together.
@@ -1197,7 +1202,7 @@
             Represents a value indicating whether the MaxDisplayedItems parameter has changed.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAnimation._layout">
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAnimation._layouts">
             <summary>
             Represents the layout strategy used for animating elements.
             </summary>
@@ -1307,6 +1312,11 @@
             Gets or sets the event callback that is invoked when the animation is completed.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAnimation.OnLayoutChanged">
+            <summary>
+            Gets or sets the event callback that is invoked when the layout changes.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxAnimation.InternalCss">
             <summary>
             Gets or sets the internal css class for the animation container.
@@ -1350,7 +1360,7 @@
             </summary>
             <param name="group">Group to remove.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAnimation.SetLayout(FluentUI.Blazor.Community.Components.ILayoutStrategy)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAnimation.SetLayoutAsync(FluentUI.Blazor.Community.Components.ILayoutStrategy)">
             <summary>
             Sets the layout strategy for the animation engine.
             </summary>
@@ -1360,10 +1370,11 @@
             <param name="layoutBase">The layout strategy to be applied. This determines how the layout dimensions  are configured and animated.
             Cannot be <see langword="null"/>.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAnimation.RemoveLayout">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAnimation.RemoveLayout(FluentUI.Blazor.Community.Components.ILayoutStrategy)">
             <summary>
             Removes the current layout strategy from the animation engine.
             </summary>
+            <param name="value">The layout to remove from the component.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxAnimation.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
@@ -1431,9 +1442,6 @@
             </summary>
             <returns>Returns a task which starts the animation when completed.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAnimation.OnInitialized">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.AnimatedLayoutBase">
             <summary>
             Represents the base class for animated layout strategies used in conjunction with <see cref="T:FluentUI.Blazor.Community.Components.FluentCxAnimation"/> and <see cref="T:FluentUI.Blazor.Community.Components.AnimationGroup"/> components.
@@ -1496,7 +1504,7 @@
             Gets or sets a callback that is invoked when the <see cref="P:FluentUI.Blazor.Community.Components.AnimatedLayoutBase.Immediate"/> property changes.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.AnimatedLayoutBase.OnInitialized">
+        <member name="M:FluentUI.Blazor.Community.Components.AnimatedLayoutBase.OnInitializedAsync">
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.AnimatedLayoutBase.ApplyLayout(System.Collections.Generic.List{FluentUI.Blazor.Community.Components.AnimatedElement})">
@@ -1891,7 +1899,7 @@
             MorphingLayout does not support immediate changes. Attempting to set this property to true will result in a NotSupportedException.
             </remarks>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.MorphingLayout.OnInitialized">
+        <member name="M:FluentUI.Blazor.Community.Components.MorphingLayout.OnInitializedAsync">
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.MorphingLayout.ApplyLayout(System.Collections.Generic.List{FluentUI.Blazor.Community.Components.AnimatedElement})">

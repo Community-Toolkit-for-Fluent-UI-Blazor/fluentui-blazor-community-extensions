@@ -256,4 +256,20 @@ public class AnimatedElement
             Value = Value
         };
     }
+
+    /// <summary>
+    /// Resets all animation states to <c>null</c>, effectively stopping any ongoing animations for the element.
+    /// </summary>
+    public void ResetStates()
+    {
+        OffsetXState = null;
+        OffsetYState = null;
+        ScaleXState = null;
+        ScaleYState = null;
+        RotationState = null;
+        ColorState = null;
+        BackgroundColorState = null;
+        OpacityState = null;
+        ValueState = null;
+    }
 }

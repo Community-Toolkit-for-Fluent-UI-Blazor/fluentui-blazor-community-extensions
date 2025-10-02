@@ -75,9 +75,9 @@ public abstract class AnimatedLayoutBase
     public EventCallback<bool> ImmediateChanged { get; set; }
 
     /// <inheritdoc />
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
 
         if (MorphingLayout is not null)
         {
@@ -92,9 +92,9 @@ public abstract class AnimatedLayoutBase
         {
             Group.SetLayout(this);
         }
-        else
+        else if (Animation is not null)
         {
-            Animation?.SetLayout(this);
+           await Animation.SetLayoutAsync(this);
         }
     }
 
@@ -165,7 +165,7 @@ public abstract class AnimatedLayoutBase
     public void Dispose()
     {
         Group?.RemoveLayout();
-        Animation?.RemoveLayout();
+        Animation?.RemoveLayout(this);
         MorphingLayout?.Remove(this);
 
         GC.SuppressFinalize(this);

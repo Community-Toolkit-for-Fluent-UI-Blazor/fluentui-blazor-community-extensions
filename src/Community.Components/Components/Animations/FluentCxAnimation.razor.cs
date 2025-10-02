@@ -27,7 +27,7 @@ public partial class FluentCxAnimation
     /// <summary>
     /// Represents the layout strategy used for animating elements.
     /// </summary>
-    private ILayoutStrategy? _layout;
+    private readonly List<ILayoutStrategy> _layouts = [];
 
     /// <summary>
     /// Represents the javascript module file path for animation handling.
@@ -152,6 +152,12 @@ public partial class FluentCxAnimation
     public EventCallback OnAnimationCompleted { get; set; }
 
     /// <summary>
+    /// Gets or sets the event callback that is invoked when the layout changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnLayoutChanged { get; set; }
+
+    /// <summary>
     /// Gets or sets the internal css class for the animation container.
     /// </summary>
     private string? InternalCss => new CssBuilder(Class)
@@ -225,19 +231,26 @@ public partial class FluentCxAnimation
     /// requirements.</remarks>
     /// <param name="layoutBase">The layout strategy to be applied. This determines how the layout dimensions  are configured and animated.
     /// Cannot be <see langword="null"/>.</param>
-    internal void SetLayout([DisallowNull] ILayoutStrategy layoutBase)
+    internal async Task SetLayoutAsync([DisallowNull] ILayoutStrategy layoutBase)
     {
-        _layout = layoutBase;
-        _layout.SetDimensions(Width, Height);
-        _animationEngine.SetLayout(_layout);
+        if(_layouts.Contains(layoutBase))
+        {
+            return;
+        }
+
+        _layouts.Add(layoutBase);
+        layoutBase.SetDimensions(Width, Height);
+        _animationEngine.SetLayout(layoutBase);
+        await InvokeAsync(OnLayoutChanged);
     }
 
     /// <summary>
     /// Removes the current layout strategy from the animation engine.
     /// </summary>
-    internal void RemoveLayout()
+    /// <param name="value">The layout to remove from the component.</param>
+    internal void RemoveLayout([DisallowNull] ILayoutStrategy value)
     {
-        _layout = null;
+        _layouts.Remove(value);
     }
 
     /// <inheritdoc />
@@ -271,7 +284,7 @@ public partial class FluentCxAnimation
         if (_hasSizeChanged)
         {
             _hasSizeChanged = false;
-            _layout?.SetDimensions(Width, Height);
+            _layouts.ForEach(l => l.SetDimensions(Width, Height));
         }
 
         if (_hasMaxDisplayedItemsChanged)
@@ -288,7 +301,7 @@ public partial class FluentCxAnimation
     [JSInvokable("OnLoopCompleted")]
     public async Task OnLoopCompletedAsync()
     {
-        _layout?.ApplyStartTime(DateTime.Now);
+        _layouts.ForEach(m => m.ApplyStartTime(DateTime.Now));
         await InvokeAsync(OnAnimationLooped);
     }
 
@@ -298,7 +311,7 @@ public partial class FluentCxAnimation
     [JSInvokable("OnAnimationCompleted")]
     public async Task OnAnimationCompletedAsync()
     {
-        if (_layout is MorphingLayout ml)
+        if (_layouts.Count > 0 && _layouts[0] is MorphingLayout ml)
         {
             if (ml.NextLayout())
             {
@@ -419,7 +432,7 @@ public partial class FluentCxAnimation
     {
         _immediate = immediate;
         await StopAsync();
-        await SetDurationAsync(immediate ? 0 : (_layout?.Duration.TotalMilliseconds ?? 500));
+        await SetDurationAsync(immediate || _layouts.Count == 0 ? 0 : _layouts[0].Duration.TotalMilliseconds);
 
         if (_isRendered)
         {
@@ -439,20 +452,12 @@ public partial class FluentCxAnimation
         {
             await _module.InvokeVoidAsync("startAnimation", Id, _dotNetRef, new
             {
-                duration = _immediate ? 0 : (_layout?.Duration.TotalMilliseconds ?? 500),
+                duration = _immediate || _layouts.Count == 0 ? 0 : _layouts[0].Duration.TotalMilliseconds,
                 loop = Loop,
                 speed = 1.0
             });
         }
 
         await InvokeAsync(OnAnimationStarted);
-    }
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        SetLayout(new BindStackLayout());
     }
 }

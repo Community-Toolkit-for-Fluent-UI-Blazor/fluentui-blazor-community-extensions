@@ -84,6 +84,8 @@ public sealed class AnimationEngine
     internal void SetLayout(ILayoutStrategy? layoutStrategy)
     {
         _layoutStrategy = layoutStrategy ?? new BindStackLayout();
+        _elements.ForEach(e => e.ResetStates());
+        _previousElements.Values.ToList().ForEach(e => e.ResetStates());
     }
 
     /// <summary>

@@ -96,7 +96,7 @@ public class FluentCxAnimationTests : TestBase
     }
 
     [Fact]
-    public void SetLayout_Sets_LayoutStrategy_And_Dimensions()
+    public void SetLayout_Sets_layoutsStrategy_And_Dimensions()
     {
         var cut = RenderComponent<FluentCxAnimation>(
             p => p.Add(x => x.Layout, builder =>
@@ -105,14 +105,15 @@ public class FluentCxAnimationTests : TestBase
                 builder.CloseComponent();
             }));
 
-        var layout = cut.Instance.GetType().GetField("_layout", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance);
+        var layout = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as List<AnimatedLayoutBase>;
 
         Assert.NotNull(layout);
-        Assert.IsType<BindStackLayout>(layout);
+        Assert.Single(layout);
+        Assert.IsType<BindStackLayout>(layout[0]);
     }
 
     [Fact]
-    public void RemoveLayout_Sets_LayoutStrategy_Null()
+    public void RemoveLayout_Sets_layoutsStrategy_Null()
     {
         var cut = RenderComponent<FluentCxAnimation>(
             p => p.Add(x => x.Layout, builder =>
@@ -121,13 +122,17 @@ public class FluentCxAnimationTests : TestBase
                 builder.CloseComponent();
             }));
 
-        cut.Instance.RemoveLayout();
+        var layouts = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as List<AnimatedLayoutBase>;
 
-        Assert.Null(cut.Instance.GetType().GetField("_layout", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance));
+        Assert.NotNull(layouts);
+        Assert.Single(layouts);
+        cut.Instance.RemoveLayout(layouts.First());
+
+        Assert.Empty(cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as List<AnimatedLayoutBase>);
     }
 
     [Fact]
-    public async Task OnLoopCompleted_Resets_LayoutStrategy_StartTime()
+    public async Task OnLoopCompleted_Resets_layoutsStrategy_StartTime()
     {
         var cut = RenderComponent<FluentCxAnimation>(
             p => p.Add(x => x.Layout, builder =>
@@ -136,7 +141,8 @@ public class FluentCxAnimationTests : TestBase
                 builder.CloseComponent();
             }));
 
-        var layout = cut.Instance.GetType().GetField("_layout", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as BindStackLayout;
+        var layouts = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as List<AnimatedLayoutBase>;
+        var layout = layouts.First();
         await cut.Instance.OnLoopCompletedAsync();
 
         Assert.Equal(DateTime.Now, layout.StartTime, TimeSpan.FromMilliseconds(1));
@@ -161,7 +167,7 @@ public class FluentCxAnimationTests : TestBase
         }));
 
         await cut.Instance.OnAnimationCompletedAsync();
-        var layout = cut.Instance.GetType().GetField("_layout", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance);
+        var layout = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance);
         var _currentLayoutIndex = typeof(MorphingLayout).GetField("_currentLayoutIndex", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(layout);
 
         Assert.Equal(0, _currentLayoutIndex);

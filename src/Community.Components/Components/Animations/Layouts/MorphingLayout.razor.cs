@@ -94,11 +94,14 @@ public sealed partial class MorphingLayout
     public bool Immediate { get; set; }
 
     /// <inheritdoc />
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
 
-        Parent?.SetLayout(this);
+        if (Parent is not null)
+        {
+            await Parent.SetLayoutAsync(this);
+        }
     }
 
     /// <inheritdoc />
@@ -207,7 +210,7 @@ public sealed partial class MorphingLayout
         }
 
         _layouts.Clear();
-        Parent?.RemoveLayout();
+        Parent?.RemoveLayout(this);
     }
 
     /// <inheritdoc />
