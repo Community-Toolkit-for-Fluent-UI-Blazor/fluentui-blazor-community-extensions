@@ -17,6 +17,11 @@ public interface ILayoutStrategy
     TimeSpan Duration { get; set; }
 
     /// <summary>
+    /// Gets the start time of the current layout.
+    /// </summary>
+    DateTime StartTime { get; }
+
+    /// <summary>
     /// Applies the layout strategy to the provided list of animated elements.
     /// </summary>
     /// <param name="elements">Elements to animate within this layout instance.</param>

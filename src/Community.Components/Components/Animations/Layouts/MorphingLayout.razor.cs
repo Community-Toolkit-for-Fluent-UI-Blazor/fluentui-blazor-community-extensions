@@ -38,11 +38,6 @@ public sealed partial class MorphingLayout
     private int _currentLayoutIndex;
 
     /// <summary>
-    /// Represents the start time of the current layout transition.
-    /// </summary>
-    private DateTime _startTime;
-
-    /// <summary>
     /// Gets or sets the child content to be rendered inside this component.
     /// </summary>
     [Parameter]
@@ -59,6 +54,11 @@ public sealed partial class MorphingLayout
     /// </summary>
     [Parameter]
     public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(500);
+
+    /// <summary>
+    /// Gets the start time of the current layout.
+    /// </summary>
+    public DateTime StartTime { get; private set; }
 
     /// <summary>
     /// Gets or sets the width of the container where the layout is applied.
@@ -194,7 +194,7 @@ public sealed partial class MorphingLayout
     /// <inheritdoc />
     public void ApplyStartTime(DateTime now)
     {
-        _startTime = now;
+        StartTime = now;
         _fromLayout?.ApplyStartTime(now);
         _toLayout?.ApplyStartTime(now);
     }
@@ -263,7 +263,7 @@ public sealed partial class MorphingLayout
             StartValue = startValue,
             EndValue = endValue,
             Duration = Duration,
-            StartTime = _startTime,
+            StartTime = StartTime,
             EasingFunction = EasingFunction,
             EasingMode = EasingMode
         };

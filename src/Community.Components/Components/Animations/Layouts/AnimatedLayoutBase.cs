@@ -45,7 +45,7 @@ public abstract class AnimatedLayoutBase
     /// <summary>
     /// Gets the start time of the current layout application.
     /// </summary>
-    protected internal DateTime StartTime { get; private set; }
+    public DateTime StartTime { get; private set; }
 
     /// <inheritdoc />
     [Parameter]

@@ -819,6 +819,11 @@
             Gets or sets the duration of the layout animation.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ILayoutStrategy.StartTime">
+            <summary>
+            Gets the start time of the current layout.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ILayoutStrategy.ApplyLayout(System.Collections.Generic.List{FluentUI.Blazor.Community.Components.AnimatedElement})">
             <summary>
             Applies the layout strategy to the provided list of animated elements.
@@ -1851,11 +1856,6 @@
             Represents the index of the current layout in the sequence.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.MorphingLayout._startTime">
-            <summary>
-            Represents the start time of the current layout transition.
-            </summary>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.MorphingLayout.ChildContent">
             <summary>
             Gets or sets the child content to be rendered inside this component.
@@ -1869,6 +1869,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.MorphingLayout.Duration">
             <summary>
             Gets or sets the duration of the layout transition animation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MorphingLayout.StartTime">
+            <summary>
+            Gets the start time of the current layout.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.MorphingLayout.Width">
