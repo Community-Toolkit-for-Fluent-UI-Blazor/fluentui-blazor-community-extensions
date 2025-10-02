@@ -1,7 +1,44 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Welcome</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new Fluent Blazor app.
+<h1>Welcome!</h1>
+<p>
+	The FluentUI Blazor Community Extensions library provides additional components which build on top of the official <a href="https://github.com/microsoft/fluentui-blazor" target="_blank">Microsoft Fluent UI Blazor library</a>
+</p>
+
+<p>
+	To get up and running with the <code>FluentUI.Blazor.Community.Components</code> library, see the <a href="/CodeSetup">Getting Started</a> section.
+</p>
+
+<h2 id="interactivity">Components & render modes</h2>
+<p>
+	As described in the <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes?view=aspnetcore-9.0" target="_blank"> Blazor documentation</a>:
+</p>
+<blockquote>
+	By default, components use Static Server-side rendering (SSR). The component renders to the response stream and there is no interactivity.
+</blockquote>
+<p>
+	A component inherits its render mode from its parent. So unless a render mode is specified on the app, page or component level, every
+	component (including ours) is <em>statically rendered</em> on the server and <strong>will not be interactive</strong>. For the
+	Fluent UI Blazor library this means most components will display correctly but <strong>will not offer</strong> complete, if any, functionality.
+</p>
+
+
+<h2 id="support">Support</h2>
+<p>
+	The FluentUI Blazor Community Extensions library is an open-source project. The source code (including this demo site) is hosted in the <a href="https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions">fluentui-blazor-community-extensions</a>
+	repository at GitHub.
+</p>
+
+<h2 id="joining-the-community">Joining the Community</h2>
+<p>
+	Looking to get answers to questions or engage with us in real-time?
+	<ul>
+		<li>Submit requests and issues on <a target="top" href="https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/issues/new/choose">GitHub</a> <strong>only</strong>.</li>
+		<li>Contribute by helping out on some of our recommended first issues on <a target="top" href="https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/labels/community:good-first-issue">GitHub</a>.</li>
+	</ul>
+</p>
+<p>We look forward to building an amazing open source community with you!</p>
+
