@@ -1,0 +1,68 @@
+﻿@using FluentUI.Blazor.Community
+@using Microsoft.FluentUI.AspNetCore.Components.Extensions
+
+<div class="height: 500px">
+    <FluentStack Style="margin-bottom: 20px">
+        <FluentSwitch @bind-Value="_showShadow" Label="Show Shadow" AriaLabel="Show Shadow" />
+        <FluentSwitch @bind-Value="_grayscale" Label="Grayscale" AriaLabel="Grayscale" />
+        <FluentSwitch @bind-Value="_sepia" Label="Sepia" AriaLabel="Sepia" />
+        <FluentSwitch @bind-Value="_opacity" Label="Opacity" AriaLabel="Opacity" />
+        <FluentSwitch @bind-Value="_blur" Label="Blur" AriaLabel="Blur" />
+    </FluentStack>
+
+
+    <FluentCxPicture Caption="This is a caption for the FluentCxPicture"
+                     Source="./_content/FluentUI.Demo.Shared/pictures/red.png"
+                     Shadow="@(_showShadow ? _shadow : null)"
+                     Effects="@GetEffects()">
+        <ResponsiveContent>
+            <ResponsiveImage Source="./_content/FluentUI.Demo.Shared/pictures/butterfly.png" ContentType="image/png" Media="(max-width: 600px)" />
+            <ResponsiveImage Source="./_content/FluentUI.Demo.Shared/pictures/morpho.png" ContentType="image/png" Media="(max-width: 800px)" />
+            <ResponsiveImage Source="./_content/FluentUI.Demo.Shared/pictures/monarch.png" ContentType="image/png" Media="(min-width: 801px) and (max-width: 1100px)" />
+        </ResponsiveContent>
+    </FluentCxPicture>
+</div>
+
+@code {
+    private bool _showShadow;
+    private bool _grayscale;
+    private bool _sepia;
+    private bool _opacity;
+    private bool _blur;
+
+    private string? GetEffects()
+    {
+        var effects = new EffectBuilder();
+
+        if (_grayscale)
+        {
+            effects.AddGrayscale(0.75);
+        }
+
+        if (_sepia)
+        {
+            effects.AddSepia(0.3);
+        }
+
+        if (_blur)
+        {
+            effects.AddBlur(3, LengthUnit.Pixels);
+        }
+
+        if (_opacity)
+        {
+            effects.AddOpacity(0.5);
+        }
+
+        return effects.Build();
+    }
+
+    private readonly Shadow _shadow = new Shadow
+    {
+        OffsetX = new(5),
+        OffsetY = new(5),
+        BlurRadius = new(10),
+        SpreadRadius = new(0),
+        Color = new(0, 0, 0, 0.3)
+    };
+}
