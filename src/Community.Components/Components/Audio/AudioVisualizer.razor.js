@@ -53,6 +53,7 @@ function initialize(id, audioElement, mode, cover, color) {
   const source = audioCtx.createMediaElementSource(audio);
   source.connect(analyser);
   analyser.connect(audioCtx.destination);
+  analyser.fftSize = 2048;
 
   audio.addEventListener("play", () => {
     if (audioCtx.state === "suspended") {
@@ -80,7 +81,9 @@ function initialize(id, audioElement, mode, cover, color) {
     analyzer: analyser,
     bufferLength: bufferLength,
     dataArray: dataArray,
-    audioCtx: audioCtx
+    audioCtx: audioCtx,
+    hueBase: 200,
+    time: 0
   };
 }
 
@@ -103,6 +106,7 @@ function setMode(id, mode) {
     const circles = instance.circles;
     const constellations = instance.constellations;
     const color = instance.color;
+    let last = performance.now();
 
     function drawBranch(x, y, len, angle, depth, freq) {
       if (depth === 0) return;
@@ -121,10 +125,14 @@ function setMode(id, mode) {
 
     function draw() {
       requestAnimationFrame(draw);
-      analyser.getByteFrequencyData(dataArray);
+      const now = performance.now();
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      instance.time += dt;
       analyser.smoothingTimeConstant = 0.85;
-      ctx.clearRect(0, 0, width, height);
       analyser.getByteFrequencyData(dataArray);
+
+      ctx.clearRect(0, 0, width, height);
 
       if (mode === spectrum) {
         const barWidth = 4;
@@ -157,65 +165,77 @@ function setMode(id, mode) {
         ctx.stroke();
       }
       else if (mode === spatial) {
-        analyser.getByteFrequencyData(dataArray);
-
         const bass = bandEnergy(dataArray, 20, 200) / 255;
         const mid = bandEnergy(dataArray, 200, 2000) / 255;
         const high = bandEnergy(dataArray, 2000, 12000) / 255;
-        let speed = 0.01 + bass * 0.1;
-        if (bass > 0.6) {
-          speed *= 3;
-        }
 
-        ctx.fillStyle = "rgba(0,0,0,0.1)";
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = 'rgba(5, 8, 12, 0.35)';
         ctx.fillRect(0, 0, width, height);
+
+        const maxR = Math.hypot(centerX, centerY);
+        const breathing = 1 + Math.sin(instance.time * 2.4) * (0.05 + bass * 0.12);
+        const rotation = instance.time * (0.15 + high * 0.4);
+        instance.hueBase = (instance.hueBase + (20 + mid * 120) * dt) % 360;
+
         ctx.save();
         ctx.translate(centerX, centerY);
+        ctx.rotate(rotation);
+        ctx.scale(breathing, 1);
 
+        const ringCount = 18;
+        for (let i = 0; i < ringCount; i++) {
+          const t = i / ringCount;
+          const radius = 30 + t * maxR * 0.95;
+          const widthRing = 6 + t * 22 * (0.4 + mid);
+          const hue = (instance.hueBase + i * 10) % 360;
+          const alpha = 0.06 + (1 - t) * (0.10 + high * 0.10);
+
+          const g = ctx.createRadialGradient(0, 0, radius - widthRing, 0, 0, radius + widthRing);
+          g.addColorStop(0, `hsla(${hue}, 90%, 65%, 0)`);
+          g.addColorStop(0.5, `hsla(${hue}, 90%, 65%, ${alpha})`);
+          g.addColorStop(1, `hsla(${hue}, 90%, 65%, 0)`);
+
+          ctx.strokeStyle = g;
+          ctx.lineWidth = widthRing;
+          ctx.beginPath();
+          ctx.arc(0, 0, radius, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.shadowBlur = 8;
+
+        const starSpeed = 0.9 + bass * 2.0;
         for (const s of stars) {
-          s.z -= speed;
-
-          if (s.z < 0.1) {
+          s.z -= 0.008 * starSpeed;
+          if (s.z < 0.12) {
             s.x = (Math.random() - 0.5) * width;
             s.y = (Math.random() - 0.5) * height;
             s.z = 1;
           }
 
-          const angle = mid * 0.05;
-          const cosA = Math.cos(angle);
-          const sinA = Math.sin(angle);
+          const a = mid * 0.03;
+          const cosA = Math.cos(a), sinA = Math.sin(a);
           const rx = s.x * cosA - s.y * sinA;
           const ry = s.x * sinA + s.y * cosA;
-          s.x = rx;
-          s.y = ry;
+          s.x = rx; s.y = ry;
 
           const px = s.x / s.z;
           const py = s.y / s.z;
-          const rawSize = (1 - s.z) * (2 + mid * 4);
-          const size = Math.max(0.5, rawSize);
-          const hue = 180 + Math.floor(150 * high);
-          const lightness = 50 + bass * 30;
-
-          ctx.fillStyle = `hsl(${hue}, 100%, ${lightness}%)`;
-          ctx.shadowBlur = 20;
+          const size = Math.max(0.5, (1 - s.z) * (1.5 + high * 2.5));
+          const hue = (instance.hueBase + s.z * 120) % 360;
+          ctx.fillStyle = `hsl(${hue}, 90%, ${60 + bass * 30}%)`;
           ctx.shadowColor = ctx.fillStyle;
 
           ctx.beginPath();
           ctx.arc(px, py, size, 0, Math.PI * 2);
           ctx.fill();
         }
-
         ctx.restore();
-
-        // Nebulas
-        ctx.globalAlpha = 0.1 + high * 0.3;
-        const nebulaHue = 280 + high * 80;
-        const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, width / 2);
-        gradient.addColorStop(0, `hsla(${nebulaHue}, 100%, 60%, 0.6)`);
-        gradient.addColorStop(1, "transparent");
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, width, height);
-        ctx.globalAlpha = 1;
       }
       else if (mode === vortex) {
         analyser.getByteFrequencyData(dataArray);
