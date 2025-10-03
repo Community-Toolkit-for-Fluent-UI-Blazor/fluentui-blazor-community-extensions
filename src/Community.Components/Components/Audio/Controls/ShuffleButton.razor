@@ -1,0 +1,7 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentButton Appearance="Appearance.Stealth"
+              IconStart="@(_isShuffling ? ShuffleOnIcon : ShuffleOffIcon)"
+              Title="@(_isShuffling ? ShuffleOnLabel : ShuffleOffLabel)"
+              OnClick="@OnToggleShuffleAsync" />    

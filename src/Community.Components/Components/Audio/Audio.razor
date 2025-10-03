@@ -1,0 +1,15 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<audio id="@Id"
+       preload="metadata"
+       style="display: none;"
+       @key=@Id
+       @ref="Element"></audio>
+
+@code {
+    public Audio()
+    {
+        Id = $"audio-{Identifier.NewId()}";
+    }
+}

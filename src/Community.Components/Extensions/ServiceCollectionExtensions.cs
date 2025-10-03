@@ -20,6 +20,8 @@ public static class ServiceCollectionExtensions
                        .AddScoped<FileManagerState>()
                        .AddScoped<DeviceInfoState>()
                        .AddScoped<LottieState>()
-                       .AddSingleton<ObserverService>();
+                       .AddSingleton<ObserverService>()
+                       .AddScoped<DeviceInfoState>()
+                       .AddScoped<IAudioMetadataProvider, AudioMetadataProvider>();
     }
 }

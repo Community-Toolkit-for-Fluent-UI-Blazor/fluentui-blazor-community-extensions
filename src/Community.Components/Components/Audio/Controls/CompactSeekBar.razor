@@ -1,0 +1,16 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div class="compact-seekbar-container @Class"
+     style="@Style"
+     tabindex="0"
+     id="@Id"
+     @ref="Element"
+     role="slider"
+     aria-valuemin="0"
+     aria-valuemax="@Duration"
+     aria-valuenow="@CurrentTime">
+    <div class="compact-seekbar-track">
+        <div class="compact-seekbar-progress" style="width:@Progression"></div>
+    </div>
+</div>
