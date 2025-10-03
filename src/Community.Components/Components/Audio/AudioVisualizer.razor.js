@@ -261,7 +261,6 @@ function setMode(id, mode) {
             s.z = Math.random() * 0.8 + 0.2;
           }
 
-          // Rotation en spirale
           const angle = Math.atan2(s.y, s.x);
           const radius = Math.sqrt(s.x * s.x + s.y * s.y);
           const newAngle = angle + rotationSpeed;
