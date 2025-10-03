@@ -13035,6 +13035,11 @@
             Gets or sets the parent of the component.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.InternalStyle">
+            <summary>
+            Gets the computed CSS style string with enforced layout constraints for internal use.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.OnResizedAsync(FluentUI.Blazor.Community.Components.ResizedEventArgs)">
             <summary>
             Occurs when the tile is resized in an asynchronous way.
