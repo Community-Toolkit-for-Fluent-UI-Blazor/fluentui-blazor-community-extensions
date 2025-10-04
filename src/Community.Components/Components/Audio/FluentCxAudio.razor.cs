@@ -172,6 +172,19 @@ public sealed partial class FluentCxAudio
     private bool IsPlayOrPauseDisabled => CurrentTrack is null;
 
     /// <summary>
+    /// Gets a value indicating whether the audio properties should be disabled.
+    /// </summary>
+    private bool IsPropertiesDisabled => CurrentTrack is null || CurrentTrack.Metadata is null;
+
+    /// <summary>
+    /// Gets a value indicating whether downloading the current track is disabled.
+    /// </summary>
+    /// <remarks>Downloading is disabled if there is no current track selected or if the current track does
+    /// not have a valid source. This property can be used to determine whether download-related UI elements should be
+    /// enabled.</remarks>
+    private bool IsDownloadDisabled => CurrentTrack is null || string.IsNullOrWhiteSpace(CurrentTrack.Source);
+
+    /// <summary>
     /// Gets or sets the render mode of the audio player.
     /// </summary>
     [Parameter]
@@ -212,6 +225,12 @@ public sealed partial class FluentCxAudio
     /// </summary>
     [Parameter]
     public AudioLabels Labels { get; set; } = AudioLabels.Default;
+
+    /// <summary>
+    /// Gets or sets the service used to display dialogs within the component.
+    /// </summary>
+    [Inject]
+    private IDialogService DialogService { get; set; } = default!;
 
     /// <summary>
     /// Occurs when the download button is clicked.
@@ -360,6 +379,28 @@ public sealed partial class FluentCxAudio
 
         await SetAudioSourceAsync();
         await PlayAsync();
+    }
+
+    /// <summary>
+    /// Displays the track properties dialog asynchronously and waits for the user to close it.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of showing the properties dialog and awaiting its closure.</returns>
+    private async Task OnPropertiesAsync()
+    {
+        if (CurrentTrack?.Metadata is null)
+        {
+            return;
+        }
+
+        var dialog = await DialogService.ShowDialogAsync<TrackProperties>(CurrentTrack.Metadata, new DialogParameters()
+        {
+            Title = Labels.PropertiesLabel,
+            PrimaryAction = Labels.CloseLabel,
+            SecondaryAction = null,
+            Width = "60%"
+        });
+
+        await dialog.Result;
     }
 
     /// <summary>

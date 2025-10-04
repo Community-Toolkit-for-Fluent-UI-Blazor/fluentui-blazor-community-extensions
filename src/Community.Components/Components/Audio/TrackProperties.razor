@@ -1,0 +1,108 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentStack Orientation="Orientation.Vertical">
+	<FluentStack Style="margin-bottom: 20px">
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.TitleLabel</FluentLabel>
+			<FluentLabel>@Content?.Descriptive.Title</FluentLabel>
+		</FluentStack>
+
+		<FluentSpacer Width="30" />
+
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.AlbumArtistsLabel</FluentLabel>
+			<FluentLabel>
+				@if (Content?.Descriptive.AlbumArtists is not null)
+				{
+					@string.Join(", ", Content.Descriptive.AlbumArtists)
+				}
+			</FluentLabel>
+		</FluentStack>
+	</FluentStack>
+
+	<FluentStack Style="margin-bottom: 20px">
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.AlbumLabel</FluentLabel>
+			<FluentLabel>@Content?.Descriptive.Album</FluentLabel>
+		</FluentStack>
+
+		<FluentSpacer Width="30" />
+
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.AlbumArtistLabel</FluentLabel>
+			<FluentLabel>@Content?.Descriptive.Performers.FirstOrDefault()</FluentLabel>
+		</FluentStack>
+	</FluentStack>
+
+	<FluentStack Style="margin-bottom: 20px">
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.TrackNumberLabel</FluentLabel>
+			<FluentLabel>@Content?.Extended.TrackNumber</FluentLabel>
+		</FluentStack>
+
+		<FluentSpacer Width="30" />
+
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.DurationLabel</FluentLabel>
+			<FluentLabel>@Content?.Technical.Duration</FluentLabel>
+		</FluentStack>
+	</FluentStack>
+
+	<FluentStack Style="margin-bottom: 20px">
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.GenreLabel</FluentLabel>
+			<FluentLabel>
+				@if (Content?.Descriptive.Genres is not null)
+				{
+					@string.Join(", ", Content.Descriptive.Genres)
+				}
+			</FluentLabel>
+		</FluentStack>
+
+		<FluentSpacer Width="30" />
+
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.YearLabel</FluentLabel>
+			<FluentLabel>@Content?.Descriptive.Year</FluentLabel>
+		</FluentStack>
+	</FluentStack>
+
+	<FluentStack Style="margin-bottom: 20px">
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.BitrateLabel</FluentLabel>
+			<FluentLabel>@(Content?.Technical.AudioBitrate) Kbits/s</FluentLabel>
+		</FluentStack>
+
+		<FluentSpacer Width="30" />
+
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.MimeLabel</FluentLabel>
+			<FluentLabel>@Content?.Technical.FileType</FluentLabel>
+		</FluentStack>
+	</FluentStack>
+
+	<FluentStack Style="margin-bottom: 20px">
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel Color="Color.Custom" CustomColor="var(--neutral-fill-strong-hover)">@Labels.PublisherLabel</FluentLabel>
+			<FluentLabel>@Content?.Legal.Publisher</FluentLabel>
+		</FluentStack>
+
+		<FluentSpacer Width="30" />
+
+		<FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+			<FluentLabel>@Labels.CoverLabel</FluentLabel>
+
+			@if (!string.IsNullOrEmpty(Content?.Visual.CoverUrl))
+			{
+				<div style="width: 120px; height: 120px; border-radius: 8px; background-color: white">
+					<img width="120"
+						 height="120"
+						 src="@Content.Visual.CoverUrl"
+						 title="@Content.Descriptive.Title"
+						 aria-label="@Content.Descriptive.Title" />
+				</div>
+			}
+		</FluentStack>
+	</FluentStack>
+</FluentStack>

@@ -29,6 +29,12 @@ public partial class DownloadButton : FluentComponentBase
     public string? Label { get; set; } = "Download";
 
     /// <summary>
+    /// Gets or sets a value indicating whether the download button is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsDisabled { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="DownloadButton"/> class.
     /// </summary>
     public DownloadButton()

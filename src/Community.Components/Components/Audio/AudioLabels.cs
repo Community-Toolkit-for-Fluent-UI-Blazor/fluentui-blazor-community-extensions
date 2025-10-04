@@ -19,7 +19,21 @@ public record AudioLabels
         PlaylistLoopLabel = "Automatic playback of the next music track and repeat of the playlist",
         PlaylistOnceLabel = "Automatic playback of the next music track and stop at the end of the last track",
         SingleLoopLabel = "Play the music on loop",
-        SingleOnceLabel = "Stop playing at the end of the music"
+        SingleOnceLabel = "Stop playing at the end of the music",
+        TitleLabel = "Titre",
+        AlbumArtistsLabel = "Artistes ayant collaboré",
+        PropertiesLabel = "Propriétés",
+        CloseLabel = "Fermer",
+        AlbumLabel = "Album",
+        AlbumArtistLabel = "Artiste de l'album",
+        TrackNumberLabel = "Numéro de piste",
+        DurationLabel = "Durée",
+        GenreLabel = "Genre",
+        YearLabel = "Année",
+        BitrateLabel = "Débit binaire",
+        MimeLabel = "Type MIME",
+        PublisherLabel = "Éditeur",
+        CoverLabel = "Pochette"
     };
 
     /// <summary>
@@ -91,4 +105,74 @@ public record AudioLabels
     /// Gets the label for the single once mode.
     /// </summary>
     public string SingleOnceLabel { get; init; } = "Single once";
+
+    /// <summary>
+    /// Gets the label for the title field.
+    /// </summary>
+    public string TitleLabel { get; init; } = "Title";
+
+    /// <summary>
+    /// Gets the label for the performers field.
+    /// </summary>
+    public string AlbumArtistsLabel { get; init; } = "Artists who have collaborated";
+
+    /// <summary>
+    /// Gets the label for the properties section.
+    /// </summary>
+    public string PropertiesLabel { get; init; } = "Properties";
+
+    /// <summary>
+    /// Gets the label for close dialog.
+    /// </summary>
+    public string CloseLabel { get; init; } = "Close";
+
+    /// <summary>
+    /// Gets the label for the album field.
+    /// </summary>
+    public string AlbumLabel { get; init; } = "Album";
+
+    /// <summary>
+    /// Gets the display label used for the album artist field.
+    /// </summary>
+    public string AlbumArtistLabel { get; init; } = "Album artist";
+
+    /// <summary>
+    /// Gets the label for the track number field.
+    /// </summary>
+    public string TrackNumberLabel { get; init; } = "Track number";
+
+    /// <summary>
+    /// Gets the label for the duration field.
+    /// </summary>
+    public string DurationLabel { get; init; } = "Duration";
+
+    /// <summary>
+    /// Gets the label text used to represent the genre field.
+    /// </summary>
+    public string GenreLabel { get; init; } = "Genre";
+
+    /// <summary>
+    /// Gets the label text used to represent a year.
+    /// </summary>
+    public string YearLabel { get; init; } = "Year";
+
+    /// <summary>
+    /// Gets the display label used to represent the bitrate value.
+    /// </summary>
+    public string BitrateLabel { get; init; } = "Bitrate";
+
+    /// <summary>
+    /// Gets the label for the MIME type field.
+    /// </summary>
+    public string MimeLabel { get; init; } = "MIME type";
+
+    /// <summary>
+    /// Gets the display label used for the publisher field.
+    /// </summary>
+    public string PublisherLabel { get; init; } = "Publisher";
+
+    /// <summary>
+    /// Gets the label for the cover field.
+    /// </summary>
+    public string CoverLabel { get; init; } = "Cover";
 }

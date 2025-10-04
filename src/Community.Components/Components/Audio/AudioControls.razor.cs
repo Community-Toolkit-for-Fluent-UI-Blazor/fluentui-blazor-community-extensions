@@ -88,6 +88,12 @@ public partial class AudioControls : FluentComponentBase
     public EventCallback<double> OnVolumeChanged { get; set; }
 
     /// <summary>
+    /// Gets or sets the callback to be invoked when the properties button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnProperties { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the previous button is disabled.
     /// </summary>
     [Parameter]
@@ -106,10 +112,22 @@ public partial class AudioControls : FluentComponentBase
     public bool IsStopDisabled { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether downloading is disabled for this component.
+    /// </summary>
+    [Parameter]
+    public bool IsDownloadDisabled { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the play/pause button is disabled.
     /// </summary>
     [Parameter]
     public bool IsPlayOrPauseDisabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the properties button is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsPropertiesDisabled { get; set; }
 
     /// <summary>
     /// Sets the play/pause state of the associated control.

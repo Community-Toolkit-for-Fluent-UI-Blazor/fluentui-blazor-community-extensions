@@ -7,6 +7,8 @@
              HorizontalGap="30">
     <PlaylistButton Label="@Labels.PlaylistLabel" OnPlaylist="@OnPlaylistToggled" />
 
+	<FluentSpacer />
+
     <ShuffleButton ShuffleOnLabel="@Labels.ShuffleOnLabel"
                    ShuffleOffLabel=@Labels.ShuffleOffLabel
                    OnShuffleChanged="@OnShuffleChanged" />
@@ -37,9 +39,17 @@
 
     <VolumeButton Label="@Labels.VolumeLabel" OnVolumeChanged="@OnVolumeChanged" />
 
-    @if (IsDownloadVisible)
-    {
-        <DownloadButton Label="@Labels.DownloadLabel" OnDownload="@OnDownload" />
-    }
+	<FluentSpacer />
+
+	@if (IsDownloadVisible)
+	{
+		<DownloadButton IsDisabled="@IsDownloadDisabled"
+						Label="@Labels.DownloadLabel"
+						OnDownload="@OnDownload" />
+	}
+
+	<PropertiesButton IsDisabled="@IsPropertiesDisabled"
+					  Label="@Labels.PropertiesLabel"
+					  OnProperties="@OnProperties" />
 
 </FluentStack>

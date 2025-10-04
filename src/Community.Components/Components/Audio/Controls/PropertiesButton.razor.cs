@@ -11,7 +11,7 @@ public partial class PropertiesButton : FluentComponentBase
     /// <summary>
     /// Represents the icon to be displayed on the button.
     /// </summary>
-    private static readonly Icon Icon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.ArrowDownload();
+    private static readonly Icon Icon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Info();
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the download button is clicked.
@@ -24,6 +24,12 @@ public partial class PropertiesButton : FluentComponentBase
     /// </summary>
     [Parameter]
     public string? Label { get; set; } = "Properties";
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the download button is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsDisabled { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PropertiesButton"/> class.

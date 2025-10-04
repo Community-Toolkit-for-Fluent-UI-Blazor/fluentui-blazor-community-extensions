@@ -1017,6 +1017,11 @@
             Gets or sets the callback to be invoked when the volume changes.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnProperties">
+            <summary>
+            Gets or sets the callback to be invoked when the properties button is clicked.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsPreviousDisabled">
             <summary>
             Gets or sets a value indicating whether the previous button is disabled.
@@ -1032,9 +1037,19 @@
             Gets or sets a value indicating whether the stop button is disabled.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsDownloadDisabled">
+            <summary>
+            Gets or sets a value indicating whether downloading is disabled for this component.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsPlayOrPauseDisabled">
             <summary>
             Gets or sets a value indicating whether the play/pause button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsPropertiesDisabled">
+            <summary>
+            Gets or sets a value indicating whether the properties button is disabled.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.AudioControls.SetPlayPauseState(System.Boolean)">
@@ -1112,6 +1127,76 @@
         <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.SingleOnceLabel">
             <summary>
             Gets the label for the single once mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.TitleLabel">
+            <summary>
+            Gets the label for the title field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.AlbumArtistsLabel">
+            <summary>
+            Gets the label for the performers field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PropertiesLabel">
+            <summary>
+            Gets the label for the properties section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.CloseLabel">
+            <summary>
+            Gets the label for close dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.AlbumLabel">
+            <summary>
+            Gets the label for the album field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.AlbumArtistLabel">
+            <summary>
+            Gets the display label used for the album artist field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.TrackNumberLabel">
+            <summary>
+            Gets the label for the track number field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.DurationLabel">
+            <summary>
+            Gets the label for the duration field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.GenreLabel">
+            <summary>
+            Gets the label text used to represent the genre field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.YearLabel">
+            <summary>
+            Gets the label text used to represent a year.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.BitrateLabel">
+            <summary>
+            Gets the display label used to represent the bitrate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.MimeLabel">
+            <summary>
+            Gets the label for the MIME type field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PublisherLabel">
+            <summary>
+            Gets the display label used for the publisher field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.CoverLabel">
+            <summary>
+            Gets the label for the cover field.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.AudioPlayerView">
@@ -1530,6 +1615,11 @@
             Gets or sets the label for the download button.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DownloadButton.IsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the download button is disabled.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.DownloadButton.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.DownloadButton"/> class.
@@ -1727,6 +1817,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.PropertiesButton.Label">
             <summary>
             Gets or sets the label for the download button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PropertiesButton.IsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the download button is disabled.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.PropertiesButton.#ctor">
@@ -2361,6 +2456,19 @@
             Gets a value indicating whether the play or pause button should be disabled.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.IsPropertiesDisabled">
+            <summary>
+            Gets a value indicating whether the audio properties should be disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.IsDownloadDisabled">
+            <summary>
+            Gets a value indicating whether downloading the current track is disabled.
+            </summary>
+            <remarks>Downloading is disabled if there is no current track selected or if the current track does
+            not have a valid source. This property can be used to determine whether download-related UI elements should be
+            enabled.</remarks>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.View">
             <summary>
             Gets or sets the render mode of the audio player.
@@ -2394,6 +2502,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.Labels">
             <summary>
             Gets or sets the labels for the audio control buttons.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.DialogService">
+            <summary>
+            Gets or sets the service used to display dialogs within the component.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnDownloadAsync">
@@ -2446,6 +2559,12 @@
             Advances to the next track in the playlist and begins playback.
             </summary>
             <returns>A task that represents the asynchronous operation of advancing to the next track  and starting playback.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnPropertiesAsync">
+            <summary>
+            Displays the track properties dialog asynchronously and waits for the user to close it.
+            </summary>
+            <returns>A task that represents the asynchronous operation of showing the properties dialog and awaiting its closure.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnSeekAsync(System.Double)">
             <summary>
@@ -2947,6 +3066,18 @@
             <remarks>This method checks if a track is available and if a callback delegate is assigned before
             invoking the callback asynchronously.</remarks>
             <returns></returns>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TrackProperties.Labels">
+            <summary>
+            Gets or sets the set of audio labels to be used for classification or annotation.
+            </summary>
+            <remarks>The default value is <see cref="P:FluentUI.Blazor.Community.Components.AudioLabels.Default"/>. Changing this property allows
+            customization of the labels used in audio processing scenarios.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TrackProperties.Content">
+            <summary>
+            Gets or sets the audio track item associated with this instance.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.VisualizerMode">
             <summary>

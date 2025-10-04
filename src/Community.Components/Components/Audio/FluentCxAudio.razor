@@ -52,10 +52,13 @@
                                            OnDownload="@OnDownloadAsync"
                                            OnPlaylistToggled="@OnPlaylistToogled"
                                            OnStop="@OnStopAsync"
+										   OnProperties="@OnPropertiesAsync"
                                            IsPlayOrPauseDisabled=@IsPlayOrPauseDisabled
                                            IsPreviousDisabled=@IsPreviousDisabled
                                            IsNextDisabled=@IsNextDisabled
                                            IsStopDisabled=@IsStopDisabled
+										   IsDownloadDisabled="@IsDownloadDisabled"
+										   IsPropertiesDisabled=@IsPropertiesDisabled
                                            Labels="@Labels"/>
                         </FluentStack>
                     </div>
