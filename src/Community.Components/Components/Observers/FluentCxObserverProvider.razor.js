@@ -59,50 +59,6 @@ function ensureResizeGroup(groupId, dotNetRef, options = {})
   }
 }
 
-function ensureIntersectionGroup(groupId, dotNetRef, options = {}) {
-  if (!_intersectionGroup.has(groupId)) {
-    const elements = new Map();
-    let pendingEntries = [];
-    let scheduled = false;
-    const delay = options.debounce || 0;
-
-    const flush = () => {
-      dotNetRef.invokeMethodAsync('OnIntersectBatch', {
-        entries: pendingEntries,
-        groupId: groupId
-      });
-
-      pendingEntries = [];
-      scheduled = false;
-    };
-
-    const scheduleFlush = delay > 0 ? debounce(flush, delay) : () => {
-      if (!scheduled) {
-        scheduled = true;
-        requestAnimationFrame(flush);
-      }
-    }
-
-    const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        const id = entry.target.id;
-
-        if (id) {
-          pendingEntries.push({
-            id: id,
-            isIntersecting: entry.isIntersecting,
-            intersectionRatio: entry.intersectionRatio
-          });
-        }
-      }
-
-      scheduleFlush();
-    });
-
-    _intersectionGroup.set(groupId, { observer, elements });
-  }
-}
-
 function ensureMutationGroup(groupId, dotNetRef, options = {}) {
   if (!_mutationGroup.has(groupId)) {
     const elements = new Map();
@@ -190,6 +146,78 @@ function unregisterResize(groupId, id) {
     group.elements.delete(id);
   }
 }
+
+function ensureIntersectionGroup(groupId, dotNetRef, options = {}) {
+  if (!_intersectionGroup.has(groupId)) {
+    const elements = new Map();
+    let pendingEntries = [];
+    let scheduled = false;
+    const delay = options.debounce || 0;
+
+    const flush = () => {
+      dotNetRef.invokeMethodAsync('OnIntersectBatch', {
+        entries: pendingEntries,
+        groupId: groupId
+      });
+
+      pendingEntries = [];
+      scheduled = false;
+    };
+
+    const scheduleFlush = delay > 0 ? debounce(flush, delay) : () => {
+      if (!scheduled) {
+        scheduled = true;
+        requestAnimationFrame(flush);
+      }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      for (let entry of entries) {
+        const id = entry.target.id;
+
+        if (id) {
+          pendingEntries.push({
+            id: id,
+            isIntersecting: entry.isIntersecting,
+            intersectionRatio: entry.intersectionRatio,
+            boundingClientRect: {
+              top: entry.boundingClientRect.top,
+              left: entry.boundingClientRect.left,
+              bottom: entry.boundingClientRect.bottom,
+              right: entry.boundingClientRect.right,
+              width: entry.boundingClientRect.width,
+              height: entry.boundingClientRect.height
+            },
+            rootBounds: entry.rootBounds
+              ? {
+                top: entry.rootBounds.top,
+                left: entry.rootBounds.left,
+                bottom: entry.rootBounds.bottom,
+                right: entry.rootBounds.right,
+                width: entry.rootBounds.width,
+                height: entry.rootBounds.height
+              }
+              : null,
+            intersectionRect: {
+              top: entry.intersectionRect.top,
+              left: entry.intersectionRect.left,
+              bottom: entry.intersectionRect.bottom,
+              right: entry.intersectionRect.right,
+              width: entry.intersectionRect.width,
+              height: entry.intersectionRect.height
+            }
+
+          });
+        }
+      }
+
+      scheduleFlush();
+    });
+
+    _intersectionGroup.set(groupId, { observer, elements });
+  }
+}
+
 
 function registerIntersect(groupId, id, element, dotNetRef, options = {}) {
   if (!element) {

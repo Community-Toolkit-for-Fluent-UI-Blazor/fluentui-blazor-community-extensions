@@ -28,4 +28,24 @@ public record IntersectEventArgs
     /// Gets the ratio of the intersection area to the bounding box area of the observed element.
     /// </summary>
     public double IntersectionRatio { get; init; }
+
+    /// <summary>
+    /// Gets the bounding rectangle of the element relative to the viewport, if available.
+    /// </summary>
+    /// <remarks>The bounding rectangle provides the position and dimensions of the element as rendered in the
+    /// browser. If the element is not currently rendered or its layout information is unavailable, this property may be
+    /// <see langword="null"/>.</remarks>
+    public DomRect? BoundingClientRect { get; init; }
+
+    /// <summary>
+    /// Gets the rectangle representing the intersection area between the target element and its root, if any.
+    /// </summary>
+    public DomRect? IntersectionRect { get; init; }
+
+    /// <summary>
+    /// Gets the bounding rectangle of the root element at the time of observation, if available.
+    /// </summary>
+    /// <remarks>If the root element is no longer present or its bounds cannot be determined, this property
+    /// returns <see langword="null"/>.</remarks>
+    public DomRect? RootBounds { get; init; }
 }
