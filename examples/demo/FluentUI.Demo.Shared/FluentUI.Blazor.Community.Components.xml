@@ -8644,6 +8644,45 @@
             <param name="change">Value indicating if the media has changed.</param>
             <returns>Returns a task which raises the event callback <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged"/> when completed.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DomRect">
+            <summary>
+            Represents the dimensions and position of a rectangle, typically used to describe the bounding box of an element in
+            a coordinate space.
+            </summary>
+            <remarks>The rectangle is defined by its top, left, bottom, and right edges, as well as its width and height.
+            All values are expressed in the same coordinate system, and may be fractional. This type is commonly used in
+            scenarios such as layout calculations, collision detection, or graphical rendering.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Top">
+            <summary>
+            Gets the top coordinate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Left">
+            <summary>
+            Gets the left coordinate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Bottom">
+            <summary>
+            Gets the bottom coordinate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Right">
+            <summary>
+            Gets the right coordinate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Width">
+            <summary>
+            Gets the width of the object.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Height">
+            <summary>
+            Gets the height of the object.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider">
             <summary>
             Provides a mechanism for managing and observing changes in Fluent components.
@@ -9001,6 +9040,26 @@
             <summary>
             Gets the ratio of the intersection area to the bounding box area of the observed element.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.BoundingClientRect">
+            <summary>
+            Gets the bounding rectangle of the element relative to the viewport, if available.
+            </summary>
+            <remarks>The bounding rectangle provides the position and dimensions of the element as rendered in the
+            browser. If the element is not currently rendered or its layout information is unavailable, this property may be
+            <see langword="null"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.IntersectionRect">
+            <summary>
+            Gets the rectangle representing the intersection area between the target element and its root, if any.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.RootBounds">
+            <summary>
+            Gets the bounding rectangle of the root element at the time of observation, if available.
+            </summary>
+            <remarks>If the root element is no longer present or its bounds cannot be determined, this property
+            returns <see langword="null"/>.</remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.IResizeObserver">
             <summary>
@@ -9448,6 +9507,16 @@
         <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Height">
             <summary>
             Gets the height of the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Y">
+            <summary>
+            Gets the top position of the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.X">
+            <summary>
+            Gets the left position of the element.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBar">
