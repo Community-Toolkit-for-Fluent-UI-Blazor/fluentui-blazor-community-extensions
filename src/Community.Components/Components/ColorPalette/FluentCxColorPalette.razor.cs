@@ -628,9 +628,9 @@ public partial class FluentCxColorPalette
                 return;
         }
 
-        next = (next + _colors.Count) % _colors.Count;
+        next = (_focusIndex + _colors.Count) % _colors.Count;
 
-        await SetFocusAsync(next);
+        await SetFocusAsync(_focusIndex);
     }
 
     /// <summary>

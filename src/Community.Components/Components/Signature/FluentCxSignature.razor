@@ -1,7 +1,7 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
-@inherits FluentComponentBase
+@inherits ObserverItem
 
-<div id="@Id" style="height: 100%; width: 100%">
+<div id="@Id" style="height: 100%; width: 100%" @ref="Element">
     <SignatureMenu Id="@($"signature-menu-{Id}")"
                    Options="@MenuOptions"
                    Labels="Labels"

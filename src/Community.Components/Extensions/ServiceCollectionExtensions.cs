@@ -20,6 +20,6 @@ public static class ServiceCollectionExtensions
                        .AddScoped<FileManagerState>()
                        .AddScoped<DeviceInfoState>()
                        .AddScoped<LottieState>()
-                       .AddSingleton<ObserverService>();
+                       .AddSingleton<ObserverState>();
     }
 }

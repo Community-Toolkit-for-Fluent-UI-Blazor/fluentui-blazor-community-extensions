@@ -9,7 +9,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// Represents a signature component that allows users to draw and capture signatures.
 /// </summary>
 public partial class Signature
-    : FluentComponentBase, IObserver
+    : FluentComponentBase
 {
     /// <summary>
     /// Represents the JavaScript module reference used for interacting with JavaScript functions.
@@ -48,12 +48,6 @@ public partial class Signature
     private IJSRuntime JS { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the observer service for managing observers.
-    /// </summary>
-    [Inject]
-    private ObserverService ObserverService { get; set; } = default!;
-
-    /// <summary>
     /// Gets or sets the signature options for configuring the signature component.
     /// </summary>
     [Parameter]
@@ -72,7 +66,6 @@ public partial class Signature
         if (firstRender)
         {
             _module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/FluentUI.Blazor.Community.Components/Components/Signature/Signature.razor.js");
-            await ObserverService.AddObserverAsync(this);
         }
     }
 
@@ -152,7 +145,7 @@ public partial class Signature
     }
 
     /// <inheritdoc />
-    public async ValueTask OnResizedAsync(int width, int height)
+    internal async ValueTask OnResizedAsync(int width, int height)
     {
         if (_gridLayer is not null)
         {
@@ -168,23 +161,5 @@ public partial class Signature
         {
             await _overlayLayer.UpdateViewboxAsync(width, height);
         }
-    }
-
-    /// <inheritdoc />
-    public ValueTask OnIntersectAsync(IntersectionEventArgs e)
-    {
-        return ValueTask.CompletedTask;
-    }
-
-    /// <inheritdoc />
-    public ValueTask OnMeasuredAsync(int width, int height)
-    {
-        return ValueTask.CompletedTask;
-    }
-
-    /// <inheritdoc />
-    public async ValueTask DisposeAsync()
-    {
-        await ObserverService.RemoveObserverAsync(this);
     }
 }
