@@ -1,0 +1,33 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentStack Id="@Id">
+	@switch (Shape)
+	{
+		case LegendItemShape.Circle:
+			<Circle Fill="@Fill" Stroke="@Stroke" StrokeWidth="@StrokeWidth" Size="@Size" />
+			break;
+
+		case LegendItemShape.Square:
+			<Square Fill="@Fill" Stroke="@Stroke" StrokeWidth="@StrokeWidth" Size="@Size" />
+			break;
+
+		case LegendItemShape.Diamond:
+			<Diamond Fill="@Fill" Stroke="@Stroke" StrokeWidth="@StrokeWidth" Size="@Size" />
+			break;
+
+		case LegendItemShape.RoundSquare:
+			<RoundSquare Fill="@Fill" Stroke="@Stroke" StrokeWidth="@StrokeWidth" Size="@Size" />
+			break;
+
+		case LegendItemShape.Chevron:
+			<Chevron Fill="@Fill" Stroke="@Stroke" StrokeWidth="@StrokeWidth" Size="@Size" />
+			break;
+
+		case LegendItemShape.Ellipse:
+			<Ellipse Fill="@Fill" Stroke="@Stroke" StrokeWidth="@StrokeWidth" Size="@Size" />
+			break;
+	}
+
+	<FluentLabel>@Text</FluentLabel>
+</FluentStack>

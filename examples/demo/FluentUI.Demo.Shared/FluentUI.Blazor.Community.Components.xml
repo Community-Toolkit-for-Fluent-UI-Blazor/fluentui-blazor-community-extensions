@@ -947,6 +947,320 @@
             Marks the component for re-rendering, causing the UI to be updated during the next render cycle.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Chevron.Size">
+            <summary>
+            Gets or sets the size of the circle in pixels.
+            </summary>
+            <remarks>Default is 24.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Chevron.Stroke">
+            <summary>
+            Gets or sets the color used to draw the outline of the shape.
+            </summary>
+            <remarks>The value should be a valid CSS color string, such as a hexadecimal color code (e.g.,
+            "#000000"), an RGB value, or a named color. If not specified, the default outline color is black.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Chevron.StrokeWidth">
+            <summary>
+            Gets or sets the width of the stroke used to draw shapes, in pixels.
+            </summary>
+            <remarks>Default is 1.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Circle.Size">
+            <summary>
+            Gets or sets the size of the circle in pixels.
+            </summary>
+            <remarks>Default is 24.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Circle.Fill">
+            <summary>
+            Gets or sets the fill color for the component, specified as a CSS color string.
+            </summary>
+            <remarks>The default value is "#000000" (black). Accepts any valid CSS color format, such as
+            hexadecimal, RGB, RGBA, or named colors. This property is typically used to control the visual appearance of SVG
+            or HTML elements rendered by the component.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Circle.Stroke">
+            <summary>
+            Gets or sets the color used to draw the outline of the shape.
+            </summary>
+            <remarks>The value should be a valid CSS color string, such as a hexadecimal color code (e.g.,
+            "#000000"), an RGB value, or a named color. If not specified, the default outline color is black.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Circle.StrokeWidth">
+            <summary>
+            Gets or sets the width of the stroke used to draw shapes, in pixels.
+            </summary>
+            <remarks>Default is 1.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Circle.Radius">
+            <summary>
+            Gets or sets the radius of the circle.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Circle.Opacity">
+            <summary>
+            Gets or sets the opacity level of the component, where 1.0 is fully opaque and 0.0 is fully transparent.
+            </summary>
+            <remarks>Valid values range from 0.0 to 1.0. Values outside this range may result in undefined
+            behavior or be clamped depending on the rendering implementation.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Circle.Center">
+            <summary>
+            Gets the index of the center position based on the current size.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Diamond.Size">
+            <summary>
+            Gets or sets the size of the circle in pixels.
+            </summary>
+            <remarks>Default is 24.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Diamond.Fill">
+            <summary>
+            Gets or sets the fill color for the component, specified as a CSS color string.
+            </summary>
+            <remarks>The default value is "#000000" (black). Accepts any valid CSS color format, such as
+            hexadecimal, RGB, RGBA, or named colors. This property is typically used to control the visual appearance of SVG
+            or HTML elements rendered by the component.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Diamond.Stroke">
+            <summary>
+            Gets or sets the color used to draw the outline of the shape.
+            </summary>
+            <remarks>The value should be a valid CSS color string, such as a hexadecimal color code (e.g.,
+            "#000000"), an RGB value, or a named color. If not specified, the default outline color is black.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Diamond.StrokeWidth">
+            <summary>
+            Gets or sets the width of the stroke used to draw shapes, in pixels.
+            </summary>
+            <remarks>Default is 1.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Diamond.Opacity">
+            <summary>
+            Gets or sets the opacity level of the component, where 1.0 is fully opaque and 0.0 is fully transparent.
+            </summary>
+            <remarks>Valid values range from 0.0 to 1.0. Values outside this range may result in undefined
+            behavior or be clamped depending on the rendering implementation.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Diamond.Center">
+            <summary>
+            Gets the index of the center position based on the current size.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Ellipse.Size">
+            <summary>
+            Gets or sets the size of the ellipse in pixels.
+            </summary>
+            <remarks>Default is 24.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Ellipse.Fill">
+            <summary>
+            Gets or sets the fill color for the component, specified as a CSS color string.
+            </summary>
+            <remarks>The default value is "#000000" (black). Accepts any valid CSS color format, such as
+            hexadecimal, RGB, RGBA, or named colors. This property is typically used to control the visual appearance of SVG
+            or HTML elements rendered by the component.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Ellipse.Stroke">
+            <summary>
+            Gets or sets the color used to draw the outline of the shape.
+            </summary>
+            <remarks>The value should be a valid CSS color string, such as a hexadecimal color code (e.g.,
+            "#000000"), an RGB value, or a named color. If not specified, the default outline color is black.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Ellipse.StrokeWidth">
+            <summary>
+            Gets or sets the width of the stroke used to draw shapes, in pixels.
+            </summary>
+            <remarks>Default is 1.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Ellipse.RadiusX">
+            <summary>
+            Gets or sets the horizontal radius of the ellipse.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Ellipse.RadiusY">
+            <summary>
+            Gets or sets the vertical radius of the ellipse.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Ellipse.Opacity">
+            <summary>
+            Gets or sets the opacity level of the component, where 1.0 is fully opaque and 0.0 is fully transparent.
+            </summary>
+            <remarks>Valid values range from 0.0 to 1.0. Values outside this range may result in undefined
+            behavior or be clamped depending on the rendering implementation.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Ellipse.Center">
+            <summary>
+            Gets the index of the center position based on the current size.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LegendItem">
+            <summary>
+            Represents an individual item in a legend, including its display text, color, shape, and size properties.
+            </summary>
+            <remarks>Use this class to define the appearance and label of a legend entry in a chart or visualization. Each
+            property controls a specific aspect of the legend item's visual representation, such as its text, fill color, border
+            color, border width, size, and shape.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LegendItem.#ctor">
+            <summary>
+            Initializes a new instance of the LegendItem class with a unique identifier.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LegendItem.Text">
+            <summary>
+            Gets or sets the text content to be displayed or processed by the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LegendItem.Fill">
+            <summary>
+            Gets or sets the fill color used to render the component.
+            </summary>
+            <remarks>The fill color should be specified as a valid CSS color value, such as a hex code (e.g.,
+            "#000"), RGB, RGBA, or named color. The default value is "#000" (black).</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LegendItem.Stroke">
+            <summary>
+            Gets or sets the color used to draw the outline of the component.
+            </summary>
+            <remarks>Specify a valid CSS color value, such as a hex code (e.g., "#fff"), color name, or RGB/RGBA
+            value. The default is white ("#fff").</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LegendItem.StrokeWidth">
+            <summary>
+            Gets or sets the width of the stroke used to render the component, in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LegendItem.Size">
+            <summary>
+            Gets or sets the size of the component, in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LegendItem.Shape">
+            <summary>
+            Gets or sets the shape used to display the legend item indicator.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LegendItemShape">
+            <summary>
+            Specifies the shape used to represent a legend item in a chart or graphical legend.
+            </summary>
+            <remarks>Use this enumeration to select the visual shape displayed for legend items, such as markers or
+            symbols, in chart legends. The available shapes provide options for customizing the appearance of legend entries to
+            match the style or semantics of the chart data.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LegendItemShape.Circle">
+            <summary>
+            Represents a circle shape.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LegendItemShape.Square">
+            <summary>
+            Represents a square shape.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LegendItemShape.RoundSquare">
+            <summary>
+            Represents a rounded square shape.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LegendItemShape.Ellipse">
+            <summary>
+            Represents an ellipse shape.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LegendItemShape.Diamond">
+            <summary>
+            Represents a diamond shape.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LegendItemShape.Chevron">
+            <summary>
+            Represents a chevron shape.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RoundSquare.Size">
+            <summary>
+            Gets or sets the size of the circle in pixels.
+            </summary>
+            <remarks>Default is 24.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RoundSquare.Fill">
+            <summary>
+            Gets or sets the fill color for the component, specified as a CSS color string.
+            </summary>
+            <remarks>The default value is "#000000" (black). Accepts any valid CSS color format, such as
+            hexadecimal, RGB, RGBA, or named colors. This property is typically used to control the visual appearance of SVG
+            or HTML elements rendered by the component.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RoundSquare.Stroke">
+            <summary>
+            Gets or sets the color used to draw the outline of the shape.
+            </summary>
+            <remarks>The value should be a valid CSS color string, such as a hexadecimal color code (e.g.,
+            "#000000"), an RGB value, or a named color. If not specified, the default outline color is black.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RoundSquare.StrokeWidth">
+            <summary>
+            Gets or sets the width of the stroke used to draw shapes, in pixels.
+            </summary>
+            <remarks>Default is 1.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RoundSquare.Radius">
+            <summary>
+            Gets or sets the radius of the circle.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RoundSquare.Opacity">
+            <summary>
+            Gets or sets the opacity level of the component, where 1.0 is fully opaque and 0.0 is fully transparent.
+            </summary>
+            <remarks>Valid values range from 0.0 to 1.0. Values outside this range may result in undefined
+            behavior or be clamped depending on the rendering implementation.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Square.Size">
+            <summary>
+            Gets or sets the size of the circle in pixels.
+            </summary>
+            <remarks>Default is 24.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Square.Fill">
+            <summary>
+            Gets or sets the fill color for the component, specified as a CSS color string.
+            </summary>
+            <remarks>The default value is "#000000" (black). Accepts any valid CSS color format, such as
+            hexadecimal, RGB, RGBA, or named colors. This property is typically used to control the visual appearance of SVG
+            or HTML elements rendered by the component.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Square.Stroke">
+            <summary>
+            Gets or sets the color used to draw the outline of the shape.
+            </summary>
+            <remarks>The value should be a valid CSS color string, such as a hexadecimal color code (e.g.,
+            "#000000"), an RGB value, or a named color. If not specified, the default outline color is black.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Square.StrokeWidth">
+            <summary>
+            Gets or sets the width of the stroke used to draw shapes, in pixels.
+            </summary>
+            <remarks>Default is 1.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Square.Radius">
+            <summary>
+            Gets or sets the radius of the circle.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Square.Opacity">
+            <summary>
+            Gets or sets the opacity level of the component, where 1.0 is fully opaque and 0.0 is fully transparent.
+            </summary>
+            <remarks>Valid values range from 0.0 to 1.0. Values outside this range may result in undefined
+            behavior or be clamped depending on the rendering implementation.</remarks>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ColorPaletteEasing">
             <summary>
             Represents the easing functions available for color transitions in the ColorPalette component.

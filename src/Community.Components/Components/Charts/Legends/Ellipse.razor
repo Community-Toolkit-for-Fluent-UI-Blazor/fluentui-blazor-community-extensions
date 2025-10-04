@@ -1,0 +1,22 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+
+<svg id="@Id"
+	 @ref="Element"
+	 @key="@Id"
+	 class="@Class"
+	 style="@Style"
+	 xmlns="http://www.w3.org/2000/svg"
+	 width="@Size"
+	 height="@Size"
+	 viewBox="0 0 @Size @Size">
+	<ellipse cx="@(Center)"
+			 cy="@Center"
+			 rx="@(RadiusX)"
+			 ry="@(RadiusY)"
+			 stroke="@Stroke"			 
+			 opacity="@Opacity"
+			 stroke-width="@StrokeWidth"
+			 fill="@Fill" />
+</svg>

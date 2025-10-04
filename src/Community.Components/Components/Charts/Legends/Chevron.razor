@@ -1,0 +1,18 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<svg id="@Id"
+	 @ref="Element"
+	 @key="@Id"
+	 class="@Class"
+	 style="@Style"
+	 xmlns="http://www.w3.org/2000/svg"
+	 width="@Size"
+	 height="@Size"
+	 viewBox="0 0 @Size @Size">
+	<polyline points="0,8.0 12.0,24 24,8.0"
+			  fill="none"
+			  stroke="@Stroke"
+			  stroke-width="@StrokeWidth" />
+</svg>
+

@@ -1,0 +1,23 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+
+<svg id="@Id"
+	 @ref="Element"
+	 @key="@Id"
+	 class="@Class"
+	 style="@Style"
+	 xmlns="http://www.w3.org/2000/svg"
+	 width="@Size"
+	 height="@Size"
+	 viewBox="0 0 @Size @Size">
+	<rect x="2"
+		  y="2"
+		  width="20"
+		  height="20"
+		  fill="@Fill"
+		  stroke="@Stroke"
+		  stroke-width="@StrokeWidth"
+		  opacity="@Opacity"
+		  rx="@Radius"/>
+</svg>
