@@ -40,10 +40,14 @@ function ensureResizeGroup(groupId, dotNetRef, options = {})
         const id = entry.target.id;
 
         if (id) {
+          const rect = entry.target.getBoundingClientRect();
+
           pendingEntries.push({
             id: id,
             width: entry.contentRect.width,
-            height: entry.contentRect.height
+            height: entry.contentRect.height,
+            x: rect.x,
+            y: rect.y,
           });
         }
       }

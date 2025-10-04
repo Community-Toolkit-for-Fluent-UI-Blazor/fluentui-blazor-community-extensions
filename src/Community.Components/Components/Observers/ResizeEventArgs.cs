@@ -27,4 +27,14 @@ public record ResizeEventArgs
     /// Gets the height of the element.
     /// </summary>
     public double Height { get; init; }
+
+    /// <summary>
+    /// Gets the top position of the element.
+    /// </summary>
+    public double Y { get; init; }
+
+    /// <summary>
+    /// Gets the left position of the element.
+    /// </summary>
+    public double X { get; init; }
 }
