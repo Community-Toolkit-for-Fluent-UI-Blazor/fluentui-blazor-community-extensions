@@ -1,0 +1,11 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div class="subtitle-manager @Class"
+	 style="@Style"
+	 id="@Id">
+	<FluentSelect Items="@AvailableLanguages"
+				  @bind-SelectedOption="SubtitleState.SelectedLanguage"
+				  OptionText="@(e => e?.LanguageName)"
+				  OptionValue="@(e => e?.LanguageCode)" />
+</div>
