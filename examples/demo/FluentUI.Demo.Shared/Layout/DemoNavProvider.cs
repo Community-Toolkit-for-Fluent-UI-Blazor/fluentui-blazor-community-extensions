@@ -21,6 +21,30 @@ public class DemoNavProvider
                 title: "Home"
             ),
             new NavGroup(
+                icon: new Icons.Regular.Size20.PersonRunning(),
+                title: "Getting Started",
+                expanded: true,
+                gap: "10px",
+                children:
+                [
+                    new NavLink(
+                        href: "WhatsNew",
+                        icon: new Icons.Regular.Size20.Info(),
+                        title: "What's new"
+                    ),
+                    new NavLink(
+                        href: "UpgradeGuide",
+                        icon: new Icons.Regular.Size20.ArrowUp(),
+                        title: "Upgrade guide"
+                    ),
+                    new NavLink(
+                        href: "CodeSetup",
+                        icon: new Icons.Regular.Size20.DocumentOnePageSparkle(),
+                        title: "Code setup"
+                    ),
+                ]
+            ),
+            new NavGroup(
                 icon: new Icons.Regular.Size20.ContentViewGallery(),
                 title: "Layout",
                 expanded: false,
@@ -55,15 +79,28 @@ public class DemoNavProvider
                 gap: "10px",
                 children:
                [
+                    new NavGroup(
+                        icon: new Icons.Regular.Size20.FilmstripImage(),
+                        title: "Animations",
+                        gap: "10px",
+                        expanded: false,
+                        children: [
+                            new NavLink(
+                            href: "animations-overview",
+                          icon: new Icons.Regular.Size20.FilmstripImage(),
+                          title: "Overview"
+                          ),
+                          new NavLink(
+                            href: "animation-default",
+                            icon: new Icons.Regular.Size20.FilmstripImage(),
+                            title: "Default"
+                          )
+                        ]
+                    ),
                     new NavLink(
                         href: "audio",
                         icon: new Icons.Regular.Size20.SoundWaveCircle(),
                         title: "Audio"
-                    ),
-                    new NavLink(
-                        href: "artisticscatter",
-                        icon: new Icons.Regular.Size20.FilmstripImage(),
-                        title: "Artistic Scatter"
                     ),
                     new NavLink(
                         href: "cookies",
