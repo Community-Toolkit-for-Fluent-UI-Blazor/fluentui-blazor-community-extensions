@@ -22,6 +22,30 @@ public class DemoNavProvider
                 title: "Home"
             ),
             new NavGroup(
+                icon: new Icons.Regular.Size20.PersonRunning(),
+                title: "Getting Started",
+                expanded: true,
+                gap: "10px",
+                children:
+                [
+                    new NavLink(
+                        href: "WhatsNew",
+                        icon: new Icons.Regular.Size20.Info(),
+                        title: "What's new"
+                    ),
+                    new NavLink(
+                        href: "UpgradeGuide",
+                        icon: new Icons.Regular.Size20.ArrowUp(),
+                        title: "Upgrade guide"
+                    ),
+                    new NavLink(
+                        href: "CodeSetup",
+                        icon: new Icons.Regular.Size20.DocumentOnePageSparkle(),
+                        title: "Code setup"
+                    ),
+                ]
+            ),
+            new NavGroup(
                 icon: new Icons.Regular.Size20.ContentViewGallery(),
                 title: "Layout",
                 expanded: false,

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -57,6 +58,16 @@ public partial class FluentCxTileGridItem<TItem>
     /// </summary>
     [CascadingParameter]
     private FluentCxTileGrid<TItem>? Parent { get; set; }
+
+    /// <summary>
+    /// Gets the computed CSS style string with enforced layout constraints for internal use.
+    /// </summary>
+    private string? InternalStyle => new StyleBuilder(Style)
+        .AddStyle("width", "100%")
+        .AddStyle("height", "100%")
+        .AddStyle("max-width", "100%")
+        .AddStyle("overflow", "hidden")
+        .Build();
 
     /// <summary>
     /// Occurs when the tile is resized in an asynchronous way.
