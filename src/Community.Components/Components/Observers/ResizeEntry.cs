@@ -21,4 +21,9 @@ public record ResizeEntry
     /// Gets the height of the entry.
     /// </summary>
     public double Height { get; init; }
+
+    /// <summary>
+    /// Gets the DOM rectangle representing position of the entry.
+    /// </summary>
+    public DomRect Rect { get; init; } = new();
 }

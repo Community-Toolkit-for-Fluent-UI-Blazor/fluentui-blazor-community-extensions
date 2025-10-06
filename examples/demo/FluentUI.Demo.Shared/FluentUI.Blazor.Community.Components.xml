@@ -8675,12 +8675,12 @@
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.DomRect.Width">
             <summary>
-            Gets the width of the object.
+            Gets the width of the element.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.DomRect.Height">
             <summary>
-            Gets the height of the object.
+            Gets the height of the element.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider">
@@ -8844,6 +8844,18 @@
             registered observer.</remarks>
             <param name="batch">The batch of intersection entries to process. Must not be null.</param>
             <returns>A task that represents the asynchronous operation of notifying observers for each intersection entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnMutationBatchAsync(FluentUI.Blazor.Community.Components.MutationBatch)">
+            <summary>
+            Processes a batch of DOM mutation events received from JavaScript and dispatches them to registered observers
+            asynchronously.
+            </summary>
+            <remarks>This method is intended to be invoked from JavaScript via interop. Each mutation entry in the
+            batch is delivered to the corresponding observer based on its group and identifier. If no observer is registered
+            for a given entry, that entry is ignored.</remarks>
+            <param name="batch">The batch of mutation events to process. Must not be null. Contains the collection of mutation entries and the
+            associated group identifier.</param>
+            <returns>A task that represents the asynchronous operation of dispatching mutation events to observers.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnResizeBatchAsync(FluentUI.Blazor.Community.Components.ResizeBatch)">
             <summary>
@@ -9011,6 +9023,26 @@
             <summary>
             Gets the ratio representing the intersection of two entities as a value between 0.0 and 1.0.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.BoundingClientRect">
+            <summary>
+            Gets the bounding rectangle of the element relative to the viewport, if available.
+            </summary>
+            <remarks>The bounding rectangle provides the position and dimensions of the element as rendered in the
+            browser. If the element is not currently rendered or its layout information is unavailable, this property may be
+            <see langword="null"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.IntersectionRect">
+            <summary>
+            Gets the rectangle representing the intersection area between the target element and its root, if any.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.RootBounds">
+            <summary>
+            Gets the bounding rectangle of the root element at the time of observation, if available.
+            </summary>
+            <remarks>If the root element is no longer present or its bounds cannot be determined, this property
+            returns <see langword="null"/>.</remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.IntersectEventArgs">
             <summary>
@@ -9381,6 +9413,46 @@
         <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.DisposeAsync">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ObserverState">
+            <summary>
+            Represents the internal state of the observer, managing groups and items along with their notification status.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._groups">
+            <summary>
+            Represents the collection of groups managed by the observer state, indexed by their unique group identifiers.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._items">
+            <summary>
+            Represents the collection of individual observer items, indexed by their unique identifiers.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._provider">
+            <summary>
+            References the provider responsible for handling notifications. This may be <see langword="null"/> if no provider is currently set.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._addPendingGroups">
+            <summary>
+            Represents queues for managing pending notification actions when the provider is not available.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._addPendingItems">
+            <summary>
+            Represents a queue of items pending addition notifications when the provider is not available.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._removePendingGroups">
+            <summary>
+            Represents a queue of group IDs pending removal notifications when the provider is not available.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._removePendingItems">
+            <summary>
+            Represents a queue of item IDs pending removal notifications when the provider is not available.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ObserverState.AddGroupAsync(FluentUI.Blazor.Community.Components.GroupObserverItem)">
             <summary>
             Adds a group to the collection and notifies the provider if available.
@@ -9481,6 +9553,11 @@
             Gets the height of the entry.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEntry.Rect">
+            <summary>
+            Gets the DOM rectangle representing position of the entry.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ResizeEventArgs">
             <summary>
             Represents the event data for a resize operation, including the dimensions of the resized element and its
@@ -9509,14 +9586,9 @@
             Gets the height of the element.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Y">
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Rect">
             <summary>
-            Gets the top position of the element.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.X">
-            <summary>
-            Gets the left position of the element.
+            Gets the bounding rectangle of the element.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBar">

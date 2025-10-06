@@ -85,6 +85,12 @@ public sealed partial class FluentCxObserverProvider
     public TimeSpan DebounceIntersect { get; set; } = TimeSpan.FromMilliseconds(100);
 
     /// <summary>
+    /// Gets or sets the threshold for intersection observation.
+    /// </summary>
+    [Parameter]
+    public double Threshold { get; set; } = 0.3;
+
+    /// <summary>
     /// Gets or sets the JavaScript runtime abstraction used to invoke JavaScript functions from .NET.
     /// </summary>
     [Inject]
@@ -198,7 +204,7 @@ public sealed partial class FluentCxObserverProvider
     {
         if (_jsModule is not null)
         {
-            await _jsModule.InvokeVoidAsync("fluentCxObserverProvider.registerIntersect", groupId, elementId, elementReference, _dotNetRef, new { debounce = (int)DebounceIntersect.TotalMilliseconds });
+            await _jsModule.InvokeVoidAsync("fluentCxObserverProvider.registerIntersect", groupId, elementId, elementReference, _dotNetRef, new { debounce = (int)DebounceIntersect.TotalMilliseconds, threshold = Threshold });
         }
     }
 
@@ -316,7 +322,10 @@ public sealed partial class FluentCxObserverProvider
             ElementId = x.Id,
             GroupId = batch.GroupId,
             IsIntersecting = x.IsIntersecting,
-            IntersectionRatio = x.IntersectionRatio
+            IntersectionRatio = x.IntersectionRatio,
+            BoundingClientRect = x.BoundingClientRect,
+            IntersectionRect = x.IntersectionRect,
+            RootBounds = x.RootBounds
         });
 
         foreach (var entry in entries)
@@ -330,6 +339,16 @@ public sealed partial class FluentCxObserverProvider
         }
     }
 
+    /// <summary>
+    /// Processes a batch of DOM mutation events received from JavaScript and dispatches them to registered observers
+    /// asynchronously.
+    /// </summary>
+    /// <remarks>This method is intended to be invoked from JavaScript via interop. Each mutation entry in the
+    /// batch is delivered to the corresponding observer based on its group and identifier. If no observer is registered
+    /// for a given entry, that entry is ignored.</remarks>
+    /// <param name="batch">The batch of mutation events to process. Must not be null. Contains the collection of mutation entries and the
+    /// associated group identifier.</param>
+    /// <returns>A task that represents the asynchronous operation of dispatching mutation events to observers.</returns>
     [JSInvokable("OnMutationBatch")]
     public async Task OnMutationBatchAsync(MutationBatch batch)
     {
@@ -370,7 +389,9 @@ public sealed partial class FluentCxObserverProvider
         {
             ElementId = x.Id,
             Width = x.Width,
-            Height = x.Height
+            Height = x.Height,
+            GroupId = batch.GroupId,
+            Rect = x.Rect
         });
 
         foreach (var entry in entries)

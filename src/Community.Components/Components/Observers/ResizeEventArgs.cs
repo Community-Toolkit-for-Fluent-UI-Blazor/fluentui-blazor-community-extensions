@@ -29,12 +29,7 @@ public record ResizeEventArgs
     public double Height { get; init; }
 
     /// <summary>
-    /// Gets the top position of the element.
+    /// Gets the bounding rectangle of the element.
     /// </summary>
-    public double Y { get; init; }
-
-    /// <summary>
-    /// Gets the left position of the element.
-    /// </summary>
-    public double X { get; init; }
+    public DomRect Rect { get; init; } = new();
 }

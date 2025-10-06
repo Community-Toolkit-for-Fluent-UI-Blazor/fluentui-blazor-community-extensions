@@ -2,14 +2,44 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Represents the internal state of the observer, managing groups and items along with their notification status.
+/// </summary>
 internal sealed class ObserverState
 {
+    /// <summary>
+    /// Represents the collection of groups managed by the observer state, indexed by their unique group identifiers.
+    /// </summary>
     private readonly Dictionary<string, GroupObserverItem> _groups = [];
+
+    /// <summary>
+    /// Represents the collection of individual observer items, indexed by their unique identifiers.
+    /// </summary>
     private readonly Dictionary<string, ObserverItem> _items = [];
+
+    /// <summary>
+    /// References the provider responsible for handling notifications. This may be <see langword="null"/> if no provider is currently set.
+    /// </summary>
     private FluentCxObserverProvider? _provider;
+
+    /// <summary>
+    /// Represents queues for managing pending notification actions when the provider is not available.
+    /// </summary>
     private readonly Queue<GroupObserverItem> _addPendingGroups = new();
+
+    /// <summary>
+    /// Represents a queue of items pending addition notifications when the provider is not available.
+    /// </summary>
     private readonly Queue<ObserverItem> _addPendingItems = new();
+
+    /// <summary>
+    /// Represents a queue of group IDs pending removal notifications when the provider is not available.
+    /// </summary>
     private readonly Queue<string> _removePendingGroups = new();
+
+    /// <summary>
+    /// Represents a queue of item IDs pending removal notifications when the provider is not available.
+    /// </summary>
     private readonly Queue<string> _removePendingItems = new();
 
     /// <summary>
@@ -192,7 +222,7 @@ internal sealed class ObserverState
     /// <returns>The <see cref="ObserverItem"/> that matches the specified <paramref name="itemId"/>.  If the group is found, the
     /// search is limited to that group; otherwise, a global search is performed.</returns>
     /// <exception cref="KeyNotFoundException">Thrown if no item with the specified <paramref name="itemId"/> is found in the specified group or globally.</exception>
-    internal ObserverItem GetItem(string groupId, string itemId)
+    internal ObserverItem? GetItem(string groupId, string itemId)
     {
         ArgumentException.ThrowIfNullOrEmpty(itemId, nameof(itemId));
         ArgumentException.ThrowIfNullOrEmpty(groupId, nameof(groupId));
@@ -211,6 +241,6 @@ internal sealed class ObserverState
             return item;
         }
 
-        throw new KeyNotFoundException($"Item with ID '{itemId}' not found.");
+        return null;
     }
 }

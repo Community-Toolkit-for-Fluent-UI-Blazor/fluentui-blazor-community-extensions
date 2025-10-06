@@ -46,8 +46,12 @@ function ensureResizeGroup(groupId, dotNetRef, options = {})
             id: id,
             width: entry.contentRect.width,
             height: entry.contentRect.height,
-            x: rect.x,
-            y: rect.y,
+            rect: {
+              top: rect.top,
+              bottom: rect.bottom,
+              left: rect.left,
+              right: rect.right
+            }
           });
         }
       }
@@ -212,7 +216,7 @@ function ensureIntersectionGroup(groupId, dotNetRef, options = {}) {
       }
 
       scheduleFlush();
-    });
+    }, { threshold: options.threshold ?? 0.4 });
 
     _intersectionGroup.set(groupId, { observer, elements });
   }

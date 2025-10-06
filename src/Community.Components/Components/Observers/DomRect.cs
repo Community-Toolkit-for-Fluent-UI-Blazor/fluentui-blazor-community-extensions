@@ -30,12 +30,12 @@ public record DomRect
     public double Right { get; init; }
 
     /// <summary>
-    /// Gets the width of the object.
+    /// Gets the width of the element.
     /// </summary>
     public double Width { get; init; }
 
     /// <summary>
-    /// Gets the height of the object.
+    /// Gets the height of the element.
     /// </summary>
     public double Height { get; init; }
 }
