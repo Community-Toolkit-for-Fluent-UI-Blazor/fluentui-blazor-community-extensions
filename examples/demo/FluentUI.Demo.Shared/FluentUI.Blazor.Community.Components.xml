@@ -8644,105 +8644,952 @@
             <param name="change">Value indicating if the media has changed.</param>
             <returns>Returns a task which raises the event callback <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged"/> when completed.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserversProvider.OnAfterRenderAsync(System.Boolean)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserversProvider.DisposeAsync">
-            <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.IObserver">
+        <member name="T:FluentUI.Blazor.Community.Components.DomRect">
             <summary>
-            Represents an observer that responds to asynchronous events related to resizing, intersection, and measurement.
+            Represents the dimensions and position of a rectangle, typically used to describe the bounding box of an element in
+            a coordinate space.
             </summary>
-            <remarks>This interface defines methods for handling specific asynchronous events, such as changes in size,
-            intersection events,  and measurement updates. Implementations of this interface are expected to handle these events
-            appropriately and  support asynchronous disposal.</remarks>
+            <remarks>The rectangle is defined by its top, left, bottom, and right edges, as well as its width and height.
+            All values are expressed in the same coordinate system, and may be fractional. This type is commonly used in
+            scenarios such as layout calculations, collision detection, or graphical rendering.</remarks>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IObserver.Id">
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Top">
             <summary>
-            Gets the unique identifier for the observer.
+            Gets the top coordinate value.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.IObserver.OnResizedAsync(System.Int32,System.Int32)">
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Left">
             <summary>
-            Handles the event triggered when the size of a component or window is resized.
+            Gets the left coordinate value.
             </summary>
-            <param name="width">The new width, in pixels, after the resize event.</param>
-            <param name="height">The new height, in pixels, after the resize event.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Bottom">
+            <summary>
+            Gets the bottom coordinate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Right">
+            <summary>
+            Gets the right coordinate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Width">
+            <summary>
+            Gets the width of the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Height">
+            <summary>
+            Gets the height of the element.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider">
+            <summary>
+            Provides a mechanism for managing and observing changes in Fluent components.
+            </summary>
+            <remarks>This class serves as a base for implementing functionality related to observing and reacting to
+            changes in Fluent components. It is sealed and cannot be inherited.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._dotNetRef">
+            <summary>
+            Represents a reference to a .NET object that is used to interact with the  <see
+            cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> instance from JavaScript in a Blazor application.
+            </summary>
+            <remarks>This field holds a <see cref="T:Microsoft.JSInterop.DotNetObjectReference`1"/> instance, which allows the  <see
+            cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> to be passed to JavaScript and invoked from there. It is intended for internal
+            use and should not be accessed directly by external code.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._isRendered">
+            <summary>
+            Indicates whether the object has been rendered.
+            </summary>
+            <remarks>This field is used to track the rendering state of the object.  It is intended for internal
+            use and should not be accessed directly.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._pendingItems">
+            <summary>
+            A thread-safe queue used to store pending observer items for processing.
+            </summary>
+            <remarks>This queue ensures safe concurrent access and is used to manage items that are awaiting
+            processing in a multi-threaded environment.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._pendingGroups">
+            <summary>
+            A thread-safe queue that holds pending group observer items to be processed.
+            </summary>
+            <remarks>This queue is used to manage and store items of type <see cref="T:FluentUI.Blazor.Community.Components.GroupObserverItem"/> that are
+            awaiting processing. The use of <see cref="T:System.Collections.Concurrent.ConcurrentQueue`1"/> ensures thread-safe operations for adding and
+            removing items in a concurrent environment.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._jsModule">
+            <summary>
+            Represents a reference to a JavaScript module that is used for interop operations.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.JsModulePath">
+            <summary>
+            The relative path to the JavaScript module used by the FluentCxObserverProvider component.
+            </summary>
+            <remarks>This path is used to locate the JavaScript file that contains the implementation for the
+            FluentCxObserverProvider. Ensure that the file exists at the specified location and is correctly deployed as
+            part of the application.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.ObserverState">
+            <summary>
+            Gets or sets the observer state used to manage and track the state of observed elements.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.DebounceResize">
+            <summary>
+            Gets or sets the debounce interval for resize events.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.DebounceIntersect">
+            <summary>
+            Gets or sets the debounce duration for handling intersection events.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.JSRuntime">
+            <summary>
+            Gets or sets the JavaScript runtime abstraction used to invoke JavaScript functions from .NET.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.NotifyAsync(FluentUI.Blazor.Community.Components.GroupObserverItem)">
+            <summary>
+            Notifies the system of changes to the specified group by registering intersection      and resize observers for
+            each item in the group.
+            </summary>
+            <remarks>This method performs no action if the component has not been rendered.      For each item in
+            the group, intersection and resize observers are registered      to monitor changes related to the item's
+            associated element.</remarks>
+            <param name="group">The group containing the items to be observed.      Each item must have a valid identifier and associated
+            element.</param>
             <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.IObserver.OnIntersectAsync(FluentUI.Blazor.Community.Components.IntersectionEventArgs)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.NotifyAsync(FluentUI.Blazor.Community.Components.ObserverItem)">
             <summary>
-            Handles the intersection event triggered when an observed element intersects with a specified threshold.
+            Notifies the system to register intersection and resize observers for the specified item.
             </summary>
-            <param name="e">The event arguments containing details about the intersection, such as the target element and intersection
-            ratio. Cannot be <see langword="null"/>.</param>
+            <remarks>This method registers intersection and resize observers for the provided item if the system
+            is in a rendered state. The <paramref name="item"/> must have a non-null identifier and element for the
+            operation to succeed.</remarks>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> containing the identifier and element to be observed.</param>
             <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.IObserver.OnMeasuredAsync(System.Int32,System.Int32)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnnotifyGroupAsync(System.String)">
             <summary>
-            Handles the event triggered when a measurement is completed, providing the measured width and height.
+            Asynchronously removes notifications for all items in the specified group.
             </summary>
-            <param name="width">The measured width, in pixels. Must be a non-negative value.</param>
-            <param name="height">The measured height, in pixels. Must be a non-negative value.</param>
+            <remarks>This method unregisters intersection and resize notifications for each item in the group.  It
+            has no effect if the group does not exist or if the component has not been rendered.</remarks>
+            <param name="groupId">The unique identifier of the group whose notifications are to be removed. Cannot be <see langword="null"/> or
+            empty.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnnotifyItemAsync(System.String)">
+            <summary>
+            Removes notifications for the specified item, including intersection and resize event tracking, if the component
+            is rendered.
+            </summary>
+            <param name="id">The unique identifier of the item to unnotify. Cannot be <see langword="null"/> or empty.</param>
             <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.ObserverService">
-            <summary>
-            Represents a service for managing observers that monitor changes to elements in the DOM.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.ObserverService._isInitialized">
-            <summary>
-            Value indicating whether the service has been initialized.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.ObserverService._module">
-            <summary>
-            Reference to the JavaScript module for observer functionality.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.ObserverService._providerId">
-            <summary>
-            Reference ID for the provider associated with this service.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ObserverService.Observers">
-            <summary>
-            Gets a dictionary of observers managed by the service.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.AddObserverAsync(FluentUI.Blazor.Community.Components.IObserver)">
-            <summary>
-            Adds an observer to the service and initializes it if the service is already initialized.
-            </summary>
-            <param name="observer">Observer to add into the service.</param>
-            <returns>Returns a task which adds the observer into the service when completed.</returns>
-            <exception cref="T:System.ArgumentException">Occurs if <see cref="P:FluentUI.Blazor.Community.Components.IObserver.Id"/> is not provided.</exception>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.RemoveObserverAsync(FluentUI.Blazor.Community.Components.IObserver)">
-            <summary>
-            Removes an observer to the service and initializes it if the service is already initialized.
-            </summary>
-            <param name="observer">Observer to remove from the service.</param>
-            <returns>Returns a task which removes the observer from the service when completed.</returns>
-            <exception cref="T:System.ArgumentException">Occurs if <see cref="P:FluentUI.Blazor.Community.Components.IObserver.Id"/> is not provided.</exception>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.WaitInitializationCompleted">
-            <summary>
-            Waits until the service is initialized.
-            </summary>
-            <returns>Returns a task which waits until the service is initialized.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.Initialize(System.String,Microsoft.JSInterop.IJSObjectReference)">
-            <summary>
-            Initializes the instance with the specified provider ID and JavaScript module reference.
-            </summary>
-            <param name="id">The unique identifier for the provider. Cannot be null or empty.</param>
-            <param name="module">The JavaScript module reference to associate with the instance. Cannot be null.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.Dispose">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterIntersectAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterIntersectAsync(System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterResizeAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterResizeAsync(System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterIntersectAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterIntersectAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterResizeAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterResizeAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterMutationAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference,FluentUI.Blazor.Community.Components.MutationObserverOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterMutationAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnInitializedAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnIntersectBatchAsync(FluentUI.Blazor.Community.Components.IntersectBatch)">
+            <summary>
+            Processes a batch of intersection events and notifies registered observers for each intersected element.
+            </summary>
+            <remarks>This method is intended to be invoked from JavaScript via interop. Each entry in the batch is
+            dispatched to the corresponding observer if it is registered. No notification occurs for elements without a
+            registered observer.</remarks>
+            <param name="batch">The batch of intersection entries to process. Must not be null.</param>
+            <returns>A task that represents the asynchronous operation of notifying observers for each intersection entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnMutationBatchAsync(FluentUI.Blazor.Community.Components.MutationBatch)">
+            <summary>
+            Processes a batch of DOM mutation events received from JavaScript and dispatches them to registered observers
+            asynchronously.
+            </summary>
+            <remarks>This method is intended to be invoked from JavaScript via interop. Each mutation entry in the
+            batch is delivered to the corresponding observer based on its group and identifier. If no observer is registered
+            for a given entry, that entry is ignored.</remarks>
+            <param name="batch">The batch of mutation events to process. Must not be null. Contains the collection of mutation entries and the
+            associated group identifier.</param>
+            <returns>A task that represents the asynchronous operation of dispatching mutation events to observers.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnResizeBatchAsync(FluentUI.Blazor.Community.Components.ResizeBatch)">
+            <summary>
+            Processes a batch of resize events and asynchronously notifies observers for each affected element.
+            </summary>
+            <remarks>This method is intended to be invoked from JavaScript via interop. Observers are notified
+            only for elements that are currently registered in the specified group.</remarks>
+            <param name="batch">The batch of resize event data containing the group identifier and a collection of entries representing elements
+            that have been resized.</param>
+            <returns>A task that represents the asynchronous operation of notifying observers for each resize event.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.GroupObserverItem">
+            <summary>
+            Represents an item within a group observer, typically used to monitor or manage changes in a grouped collection of
+            components.
+            </summary>
+            <remarks>This class is intended to be used as part of a group observation mechanism, where it serves as an
+            individual item within the group. It inherits from <see cref="T:Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase"/>, which provides base
+            functionality for fluent component design.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.GroupObserverItem"/> class.
+            </summary>
+            <remarks>The constructor generates a new unique identifier for the instance using <see
+            cref="M:Microsoft.FluentUI.AspNetCore.Components.Identifier.NewId(System.Int32)"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GroupObserverItem.GroupId">
+            <summary>
+            Gets or sets the unique identifier for the group to which this item belongs.
+            </summary>
+            <remarks>This property is used to associate the item with a specific group. It is essential for grouping
+            functionality and should be unique within the context of the application.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GroupObserverItem.ChildContent">
+            <summary>
+            Gets or sets the child content to be rendered within the group observer item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GroupObserverItem.Items">
+            <summary>
+            Gets the collection of observer items contained within this group.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.AddObserverItem(FluentUI.Blazor.Community.Components.ObserverItem)">
+            <summary>
+            Adds an observer item to the collection.
+            </summary>
+            <remarks>This method adds the specified observer item to the internal collection. Ensure that the item
+            is not <c>null</c>  before calling this method to avoid unexpected behavior.</remarks>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> to add to the collection. Cannot be <c>null</c>.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.RemoveItem(FluentUI.Blazor.Community.Components.ObserverItem)">
+            <summary>
+            Removes the specified observer item from the collection.
+            </summary>
+            <remarks>If the specified item does not exist in the collection, no action is taken.</remarks>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> to remove from the collection. Cannot be <see langword="null"/>.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IIntersectObserver">
+            <summary>
+            Defines methods for registering and unregistering elements for intersection observation.
+            </summary>
+            <remarks>This interface is typically used to monitor the visibility or intersection of elements within a
+            viewport or container. It supports grouping elements for more granular control over intersection
+            observation.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IIntersectObserver.RegisterIntersectAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <summary>
+            Registers an intersection observer for the specified element within a group.
+            </summary>
+            <param name="groupId">The unique identifier of the group to which the element belongs.</param>
+            <param name="elementId">The unique identifier of the element to observe.</param>
+            <param name="elementReference">A reference to the DOM element to be observed.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IIntersectObserver.UnregisterIntersectAsync(System.String,System.String)">
+            <summary>
+            Asynchronously unregisters an intersecting element from a specified group.
+            </summary>
+            <remarks>This method removes the specified element from the group, ensuring it is no longer considered
+            part of the intersection. If the element or group does not exist, the method completes without making
+            changes.</remarks>
+            <param name="groupId">The unique identifier of the group from which the element will be unregistered. Cannot be null or empty.</param>
+            <param name="elementId">The unique identifier of the element to be unregistered. Cannot be null or empty.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IMutationObserver">
+            <summary>
+            Defines an interface for observing and managing DOM mutations on specified elements within a group context.
+            </summary>
+            <remarks>Implementations of this interface allow clients to register and unregister mutation observers for
+            elements, typically to react to changes in the DOM such as attribute modifications, child list updates, or subtree
+            changes. This is commonly used in scenarios where dynamic UI updates or synchronization with client-side state are
+            required. Thread safety and observer lifecycle management depend on the specific implementation.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IMutationObserver.RegisterMutationAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference,FluentUI.Blazor.Community.Components.MutationObserverOptions)">
+            <summary>
+            Registers a mutation observer for the specified DOM element, enabling asynchronous tracking of changes according
+            to the provided options.
+            </summary>
+            <remarks>If an observer is already registered for the specified element and group, this method may
+            overwrite the previous registration. This method does not begin observing until registration is
+            complete.</remarks>
+            <param name="groupId">The identifier for the observer group. Used to associate the mutation observer with a logical group for
+            management or disposal.</param>
+            <param name="elementId">The unique identifier of the DOM element to observe for mutations.</param>
+            <param name="elementReference">A reference to the DOM element that will be observed for mutations. Must not be null.</param>
+            <param name="options">The configuration options that specify which types of mutations to observe, such as attribute changes, child
+            list modifications, or subtree changes. Cannot be null.</param>
+            <returns>A task that represents the asynchronous registration operation. The task completes when the mutation observer
+            has been successfully registered.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IMutationObserver.UnregisterMutationAsync(System.String,System.String)">
+            <summary>
+            Asynchronously unregisters a mutation identified by the specified group and element IDs.
+            </summary>
+            <param name="groupId">The unique identifier of the mutation group containing the mutation to unregister. Cannot be null or empty.</param>
+            <param name="elementId">The unique identifier of the mutation element to unregister within the specified group. Cannot be null or empty.</param>
+            <returns>A task that represents the asynchronous unregister operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IntersectBatch">
+            <summary>
+            Represents a batch of intersect entries grouped by a unique identifier.
+            </summary>
+            <remarks>This record is used to encapsulate a collection of intersect entries, identified by a group ID. It is
+            typically used in scenarios where multiple entries need to be processed or analyzed together as part of a single
+            logical group.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectBatch.GroupId">
+            <summary>
+            Gets the unique identifier for the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectBatch.Entries">
+            <summary>
+            Gets the list of intersect entries associated with the group.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IntersectEntry">
+            <summary>
+            Represents an entry that contains information about the intersection state of an entity.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.Id">
+            <summary>
+            Gets the unique identifier for the entity.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.IsIntersecting">
+            <summary>
+            Gets a value indicating whether the current object intersects with another object.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.IntersectionRatio">
+            <summary>
+            Gets the ratio representing the intersection of two entities as a value between 0.0 and 1.0.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.BoundingClientRect">
+            <summary>
+            Gets the bounding rectangle of the element relative to the viewport, if available.
+            </summary>
+            <remarks>The bounding rectangle provides the position and dimensions of the element as rendered in the
+            browser. If the element is not currently rendered or its layout information is unavailable, this property may be
+            <see langword="null"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.IntersectionRect">
+            <summary>
+            Gets the rectangle representing the intersection area between the target element and its root, if any.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.RootBounds">
+            <summary>
+            Gets the bounding rectangle of the root element at the time of observation, if available.
+            </summary>
+            <remarks>If the root element is no longer present or its bounds cannot be determined, this property
+            returns <see langword="null"/>.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IntersectEventArgs">
+            <summary>
+            Represents the event data for an intersection event, providing details about the observed element's intersection
+            state.
+            </summary>
+            <remarks>This class is typically used in scenarios where intersection events are monitored, such as detecting
+            when an element enters or leaves the viewport or a specified root element. It provides information about the
+            observed element's identifiers, intersection state, and the ratio of the intersection area.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.GroupId">
+            <summary>
+            Gets the unique identifier for the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.ElementId">
+            <summary>
+            Gets the unique identifier for the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.IsIntersecting">
+            <summary>
+            Gets a value indicating whether the observed element is currently intersecting with the root element or viewport.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.IntersectionRatio">
+            <summary>
+            Gets the ratio of the intersection area to the bounding box area of the observed element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.BoundingClientRect">
+            <summary>
+            Gets the bounding rectangle of the element relative to the viewport, if available.
+            </summary>
+            <remarks>The bounding rectangle provides the position and dimensions of the element as rendered in the
+            browser. If the element is not currently rendered or its layout information is unavailable, this property may be
+            <see langword="null"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.IntersectionRect">
+            <summary>
+            Gets the rectangle representing the intersection area between the target element and its root, if any.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.RootBounds">
+            <summary>
+            Gets the bounding rectangle of the root element at the time of observation, if available.
+            </summary>
+            <remarks>If the root element is no longer present or its bounds cannot be determined, this property
+            returns <see langword="null"/>.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IResizeObserver">
+            <summary>
+            Defines methods for observing and managing resize events for DOM elements.
+            </summary>
+            <remarks>This interface provides functionality to register and unregister DOM elements for resize observation.
+            It supports grouping elements by an optional group identifier, allowing for more granular control over resize event
+            handling. Use this interface to monitor size changes of specific elements in a web application.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IResizeObserver.RegisterResizeAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <summary>
+            Registers an element for resize event tracking within a specified group.
+            </summary>
+            <remarks>This method enables resize event tracking for the specified element, allowing the application
+            to respond to changes in the element's size. Ensure that the <paramref name="groupId"/> and <paramref
+            name="elementId"/> are unique within the context of the application.</remarks>
+            <param name="groupId">The identifier of the group to which the element belongs. This value cannot be null or empty.</param>
+            <param name="elementId">The unique identifier of the element to be tracked. This value cannot be null or empty.</param>
+            <param name="elementReference">A reference to the DOM element to be monitored for resize events.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IResizeObserver.UnregisterResizeAsync(System.String,System.String)">
+            <summary>
+            Unregisters a resize listener for a specific element within a group asynchronously.
+            </summary>
+            <param name="groupId">The identifier of the group containing the element. Cannot be <see langword="null"/> or empty.</param>
+            <param name="elementId">The identifier of the element to unregister. Cannot be <see langword="null"/> or empty.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationBatch">
+            <summary>
+            Represents a batch of mutation entries grouped under a common identifier.
+            </summary>
+            <remarks>Use this type to organize multiple mutation operations that should be processed together as a single
+            batch. The batch is identified by the <see cref="P:FluentUI.Blazor.Community.Components.MutationBatch.GroupId"/> property, which can be used to correlate related
+            mutations.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationBatch.GroupId">
+            <summary>
+            Gets the unique identifier for the group associated with this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationBatch.Entries">
+            <summary>
+            Gets the collection of mutation entries associated with this instance.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationEntry">
+            <summary>
+            Represents a record of a single mutation event, including details about the type of mutation and affected nodes or
+            attributes.
+            </summary>
+            <remarks>Use this type to capture and convey information about changes to a document structure, such as
+            attribute modifications or node additions and removals. The properties provide context for the mutation, including
+            the mutation type, affected attribute name, previous value, and serialized representations of added or removed
+            nodes. This record is typically used in scenarios involving DOM change tracking or synchronization.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.Id">
+            <summary>
+            Gets the unique identifier for this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.Type">
+            <summary>
+            Gets the type of mutation to observe or process.
+            </summary>
+            <remarks>Valid values include "attributes", "childList", and "subtree". The meaning of each value
+            depends on the context in which the property is used. This property is immutable after initialization.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.AttributeName">
+            <summary>
+            Gets the name of the attribute associated with this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.OldValue">
+            <summary>
+            Gets the previous value before the most recent change, or null if no prior value exists.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.AddedNodes">
+            <summary>
+            Gets the serialized representation of the nodes that were added.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.RemovedNodes">
+            <summary>
+            Gets the serialized representation of nodes that have been removed.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationEventArgs">
+            <summary>
+            Provides data for mutation-related events, encapsulating information about changes to attributes, child nodes, or
+            subtrees within a group or instance.
+            </summary>
+            <remarks>Use this record to access details about a mutation event, such as the type of mutation, affected
+            attributes, and lists of added or removed nodes. All properties are immutable after initialization, ensuring event
+            data remains consistent throughout its lifecycle.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.GroupId">
+            <summary>
+            Gets the unique identifier for the group associated with this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.Id">
+            <summary>
+            Gets the unique identifier for this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.Type">
+            <summary>
+            Gets the type of mutation to observe or process.
+            </summary>
+            <remarks>Valid values include "attributes", "childList", and "subtree". The meaning of each value
+            depends on the context in which the property is used. This property is immutable after initialization.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.AttributeName">
+            <summary>
+            Gets the name of the attribute associated with this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.OldValue">
+            <summary>
+            Gets the previous value before the most recent change, or null if no prior value exists.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.AddedNodes">
+            <summary>
+            Gets the serialized representation of the nodes that were added.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.RemovedNodes">
+            <summary>
+            Gets the serialized representation of nodes that have been removed.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationObserverOptions">
+            <summary>
+            Represents configuration options for observing mutations in a DOM tree using a mutation observer.
+            </summary>
+            <remarks>Use this record to specify which types of DOM changes should be monitored, such as attribute
+            modifications, changes to child elements, or updates to character data. Each property corresponds to a specific
+            aspect of mutation observation and can be set to enable or disable monitoring of that aspect. These options are
+            typically used when initializing a mutation observer to control its behavior.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.Attributes">
+            <summary>
+            Gets a value indicating whether attributes are enabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.ChildList">
+            <summary>
+            Gets a value indicating whether child elements are included in the list.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.Subtree">
+            <summary>
+            Gets a value indicating whether operations should include the entire subtree of elements.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.AttributeOldValue">
+            <summary>
+            Gets a value indicating whether the original value of an attribute is included during change tracking
+            operations.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.CharacterData">
+            <summary>
+            Gets a value indicating whether character data is included in the output.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.CharacterDataOldValue">
+            <summary>
+            Gets a value indicating whether the old value of character data is included in mutation records.
+            </summary>
+            <remarks>When set to <see langword="true"/>, mutation records will contain the previous value of the
+            character data before the change occurred. This can be useful for tracking changes or implementing undo
+            functionality. When <see langword="false"/>, the old value is omitted from mutation records, which may improve
+            performance if the previous value is not needed.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationType">
+            <summary>
+            Specifies the type of change detected in a DOM mutation event, such as attribute modifications, changes to child
+            nodes, or updates to textual content.
+            </summary>
+            <remarks>Use this enumeration to determine the nature of a DOM mutation when handling mutation events. Each
+            value corresponds to a distinct category of change: attribute updates, additions or removals of child nodes, or
+            modifications to character data. This can be useful for filtering or responding to specific mutation types in event
+            handlers.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.MutationType.Attributes">
+            <summary>
+            Gets the collection of attributes associated with the current object.
+            </summary>
+            <remarks>Use this property to access metadata or custom information attached to the object, such as
+            data annotations or user-defined attributes. The returned collection may be empty if no attributes are
+            present.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.MutationType.ChildList">
+            <summary>
+            Represents a collection of child elements associated with a parent object.
+            </summary>
+            <remarks>Use this collection to access, enumerate, or manage child elements in hierarchical data
+            structures. The order and mutability of the collection may depend on the specific implementation.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.MutationType.CharacterData">
+            <summary>
+            Represents the textual data contained within a character node, such as text, CDATA, or comments, in a document
+            object model (DOM).
+            </summary>
+            <remarks>Use this type to access or manipulate the character data of nodes that store text content. It
+            is commonly used when working with XML or HTML documents to retrieve or modify the value of text nodes, CDATA
+            sections, or comment nodes. This type does not represent element nodes or attributes.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ObserverItem">
+            <summary>
+            Represents an observer item which can be used within a <see cref="T:FluentUI.Blazor.Community.Components.GroupObserverItem"/> to monitor or manage changes in a grouped collection of components.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.Parent">
+            <summary>
+            Gets or sets the parent <see cref="T:FluentUI.Blazor.Community.Components.GroupObserverItem"/> component that this observer item is associated with.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserverState">
+            <summary>
+            Gets or sets the state of the observer, which is used to manage and track the observer's behavior and data.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.OnResize">
+            <summary>
+            Gets or sets the callback that is invoked when the component is resized.
+            </summary>
+            <remarks>Use this property to handle resize events and respond to changes in the component's
+            dimensions.  The callback is triggered whenever a resize event occurs, providing information such as the new
+            size.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.OnIntersect">
+            <summary>
+            Gets or sets the callback to be invoked when an intersection event occurs.
+            </summary>
+            <remarks>The callback is triggered with an <see cref="T:FluentUI.Blazor.Community.Components.IntersectEventArgs"/> instance containing
+            details about the intersection event. Use this property to handle intersection events, such as when an element
+            enters or exits the viewport.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.OnMutation">
+            <summary>
+            Gets or sets the callback that is invoked when a mutation event occurs within the component.
+            </summary>
+            <remarks>Assign a delegate to handle mutation events, such as changes to the component's data or
+            state. The event provides details through the <see cref="T:FluentUI.Blazor.Community.Components.MutationEventArgs"/> parameter. This callback is
+            typically used to respond to or process mutations initiated by user actions or other triggers.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserveResize">
+            <summary>
+            Gets or sets a value indicating whether the component observes changes to its size and responds to resize
+            events.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.MutationOptions">
+            <summary>
+            Gets or sets the options used to configure the behavior of the mutation observer for this component.
+            </summary>
+            <remarks>Specify mutation observer options to control which DOM changes are monitored, such as
+            attribute modifications, child list changes, or subtree updates. If not set, default observation behavior will
+            be used.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserveIntersection">
+            <summary>
+            Gets or sets a value indicating whether intersection observation is enabled for the component.
+            </summary>
+            <remarks>When enabled, the component will monitor its visibility or intersection with a parent
+            container, which can be used to trigger actions such as lazy loading or animations. This property is typically
+            used in scenarios where you need to respond to changes in the component's visibility within the
+            viewport.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserveMutation">
+            <summary>
+            Gets or sets a value indicating whether changes to the component's content should be observed for mutations.
+            </summary>
+            <remarks>When set to <see langword="true"/>, the component will monitor its content for dynamic
+            changes, such as additions or removals of child elements. This can be useful for scenarios where the content is
+            updated outside of the normal rendering cycle.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnResizeAsync(FluentUI.Blazor.Community.Components.ResizeEventArgs)">
+            <summary>
+            Handles the resize event and invokes the associated delegate asynchronously, if one is assigned.
+            </summary>
+            <param name="e">The event arguments containing details about the resize event.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnIntersectAsync(FluentUI.Blazor.Community.Components.IntersectEventArgs)">
+            <summary>
+            Handles the intersection event by invoking the associated event callback asynchronously.
+            </summary>
+            <remarks>This method checks if the <see cref="P:FluentUI.Blazor.Community.Components.ObserverItem.OnIntersect"/> event has any registered delegates  and
+            invokes them asynchronously if present. Ensure that the event arguments provided  are valid and contain the
+            necessary data for the event handlers.</remarks>
+            <param name="e">The event arguments containing details about the intersection event.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnMutationAsync(FluentUI.Blazor.Community.Components.MutationEventArgs)">
+            <summary>
+            Handles a mutation event asynchronously when a data change occurs.
+            </summary>
+            <remarks>Override this method in a derived class to implement custom mutation handling logic. The base
+            implementation throws a <see cref="T:System.NotImplementedException"/>.</remarks>
+            <param name="entry">The event arguments containing details about the mutation to process.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+            <exception cref="T:System.NotImplementedException">Thrown if the method is not overridden in a derived class.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ObserverState">
+            <summary>
+            Represents the internal state of the observer, managing groups and items along with their notification status.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._groups">
+            <summary>
+            Represents the collection of groups managed by the observer state, indexed by their unique group identifiers.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._items">
+            <summary>
+            Represents the collection of individual observer items, indexed by their unique identifiers.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._provider">
+            <summary>
+            References the provider responsible for handling notifications. This may be <see langword="null"/> if no provider is currently set.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._addPendingGroups">
+            <summary>
+            Represents queues for managing pending notification actions when the provider is not available.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._addPendingItems">
+            <summary>
+            Represents a queue of items pending addition notifications when the provider is not available.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._removePendingGroups">
+            <summary>
+            Represents a queue of group IDs pending removal notifications when the provider is not available.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._removePendingItems">
+            <summary>
+            Represents a queue of item IDs pending removal notifications when the provider is not available.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.AddGroupAsync(FluentUI.Blazor.Community.Components.GroupObserverItem)">
+            <summary>
+            Adds a group to the collection and notifies the provider if available.
+            </summary>
+            <remarks>If the provider is not available, the group is added to a pending queue for later processing.
+            Otherwise, the provider is immediately notified of the added group.</remarks>
+            <param name="group">The group to add. The group's <see cref="P:FluentUI.Blazor.Community.Components.GroupObserverItem.GroupId"/> must not be null, empty, or whitespace.</param>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="group"/> has a <see cref="P:FluentUI.Blazor.Community.Components.GroupObserverItem.GroupId"/> that is null, empty, or
+            consists only of whitespace.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.RemoveGroupAsync(System.String)">
+            <summary>
+            Removes the specified group from the collection and updates its notification status.
+            </summary>
+            <remarks>If the provider is not available, the group is added to a queue of pending removals.
+            Otherwise, the group is unnotified immediately.</remarks>
+            <param name="groupId">The unique identifier of the group to remove. Cannot be null, empty, or consist only of whitespace.</param>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="groupId"/> is null, empty, or consists only of whitespace.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.AddItemAsync(FluentUI.Blazor.Community.Components.ObserverItem)">
+            <summary>
+            Adds an item to the collection and notifies the provider if available.
+            </summary>
+            <remarks>If the provider is not available, the item is added to a pending queue to be processed later.
+            Otherwise, the provider is notified immediately after the item is added.</remarks>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> to add. The item's <see cref="P:Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase.Id"/> must not be null or empty.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.RemoveItemAsync(FluentUI.Blazor.Community.Components.ObserverItem)">
+            <summary>
+            Removes the specified item from the collection and updates its notification state.
+            </summary>
+            <remarks>If a notification provider is available, the item's notification state is updated by calling
+            the provider.  Otherwise, the item's ID is added to a queue for pending removal.</remarks>
+            <param name="item">The item to remove. The item's <see cref="P:Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase.Id"/> must not be null or empty.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.SetProviderAsync(FluentUI.Blazor.Community.Components.FluentCxObserverProvider)">
+            <summary>
+            Sets the provider responsible for handling notifications and processes any pending notification actions.
+            </summary>
+            <remarks>When a new provider is set, any pending groups or items queued for notification are processed
+            and sent to the provider. If the provider is set to <see langword="null"/>, all pending notifications are
+            discarded.</remarks>
+            <param name="value">The <see cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> instance to set as the current provider.  If <paramref name="value"/>
+            is <see langword="null"/>, all pending notifications are cleared.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.GetItems(System.String)">
+            <summary>
+            Retrieves the list of items associated with the specified group identifier.
+            </summary>
+            <param name="groupId">The unique identifier of the group whose items are to be retrieved. Cannot be null or empty.</param>
+            <returns>A list of <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> objects associated with the specified group.  Returns an empty list if the
+            group does not exist.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.GetItem(System.String,System.String)">
+            <summary>
+            Retrieves an item by its identifier, searching within a specified group or globally if the group is not found.
+            </summary>
+            <param name="groupId">The identifier of the group to search within. Cannot be <see langword="null"/> or empty.</param>
+            <param name="itemId">The identifier of the item to retrieve. Cannot be <see langword="null"/> or empty.</param>
+            <returns>The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> that matches the specified <paramref name="itemId"/>.  If the group is found, the
+            search is limited to that group; otherwise, a global search is performed.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Thrown if no item with the specified <paramref name="itemId"/> is found in the specified group or globally.</exception>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizeBatch">
+            <summary>
+            Represents a batch of resize entries grouped by a unique identifier.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeBatch.GroupId">
+            <summary>
+            Gets the unique identifier for the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeBatch.Entries">
+            <summary>
+            Gets the list of resize entries associated with the group.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizeEntry">
+            <summary>
+            Represents an entry containing dimensions for resizing operations.
+            </summary>
+            <remarks>This record is typically used to store and transfer information about the dimensions of an object,
+            including its unique identifier and its width and height values.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEntry.Id">
+            <summary>
+            Gets the unique identifier for the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEntry.Width">
+            <summary>
+            Gets the width of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEntry.Height">
+            <summary>
+            Gets the height of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEntry.Rect">
+            <summary>
+            Gets the DOM rectangle representing position of the entry.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizeEventArgs">
+            <summary>
+            Represents the event data for a resize operation, including the dimensions of the resized element and its
+            identifiers.
+            </summary>
+            <remarks>This class provides information about a resize event, such as the group and element identifiers, as
+            well as the new width and height of the resized element.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.GroupId">
+            <summary>
+            Gets the unique identifier for the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.ElementId">
+            <summary>
+            Gets the unique identifier for the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Width">
+            <summary>
+            Gets the width of the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Height">
+            <summary>
+            Gets the height of the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Rect">
+            <summary>
+            Gets the bounding rectangle of the element.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBar">
             <summary>
@@ -9751,6 +10598,9 @@
             method  on the signature object. If no signature is present, the method does nothing.</remarks>
             <returns>A task that represents the asynchronous operation.</returns>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnResizeAsync(FluentUI.Blazor.Community.Components.ResizeEventArgs)">
+            <inheritdoc />
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.SignatureGridLayer">
             <summary>
             Represents a grid layer component for displaying a grid on a signature component.
@@ -10456,11 +11306,6 @@
             Gets or sets the JavaScript runtime for interop calls.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.Signature.ObserverService">
-            <summary>
-            Gets or sets the observer service for managing observers.
-            </summary>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.Signature.Options">
             <summary>
             Gets or sets the signature options for configuring the signature component.
@@ -10524,15 +11369,6 @@
             <returns>Returns a task which refreshs the overlay layer when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.Signature.OnResizedAsync(System.Int32,System.Int32)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Signature.OnIntersectAsync(FluentUI.Blazor.Community.Components.IntersectionEventArgs)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Signature.OnMeasuredAsync(System.Int32,System.Int32)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Signature.DisposeAsync">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SignatureExporter">
