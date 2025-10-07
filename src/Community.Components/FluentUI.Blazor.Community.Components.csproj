@@ -65,6 +65,7 @@
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
     <PackageReference Include="SkiaSharp" />
     <PackageReference Include="Svg.Skia" />
+    <PackageReference Include="TagLibSharp" />
   </ItemGroup>
 
   <PropertyGroup>
