@@ -6,7 +6,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// Provides functionality for managing subtitle languages, including tracking the currently selected language and the
 /// set of available options.
 /// </summary>
-public partial class SubtitleManager
+public partial class SubtitleSelector
 {
     /// <summary>
     /// Gets or sets all the available subtitle languages.
