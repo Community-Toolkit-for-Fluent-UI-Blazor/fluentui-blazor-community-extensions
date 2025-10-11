@@ -7,7 +7,7 @@ using Microsoft.FluentUI.AspNetCore.Components.Tests;
 
 namespace FluentUI.Blazor.Community.Components.Tests.Components.Slideshow;
 
-public class SlideshowCaptionTests : TestBase
+public class SlideshowDescriptionTests : TestBase
 {
     [Fact]
     public void RendersChildContent()
@@ -16,7 +16,7 @@ public class SlideshowCaptionTests : TestBase
         var childContent = "<span>Test Caption</span>";
 
         // Act
-        var cut = RenderComponent<SlideshowCaption>(parameters => parameters
+        var cut = RenderComponent<SlideshowDescription>(parameters => parameters
             .AddChildContent(childContent)
         );
 
