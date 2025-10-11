@@ -1,0 +1,32 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentButton Appearance="Appearance.Stealth"
+              Id="@Id"
+              IconStart="@(VolumeIcon)"
+              Title="@Label"
+              aria-label="@AriaLabel"
+              OnClick="@(() => _isVolumePopoverOpen = !_isVolumePopoverOpen)" />
+
+<FluentPopover AnchorId="@Id"
+               Style="width: 340px"
+               FixedPlacement="true"
+               VerticalPosition="VerticalPosition.Top"
+               @bind-Open="_isVolumePopoverOpen">
+    <Body>
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentIcon Value="@VolumeIcon" />
+            <FluentStack Orientation="Orientation.Vertical"
+                         VerticalGap="0">
+                <FluentSlider TValue="double"
+                              AriaLabel="@AriaLabel"
+                              Label="@AriaLabel"
+                              Min="0"
+                              Max="1"
+                              Step="0.01"
+                              Value="@_volume"
+                              ValueChanged="@(e => OnVolumeChangedAsync(e))" />
+            </FluentStack>
+        </FluentStack>
+    </Body>
+</FluentPopover>

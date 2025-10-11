@@ -1,0 +1,145 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div id="@Id"
+         class="@InternalClass"
+         style="@Style">
+        @ChildContent
+        @VideoSettingsContent
+
+        @if (View == VideoPlayerView.Default ||
+             View == VideoPlayerView.Fullscreen)
+        {
+            <div style="position: relative; height: calc(100% - 140px)">
+                <div class="@InternalVideoCss">
+                    <Video IsVisible="@(!_showPlaylist)" @ref=_videoReference />
+                    <SubtitleOverlay IsVisible="@(!_showPlaylist)"
+                                     Entry="@_currentSubtitleEntry"
+                                     @ref="_subtitleOverlay" />
+                </div>
+
+                <VideoPlaylist Playlist="@(_isShuffling? _shuffledPlaylist : _originalPlaylist)"
+                               CurrentTrack="@CurrentTrack"
+                               IsVisible="@_showPlaylist"
+                               OnTrackSelected="@OnPlayTrackAsync"
+                               UnknownVideoTitle="@Labels.UnkownVideoTitle" />
+            </div>
+
+            <FluentCard Height="140px" AreaRestricted="false">
+                <div class="main-ui">                  
+                    <FluentStack Orientation="Orientation.Vertical">
+                        <VideoTrackInfo Track="@CurrentTrack" />
+
+                        <SeekBar CurrentTime="@_currentTime"
+                                 Duration="@_duration"
+                                 OnSeek="@OnSeekAsync"
+                                 OnSeekStart="@OnPauseAsync"
+                                 OnSeekEnd="@OnSeekEndAsync"
+                                 Chapters="@(CurrentTrack?.Chapters ?? [])"
+                                 Mode="MediaMode.Video"
+                                 ShowThumbnails="@ShowThumbnails"
+                                 VideoReference="@_videoReference"
+                                 Disabled="@IsSeekBarDisabled"/>
+
+                        <VideoControls @ref="_videoControls"
+                                       OnNext="@OnNextTrackAsync"
+                                       OnPrevious="@OnPreviousTrackAsync"
+                                       OnRepeatModeChanged="@(p => _repeatMode = p)"
+                                       OnShuffleChanged="@(OnToggleShuffle)"
+                                       OnPlayPauseToggled=@OnTogglePlayPauseAsync
+                                       OnVolumeChanged="@OnChangeVolumeAsync"
+                                       IsDownloadVisible=@IsDownloadVisible
+                                       IsSettingsVisible=@IsSettingsVisible
+                                       OnDownload="@OnDownloadAsync"
+                                       OnPlaylistToggled="@OnPlaylistToogled"
+                                       OnStop="@OnStopAsync"
+                                       OnProperties="@OnPropertiesAsync"
+                                       IsPlayOrPauseDisabled=@IsPlayOrPauseDisabled
+                                       IsPreviousDisabled=@IsPreviousDisabled
+                                       IsNextDisabled=@IsNextDisabled
+                                       IsStopDisabled=@IsStopDisabled
+                                       IsDownloadDisabled="@IsDownloadDisabled"
+                                       IsPropertiesDisabled=@IsPropertiesDisabled
+                                       IsFullscreenDisabled="@IsFullscreenDisabled"
+                                       IsPlaylistDisabled="@IsPlaylistDisabled"
+                                       IsPiPDisabled="@IsPiPDisabled"
+                                       OnFullscreen="@OnToggleFullscreenAsync"
+                                       OnPiP="@OnTogglePiPAsync"
+                                       OnTheater="@OnToggleTheater"
+                                       Labels="@Labels">
+                            <VideoSettingsContent>
+                                <FluentStack Orientation="Orientation.Vertical"
+                                             VerticalGap="2">
+                                    @if (IsSubtitleOptionVisible)
+                                    {
+                                        <VideoSettingsItem Label="@Labels.SubtitlesLabel"
+                                                           Icon="@(s_subtitlesIcon)"
+                                                           OnClick="@OnSubtitleClickAsync" />
+                                    }
+
+                                    @if (IsPlaybackSpeedVisible)
+                                    {
+                                        <VideoSettingsItem Label="@Labels.PlaybackSpeedLabel"
+                                                           Icon="@(s_playbackSpeedIcon)"
+                                                           OnClick="@OnPlaybackSpeedClickAsync" />
+                                    }
+
+                                    @if (IsVideoQualityOptionVisible)
+                                    {
+                                        <VideoSettingsItem Label="@Labels.VideoQualityLabel"
+                                                           Icon="@(s_videoOptionsIcon)"
+                                                           OnClick="@OnVideoQualityClickAsync" />
+                                    }
+
+                                    @VideoSettingsContent
+                                </FluentStack>
+                            </VideoSettingsContent>
+                        </VideoControls>
+                    </FluentStack>
+                </div>
+            </FluentCard>
+        }
+        else if (View == VideoPlayerView.Compact)
+        {
+            <CompactVideoPlayer CurrentTrack="CurrentTrack"
+                                IsPreviousDisabled="@IsPreviousDisabled"
+                                IsNextDisabled="@IsNextDisabled"
+                                OnPrevious="@OnPreviousTrackAsync"
+                                OnNext="@OnNextTrackAsync"
+                                OnPlayPauseChanged="@OnTogglePlayPauseAsync"
+                                NextLabel="@Labels.NextLabel"
+                                PreviousLabel="@Labels.PreviousLabel"
+                                PauseLabel="@Labels.PauseLabel"
+                                PlayLabel="@Labels.PlayLabel"  
+                                Duration="@_duration"
+                                CurrentTime="@_currentTime"
+                                VideoReady="OnVideoReady"/>
+        }
+        else if(View == VideoPlayerView.Floating)
+        {
+            <CompactVideoPlayer CurrentTrack="CurrentTrack"
+                                IsPreviousDisabled="@IsPreviousDisabled"
+                                IsNextDisabled="@IsNextDisabled"
+                                OnPrevious="@OnPreviousTrackAsync"
+                                OnNext="@OnNextTrackAsync"
+                                OnPlayPauseChanged="@OnTogglePlayPauseAsync"
+                                NextLabel="@Labels.NextLabel"
+                                PreviousLabel="@Labels.PreviousLabel"
+                                PauseLabel="@Labels.PauseLabel"
+                                PlayLabel="@Labels.PlayLabel"
+                                IsFloating
+                                Duration="@_duration"
+                                CurrentTime="@_currentTime"
+                                VideoReady="OnVideoReady" />
+        }
+        else if (View == VideoPlayerView.Minimal)
+        {
+            <MinimalVideoPlayer PlayLabel="@Labels.PlayLabel"
+                                PauseLabel="@Labels.PauseLabel"
+                                OnPlayPause="@OnTogglePlayPauseAsync"
+                                VideoReady="OnVideoReady" />
+        }
+    </div>
+</CascadingValue>
+

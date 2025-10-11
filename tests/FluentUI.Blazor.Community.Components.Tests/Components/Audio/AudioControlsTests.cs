@@ -102,8 +102,8 @@ public class AudioControlsTests : TestBase
     public async Task OnRepeatModeChanged_IsInvoked()
     {
         bool called = false;
-        var cut = RenderComponent<AudioControls>(p => p.Add(a => a.OnRepeatModeChanged, EventCallback.Factory.Create<AudioRepeatMode>(this, _ => called = true)));
-        await cut.Instance.OnRepeatModeChanged.InvokeAsync(AudioRepeatMode.SingleLoop);
+        var cut = RenderComponent<AudioControls>(p => p.Add(a => a.OnRepeatModeChanged, EventCallback.Factory.Create<AudioVideoRepeatMode>(this, _ => called = true)));
+        await cut.Instance.OnRepeatModeChanged.InvokeAsync(AudioVideoRepeatMode.SingleLoop);
         Assert.True(called);
     }
 
