@@ -408,7 +408,14 @@ public sealed partial class FluentCxObserverProvider
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
-        await ObserverState.SetProviderAsync(null);
+        try
+        {
+            await ObserverState.SetProviderAsync(null);
+        }
+        catch (JSDisconnectedException)
+        {
+
+        }
     }
 }
 
