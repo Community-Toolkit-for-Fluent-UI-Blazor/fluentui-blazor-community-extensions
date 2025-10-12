@@ -24,6 +24,17 @@
                                IsVisible="@_showPlaylist"
                                OnTrackSelected="@OnPlayTrackAsync"
                                UnknownVideoTitle="@Labels.UnkownVideoTitle" />
+
+                @if (_showChapters && CurrentTrack is not null)
+                {
+                    <ChapterList Orientation="Orientation.Horizontal">
+                        @foreach(var chapter in CurrentTrack.Chapters)
+                        {
+                            <ChapterItem Chapter="@chapter"
+                                         OnClick="@(() => OnChapterSelectedAsync(chapter))" />                                         
+                        }
+                    </ChapterList>
+                }
             </div>
 
             <FluentCard Height="140px" AreaRestricted="false">
@@ -65,6 +76,8 @@
                                        IsPlaylistDisabled="@IsPlaylistDisabled"
                                        IsPiPDisabled="@IsPiPDisabled"
                                        IsSettingsDisabled="@IsSettingsDisabled"
+                                       IsChapterVisible="@IsChapterVisible"
+                                       OnChapterToggled="@OnChapterToogled"
                                        OnFullscreen="@OnToggleFullscreenAsync"
                                        OnPiP="@OnTogglePiPAsync"
                                        OnTheater="@OnToggleTheater"

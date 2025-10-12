@@ -2520,6 +2520,11 @@
             Gets the label for the subtitle language option.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.ChaptersLabel">
+            <summary>
+            Gets the label used for chapter button.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.AudioVideoRepeatMode">
             <summary>
             Specifies the repeat mode for audio or video playback.
@@ -3448,6 +3453,50 @@
             <summary>
             Represents a fractal.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChapterButton">
+            <summary>
+            Represents a button component designed for initiating chapter actions.
+            </summary>
+            <remarks>The <see cref="T:FluentUI.Blazor.Community.Components.ChapterButton"/> component provides a customizable button with an optional label and
+            icon. It supports an event callback that is triggered when the button is clicked, allowing developers to handle
+            chapter-related logic in their applications.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChapterButton.Icon">
+            <summary>
+            Represents the icon to be displayed on the button.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChapterButton._showChapters">
+            <summary>
+            Indicates whether the chapter should be displayed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChapterButton.OnChapters">
+            <summary>
+            Gets or sets the event callback that is invoked when the download button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChapterButton.Label">
+            <summary>
+            Gets or sets the label for the download button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ChapterButton.IsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the download button is disabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChapterButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ChapterButton"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ChapterButton.OnClickAsync">
+            <summary>
+            Occurs when the download button is clicked.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.ChapterButton.OnChapters" /> callback.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.CompactSeekBar">
             <summary>
@@ -5196,6 +5245,11 @@
             Represents whether to display the playlist.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxVideo._showChapters">
+            <summary>
+            Represents whether to display the chapters.
+            </summary>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxVideo._dotNetRef">
             <summary>
             Represents the .NET object reference for JavaScript interop.
@@ -5379,6 +5433,11 @@
             Gets or sets a value indicating whether the settings panel is visible.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxVideo.IsChapterVisible">
+            <summary>
+            Gets or sets a value indicating whether the chapter selection option is visible in the UI.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxVideo.Labels">
             <summary>
             Gets or sets the labels for the audio control buttons.
@@ -5472,6 +5531,13 @@
             Toggles the visibility of the playlist.
             </summary>
             <param name="value">A boolean value indicating whether the playlist should be shown.  <see langword="true"/> to show the playlist;
+            otherwise, <see langword="false"/>.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxVideo.OnChapterToogled(System.Boolean)">
+            <summary>
+            Handles the event when the chapter visibility is toggled.
+            </summary>
+            <param name="value">A value indicating whether chapters should be shown. Set to <see langword="true"/> to display chapters;
             otherwise, <see langword="false"/>.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxVideo.PlayAsync">
@@ -5617,6 +5683,13 @@
             <summary>
             Handles the event when the video quality option is clicked.
             </summary>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxVideo.OnChapterSelectedAsync(FluentUI.Blazor.Community.Components.Chapter)">
+            <summary>
+            Handles the selection of a chapter by seeking the video to the chapter's start time asynchronously.
+            </summary>
+            <param name="chapter">The chapter to seek to. Must not be null.</param>
             <returns>A task that represents the asynchronous operation.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxVideo.OnToggleShuffle(System.Boolean)">
@@ -6393,6 +6466,13 @@
             Gets or sets the event callback that is invoked when the playlist button is toggled.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoControls.OnChapterToggled">
+            <summary>
+            Gets or sets the callback that is invoked when a chapter is toggled.
+            </summary>
+            <remarks>Use this property to specify a method that will be called in response to a chapter toggle
+            event. The callback is triggered when the user expands or collapses a chapter in the UI.</remarks>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.VideoControls.OnPrevious">
             <summary>
             Gets or sets the event callback that is invoked when the previous button is clicked.
@@ -6498,6 +6578,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.VideoControls.IsSettingsDisabled">
             <summary>
             Gets or sets a value indicating whether the settings are disabled in the user interface.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoControls.IsChapterVisible">
+            <summary>
+            Gets or sets a value indicating whether chapter button is visible for the component.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.VideoControls.VideoSettingsContent">

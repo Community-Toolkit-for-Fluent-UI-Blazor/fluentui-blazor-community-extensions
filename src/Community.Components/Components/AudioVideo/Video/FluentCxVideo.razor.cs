@@ -42,6 +42,11 @@ public partial class FluentCxVideo : FluentComponentBase
     private bool _showPlaylist;
 
     /// <summary>
+    /// Represents whether to display the chapters.
+    /// </summary>
+    private bool _showChapters;
+
+    /// <summary>
     /// Represents the .NET object reference for JavaScript interop.
     /// </summary>
     private readonly DotNetObjectReference<FluentCxVideo> _dotNetRef;
@@ -244,6 +249,11 @@ public partial class FluentCxVideo : FluentComponentBase
     public bool IsSettingsVisible { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether the chapter selection option is visible in the UI.
+    /// </summary>
+    private bool IsChapterVisible => CurrentTrack?.Chapters.Count > 0;
+
+    /// <summary>
     /// Gets or sets the labels for the audio control buttons.
     /// </summary>
     [Parameter]
@@ -428,6 +438,17 @@ public partial class FluentCxVideo : FluentComponentBase
     private void OnPlaylistToogled(bool value)
     {
         _showPlaylist = value;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Handles the event when the chapter visibility is toggled.
+    /// </summary>
+    /// <param name="value">A value indicating whether chapters should be shown. Set to <see langword="true"/> to display chapters;
+    /// otherwise, <see langword="false"/>.</param>
+    private void OnChapterToogled(bool value)
+    {
+        _showChapters = value;
         StateHasChanged();
     }
 
@@ -840,6 +861,21 @@ public partial class FluentCxVideo : FluentComponentBase
         {
             var source = CurrentTrack?.GetSource(VideoState.SelectedQuality);
             await SetVideoSourceAsync(source);
+        }
+    }
+
+    /// <summary>
+    /// Handles the selection of a chapter by seeking the video to the chapter's start time asynchronously.
+    /// </summary>
+    /// <param name="chapter">The chapter to seek to. Must not be null.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task OnChapterSelectedAsync(Chapter chapter)
+    {
+        _videoControls?.CloseSettingsPopover();
+
+        if (_module is not null)
+        {
+            await _module.InvokeVoidAsync("fluentCxVideo.seek", Id, chapter.StartTime.TotalSeconds);
         }
     }
 

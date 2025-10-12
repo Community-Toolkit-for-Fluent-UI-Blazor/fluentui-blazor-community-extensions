@@ -73,7 +73,8 @@ public record AudioVideoLabels
         ResolutionLabel = "Résolution",
         FramerateLabel = "Fréquence d'images",
         DefaultLabel = "Défaut",
-        SubtitleLanguageLabel = "Langue des sous-titres"
+        SubtitleLanguageLabel = "Langue des sous-titres",
+        ChaptersLabel = "Chapitres"
     };
 
     /// <summary>
@@ -338,4 +339,9 @@ public record AudioVideoLabels
     /// Gets the label for the subtitle language option.
     /// </summary>
     public string SubtitleLanguageLabel { get; init; } = "Subtitle Language";
+
+    /// <summary>
+    /// Gets the label used for chapter button.
+    /// </summary>
+    public string ChaptersLabel { get; init; } = "Chapters";
 }

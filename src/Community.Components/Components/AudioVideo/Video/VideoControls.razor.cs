@@ -59,6 +59,14 @@ public partial class VideoControls
     public EventCallback<bool> OnPlaylistToggled { get; set; }
 
     /// <summary>
+    /// Gets or sets the callback that is invoked when a chapter is toggled.
+    /// </summary>
+    /// <remarks>Use this property to specify a method that will be called in response to a chapter toggle
+    /// event. The callback is triggered when the user expands or collapses a chapter in the UI.</remarks>
+    [Parameter]
+    public EventCallback<bool> OnChapterToggled { get; set; }
+
+    /// <summary>
     /// Gets or sets the event callback that is invoked when the previous button is clicked.
     /// </summary>
     [Parameter]
@@ -185,6 +193,12 @@ public partial class VideoControls
     /// </summary>
     [Parameter]
     public bool IsSettingsDisabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether chapter button is visible for the component.
+    /// </summary>
+    [Parameter]
+    public bool IsChapterVisible { get; set; }
 
     /// <summary>
     /// Gets or sets the content to render within the video settings area.

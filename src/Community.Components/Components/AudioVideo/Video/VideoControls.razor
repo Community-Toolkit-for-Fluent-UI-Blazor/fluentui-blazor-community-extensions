@@ -7,6 +7,12 @@
              HorizontalGap="15">
     <PlaylistButton Label="@Labels.PlaylistLabel" OnPlaylist="@OnPlaylistToggled" />
 
+    @if (IsChapterVisible)
+    {
+        <ChapterButton Label="@Labels.ChaptersLabel"
+                       OnChapter="@OnChapterToggled" />
+    }
+
     <FluentSpacer />
 
     <ShuffleButton ShuffleOnLabel="@Labels.ShuffleOnLabel"
