@@ -67,33 +67,72 @@
         new(720, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny_720x406.mp4"),
         new(1080, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny_1080p.mp4")
     ];
-    
 
-    private readonly List<SubtitleEntry> _subtitleEntries = [
-        new SubtitleEntry
-        {
-            Start = 1,
-            End = 4,
-            Text = "This is an example of a subtitle entry."
-        },
-        new SubtitleEntry
-        {
-            Start = 5,
-            End = 8,
-            Text = "You can add multiple entries with different timings."
-        },
-        new SubtitleEntry
-        {
-            Start = 9,
-            End = 12,
-            Text = "Subtitles enhance accessibility and user experience."
-        }
-    ];
+
+    private readonly MultilingualSubtitles _subtitleEntries = new();
 
     [Inject]
     private IJSRuntime Runtime { get; set; } = null!;
 
     int ProgressPercent = 0;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _subtitleEntries.AddRange((new()
+            {
+                Code = "en",
+                Name = "English",
+            },
+            [
+            new SubtitleEntry
+            {
+                Start = 1,
+                End = 4,
+                Text = "This is an example of a subtitle entry."
+            },
+            new SubtitleEntry
+            {
+                Start = 5,
+                End = 8,
+                Text = "You can add multiple entries with different timings."
+            },
+            new SubtitleEntry
+            {
+                Start = 9,
+                End = 12,
+                Text = "Subtitles enhance accessibility and user experience."
+            }
+        ]
+        ),
+        (new()
+        {
+            Code = "fr",
+            Name = "Français",
+        },
+            [
+            new SubtitleEntry
+            {
+                Start = 1,
+                End = 4,
+                Text = "Ceci est un exemple de sous-titre."
+            },
+            new SubtitleEntry
+            {
+                Start = 5,
+                End = 8,
+                Text = "Vous pouvez ajouter de multiple entrées avec un timing différent.."
+            },
+            new SubtitleEntry
+            {
+                Start = 9,
+                End = 12,
+                Text = "Les sous-titres peuvent améliorer l'accessibilité et l'expérience utilisateur."
+            }
+        ]
+        ));
+    }
 
     private static string GetPath(string path)
     {

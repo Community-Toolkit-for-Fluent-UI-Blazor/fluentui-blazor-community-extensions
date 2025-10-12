@@ -2515,6 +2515,11 @@
             Gets the default label.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.SubtitleLanguageLabel">
+            <summary>
+            Gets the label for the subtitle language option.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.AudioVideoRepeatMode">
             <summary>
             Specifies the repeat mode for audio or video playback.
@@ -5276,9 +5281,9 @@
             Gets or sets the current subtitle entry being displayed.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxVideo._subtitleOptions">
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxVideo._subtitleEntries">
             <summary>
-            Represents the subtitle options for the video player.
+            Represents the list of subtitle entries associated with the video player.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.FluentCxVideo._videoPlaybackSpeedOptions">
@@ -5722,10 +5727,50 @@
             Represents a panel that displays subtitle options for the current context.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SubtitlePanel._selectedLanguage">
+            <summary>
+            Represents the currently selected subtitle language.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SubtitlePanel._selectedBackgroundColor">
+            <summary>
+            Represents the currently selected subtitle background color.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SubtitlePanel._selectedBackgroundOpacity">
+            <summary>
+            Represents the currently selected subtitle background style.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.SubtitlePanel.Content">
             <summary>
             Gets or sets the audio and video labels along with subtitle options for the current context.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SubtitlePanel.Dialog">
+            <summary>
+            Gets or sets the dialog instance that hosts this panel.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SubtitlePanel.VideoState">
+            <summary>
+            Gets or sets the video state.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SubtitlePanel.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SubtitlePanel.OnCloseAsync">
+            <summary>
+            Performs cleanup and closes the dialog asynchronously.
+            </summary>
+            <returns>A task that represents the asynchronous close operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SubtitlePanel.OnCancelAsync">
+            <summary>
+            Asynchronously cancels the current dialog operation.
+            </summary>
+            <returns>A task that represents the asynchronous cancel operation.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.VideoQualityPanel">
             <summary>
@@ -5771,6 +5816,49 @@
             Asynchronously cancels the current dialog operation.
             </summary>
             <returns>A task that represents the asynchronous cancel operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MultilingualSubtitles">
+            <summary>
+            Represents a collection of subtitles organized by language, allowing management of multiple language-specific
+            subtitle tracks within a single object.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.MultilingualSubtitles._multiLingualSubtitles">
+            <summary>
+            Represents a collection of subtitles organized by language.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MultilingualSubtitles.Keys">
+            <summary>
+            Gets the collection of subtitle languages available in the current set.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MultilingualSubtitles.Item(FluentUI.Blazor.Community.Components.SubtitleLanguage)">
+            <summary>
+            Gets the list of subtitle entries for the specified language.
+            </summary>
+            <param name="language">The language for which to retrieve subtitle entries.</param>
+            <returns>A list of <see cref="T:FluentUI.Blazor.Community.Components.SubtitleEntry"/> objects for the specified language. Returns an empty list if no subtitles
+            are available for the language.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.MultilingualSubtitles.Add(FluentUI.Blazor.Community.Components.SubtitleLanguage,System.Collections.Generic.List{FluentUI.Blazor.Community.Components.SubtitleEntry})">
+            <summary>
+            Adds a collection of subtitles for the specified language. If subtitles for the language already exist, the new
+            entries are appended.
+            </summary>
+            <param name="language">The language for which the subtitles are to be added.</param>
+            <param name="subtitles">The list of subtitle entries to add. Cannot be null.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.MultilingualSubtitles.AddRange(System.ValueTuple{FluentUI.Blazor.Community.Components.SubtitleLanguage,System.Collections.Generic.List{FluentUI.Blazor.Community.Components.SubtitleEntry}}[])">
+            <summary>
+            Adds multiple collections of subtitles, each associated with a specific language, to the current set.
+            </summary>
+            <remarks>If any of the provided subtitle lists are empty, no subtitles will be added for that
+            language. This method is useful for efficiently adding subtitles in multiple languages in a single
+            operation.</remarks>
+            <param name="items">An array of tuples, each containing a subtitle language and a list of subtitle entries to add. Cannot be null.
+            Each tuple's language specifies the language for the subtitles, and the subtitles list contains the entries to
+            add for that language.</param>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SubtitleBackground">
             <summary>
@@ -5871,17 +5959,39 @@
             code typically follows ISO 639-1 or ISO 639-2 standards, while the language name provides a human-readable
             description.</remarks>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SubtitleLanguage.LanguageCode">
+        <member name="P:FluentUI.Blazor.Community.Components.SubtitleLanguage.Code">
             <summary>
             Gets the language code that identifies the language of the content or resource.
             </summary>
             <remarks>The language code should conform to standard formats such as ISO 639-1 (e.g., "en" for
             English, "fr" for French). This property is immutable and set during object initialization.</remarks>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SubtitleLanguage.LanguageName">
+        <member name="P:FluentUI.Blazor.Community.Components.SubtitleLanguage.Name">
             <summary>
             Gets the name of the language associated with this instance.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SubtitleLanguageComparer">
+            <summary>
+            Provides a mechanism for comparing subtitle languages for equality.
+            </summary>
+            <remarks>Use this comparer to determine whether two instances of <see cref="T:FluentUI.Blazor.Community.Components.SubtitleLanguage"/> represent the
+            same language, such as when using collections that require custom equality logic. This class is intended for
+            internal use and is not thread-safe.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SubtitleLanguageComparer.Default">
+            <summary>
+            Gets the default instance of the SubtitleLanguageComparer class.
+            </summary>
+            <remarks>Use this property to obtain a standard comparer for subtitle languages when no custom
+            comparison logic is required. The default instance is thread-safe and can be reused across multiple
+            operations.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SubtitleLanguageComparer.Equals(FluentUI.Blazor.Community.Components.SubtitleLanguage,FluentUI.Blazor.Community.Components.SubtitleLanguage)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SubtitleLanguageComparer.GetHashCode(FluentUI.Blazor.Community.Components.SubtitleLanguage)">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SubtitleOptions">
             <summary>
@@ -5899,6 +6009,11 @@
             </summary>
             <remarks>The color code should be in the format "#RRGGBB" or "#AARRGGBB". If null, a default color may
             be used by the consumer.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SubtitleOptions.SelectedLanguage">
+            <summary>
+            Gets or sets the selected subtitle language.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SubtitleOverlay">
             <summary>
@@ -6182,24 +6297,6 @@
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.SubtitleParserOptions.MaxCharsPerSecond">
             <summary>The maximum number of characters per second permitted in subtitle text. Set to 0 to disable this constraint.</summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.SubtitleSelector">
-            <summary>
-            Provides functionality for managing subtitle languages, including tracking the currently selected language and the
-            set of available options.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SubtitleSelector.AvailableLanguages">
-            <summary>
-            Gets or sets all the available subtitle languages.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SubtitleSelector.SubtitleState">
-            <summary>
-            Gets or sets the current state of subtitle rendering and configuration.
-            </summary>
-            <remarks>Use this property to access or modify subtitle settings, such as visibility, language, or
-            style, within the component. Changes to this state may affect how subtitles are displayed to the user.</remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.TextNormalization">
             <summary>
@@ -6614,22 +6711,9 @@
             Represents the state of subtitle management, including the currently selected subtitle language.
             </summary>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.VideoState._selectedLanguage">
+        <member name="P:FluentUI.Blazor.Community.Components.VideoState.SubtitleOptions">
             <summary>
-            Represents the currently selected subtitle language.
-            </summary>
-        </member>
-        <member name="E:FluentUI.Blazor.Community.Components.VideoState.SelectedLanguageChanged">
-            <summary>
-            Occurs when the selected subtitle language changes.
-            </summary>
-            <remarks>The event is raised whenever the subtitle language selection is updated, including when the
-            selection is cleared. Subscribers can use the event arguments to determine the new language or detect when no
-            language is selected.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.VideoState.SelectedLanguage">
-            <summary>
-            Gets or sets the currently selected subtitle language.
+            Gets or sets the options used to configure subtitle display and behavior.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.VideoState.SelectedQuality">

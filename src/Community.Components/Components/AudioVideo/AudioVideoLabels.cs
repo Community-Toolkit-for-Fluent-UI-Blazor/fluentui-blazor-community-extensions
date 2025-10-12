@@ -72,7 +72,8 @@ public record AudioVideoLabels
         DirectorsLabel = "Réalisateurs",
         ResolutionLabel = "Résolution",
         FramerateLabel = "Fréquence d'images",
-        DefaultLabel = "Défaut"
+        DefaultLabel = "Défaut",
+        SubtitleLanguageLabel = "Langue des sous-titres"
     };
 
     /// <summary>
@@ -332,4 +333,9 @@ public record AudioVideoLabels
     /// Gets the default label.
     /// </summary>
     public string DefaultLabel { get; init; } = "Default";
+
+    /// <summary>
+    /// Gets the label for the subtitle language option.
+    /// </summary>
+    public string SubtitleLanguageLabel { get; init; } = "Subtitle Language";
 }

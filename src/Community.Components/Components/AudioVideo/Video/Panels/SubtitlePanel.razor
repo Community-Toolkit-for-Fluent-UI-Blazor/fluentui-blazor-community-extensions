@@ -1,6 +1,6 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @using System.Globalization
-@implements IDialogContentComponent<(AudioVideoLabels, SubtitleOptions)>
+@implements IDialogContentComponent<(AudioVideoLabels, SubtitleOptions, IEnumerable<SubtitleLanguage>)>
 
 <FluentDialogBody>
     <FluentStack Orientation="Orientation.Vertical"
@@ -10,14 +10,31 @@
         <FluentTextField TextFieldType="TextFieldType.Color"
                          Label="@Content.Item1.SubtitleBackgroundColorLabel"
                          AriaLabel="@Content.Item1.SubtitleBackgroundColorLabel"
-                         @bind-Value="Content.Item2.BackgroundColor"
+                         @bind-Value="_selectedBackgroundColor"
                          Style="margin-bottom: 20px; width: 100%" />
 
         <FluentSelect Label="@Content.Item1.SubtitleBackgroundOpacity"
                       AriaLabel="@Content.Item1.SubtitleBackgroundOpacity"
                       Items="@(Enum.GetValues<SubtitleBackground>())"
                       OptionText="@(e => GetOptionText(e))"
-                      @bind-SelectedOption="Content.Item2.Background"
+                      @bind-SelectedOption="_selectedBackgroundOpacity"
                       Style="width: 100%"/>
+
+        <FluentSelect Items="@Content.Item3"
+                      Label="@Content.Item1.SubtitleLanguageLabel"
+                      @bind-SelectedOption="_selectedLanguage"
+                      OptionText="@(e => e?.Name)"
+                      OptionValue="@(e => e?.Code)" />
     </FluentStack>
 </FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent"
+                  OnClick="@OnCloseAsync">
+        @Dialog.Instance.Parameters.PrimaryAction
+    </FluentButton>
+
+    <FluentButton Appearance="Appearance.Neutral" OnClick="@OnCancelAsync">
+        @Dialog.Instance.Parameters.SecondaryAction
+    </FluentButton>
+</FluentDialogFooter>

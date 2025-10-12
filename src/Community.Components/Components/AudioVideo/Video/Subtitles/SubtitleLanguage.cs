@@ -13,10 +13,10 @@ public record SubtitleLanguage
     /// </summary>
     /// <remarks>The language code should conform to standard formats such as ISO 639-1 (e.g., "en" for
     /// English, "fr" for French). This property is immutable and set during object initialization.</remarks>
-    public string LanguageCode { get; init; } = string.Empty;
+    public string Code { get; init; } = string.Empty;
 
     /// <summary>
     /// Gets the name of the language associated with this instance.
     /// </summary>
-    public string LanguageName { get; init; } = string.Empty;
+    public string Name { get; init; } = string.Empty;
 }

@@ -16,4 +16,9 @@ public record SubtitleOptions
     /// <remarks>The color code should be in the format "#RRGGBB" or "#AARRGGBB". If null, a default color may
     /// be used by the consumer.</remarks>
     public string? BackgroundColor { get; set; } = "#000000";
+
+    /// <summary>
+    /// Gets or sets the selected subtitle language.
+    /// </summary>
+    public SubtitleLanguage? SelectedLanguage { get; set; }
 }

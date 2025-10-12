@@ -127,9 +127,9 @@ public partial class FluentCxVideo : FluentComponentBase
     private SubtitleEntry? _currentSubtitleEntry;
 
     /// <summary>
-    /// Represents the subtitle options for the video player.
+    /// Represents the list of subtitle entries associated with the video player.
     /// </summary>
-    private readonly SubtitleOptions _subtitleOptions = new();
+    private readonly List<SubtitleEntry> _subtitleEntries = [];
 
     /// <summary>
     /// Value indicating the current playback speed. The default value is 1.0, representing normal speed.
@@ -390,7 +390,7 @@ public partial class FluentCxVideo : FluentComponentBase
     /// Gets or sets the collection of subtitle entries to display with the media content.
     /// </summary>
     [Parameter]
-    public List<SubtitleEntry> Subtitles { get; set; } = [];
+    public MultilingualSubtitles Subtitles { get; set; } = new();
 
     /// <summary>
     /// Sets the video source and volume for the current track asynchronously.
@@ -772,11 +772,11 @@ public partial class FluentCxVideo : FluentComponentBase
 
         if (_subtitleOverlay is not null)
         {
-            _subtitleOptions.Background = _subtitleOverlay.Background;
-            _subtitleOptions.BackgroundColor = _subtitleOverlay.BackgroundColor;
+            VideoState.SubtitleOptions.Background = _subtitleOverlay.Background;
+            VideoState.SubtitleOptions.BackgroundColor = _subtitleOverlay.BackgroundColor;
         }
 
-        var dialog = await DialogService.ShowPanelAsync<SubtitlePanel>((Labels, _subtitleOptions), new DialogParameters()
+        var dialog = await DialogService.ShowPanelAsync<SubtitlePanel>((Labels, VideoState.SubtitleOptions, Subtitles.Keys), new DialogParameters()
         {
             Title = Labels.SubtitlesLabel,
             PrimaryAction = Labels.ApplyLabel,
@@ -788,7 +788,9 @@ public partial class FluentCxVideo : FluentComponentBase
 
         if (!result.Cancelled)
         {
-            _subtitleOverlay?.SetOptions(_subtitleOptions);
+            _subtitleOverlay?.SetOptions(VideoState.SubtitleOptions);
+            _subtitleEntries.Clear();
+            _subtitleEntries.AddRange(Subtitles[VideoState.SubtitleOptions.SelectedLanguage]);
         }
     }
 
@@ -952,7 +954,7 @@ public partial class FluentCxVideo : FluentComponentBase
     public void UpdateElapsedTime(double value)
     {
         _currentTime = value;
-        _currentSubtitleEntry = Subtitles.FirstOrDefault(s => s.Start <= value && s.End >= value);
+        _currentSubtitleEntry = _subtitleEntries.Find(s => s.Start <= value && s.End >= value);
         StateHasChanged();
     }
 
@@ -982,7 +984,7 @@ public partial class FluentCxVideo : FluentComponentBase
                 await SetVideoSourceAsync();
             }
 
-            _subtitleOverlay?.SetOptions(_subtitleOptions);
+            _subtitleOverlay?.SetOptions(VideoState.SubtitleOptions);
         }
     }
 
