@@ -208,6 +208,11 @@ internal class VideoMetadataProvider(HttpClient httpClient, ILogger<VideoMetadat
                 Visual = visual
             };
         }
+        catch(Xabe.FFmpeg.Exceptions.FFmpegNotFoundException ex)
+        {
+            logger.LogError(ex, "FFmpeg not found. Please ensure FFmpeg is installed and configured correctly.");
+            return new();
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error extracting video metadata from {FileName}", name);

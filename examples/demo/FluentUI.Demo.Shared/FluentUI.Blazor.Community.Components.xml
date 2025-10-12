@@ -2490,6 +2490,31 @@
             Gets the label text for the opaque background option in subtitle settings.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.DirectorsLabel">
+            <summary>
+            Gets the label text used to display directors in the user interface.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.ResolutionLabel">
+            <summary>
+            Gets the label used to display the resolution setting.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.FramerateLabel">
+            <summary>
+            Gets the display label for the frame rate setting.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.AudioChannelsLabel">
+            <summary>
+            Gets the label used to identify the audio channel.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.DefaultLabel">
+            <summary>
+            Gets the default label.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.AudioVideoRepeatMode">
             <summary>
             Specifies the repeat mode for audio or video playback.
@@ -2830,6 +2855,26 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.AudioTrackItem.DisposeAsync">
             <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioTrackProperties">
+            <summary>
+            Represents a component for displaying properties of an audio track within a dialog interface.
+            </summary>
+            <remarks>Use this class to configure audio track metadata and associated labels for classification or
+            annotation scenarios. This component is typically used within dialog workflows that require user interaction with
+            audio track properties.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioTrackProperties.Labels">
+            <summary>
+            Gets or sets the set of audio labels to be used for classification or annotation.
+            </summary>
+            <remarks>The default value is <see cref="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.Default"/>. Changing this property allows
+            customization of the labels used in audio processing scenarios.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioTrackProperties.Content">
+            <summary>
+            Gets or sets the audio track item associated with this instance.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.AudioVisualizer">
             <summary>
@@ -3347,18 +3392,6 @@
         <member name="P:FluentUI.Blazor.Community.Components.MinimalPlayer.PauseLabel">
             <summary>
             Gets or sets the label for the pause button.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.TrackProperties.Labels">
-            <summary>
-            Gets or sets the set of audio labels to be used for classification or annotation.
-            </summary>
-            <remarks>The default value is <see cref="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.Default"/>. Changing this property allows
-            customization of the labels used in audio processing scenarios.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.TrackProperties.Content">
-            <summary>
-            Gets or sets the audio track item associated with this instance.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.VisualizerMode">
@@ -5258,6 +5291,11 @@
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxVideo"/> class.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxVideo.VideoState">
+            <summary>
+            Gets or sets the state of the video player, including subtitle management.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxVideo.ChildContent">
             <summary>
             Gets or sets the child content of the component.
@@ -5320,6 +5358,11 @@
             <remarks>Downloading is disabled if there is no current track selected or if the current track does
             not have a valid source. This property can be used to determine whether download-related UI elements should be
             enabled.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxVideo.IsSettingsDisabled">
+            <summary>
+            Gets a value indicating whether the settings are currently disabled based on the state of the current track.
+            </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxVideo.IsDownloadVisible">
             <summary>
@@ -5407,7 +5450,7 @@
             Gets or sets the collection of subtitle entries to display with the media content.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxVideo.SetVideoSourceAsync">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxVideo.SetVideoSourceAsync(System.String)">
             <summary>
             Sets the video source and volume for the current track asynchronously.
             </summary>
@@ -5684,6 +5727,51 @@
             Gets or sets the audio and video labels along with subtitle options for the current context.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.VideoQualityPanel">
+            <summary>
+            Gets or sets the video label information and its associated video track item to be displayed in the panel.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VideoQualityPanel._qualityOptions">
+            <summary>
+            Represents the list of available quality options for the video.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VideoQualityPanel._selectedQualityIndex">
+            <summary>
+            Represents the index of the currently selected quality option.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoQualityPanel.Content">
+            <summary>
+            Gets or sets the video label information along with the associated video track item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoQualityPanel.VideoState">
+            <summary>
+            Gets or sets the video state.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoQualityPanel.Dialog">
+            <summary>
+            Gets or sets the dialog instance that hosts this panel.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.VideoQualityPanel.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.VideoQualityPanel.OnCloseAsync">
+            <summary>
+            Performs cleanup and closes the dialog asynchronously.
+            </summary>
+            <returns>A task that represents the asynchronous close operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.VideoQualityPanel.OnCancelAsync">
+            <summary>
+            Asynchronously cancels the current dialog operation.
+            </summary>
+            <returns>A task that represents the asynchronous cancel operation.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.SubtitleBackground">
             <summary>
             Specifies the background style to use for displaying subtitles.
@@ -5844,12 +5932,14 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SubtitleOverlay.Convert(System.String,FluentUI.Blazor.Community.Components.SubtitleBackground)">
             <summary>
-            
+            Converts the specified background color and subtitle background style to an HTML color string with the
+            appropriate alpha transparency applied.
             </summary>
-            <param name="backgroundColor"></param>
-            <param name="background"></param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
+            <param name="backgroundColor">A string containing the HTML color code to use as the base background color. Can be null or empty, in which case
+            a default color is used.</param>
+            <param name="background">A value indicating the subtitle background style, which determines the alpha transparency to apply to the color.</param>
+            <returns>An HTML color string representing the background color with the alpha transparency applied. Returns null if the
+            conversion fails.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SubtitleOverlay.GetAlpha(FluentUI.Blazor.Community.Components.SubtitleBackground)">
             <summary>
@@ -6111,29 +6201,6 @@
             <remarks>Use this property to access or modify subtitle settings, such as visibility, language, or
             style, within the component. Changes to this state may affect how subtitles are displayed to the user.</remarks>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.SubtitleState">
-            <summary>
-            Represents the state of subtitle management, including the currently selected subtitle language.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.SubtitleState._selectedLanguage">
-            <summary>
-            Represents the currently selected subtitle language.
-            </summary>
-        </member>
-        <member name="E:FluentUI.Blazor.Community.Components.SubtitleState.SelectedLanguageChanged">
-            <summary>
-            Occurs when the selected subtitle language changes.
-            </summary>
-            <remarks>The event is raised whenever the subtitle language selection is updated, including when the
-            selection is cleared. Subscribers can use the event arguments to determine the new language or detect when no
-            language is selected.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.SubtitleState.SelectedLanguage">
-            <summary>
-            Gets or sets the currently selected subtitle language.
-            </summary>
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.TextNormalization">
             <summary>
             Specifies the available options for normalizing text casing and formatting.
@@ -6331,6 +6398,11 @@
             Gets or sets a value indicating whether fullscreen mode is disabled for the component.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoControls.IsSettingsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the settings are disabled in the user interface.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.VideoControls.VideoSettingsContent">
             <summary>
             Gets or sets the content to render within the video settings area.
@@ -6346,6 +6418,31 @@
         <member name="M:FluentUI.Blazor.Community.Components.VideoControls.CloseSettingsPopover">
             <summary>
             Closes the settings popover associated with the video settings button, if it is currently open.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.VideoMediaSource">
+            <summary>
+            Represents a video media source with a specified quality and source URL.
+            </summary>
+            <param name="Quality">The quality level of the video stream. Higher values typically indicate better video resolution or bitrate.</param>
+            <param name="SourceUrl">The URL from which the video can be accessed or streamed. Cannot be null.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.VideoMediaSource.#ctor(System.Int32,System.String)">
+            <summary>
+            Represents a video media source with a specified quality and source URL.
+            </summary>
+            <param name="Quality">The quality level of the video stream. Higher values typically indicate better video resolution or bitrate.</param>
+            <param name="SourceUrl">The URL from which the video can be accessed or streamed. Cannot be null.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoMediaSource.Quality">
+            <summary>The quality level of the video stream. Higher values typically indicate better video resolution or bitrate.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoMediaSource.SourceUrl">
+            <summary>The URL from which the video can be accessed or streamed. Cannot be null.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoMediaSource.IsHighDefinition">
+            <summary>
+            Gets a value indicating whether the video is in high definition.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.VideoPlaybackSpeedOptions">
@@ -6512,6 +6609,35 @@
             Gets or sets the icon to display for this component.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.VideoState">
+            <summary>
+            Represents the state of subtitle management, including the currently selected subtitle language.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VideoState._selectedLanguage">
+            <summary>
+            Represents the currently selected subtitle language.
+            </summary>
+        </member>
+        <member name="E:FluentUI.Blazor.Community.Components.VideoState.SelectedLanguageChanged">
+            <summary>
+            Occurs when the selected subtitle language changes.
+            </summary>
+            <remarks>The event is raised whenever the subtitle language selection is updated, including when the
+            selection is cleared. Subscribers can use the event arguments to determine the new language or detect when no
+            language is selected.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoState.SelectedLanguage">
+            <summary>
+            Gets or sets the currently selected subtitle language.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoState.SelectedQuality">
+            <summary>
+            Gets or sets the index of the currently selected quality option.
+            </summary>
+            <remarks>A value of -1 indicates that default quality option is selected.</remarks>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.VideoTrackInfo">
             <summary>
             Represents a component that displays information about a video track.
@@ -6563,6 +6689,15 @@
             Gets or sets the chapters associated with the track.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoTrackItem.Sources">
+            <summary>
+            Gets or sets the collection of video media sources to be played.
+            </summary>
+            <remarks>
+            When multiple sources are provided, the parameter <see cref="P:FluentUI.Blazor.Community.Components.VideoTrackItem.Source"/> is used as the default or fallback source.
+            
+            </remarks>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.VideoTrackItem.Parent">
             <summary>
             Gets or sets the parent of this track item.
@@ -6573,6 +6708,35 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.VideoTrackItem.DisposeAsync">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.VideoTrackItem.GetSource(System.Int32)">
+            <summary>
+            Retrieves the source URL corresponding to the specified quality, or a default source if no quality is selected.
+            </summary>
+            <param name="selectedQuality">The quality identifier for which to retrieve the source URL. Specify -1 to select the default or first available
+            source.</param>
+            <returns>A string containing the source URL for the specified quality, or the default source URL if no matching quality
+            is found. Returns null if no sources are available.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.VideoTrackProperties">
+            <summary>
+            Represents a component for displaying properties of a video track within a dialog interface.
+            </summary>
+            <remarks>Use this class to configure video track metadata and associated labels for classification or
+            annotation scenarios. This component is typically used within dialog workflows that require user interaction with
+            video track properties.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoTrackProperties.Labels">
+            <summary>
+            Gets or sets the set of audio labels to be used for classification or annotation.
+            </summary>
+            <remarks>The default value is <see cref="P:FluentUI.Blazor.Community.Components.AudioVideoLabels.Default"/>. Changing this property allows
+            customization of the labels used in audio processing scenarios.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoTrackProperties.Content">
+            <summary>
+            Gets or sets the audio track item associated with this instance.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.ColorPaletteEasing">
             <summary>

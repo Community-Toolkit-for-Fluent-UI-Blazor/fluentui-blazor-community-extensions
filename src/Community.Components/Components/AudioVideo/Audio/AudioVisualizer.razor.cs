@@ -14,7 +14,7 @@ public partial class AudioVisualizer
     /// <summary>
     /// Represets the JavaScript file for the audio visualizer component.
     /// </summary>
-    private const string JavaScriptFile = "./_content/FluentUI.Blazor.Community.Components/Components/Audio/AudioVisualizer.razor.js";
+    private const string JavaScriptFile = "./_content/FluentUI.Blazor.Community.Components/Components/AudioVideo/Audio/AudioVisualizer.razor.js";
 
     /// <summary>
     /// Represents the JavaScript module for the audio visualizer component.

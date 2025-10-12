@@ -104,6 +104,10 @@ function seek(audio, time) {
 }
 
 function dispose(audio) {
+  if (!audio) {
+    return;
+  }
+
   stop(audio);
 
   audio.removeEventListener('loadedmetadata', () => {
@@ -124,7 +128,7 @@ function dispose(audio) {
 }
 
 export const fluentCxAudio = {
-  initialize: (id, element, dotNetRef) => initialize(id, element, dotNetRef),
+  initialize: (element, dotNetRef) => initialize(element, dotNetRef),
   measure: (id) => measure(id),
   play: (id) => play(id),
   pause: (id) => pause(id),

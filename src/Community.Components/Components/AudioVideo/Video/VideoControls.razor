@@ -43,7 +43,9 @@
 
     @if (IsSettingsVisible)
     {
-        <VideoSettingsButton @ref="_videoSettingsButton" Label="@Labels.VideoSettingsLabel">
+        <VideoSettingsButton @ref="_videoSettingsButton"
+                             IsDisabled="@IsSettingsDisabled"        
+                             Label="@Labels.VideoSettingsLabel">
             @VideoSettingsContent
         </VideoSettingsButton>
     }

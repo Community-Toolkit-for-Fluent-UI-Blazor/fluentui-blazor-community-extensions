@@ -44,17 +44,20 @@ public partial class SubtitleOverlay
         .ToString();
 
     /// <summary>
-    /// 
+    /// Converts the specified background color and subtitle background style to an HTML color string with the
+    /// appropriate alpha transparency applied.
     /// </summary>
-    /// <param name="backgroundColor"></param>
-    /// <param name="background"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <param name="backgroundColor">A string containing the HTML color code to use as the base background color. Can be null or empty, in which case
+    /// a default color is used.</param>
+    /// <param name="background">A value indicating the subtitle background style, which determines the alpha transparency to apply to the color.</param>
+    /// <returns>An HTML color string representing the background color with the alpha transparency applied. Returns null if the
+    /// conversion fails.</returns>
     private static string? Convert(string? backgroundColor, SubtitleBackground background)
     {
         var color = ColorTranslator.FromHtml(backgroundColor ?? string.Empty);
-        var modifiedColor = System.Drawing.Color.FromArgb(GetAlpha(background), color.R, color.G, color.B);
-        return ColorTranslator.ToHtml(modifiedColor);
+        var alpha = GetAlpha(background);
+
+        return $"#{color.R:X2}{color.G:X2}{color.B:X2}{alpha:X2}";
     }
 
     /// <summary>

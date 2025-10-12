@@ -20,5 +20,5 @@ public partial class SubtitleSelector
     /// <remarks>Use this property to access or modify subtitle settings, such as visibility, language, or
     /// style, within the component. Changes to this state may affect how subtitles are displayed to the user.</remarks>
     [Inject]
-    private SubtitleState SubtitleState { get; set; } = null!;
+    private VideoState SubtitleState { get; set; } = null!;
 }

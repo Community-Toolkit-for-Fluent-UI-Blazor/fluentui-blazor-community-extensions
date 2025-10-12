@@ -3,7 +3,13 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
 
-public partial class TrackProperties : IDialogContentComponent<AudioMetadata>
+/// <summary>
+/// Represents a component for displaying properties of a video track within a dialog interface.
+/// </summary>
+/// <remarks>Use this class to configure video track metadata and associated labels for classification or
+/// annotation scenarios. This component is typically used within dialog workflows that require user interaction with
+/// video track properties.</remarks>
+public partial class VideoTrackProperties : IDialogContentComponent<VideoMetadata>
 {
     /// <summary>
     /// Gets or sets the set of audio labels to be used for classification or annotation.
@@ -17,5 +23,5 @@ public partial class TrackProperties : IDialogContentComponent<AudioMetadata>
     /// Gets or sets the audio track item associated with this instance.
     /// </summary>
     [Parameter]
-    public AudioMetadata Content { get; set; } = default!;
+    public VideoMetadata Content { get; set; } = default!;
 }

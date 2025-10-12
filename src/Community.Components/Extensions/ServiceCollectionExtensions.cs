@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
                        .AddSingleton<ObserverState>()
                        .AddScoped<DeviceInfoState>()
                        .AddScoped<IAudioMetadataProvider, AudioMetadataProvider>()
-                       .AddScoped<IVideoMetadataProvider, VideoMetadataProvider>();
+                       .AddScoped<IVideoMetadataProvider, VideoMetadataProvider>()
+                       .AddScoped<VideoState>();
     }
 }

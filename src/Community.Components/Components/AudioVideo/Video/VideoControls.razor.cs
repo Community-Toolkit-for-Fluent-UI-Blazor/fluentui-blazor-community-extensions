@@ -181,6 +181,12 @@ public partial class VideoControls
     public bool IsFullscreenDisabled { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the settings are disabled in the user interface.
+    /// </summary>
+    [Parameter]
+    public bool IsSettingsDisabled { get; set; }
+
+    /// <summary>
     /// Gets or sets the content to render within the video settings area.
     /// </summary>
     [Parameter]

@@ -6,6 +6,7 @@
               IconStart="@(Icon)"
               Title="@Label"
               aria-label="@Label"
+              Disabled="@IsDisabled"
               OnClick="@(() => _isSettingsPopoverOpen = !_isSettingsPopoverOpen)" />
 
 <FluentPopover AnchorId="@Id"

@@ -3,7 +3,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents the state of subtitle management, including the currently selected subtitle language.
 /// </summary>
-internal sealed class SubtitleState
+internal sealed class VideoState
 {
     /// <summary>
     /// Represents the currently selected subtitle language.
@@ -33,4 +33,10 @@ internal sealed class SubtitleState
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets the index of the currently selected quality option.
+    /// </summary>
+    /// <remarks>A value of -1 indicates that default quality option is selected.</remarks>
+    public int SelectedQuality { get; set; } = -1;
 }

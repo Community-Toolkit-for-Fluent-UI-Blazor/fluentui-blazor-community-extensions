@@ -67,7 +67,12 @@ public record AudioVideoLabels
         SubtitleSolidBackgroundLabel = "Solide",
         SubtitleHalfTransparentBackgroundLabel = "Semi-transparent",
         SubtitleTransparentBackgroundLabel = "Transparent",
-        SubtitleOpaqueBackgroundLabel = "Opaque"
+        SubtitleOpaqueBackgroundLabel = "Opaque",
+        AudioChannelsLabel = "Canaux audio",
+        DirectorsLabel = "Réalisateurs",
+        ResolutionLabel = "Résolution",
+        FramerateLabel = "Fréquence d'images",
+        DefaultLabel = "Défaut"
     };
 
     /// <summary>
@@ -286,20 +291,45 @@ public record AudioVideoLabels
     /// <summary>
     /// Gets the label for the solid subtitle background style option.
     /// </summary>
-    public string? SubtitleSolidBackgroundLabel { get; init; } = "Solid";
+    public string SubtitleSolidBackgroundLabel { get; init; } = "Solid";
 
     /// <summary>
     /// Gets the label text displayed for the half-transparent background subtitle option.
     /// </summary>
-    public string? SubtitleHalfTransparentBackgroundLabel { get; init; } = "Semi-Transparent";
+    public string SubtitleHalfTransparentBackgroundLabel { get; init; } = "Semi-Transparent";
 
     /// <summary>
     /// Gets the label text used for the subtitle transparent background option.
     /// </summary>
-    public string? SubtitleTransparentBackgroundLabel { get; init; } = "Transparent";
+    public string SubtitleTransparentBackgroundLabel { get; init; } = "Transparent";
 
     /// <summary>
     /// Gets the label text for the opaque background option in subtitle settings.
     /// </summary>
-    public string? SubtitleOpaqueBackgroundLabel { get; init; } = "Opaque";
+    public string SubtitleOpaqueBackgroundLabel { get; init; } = "Opaque";
+
+    /// <summary>
+    /// Gets the label text used to display directors in the user interface.
+    /// </summary>
+    public string DirectorsLabel { get; init; } = "Directors";
+
+    /// <summary>
+    /// Gets the label used to display the resolution setting.
+    /// </summary>
+    public string ResolutionLabel { get; init; } = "Resolution";
+
+    /// <summary>
+    /// Gets the display label for the frame rate setting.
+    /// </summary>
+    public string FramerateLabel { get; init; } = "Frame rate";
+
+    /// <summary>
+    /// Gets the label used to identify the audio channel.
+    /// </summary>
+    public string AudioChannelsLabel { get; init; } = "Audio channels";
+
+    /// <summary>
+    /// Gets the default label.
+    /// </summary>
+    public string DefaultLabel { get; init; } = "Default";
 }

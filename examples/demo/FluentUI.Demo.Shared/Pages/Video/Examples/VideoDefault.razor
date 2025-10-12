@@ -46,7 +46,7 @@
             {
                 <VideoTrackItem Source="@GetPath(item.Value)"
                                 Metadata="@_metadataCache[item.Key]"
-                                />
+                                Sources="@_sources" />
             }
         </FluentCxVideo>
    </FluentStack>
@@ -61,6 +61,14 @@
     private readonly Dictionary<string, string> _videoFiles = [];
     private readonly List<FluentInputFileEventArgs> _files = [];
     private readonly Dictionary<string, VideoMetadata> _metadataCache = [];
+    private readonly List<VideoMediaSource> _sources= [
+        new(320, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny_320x180.mp4"),
+        new(480, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny_480x270.mp4"),
+        new(720, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny_720x406.mp4"),
+        new(1080, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny_1080p.mp4")
+    ];
+    
+
     private readonly List<SubtitleEntry> _subtitleEntries = [
         new SubtitleEntry
         {

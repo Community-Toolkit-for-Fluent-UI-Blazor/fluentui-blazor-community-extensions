@@ -388,7 +388,7 @@ public sealed partial class FluentCxAudio
             return;
         }
 
-        var dialog = await DialogService.ShowDialogAsync<TrackProperties>(CurrentTrack.Metadata, new DialogParameters()
+        var dialog = await DialogService.ShowDialogAsync<AudioTrackProperties>(CurrentTrack.Metadata, new DialogParameters()
         {
             Title = Labels.PropertiesLabel,
             PrimaryAction = Labels.CloseLabel,

@@ -149,6 +149,12 @@ public partial class FluentCxVideo : FluentComponentBase
     }
 
     /// <summary>
+    /// Gets or sets the state of the video player, including subtitle management.
+    /// </summary>
+    [Inject]
+    private VideoState VideoState { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets the child content of the component.
     /// </summary>
     [Parameter]
@@ -217,6 +223,13 @@ public partial class FluentCxVideo : FluentComponentBase
     /// not have a valid source. This property can be used to determine whether download-related UI elements should be
     /// enabled.</remarks>
     private bool IsDownloadDisabled => CurrentTrack is null || string.IsNullOrWhiteSpace(CurrentTrack.Source);
+
+    /// <summary>
+    /// Gets a value indicating whether the settings are currently disabled based on the state of the current track.
+    /// </summary>
+    private bool IsSettingsDisabled => CurrentTrack is null ||
+                                       string.IsNullOrWhiteSpace(CurrentTrack.Source) ||
+                                       CurrentTrack.Sources.Count == 0;
 
     /// <summary>
     /// Gets or sets a value indicating whether the download button is visible.
@@ -383,12 +396,13 @@ public partial class FluentCxVideo : FluentComponentBase
     /// Sets the video source and volume for the current track asynchronously.
     /// </summary>
     /// <returns></returns>
-    private async Task SetVideoSourceAsync()
+    private async Task SetVideoSourceAsync(string? source = null)
     {
-        if (_module is not null &&
-            CurrentTrack is not null)
+        var src = source ?? CurrentTrack?.Source;
+
+        if (_module is not null)
         {
-            await _module.InvokeVoidAsync("fluentCxVideo.setSource", Id, CurrentTrack.Source);
+            await _module.InvokeVoidAsync("fluentCxVideo.setSource", Id, src);
             await _module.InvokeVoidAsync("fluentCxVideo.setVolume", Id, _volume);
         }
     }
@@ -655,7 +669,7 @@ public partial class FluentCxVideo : FluentComponentBase
             return;
         }
 
-        var dialog = await DialogService.ShowDialogAsync<TrackProperties>(CurrentTrack.Metadata, new DialogParameters()
+        var dialog = await DialogService.ShowDialogAsync<VideoTrackProperties>(CurrentTrack.Metadata, new DialogParameters()
         {
             Title = Labels.PropertiesLabel,
             PrimaryAction = Labels.CloseLabel,
@@ -806,11 +820,25 @@ public partial class FluentCxVideo : FluentComponentBase
     /// Handles the event when the video quality option is clicked.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    private Task OnVideoQualityClickAsync()
+    private async Task OnVideoQualityClickAsync()
     {
         _videoControls?.CloseSettingsPopover();
 
-        return Task.CompletedTask;
+        var dialog = await DialogService.ShowPanelAsync<VideoQualityPanel>((Labels, CurrentTrack), new DialogParameters()
+        {
+            Title = Labels.VideoQualityLabel,
+            PrimaryAction = Labels.ApplyLabel,
+            SecondaryAction = Labels.CancelLabel,
+            Width = "25%"
+        });
+
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var source = CurrentTrack?.GetSource(VideoState.SelectedQuality);
+            await SetVideoSourceAsync(source);
+        }
     }
 
     /// <summary>
