@@ -12,7 +12,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// appearance of the text can be customized using standard CSS style values for color, font family, font size, font
 /// weight, letter spacing, line height, and margin. All style-related properties accept valid CSS values as strings. If
 /// a property is not set, a default value is applied as specified in each property's documentation.</remarks>
-public partial class SlideshowDescriptionText : FluentComponentBase
+public partial class SlideshowCaptionText : FluentComponentBase
 {
     /// <summary>
     /// Gets or sets the text to display in the description area of the slideshow.

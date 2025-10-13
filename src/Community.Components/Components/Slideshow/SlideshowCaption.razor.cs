@@ -5,9 +5,9 @@ using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents a description for a <see cref="SlideshowItem{TItem}"/>.
+/// Represents a caption for a <see cref="SlideshowItem{TItem}"/>.
 /// </summary>
-public partial class SlideshowDescription
+public partial class SlideshowCaption
      : FluentComponentBase
 {
     /// <summary>
@@ -17,10 +17,10 @@ public partial class SlideshowDescription
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the description is fixed to the bottom of the slideshow item.
+    /// Gets or sets a value indicating whether the caption is fixed to the bottom of the slideshow item.
     /// </summary>
     [Parameter]
-    public bool Fixed { get; set; }
+    public bool Fixed { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the maximum width, in pixels, that the component can occupy.
