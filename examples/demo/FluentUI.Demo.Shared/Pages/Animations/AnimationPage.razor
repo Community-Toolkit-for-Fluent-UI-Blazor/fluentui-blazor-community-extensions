@@ -1,0 +1,113 @@
+﻿@page "/animations-overview"
+@using FluentUI.Demo.Shared.Pages.Animations.Examples
+
+<h1>Animations</h1>
+
+The <c>FluentCxAnimation</c> component provides a way to animate a collection of items using different layouts.
+Each item is represented by an <c>AnimationItem</c> component, which can contain any content you want to animate.
+The layout determines how the items are arranged and animated.
+You can group multiple <c>AnimationItem</c> components within a <c>AnimationGroup</c> component.
+Each <c>AnimationGroup</c> component can have its own layout, allowing you to create complex animations with multiple groups of items.
+You can choose from several built-in layouts or create your own custom layout by implementing the <c>AnimatedLayerBase</c> base class.
+You can assemble multiple layouts together using the <c>MorphingLayout</c> component to create more complex animations.
+Using <c>MorphingLayout</c> all layouts inside it will use the animation settings of the parent <c>MorphingLayout</c> component.
+The <c>FluentCxAnimation</c> component can start, stop, pause, resume the animation. The animation can also be set to loop or play once.
+
+<h2>Easing</h2>
+
+<p>
+    Easing functions determine the rate of change of a parameter over time, allowing for more natural and visually appealing animations.
+    The <c>AnimatedLayoutBase</c> component supports several easing functions, which can be set using the <c>EasingFunction</c> and <c>EasingMode</c> parameters.
+    These easing functions are available :
+</p>
+
+
+<ul>
+    <li><c>Linear</c>: A constant speed from start to finish.</li>
+    <li><c>Quadratic</c>: Accelerates and decelerates using a quadratic curve.</li>
+    <li><c>Cubic</c>: Accelerates and decelerates using a cubic curve.</li>
+    <li><c>Quartic</c>: Accelerates and decelerates using a quartic curve.</li>
+    <li><c>Quintic</c>: Accelerates and decelerates using a quintic curve.</li>
+    <li><c>Exponential</c>: Accelerates and decelerates exponentially.</li>
+    <li><c>Circular</c>: Accelerates and decelerates in a circular motion.</li>
+    <li><c>Bounce</c>: Simulates a bouncing effect.</li>
+    <li><c>Elastic</c>: Simulates an elastic effect, overshooting the target before settling.</li>
+    <li><c>Back</c>: Overshoots the target and then comes back.</li>
+    <li><c>Bounce</c>: Simulates a bouncing effect.</li>
+    <li><c>Circular</c>: Accelerates and decelerates in a circular motion.</li>
+</ul>
+
+<p>And you can choose the easing mode:</p>
+
+<ul>
+    <li><c>In</c>: The easing function is applied at the beginning of the animation.</li>
+    <li><c>Out</c>: The easing function is applied at the end of the animation.</li>
+    <li><c>InOut</c>: The easing function is applied at both the beginning and end of the animation.</li>
+</ul>
+
+<h2>Layout</h2>
+
+The layout can be set using the <c>Layout</c> parameter of the <c>FluentCxAnimation</c> component or the <c>Layout</c> parameter of the <c>AnimationGroup</c> component.
+All layouts inherit from the <c>AnimatedLayerBase</c> base class and can be used to arrange and animate the items within the <c>FluentCxAnimation</c> component.
+The following layouts are available:
+
+<ul>
+    <li><c>BindStackLayout</c>: Arranges items in a stack, either vertically or horizontally, with configurable spacing.</li>
+    <li><c>CascadeLayout</c>: Arranges items in a cascading manner, where each item is slightly offset from the previous one.</li>
+    <li><c>ChaosLayout</c>: Randomly positions items within the available space.</li>
+    <li><c>FanLayout</c>: Arranges items in a fan shape, radiating out from a central point.</li>
+    <li><c>FloatLayout</c>: Allows items to float freely within the available space.</li>
+    <li><c>FlowerLayout</c>: Arranges items in a flower-like pattern.</li>
+    <li><c>GalaxyLayout</c>: Arranges items in a spiral galaxy pattern.</li>
+    <li><c>GoldenSpiralLayout</c>: Arranges items in a golden spiral pattern.</li>
+    <li><c>GridLayout</c>: Arranges items in a grid with configurable rows and columns.</li>
+    <li><c>HeartLayout</c>: Arranges items in a heart shape.</li>
+    <li><c>HelixLayout</c>: Arranges items in a helical pattern.</li>
+    <li><c>MagnetLayout</c>: Attracts items towards a central point, simulating magnetic attraction.</li>
+    <li><c>MorphingLayout</c>: Allows you to combine multiple layouts together to create complex animations. All child layouts will use the animation settings of the parent MorphingLayout component.</li>
+    <li><c>OrbitLayout</c>: Arranges items in an orbit around a central point.</li>
+    <li><c>PinLayout</c>: Pins items to specific locations within the available space.</li>
+    <li><c>PulseLayout</c>: Creates a pulsing effect by expanding and contracting the arrangement of items.</li>
+    <li><c>SnakeLayout</c>: Arranges items in a snake-like pattern that can move and change direction.</li>
+    <li><c>SpiralGalaxyLayout</c>: Similar to GalaxyLayout but with a more pronounced spiral effect.</li>
+    <li><c>SpiralLayout</c>: Arranges items in a simple spiral pattern.</li>
+    <li><c>StackedRotatingLayout</c>: Stacks items on top of each other and rotates them around a central point.</li>
+    <li><c>StackLayout</c>: Arranges items in a stack, either vertically or horizontally, without spacing.</li>
+    <li><c>SunburstLayout</c>: Arranges items in a sunburst pattern, radiating out from a central point.</li>
+    <li><c>VortexLayout</c>: Arranges items in a vortex pattern, swirling around a central point.</li>
+    <li><c>WaveLayout</c>: Arranges items in a wave-like pattern.</li>
+    <li><c>ZigZagLayout</c>: Arranges items in a zigzag pattern.</li>
+</ul>
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(FluentUI.Blazor.Community.Components.FluentCxAnimation)" />
+<ApiDocumentation Component="typeof(FluentUI.Blazor.Community.Components.AnimationItem)" />
+<ApiDocumentation Component="typeof(FluentUI.Blazor.Community.Components.AnimationGroup)" />
+<ApiDocumentation Component="typeof(BindStackLayout)" />
+<ApiDocumentation Component="typeof(CascadeLayout)" />
+<ApiDocumentation Component="typeof(ChaosLayout)" />
+<ApiDocumentation Component="typeof(FanLayout)" />
+<ApiDocumentation Component="typeof(FloatLayout)" />
+<ApiDocumentation Component="typeof(FlowerLayout)" />
+<ApiDocumentation Component="typeof(GalaxyLayout)" />
+<ApiDocumentation Component="typeof(GoldenSpiralLayout)" />
+<ApiDocumentation Component="typeof(GridLayout)" />
+<ApiDocumentation Component="typeof(HeartLayout)" />
+<ApiDocumentation Component="typeof(HelixLayout)" />
+<ApiDocumentation Component="typeof(MagnetLayout)" />
+<ApiDocumentation Component="typeof(MorphingLayout)" />
+<ApiDocumentation Component="typeof(OrbitLayout)" />
+<ApiDocumentation Component="typeof(PinLayout)" />
+<ApiDocumentation Component="typeof(PulseLayout)" />
+<ApiDocumentation Component="typeof(SnakeLayout)" />
+<ApiDocumentation Component="typeof(SpiralGalaxyLayout)" />
+<ApiDocumentation Component="typeof(SpiralLayout)" />
+<ApiDocumentation Component="typeof(StackedRotatingLayout)" />
+<ApiDocumentation Component="typeof(StackLayout)" />
+<ApiDocumentation Component="typeof(SunburstLayout)" />
+<ApiDocumentation Component="typeof(WaveLayout)" />
+<ApiDocumentation Component="typeof(ZigZagLayout)" />
+
+
+
