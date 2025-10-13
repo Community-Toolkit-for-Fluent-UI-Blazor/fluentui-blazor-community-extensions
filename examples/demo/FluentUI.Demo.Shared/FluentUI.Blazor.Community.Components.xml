@@ -15002,22 +15002,6 @@
         <member name="M:FluentUI.Blazor.Community.Components.RgbaColor.ToString">
             <inheritdoc />
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.Middleware.AzureBlobImageStrategy">
-            <summary>
-            Provides an image source strategy for retrieving image data from Azure Blob Storage.
-            </summary>
-            <remarks>This strategy is designed to handle URLs pointing to Azure Blob Storage resources.  It determines
-            whether a given URL can be processed and retrieves the image data as a byte array.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.Middleware.AzureBlobImageStrategy.Priority">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Middleware.AzureBlobImageStrategy.CanHandle(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Middleware.AzureBlobImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy">
             <summary>
             Represents a strategy for handling Base64-encoded image URLs.
@@ -15055,24 +15039,6 @@
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
-            <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.Middleware.GoogleCloudImageStrategy">
-            <summary>
-            Provides an implementation of <see cref="T:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy"/> for handling image URLs hosted on Google Cloud
-            Storage.
-            </summary>
-            <remarks>This strategy is specifically designed to handle URLs that point to objects in Google Cloud Storage,
-            identified by the presence of "storage.googleapis.com" in the URL. It uses the Google Cloud Storage API to fetch the
-            image bytes.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.Middleware.GoogleCloudImageStrategy.Priority">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Middleware.GoogleCloudImageStrategy.CanHandle(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Middleware.GoogleCloudImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy">
@@ -15243,31 +15209,6 @@
             <param name="mimeType">When the method returns, contains the MIME type corresponding to the encoded image format.  If the format is not
             recognized, the MIME type defaults to "image/jpeg".</param>
             <returns>A byte array containing the encoded image data.</returns>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy">
-            <summary>
-            Provides an implementation of <see cref="T:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy"/> for handling image retrieval from Amazon S3.
-            </summary>
-            <remarks>This strategy is designed to handle URLs that point to Amazon S3 resources, specifically those
-            containing ".s3.amazonaws.com" in the URL. It uses an <see cref="T:Amazon.S3.IAmazonS3"/> client to fetch the image
-            data.</remarks>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy._s3Client">
-            <summary>
-            Represents the S3 client used to fetch images.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy.Priority">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy.#ctor(Amazon.S3.IAmazonS3)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy.CanHandle(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Middleware.S3ImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
-            <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottieProvider.OnInitialized">
             <inheritdoc />

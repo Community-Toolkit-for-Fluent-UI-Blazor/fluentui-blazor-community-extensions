@@ -57,9 +57,6 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" />
-    <PackageReference Include="Azure.Storage.Blobs" />
-    <PackageReference Include="Google.Cloud.Storage.V1" />
     <PackageReference Include="Microsoft.AspNetCore.Components" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />

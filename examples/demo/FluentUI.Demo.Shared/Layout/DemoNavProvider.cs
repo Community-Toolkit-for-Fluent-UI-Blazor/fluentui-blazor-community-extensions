@@ -128,6 +128,24 @@ public class DemoNavProvider
                         icon: new Icons.Regular.Size20.Navigation(),
                         title: "Path bar"
                     ),
+                     new NavGroup(
+                        icon: new Icons.Regular.Size20.PictureIn(),
+                        title: "Pictures",
+                        gap: "10px",
+                        expanded: false,
+                        children: [
+                            new NavLink(
+                                href: "pictures",
+                                icon: new Icons.Regular.Size20.PictureIn(),
+                                title: "Picture"
+                            ),
+                            new NavLink(
+                                href: "/picture-image-processor",
+                                icon: new Icons.Regular.Size20.ImageEdit(),
+                                title: "Image processor",
+                                match: NavLinkMatch.All
+                            )
+                    ]),
                     new NavLink(
                         href: "signature",
                         icon: new Icons.Regular.Size20.Signature(),
