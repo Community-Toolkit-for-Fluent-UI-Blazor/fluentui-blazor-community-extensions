@@ -1,0 +1,55 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentStack Id="@Id"
+             VerticalAlignment=VerticalAlignment.Center
+             HorizontalAlignment="HorizontalAlignment.Center"
+             HorizontalGap="30">
+    <PlaylistButton Label="@Labels.PlaylistLabel" OnPlaylist="@OnPlaylistToggled" />
+
+	<FluentSpacer />
+
+    <ShuffleButton ShuffleOnLabel="@Labels.ShuffleOnLabel"
+                   ShuffleOffLabel=@Labels.ShuffleOffLabel
+                   OnShuffleChanged="@OnShuffleChanged" />
+
+    <PreviousButton Label="@Labels.PreviousLabel"
+                    IsDisabled=@IsPreviousDisabled
+                    OnPrevious="@OnPrevious" />
+
+    <PlayOrPauseButton @ref=_playOrPauseButton
+                       IsDisabled="@IsPlayOrPauseDisabled"
+                       PlayLabel="@Labels.PlayLabel"
+                       PauseLabel="@Labels.PauseLabel"
+                       OnPlayChanged="@OnPlayPauseToggled" />
+
+    <StopButton OnStop="@OnStop"
+                Label="@Labels.StopLabel"
+                IsDisabled=@IsStopDisabled />
+
+    <NextButton IsDisabled=@IsNextDisabled
+                OnNext="@OnNext"
+                Label="@Labels.NextLabel" />
+
+    <RepeatButton PlaylistLoopLabel="@Labels.PlaylistLoopLabel"
+                  PlaylistOnceLabel="@Labels.PlaylistOnceLabel"
+                  SingleLoopLabel="@Labels.SingleLoopLabel"
+                  SingleOnceLabel="@Labels.SingleOnceLabel"
+                  OnRepeatModeChanged="@OnRepeatModeChanged" />
+
+    <VolumeButton Label="@Labels.VolumeLabel" OnVolumeChanged="@OnVolumeChanged" />
+
+	<FluentSpacer />
+
+	@if (IsDownloadVisible)
+	{
+		<DownloadButton IsDisabled="@IsDownloadDisabled"
+						Label="@Labels.DownloadLabel"
+						OnDownload="@OnDownload" />
+	}
+
+	<PropertiesButton IsDisabled="@IsPropertiesDisabled"
+					  Label="@Labels.PropertiesLabel"
+					  OnProperties="@OnProperties" />
+
+</FluentStack>

@@ -24,5 +24,7 @@ public static class ServiceCollectionExtensions
                        .AddSingleton<ObserverState>();
                        .AddScoped<AccountState>()
                        .AddSingleton<IPasswordRuleOptions, PasswordRuleOptions>();
+                       .AddScoped<DeviceInfoState>()
+                       .AddScoped<IAudioMetadataProvider, AudioMetadataProvider>();
     }
 }
