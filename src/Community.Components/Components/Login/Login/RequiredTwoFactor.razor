@@ -1,0 +1,84 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Parent is not null)
+{
+    <LoginCardContainer Title="@Parent.Labels.AuthenticationTwoFactor"
+                        TitleIcon="@(new Regular.Size48.Person())">
+        <Body>
+            <FluentStack Orientation="Orientation.Vertical"
+                         VerticalGap="30"
+                         Style="height: 100%">
+                <FluentLabel Color="Color.Neutral"
+                             Style="margin-bottom: 30px; margin-top: 30px">
+                    @Parent.Labels.AuthenticationTwoFactorMessage
+                </FluentLabel>
+
+                <FluentEditForm Model="_model"
+                                FormName="login-with-2fa"
+                                OnValidSubmit="OnValidSubmitAsync"
+                                method="post">
+                    <input type="hidden" name="ReturnUrl" value="@State.ReturnUrl" />
+                    <input type="hidden" name="RememberMe" value="@State.RememberMe" />
+                    <DataAnnotationsValidator />
+
+                    <FluentTextField Name="_model.TwoFactorCode"
+                                     @bind-Value="_model.TwoFactorCode"
+                                     AutoComplete="off"
+                                     Autofocus
+                                     Immediate
+                                     Label="@Parent.Labels.AuthenticationCode"
+                                     Style="width: 100%;" />
+
+                    <FluentValidationMessage For="() => _model.TwoFactorCode" />
+
+                    <FluentSwitch Name="_model.RememberMachine"
+                                  @bind-Value="_model.RememberMachine"
+                                  Label="@Parent.Labels.RememberMachine"
+                                  Style="width: 100%;" />
+
+                    <FluentStack Style="height: 100%;">
+                        @if (!string.IsNullOrEmpty(_errorMessage))
+                        {
+                            <FluentStack HorizontalGap="20" Orientation="Orientation.Horizontal">
+                                <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ErrorCircle())" />
+                                <FluentLabel Color="Color.Accent">@Parent.Labels.SummaryErrorMessage</FluentLabel>
+                            </FluentStack>
+
+                            <div style="height: 100%; overflow-y: auto">
+                                @_errorMessage
+                            </div>
+                        }
+                    </FluentStack>
+
+                    <FluentStack VerticalAlignment="VerticalAlignment.Bottom"
+                                 HorizontalAlignment="HorizontalAlignment.Center">
+                        <FluentButton Style="width: 100%;"
+                                      Appearance="Appearance.Accent"
+                                      Type="ButtonType.Submit">
+                            @Parent.Labels.Login
+                        </FluentButton>
+                    </FluentStack>
+                </FluentEditForm>
+            </FluentStack>
+        </Body>
+
+        <Footer>
+            <FluentStack Orientation="Orientation.Vertical"
+                         HorizontalAlignment="HorizontalAlignment.Center"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         Style="width: 100%; margin-top: 10px"
+                         HorizontalGap="10">
+                <FluentLabel Color="Color.Neutral">
+                    @Parent.Labels.DontHaveTwoFactorAccess
+                </FluentLabel>
+                <FluentAnchor Href="#"
+                              Appearance="Appearance.Hypertext"
+                              OnClick="OnLoginWithRecoveryCodeAsync">
+                    @Parent.Labels.LoginWithRecoveryCode
+                </FluentAnchor>
+            </FluentStack>
+        </Footer>
+    </LoginCardContainer>
+}
+

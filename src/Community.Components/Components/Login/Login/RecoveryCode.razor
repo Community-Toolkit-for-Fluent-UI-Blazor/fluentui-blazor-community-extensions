@@ -1,0 +1,61 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Parent is not null)
+{
+    <LoginCardContainer Title="@Parent!.Labels.VerifyRecoveryCode"
+                        TitleIcon="@(new Regular.Size48.PersonPasskey())">
+        <Body>
+            <FluentStack Orientation="Orientation.Vertical"
+                         VerticalGap="30"
+                         Style="height: 100%">
+                <FluentLabel Color="Color.Neutral"
+                             Style="margin-bottom: 30px; margin-top: 30px">
+                    @Parent!.Labels.VerifyRecoveryCodeDescription
+                </FluentLabel>
+
+                <FluentEditForm Model="_model"
+                                FormName="login-with-recovery-code"
+                                OnValidSubmit="OnValidSubmitAsync"
+                                @ref="_fluentEditForm"
+                                method="post">
+                    <DataAnnotationsValidator />
+
+                    <FluentStack Orientation="Orientation.Vertical"
+                                 VerticalGap="1"
+                                 Style="margin-bottom: 30px">
+                        <FluentTextField Name="_model.RecoveryCode"
+                                         @bind-Value="_model.RecoveryCode"
+                                         AutoComplete="off"
+                                         Autofocus
+                                         Immediate
+                                         Label="@Parent!.Labels.RecoveryCode"
+                                         Placeholder="@Parent!.Labels.RecoveryCodePlaceholder"
+                                         Style="width: 100%;" />
+
+                        <FluentValidationMessage For="() => _model.RecoveryCode" />
+                    </FluentStack>
+
+
+                    @if (!string.IsNullOrEmpty(_errorMessage))
+                    {
+                        <FluentLabel Color="Color.Error"
+                                     Style="margin-bottom: 20px;">
+                            @_errorMessage
+                        </FluentLabel>
+                    }
+
+                    <FluentStack VerticalAlignment="VerticalAlignment.Bottom"
+                                 HorizontalAlignment="HorizontalAlignment.Center">
+                        <FluentButton Style="width: 100%;"
+                                      Appearance="Appearance.Accent"
+                                      Disabled="@IsDisabled"
+                                      Type="ButtonType.Submit">
+                            @Parent!.Labels.Login
+                        </FluentButton>
+                    </FluentStack>
+                </FluentEditForm>
+            </FluentStack>
+        </Body>
+    </LoginCardContainer>
+}

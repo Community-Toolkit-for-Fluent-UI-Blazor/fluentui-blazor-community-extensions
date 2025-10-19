@@ -1,5 +1,4 @@
 using System.Globalization;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -13,7 +12,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// registration form. The component supports customization of provider icons, button text, and UI labels, and
 /// integrates with navigation and authentication services to initiate external authentication flows. It is typically
 /// used in scenarios where users can authenticate using third-party providers.</remarks>
-public partial class ExternalProviderPicker : FluentComponentBase
+public partial class ExternalProviderPicker
 {
     /// <summary>
     /// Provides a culture-independent, invariant culture for formatting and parsing operations.
@@ -25,24 +24,12 @@ public partial class ExternalProviderPicker : FluentComponentBase
     /// <summary>
     /// Represents the collection of external authentication providers available for user sign-in.
     /// </summary>
-    private IEnumerable<AuthenticationScheme>? _providers;
+    private IEnumerable<ExternalAuthenticationProvider>? _providers;
 
     /// <summary>
     /// Represents a render fragment that generates the text content for each external authentication provider button.
     /// </summary>
     private readonly RenderFragment<string> _renderTextContent;
-
-    /// <summary>
-    /// Gets or sets the service used to authenticate users within the application.
-    /// </summary>
-    [Inject]
-    private ExternalProviderService AuthentificationService { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the navigation manager used to handle URL navigation within the application.
-    /// </summary>
-    [Inject]
-    private NavigationManager NavManager { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets a delegate that retrieves an <see cref="Icon"/> instance for a given external icon name.
@@ -66,7 +53,7 @@ public partial class ExternalProviderPicker : FluentComponentBase
     /// login form. If not set, default labels are used. This property is typically set via component parameters in
     /// Blazor applications.</remarks>
     [Parameter]
-    public LoginLabels Labels { get; set; } = LoginLabels.Default;
+    public AccountLabels Labels { get; set; } = AccountLabels.Default;
 
     /// <summary>
     /// Gets or sets a value indicating whether the component is being used for sign-in (false) or sign-up (true).
@@ -74,10 +61,28 @@ public partial class ExternalProviderPicker : FluentComponentBase
     [Parameter]
     public bool SignUp { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback that is invoked when an external authentication provider is selected.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnExternalProviderSelected { get; set; }
+
+    /// <summary>
+    /// Gets or sets the service used to interact with external providers.
+    /// </summary>
+    [Inject]
+    private IExternalProviderService ExternalProviderService { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the current login state for the user session.
+    /// </summary>
+    [Inject]
+    private AccountState State { get; set; } = default!;
+
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        _providers = await AuthentificationService.GetExternalProvidersAsync();
+        _providers = await ExternalProviderService.GetExternalProvidersAsync();
     }
 
     /// <summary>
@@ -87,9 +92,14 @@ public partial class ExternalProviderPicker : FluentComponentBase
     /// users via third-party providers such as Google or Facebook. The navigation is performed with a full page reload
     /// to ensure the external authentication process starts correctly.</remarks>
     /// <param name="provider">The name of the external authentication provider to use for login. Cannot be null or empty.</param>
-    private void RedirectToExternalLogin(string provider)
+    private async Task OnProviderSelectedAsync(string provider)
     {
-        NavManager.NavigateTo($"/Account/ExternalLogin?provider={provider}", forceLoad: true);
+        State.Provider = provider;
+
+        if (OnExternalProviderSelected.HasDelegate)
+        {
+            await OnExternalProviderSelected.InvokeAsync();
+        }
     }
 
     /// <summary>

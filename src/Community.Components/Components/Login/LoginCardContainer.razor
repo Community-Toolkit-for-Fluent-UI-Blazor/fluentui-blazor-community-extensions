@@ -1,0 +1,52 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+
+<FluentStack Style="height: 100%"
+             Orientation="Orientation.Vertical"
+             VerticalAlignment="VerticalAlignment.Center">
+    <FluentMultiSplitter Orientation="Orientation.Vertical" Style="--fluent-multi-splitter-color: transparent;
+  --fluent-multi-splitter-color-active: transparent;
+  --fluent-multi-splitter-background-color: transparent;
+  --fluent-multi-splitter-background-color-active: transparent;
+  --fluent-multi-splitter-hover-opacity: 0;">
+        <FluentMultiSplitterPane Size="20%"
+                                 Resizable="false"
+                                 Collapsible="false">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalAlignment="HorizontalAlignment.Center"
+                         Style="height: 100%">
+                @if (TitleTemplate is not null)
+                {
+                    @TitleTemplate
+                }
+                else
+                {
+                    <FluentStack HorizontalAlignment="HorizontalAlignment.Center" 
+                                 Orientation="Orientation.Vertical">
+                        @if (TitleIcon is not null)
+                        {
+                            <FluentIcon Value="@TitleIcon" />
+                        }
+
+                        <FluentLabel Typo="Typography.PaneHeader">
+                            @Title
+                        </FluentLabel>
+                    </FluentStack>
+                   
+                }
+            </FluentStack>
+        </FluentMultiSplitterPane>
+
+        <FluentMultiSplitterPane Size="60%"
+                                 Resizable="false"
+                                 Collapsible="false">
+            @Body
+        </FluentMultiSplitterPane>
+
+        <FluentMultiSplitterPane Resizable="false"
+                                 Collapsible="false"
+                                 Size="15%">
+            @Footer
+        </FluentMultiSplitterPane>
+    </FluentMultiSplitter>
+</FluentStack>
+

@@ -1,0 +1,54 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+
+@if (Parent is not null)
+{
+    <LoginCardContainer Title="@Parent!.Labels.EmailConfirmation"
+                        TitleIcon="@(new Regular.Size48.Mail())">
+        <Body>
+            <FluentStack Orientation="Orientation.Vertical"
+                         VerticalGap="30"
+                         Style="height: 100%">
+                @if (!_isProcessing)
+                {
+                    @if (_isSuccessful)
+                    {
+                        <FluentLabel Color="Color.Neutral"
+                                     Style="margin-bottom: 30px; margin-top: 30px">
+                            @Parent!.Labels.EmailConfirmationMessage
+                        </FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Color="Color.Error"
+                                     Style="margin-bottom: 30px; margin-top: 30px">
+                            @Parent!.Labels.ErrorEmailMessage
+                        </FluentLabel>
+                    }
+                }
+                else
+                {
+                    <FluentStack Style="height: 100%"
+                                 VerticalAlignment="VerticalAlignment.Center"
+                                 HorizontalAlignment="HorizontalAlignment.Center"
+                                 VerticalGap="1">
+                        <FluentProgress Width="340px" />
+                        <FluentLabel Color="Color.Neutral">
+                            @Parent!.Labels.EmailConfirmationProcessing
+                        </FluentLabel>
+                    </FluentStack>
+                }
+
+                <FluentStack Style="height: 100%"
+                             VerticalAlignment="VerticalAlignment.Bottom"
+                             HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentButton Style="width: 100%;"
+                                  Appearance="Appearance.Accent"
+                                  OnClick="OnLoginAsync">
+                        @Parent!.Labels.Login
+                    </FluentButton>
+                </FluentStack>
+            </FluentStack>
+        </Body>
+    </LoginCardContainer>
+}
+

@@ -1,0 +1,7 @@
+.login-overlay-text {
+  display: block;
+  white-space: normal !important;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}

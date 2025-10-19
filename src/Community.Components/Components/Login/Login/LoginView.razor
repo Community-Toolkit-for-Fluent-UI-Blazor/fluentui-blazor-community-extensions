@@ -1,0 +1,119 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+
+@if (Parent is not null)
+{
+    <LoginCardContainer Title="@Parent.Labels.Login" TitleIcon="@(new Regular.Size48.Person())">
+        <Body>
+            <FluentEditForm style="width: 100%; height: 100%"
+                            Model="@Model"
+                            method="post"
+                            @ref="_fluentEditForm"
+                            FormName="LoginForm"
+                            OnValidSubmit="@(OnLoginAsync)">
+                <Microsoft.AspNetCore.Components.Forms.DataAnnotationsValidator />
+
+                <FluentStack Orientation="Orientation.Vertical"
+                             Style="height: 100%"
+                             HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalGap="0">
+                    <FluentStack Orientation="Orientation.Vertical"
+                                 VerticalGap="0"
+                                 Width="95%"
+                                 Style="margin-bottom: 30px">
+                        <FluentTextField Label="@Parent.Labels.Email"
+                                         AriaLabel="@Parent.Labels.Email"
+                                         Required
+                                         Immediate
+                                         @bind-Value="@Model.Email"
+                                         Placeholder="@Parent.Labels.EmailPlaceholder"
+                                         Style="width: 100%" />
+
+                        <FluentValidationMessage For="@(() => Model.Email)" />
+                    </FluentStack>
+
+                    <FluentStack Orientation="Orientation.Vertical"
+                                 VerticalGap="0"
+                                 Width="95%"
+                                 Style="margin-bottom: 10px">
+                        <FluentTextField Label="@Parent.Labels.Password"
+                                         AriaLabel="@Parent.Labels.Password"
+                                         Required
+                                         @bind-Value="@Model.Password"
+                                         Placeholder="@Parent.Labels.PasswordPlaceholder"
+                                         TextFieldType="TextFieldType.Password"
+                                         Immediate
+                                         Style="width: 100%;" />
+
+                        <FluentValidationMessage For="@(() => Model.Password)" />
+                    </FluentStack>
+
+                    <FluentStack Style="margin-bottom: 30px"
+                                 VerticalAlignment="VerticalAlignment.Center"
+                                 HorizontalAlignment="HorizontalAlignment.Right">
+                        <FluentAnchor Href="#"
+                                      Appearance="Appearance.Hypertext"
+                                      OnClick="@(OnForgotPasswordAsync)">
+                            @Parent.Labels.ForgotPassword
+                        </FluentAnchor>
+                    </FluentStack>
+
+                    <FluentStack Style="margin-bottom: 30px"
+                                 VerticalAlignment="VerticalAlignment.Center"
+                                 HorizontalAlignment="HorizontalAlignment.Left">
+                        <FluentSwitch @bind-Value="@Model.RememberMe"
+                                      Label="@Parent.Labels.RememberMe" />
+                    </FluentStack>
+
+                    <FluentStack Style="height: 100%"
+                                 HorizontalAlignment="HorizontalAlignment.Center"
+                                 VerticalAlignment="VerticalAlignment.Bottom"
+                                 Orientation="Orientation.Vertical">
+                        @if (_isLoading)
+                        {
+                            <FluentStack Style="height: 100%"
+                                         VerticalAlignment="VerticalAlignment.Center"
+                                         HorizontalAlignment="HorizontalAlignment.Center"
+                                         Orientation="Orientation.Vertical"
+                                         Width="100%">
+                                <FluentProgress Width="240px" />
+                                <FluentLabel>@Parent.Labels.ProcessingLogin</FluentLabel>
+                            </FluentStack>
+                        }
+
+                        <FluentButton Style="width: 100%;"
+                                      Appearance="Appearance.Accent"
+                                      Type="ButtonType.Submit"
+                                      Disabled="@IsDisabled"
+                                      Loading="@_isLoading">
+                            @Parent.Labels.Login
+                        </FluentButton>
+                    </FluentStack>
+                </FluentStack>
+            </FluentEditForm>
+        </Body>
+
+        <Footer>
+            <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalAlignment="HorizontalAlignment.Center"
+                         Orientation="Orientation.Vertical"
+                         Style="height: 100%;">
+                @if (UseExternalProviders)
+                {
+                    <ExternalProviderPicker Labels="@Parent.Labels"
+                                            IconFromExternal="@ExternalIconProvider"
+                                            ShowText="@ShowExternalProviderText"
+                                            OnExternalProviderSelected="@OnExternalProviderSelectedAsync" />
+                }
+
+                <FluentLabel Color="@Color.Neutral">@Parent.Labels.DontHaveAnAccount</FluentLabel>
+                <FluentAnchor Href="#"
+                              Appearance="Appearance.Hypertext"
+                              OnClick="@(OnSignUpAsync)">
+                    @Parent.Labels.SignUp
+                </FluentAnchor>
+            </FluentStack>
+        </Footer>
+    </LoginCardContainer>
+}
+
+

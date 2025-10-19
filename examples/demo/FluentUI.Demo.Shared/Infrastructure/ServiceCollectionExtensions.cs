@@ -1,6 +1,9 @@
 using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Security;
 using FluentUI.Demo.Shared.Infrastructure;
 using FluentUI.Demo.Shared.Layout;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FluentUI.Demo.Shared;
@@ -19,6 +22,10 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
         services.AddSingleton<DemoNavProvider>();
         services.AddScoped<DownloadFile>();
+        services.AddScoped<IExternalProviderService, ExternalProviderService>();
+        services.AddScoped<LocalStorage>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped<IRuleLocalization, DynamicRuleLocalization>();
 
         return services;
     }
@@ -35,6 +42,13 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
         services.AddSingleton<DemoNavProvider>();
         services.AddScoped<DownloadFile>();
+        services.AddScoped<LocalStorage>();
+        services.AddScoped<IExternalProviderService, ExternalProviderService>();
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped<IRuleLocalization, DynamicRuleLocalization>();
 
         return services;
     }

@@ -1,14 +1,16 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
-@inherits FluentComponentBase
 
 <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
 			 VerticalAlignment="VerticalAlignment.Center">
 	@if (_providers is not null)
 	{
+        <AntiforgeryToken />
+
 		@foreach (var p in _providers)
 		{
 			<FluentButton IconStart=@(GetIconFrom(p.DisplayName))
-					      OnClick="() => RedirectToExternalLogin(p.Name)"
+                          OnClick="@(() => OnProviderSelectedAsync(p.Name))"
+                          Style="border-radius: 10000px"
 						  ChildContent="@(ShowText ? _renderTextContent(p.DisplayName) : null)"
 						  Title="@GetTextContent(p.DisplayName)"/>
 		}
@@ -21,7 +23,6 @@
 	/// </summary>
 	public ExternalProviderPicker()
 	{
-		Id = Identifier.NewId();
 		_renderTextContent = (text) => (__builder) =>
 		{
 			<FluentLabel>@GetTextContent(text)</FluentLabel>
