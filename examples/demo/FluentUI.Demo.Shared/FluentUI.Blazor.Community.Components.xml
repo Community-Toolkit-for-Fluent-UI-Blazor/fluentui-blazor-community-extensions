@@ -10888,14 +10888,6 @@
             Gets or sets the custom content to display for an external authentication provider.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.LoginBaseComponent.OnFailedLoginAsync(FluentUI.Blazor.Community.Components.LoginFailReason)">
-            <summary>
-            Handles a failed login attempt by updating the login view to reflect the specified failure reason.
-            </summary>
-            <remarks>Call this method to update the user interface after a login attempt fails. The view is set
-            according to the provided failure reason, allowing the user to see the appropriate error or guidance.</remarks>
-            <param name="reason">The reason for the failed login attempt. Determines which login view is displayed to the user.</param>
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.LoginBaseComponent.OnInstructionsSentAsync(System.String)">
             <summary>
             Handles the completion of sending password reset instructions and updates the view accordingly.

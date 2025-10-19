@@ -234,28 +234,6 @@ public partial class LoginBaseComponent
     public RenderFragment? ExternalProviderContent { get; set; }
 
     /// <summary>
-    /// Handles a failed login attempt by updating the login view to reflect the specified failure reason.
-    /// </summary>
-    /// <remarks>Call this method to update the user interface after a login attempt fails. The view is set
-    /// according to the provided failure reason, allowing the user to see the appropriate error or guidance.</remarks>
-    /// <param name="reason">The reason for the failed login attempt. Determines which login view is displayed to the user.</param>
-    private async Task OnFailedLoginAsync(LoginFailReason reason)
-    {
-        var view = reason switch
-        {
-            LoginFailReason.InvalidCredentials => AccountManagerView.InvalidCredentials,
-            LoginFailReason.UserNotConfirmed => AccountManagerView.UserNotConfirmed,
-            LoginFailReason.AccountLocked => AccountManagerView.AccountLocked,
-            LoginFailReason.AccountDisabled => AccountManagerView.AccountDisabled,
-            LoginFailReason.UnknownError => AccountManagerView.UnknownError,
-            LoginFailReason.RequiredTwoFactor => AccountManagerView.RequiredTwoFactor,
-            _ => throw new NotImplementedException("Unsupported login failure reason.")
-        };
-
-        await SetViewAsync(view);
-    }
-
-    /// <summary>
     /// Handles the completion of sending password reset instructions and updates the view accordingly.
     /// </summary>
     /// <param name="email">The email address to which the password reset instructions were sent. Cannot be null or empty.</param>
@@ -273,11 +251,12 @@ public partial class LoginBaseComponent
     internal async Task SetViewAsync(AccountManagerView view)
     {
         View = view;
-        await InvokeAsync(StateHasChanged);
 
         if (OnViewChanged.HasDelegate)
         {
             await InvokeAsync(() => OnViewChanged.InvokeAsync(view));
         }
+
+        await InvokeAsync(StateHasChanged);
     }
 }

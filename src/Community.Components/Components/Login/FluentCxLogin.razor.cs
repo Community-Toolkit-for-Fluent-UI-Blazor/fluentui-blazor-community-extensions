@@ -358,6 +358,7 @@ public partial class FluentCxLogin
         if (_loginComponent is not null)
         {
             await _loginComponent.SetViewAsync(view);
+            await InvokeAsync(StateHasChanged);
         }
     }
 
