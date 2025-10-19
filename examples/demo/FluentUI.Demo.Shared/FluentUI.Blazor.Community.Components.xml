@@ -10971,6 +10971,16 @@
             Gets the direction in which the slide animation is performed.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginLayoutOptions.EasingFunction">
+            <summary>
+            Gets the easing function used to control the animation's acceleration and deceleration.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginLayoutOptions.EasingMode">
+            <summary>
+            Gets the easing mode that determines how the interpolation is applied at the start and end of the animation.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.InvalidCredentials">
             <summary>
             Represents an invalid credentials component that is displayed when a user attempts to log in with incorrect credentials.

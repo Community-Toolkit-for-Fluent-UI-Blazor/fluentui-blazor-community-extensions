@@ -75,13 +75,6 @@
     {
         var user = _users.Find(x => string.Equals(args.Email, x));
 
-        // If user does not exist, we return invalid credentials.
-        if (user is null)
-        {
-            args.FailReason = LoginFailReason.InvalidCredentials;
-            return;
-        }
-
         if (string.Equals(args.Email, "testLogin@test.com", StringComparison.CurrentCulture))
         {
             args.FailReason = LoginFailReason.AccountDisabled;
@@ -91,6 +84,13 @@
         if (string.Equals(args.Email, "testLoginNotConfirmed", StringComparison.CurrentCulture))
         {
             args.FailReason = LoginFailReason.UserNotConfirmed;
+            return;
+        }
+
+        // If user does not exist, we return invalid credentials.
+        if (user is null)
+        {
+            args.FailReason = LoginFailReason.InvalidCredentials;
             return;
         }
 

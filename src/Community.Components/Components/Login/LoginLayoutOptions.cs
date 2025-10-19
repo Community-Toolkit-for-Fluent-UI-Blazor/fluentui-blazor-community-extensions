@@ -27,4 +27,14 @@ public record LoginLayoutOptions
     /// Gets the direction in which the slide animation is performed.
     /// </summary>
     public SlideDirection Direction { get; init; } = SlideDirection.Left;
+
+    /// <summary>
+    /// Gets the easing function used to control the animation's acceleration and deceleration.
+    /// </summary>
+    public EasingFunction EasingFunction { get; init; } = EasingFunction.Linear;
+
+    /// <summary>
+    /// Gets the easing mode that determines how the interpolation is applied at the start and end of the animation.
+    /// </summary>
+    public EasingMode EasingMode { get; init; } = EasingMode.InOut;
 }

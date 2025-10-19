@@ -220,7 +220,9 @@ public sealed class PasswordRule
             }
         }
 
-        return _ruleChars.All(x => x.Value == 0);
+        return _ruleChars.All(x => x.Value == 0) &&
+               password.Length >= _definition.MinimumLength &&
+               password.Length <= _definition.MaximumLength;
     }
 
     /// <summary>
