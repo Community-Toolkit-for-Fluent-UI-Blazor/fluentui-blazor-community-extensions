@@ -11411,6 +11411,401 @@
         <member name="M:FluentUI.Blazor.Community.Components.PathBarItemEqualityComparer.GetHashCode(FluentUI.Blazor.Community.Components.IPathBarItem)">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.BorderRadius">
+            <summary>
+            Represents the border radius options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.None">
+            <summary>
+            No radius applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.Circle">
+            <summary>
+            A circular radius applied, making the picture appear as a circle.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.Square">
+            <summary>
+            A square radius applied, making the picture appear with sharp corners.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.RoundSquare">
+            <summary>
+            A rounded square radius applied, making the picture appear with slightly rounded corners.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.Custom">
+            <summary>
+            A custom radius applied, allowing for specific radius values to be set.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.BorderStyle">
+            <summary>
+            Represents the border style options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.None">
+            <summary>
+            No border applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.Solid">
+            <summary>
+            A solid border applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.Dashed">
+            <summary>
+            A dashed border applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.Dotted">
+            <summary>
+            A dotted border applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.Double">
+            <summary>
+            A double border applied.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FetchPriority">
+            <summary>
+            Represents the fetch priority options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FetchPriority.Auto">
+            <summary>
+            Represents an automatic mode or setting, typically used to indicate that a value or behavior should be
+            determined automatically based on context or default logic.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FetchPriority.High">
+            <summary>
+            Represents the high priority setting, which fetches the resource with high priority.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FetchPriority.Low">
+            <summary>
+            Represents the low priority setting, which fetches the resource with low priority.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxPicture">
+            <summary>
+            Represents a picture component with various customization options.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPicture._internalResponsiveSources">
+            <summary>
+            Represents the internal list of responsive image sources.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Source">
+            <summary>
+            Gets or sets the source URL of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.SourceSet">
+            <summary>
+            Gets or sets the source set for responsive images.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Preload">
+            <summary>
+            Gets or sets a value indicating whether to preload the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Loading">
+            <summary>
+            Gets or sets the loading behavior of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.FetchPriority">
+            <summary>
+            Gets or sets the fetch priority of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Format">
+            <summary>
+            Gets or sets the image format (e.g., "webp", "jpeg").
+            </summary>
+            <remarks>This is used for the image processing middleware.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Quality">
+            <summary>
+            Gets or sets the quality of the image (e.g., "80" for 80% quality).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Effects">
+            <summary>
+            Gets or sets the CSS filter effects to apply to the image (e.g., "grayscale(100%)", "blur(5px)").
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Shadow">
+            <summary>
+            Gets or sets the shadow effect for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Width">
+            <summary>
+            Gets or sets the width of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Height">
+            <summary>
+            Gets or sets the height of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderRadius">
+            <summary>
+            Gets or sets the border radius type of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderRadiusValue">
+            <summary>
+            Gets or sets the custom border radius value when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderRadius"/> is set to <see cref="F:FluentUI.Blazor.Community.Components.BorderRadius.Custom"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderStyle">
+            <summary>
+            Gets or sets the border style of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderWidth">
+            <summary>
+            Gets or sets the border width of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderColor">
+            <summary>
+            Gets or sets the border color of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.OverlayContent">
+            <summary>
+            Gets or sets the overlay content to be displayed over the picture.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.ObjectFit">
+            <summary>
+            Gets or sets how the image should be resized to fit its container.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Alt">
+            <summary>
+            Gets or sets the alt text for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Title">
+            <summary>
+            Gets or sets the title for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Caption">
+            <summary>
+            Gets or sets the caption for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Language">
+            <summary>
+            Gets or sets the language of the image for accessibility purposes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.ResponsiveContent">
+            <summary>
+            Gets or sets the responsive content to be rendered within the picture element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.InternalClass">
+            <summary>
+            Gets the internal CSS class for the picture component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.InternalStyle">
+            <summary>
+            Gets the internal style for the picture component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPicture.AddSource(FluentUI.Blazor.Community.Components.ResponsiveImage)">
+            <summary>
+            Adds a responsive image source to the internal list.
+            </summary>
+            <param name="source">Source to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPicture.RemoveSource(FluentUI.Blazor.Community.Components.ResponsiveImage)">
+            <summary>
+            Removes a responsive image source from the internal list.
+            </summary>
+            <param name="source">Source to remove.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LoadingBehavior">
+            <summary>
+            Represents the loading behavior options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoadingBehavior.Auto">
+            <summary>
+            Represents an automatic mode, typically allowing the browser to decide the best loading strategy based on context.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoadingBehavior.Lazy">
+            <summary>
+            Represents a lazy loading strategy, where the image is loaded only when it is about to enter the viewport.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoadingBehavior.Eager">
+            <summary>
+            Represents an eager loading strategy, where the image is loaded immediately, regardless of its position in the viewport.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ObjectFit">
+            <summary>
+            Represents the object fit options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.None">
+            <summary>
+            The default value, which means no specific object fit behavior is applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.Fill">
+            <summary>
+            Fills the entire container, potentially cropping the image if its aspect ratio differs from that of the container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.Cover">
+            <summary>
+            Covers the entire container while maintaining the image's aspect ratio. This may result in some parts of the image being cropped.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.Contain">
+            <summary>
+            Contains the image within the container while maintaining its aspect ratio. This may result in empty space (letterboxing) if the aspect ratios differ.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.ScaleDown">
+            <summary>
+            Reduces the size or scale of the object by a specified factor.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PictureOverlay">
+            <summary>
+            Represents an overlay component that can be positioned over a picture.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PictureOverlay.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.PictureOverlay"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PictureOverlay.Position">
+            <summary>
+            Gets or sets the CSS class for the overlay component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PictureOverlay.ChildContent">
+            <summary>
+            Gets or sets the content to be displayed within the overlay.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PictureOverlay.InternalCss">
+            <summary>
+            Gets the internal CSS classes for the overlay component.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PictureOverlayPosition">
+            <summary>
+            Represents the position options for a picture overlay component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.TopLeft">
+            <summary>
+            The overlay is positioned at the top-left corner of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.TopCenter">
+            <summary>
+            The overlay is positioned at the top-center of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.TopRight">
+            <summary>
+            The overlay is positioned at the top-right corner of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.MiddleLeft">
+            <summary>
+            The overlay is positioned at the middle-left of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.MiddleCenter">
+            <summary>
+            The overlay is positioned at the center of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.MiddleRight">
+            <summary>
+            The overlay is positioned at the middle-right of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.BottomLeft">
+            <summary>
+            The overlay is positioned at the bottom-left corner of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.BottomCenter">
+            <summary>
+            The overlay is positioned at the bottom-center of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.BottomRight">
+            <summary>
+            The overlay is positioned at the bottom-right corner of the picture.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResponsiveImage">
+            <summary>
+            Represents a responsive image component.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Shadow">
+            <summary>
+            Represents a shadow effect with customizable properties such as offset, blur radius, spread radius, and color.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.OffsetX">
+            <summary>
+            Gets or sets the horizontal offset of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.OffsetY">
+            <summary>
+            Gets or sets the vertical offset of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.BlurRadius">
+            <summary>
+            Gets or sets the blur radius of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.SpreadRadius">
+            <summary>
+            Gets or sets the spread radius of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.Color">
+            <summary>
+            Gets or sets the color of the shadow.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Shadow.ToCss">
+            <summary>
+            Returns the CSS representation of the shadow.
+            </summary>
+            <returns>Returns the CSS representation of the shadow.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxResizer">
             <summary>
             Represents a resizer component.
@@ -15342,6 +15737,395 @@
             Gets or sets the row span of the item.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AngleUnit">
+            <summary>
+            Represents angle units for CSS properties.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AngleUnit.Degrees">
+            <summary>
+            Represents degrees, the most common unit for angles.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AngleUnit.Radians">
+            <summary>
+            Represents radians, a mathematical unit for angles.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AngleUnit.Gradians">
+            <summary>
+            Represents gradians, a less common unit where a right angle is 100 gradians.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AngleUnit.Turns">
+            <summary>
+            Represents turns, where a full circle is 1 turn.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CssLength">
+            <summary>
+            Represents a CSS length value with a unit.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CssLength._value">
+            <summary>
+            Represents the numeric value of the length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CssLength._unit">
+            <summary>
+            Represents the unit of the length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CssLength._culture">
+            <summary>
+            Represents the culture info for formatting.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CssLength.#ctor(System.Double,FluentUI.Blazor.Community.Components.LengthUnit)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.CssLength"/> struct.
+            </summary>
+            <param name="value">Value of the length.</param>
+            <param name="unit">Unit of the length.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CssLength.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LengthUnit">
+            <summary>
+            Represents length units for CSS properties.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Pixels">
+            <summary>
+            Represents pixels, the most common unit for lengths in web design.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Percent">
+            <summary>
+            Represents percentage, a relative unit based on the parent element's size.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Em">
+            <summary>
+            Represents em, a relative unit based on the font size of the element.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Rem">
+            <summary>
+            Represents rem, a relative unit based on the font size of the root element.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.ViewportWidth">
+            <summary>
+            Represents vw, a relative unit based on 1% of the viewport's width.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.ViewportHeight">
+            <summary>
+            Represents vh, a relative unit based on 1% of the viewport's height.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.ViewportMin">
+            <summary>
+            Represents vmin, a relative unit based on 1% of the smaller dimension of the viewport (width or height).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.ViewportMax">
+            <summary>
+            Represents vmax, a relative unit based on 1% of the larger dimension of the viewport (width or height).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Centimeters">
+            <summary>
+            Represents centimeters, a physical unit of length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Millimeters">
+            <summary>
+            Represents millimeters, a physical unit of length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Inches">
+            <summary>
+            Represents inches, a physical unit of length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Points">
+            <summary>
+            Represents points, a physical unit of length commonly used in typography (1 point = 1/72 inch).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Picas">
+            <summary>
+            Represents picas, a physical unit of length commonly used in typography (1 pica = 12 points).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Character">
+            <summary>
+            Represents character units, a relative unit based on the width of the "0" (zero) character in the element's font.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.XHeight">
+            <summary>
+            Represents x-height units, a relative unit based on the height of lowercase "x" in the element's font.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.RgbaColor">
+            <summary>
+            Represents an RGBA color value for CSS.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._r">
+            <summary>
+            Represents the red component of the color (0-255).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._g">
+            <summary>
+            Represents the green component of the color (0-255).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._b">
+            <summary>
+            Represents the blue component of the color (0-255).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._a">
+            <summary>
+            Represents the alpha (opacity) component of the color (0.0-1.0).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._culture">
+            <summary>
+            Represents the culture info for formatting.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.RgbaColor.#ctor(System.Byte,System.Byte,System.Byte,System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.RgbaColor"/> class with the specified red, green, blue, and alpha
+            channel values.
+            </summary>
+            <param name="r">The red component of the color, ranging from 0 to 255.</param>
+            <param name="g">The green component of the color, ranging from 0 to 255.</param>
+            <param name="b">The blue component of the color, ranging from 0 to 255.</param>
+            <param name="a">The alpha (transparency) component of the color, ranging from 0.0 (completely transparent) to 1.0 (completely
+            opaque). Defaults to 1.0.</param>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="a"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.RgbaColor.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy">
+            <summary>
+            Represents a strategy for handling Base64-encoded image URLs.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy">
+            <summary>
+            Represents a strategy for handling FTP image URLs.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy._httpClient">
+            <summary>
+            Represents the HTTP client used to fetch images.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Represents a strategy for handling FTP image URLs.
+            </summary>
+            <param name="httpClient">Http client to handle requests.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy">
+            <summary>
+            Represents a strategy for handling HTTP image URLs.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy._httpClient">
+            <summary>
+            Represents the HTTP client used to fetch images.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy"/> class.
+            </summary>
+            <param name="httpClient">Http client</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy">
+            <summary>
+            Represents a strategy for handling image sources.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy.Priority">
+            <summary>
+            Gets the priority of the strategy. Lower values indicate higher priority.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy.CanHandle(System.String)">
+            <summary>
+            Checks if the strategy can handle the given URL.
+            </summary>
+            <param name="url">Url to check.</param>
+            <returns>Returns true if the strategy can handle the given URL; otherwise, false.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Gets the image bytes from the given URL.
+            </summary>
+            <param name="url">Url to fetch.</param>
+            <param name="logger">Logger to use.</param>
+            <returns>Returns the image bytes.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy">
+            <summary>
+            Represents a strategy for handling IPFS image URLs.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy._httpClient">
+            <summary>
+            Represents the HTTP client used to fetch images.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy"/> class.
+            </summary>
+            <param name="httpClient">Http client to use to fetch image.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware">
+            <summary>
+            Responsible for processing image requests, including fetching, resizing, format conversion, and caching.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._next">
+            <summary>
+            Represents the next middleware in the pipeline.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._logger">
+            <summary>
+            Represents the logger instance.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._strategies">
+            <summary>
+            Represents the collection of image source strategies.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._cache">
+            <summary>
+            Represents the memory cache for storing processed images.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._contentTypeProvider">
+            <summary>
+            Represents the content type provider for determining MIME types.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.Extensions.Logging.ILogger{FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware},System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy},Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware"/> class.
+            </summary>
+            <param name="next">The next request to process.</param>
+            <param name="logger">Logger to use to write information.</param>
+            <param name="strategies">List of strategies to use.</param>
+            <param name="cache">Cache.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Processes HTTP requests to handle image proxying, including resizing, reformatting, and caching.
+            </summary>
+            <remarks>This middleware intercepts requests with the path starting with "/image-proxy" and processes
+            them  to retrieve, resize, and reformat images based on query parameters. The processed image is cached  for
+            subsequent requests to improve performance. If the path does not match, the request is passed  to the next
+            middleware in the pipeline.  Query parameters: <list type="bullet"> <item> <term>url</term> <description>The URL
+            of the image to be processed. This parameter is required.</description> </item> <item> <term>format</term>
+            <description>The desired image format (e.g., "jpeg", "png"). Defaults to "jpeg" if not specified.</description>
+            </item> <item> <term>quality</term> <description>The quality of the output image (1-100). Defaults to 80 if not
+            specified or invalid.</description> </item> <item> <term>width</term> <description>The desired width of the
+            output image. If 0 or not specified, the original width is used.</description> </item> <item>
+            <term>height</term> <description>The desired height of the output image. If 0 or not specified, the original
+            height is used.</description> </item> </list>  Responses: <list type="bullet"> <item> <term>200 OK</term>
+            <description>The processed image is returned in the response body.</description> </item> <item> <term>400 Bad
+            Request</term> <description>Returned if the "url" query parameter is missing or invalid.</description> </item>
+            <item> <term>500 Internal Server Error</term> <description>Returned if an error occurs during image
+            processing.</description> </item> </list></remarks>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> representing the current HTTP request and response.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.DownloadImageAsync(System.String)">
+            <summary>
+            Downloads the image from the specified URL using the appropriate strategy.
+            </summary>
+            <param name="url">Url of the image to download.</param>
+            <returns>Returns a task which downloads the url when completed.</returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.ResizeImage(SkiaSharp.SKBitmap,System.Int32,System.Int32)">
+            <summary>
+            Resizes the specified image to the given dimensions while maintaining the aspect ratio if one dimension is set
+            to zero.
+            </summary>
+            <param name="original">The original image to resize. Cannot be <see langword="null"/>.</param>
+            <param name="width">The desired width of the resized image. If set to 0, the width is calculated to maintain the aspect ratio.</param>
+            <param name="height">The desired height of the resized image. If set to 0, the height is calculated to maintain the aspect ratio.</param>
+            <returns>A new <see cref="T:SkiaSharp.SKBitmap"/> instance representing the resized image. If both <paramref name="width"/> and
+            <paramref name="height"/> are 0, the original image is returned.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.EncodeImage(SkiaSharp.SKBitmap,System.String,System.Int32,System.String@)">
+            <summary>
+            Encodes an image into a specified format with a given quality level.
+            </summary>
+            <remarks>This method supports a variety of image formats, including PNG, JPEG, WebP, AVIF, HEIF, GIF,
+            BMP, WBMP, KTX, and ICO. If the specified format is not recognized, the image is encoded as JPEG.</remarks>
+            <param name="bitmap">The <see cref="T:SkiaSharp.SKBitmap"/> representing the image to encode.</param>
+            <param name="format">The desired image format as a string (e.g., "png", "jpeg", "webp"). If the format is not recognized,  the
+            default format is JPEG.</param>
+            <param name="quality">The quality level of the encoded image, ranging from 0 to 100. Higher values indicate better quality.</param>
+            <param name="mimeType">When the method returns, contains the MIME type corresponding to the encoded image format.  If the format is not
+            recognized, the MIME type defaults to "image/jpeg".</param>
+            <returns>A byte array containing the encoded image data.</returns>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottieProvider.OnInitialized">
             <inheritdoc />
         </member>
@@ -16145,6 +16929,119 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
             <inheritdoc/>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.EffectBuilder">
+            <summary>
+            Represents a builder for constructing CSS filter effects.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.EffectBuilder._effects">
+            <summary>
+            Represents the list of effects to be applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.EffectBuilder._invariantCulture">
+            <summary>
+            Represents the culture info for formatting.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddBlur(System.Double,FluentUI.Blazor.Community.Components.LengthUnit)">
+            <summary>
+            Adds a blur effect to the current effect builder with the specified intensity and unit.
+            </summary>
+            <param name="value">The intensity of the blur effect. Must be a non-negative finite number.</param>
+            <param name="unit">The unit of measurement for the blur intensity. Defaults to <see cref="F:FluentUI.Blazor.Community.Components.LengthUnit.Pixels"/>.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is negative, not a number, or infinite.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddBrightness(System.Double)">
+            <summary>
+            Adds a brightness adjustment effect to the current effect builder.
+            </summary>
+            <param name="value">The brightness adjustment value. Must be a non-negative finite number.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, is <see cref="F:System.Double.NaN"/>, or is <see
+            cref="F:System.Double.PositiveInfinity"/> or <see cref="F:System.Double.NegativeInfinity"/>.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddContrast(System.Double)">
+            <summary>
+            Adds a contrast adjustment effect with the specified value to the current effect builder.
+            </summary>
+            <param name="value">The contrast adjustment value. Must be a finite number greater than or equal to 0.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, is <see cref="F:System.Double.NaN"/>, or is infinite.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddGrayscale(System.Double)">
+            <summary>
+            Adds a grayscale effect to the current effect builder with the specified intensity.
+            </summary>
+            <param name="value">A value between 0 and 1 (inclusive) that specifies the intensity of the grayscale effect,  where 0 represents no
+            effect and 1 represents full grayscale.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddHueRotate(System.Double,FluentUI.Blazor.Community.Components.AngleUnit)">
+            <summary>
+            Adds a hue rotation effect to the current effect builder.
+            </summary>
+            <param name="angle">The angle by which to rotate the hue. Must be a valid finite number.</param>
+            <param name="unit">The unit of the angle, such as degrees or radians. The default is <see cref="F:FluentUI.Blazor.Community.Components.AngleUnit.Degrees"/>.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="angle"/> is not a valid finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddInvert(System.Double)">
+            <summary>
+            Adds an invert effect with the specified intensity to the effect builder.
+            </summary>
+            <param name="value">The intensity of the invert effect, specified as a value between 0 and 1, inclusive. A value of 0 applies no
+            inversion, while a value of 1 applies full inversion.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddOpacity(System.Double)">
+            <summary>
+            Adds an opacity effect to the current effect builder with the specified value.
+            </summary>
+            <param name="value">A value between 0 and 1 (inclusive) representing the opacity level, where 0 is fully transparent and 1 is fully
+            opaque.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddSaturate(System.Double)">
+            <summary>
+            Adds a saturation effect with the specified intensity to the effect builder.
+            </summary>
+            <param name="value">The intensity of the saturation effect. Must be a non-negative finite number.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, is <see cref="F:System.Double.NaN"/>, or is infinite.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddSepia(System.Double)">
+            <summary>
+            Adds a sepia tone effect to the current effect chain with the specified intensity.
+            </summary>
+            <param name="value">The intensity of the sepia effect, ranging from 0 to 1. A value of 0 applies no sepia effect,  while a value of
+            1 applies the maximum sepia effect.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddDropShadow(FluentUI.Blazor.Community.Components.CssLength,FluentUI.Blazor.Community.Components.CssLength,FluentUI.Blazor.Community.Components.CssLength,FluentUI.Blazor.Community.Components.RgbaColor)">
+            <summary>
+            Adds a drop shadow effect to the current effect builder.
+            </summary>
+            <remarks>This method appends a CSS-compatible drop shadow effect to the internal list of effects.  The
+            resulting shadow is defined by the specified offsets, blur radius, and color.</remarks>
+            <param name="offsetX">The horizontal offset of the shadow. This value is specified as a <see cref="T:FluentUI.Blazor.Community.Components.CssLength"/>.</param>
+            <param name="offsetY">The vertical offset of the shadow. This value is specified as a <see cref="T:FluentUI.Blazor.Community.Components.CssLength"/>.</param>
+            <param name="blurRadius">The blur radius of the shadow. This value is specified as a <see cref="T:FluentUI.Blazor.Community.Components.CssLength"/> and must be non-negative.</param>
+            <param name="color">The color of the shadow, specified as an <see cref="T:FluentUI.Blazor.Community.Components.RgbaColor"/>.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.Build">
+            <summary>
+            Builds and returns a string representation of the effects, separated by spaces.
+            </summary>
+            <remarks>If no effects are present, the method returns <see langword="null"/>.</remarks>
+            <returns>A string containing the effects separated by spaces, or <see langword="null"/> if no effects are present.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions">
             <summary>

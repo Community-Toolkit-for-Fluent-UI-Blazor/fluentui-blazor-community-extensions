@@ -1,0 +1,47 @@
+﻿@page "/pictures"
+@using FluentUI.Blazor.Community
+@using FluentUI.Demo.Shared.Pages.Pictures.Examples
+
+<h1>Pictures</h1>
+
+<p>
+    The <c>FluentCxPicture</c> component is used to display images with support for various formats and responsive behavior.
+    The property <see cref="FluentCxPicture.Source" /> specifies the image source URL or path.
+    The property <see cref="FluentCxPicture.ResponsiveSources" /> provides a collection of responsive image sources for different screen sizes and resolutions.
+</p>
+
+<h2>Examples</h2>
+
+<DemoSection Component="typeof(PictureDefault)" Title="Default">
+    <Description>
+        The <c>FluentCxPicture</c> component displays an image with the specified source.
+        WARNING : For now, the HTML picture element cannot query the container size, only the screen size.
+        That's why the responsive images don't change when resizing the container, but only when resizing the screen.
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(PictureCaption)" Title="Caption">
+    <Description>
+        A caption can be added to the picture using the <c>Caption</c> property.
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(PictureWithOverlay)" Title="Overlay">
+    <Description>
+        An overlay can be added to the picture using the <c>Overlay</c> property.
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(PictureWithEffects)" Title="Effects">
+    <Description>
+        Some effects like Shadow et Grayscale are easy to add.
+        Use the property <c>Shadow</c> to add a shadow to the picture.
+        Use the class <c>EffectBuilder</c> to create many effects like Grayscale, Sepia, Blur, Brightness, Contrast, HueRotate, Invert, Opacity, Saturate.
+    </Description>
+</DemoSection>
+
+<h2>Documentations</h2>
+
+<ApiDocumentation Component="typeof(FluentCxPicture)" />
+<ApiDocumentation Component="typeof(PictureOverlay)" />
+<ApiDocumentation Component="typeof(EffectBuilder)" />
