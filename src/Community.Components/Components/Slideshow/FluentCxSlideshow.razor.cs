@@ -16,7 +16,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <typeparam name="TItem">Type of the item.</typeparam>
 [CascadingTypeParameter(nameof(TItem))]
 public partial class FluentCxSlideshow<TItem>
-    : FluentComponentBase, IAsyncDisposable, IDisposable
+    : FluentComponentBase, IAsyncDisposable
 {
     #region Fields
 
@@ -920,8 +920,9 @@ public partial class FluentCxSlideshow<TItem>
         }
     }
 
+
     /// <inheritdoc />
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         if (_timer is not null)
         {
@@ -933,12 +934,6 @@ public partial class FluentCxSlideshow<TItem>
 
         _dotnetReference?.Dispose();
 
-        GC.SuppressFinalize(this);
-    }
-
-    /// <inheritdoc />
-    public async ValueTask DisposeAsync()
-    {
         if (DeviceInfoState.DeviceInfo is not null)
         {
             DeviceInfoState.DeviceInfo.OrientationChanged -= OnOrientationChanged;
