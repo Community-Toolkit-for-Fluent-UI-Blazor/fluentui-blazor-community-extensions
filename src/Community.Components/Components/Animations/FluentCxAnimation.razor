@@ -1,11 +1,12 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Animations
 @inherits FluentComponentBase
 
+
 <CascadingValue Value="this" IsFixed>
-    <div id="@Id" class="@InternalCss" style="@InternalStyle">
+    <div id="@Id" class="@InternalCss" style="visibility: var(--animation-state-started, hidden); @InternalStyle">
         @ChildContent
         @Layout
     </div>
 </CascadingValue>
-
 

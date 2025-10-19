@@ -105,8 +105,20 @@ public abstract class AnimatedLayoutBase
 
         Parallel.For(0, count, i =>
         {
-            Update(i, count, elements[i]);
+            InternalUpdate(i, count, elements[i]);
         });
+    }
+
+    /// <summary>
+    /// Performs an update operation on the specified animated element, ensuring it is marked as running before
+    /// updating.
+    /// </summary>
+    /// <param name="index">The zero-based index indicating the starting position for the update operation.</param>
+    /// <param name="count">The number of elements to update, starting from the specified index.</param>
+    /// <param name="animatedElement">The animated element to update. Must not be null.</param>
+    private void InternalUpdate(int index, int count, AnimatedElement animatedElement)
+    {
+        Update(index, count, animatedElement);
     }
 
     /// <summary>

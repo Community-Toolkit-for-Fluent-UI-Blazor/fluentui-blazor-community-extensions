@@ -14,6 +14,11 @@ public sealed class AnimationEngine
     private int _maxDisplayedItems = 10;
 
     /// <summary>
+    /// Current state of the animation engine.
+    /// </summary>
+    private AnimationEngineState _state = AnimationEngineState.NotStarted;
+
+    /// <summary>
     /// Represents the previous state of animated elements to compute differences during animation frames.
     /// </summary>
     private readonly Dictionary<string, AnimatedElement> _previousElements = [];
@@ -39,6 +44,16 @@ public sealed class AnimationEngine
     /// <remarks>This queue is used to manage <see cref="JsonAnimatedElement"/> objects in a concurrent
     /// environment,  ensuring safe access and modification across multiple threads.</remarks>
     private readonly ConcurrentQueue<JsonAnimatedElement> jsonAnimatedElements = new();
+
+    /// <summary>
+    /// Gets or sets the event that is triggered when the state of the animation engine changes.
+    /// </summary>
+    public event EventHandler<AnimationEngineState>? StateChanged;
+
+    /// <summary>
+    /// Gets the current state of the animation engine.
+    /// </summary>
+    public AnimationEngineState State => _state;
 
     /// <summary>
     /// Registers an animated element for tracking and ensures it is added to the collection.
@@ -243,5 +258,65 @@ public sealed class AnimationEngine
     internal IEnumerable<string> GetAll()
     {
         return [.. _groups.SelectMany(g => g.AnimatedElements).Select(e => e.Id!).Concat(_elements.Select(e => e.Id!)).Distinct()];
+    }
+
+    /// <summary>
+    /// Pauses the animation engine, transitioning it to the paused state.
+    /// </summary>
+    /// <remarks>After calling this method, the animation engine will halt progression until resumed. This
+    /// method has no effect if the engine is already paused.</remarks>
+    internal void Pause()
+    {
+        _state = AnimationEngineState.Paused;
+        StateChanged?.Invoke(this, _state);
+    }
+
+    /// <summary>
+    /// Resets the animation engine to its initial state and notifies listeners of the state change.
+    /// </summary>
+    /// <remarks>This method sets the engine state to NotStarted and raises the StateChanged event. Use this
+    /// method to reinitialize the animation engine before starting a new animation sequence.</remarks>
+    internal void Reset()
+    {
+        _state = AnimationEngineState.NotStarted;
+        StateChanged?.Invoke(this, _state);
+    }
+
+    /// <summary>
+    /// Marks the animation engine as completed, updating its state accordingly.
+    /// </summary>
+    internal void OnCompleted()
+    {
+        _state = AnimationEngineState.Completed;
+        StateChanged?.Invoke(this, _state);
+    }
+
+    /// <summary>
+    /// Resumes the animation engine, transitioning it to the active state if it is currently paused or stopped.
+    /// </summary>
+    /// <remarks>This method has no effect if the engine is already running. Calling this method after a pause
+    /// or stop allows animations to continue from their current position.</remarks>
+    internal void Resume()
+    {
+        _state = AnimationEngineState.Running;
+        StateChanged?.Invoke(this, _state);
+    }
+
+    /// <summary>
+    /// Stops the animation engine and transitions its state to stopped.
+    /// </summary>
+    internal void Stop()
+    {
+        _state = AnimationEngineState.Stopped;
+        StateChanged?.Invoke(this, _state);
+    }
+
+    /// <summary>
+    /// Transitions the animation engine to the running state, allowing animations to begin or resume processing.
+    /// </summary>
+    internal void Start()
+    {
+        _state = AnimationEngineState.Running;
+        StateChanged?.Invoke(this, _state);
     }
 }

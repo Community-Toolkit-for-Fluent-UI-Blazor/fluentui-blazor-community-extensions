@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Components.Internal;
+using FluentUI.Blazor.Community.Security;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FluentUI.Blazor.Community.Extensions;
@@ -21,5 +22,7 @@ public static class ServiceCollectionExtensions
                        .AddScoped<DeviceInfoState>()
                        .AddScoped<LottieState>()
                        .AddSingleton<ObserverState>();
+                       .AddScoped<AccountState>()
+                       .AddSingleton<IPasswordRuleOptions, PasswordRuleOptions>();
     }
 }

@@ -1,0 +1,80 @@
+﻿<div style="height: 800px; overflow: hidden">
+    <FluentStack Style="height: 100%">
+        <FluentCxLogin Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg"
+                       QueryMobileWidth="(max-width: 700px)"
+                       Labels="@AccountLabels.Default"
+                       Width="1200"
+                       Height="800"
+                       OnViewChanged="@((e) => _view = e)"
+                       LayoutOptions="@(new LoginLayoutOptions()
+                       {
+                           AnimationDuration = TimeSpan.FromSeconds(1),
+                           Direction = SlideDirection.Right,
+                           EndOpacity = 1,
+                           StartOpacity = 0
+                       })"
+                       UseExternalProviders>
+            <ImageViews>
+                <ImageView View="AccountManagerView.Login" Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
+                <ImageView View="AccountManagerView.Register" Source="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
+                <ImageView View="AccountManagerView.ForgotPassword" Source="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
+                <ImageView View="AccountManagerView.ForgotPasswordConfirmation" Source="./_content/FluentUI.Demo.Shared/slideshowimages/4.png" />
+                <ImageView View="AccountManagerView.ResetPassword" Source="./_content/FluentUI.Demo.Shared/slideshowimages/5.png" />
+            </ImageViews>
+            <OverlayContent>
+                @switch (_view)
+                {
+                    case AccountManagerView.Login:
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 30%">
+                            <LoginOverlayText FontSize="48px" FontWeight="800" Text="Bienvenue !" />
+                        </LoginOverlayDescription>
+
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 50%">
+                            <LoginOverlayText FontSize="28px" FontWeight="800" Text="Connectez-vous pour continuer" />
+                        </LoginOverlayDescription>
+                        break;
+                    case AccountManagerView.Register:
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 30%">
+                            <LoginOverlayText FontSize="48px" FontWeight="800" Text="Rejoignez-nous !" />
+                        </LoginOverlayDescription>
+
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 50%">
+                            <LoginOverlayText FontSize="28px" FontWeight="800" Text="Créer un compte pour commencer" />
+                        </LoginOverlayDescription>
+                        break;
+                    case AccountManagerView.ForgotPassword:
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 30%">
+                            <LoginOverlayText FontSize="48px" FontWeight="800" Text="Mot de passe oublié !" />
+                        </LoginOverlayDescription>
+
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 50%">
+                            <LoginOverlayText FontSize="28px" FontWeight="800" Text="Nous allons vous aider à réinitialiser votre mot de passe" />
+                        </LoginOverlayDescription>
+                        break;
+                    case AccountManagerView.ForgotPasswordConfirmation:
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 30%">
+                            <LoginOverlayText FontSize="48px" FontWeight="800" Text="Instructions envoyées !" />
+                        </LoginOverlayDescription>
+
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 50%">
+                            <LoginOverlayText FontSize="28px" FontWeight="800" Text="Vérifiez votre e-mail pour les instructions de réinitialisation" />
+                        </LoginOverlayDescription>
+                        break;
+                    case AccountManagerView.ResetPassword:
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 30%">
+                            <LoginOverlayText FontSize="48px" FontWeight="800" Text="Réinitialiser le mot de passe" />
+                        </LoginOverlayDescription>
+
+                        <LoginOverlayDescription Style="left: 50%; transform: translateX(-50%); top: 50%">
+                            <LoginOverlayText FontSize="28px" FontWeight="800" Text="Choisissez un nouveau mot de passe pour votre compte." />
+                        </LoginOverlayDescription>
+                        break;
+                }
+            </OverlayContent>
+        </FluentCxLogin>
+    </FluentStack>
+</div>
+
+@code {
+        private AccountManagerView _view = AccountManagerView.Login;
+}

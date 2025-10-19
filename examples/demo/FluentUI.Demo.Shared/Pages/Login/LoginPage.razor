@@ -1,0 +1,34 @@
+﻿@page "/login"
+@using FluentUI.Demo.Shared.Pages.Login.Examples
+
+<h1>Login</h1>
+
+<p>
+    The <code>FluentCxLogin</code> component allows you to reduce the time to manage login or signup operations.
+    It provides a responsive design that adapts to different screen sizes, ensuring a seamless user experience across devices.
+    The component supports customization options for login and registration content, as well as the ability to integrate external authentication providers.
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(LoginLayoutOptionsView)" Title="Change Layout Options">
+    <Description>
+        This example demonstrates how to customize the layout options of the <c>FluentCxLogin</c> component.
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(LoginWithImages)" Title="Login with Images and Overlay Content">
+    <Description>
+        This example showcases the use of images for different views within the <c>FluentCxLogin</c> component.
+        Additionally, it demonstrates how to add overlay content that changes based on the current view.
+        If a view doesn't have a specific image assigned, the source parameter is used as a fallback.
+    </Description>
+</DemoSection>
+
+<DemoSection Component="typeof(LoginComplete)" Title="Complete login sample">
+    <Description>
+        This example provides a comprehensive implementation of the <c>FluentCxLogin</c> component,
+        showcasing its full capabilities including custom images, overlay content, and external authentication providers,
+        and simulate a complete login process.
+    </Description>
+</DemoSection>

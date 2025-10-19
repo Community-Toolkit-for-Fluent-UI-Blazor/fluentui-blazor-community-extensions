@@ -1,0 +1,10 @@
+.login-overlay-container {
+  position: absolute;
+  color: var(--neutral-foreground-rest);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}

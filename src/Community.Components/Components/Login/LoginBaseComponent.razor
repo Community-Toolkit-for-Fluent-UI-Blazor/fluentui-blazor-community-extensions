@@ -1,0 +1,229 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentCard Id=@Id
+            Style="@Style"
+            Class="@Class"
+            Width="@Width">
+    @_accountViewFragments[View]
+</FluentCard>
+
+    @code {
+    public LoginBaseComponent()
+    {
+        _accountViewFragments[AccountManagerView.AccountDisabled] = (__builder) =>
+        {
+            @if (AccountDisabledContent is not null)
+            {
+                @AccountDisabledContent
+            }
+            else
+            {
+                <AccountDisabled />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.AccountLocked] = (__builder) =>
+        {
+            @if (AccountLockedContent is not null)
+            {
+                @AccountLockedContent
+            }
+            else
+            {
+                <AccountLocked />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.EmailConfirmation] = (__builder) =>
+        {
+            @if (EmailConfirmationContent is not null)
+            {
+                @EmailConfirmationContent
+            }
+            else
+            {
+                <EmailConfirmation />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.ExternalProvider] = (__builder) =>
+        {
+            @if (ExternalProviderContent is not null)
+            {
+                @ExternalProviderContent
+            }
+            else
+            {
+                <ExternalProvider OnProcessing="@OnExternalProviderProcessing"
+                                  OnRegister="@OnExternalProviderRegister"
+                                  />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.ForgotPasswordConfirmation] = (__builder) =>
+        {
+            if (ForgotPasswordConfirmationContent is not null)
+            {
+                @ForgotPasswordConfirmationContent
+            }
+            else
+            {
+                <ForgotPasswordConfirmation Email="@_email"
+                                            OnResendEmail="@OnResendEmail" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.ForgotPassword] = (__builder) =>
+        {
+            if (ForgotPasswordContent is not null)
+            {
+                @ForgotPasswordContent
+            }
+            else
+            {
+                <ForgotPassword OnSendInstructions="@OnSendInstructions"
+                                OnInstructionsSent="@(OnInstructionsSentAsync)" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.InvalidCredentials] = (__builder) =>
+        {
+            if (InvalidCredentialsContent is not null)
+            {
+                @InvalidCredentialsContent
+            }
+            else
+            {
+                <InvalidCredentials />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.InvalidPasswordReset] = (__builder) =>
+        {
+            if (InvalidPasswordResetContent is not null)
+            {
+                @InvalidPasswordResetContent
+            }
+            else
+            {
+                <InvalidPasswordReset />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.Login] = (__builder) =>
+        {
+            if (LoginContent is not null)
+            {
+                @LoginContent
+            }
+            else
+            {
+                <LoginView UseExternalProviders="@UseExternalProviders"
+                           ExternalIconProvider="@ExternalIconProvider"
+                           OnLoggedIn="@OnLoggedIn"
+                           OnLogin="@OnLogin"
+                           ShowExternalProviderText="@ShowExternalProviderText" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.Register] = (__builder) =>
+        {
+            if (RegisterContent is not null)
+            {
+                @RegisterContent
+            }
+            else
+            {
+                <RegisterView UseExternalProviders="@UseExternalProviders"
+                              ExternalIconProvider="@ExternalIconProvider"
+                              OnSignUp="@OnSignUp"
+                              ShowExternalProviderText="@ShowExternalProviderText" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.RegisterConfirmation] = (__builder) =>
+        {
+            if (RegisterConfirmationContent is not null)
+            {
+                @RegisterConfirmationContent
+            }
+            else
+            {
+                <RegisterConfirmation />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.RequiredTwoFactor] = (__builder) =>
+        {
+            if (RequiredTwoFactorContent is not null)
+            {
+                @RequiredTwoFactorContent
+            }
+            else
+            {
+                <RequiredTwoFactor />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.RecoveryCode] = (__builder) =>
+        {
+            if (RecoveryCodeContent is not null)
+            {
+                @RecoveryCodeContent
+            }
+            else
+            {
+                <RecoveryCode OnRecoveryCode="@OnRecoveryCode" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.ResetPassword] = (__builder) =>
+        {
+            if (ResetPasswordContent is not null)
+            {
+                @ResetPasswordContent
+            }
+            else
+            {
+                <ResetPassword OnResetPassword="@OnResetPassword" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.ResetPasswordConfirmation] = (__builder) =>
+        {
+            if(ResetPasswordConfirmationContent is not null)
+            {
+                @ResetPasswordConfirmationContent
+            }
+            else
+            {
+                <ResetPasswordConfirmation />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.UnknownError] = (__builder) =>
+        {
+            if (UnknownErrorContent is not null)
+            {
+                @UnknownErrorContent
+            }
+            else
+            {
+                 <UnknownError />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.UserNotConfirmed] = (__builder) =>
+        {
+            if (UserNotConfirmedContent is not null)
+            {
+                @UserNotConfirmedContent
+            }
+            else
+            {
+                <UserNotConfirmed />
+            }
+        };
+    }
+}

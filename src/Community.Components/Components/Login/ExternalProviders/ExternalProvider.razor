@@ -1,0 +1,86 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+
+@if (Parent is not null)
+{
+    <LoginCardContainer Title="@Parent!.Labels.ExternalProviderAuthentication"
+                        TitleIcon="@(new Regular.Size48.PersonPasskey())">
+        <Body>
+            @if (_isProcessing)
+            {
+                <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalAlignment="VerticalAlignment.Center"
+                             Orientation="Orientation.Vertical"
+                             Style="height: 100%;">
+                    <FluentProgress Width="240px" />
+                    <FluentLabel>@Parent!.Labels.ExternalProviderProcessing</FluentLabel>
+                </FluentStack>
+            }
+            else if (_mustRegister)
+            {
+                <FluentStack Orientation="Orientation.Vertical"
+                             VerticalGap="30"
+                             Style="height: 100%">
+                    <FluentLabel>
+                        @GetAssociateProviderNameAccount()
+                    </FluentLabel>
+
+                    <FluentLabel Color="Color.Neutral"
+                                 Style="margin-bottom: 30px; margin-top: 30px">
+                        @((MarkupString)GetAssociateProviderNameAccountMessage())
+                    </FluentLabel>
+
+                    <FluentEditForm Model="_model"
+                                    OnValidSubmit="OnRegisterAsync"
+                                    @ref="_fluentEditForm"
+                                    FormName="confirmation"
+                                    method="post"
+                                    style="width:100%">
+                        <DataAnnotationsValidator />
+
+                        <FluentStack Orientation="Orientation.Vertical"
+                                     VerticalGap="1"
+                                    Style="margin-bottom: 30px">
+                            <FluentTextField Name="_model.Email"
+                                             @bind-Value="_model.Email"
+                                             AutoComplete="email"
+                                             Immediate
+                                             Placeholder="@Parent!.Labels.EmailPlaceholder"
+                                             Label="@Parent!.Labels.Email"
+                                             Style="width: 100%;" />
+
+                            <FluentValidationMessage For="() => _model.Email" />
+                        </FluentStack>
+
+                        @if(_errors.Count > 0)
+                        {
+                                <FluentStack HorizontalGap="20" Orientation="Orientation.Horizontal">
+                                    <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ErrorCircle())" />
+                                    <FluentLabel Color="Color.Accent">@Parent!.Labels.SummaryErrorMessage</FluentLabel>
+                                </FluentStack>
+
+                            <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+                                @foreach(var error in _errors)
+                                {
+                                    <FluentLabel Color="Color.Error">@error</FluentLabel>
+                                }
+                            </FluentStack>
+                        }
+                   
+
+                        <FluentStack VerticalAlignment="VerticalAlignment.Bottom"
+                                     HorizontalAlignment="HorizontalAlignment.Center">
+                            <FluentButton Style="width: 100%;"
+                                          Appearance="Appearance.Accent"
+                                          Type="ButtonType.Submit"
+                                          Disabled=@IsDisabled>
+                                @Parent!.Labels.Register
+                            </FluentButton>
+                        </FluentStack>
+                    </FluentEditForm>        
+                </FluentStack>
+            }
+        </Body>
+    </LoginCardContainer>
+}
+
+

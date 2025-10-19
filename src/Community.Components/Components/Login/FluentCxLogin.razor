@@ -1,0 +1,96 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    @if (!string.IsNullOrEmpty(QueryMobileWidth))
+    {
+        <FluentCxMediaQuery Query="@QueryMobileWidth" OnMediaChanged="@(p => _isMobile = p)" />
+    }
+
+    @ImageViews
+
+    <FluentCxAnimation @ref="_animation" Width="@Width" Height="@Height">
+        <ChildContent>
+            <AnimationItem Width="@Width" Height="@Height">
+                <FluentStack Style="height: 100%">
+                    @if (!IsInternalMobile &&
+                         PanelPosition == LoginPanelPosition.Right)
+                    {
+                        @_renderImagePanelFragment
+                    }
+
+                    <LoginBaseComponent @ref="_loginComponent"
+                                        UseExternalProviders="@UseExternalProviders"
+                                        Labels="@Labels"
+                                        LoginContent="@LoginContent"
+                                        RegisterContent="@RegisterContent"
+                                        Width="@(_isMobile ? "95%" : "40%")"
+                                        OnViewChanged="@UpdateSourceAsync"
+                                        ExternalIconProvider="@ExternalIconProvider"
+                                        OnLogin="@OnLogin"
+                                        OnSendInstructions="@OnSendInstructions"
+                                        OnSignUp="@OnSignUp"
+                                        ShowExternalProviderText="@ShowExternalProviderText"
+                                        OnLoggedIn="@OnLoggedIn"
+                                        AccountDisabledContent="@AccountDisabledContent"
+                                        AccountLockedContent="@AccountLockedContent"
+                                        EmailConfirmationContent="@EmailConfirmationContent"
+                                        ExternalProviderContent="@ExternalProviderContent"
+                                        ForgotPasswordConfirmationContent="@ForgotPasswordConfirmationContent"
+                                        ForgotPasswordContent="@ForgotPasswordContent"
+                                        InvalidCredentialsContent="@InvalidCredentialsContent"
+                                        InvalidPasswordResetContent="@InvalidPasswordResetContent"
+                                        OnExternalProviderProcessing="@OnExternalProviderProcessing"
+                                        OnExternalProviderRegister="@OnExternalProviderRegister"
+                                        OnRecoveryCode="@OnRecoveryCode"
+                                        OnResendEmail="@OnResendEmail"
+                                        OnResetPassword="@OnResetPassword"
+                                        RecoveryCodeContent="@RecoveryCodeContent"
+                                        RegisterConfirmationContent="@RegisterConfirmationContent"
+                                        RequiredTwoFactorContent="@RequiredTwoFactorContent"
+                                        ResetPasswordConfirmationContent="@ResetPasswordConfirmationContent"
+                                        ResetPasswordContent="@ResetPasswordContent"
+                                        UnknownErrorContent="@UnknownErrorContent"
+                                        UserNotConfirmedContent="@UserNotConfirmedContent" />
+
+                    @if (!IsInternalMobile &&
+                         PanelPosition == LoginPanelPosition.Left)
+                    {
+                        @_renderImagePanelFragment
+                    }
+                </FluentStack>
+            </AnimationItem>
+        </ChildContent>
+
+        <Layout>
+            <SlidingOpacityLayout StartOpacity="@LayoutOptions.StartOpacity"
+                                  EndOpacity="@LayoutOptions.EndOpacity"
+                                  Direction="@LayoutOptions.Direction"
+                                  Duration="@LayoutOptions.AnimationDuration"
+                                  EasingFunction="@LayoutOptions.EasingFunction"
+                                  EasingMode="@LayoutOptions.EasingMode"/>
+        </Layout>
+    </FluentCxAnimation>
+</CascadingValue>
+
+@code {
+    public FluentCxLogin()
+    {
+        _renderImagePanelFragment = __builder =>
+        {
+            <FluentCard MinimalStyle Style="padding: 0px;">
+                <img style="width: 100%; height: 100%; object-fit: cover; border-radius: calc(var(--layer-corner-radius) * 1px);"
+                     src="@_source"
+                     alt="@AltText"
+                     title="@Title" />
+                
+                @if (OverlayContent is not null)
+                {
+                    <LoginOverlay>
+                        @OverlayContent
+                    </LoginOverlay>
+                }
+            </FluentCard>            
+        };
+    }
+}

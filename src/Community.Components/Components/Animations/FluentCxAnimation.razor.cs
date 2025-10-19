@@ -20,6 +20,16 @@ public partial class FluentCxAnimation
     private bool _isRendered;
 
     /// <summary>
+    /// Represents the number of ticks from the animation engine.
+    /// </summary>
+    private ulong _tickCount;
+
+    /// <summary>
+    /// Represents a value indicating whether the animation has ticked at least once.
+    /// </summary>
+    private bool _hasTicked;
+
+    /// <summary>
     /// Represents a value indicating whether the MaxDisplayedItems parameter has changed.
     /// </summary>
     private bool _hasMaxDisplayedItemsChanged;
@@ -65,6 +75,11 @@ public partial class FluentCxAnimation
     private bool _immediate;
 
     /// <summary>
+    /// Represents the list of animation items managed by this animation container.
+    /// </summary>
+    private readonly List<AnimationItem> _items = [];
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="FluentCxAnimation"/> class.
     /// </summary>
     public FluentCxAnimation()
@@ -84,6 +99,12 @@ public partial class FluentCxAnimation
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the animation container should be hidden when not running.
+    /// </summary>
+    [Parameter]
+    public bool HideWhenNotRunning { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the layout content to be rendered inside this component.
@@ -170,6 +191,7 @@ public partial class FluentCxAnimation
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("--animation-width", $"{Width}px", Width > 0)
         .AddStyle("--animation-height", $"{Height}px", Height > 0)
+        .AddStyle("visibility", "visible", (!HideWhenNotRunning || (HideWhenNotRunning && _hasTicked && _animationEngine.State != AnimationEngineState.NotStarted)))
         .Build();
 
     /// <summary>
@@ -193,6 +215,7 @@ public partial class FluentCxAnimation
     /// <param name="item">Item to add.</param>
     internal void AddElement(AnimationItem item)
     {
+        _items.Add(item);
         _animationEngine.Register(item.AnimatedElement);
     }
 
@@ -202,6 +225,7 @@ public partial class FluentCxAnimation
     /// <param name="item">Item to remove.</param>
     internal void RemoveElement(AnimationItem item)
     {
+        _items.Remove(item);
         _animationEngine.Unregister(item.AnimatedElement);
     }
 
@@ -233,7 +257,7 @@ public partial class FluentCxAnimation
     /// Cannot be <see langword="null"/>.</param>
     internal async Task SetLayoutAsync([DisallowNull] ILayoutStrategy layoutBase)
     {
-        if(_layouts.Contains(layoutBase))
+        if (_layouts.Contains(layoutBase))
         {
             return;
         }
@@ -320,11 +344,13 @@ public partial class FluentCxAnimation
             }
             else
             {
+                _animationEngine.OnCompleted();
                 await InvokeAsync(OnAnimationCompleted);
             }
         }
         else
         {
+            _animationEngine.OnCompleted();
             await InvokeAsync(OnAnimationCompleted);
         }
     }
@@ -336,6 +362,14 @@ public partial class FluentCxAnimation
     [JSInvokable]
     public List<JsonAnimatedElement> OnAnimationFrame()
     {
+        _tickCount++;
+
+        if (!_hasTicked)
+        {
+            _hasTicked = _tickCount > 2;
+            InvokeAsync(StateHasChanged);
+        }
+
         return _animationEngine.Update();
     }
 
@@ -345,6 +379,8 @@ public partial class FluentCxAnimation
     /// <returns>Returns a task which pauses the animation when completed.</returns>
     public async Task PauseAsync()
     {
+        _animationEngine.Pause();
+
         if (_module is not null)
         {
             await _module.InvokeVoidAsync("pauseAnimation", Id);
@@ -358,6 +394,8 @@ public partial class FluentCxAnimation
     /// <returns>Returns a task which resumes the animation when completed.</returns>
     public async Task ResumeAsync()
     {
+        _animationEngine.Resume();
+
         if (_module != null)
         {
             await _module.InvokeVoidAsync("resumeAnimation", Id);
@@ -371,6 +409,8 @@ public partial class FluentCxAnimation
     /// <returns>Returns a task which stops the animation when completed.</returns>
     public async Task StopAsync()
     {
+        _animationEngine.Stop();
+
         if (_module != null)
         {
             await _module.InvokeVoidAsync("stopAnimation", Id);
@@ -446,6 +486,7 @@ public partial class FluentCxAnimation
     /// <returns>Returns a task which starts the animation when completed.</returns>
     public async Task StartAsync()
     {
+        _animationEngine.Start();
         _animationEngine.ApplyStartTime(DateTime.Now);
 
         if (_module is not null)
@@ -459,5 +500,21 @@ public partial class FluentCxAnimation
         }
 
         await InvokeAsync(OnAnimationStarted);
+    }
+
+    /// <summary>
+    /// Stops the current animation and starts it again asynchronously.
+    /// </summary>
+    /// <remarks>Use this method to reset the animation to its initial state and begin playback from the
+    /// start. If the animation is not currently running, this method starts it as a new animation.</remarks>
+    /// <returns>A task that represents the asynchronous restart operation.</returns>
+    public async Task RestartAsync()
+    {
+        _animationEngine.Reset();
+        _tickCount = 0;
+        _hasTicked = false;
+        await InvokeAsync(StateHasChanged);
+
+        await StartAsync();
     }
 }

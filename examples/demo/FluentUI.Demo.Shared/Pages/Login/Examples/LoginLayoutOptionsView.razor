@@ -1,0 +1,96 @@
+﻿<div style="height: 900px;">
+    <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+        <FluentToolbar Style="width: 100%">
+             <FluentSelect Items="@(Enum.GetValues<EasingFunction>())"
+                          @bind-SelectedOption="_easingFunction"
+                          @bind-SelectedOption:after="OnRestartAsync"
+                          Label="Easing function" />
+
+            <FluentSelect Items="@(Enum.GetValues<EasingMode>())"
+                          @bind-SelectedOption="_easingMode"
+                          @bind-SelectedOption:after="OnRestartAsync"
+                          Label="Easing mode" />
+
+            <FluentSelect Items="@(Enum.GetValues<LoginPanelPosition>())"
+                          @bind-SelectedOption="_panelPosition"
+                          @bind-SelectedOption:after="OnRestartAsync"
+                          Label="Panel position" />
+
+            <FluentSelect Items="@(Enum.GetValues<SlideDirection>())"
+                          @bind-SelectedOption="_slideDirection"
+                          @bind-SelectedOption:after="OnRestartAsync"
+                          Label="Slide direction" />
+
+            <FluentNumberField @bind-Value="@_animationDurationMs"
+                               @bind-Value:after="OnRestartAsync"
+                               Label="Animation duration (ms)"
+                               Min="300"
+                               Max="4000"
+                               Step="100" />
+
+            <FluentNumberField @bind-Value="@_startOpacity"
+                               @bind-Value:after="OnRestartAsync"
+                               Label="Start opacity"
+                               Min="0"
+                               Max="1"
+                               Step="0.05" />
+
+             <FluentNumberField @bind-Value="@_endOpacity"
+                               @bind-Value:after="OnRestartAsync"
+                               Label="End opacity"
+                               Min="0.05"
+                               Max="1"
+                               Step="0.05" />
+        </FluentToolbar>
+
+        <div style="height: 100%; overflow: hidden">
+            @if (_visible)
+            {
+                <FluentCxLogin Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg"
+                               @ref=_fluentCxLogin
+                               QueryMobileWidth="(max-width: 700px)"
+                               Width="1200"
+                               Height="800"
+                               Labels="@AccountLabels.Default"
+                               PanelPosition="@_panelPosition"
+                               LayoutOptions="@(new LoginLayoutOptions()
+                           {
+                               AnimationDuration = TimeSpan.FromMilliseconds(_animationDurationMs),
+                               Direction = _slideDirection,
+                               EndOpacity = _endOpacity,
+                               StartOpacity = _startOpacity,
+                               EasingFunction = _easingFunction,
+                               EasingMode = _easingMode
+                           })" />
+            }
+        </div>
+
+    </FluentStack>
+</div>
+
+@code {
+    private SlideDirection _slideDirection = SlideDirection.Right;
+    private int _animationDurationMs = 1000;
+    private double _startOpacity = 0;
+    private double _endOpacity = 1;
+    private FluentCxLogin? _fluentCxLogin;
+    private bool _visible = true;
+    private LoginPanelPosition _panelPosition = LoginPanelPosition.Right;
+    private EasingFunction _easingFunction = EasingFunction.Cubic;
+    private EasingMode _easingMode = EasingMode.InOut;
+
+    private async Task OnRestartAsync()
+    {
+        _visible = false;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(50);
+
+        _visible = true;
+        await InvokeAsync(StateHasChanged);
+
+        if (_fluentCxLogin is not null)
+        {
+            await _fluentCxLogin.RestartAsync();
+        }   
+    }
+}

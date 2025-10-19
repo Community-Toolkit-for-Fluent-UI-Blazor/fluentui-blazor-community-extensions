@@ -1,0 +1,222 @@
+﻿<FluentMessageBar Intent="MessageIntent.Info">
+    Here, we demonstrate a complete login flow using the FluentCxLogin component with various event handlers for login, registration,
+    password recovery. The login is stored inside a cookie for session persistence.
+
+    If you enter invalid credentials three times, the process will return AccountLocked.
+    If you enter "testLogin@test.com" as email, the login process will return AccountDisabled.
+    If you enter "testLoginNotConfirmed@test.com" as email, the login process will return AccountNotConfirmed.
+    If you enter "testLoginTwoFactor@test.com" as email, the login process will return TwoFactorRequired.
+</FluentMessageBar>
+
+
+<div style="height: 800px; overflow: hidden">
+    <FluentCxLogin @ref="_fluentCxLogin"
+                   Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg"
+                   QueryMobileWidth="(max-width: 700px)"
+                   Labels="@AccountLabels.Default"
+                   OnLoggedIn="@OnLoggedInAsync"
+                   OnLogin=@OnLoginAsync
+                   OnExternalProviderProcessing="@OnExternalProviderProcessingAsync"
+                   OnExternalProviderRegister="@OnExternalProviderRegisterAsync"
+                   OnResendEmail="@OnResendEmailAsync"
+                   OnResetPassword="@OnResetPasswordAsync"
+                   OnSendInstructions="@OnSendInstructionsAsync"
+                   OnSignUp="@OnSignUpAsync"
+                   UseExternalProviders
+                   ExternalIconProvider="@OnExternalIconProvider"
+                   Width="1200"
+                   Height="800" />
+</div>
+
+@code {
+    private FluentCxLogin _fluentCxLogin = null!;
+
+    [Inject]
+    private LocalStorage LocalStorage { get; set; } = null!;
+
+    [Inject]
+    private IToastService ToastService { get; set; } = null!;
+
+    private int _triesCount = 0;
+    private List<UserModel> _users = [];
+
+    private class UserModel
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string DisplayName { get; set; } = string.Empty;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            var users = await LocalStorage.GetItemAsync<List<UserModel>>("users");
+
+            if (users is not null)
+            {
+                _users.AddRange(users);
+            }
+        }
+    }
+
+    private Icon OnExternalIconProvider(string provider)
+    {
+        return provider switch
+        {
+            "Microsoft" => new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.AppFolder(),
+            _ => new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.PersonQuestionMark()
+        };
+    }
+
+    private async Task OnLoginAsync(LoginEventArgs args)
+    {
+        var user = _users.Find(x => string.Equals(args.Email, x));
+
+        if (string.Equals(args.Email, "testLogin@test.com", StringComparison.CurrentCulture))
+        {
+            args.FailReason = LoginFailReason.AccountDisabled;
+            return;
+        }
+
+        if (string.Equals(args.Email, "testLoginNotConfirmed", StringComparison.CurrentCulture))
+        {
+            args.FailReason = LoginFailReason.UserNotConfirmed;
+            return;
+        }
+
+        // If user does not exist, we return invalid credentials.
+        if (user is null)
+        {
+            args.FailReason = LoginFailReason.InvalidCredentials;
+            return;
+        }
+
+        // Check if the provided credentials match the stored user model.
+        if (!string.Equals(user.Password, args.Password, StringComparison.CurrentCulture))
+        {
+            _triesCount++;
+
+            // After 3 failed attempts, we can implement additional logic, such as locking the account.
+            if (_triesCount >= 3)
+            {
+                args.FailReason = LoginFailReason.AccountLocked;
+                return;
+            }
+        }
+    }
+
+    private Task OnLoggedInAsync()
+    {
+        ToastService.ShowSuccess("Congratulations ! You are logged in");
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnExternalProviderProcessingAsync(ExternalProviderProcessingEventArgs args)
+    {
+        // NOTE : Here, we simulate that the external provider always returns the email...
+        // But you can add your own logic and return one of theses fail reasons :
+        //  ExternalProviderProcessingFailReason.LockedOut
+        //  ExternalProviderProcessingFailReason.LoginInfoUnavailable
+        // The first time, we ask the user to register
+
+        args.Email = "testfromprovider@test.com";
+
+        if (_users.Any(x => string.Equals(x.Email, args.Email, StringComparison.CurrentCultureIgnoreCase)))
+        {
+            return Task.CompletedTask;
+        }
+
+        args.FailReason = ExternalProviderProcessingFailReason.AskForRegister;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnExternalProviderRegisterAsync(ExternalProviderRegisterEventArgs args)
+    {
+        // NOTE : Here, we always return success.
+        // But you can add your own logic to validate the registration from external provider.
+        // You can set args.FailReason to RequiredConfirmedAccount if you have configured email confirmation for new.
+        // If error occurs, you can set the Errors property with the list of errors.
+
+        ToastService.ShowInfo("Registered with external provider for " + args.Email + ". Return to home");
+        return Task.CompletedTask;
+    }
+
+    private async Task OnResendEmailAsync(string args)
+    {
+        // Here you can add logic to handle resending confirmation email.
+        // For us, we only show a toast message.
+        ToastService.ShowInfo("Resend confirmation email to " + args);
+    }
+
+    private async Task OnResetPasswordAsync(ResetPasswordEventArgs args)
+    {
+        var user = _users.Find(x => string.Equals(args.Email, x.Email, StringComparison.CurrentCultureIgnoreCase));
+
+        if(user is not null)
+        {
+            user.Password = args.Password;
+            await LocalStorage.SetItemAsync("users", _users);
+        }
+    }
+
+    private async Task OnSendInstructionsAsync(SendPasswordEventArgs args)
+    {
+        // Here you can add logic.
+        // If sending instructions is successful, we just show a toast message.
+        // But if the email is not found, we set the FailReason.EmailNotFound
+        // On your side if your email sender failed, you can set FailReason.NoServerResponse
+
+        if (_users.Any(x => string.Equals(x.Email, args.Email, StringComparison.CurrentCultureIgnoreCase)))
+        {
+            ToastService.ShowInfo("Password reset instructions sent to " + args.Email);
+
+            // Here, in theory, you will send an email with reset link.
+            if(_fluentCxLogin is not null)
+            {
+                await _fluentCxLogin.SetViewAsync(AccountManagerView.ResetPassword);
+            }
+
+            return;
+        }
+
+        args.FailReason = SendPasswordFailReason.EmailNotFound;
+    }
+
+    private async Task OnSignUpAsync(RegisterEventArgs args)
+    {
+        var user = _users.Find(x => string.Equals(args.Email, x.Email, StringComparison.CurrentCultureIgnoreCase));
+
+        if(user is null)
+        {
+            var userModel = new UserModel
+            {
+                Email = args.Email,
+                Password = args.Password,
+                DisplayName = args.DisplayName,
+            };
+
+            _users.Add(userModel);
+
+            await LocalStorage.SetItemAsync("userModel", userModel);
+            return;
+        }
+
+
+        if (string.Equals(args.DisplayName, user.DisplayName, StringComparison.OrdinalIgnoreCase))
+        {
+            args.FailReason = RegisterFailReason.DisplayNameAlreadyInUse;
+            return;
+        }
+
+        if (string.Equals(args.Email, user.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            args.FailReason = RegisterFailReason.EmailAlreadyInUse;
+            return;
+        }
+    }
+}
