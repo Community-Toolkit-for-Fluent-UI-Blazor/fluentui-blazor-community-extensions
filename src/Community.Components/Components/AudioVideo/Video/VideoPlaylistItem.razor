@@ -1,0 +1,38 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div class="audio-playlist-item"
+     style="@Style"
+     id="@Id"
+     @onclick="OnHandleClickAsync">
+    <FluentStack Style="height: 100%"
+                 VerticalAlignment="VerticalAlignment.Center">
+        @if (Track is not null)
+        {
+            @if (!string.IsNullOrEmpty(Track?.Metadata?.Visual?.ThumbnailUrl))
+            {
+                <div style="width: 48px; height: 48px; border-radius: 8px; background-color: white">
+                    <img width="48"
+                         height="48"
+                         src="@Track?.Metadata?.Visual?.ThumbnailUrl"
+                         title="@Track?.Metadata?.Descriptive?.Title"
+                         aria-label="Track?.Metadata?.Descriptive?.Title" />
+                </div>
+            }
+            else
+            {
+                <div style="width: 48px; height: 48px; border-radius: 8px; background-color: var(--accent-fill-rest)" />
+            }
+
+            <FluentLabel Color=Color.Accent
+                         Style="font-size: 18px"
+                         Weight="FontWeight.Bold">@(Track?.Metadata?.Descriptive?.Title ?? UnknownVideoTitle) </FluentLabel>
+
+            <FluentSpacer />
+
+            <FluentIcon Value="@TrackIcon" />
+        }
+    </FluentStack>
+
+    <FluentDivider Role="DividerRole.Presentation" />
+</div>

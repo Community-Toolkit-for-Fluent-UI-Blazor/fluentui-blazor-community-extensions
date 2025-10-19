@@ -1,0 +1,69 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     class="chapter-item @Orientation.ToString().ToLower() @Class"
+     style="@Style"
+     @onclick="@(() => OnClickAsync())">
+    @if (Chapter is not null)
+    {
+        <FluentStack Orientation="@Orientation">
+            <div class="chapter-thumbnail">
+                @if (!string.IsNullOrEmpty(Chapter.Title) &&
+                            !string.IsNullOrEmpty(Chapter.ThumbnailUrl))
+                {
+                    <img src="@Chapter.ThumbnailUrl"
+                         alt="@Chapter.Title"
+                         title="@Chapter.Title"
+                         width="192"
+                         height="144"/>
+                }
+            </div>
+            
+
+            <FluentStack Style="@ChapterDetailsStyle" Orientation="Orientation.Vertical">
+                <div class="chapter-details">
+                    @if (!string.IsNullOrEmpty(Chapter.Title))
+                    {
+                        <FluentLabel Weight="FontWeight.Bold"
+                                     Color="Color.Accent"
+                                     Class="chapter-title">
+                            @Chapter.Title
+                        </FluentLabel>
+                    }
+                </div>
+
+                <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                             Style="height: 32px;">
+                    <div class="chapter-timestamp-label">
+                        <FluentLabel>@Chapter.StartTime.ToString(@"hh\:mm\:ss")</FluentLabel>
+                    </div>
+                   
+                    <FluentSpacer />
+
+                    <div class="chapter-timestamp-label">
+                        <FluentLabel>@Chapter.EndTime.ToString(@"hh\:mm\:ss")</FluentLabel>
+                    </div>
+                </FluentStack>
+            </FluentStack>
+        </FluentStack>
+    }
+</div>
+
+
+@code {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChapterItem"/> class.
+    /// </summary>
+    public ChapterItem()
+    {
+        Id = Identifier.NewId();
+        _item = __builder =>
+        {
+            Orientation orientation = Parent!.Orientation == Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal;
+
+   
+        };
+    }
+}
+

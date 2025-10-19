@@ -21,10 +21,10 @@ public static class ServiceCollectionExtensions
                        .AddScoped<FileManagerState>()
                        .AddScoped<DeviceInfoState>()
                        .AddScoped<LottieState>()
-                       .AddSingleton<ObserverState>();
-                       .AddScoped<AccountState>()
-                       .AddSingleton<IPasswordRuleOptions, PasswordRuleOptions>();
+                       .AddSingleton<ObserverState>()
                        .AddScoped<DeviceInfoState>()
-                       .AddScoped<IAudioMetadataProvider, AudioMetadataProvider>();
+                       .AddScoped<IAudioMetadataProvider, AudioMetadataProvider>()
+                       .AddScoped<IVideoMetadataProvider, VideoMetadataProvider>()
+                       .AddScoped<VideoState>();
     }
 }
