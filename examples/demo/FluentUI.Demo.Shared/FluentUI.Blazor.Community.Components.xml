@@ -14720,10 +14720,90 @@
             Gets or sets the child content of the component.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.Fixed">
+            <summary>
+            Gets or sets a value indicating whether the caption is fixed to the bottom of the slideshow item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.MaxWidth">
+            <summary>
+            Gets or sets the maximum width, in pixels, that the component can occupy.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.Css">
             <summary>
             Gets the css classes to use.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.InternalStyle">
+            <summary>
+            Gets the computed CSS style string for the component, including any maximum width constraints.
+            </summary>
+            <remarks>This property is intended for internal use to generate the final style attribute value based
+            on the component's configuration. It should not be accessed directly from outside the class.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowCaptionText">
+            <summary>
+            Represents a configurable text component for displaying descriptive content within a slideshow, allowing
+            customization of text, color, font, and layout styles.
+            </summary>
+            <remarks>Use this component to present descriptive or explanatory text in a slideshow interface. The
+            appearance of the text can be customized using standard CSS style values for color, font family, font size, font
+            weight, letter spacing, line height, and margin. All style-related properties accept valid CSS values as strings. If
+            a property is not set, a default value is applied as specified in each property's documentation.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.Text">
+            <summary>
+            Gets or sets the text to display in the description area of the slideshow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.Color">
+            <summary>
+            Gets or sets the CSS color value to apply to the component's content.
+            </summary>
+            <remarks>If not set, the default color is "white". Accepts any valid CSS color string, such as a named
+            color (e.g., "red"), a hex code (e.g., "#FF0000"), or an RGB/RGBA value.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.FontFamily">
+            <summary>
+            Gets or sets the CSS font family to apply to the component's text.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.FontSize">
+            <summary>
+            Gets or sets the CSS font size to apply to the component's content.
+            </summary>
+            <remarks>The value should be a valid CSS font-size string, such as "16px", "1.5em", or "large". If not
+            set, the default value is "24px".</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.FontWeight">
+            <summary>
+            Gets or sets the font weight to apply to the text content.
+            </summary>
+            <remarks>Accepts standard CSS font-weight values, such as numeric values (e.g., "400", "700") or
+            keywords (e.g., "normal", "bold"). The default value is "400".</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.LetterSpacing">
+            <summary>
+            Gets or sets the CSS letter-spacing value to apply to the element's text content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.LineHeight">
+            <summary>
+            Gets or sets the line height value for the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.Margin">
+            <summary>
+            Gets or sets the margin value to apply, typically used to define spacing around an element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.InternalStyle">
+            <summary>
+            Gets the computed CSS style string based on the current style-related property values.
+            </summary>
+            <remarks>This property combines individual style settings, such as color, font, and spacing, into a
+            single CSS style string. It is intended for internal use when rendering elements with dynamic styles.</remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowImage`1">
             <summary>
