@@ -1,0 +1,11 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this">
+    <div class="@Class"
+         style="@Style"
+         id="@Id"
+         @ref=Element>
+        @ChildContent
+    </div>
+</CascadingValue>
