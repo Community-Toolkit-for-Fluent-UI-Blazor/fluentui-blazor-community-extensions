@@ -1,11 +1,18 @@
-.slideshow-caption {
+.slideshow-description {
   position: absolute;
+  color: var(--neutral-foreground-rest);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.fixed {
   right: 15%;
   bottom: 5.25rem;
   left: 15%;
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
-  color: var(--neutral-foreground-rest);
-  text-align: center;
-  display: block !important;
 }
