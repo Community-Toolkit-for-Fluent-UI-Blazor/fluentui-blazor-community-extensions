@@ -88,5 +88,35 @@ public enum AccountManagerView
     /// <summary>
     /// Represents the email confirmation view, typically used for confirming a user's email address.
     /// </summary>
-    EmailConfirmation
+    EmailConfirmation,
+
+    /// <summary>
+    /// Represents the not allowed view, typically used when a user is not permitted to sign in.
+    /// </summary>
+    IsNotAllowed,
+
+    /// <summary>
+    /// Represents the two-factor disabled view, typically used when two-factor authentication is disabled for the user.
+    /// </summary>
+    TwoFactorDisabled,
+
+    /// <summary>
+    /// Represents the missing authenticator view, typically used when the authenticator app is not configured for the user.
+    /// </summary>
+    MissingAuthenticator,
+
+    /// <summary>
+    /// Represents the invalid authenticator code view, typically used when an invalid two-factor authentication code is provided.
+    /// </summary>
+    InvalidAuthenticatorCode,
+
+    /// <summary>
+    /// Represents the external login error view, typically used when there is an error with an external login provider.
+    /// </summary>
+    ExternalLoginError,
+
+    /// <summary>
+    /// Represents the external login failed view, typically used when an external login attempt fails.
+    /// </summary>
+    ExternalLoginFailed
 }

@@ -325,6 +325,12 @@ public partial class FluentCxLogin
     private bool RememberMe { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the lockout is enabled for the component.
+    /// </summary>
+    [Parameter]
+    public bool Lockout { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the component is being viewed on a mobile device.
     /// </summary>
     [Parameter]

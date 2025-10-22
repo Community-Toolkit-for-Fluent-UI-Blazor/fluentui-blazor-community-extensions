@@ -10,25 +10,27 @@
 
 
 <div style="height: 800px; overflow: hidden">
-    <FluentCxLogin @ref="_fluentCxLogin"
-                   Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg"
-                   QueryMobileWidth="(max-width: 700px)"
-                   Labels="@AccountLabels.Default"
-                   OnLoggedIn="@OnLoggedInAsync"
-                   OnLogin=@OnLoginAsync
-                   OnExternalProviderProcessing="@OnExternalProviderProcessingAsync"
-                   OnExternalProviderRegister="@OnExternalProviderRegisterAsync"
-                   OnResendEmail="@OnResendEmailAsync"
-                   OnResetPassword="@OnResetPasswordAsync"
-                   OnSendInstructions="@OnSendInstructionsAsync"
-                   OnSignUp="@OnSignUpAsync"
-                   UseExternalProviders
-                   ExternalIconProvider="@OnExternalIconProvider"
-                   Width="1200"
-                   Height="800" />
+        <FluentCxLogin @ref="_fluentCxLogin"
+                       Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg"
+                       QueryMobileWidth="(max-width: 700px)"
+                       Labels="@AccountLabels.Default"
+                       OnLoggedIn="@OnLoggedInAsync"
+                       OnLogin=@OnLoginAsync
+                       OnExternalProviderProcessing="@OnExternalProviderProcessingAsync"
+                       OnExternalProviderRegister="@OnExternalProviderRegisterAsync"
+                       OnResendEmail="@OnResendEmailAsync"
+                       OnResetPassword="@OnResetPasswordAsync"
+                       OnSendInstructions="@OnSendInstructionsAsync"
+                       OnSignUp="@OnSignUpAsync"
+                       UseExternalProviders
+                       ExternalIconProvider="@OnExternalIconProvider"
+                       Width="@width"
+                       Height="@height" />    
 </div>
 
 @code {
+    private int width = 1200;
+    private int height = 800;
     private FluentCxLogin _fluentCxLogin = null!;
 
     [Inject]

@@ -67,6 +67,12 @@ public partial class LoginView
     public EventCallback OnLoggedIn { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the lockout is enabled for the login process.
+    /// </summary>
+    [Parameter]
+    public bool Lockout { get; set; }
+
+    /// <summary>
     /// Gets the current login model containing user input and authentication state for the login process.
     /// </summary>
     private LoginModel Model { get; } = new();
@@ -125,7 +131,7 @@ public partial class LoginView
         _isLoading = true;
         await InvokeAsync(StateHasChanged);
 
-        var e = new LoginEventArgs(Model.Email!, Model.Password!, Model.RememberMe);
+        var e = new LoginEventArgs(Model.Email!, Model.Password!, Model.RememberMe, Lockout);
 
         if (OnLogin.HasDelegate)
         {
@@ -137,7 +143,7 @@ public partial class LoginView
             {
                 await OnLoggedIn.InvokeAsync();
             }
-            else 
+            else
             {
                 var view = e.FailReason switch
                 {
@@ -147,6 +153,12 @@ public partial class LoginView
                     LoginFailReason.AccountDisabled => AccountManagerView.AccountDisabled,
                     LoginFailReason.UnknownError => AccountManagerView.UnknownError,
                     LoginFailReason.RequiredTwoFactor => AccountManagerView.RequiredTwoFactor,
+                    LoginFailReason.IsNotAllowed => AccountManagerView.IsNotAllowed,
+                    LoginFailReason.TwoFactorDisabled => AccountManagerView.TwoFactorDisabled,
+                    LoginFailReason.MissingAuthenticator => AccountManagerView.MissingAuthenticator,
+                    LoginFailReason.InvalidAuthenticatorCode => AccountManagerView.InvalidAuthenticatorCode,
+                    LoginFailReason.ExternalLoginError => AccountManagerView.ExternalLoginError,
+                    LoginFailReason.ExternalLoginFailed => AccountManagerView.ExternalLoginFailed,
                     _ => throw new NotImplementedException("Unsupported login failure reason.")
                 };
 
@@ -165,6 +177,6 @@ public partial class LoginView
     /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnExternalProviderSelectedAsync()
     {
-        await Parent!.SetViewAsync(AccountManagerView.ExternalProvider);
+        await Parent!.SetViewAsync(AccountManagerView.ExternalLoginFailed);
     }
 }
