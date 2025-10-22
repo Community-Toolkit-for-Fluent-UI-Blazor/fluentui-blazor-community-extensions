@@ -19,7 +19,8 @@
             }
             else
             {
-                <AccountDisabled />
+                <LoginMessageStatus Message="@Labels.AccountDisabledMessage"
+                                    Title="@Labels.AccountDisabled" />
             }
         };
 
@@ -31,7 +32,8 @@
             }
             else
             {
-                <AccountLocked />
+                <LoginMessageStatus Message="@Labels.AccountLockedMessage"
+                                    Title="@Labels.AccountLocked" />
             }
         };
 
@@ -95,7 +97,8 @@
             }
             else
             {
-                <InvalidCredentials />
+                <LoginMessageStatus Message="@Labels.InvalidCredentialsMessage"
+                                    Title="@Labels.InvalidCredentials" />       
             }
         };
 
@@ -107,7 +110,8 @@
             }
             else
             {
-                <InvalidPasswordReset />
+                <LoginMessageStatus Message="@Labels.ResetPasswordInvalidLink"
+                                    Title="@Labels.InvalidPasswordReset" />       
             }
         };
 
@@ -150,7 +154,9 @@
             }
             else
             {
-                <RegisterConfirmation />
+                <LoginMessageStatus Message="@Labels.RegisterConfirmationMessage"
+                                    Title="@Labels.RegisterConfirmation"
+                                    Icon="@(new Regular.Size48.PersonMail())" />
             }
         };
 
@@ -198,7 +204,9 @@
             }
             else
             {
-                <ResetPasswordConfirmation />
+                <LoginMessageStatus Message="@Labels.ResetPasswordConfirmationInstructions"
+                                    Title="@Labels.ResetPasswordConfirmation"
+                                    Icon="@(new Regular.Size48.LockClosed())" />
             }
         };
 
@@ -210,7 +218,8 @@
             }
             else
             {
-                 <UnknownError />
+                <LoginMessageStatus Message="@Labels.UnknownErrorMessage"
+                                    Title="@Labels.UnknownError"/>
             }
         };
 
@@ -222,7 +231,86 @@
             }
             else
             {
-                <UserNotConfirmed />
+                <LoginMessageStatus Message="@Labels.UserNotConfirmedMessage"
+                                    Title="@Labels.UserNotConfirmed" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.IsNotAllowed] = (__builder) =>
+        {
+            if (IsNotAllowedContent is not null)
+            {
+                @IsNotAllowedContent
+            }
+            else
+            {
+                <LoginMessageStatus Message="@Labels.UserNotAllowedMessage"
+                                    Title="@Labels.UserNotAllowed" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.TwoFactorDisabled] = (__builder) =>
+        {
+            if (TwoFactorDisabledContent is not null)
+            {
+                @TwoFactorDisabledContent
+            }
+            else
+            {
+                <LoginMessageStatus Message="@Labels.TwoFactorDisabledMessage"
+                                    Title="@Labels.TwoFactorDisabled" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.MissingAuthenticator] = (__builder) =>
+        {
+            if (MissingAuthenticatorContent is not null)
+            {
+                @MissingAuthenticatorContent
+            }
+            else
+            {
+                <LoginMessageStatus Message="@Labels.MissingAuthenticatorMessage"
+                                    Title="@Labels.MissingAuthenticator" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.InvalidAuthenticatorCode] = (__builder) =>
+        {
+            if (InvalidAuthenticatorCodeContent is not null)
+            {
+                @InvalidAuthenticatorCodeContent
+            }
+            else
+            {
+                <LoginMessageStatus Message="@Labels.InvalidAuthenticatorCodeMessage"
+                                    Title="@Labels.InvalidAuthenticatorCode" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.ExternalLoginError] = (__builder) =>
+        {
+            if (ExternalLoginErrorContent is not null)
+            {
+                @ExternalLoginErrorContent
+            }
+            else
+            {
+                <LoginMessageStatus Message="@Labels.ExternalLoginErrorMessage"
+                                    Title="@Labels.ExternalLoginError" />
+            }
+        };
+
+        _accountViewFragments[AccountManagerView.ExternalLoginFailed] = (__builder) =>
+        {
+            if (ExternalLoginFailedContent is not null)
+            {
+                @ExternalLoginFailedContent
+            }
+            else
+            {
+                <LoginMessageStatus Message="@Labels.ExternalLoginFailedMessage"
+                                    Title="@Labels.ExternalLoginFailed" />
             }
         };
     }

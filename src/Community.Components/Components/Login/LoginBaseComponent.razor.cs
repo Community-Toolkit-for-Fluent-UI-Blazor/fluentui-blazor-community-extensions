@@ -75,10 +75,46 @@ public partial class LoginBaseComponent
     public RenderFragment? UserNotConfirmedContent { get; set; }
 
     /// <summary>
+    /// Gets or sets the content to display when the action is not allowed.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? IsNotAllowedContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content to display when two-factor authentication is disabled.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? TwoFactorDisabledContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content to display when no authenticator is available.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? MissingAuthenticatorContent { get; set; }
+
+    /// <summary>
     /// Gets or sets the content to display in the forgot password confirmation view.
     /// </summary>
     [Parameter]
     public RenderFragment? ForgotPasswordConfirmationContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the custom content to display when the authenticator code is invalid.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? InvalidAuthenticatorCodeContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content to display when an external login error occurs.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ExternalLoginErrorContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content to display when an external login attempt fails.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ExternalLoginFailedContent { get; set; }
 
     /// <summary>
     /// Gets or sets the custom content to display in the reset password section of the component.
@@ -150,6 +186,18 @@ public partial class LoginBaseComponent
     /// Gets or sets the view model representing the current login view state.
     /// </summary>
     internal AccountManagerView View { get; private set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the lockout is enabled for the login component.
+    /// </summary>
+    [Parameter]
+    public bool Lockout { get; set; }
+
+    /// <summary>
+    /// Gets or sets the error message to display to the user.
+    /// </summary>
+    [Parameter]
+    public string ErrorMessage { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the CSS width value to apply to the component.

@@ -139,6 +139,6 @@ public partial class RegisterView
     /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task OnExternalProviderSelectedAsync()
     {
-        await Parent!.SetViewAsync(AccountManagerView.ExternalProvider);
+        await Parent!.SetViewAsync(AccountManagerView.ExternalLoginFailed);
     }
 }

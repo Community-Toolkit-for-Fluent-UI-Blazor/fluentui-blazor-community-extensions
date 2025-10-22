@@ -95,7 +95,19 @@ public record AccountLabels
         RegisterConfirmationMessage = "Merci pour votre inscription ! Votre compte a été créé avec succès. Veuillez vérifier votre courriel pour confirmer votre compte.",
         ProcessingLogin = "Connexion en cours...",
         InvalidTwoFactorCodeMessage = "Le code d'authentification à deux facteurs que vous avez saisi est invalide. Veuillez réessayer.",
-        TwoFactorUnknownError = "Une erreur inconnue s'est produite lors de l'authentification à deux facteurs. Veuillez réessayer plus tard."
+        TwoFactorUnknownError = "Une erreur inconnue s'est produite lors de l'authentification à deux facteurs. Veuillez réessayer plus tard.",
+        ExternalLoginError = "Erreur de connexion externe",
+        ExternalLoginErrorMessage = "Une erreur s'est produite lors de la connexion externe. Veuillez réessayer plus tard.",
+        ExternalLoginFailed = "Échec de la connexion externe",
+        ExternalLoginFailedMessage = "La connexion externe a échoué. Veuillez réessayer.",
+        InvalidAuthenticatorCode = "Code d'authentificateur invalide",
+        InvalidAuthenticatorCodeMessage = "Le code d'authentificateur que vous avez saisi est invalide. Veuillez réessayer.",
+        MissingAuthenticator = "Authentificateur manquant",
+        MissingAuthenticatorMessage = "Aucun application d'authentification n'est configurée pour votre compte.",
+        TwoFactorDisabled = "Authentification à deux facteurs désactivée",
+        TwoFactorDisabledMessage = "L'authentification à deux facteurs est désactivée pour votre compte.",
+        UserNotAllowed = "Utilisateur non autorisé",
+        UserNotAllowedMessage = "Vous n'êtes pas autorisé à vous connecter."
     };
 
     /// <summary>
@@ -467,4 +479,64 @@ public record AccountLabels
     /// Gets the message displayed when a user enters an invalid two-factor authentication code.
     /// </summary>
     public string? InvalidTwoFactorCodeMessage { get; init; } = "The two-factor authentication code you entered is invalid. Please try again.";
+
+    /// <summary>
+    /// Gets the message displayed to users who are not permitted to log in.
+    /// </summary>
+    public string? UserNotAllowedMessage { get; init; } = "You are not allowed to log in.";
+
+    /// <summary>
+    /// Gets the message indicating that a user is not allowed to perform the requested action.
+    /// </summary>
+    public string? UserNotAllowed { get; init; } = "User Not Allowed";
+
+    /// <summary>
+    /// Gets the message displayed to users when two-factor authentication is disabled for their account.
+    /// </summary>
+    public string? TwoFactorDisabledMessage { get; init; } = "Two-factor authentication is disabled for your account.";
+
+    /// <summary>
+    /// Gets the label indicating that two-factor authentication is disabled.
+    /// </summary>
+    public string? TwoFactorDisabled { get; init; } = "Two-Factor Disabled";
+
+    /// <summary>
+    /// Gets the message displayed when no authenticator app is configured for the user's account.
+    /// </summary>
+    public string? MissingAuthenticatorMessage { get; init; } = "No authenticator app is configured for your account.";
+
+    /// <summary>
+    /// Gets the message indicating that an authenticator is missing.
+    /// </summary>
+    public string? MissingAuthenticator { get; init; } = "Missing Authenticator";
+
+    /// <summary>
+    /// Gets the message displayed when an invalid authenticator code is entered.
+    /// </summary>
+    public string? InvalidAuthenticatorCodeMessage { get; init; } = "The authenticator code you entered is invalid. Please try again.";
+
+    /// <summary>
+    /// Gets the error message displayed when an authenticator code is invalid.
+    /// </summary>
+    public string? InvalidAuthenticatorCode { get; init; } = "Invalid Authenticator Code";
+
+    /// <summary>
+    /// Gets the error message displayed when an external login attempt fails.
+    /// </summary>
+    public string? ExternalLoginErrorMessage { get; init; } = "An error occurred during external login. Please try again later.";
+
+    /// <summary>
+    /// Gets the error message associated with an external login attempt.
+    /// </summary>
+    public string? ExternalLoginError { get; init; } = "External Login Error";
+
+    /// <summary>
+    /// Gets the error message displayed when an external login attempt fails.
+    /// </summary>
+    public string? ExternalLoginFailedMessage { get; init; } = "External login failed. Please try again.";
+
+    /// <summary>
+    /// Gets the error message displayed when an external login attempt fails.
+    /// </summary>
+    public string? ExternalLoginFailed { get; init; } = "External Login Failed";
 }

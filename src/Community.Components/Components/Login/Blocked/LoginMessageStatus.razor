@@ -3,15 +3,15 @@
 
 @if (Parent is not null)
 {
-    <LoginCardContainer Title="@Parent!.Labels.UserNotConfirmed"
-                        TitleIcon="@(new Regular.Size48.Prohibited())">
+    <LoginCardContainer Title="@Title"
+                        TitleIcon="@(Icon)">
         <Body>
             <FluentStack Orientation="Orientation.Vertical"
                          VerticalGap="30"
                          Style="height: 100%">
                 <FluentLabel Color="Color.Neutral"
                              Style="margin-bottom: 30px; margin-top: 30px">
-                    @Parent!.Labels.UserNotConfirmedMessage
+                    @Message
                 </FluentLabel>
 
                 <FluentStack Style="height: 100%"

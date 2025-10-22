@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Login\LoginContainer.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Login\LoginContainer.razor" />
     <Content Remove="Pages\TileGrid\FluentCxTileGridColRowSpan.razor" />
     <Content Remove="Pages\TileGrid\FluentCxTileGridHeader.razor" />
   </ItemGroup>

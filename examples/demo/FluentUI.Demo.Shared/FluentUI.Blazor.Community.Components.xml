@@ -14540,70 +14540,93 @@
             Gets the message displayed when a user enters an invalid two-factor authentication code.
             </summary>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.AccountDisabled">
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.UserNotAllowedMessage">
             <summary>
-            Represents a component that displays an account disabled message and provides options for user login.
+            Gets the message displayed to users who are not permitted to log in.
             </summary>
-            <remarks>Use this class to present users with information and actions when their account is disabled, such as
-            displaying custom labels and handling login attempts. The component can be customized via the provided
-            parameters.</remarks>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.AccountDisabled.Parent">
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.UserNotAllowed">
+            <summary>
+            Gets the message indicating that a user is not allowed to perform the requested action.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.TwoFactorDisabledMessage">
+            <summary>
+            Gets the message displayed to users when two-factor authentication is disabled for their account.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.TwoFactorDisabled">
+            <summary>
+            Gets the label indicating that two-factor authentication is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.MissingAuthenticatorMessage">
+            <summary>
+            Gets the message displayed when no authenticator app is configured for the user's account.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.MissingAuthenticator">
+            <summary>
+            Gets the message indicating that an authenticator is missing.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.InvalidAuthenticatorCodeMessage">
+            <summary>
+            Gets the message displayed when an invalid authenticator code is entered.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.InvalidAuthenticatorCode">
+            <summary>
+            Gets the error message displayed when an authenticator code is invalid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.ExternalLoginErrorMessage">
+            <summary>
+            Gets the error message displayed when an external login attempt fails.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.ExternalLoginError">
+            <summary>
+            Gets the error message associated with an external login attempt.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.ExternalLoginFailedMessage">
+            <summary>
+            Gets the error message displayed when an external login attempt fails.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AccountLabels.ExternalLoginFailed">
+            <summary>
+            Gets the error message displayed when an external login attempt fails.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LoginMessageStatus">
+            <summary>
+            Represents a component that displays an specific error message and provides options for user login.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginMessageStatus.Parent">
             <summary>
             Gets or sets the callback for when the user clicks the login button.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.AccountDisabled.OnInitialized">
+        <member name="P:FluentUI.Blazor.Community.Components.LoginMessageStatus.Message">
+            <summary>
+            Gets or sets the message to be displayed to the user.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginMessageStatus.Title">
+            <summary>
+            Gets or sets the title of the message.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginMessageStatus.Icon">
+            <summary>
+            Gets or sets the icon to be displayed alongside the message.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.LoginMessageStatus.OnInitialized">
             <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.AccountLocked">
-            <summary>
-            Represents a component that displays an account locked message and provides options for user login.
-            </summary>
-            <remarks>Use this component to inform users that their account is locked and to offer a way to initiate the
-            login process. The component can be customized with specific labels and a callback for login actions.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.AccountLocked.Parent">
-            <summary>
-            Gets or sets the callback for when the user clicks the login button.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.AccountLocked.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.UnknownError">
-            <summary>
-            Represents a component that displays an unknown error message and provides options for user login.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.UnknownError.Parent">
-            <summary>
-            Gets or sets the callback for when the user clicks the login button.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.UnknownError.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.UserNotConfirmed">
-            <summary>
-            Represents a component that displays an user not confirmed message and provides options for user login.
-            </summary>
-            <remarks>Use this component to inform users that their account is locked and to offer a way to initiate the
-            login process. The component can be customized with specific labels and a callback for login actions.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.UserNotConfirmed.Parent">
-            <summary>
-            Gets or sets the parent <see cref="T:FluentUI.Blazor.Community.Components.FluentCxLogin"/> component.  
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.UserNotConfirmed.OnInitialized">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.UserNotConfirmed.OnLoginAsync">
-            <summary>
-            Asynchronously transitions the parent view to the login screen.
-            </summary>
-            <returns>A task that represents the asynchronous operation.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.EmailConfirmation">
             <summary>
@@ -15136,6 +15159,11 @@
             Gets or sets a value indicating whether the user's login session should be persisted across browser restarts.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLogin.Lockout">
+            <summary>
+            Gets or sets a value indicating whether the lockout is enabled for the component.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxLogin.IsMobile">
             <summary>
             Gets or sets a value indicating whether the component is being viewed on a mobile device.
@@ -15425,9 +15453,39 @@
             Gets or sets the content to display when the user has not confirmed their account.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.IsNotAllowedContent">
+            <summary>
+            Gets or sets the content to display when the action is not allowed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.TwoFactorDisabledContent">
+            <summary>
+            Gets or sets the content to display when two-factor authentication is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.MissingAuthenticatorContent">
+            <summary>
+            Gets or sets the content to display when no authenticator is available.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.ForgotPasswordConfirmationContent">
             <summary>
             Gets or sets the content to display in the forgot password confirmation view.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.InvalidAuthenticatorCodeContent">
+            <summary>
+            Gets or sets the custom content to display when the authenticator code is invalid.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.ExternalLoginErrorContent">
+            <summary>
+            Gets or sets the content to display when an external login error occurs.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.ExternalLoginFailedContent">
+            <summary>
+            Gets or sets the content to display when an external login attempt fails.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.ResetPasswordContent">
@@ -15488,6 +15546,16 @@
         <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.View">
             <summary>
             Gets or sets the view model representing the current login view state.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.Lockout">
+            <summary>
+            Gets or sets a value indicating whether the lockout is enabled for the login component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.ErrorMessage">
+            <summary>
+            Gets or sets the error message to display to the user.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.Width">
@@ -15645,19 +15713,6 @@
             Gets the easing mode that determines how the interpolation is applied at the start and end of the animation.
             </summary>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.InvalidCredentials">
-            <summary>
-            Represents an invalid credentials component that is displayed when a user attempts to log in with incorrect credentials.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.InvalidCredentials.Parent">
-            <summary>
-            Gets or sets the callback for when the user clicks the login button.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.InvalidCredentials.OnInitialized">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.LoginView">
             <summary>
             Represents a login form component that supports customizable labels, external authentication providers, and optional
@@ -15714,6 +15769,11 @@
             </summary>
             <remarks>Use this callback to perform additional actions after a successful login, such as redirecting
             the user or updating application state.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginView.Lockout">
+            <summary>
+            Gets or sets a value indicating whether the lockout is enabled for the login process.
+            </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.LoginView.Model">
             <summary>
@@ -15956,6 +16016,36 @@
             Represents the email confirmation view, typically used for confirming a user's email address.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AccountManagerView.IsNotAllowed">
+            <summary>
+            Represents the not allowed view, typically used when a user is not permitted to sign in.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AccountManagerView.TwoFactorDisabled">
+            <summary>
+            Represents the two-factor disabled view, typically used when two-factor authentication is disabled for the user.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AccountManagerView.MissingAuthenticator">
+            <summary>
+            Represents the missing authenticator view, typically used when the authenticator app is not configured for the user.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AccountManagerView.InvalidAuthenticatorCode">
+            <summary>
+            Represents the invalid authenticator code view, typically used when an invalid two-factor authentication code is provided.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AccountManagerView.ExternalLoginError">
+            <summary>
+            Represents the external login error view, typically used when there is an error with an external login provider.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AccountManagerView.ExternalLoginFailed">
+            <summary>
+            Represents the external login failed view, typically used when an external login attempt fails.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.AccountState">
             <summary>
             Represents the current state of a user login operation within the authentication workflow.
@@ -16146,14 +16236,16 @@
             <param name="Email">The username entered by the user.</param>
             <param name="Password">The password entered by the user.</param>
             <param name="RememberMe">A value indicating whether the user has requested to be remembered on future logins.</param>
+            <param name="Lockout">A value indicating whether the account should be locked out after failed attempts.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.LoginEventArgs.#ctor(System.String,System.String,System.Boolean)">
+        <member name="M:FluentUI.Blazor.Community.Components.LoginEventArgs.#ctor(System.String,System.String,System.Boolean,System.Boolean)">
             <summary>
             Provides data for login events, including user credentials and login options.
             </summary>
             <param name="Email">The username entered by the user.</param>
             <param name="Password">The password entered by the user.</param>
             <param name="RememberMe">A value indicating whether the user has requested to be remembered on future logins.</param>
+            <param name="Lockout">A value indicating whether the account should be locked out after failed attempts.</param>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.LoginEventArgs.Email">
             <summary>The username entered by the user.</summary>
@@ -16163,6 +16255,9 @@
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.LoginEventArgs.RememberMe">
             <summary>A value indicating whether the user has requested to be remembered on future logins.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginEventArgs.Lockout">
+            <summary>A value indicating whether the account should be locked out after failed attempts.</summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.LoginEventArgs.IsSuccessful">
             <summary>
@@ -16212,6 +16307,36 @@
         <member name="F:FluentUI.Blazor.Community.Components.LoginFailReason.UserNotConfirmed">
             <summary>
             Indicates that the user has not completed the required confirmation process.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoginFailReason.IsNotAllowed">
+            <summary>
+            Indicates that the login attempt failed because the user is not allowed to sign in.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoginFailReason.TwoFactorDisabled">
+            <summary>
+            Indicates that the login attempt failed because two-factor authentication is disabled for the user.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoginFailReason.MissingAuthenticator">
+            <summary>
+            Indicates that the login attempt failed because the authenticator app is not configured for the user.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoginFailReason.InvalidAuthenticatorCode">
+            <summary>
+            Indicates that the login attempt failed due to an invalid two-factor authentication code.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoginFailReason.ExternalLoginError">
+            <summary>
+            Indicates that the login attempt failed due to an error with an external login provider.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoginFailReason.ExternalLoginFailed">
+            <summary>
+            Indicates that the login attempt failed due to an external login failure.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.LoginModel">
@@ -16719,19 +16844,6 @@
             <remarks>This property combines individual style settings, such as color, font, and spacing, into a
             single CSS style string. It is intended for internal use when rendering elements with dynamic styles.</remarks>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.RegisterConfirmation">
-            <summary>
-            Represents the confirmation component displayed after a user registers an account.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.RegisterConfirmation.Parent">
-            <summary>
-            Gets or sets the callback for when the user clicks the login button.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.RegisterConfirmation.OnInitialized">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.RegisterView">
             <summary>
             Represents a view component that renders the user registration interface, including options for external
@@ -16812,19 +16924,6 @@
             </summary>
             <returns>A task that represents the asynchronous operation.</returns>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.InvalidPasswordReset">
-            <summary>
-            Represents the component displayed when a password reset attempt fails due to an invalid or expired reset code.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.InvalidPasswordReset.Parent">
-            <summary>
-            Gets or sets the callback for when the user clicks the login button.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.InvalidPasswordReset.OnInitialized">
-            <inheritdoc />
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ResetPassword">
             <summary>
             Represents the reset password form component, providing functionality and customization options for resetting a
@@ -16874,22 +16973,6 @@
             collection or signals a successful reset. This method is typically invoked in response to a user action, such as
             submitting a reset password form.</remarks>
             <returns>A task that represents the asynchronous operation.</returns>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.ResetPasswordConfirmation">
-            <summary>
-            Represents the confirmation view displayed after a user successfully resets their password.
-            </summary>
-            <remarks>This component is typically used in authentication workflows to inform users that their password
-            reset was successful. It can be customized via parameters to adjust labels and handle login actions. The component
-            is intended for use within login or account management pages.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ResetPasswordConfirmation.Parent">
-            <summary>
-            Gets or sets the callback for when the user clicks the login button.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ResetPasswordConfirmation.OnInitialized">
-            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxLottiePlayer">
             <summary>
