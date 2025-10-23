@@ -235,14 +235,6 @@ public partial class LoginBaseComponent
     public EventCallback<RegisterEventArgs> OnSignUp { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback that is invoked when the user has successfully logged in.
-    /// </summary>
-    /// <remarks>Use this callback to perform additional actions after a successful login, such as redirecting
-    /// the user or updating application state.</remarks>
-    [Parameter]
-    public EventCallback OnLoggedIn { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether to display additional text for external authentication providers.
     /// </summary>
     [Parameter]
