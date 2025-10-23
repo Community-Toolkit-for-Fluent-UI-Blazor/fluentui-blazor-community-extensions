@@ -405,6 +405,31 @@ public sealed partial class FluentCxObserverProvider
         }
     }
 
+    /// <summary>
+    /// Invokes window resize event handlers for all observers that are subscribed to window resize notifications.
+    /// </summary>
+    /// <remarks>This method is intended to be called from JavaScript via interop when a window resize event
+    /// occurs. Only observers with window resize observation enabled will be notified. The method completes when all
+    /// observer handlers have finished processing the event.</remarks>
+    /// <param name="e">An object containing details about the window resize event, such as the new dimensions.</param>
+    /// <returns>A task that represents the asynchronous operation of notifying all relevant observers of the window resize
+    /// event.</returns>
+    [JSInvokable("OnWindowResize")]
+    public async Task OnWindowResizeAsync(ResizeWindowEventArgs e)
+    {
+        var tasks = new List<Task>();
+
+        foreach (var item in ObserverState.GetAllItems())
+        {
+            if (item.ObserveWindowResize)
+            {
+                tasks.Add(item.OnWindowResizeAsync(e));
+            }
+        }
+
+        await Task.WhenAll(tasks);
+    }
+
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {

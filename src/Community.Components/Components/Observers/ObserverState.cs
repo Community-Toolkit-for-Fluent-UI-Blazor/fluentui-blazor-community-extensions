@@ -243,4 +243,17 @@ internal sealed class ObserverState
 
         return null;
     }
+
+    /// <summary>
+    /// Returns a collection containing all observer items currently managed by the instance.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="ObserverItem"/> objects representing all items. The collection will be
+    /// empty if no items are present.</returns>
+    internal IEnumerable<ObserverItem> GetAllItems()
+    {
+        var items = _items.Values.ToList();
+        items.AddRange(_groups.Values.SelectMany(x=>x.Items));
+
+        return items;
+    }
 }

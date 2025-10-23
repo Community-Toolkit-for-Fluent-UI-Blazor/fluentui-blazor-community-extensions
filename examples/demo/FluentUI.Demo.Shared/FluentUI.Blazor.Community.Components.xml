@@ -8754,6 +8754,11 @@
             Gets or sets the debounce duration for handling intersection events.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.Threshold">
+            <summary>
+            Gets or sets the threshold for intersection observation.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.JSRuntime">
             <summary>
             Gets or sets the JavaScript runtime abstraction used to invoke JavaScript functions from .NET.
@@ -8866,6 +8871,17 @@
             <param name="batch">The batch of resize event data containing the group identifier and a collection of entries representing elements
             that have been resized.</param>
             <returns>A task that represents the asynchronous operation of notifying observers for each resize event.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnWindowResizeAsync(FluentUI.Blazor.Community.Components.ResizeWindowEventArgs)">
+            <summary>
+            Invokes window resize event handlers for all observers that are subscribed to window resize notifications.
+            </summary>
+            <remarks>This method is intended to be called from JavaScript via interop when a window resize event
+            occurs. Only observers with window resize observation enabled will be notified. The method completes when all
+            observer handlers have finished processing the event.</remarks>
+            <param name="e">An object containing details about the window resize event, such as the new dimensions.</param>
+            <returns>A task that represents the asynchronous operation of notifying all relevant observers of the window resize
+            event.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.DisposeAsync">
             <inheritdoc />
@@ -9349,6 +9365,15 @@
             state. The event provides details through the <see cref="T:FluentUI.Blazor.Community.Components.MutationEventArgs"/> parameter. This callback is
             typically used to respond to or process mutations initiated by user actions or other triggers.</remarks>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.OnWindowResizedAsync">
+            <summary>
+            Gets or sets the callback that is invoked asynchronously when the browser window is resized.
+            </summary>
+            <remarks>The callback receives a <see cref="T:FluentUI.Blazor.Community.Components.ResizeWindowEventArgs"/> instance containing details about
+            the resize event. Assign this property to handle window resize events in a Blazor component. The callback is
+            executed asynchronously and can be used to update UI or perform other actions in response to window size
+            changes.</remarks>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserveResize">
             <summary>
             Gets or sets a value indicating whether the component observes changes to its size and responds to resize
@@ -9380,6 +9405,15 @@
             changes, such as additions or removals of child elements. This can be useful for scenarios where the content is
             updated outside of the normal rendering cycle.</remarks>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserveWindowResize">
+            <summary>
+            Gets or sets a value indicating whether the component should observe window resize events and respond
+            accordingly.
+            </summary>
+            <remarks>When set to <see langword="true"/>, the component will automatically detect changes to the
+            browser window size and may update its layout or behavior in response. This is useful for creating responsive
+            user interfaces that adapt to different screen sizes.</remarks>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnResizeAsync(FluentUI.Blazor.Community.Components.ResizeEventArgs)">
             <summary>
             Handles the resize event and invokes the associated delegate asynchronously, if one is assigned.
@@ -9406,6 +9440,13 @@
             <param name="entry">The event arguments containing details about the mutation to process.</param>
             <returns>A task that represents the asynchronous operation.</returns>
             <exception cref="T:System.NotImplementedException">Thrown if the method is not overridden in a derived class.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnWindowResizeAsync(FluentUI.Blazor.Community.Components.ResizeWindowEventArgs)">
+            <summary>
+            Handles a window resize event asynchronously when window resize observation is enabled.
+            </summary>
+            <param name="e">The event data associated with the window resize operation.</param>
+            <returns>A task that represents the asynchronous operation of handling the window resize event.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc/>
@@ -9516,6 +9557,13 @@
             search is limited to that group; otherwise, a global search is performed.</returns>
             <exception cref="T:System.Collections.Generic.KeyNotFoundException">Thrown if no item with the specified <paramref name="itemId"/> is found in the specified group or globally.</exception>
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.GetAllItems">
+            <summary>
+            Returns a collection containing all observer items currently managed by the instance.
+            </summary>
+            <returns>An enumerable collection of <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> objects representing all items. The collection will be
+            empty if no items are present.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ResizeBatch">
             <summary>
             Represents a batch of resize entries grouped by a unique identifier.
@@ -9589,6 +9637,21 @@
         <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Rect">
             <summary>
             Gets the bounding rectangle of the element.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizeWindowEventArgs">
+            <summary>
+            Provides data for an event that reports the new dimensions of a resized window.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeWindowEventArgs.Width">
+            <summary>
+            Gets the width of the window.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeWindowEventArgs.Height">
+            <summary>
+            Gets the height of the window.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBar">
