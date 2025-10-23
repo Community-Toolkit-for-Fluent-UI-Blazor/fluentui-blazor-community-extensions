@@ -59,14 +59,6 @@ public partial class LoginView
     public EventCallback<LoginEventArgs> OnLogin { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback that is invoked when the user has successfully logged in.
-    /// </summary>
-    /// <remarks>Use this callback to perform additional actions after a successful login, such as redirecting
-    /// the user or updating application state.</remarks>
-    [Parameter]
-    public EventCallback OnLoggedIn { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether the lockout is enabled for the login process.
     /// </summary>
     [Parameter]
@@ -81,6 +73,18 @@ public partial class LoginView
     /// Gets a value indicating whether the form is currently disabled due to loading or validation errors.
     /// </summary>
     private bool IsDisabled => _isLoading || (_fluentEditForm?.EditContext?.GetValidationMessages().Any() ?? false) || !Model.IsValid;
+
+    /// <summary>
+    /// Gets or sets the NavigationManager instance used to manage and navigate between URIs within the application.
+    /// </summary>
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the current account state used by the component.
+    /// </summary>
+    [Inject]
+    private AccountState State { get; set; } = null!;
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -130,6 +134,7 @@ public partial class LoginView
     {
         _isLoading = true;
         await InvokeAsync(StateHasChanged);
+        await Task.Yield();
 
         var e = new LoginEventArgs(Model.Email!, Model.Password!, Model.RememberMe, Lockout);
 
@@ -138,10 +143,9 @@ public partial class LoginView
             await OnLogin.InvokeAsync(e);
             _isLoading = false;
 
-            if (e.IsSuccessful &&
-                OnLoggedIn.HasDelegate)
+            if (e.IsSuccessful)
             {
-                await OnLoggedIn.InvokeAsync();
+                NavigationManager.NavigateTo(State!.ReturnUrl ?? "/", forceLoad: true);
             }
             else
             {

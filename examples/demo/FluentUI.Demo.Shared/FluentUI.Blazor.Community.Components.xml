@@ -15588,13 +15588,6 @@
             Gets or sets the callback that is invoked when a user completes the sign-up process.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.OnLoggedIn">
-            <summary>
-            Gets or sets the callback that is invoked when the user has successfully logged in.
-            </summary>
-            <remarks>Use this callback to perform additional actions after a successful login, such as redirecting
-            the user or updating application state.</remarks>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.LoginBaseComponent.ShowExternalProviderText">
             <summary>
             Gets or sets a value indicating whether to display additional text for external authentication providers.
@@ -15763,13 +15756,6 @@
             <remarks>Use this property to handle login events, such as when a user successfully signs in. The
             callback receives a <see cref="T:FluentUI.Blazor.Community.Components.LoginEventArgs"/> instance containing details about the login event.</remarks>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.LoginView.OnLoggedIn">
-            <summary>
-            Gets or sets the callback that is invoked when the user has successfully logged in.
-            </summary>
-            <remarks>Use this callback to perform additional actions after a successful login, such as redirecting
-            the user or updating application state.</remarks>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.LoginView.Lockout">
             <summary>
             Gets or sets a value indicating whether the lockout is enabled for the login process.
@@ -15783,6 +15769,16 @@
         <member name="P:FluentUI.Blazor.Community.Components.LoginView.IsDisabled">
             <summary>
             Gets a value indicating whether the form is currently disabled due to loading or validation errors.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginView.NavigationManager">
+            <summary>
+            Gets or sets the NavigationManager instance used to manage and navigate between URIs within the application.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LoginView.State">
+            <summary>
+            Gets or sets the current account state used by the component.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.LoginView.OnInitialized">
