@@ -57,6 +57,16 @@ public partial class ObserverItem
     public EventCallback<MutationEventArgs> OnMutation { get; set; }
 
     /// <summary>
+    /// Gets or sets the callback that is invoked asynchronously when the browser window is resized.
+    /// </summary>
+    /// <remarks>The callback receives a <see cref="ResizeWindowEventArgs"/> instance containing details about
+    /// the resize event. Assign this property to handle window resize events in a Blazor component. The callback is
+    /// executed asynchronously and can be used to update UI or perform other actions in response to window size
+    /// changes.</remarks>
+    [Parameter]
+    public EventCallback<ResizeWindowEventArgs> OnWindowResizedAsync { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the component observes changes to its size and responds to resize
     /// events.
     /// </summary>
@@ -90,6 +100,16 @@ public partial class ObserverItem
     /// updated outside of the normal rendering cycle.</remarks>
     [Parameter]
     public bool ObserveMutation { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the component should observe window resize events and respond
+    /// accordingly.
+    /// </summary>
+    /// <remarks>When set to <see langword="true"/>, the component will automatically detect changes to the
+    /// browser window size and may update its layout or behavior in response. This is useful for creating responsive
+    /// user interfaces that adapt to different screen sizes.</remarks>
+    [Parameter]
+    public bool ObserveWindowResize { get; set; }
 
     /// <summary>
     /// Handles the resize event and invokes the associated delegate asynchronously, if one is assigned.
@@ -133,6 +153,19 @@ public partial class ObserverItem
         if (OnMutation.HasDelegate)
         {
             await OnMutation.InvokeAsync(entry);
+        }
+    }
+
+    /// <summary>
+    /// Handles a window resize event asynchronously when window resize observation is enabled.
+    /// </summary>
+    /// <param name="e">The event data associated with the window resize operation.</param>
+    /// <returns>A task that represents the asynchronous operation of handling the window resize event.</returns>
+    protected internal virtual async Task OnWindowResizeAsync(ResizeWindowEventArgs e)
+    {
+        if (OnWindowResizedAsync.HasDelegate)
+        {
+            await OnWindowResizedAsync.InvokeAsync(e);
         }
     }
 
