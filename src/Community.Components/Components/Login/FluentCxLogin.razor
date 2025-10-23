@@ -24,7 +24,7 @@
                                         Labels="@Labels"
                                         LoginContent="@LoginContent"
                                         RegisterContent="@RegisterContent"
-                                        Width="@(_isMobile ? "95%" : "40%")"
+                                        Width="@(IsInternalMobile ? "100%" : "40%")"
                                         OnViewChanged="@UpdateSourceAsync"
                                         ExternalIconProvider="@ExternalIconProvider"
                                         OnLogin="@OnLogin"
