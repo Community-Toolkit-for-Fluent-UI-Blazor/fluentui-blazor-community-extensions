@@ -14,14 +14,14 @@ public class RegisterEventArgsTests
         var displayName = "User";
         var email = "user@example.com";
         var password = "pwd";
-        var confirm = "pwd";
+        var url = "/return";
 
-        var args = new RegisterEventArgs(displayName, email, password, confirm);
+        var args = new RegisterEventArgs(displayName, email, password, url);
 
         Assert.Equal(displayName, args.DisplayName);
         Assert.Equal(email, args.Email);
         Assert.Equal(password, args.Password);
-        Assert.Equal(confirm, args.ConfirmPassword);
+        Assert.Equal(url, args.ReturnUrl);
     }
 
     [Fact]

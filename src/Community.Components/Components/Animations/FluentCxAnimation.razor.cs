@@ -191,7 +191,7 @@ public partial class FluentCxAnimation
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("--animation-width", $"{Width}px", Width > 0)
         .AddStyle("--animation-height", $"{Height}px", Height > 0)
-        .AddStyle("visibility", "visible", (!HideWhenNotRunning || (HideWhenNotRunning && _hasTicked && _animationEngine.State != AnimationEngineState.NotStarted)))
+        .AddStyle("display", "block", (!HideWhenNotRunning || (HideWhenNotRunning && _hasTicked && _animationEngine.State != AnimationEngineState.NotStarted)))
         .Build();
 
     /// <summary>

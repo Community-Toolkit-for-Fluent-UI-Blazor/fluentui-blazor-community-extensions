@@ -3898,10 +3898,22 @@
             Represents the state of the device information.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DeviceInfoState._deviceInfo">
+            <summary>
+            Represents the information of the device.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.DeviceInfoState.DeviceInfo">
             <summary>
             Gets or sets the information of the device.
             </summary>
+        </member>
+        <member name="E:FluentUI.Blazor.Community.Components.DeviceInfoState.DeviceInfoChanged">
+            <summary>
+            Occurs when the device information changes.
+            </summary>
+            <remarks>Subscribe to this event to be notified when any relevant device information is updated. The
+            event handler receives the updated device information through the event arguments, if applicable.</remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.DeviceOrientation">
             <summary>
@@ -3951,11 +3963,6 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.#ctor">
             <summary>
             Initialize a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector"/> class.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.ChildContent">
-            <summary>
-            Gets or sets the ChildContent render fragment.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxDeviceDetector.JSRuntime">
@@ -10462,11 +10469,6 @@
             Gets or sets a value indicating whether to display additional text for external authentication providers.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.FluentCxLogin.OnLoggedIn">
-            <summary>
-            Gets or sets the callback that is invoked when the user has successfully logged in.
-            </summary>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxLogin.ExternalIconProvider">
             <summary>
             Gets or sets a delegate that provides a custom icon for a given icon name.
@@ -11773,7 +11775,7 @@
             <param name="DisplayName">The display name provided during registration.</param>
             <param name="Email">The email address provided during registration.</param>
             <param name="Password">The password entered by the user during registration.</param>
-            <param name="ConfirmPassword">The confirmation of the password entered by the user.</param>
+            <param name="ReturnUrl">Url to return when the registration is successful.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.RegisterEventArgs.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
@@ -11782,7 +11784,7 @@
             <param name="DisplayName">The display name provided during registration.</param>
             <param name="Email">The email address provided during registration.</param>
             <param name="Password">The password entered by the user during registration.</param>
-            <param name="ConfirmPassword">The confirmation of the password entered by the user.</param>
+            <param name="ReturnUrl">Url to return when the registration is successful.</param>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.RegisterEventArgs.DisplayName">
             <summary>The display name provided during registration.</summary>
@@ -11793,8 +11795,8 @@
         <member name="P:FluentUI.Blazor.Community.Components.RegisterEventArgs.Password">
             <summary>The password entered by the user during registration.</summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.RegisterEventArgs.ConfirmPassword">
-            <summary>The confirmation of the password entered by the user.</summary>
+        <member name="P:FluentUI.Blazor.Community.Components.RegisterEventArgs.ReturnUrl">
+            <summary>Url to return when the registration is successful.</summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.RegisterEventArgs.IsSuccessful">
             <summary>
@@ -11804,6 +11806,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.RegisterEventArgs.FailReason">
             <summary>
             Gets or sets the reason for a registration failure.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RegisterEventArgs.Errors">
+            <summary>
+            Gets the list of error messages associated with the current operation or object.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.RegisterFailReason">
@@ -11824,6 +11831,11 @@
         <member name="F:FluentUI.Blazor.Community.Components.RegisterFailReason.DisplayNameAlreadyInUse">
             <summary>
             Indicates that the provided displayname is already taken by another user.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RegisterFailReason.WeakPassword">
+            <summary>
+            Indicates that the provided password does not meet the required security criteria.
             </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.RegisterModel">
@@ -17355,6 +17367,562 @@
             Gets or sets the row span of the item.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.EmailAddressRuleAttribute">
+            <summary>
+            Specifies that a property must contain a valid email address format.
+            </summary>
+            <remarks>Apply this attribute to a property to enforce email address validation when using data
+            annotation-based validation frameworks. The validation checks that the property's value conforms to a standard email
+            address pattern, but does not guarantee that the email address exists or is deliverable.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Security.EmailAddressRuleAttribute.emailPattern">
+            <summary>
+            Represents the regular expression pattern used to validate email addresses according to RFC 5322 specifications.
+            </summary>
+            <remarks>This pattern supports most valid email address formats, including quoted strings and domain
+            literals. It may not cover all edge cases defined by the RFC, but is suitable for general-purpose email
+            validation in typical applications.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.EmailAddressRuleAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.EmailAddressRuleAttribute.EmailRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match with 2 alternative expressions.<br/>
+                ○ Match a sequence of expressions.<br/>
+                    ○ Match a character in the set [!#-'*+-/-9=?A-Z^-~\u0130\u212A] greedily at least once.<br/>
+                    ○ Loop greedily any number of times.<br/>
+                        ○ Match '.'.<br/>
+                        ○ Match a character in the set [!#-'*+-/-9=?A-Z^-~\u0130\u212A] atomically at least once.<br/>
+                ○ Match a sequence of expressions.<br/>
+                    ○ Match '"'.<br/>
+                    ○ Loop greedily any number of times.<br/>
+                        ○ Match with 2 alternative expressions.<br/>
+                            ○ Match a character in the set [\u0001-\b\v\f\u000E-\u001F!#-[]-\u007F\u0130\u212A].<br/>
+                            ○ Match a sequence of expressions.<br/>
+                                ○ Match '\\'.<br/>
+                                ○ Match a character in the set [\u0001-\t\v\f\u000E-\u007F\u0130\u212A].<br/>
+                    ○ Match '"'.<br/>
+            ○ Match '@'.<br/>
+            ○ Match with 2 alternative expressions, atomically.<br/>
+                ○ Match a sequence of expressions.<br/>
+                    ○ Loop greedily at least once.<br/>
+                        ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
+                        ○ Optional (greedy).<br/>
+                            ○ Match a character in the set [-0-9A-Za-z\u0130\u212A] greedily any number of times.<br/>
+                            ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
+                        ○ Match '.'.<br/>
+                    ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
+                    ○ Optional (greedy).<br/>
+                        ○ Match a character in the set [-0-9A-Za-z\u0130\u212A] greedily any number of times.<br/>
+                        ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
+                ○ Match a sequence of expressions.<br/>
+                    ○ Match an empty string.<br/>
+                    ○ Loop exactly 3 times.<br/>
+                        ○ Match with 2 alternative expressions.<br/>
+                            ○ Match a sequence of expressions.<br/>
+                                ○ Match '2'.<br/>
+                                ○ Match with 2 alternative expressions.<br/>
+                                    ○ Match a sequence of expressions.<br/>
+                                        ○ Match an empty string.<br/>
+                                        ○ Match a character in the set [0-5].<br/>
+                                    ○ Match a sequence of expressions.<br/>
+                                        ○ Match an empty string.<br/>
+                                        ○ Match a character in the set [0-9].<br/>
+                            ○ Match a sequence of expressions.<br/>
+                                ○ Match a character in the set [01] greedily, optionally.<br/>
+                                ○ Match a character in the set [0-9] atomically at least 1 and at most 2 times.<br/>
+                        ○ Match '.'.<br/>
+                    ○ Match with 3 alternative expressions.<br/>
+                        ○ Match a sequence of expressions.<br/>
+                            ○ Match '2'.<br/>
+                            ○ Match with 2 alternative expressions.<br/>
+                                ○ Match a sequence of expressions.<br/>
+                                    ○ Match an empty string.<br/>
+                                    ○ Match a character in the set [0-5].<br/>
+                                ○ Match a sequence of expressions.<br/>
+                                    ○ Match an empty string.<br/>
+                                    ○ Match a character in the set [0-9].<br/>
+                        ○ Match a sequence of expressions.<br/>
+                            ○ Match a character in the set [01] greedily, optionally.<br/>
+                            ○ Match a character in the set [0-9] atomically at least 1 and at most 2 times.<br/>
+                        ○ Match a sequence of expressions.<br/>
+                            ○ Match a character in the set [-0-9A-Za-z\u0130\u212A] greedily any number of times.<br/>
+                            ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
+                            ○ Match ':'.<br/>
+                            ○ Loop greedily at least once.<br/>
+                                ○ Match with 2 alternative expressions.<br/>
+                                    ○ Match a character in the set [\u0001-\b\v\f\u000E-\u001F!-\u007F\u0130\u212A].<br/>
+                                    ○ Match a sequence of expressions.<br/>
+                                        ○ Match '\\'.<br/>
+                                        ○ Match a character in the set [\u0001-\t\v\f\u000E-\u007F\u0130\u212A].<br/>
+                    ○ Match ']'.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.IPasswordRuleOptions">
+            <summary>
+            Defines a set of options for configuring password rule validation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.IPasswordRuleOptions.MinimumLength">
+            <summary>
+            Gets the minimum allowed length for the value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.IPasswordRuleOptions.MaximumLength">
+            <summary>
+            Gets the maximum allowed length for the value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.IPasswordRuleOptions.MinimumLowercaseCharacters">
+            <summary>
+            Gets the minimum number of lowercase characters required in the value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.IPasswordRuleOptions.MinimumUppercaseCharacters">
+            <summary>
+            Gets the minimum number of uppercase characters required in a password.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.IPasswordRuleOptions.MinimumDigits">
+            <summary>
+            Gets the minimum number of digits to display in the formatted output.
+            </summary>
+            <remarks>If the formatted value contains fewer digits than this property specifies, leading zeros are
+            added to meet the minimum digit count. The value must be greater than or equal to 1.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.IPasswordRuleOptions.MinimumSpecialCharacters">
+            <summary>
+            Gets the minimum number of special characters required in a password.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.IRuleLocalization">
+            <summary>
+            Defines localized messages and formatting for some validation rules.
+            </summary>
+            <remarks>Implement this interface to provide culture-specific error messages or descriptions for value
+            requirements. This is typically used to display user-friendly, localized feedback when validating value in
+            applications that support multiple languages.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.IRuleLocalization.ValueCannotBeNullOrEmpty">
+            <summary>
+            Gets the error message displayed when a value is null or empty.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.IRuleLocalization.IsNotValidEmail">
+            <summary>
+            Gets the error message to display when an email address is not valid.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.IRuleLocalization.MinimumLength(System.Int32)">
+            <summary>
+            Returns a validation error message if the specified minimum length requirement is not met.
+            </summary>
+            <param name="minLength">The minimum number of characters required. Must be greater than or equal to 0.</param>
+            <returns>A string containing the error message if the input does not meet the minimum length; otherwise, null if the
+            requirement is satisfied.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.IRuleLocalization.MaximumLength(System.Int32)">
+            <summary>
+            Returns a string consisting of the maximum allowed number of characters, as specified by the provided length.
+            </summary>
+            <param name="maxLength">The maximum number of characters to include in the returned string. Must be greater than or equal to zero.</param>
+            <returns>A string with a length equal to <paramref name="maxLength"/>. Returns an empty string if <paramref
+            name="maxLength"/> is zero.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.IRuleLocalization.RequireLowercase(System.Int32)">
+            <summary>
+            Returns a string consisting of the specified number of randomly selected lowercase alphabetic characters.
+            </summary>
+            <param name="count">The number of lowercase characters to include in the returned string. Must be non-negative.</param>
+            <returns>A string containing exactly the specified number of randomly chosen lowercase letters. Returns an empty string
+            if count is 0.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.IRuleLocalization.RequireUppercase(System.Int32)">
+            <summary>
+            Returns a string containing the specified number of uppercase letters.
+            </summary>
+            <param name="count">The number of uppercase letters to include in the returned string. Must be non-negative.</param>
+            <returns>A string consisting of exactly the specified number of uppercase letters. Returns an empty string if count is 0.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.IRuleLocalization.RequireDigit(System.Int32)">
+            <summary>
+            Returns a string containing the specified number of random numeric digits.
+            </summary>
+            <param name="count">The number of digits to include in the returned string. Must be non-negative.</param>
+            <returns>A string consisting of exactly the specified number of random digits. Returns an empty string if count is 0.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.IRuleLocalization.RequireSpecial(System.Int32)">
+            <summary>
+            Returns a string containing a special value based on the specified count.
+            </summary>
+            <param name="count">The number of special items to include in the result. Must be greater than or equal to zero.</param>
+            <returns>A string representing the special value generated from the specified count. Returns an empty string if count is
+            zero.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.IRuleLocalization.PasswordNotMatch(System.String[])">
+            <summary>
+            Returns a formatted message indicating that the provided passwords do not match.
+            </summary>
+            <param name="args">An array of strings containing the arguments to be used for formatting the message. The specific usage of each
+            argument depends on the implementation.</param>
+            <returns>A formatted string message indicating a password mismatch, or null if no message is generated.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.PasswordCompareAttribute">
+            <summary>
+            Specifies that a property value must match the value of another property, typically used to confirm password fields
+            during validation.
+            </summary>
+            <remarks>Apply this attribute to a property to ensure its value is equal to the value of a specified
+            comparison property, such as confirming a password entry. The comparison is performed using the values of the two
+            properties at validation time. This attribute is commonly used in data models for user registration or password
+            reset scenarios to enforce that the confirmation password matches the original password. The property specified by
+            the constructor must exist on the validated object and should not be an indexer property. If the referenced property
+            is trimmed during linking, ensure it is preserved to avoid runtime errors.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordCompareAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the PasswordCompareAttribute class using the specified property to compare
+            against.
+            </summary>
+            <remarks>This constructor is typically used to specify the property that holds the original password
+            value when performing a comparison for validation purposes. The referenced property must be preserved if code
+            trimming is enabled, as it may be removed during trimming.</remarks>
+            <param name="otherProperty">The name of the property to compare the password value with. Cannot be null.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordCompareAttribute.OtherProperty">
+            <summary>
+            Gets the value of the other property.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordCompareAttribute.OtherPropertyDisplayName">
+            <summary>
+            Gets the display name associated with another property.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordCompareAttribute.RequiresValidationContext">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordCompareAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordCompareAttribute.GetDisplayNameForProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            Retrieves the display name for the specified property, using the <see cref="T:System.ComponentModel.DataAnnotations.DisplayAttribute"/> if present.
+            </summary>
+            <remarks>If the property does not have a <see cref="T:System.ComponentModel.DataAnnotations.DisplayAttribute"/>, the method returns a fallback
+            value, which may be a default or alternative display name. This method does not validate whether the property is
+            null; callers should ensure a valid <see cref="T:System.Reflection.PropertyInfo"/> instance is provided.</remarks>
+            <param name="property">The property for which to obtain the display name. Must not be null.</param>
+            <returns>The display name defined by the <see cref="T:System.ComponentModel.DataAnnotations.DisplayAttribute"/> if present; otherwise, a fallback value.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.PasswordError">
+            <summary>
+            Represents a password validation error, including a localized error message and the specific requirement that was
+            not met.
+            </summary>
+            <param name="localizedError">The localized error message describing the password validation failure. Cannot be null.</param>
+            <param name="requirement">An integer identifying the specific password requirement that was not satisfied.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordError.#ctor(System.String,System.Int32)">
+            <summary>
+            Represents a password validation error, including a localized error message and the specific requirement that was
+            not met.
+            </summary>
+            <param name="localizedError">The localized error message describing the password validation failure. Cannot be null.</param>
+            <param name="requirement">An integer identifying the specific password requirement that was not satisfied.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordError.LocalizedError">
+            <summary>
+            Gets the localized error message associated with the current operation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordError.Requirement">
+            <summary>
+            Gets the numeric requirement value associated with this instance.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.PasswordRule">
+            <summary>
+            Represents the rules to generate a passowrd.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.PasswordRule.PasswordRuleType">
+            <summary>
+            Type of rules allowed for the password.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Security.PasswordRule.PasswordRuleType.Lowercase">
+            <summary>
+            The password must have lowercase character.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Security.PasswordRule.PasswordRuleType.Uppercase">
+            <summary>
+            The password must have uppercase character.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Security.PasswordRule.PasswordRuleType.Digit">
+            <summary>
+            The password must have digit character.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Security.PasswordRule.PasswordRuleType.Special">
+            <summary>
+            The password must have special character.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Security.PasswordRule._rules">
+            <summary>
+            Represents the rules to generate a password.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Security.PasswordRule._ruleChars">
+            <summary>
+            Represents the number of occurrence of each condition to respect the password predicate.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Security.PasswordRule._definition">
+            <summary>
+            Represents the definition of the password rule.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Security.PasswordRule"/> class.
+            </summary>
+            <param name="minimumLength">Minimum length of the password.</param>
+            <param name="maximumLength">Maximum length of the password.</param>
+            <param name="minimumLowercaseCharacters">Minimum number of lowercase character in the password.</param>
+            <param name="minimumUppercaseCharacters">Minimum number of uppercase character in the password.</param>
+            <param name="minimumDigits">Minimum number of digits character in the password.</param>
+            <param name="minimumSpecialCharacters">Minimum number of special character in the password.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.#ctor(FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Security.PasswordRule"/> class.
+            </summary>
+            <param name="passwordRuleDefinition">Definition of the password rule.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Security.PasswordRule"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.GetLength">
+            <summary>
+            Gets the length of the password.
+            </summary>
+            <returns>Returns the length of the password.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.GetPassword">
+            <summary>
+            Generates a password with the defined rule.
+            </summary>
+            <returns>Returns the generated password.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Exception occurs when the minimum length of the password is lower than
+             the sum of all conditions to match.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.GetErrors(System.String)">
+            <summary>
+            Evaluates the specified password and returns an array of errors that describe which password requirements are
+            not met.
+            </summary>
+            <remarks>Use this method to determine which specific password rules are violated, such as minimum
+            length, required character types, or other configured constraints. This can be useful for providing detailed
+            feedback to users during password creation or update.</remarks>
+            <param name="password">The password string to validate. Cannot be null.</param>
+            <returns>An array of <see cref="T:FluentUI.Blazor.Community.Components.Security.PasswordError"/> objects representing each password rule that the specified password does
+            not satisfy. The array is empty if the password meets all requirements.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.IsValid(System.String)">
+            <summary>
+            Determines whether the specified password meets all configured password rules.
+            </summary>
+            <remarks>The validation checks for the presence of digits, lowercase letters, uppercase letters, and
+            special characters as defined by the configured rules. If the password contains any character not covered by
+            these rules, the method returns <see langword="false"/>.</remarks>
+            <param name="password">The password string to validate. Can be null or empty, in which case the method returns <see langword="false"/>.</param>
+            <returns>A value indicating whether the password satisfies all required rules. Returns <see langword="true"/> if the
+            password is valid; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.Reset">
+            <summary>
+            Restore the rule to the default definition.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.GetCharFromRules(FluentUI.Blazor.Community.Components.Security.PasswordRule.PasswordRuleType[])">
+            <summary>
+            Gets a character from the specified rules.
+            </summary>
+            <param name="rules">Allowed rules to use to get a character.</param>
+            <returns>Returns a character get from the specified rules.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRule.DecreaseRule(FluentUI.Blazor.Community.Components.Security.PasswordRule.PasswordRuleType)">
+            <summary>
+            Decrease the counter of the specified rule to allow the generator
+             to seed good value for the remaining characters of the password.
+            </summary>
+            <param name="key">Key of the value to decrease.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.PasswordRuleAttribute">
+            <summary>
+            Specifies password complexity requirements for a property and validates that the value meets the
+            defined rules.
+            </summary>
+            <remarks>Apply this attribute to string properties or parameters to enforce password policies such as minimum
+            and maximum length, and required counts of lowercase, uppercase, digit, and special characters. Validation error
+            messages are localized using an implementation of IPasswordRuleLocalization, which must be registered in the
+            dependency injection container.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleAttribute.MinimumLength">
+            <summary>
+            Gets or sets the minimum allowed length for the value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleAttribute.MaximumLength">
+            <summary>
+            Gets or sets the maximum allowed length for the value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleAttribute.MinimumLowercaseCharacters">
+            <summary>
+            Gets or sets the minimum number of lowercase characters required in the value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleAttribute.MinimumUppercaseCharacters">
+            <summary>
+            Gets or sets the minimum number of uppercase characters required in a password.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleAttribute.MinimumDigits">
+            <summary>
+            Gets or sets the minimum number of digits to display in the formatted output.
+            </summary>
+            <remarks>If the formatted value contains fewer digits than this property specifies, leading zeros are
+            added to meet the minimum digit count. The value must be greater than or equal to 1.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleAttribute.MinimumSpecialCharacters">
+            <summary>
+            Gets or sets the minimum number of special characters required in a password.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRuleAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition">
+            <summary>
+            Defines a set of rules for password composition, including length and character type requirements.
+            </summary>
+            <remarks>Use this structure to specify constraints for password validation, such as minimum and maximum
+            length, and required counts of lowercase, uppercase, digit, and special characters. The rules ensure that any
+            password validated against this definition meets all specified criteria. If the sum of minimum required character
+            types exceeds the minimum length, an exception will be thrown during initialization.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the PasswordRuleDefinition class with the specified password complexity
+            requirements.
+            </summary>
+            <remarks>If any of the specified requirements are invalid, an exception may be thrown during
+            initialization. Use this constructor to enforce custom password policies for validation purposes.</remarks>
+            <param name="minimumLength">The minimum number of characters required for a valid password. Must be greater than zero and less than or equal
+            to <paramref name="maximumLength"/>.</param>
+            <param name="maximumLength">The maximum number of characters allowed for a valid password. Must be greater than or equal to <paramref
+            name="minimumLength"/>.</param>
+            <param name="minimumLowercaseCharacters">The minimum number of lowercase alphabetic characters required in the password. Must be zero or greater.</param>
+            <param name="minimumUppercaseCharacters">The minimum number of uppercase alphabetic characters required in the password. Must be zero or greater.</param>
+            <param name="minimumDigits">The minimum number of numeric digits required in the password. Must be zero or greater.</param>
+            <param name="minimumSpecialCharacters">The minimum number of special (non-alphanumeric) characters required in the password. Must be zero or greater.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition.MinimumLength">
+            <summary>
+            Gets or sets the minimum length allowed for the password.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition.MaximumLength">
+            <summary>
+            Gets or sets the maximum length allowed for the password.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition.MinimumLowercaseCharacters">
+            <summary>
+            Gets or sets the minimum number of lowercase character allowed for the password.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition.MinimumUppercaseCharacters">
+            <summary>
+            Gets or sets the minimum number of uppercase character allowed for the password.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition.MinimumDigits">
+            <summary>
+            Gets or sets the minimum number of digit allowed for the password.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition.MinimumSpecialCharacters">
+            <summary>
+            Gets or sets the minimum number of special character allowed for the password.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRuleDefinition.CheckValidation">
+            <summary>
+            Validates that the minimum password length is sufficient to accommodate the required number of digits,
+            uppercase, lowercase, and special characters.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the minimum password length is less than the total number of required digits, uppercase, lowercase,
+            and special characters.</exception>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Security.PasswordRuleOptions">
+            <summary>
+            Provides access to password rule configuration options, such as minimum length and character requirements, as
+            defined in the application's security settings.
+            </summary>
+            <remarks>Password rule values are retrieved from the 'Application:Security:PasswordRules' section of the
+            provided configuration. If a specific rule is not set in the configuration, its corresponding property will return
+            null.</remarks>
+            <param name="configuration">The configuration source from which password rule options are read. Must not be null.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Security.PasswordRuleOptions.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Provides access to password rule configuration options, such as minimum length and character requirements, as
+            defined in the application's security settings.
+            </summary>
+            <remarks>Password rule values are retrieved from the 'Application:Security:PasswordRules' section of the
+            provided configuration. If a specific rule is not set in the configuration, its corresponding property will return
+            null.</remarks>
+            <param name="configuration">The configuration source from which password rule options are read. Must not be null.</param>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Security.PasswordRuleOptions._section">
+            <summary>
+            References the configuration section containing password rule settings.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleOptions.MinimumLength">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleOptions.MaximumLength">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleOptions.MinimumLowercaseCharacters">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleOptions.MinimumUppercaseCharacters">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleOptions.MinimumDigits">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Security.PasswordRuleOptions.MinimumSpecialCharacters">
+            <inheritdoc />
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottieProvider.OnInitialized">
             <inheritdoc />
         </member>
@@ -18685,504 +19253,6 @@
             <typeparam name="T">Type of the value.</typeparam>
             <param name="value">Value to format.</param>
             <returns>Returns the formatted value as a CSS unit string.</returns>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Security.EmailAddressRuleAttribute">
-            <summary>
-            Specifies that a property must contain a valid email address format.
-            </summary>
-            <remarks>Apply this attribute to a property to enforce email address validation when using data
-            annotation-based validation frameworks. The validation checks that the property's value conforms to a standard email
-            address pattern, but does not guarantee that the email address exists or is deliverable.</remarks>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Security.EmailAddressRuleAttribute.emailPattern">
-            <summary>
-            Represents the regular expression pattern used to validate email addresses according to RFC 5322 specifications.
-            </summary>
-            <remarks>This pattern supports most valid email address formats, including quoted strings and domain
-            literals. It may not cover all edge cases defined by the RFC, but is suitable for general-purpose email
-            validation in typical applications.</remarks>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.EmailAddressRuleAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.EmailAddressRuleAttribute.EmailRegex">
-            <remarks>
-            Pattern:<br/>
-            <code>(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])</code><br/>
-            Options:<br/>
-            <code>RegexOptions.IgnoreCase</code><br/>
-            Explanation:<br/>
-            <code>
-            ○ Match with 2 alternative expressions.<br/>
-                ○ Match a sequence of expressions.<br/>
-                    ○ Match a character in the set [!#-'*+-/-9=?A-Z^-~\u0130\u212A] greedily at least once.<br/>
-                    ○ Loop greedily any number of times.<br/>
-                        ○ Match '.'.<br/>
-                        ○ Match a character in the set [!#-'*+-/-9=?A-Z^-~\u0130\u212A] atomically at least once.<br/>
-                ○ Match a sequence of expressions.<br/>
-                    ○ Match '"'.<br/>
-                    ○ Loop greedily any number of times.<br/>
-                        ○ Match with 2 alternative expressions.<br/>
-                            ○ Match a character in the set [\u0001-\b\v\f\u000E-\u001F!#-[]-\u007F\u0130\u212A].<br/>
-                            ○ Match a sequence of expressions.<br/>
-                                ○ Match '\\'.<br/>
-                                ○ Match a character in the set [\u0001-\t\v\f\u000E-\u007F\u0130\u212A].<br/>
-                    ○ Match '"'.<br/>
-            ○ Match '@'.<br/>
-            ○ Match with 2 alternative expressions, atomically.<br/>
-                ○ Match a sequence of expressions.<br/>
-                    ○ Loop greedily at least once.<br/>
-                        ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
-                        ○ Optional (greedy).<br/>
-                            ○ Match a character in the set [-0-9A-Za-z\u0130\u212A] greedily any number of times.<br/>
-                            ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
-                        ○ Match '.'.<br/>
-                    ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
-                    ○ Optional (greedy).<br/>
-                        ○ Match a character in the set [-0-9A-Za-z\u0130\u212A] greedily any number of times.<br/>
-                        ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
-                ○ Match a sequence of expressions.<br/>
-                    ○ Match an empty string.<br/>
-                    ○ Loop exactly 3 times.<br/>
-                        ○ Match with 2 alternative expressions.<br/>
-                            ○ Match a sequence of expressions.<br/>
-                                ○ Match '2'.<br/>
-                                ○ Match with 2 alternative expressions.<br/>
-                                    ○ Match a sequence of expressions.<br/>
-                                        ○ Match an empty string.<br/>
-                                        ○ Match a character in the set [0-5].<br/>
-                                    ○ Match a sequence of expressions.<br/>
-                                        ○ Match an empty string.<br/>
-                                        ○ Match a character in the set [0-9].<br/>
-                            ○ Match a sequence of expressions.<br/>
-                                ○ Match a character in the set [01] greedily, optionally.<br/>
-                                ○ Match a character in the set [0-9] atomically at least 1 and at most 2 times.<br/>
-                        ○ Match '.'.<br/>
-                    ○ Match with 3 alternative expressions.<br/>
-                        ○ Match a sequence of expressions.<br/>
-                            ○ Match '2'.<br/>
-                            ○ Match with 2 alternative expressions.<br/>
-                                ○ Match a sequence of expressions.<br/>
-                                    ○ Match an empty string.<br/>
-                                    ○ Match a character in the set [0-5].<br/>
-                                ○ Match a sequence of expressions.<br/>
-                                    ○ Match an empty string.<br/>
-                                    ○ Match a character in the set [0-9].<br/>
-                        ○ Match a sequence of expressions.<br/>
-                            ○ Match a character in the set [01] greedily, optionally.<br/>
-                            ○ Match a character in the set [0-9] atomically at least 1 and at most 2 times.<br/>
-                        ○ Match a sequence of expressions.<br/>
-                            ○ Match a character in the set [-0-9A-Za-z\u0130\u212A] greedily any number of times.<br/>
-                            ○ Match a character in the set [0-9A-Za-z\u0130\u212A].<br/>
-                            ○ Match ':'.<br/>
-                            ○ Loop greedily at least once.<br/>
-                                ○ Match with 2 alternative expressions.<br/>
-                                    ○ Match a character in the set [\u0001-\b\v\f\u000E-\u001F!-\u007F\u0130\u212A].<br/>
-                                    ○ Match a sequence of expressions.<br/>
-                                        ○ Match '\\'.<br/>
-                                        ○ Match a character in the set [\u0001-\t\v\f\u000E-\u007F\u0130\u212A].<br/>
-                    ○ Match ']'.<br/>
-            </code>
-            </remarks>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Security.IPasswordRuleOptions">
-            <summary>
-            Defines a set of options for configuring password rule validation.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.IPasswordRuleOptions.MinimumLength">
-            <summary>
-            Gets the minimum allowed length for the value.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.IPasswordRuleOptions.MaximumLength">
-            <summary>
-            Gets the maximum allowed length for the value.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.IPasswordRuleOptions.MinimumLowercaseCharacters">
-            <summary>
-            Gets the minimum number of lowercase characters required in the value.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.IPasswordRuleOptions.MinimumUppercaseCharacters">
-            <summary>
-            Gets the minimum number of uppercase characters required in a password.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.IPasswordRuleOptions.MinimumDigits">
-            <summary>
-            Gets the minimum number of digits to display in the formatted output.
-            </summary>
-            <remarks>If the formatted value contains fewer digits than this property specifies, leading zeros are
-            added to meet the minimum digit count. The value must be greater than or equal to 1.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.IPasswordRuleOptions.MinimumSpecialCharacters">
-            <summary>
-            Gets the minimum number of special characters required in a password.
-            </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Security.IRuleLocalization">
-            <summary>
-            Defines localized messages and formatting for some validation rules.
-            </summary>
-            <remarks>Implement this interface to provide culture-specific error messages or descriptions for value
-            requirements. This is typically used to display user-friendly, localized feedback when validating value in
-            applications that support multiple languages.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.IRuleLocalization.ValueCannotBeNullOrEmpty">
-            <summary>
-            Gets the error message displayed when a value is null or empty.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.IRuleLocalization.IsNotValidEmail">
-            <summary>
-            Gets the error message to display when an email address is not valid.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.IRuleLocalization.MinimumLength(System.Int32)">
-            <summary>
-            Returns a validation error message if the specified minimum length requirement is not met.
-            </summary>
-            <param name="minLength">The minimum number of characters required. Must be greater than or equal to 0.</param>
-            <returns>A string containing the error message if the input does not meet the minimum length; otherwise, null if the
-            requirement is satisfied.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.IRuleLocalization.MaximumLength(System.Int32)">
-            <summary>
-            Returns a string consisting of the maximum allowed number of characters, as specified by the provided length.
-            </summary>
-            <param name="maxLength">The maximum number of characters to include in the returned string. Must be greater than or equal to zero.</param>
-            <returns>A string with a length equal to <paramref name="maxLength"/>. Returns an empty string if <paramref
-            name="maxLength"/> is zero.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.IRuleLocalization.RequireLowercase(System.Int32)">
-            <summary>
-            Returns a string consisting of the specified number of randomly selected lowercase alphabetic characters.
-            </summary>
-            <param name="count">The number of lowercase characters to include in the returned string. Must be non-negative.</param>
-            <returns>A string containing exactly the specified number of randomly chosen lowercase letters. Returns an empty string
-            if count is 0.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.IRuleLocalization.RequireUppercase(System.Int32)">
-            <summary>
-            Returns a string containing the specified number of uppercase letters.
-            </summary>
-            <param name="count">The number of uppercase letters to include in the returned string. Must be non-negative.</param>
-            <returns>A string consisting of exactly the specified number of uppercase letters. Returns an empty string if count is 0.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.IRuleLocalization.RequireDigit(System.Int32)">
-            <summary>
-            Returns a string containing the specified number of random numeric digits.
-            </summary>
-            <param name="count">The number of digits to include in the returned string. Must be non-negative.</param>
-            <returns>A string consisting of exactly the specified number of random digits. Returns an empty string if count is 0.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.IRuleLocalization.RequireSpecial(System.Int32)">
-            <summary>
-            Returns a string containing a special value based on the specified count.
-            </summary>
-            <param name="count">The number of special items to include in the result. Must be greater than or equal to zero.</param>
-            <returns>A string representing the special value generated from the specified count. Returns an empty string if count is
-            zero.</returns>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Security.PasswordError">
-            <summary>
-            Represents a password validation error, including a localized error message and the specific requirement that was
-            not met.
-            </summary>
-            <param name="localizedError">The localized error message describing the password validation failure. Cannot be null.</param>
-            <param name="requirement">An integer identifying the specific password requirement that was not satisfied.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordError.#ctor(System.String,System.Int32)">
-            <summary>
-            Represents a password validation error, including a localized error message and the specific requirement that was
-            not met.
-            </summary>
-            <param name="localizedError">The localized error message describing the password validation failure. Cannot be null.</param>
-            <param name="requirement">An integer identifying the specific password requirement that was not satisfied.</param>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordError.LocalizedError">
-            <summary>
-            Gets the localized error message associated with the current operation.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordError.Requirement">
-            <summary>
-            Gets the numeric requirement value associated with this instance.
-            </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Security.PasswordRule">
-            <summary>
-            Represents the rules to generate a passowrd.
-            </summary>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Security.PasswordRule.PasswordRuleType">
-            <summary>
-            Type of rules allowed for the password.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Security.PasswordRule.PasswordRuleType.Lowercase">
-            <summary>
-            The password must have lowercase character.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Security.PasswordRule.PasswordRuleType.Uppercase">
-            <summary>
-            The password must have uppercase character.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Security.PasswordRule.PasswordRuleType.Digit">
-            <summary>
-            The password must have digit character.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Security.PasswordRule.PasswordRuleType.Special">
-            <summary>
-            The password must have special character.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Security.PasswordRule._rules">
-            <summary>
-            Represents the rules to generate a password.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Security.PasswordRule._ruleChars">
-            <summary>
-            Represents the number of occurrence of each condition to respect the password predicate.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Security.PasswordRule._definition">
-            <summary>
-            Represents the definition of the password rule.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Security.PasswordRule"/> class.
-            </summary>
-            <param name="minimumLength">Minimum length of the password.</param>
-            <param name="maximumLength">Maximum length of the password.</param>
-            <param name="minimumLowercaseCharacters">Minimum number of lowercase character in the password.</param>
-            <param name="minimumUppercaseCharacters">Minimum number of uppercase character in the password.</param>
-            <param name="minimumDigits">Minimum number of digits character in the password.</param>
-            <param name="minimumSpecialCharacters">Minimum number of special character in the password.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.#ctor(FluentUI.Blazor.Community.Security.PasswordRuleDefinition)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Security.PasswordRule"/> class.
-            </summary>
-            <param name="passwordRuleDefinition">Definition of the password rule.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Security.PasswordRule"/> class.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.GetLength">
-            <summary>
-            Gets the length of the password.
-            </summary>
-            <returns>Returns the length of the password.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.GetPassword">
-            <summary>
-            Generates a password with the defined rule.
-            </summary>
-            <returns>Returns the generated password.</returns>
-            <exception cref="T:System.ArgumentOutOfRangeException">Exception occurs when the minimum length of the password is lower than
-             the sum of all conditions to match.</exception>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.GetErrors(System.String)">
-            <summary>
-            Evaluates the specified password and returns an array of errors that describe which password requirements are
-            not met.
-            </summary>
-            <remarks>Use this method to determine which specific password rules are violated, such as minimum
-            length, required character types, or other configured constraints. This can be useful for providing detailed
-            feedback to users during password creation or update.</remarks>
-            <param name="password">The password string to validate. Cannot be null.</param>
-            <returns>An array of <see cref="T:FluentUI.Blazor.Community.Security.PasswordError"/> objects representing each password rule that the specified password does
-            not satisfy. The array is empty if the password meets all requirements.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.IsValid(System.String)">
-            <summary>
-            Determines whether the specified password meets all configured password rules.
-            </summary>
-            <remarks>The validation checks for the presence of digits, lowercase letters, uppercase letters, and
-            special characters as defined by the configured rules. If the password contains any character not covered by
-            these rules, the method returns <see langword="false"/>.</remarks>
-            <param name="password">The password string to validate. Can be null or empty, in which case the method returns <see langword="false"/>.</param>
-            <returns>A value indicating whether the password satisfies all required rules. Returns <see langword="true"/> if the
-            password is valid; otherwise, <see langword="false"/>.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.Reset">
-            <summary>
-            Restore the rule to the default definition.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.GetCharFromRules(FluentUI.Blazor.Community.Security.PasswordRule.PasswordRuleType[])">
-            <summary>
-            Gets a character from the specified rules.
-            </summary>
-            <param name="rules">Allowed rules to use to get a character.</param>
-            <returns>Returns a character get from the specified rules.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRule.DecreaseRule(FluentUI.Blazor.Community.Security.PasswordRule.PasswordRuleType)">
-            <summary>
-            Decrease the counter of the specified rule to allow the generator
-             to seed good value for the remaining characters of the password.
-            </summary>
-            <param name="key">Key of the value to decrease.</param>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Security.PasswordRuleAttribute">
-            <summary>
-            Specifies password complexity requirements for a property and validates that the value meets the
-            defined rules.
-            </summary>
-            <remarks>Apply this attribute to string properties or parameters to enforce password policies such as minimum
-            and maximum length, and required counts of lowercase, uppercase, digit, and special characters. Validation error
-            messages are localized using an implementation of IPasswordRuleLocalization, which must be registered in the
-            dependency injection container.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleAttribute.MinimumLength">
-            <summary>
-            Gets or sets the minimum allowed length for the value.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleAttribute.MaximumLength">
-            <summary>
-            Gets or sets the maximum allowed length for the value.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleAttribute.MinimumLowercaseCharacters">
-            <summary>
-            Gets or sets the minimum number of lowercase characters required in the value.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleAttribute.MinimumUppercaseCharacters">
-            <summary>
-            Gets or sets the minimum number of uppercase characters required in a password.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleAttribute.MinimumDigits">
-            <summary>
-            Gets or sets the minimum number of digits to display in the formatted output.
-            </summary>
-            <remarks>If the formatted value contains fewer digits than this property specifies, leading zeros are
-            added to meet the minimum digit count. The value must be greater than or equal to 1.</remarks>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleAttribute.MinimumSpecialCharacters">
-            <summary>
-            Gets or sets the minimum number of special characters required in a password.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRuleAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
-            <inheritdoc/>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Security.PasswordRuleDefinition">
-            <summary>
-            Defines a set of rules for password composition, including length and character type requirements.
-            </summary>
-            <remarks>Use this structure to specify constraints for password validation, such as minimum and maximum
-            length, and required counts of lowercase, uppercase, digit, and special characters. The rules ensure that any
-            password validated against this definition meets all specified criteria. If the sum of minimum required character
-            types exceeds the minimum length, an exception will be thrown during initialization.</remarks>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRuleDefinition.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Initializes a new instance of the PasswordRuleDefinition class with the specified password complexity
-            requirements.
-            </summary>
-            <remarks>If any of the specified requirements are invalid, an exception may be thrown during
-            initialization. Use this constructor to enforce custom password policies for validation purposes.</remarks>
-            <param name="minimumLength">The minimum number of characters required for a valid password. Must be greater than zero and less than or equal
-            to <paramref name="maximumLength"/>.</param>
-            <param name="maximumLength">The maximum number of characters allowed for a valid password. Must be greater than or equal to <paramref
-            name="minimumLength"/>.</param>
-            <param name="minimumLowercaseCharacters">The minimum number of lowercase alphabetic characters required in the password. Must be zero or greater.</param>
-            <param name="minimumUppercaseCharacters">The minimum number of uppercase alphabetic characters required in the password. Must be zero or greater.</param>
-            <param name="minimumDigits">The minimum number of numeric digits required in the password. Must be zero or greater.</param>
-            <param name="minimumSpecialCharacters">The minimum number of special (non-alphanumeric) characters required in the password. Must be zero or greater.</param>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleDefinition.MinimumLength">
-            <summary>
-            Gets or sets the minimum length allowed for the password.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleDefinition.MaximumLength">
-            <summary>
-            Gets or sets the maximum length allowed for the password.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleDefinition.MinimumLowercaseCharacters">
-            <summary>
-            Gets or sets the minimum number of lowercase character allowed for the password.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleDefinition.MinimumUppercaseCharacters">
-            <summary>
-            Gets or sets the minimum number of uppercase character allowed for the password.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleDefinition.MinimumDigits">
-            <summary>
-            Gets or sets the minimum number of digit allowed for the password.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleDefinition.MinimumSpecialCharacters">
-            <summary>
-            Gets or sets the minimum number of special character allowed for the password.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRuleDefinition.CheckValidation">
-            <summary>
-            
-            </summary>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Security.PasswordRuleOptions">
-            <summary>
-            Provides access to password rule configuration options, such as minimum length and character requirements, as
-            defined in the application's security settings.
-            </summary>
-            <remarks>Password rule values are retrieved from the 'Application:Security:PasswordRules' section of the
-            provided configuration. If a specific rule is not set in the configuration, its corresponding property will return
-            null.</remarks>
-            <param name="configuration">The configuration source from which password rule options are read. Must not be null.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Security.PasswordRuleOptions.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            Provides access to password rule configuration options, such as minimum length and character requirements, as
-            defined in the application's security settings.
-            </summary>
-            <remarks>Password rule values are retrieved from the 'Application:Security:PasswordRules' section of the
-            provided configuration. If a specific rule is not set in the configuration, its corresponding property will return
-            null.</remarks>
-            <param name="configuration">The configuration source from which password rule options are read. Must not be null.</param>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Security.PasswordRuleOptions._section">
-            <summary>
-            References the configuration section containing password rule settings.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleOptions.MinimumLength">
-            <inheritdoc />
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleOptions.MaximumLength">
-            <inheritdoc />
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleOptions.MinimumLowercaseCharacters">
-            <inheritdoc />
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleOptions.MinimumUppercaseCharacters">
-            <inheritdoc />
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleOptions.MinimumDigits">
-            <inheritdoc />
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Security.PasswordRuleOptions.MinimumSpecialCharacters">
-            <inheritdoc />
         </member>
         <member name="T:System.Text.RegularExpressions.Generated.EmailRegex_0">
             <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the EmailRegex method.</summary>

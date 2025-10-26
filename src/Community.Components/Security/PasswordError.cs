@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Security;
+namespace FluentUI.Blazor.Community.Components.Security;
 
 /// <summary>
 /// Represents a password validation error, including a localized error message and the specific requirement that was

@@ -1,6 +1,6 @@
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Components.Internal;
-using FluentUI.Blazor.Community.Security;
+using FluentUI.Blazor.Community.Components.Security;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FluentUI.Blazor.Community.Extensions;

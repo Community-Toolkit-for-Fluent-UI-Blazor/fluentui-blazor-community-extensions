@@ -1,5 +1,5 @@
 using FluentUI.Blazor.Community.Components;
-using FluentUI.Blazor.Community.Security;
+using FluentUI.Blazor.Community.Components.Security;
 using FluentUI.Demo.Shared.Infrastructure;
 using FluentUI.Demo.Shared.Layout;
 using Microsoft.AspNetCore.Authentication.Cookies;

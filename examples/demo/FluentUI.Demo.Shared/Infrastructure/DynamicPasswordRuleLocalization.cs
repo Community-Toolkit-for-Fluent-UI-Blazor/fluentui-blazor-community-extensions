@@ -1,5 +1,5 @@
 using System.Globalization;
-using FluentUI.Blazor.Community.Security;
+using FluentUI.Blazor.Community.Components.Security;
 using Microsoft.AspNetCore.Http;
 
 namespace FluentUI.Demo.Shared.Infrastructure;
@@ -73,4 +73,14 @@ public class DynamicRuleLocalization : IRuleLocalization
         "en" => $"At least {count} special character(s) required.",
         _ => $"Special characters required: {count}"
     };
+
+    public string? PasswordNotMatch(params string[] args)
+    {
+        return _culture.TwoLetterISOLanguageName switch
+        {
+            "fr" => "Les mots de passe ne correspondent pas.",
+            "en" => "Passwords do not match.",
+            _ => "Passwords do not match."
+        };
+    }
 }

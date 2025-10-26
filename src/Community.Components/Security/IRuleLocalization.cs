@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Security;
+namespace FluentUI.Blazor.Community.Components.Security;
 
 /// <summary>
 /// Defines localized messages and formatting for some validation rules.
@@ -63,4 +63,12 @@ public interface IRuleLocalization
     /// <returns>A string representing the special value generated from the specified count. Returns an empty string if count is
     /// zero.</returns>
     string RequireSpecial(int count);
+
+    /// <summary>
+    /// Returns a formatted message indicating that the provided passwords do not match.
+    /// </summary>
+    /// <param name="args">An array of strings containing the arguments to be used for formatting the message. The specific usage of each
+    /// argument depends on the implementation.</param>
+    /// <returns>A formatted string message indicating a password mismatch, or null if no message is generated.</returns>
+    string? PasswordNotMatch(params string[] args);
 }

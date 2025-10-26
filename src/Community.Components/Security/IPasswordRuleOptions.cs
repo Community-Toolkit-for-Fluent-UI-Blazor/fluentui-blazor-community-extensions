@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Security;
+namespace FluentUI.Blazor.Community.Components.Security;
 
 /// <summary>
 /// Defines a set of options for configuring password rule validation.

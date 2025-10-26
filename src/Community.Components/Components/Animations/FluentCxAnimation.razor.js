@@ -141,7 +141,7 @@ function loop(id) {
           s.startTime = now;
         }
       }
-      console.log('s.elapsed', s.elapsed, 's.duration', s.duration);
+
       s.progress = s.duration > 0 ? (s.elapsed / s.duration) : 0;
     }
     safeInvokeFrame(s);

@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FluentUI.Blazor.Community.Security;
+namespace FluentUI.Blazor.Community.Components.Security;
 
 /// <summary>
 /// Represents the rules to generate a passowrd.

@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Security;
+namespace FluentUI.Blazor.Community.Components.Security;
 
 /// <summary>
 /// Defines a set of rules for password composition, including length and character type requirements.
@@ -72,9 +72,11 @@ public readonly struct PasswordRuleDefinition
     public int MinimumSpecialCharacters { get; init; }
 
     /// <summary>
-    /// 
+    /// Validates that the minimum password length is sufficient to accommodate the required number of digits,
+    /// uppercase, lowercase, and special characters.
     /// </summary>
-    /// <exception cref="System.ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown if the minimum password length is less than the total number of required digits, uppercase, lowercase,
+    /// and special characters.</exception>
     private void CheckValidation()
     {
         var requiredLength = MinimumDigits + MinimumUppercaseCharacters + MinimumLowercaseCharacters + MinimumSpecialCharacters;

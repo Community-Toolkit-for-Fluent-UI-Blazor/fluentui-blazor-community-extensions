@@ -12,53 +12,55 @@
     <FluentCxAnimation @ref="_animation" Width="@Width" Height="@Height">
         <ChildContent>
             <AnimationItem Width="@Width" Height="@Height">
-                <FluentStack Style="height: 100%">
-                    @if (!IsInternalMobile &&
-                         PanelPosition == LoginPanelPosition.Right)
-                    {
-                        @_renderImagePanelFragment
-                    }
+                <FluentCard MinimalStyle>
+                    <FluentStack Style="height: 100%">
+                        @if (!IsInternalMobile &&
+                                                PanelPosition == LoginPanelPosition.Right)
+                        {
+                            @_renderImagePanelFragment
+                        }
 
-                    <LoginBaseComponent @ref="_loginComponent"
-                                        UseExternalProviders="@UseExternalProviders"
-                                        Labels="@Labels"
-                                        LoginContent="@LoginContent"
-                                        RegisterContent="@RegisterContent"
-                                        Width="@(IsInternalMobile ? "100%" : "40%")"
-                                        OnViewChanged="@UpdateSourceAsync"
-                                        ExternalIconProvider="@ExternalIconProvider"
-                                        OnLogin="@OnLogin"
-                                        OnSendInstructions="@OnSendInstructions"
-                                        OnSignUp="@OnSignUp"
-                                        ShowExternalProviderText="@ShowExternalProviderText"
-                                        AccountDisabledContent="@AccountDisabledContent"
-                                        AccountLockedContent="@AccountLockedContent"
-                                        EmailConfirmationContent="@EmailConfirmationContent"
-                                        ExternalProviderContent="@ExternalProviderContent"
-                                        ForgotPasswordConfirmationContent="@ForgotPasswordConfirmationContent"
-                                        ForgotPasswordContent="@ForgotPasswordContent"
-                                        InvalidCredentialsContent="@InvalidCredentialsContent"
-                                        InvalidPasswordResetContent="@InvalidPasswordResetContent"
-                                        OnExternalProviderProcessing="@OnExternalProviderProcessing"
-                                        OnExternalProviderRegister="@OnExternalProviderRegister"
-                                        OnRecoveryCode="@OnRecoveryCode"
-                                        OnResendEmail="@OnResendEmail"
-                                        OnResetPassword="@OnResetPassword"
-                                        RecoveryCodeContent="@RecoveryCodeContent"
-                                        RegisterConfirmationContent="@RegisterConfirmationContent"
-                                        RequiredTwoFactorContent="@RequiredTwoFactorContent"
-                                        ResetPasswordConfirmationContent="@ResetPasswordConfirmationContent"
-                                        ResetPasswordContent="@ResetPasswordContent"
-                                        UnknownErrorContent="@UnknownErrorContent"
-                                        UserNotConfirmedContent="@UserNotConfirmedContent"
-                                        Lockout="@Lockout" />
+                        <LoginBaseComponent @ref="_loginComponent"
+                                            UseExternalProviders="@UseExternalProviders"
+                                            Labels="@Labels"
+                                            LoginContent="@LoginContent"
+                                            RegisterContent="@RegisterContent"
+                                            Width="@(IsInternalMobile ? "100%" : "40%")"
+                                            OnViewChanged="@UpdateSourceAsync"
+                                            ExternalIconProvider="@ExternalIconProvider"
+                                            OnLogin="@OnLogin"
+                                            OnSendInstructions="@OnSendInstructions"
+                                            OnSignUp="@OnSignUp"
+                                            ShowExternalProviderText="@ShowExternalProviderText"
+                                            AccountDisabledContent="@AccountDisabledContent"
+                                            AccountLockedContent="@AccountLockedContent"
+                                            EmailConfirmationContent="@EmailConfirmationContent"
+                                            ExternalProviderContent="@ExternalProviderContent"
+                                            ForgotPasswordConfirmationContent="@ForgotPasswordConfirmationContent"
+                                            ForgotPasswordContent="@ForgotPasswordContent"
+                                            InvalidCredentialsContent="@InvalidCredentialsContent"
+                                            InvalidPasswordResetContent="@InvalidPasswordResetContent"
+                                            OnExternalProviderProcessing="@OnExternalProviderProcessing"
+                                            OnExternalProviderRegister="@OnExternalProviderRegister"
+                                            OnRecoveryCode="@OnRecoveryCode"
+                                            OnResendEmail="@OnResendEmail"
+                                            OnResetPassword="@OnResetPassword"
+                                            RecoveryCodeContent="@RecoveryCodeContent"
+                                            RegisterConfirmationContent="@RegisterConfirmationContent"
+                                            RequiredTwoFactorContent="@RequiredTwoFactorContent"
+                                            ResetPasswordConfirmationContent="@ResetPasswordConfirmationContent"
+                                            ResetPasswordContent="@ResetPasswordContent"
+                                            UnknownErrorContent="@UnknownErrorContent"
+                                            UserNotConfirmedContent="@UserNotConfirmedContent"
+                                            Lockout="@Lockout" />
 
-                    @if (!IsInternalMobile &&
-                         PanelPosition == LoginPanelPosition.Left)
-                    {
-                        @_renderImagePanelFragment
-                    }
-                </FluentStack>
+                        @if (!IsInternalMobile &&
+                             PanelPosition == LoginPanelPosition.Left)
+                        {
+                            @_renderImagePanelFragment
+                        }
+                    </FluentStack>
+                </FluentCard>
             </AnimationItem>
         </ChildContent>
 

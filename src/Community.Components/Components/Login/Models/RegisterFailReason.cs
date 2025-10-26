@@ -18,5 +18,10 @@ public enum RegisterFailReason
     /// <summary>
     /// Indicates that the provided displayname is already taken by another user.
     /// </summary>
-    DisplayNameAlreadyInUse
+    DisplayNameAlreadyInUse,
+
+    /// <summary>
+    /// Indicates that the provided password does not meet the required security criteria.
+    /// </summary>
+    WeakPassword
 }

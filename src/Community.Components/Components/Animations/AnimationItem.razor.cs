@@ -165,6 +165,7 @@ public partial class AnimationItem
         .AddStyle("--animation-item-right", Right, !string.IsNullOrWhiteSpace(Right))
         .AddStyle("--animation-item-bottom", Bottom, !string.IsNullOrWhiteSpace(Bottom))
         .AddStyle("--animation-item-z-index", $"{ZIndex}", ZIndex != 0)
+        .AddStyle("--animation-item-opacity", Opacity.ToString(System.Globalization.CultureInfo.InvariantCulture), true)
         .Build();
 
     /// <summary>

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using FluentUI.Blazor.Community.Security;
+using FluentUI.Blazor.Community.Components.Security;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -46,6 +46,7 @@ public record RegisterModel
     [Required]
     [DataType(DataType.Password)]
     [PasswordRule]
+    [PasswordCompare(nameof(Password))]
     public string? ConfirmPassword { get; set; }
 
     /// <summary>

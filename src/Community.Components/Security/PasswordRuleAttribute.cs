@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FluentUI.Blazor.Community.Security;
+namespace FluentUI.Blazor.Community.Components.Security;
 
 /// <summary>
 /// Specifies password complexity requirements for a property and validates that the value meets the
@@ -73,6 +73,7 @@ public sealed class PasswordRuleAttribute : ValidationAttribute
         }
 
         var errors = rule.GetErrors(password!);
+
         var messages = errors.Select(error =>
         {
             return error.LocalizedError switch

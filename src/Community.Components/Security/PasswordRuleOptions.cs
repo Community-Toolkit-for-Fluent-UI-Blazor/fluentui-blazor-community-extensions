@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace FluentUI.Blazor.Community.Security;
+namespace FluentUI.Blazor.Community.Components.Security;
 
 /// <summary>
 /// Provides access to password rule configuration options, such as minimum length and character requirements, as

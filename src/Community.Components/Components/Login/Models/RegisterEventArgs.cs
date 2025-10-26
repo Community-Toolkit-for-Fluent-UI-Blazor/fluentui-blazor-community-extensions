@@ -6,8 +6,8 @@ namespace FluentUI.Blazor.Community.Components;
 /// <param name="DisplayName">The display name provided during registration.</param>
 /// <param name="Email">The email address provided during registration.</param>
 /// <param name="Password">The password entered by the user during registration.</param>
-/// <param name="ConfirmPassword">The confirmation of the password entered by the user.</param>
-public record RegisterEventArgs(string DisplayName, string Email, string Password, string ConfirmPassword)
+/// <param name="ReturnUrl">Url to return when the registration is successful.</param>
+public record RegisterEventArgs(string DisplayName, string Email, string Password, string ReturnUrl)
 {
     /// <summary>
     /// Gets a value indicating whether the registration operation was successful.
@@ -18,4 +18,9 @@ public record RegisterEventArgs(string DisplayName, string Email, string Passwor
     /// Gets or sets the reason for a registration failure.
     /// </summary>
     public RegisterFailReason FailReason { get; set; }
+
+    /// <summary>
+    /// Gets the list of error messages associated with the current operation or object.
+    /// </summary>
+    public List<string> Errors { get; } = [];
 }

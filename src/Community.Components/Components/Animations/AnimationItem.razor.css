@@ -7,4 +7,5 @@
   right: var(--animation-item-right, auto);
   bottom: var(--animation-item-bottom, auto);
   z-index: var(--animation-item-z-index, 1);
+  opacity: var(--animation-item-opacity, 1);
 }

@@ -295,12 +295,6 @@ public partial class FluentCxLogin
     public bool ShowExternalProviderText { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback that is invoked when the user has successfully logged in.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnLoggedIn { get; set; }
-
-    /// <summary>
     /// Gets or sets a delegate that provides a custom icon for a given icon name.
     /// </summary>
     [Parameter]

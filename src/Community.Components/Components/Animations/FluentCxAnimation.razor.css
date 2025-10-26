@@ -3,4 +3,5 @@
   height: var(--animation-height, 100%);
   display: flex;
   position: relative;
+  display: none;
 }

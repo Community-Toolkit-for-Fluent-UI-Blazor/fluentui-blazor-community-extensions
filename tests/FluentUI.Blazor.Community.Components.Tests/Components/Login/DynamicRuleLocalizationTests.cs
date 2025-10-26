@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FluentUI.Blazor.Community.Security;
+using FluentUI.Blazor.Community.Components.Security;
 using Microsoft.AspNetCore.Http;
 
 namespace FluentUI.Blazor.Community.Components.Tests.Components.Login;
@@ -78,5 +78,15 @@ internal class DynamicRuleLocalizationTests : IRuleLocalization
         "en" => $"At least {count} special character(s) required.",
         _ => $"Special characters required: {count}"
     };
+
+    public string? PasswordNotMatch(params string[] args)
+    {
+        return _culture.TwoLetterISOLanguageName switch
+        {
+            "fr" => "Le mot de passe ne correspond pas.",
+            "en" => "The password does not match.",
+            _ => "The password does not match."
+        };
+    }
 }
 
