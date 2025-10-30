@@ -9987,7 +9987,7 @@
             cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> to be passed to JavaScript and invoked from there. It is intended for internal
             use and should not be accessed directly by external code.</remarks>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._isRendered">
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._hasModule">
             <summary>
             Indicates whether the object has been rendered.
             </summary>
