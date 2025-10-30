@@ -1,0 +1,44 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Preload)
+{
+    <HeadContent>
+        <link rel="preload" as="image" href="@Source" />
+    </HeadContent>
+}
+<CascadingValue Value="this">
+    <figure class="fluentcx-figure">
+        <picture class="fluentcx-picture">
+            @ResponsiveContent
+    
+            @foreach (var responsive in _internalResponsiveSources)
+            {
+                <source srcset="@responsive.Source" media="@responsive.Media" type="@responsive.ContentType" />
+            }
+    
+            <img src="@Source"
+                 srcset="@SourceSet"
+                 alt="@Alt"
+                 title="@Title"
+                 role="img"
+                 lang="@Language"
+                 loading="@Loading.ToAttributeValue()"
+                 fetchpriority="@FetchPriority.ToAttributeValue()"
+                 style="@InternalStyle"
+                 class="@InternalClass" />
+        </picture>
+    
+        @if (!string.IsNullOrEmpty(Caption))
+        {
+            <figcaption>
+                @Caption
+            </figcaption>
+        }
+    
+        @if (OverlayContent != null)
+        {
+            @OverlayContent
+        }
+    </figure>
+</CascadingValue>

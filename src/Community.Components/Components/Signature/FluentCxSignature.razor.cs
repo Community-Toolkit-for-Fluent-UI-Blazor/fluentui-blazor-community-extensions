@@ -8,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// Represents a signature component that allows users to draw and manage signatures with various options and features.
 /// </summary>
 public partial class FluentCxSignature
-    : FluentComponentBase
+    : ObserverItem
 {
     /// <summary>
     /// Rerpresents the signature component.
@@ -290,5 +290,16 @@ public partial class FluentCxSignature
         {
             await _signature.ClearAsync();
         }
+    }
+
+    /// <inheritdoc />
+    protected internal override async Task OnResizeAsync(ResizeEventArgs e)
+    {
+        if (_signature is not null)
+        {
+            await _signature.OnResizedAsync((int)Math.Round(e.Width), (int)Math.Round(e.Height));
+        }
+
+        await base.OnResizeAsync(e);
     }
 }

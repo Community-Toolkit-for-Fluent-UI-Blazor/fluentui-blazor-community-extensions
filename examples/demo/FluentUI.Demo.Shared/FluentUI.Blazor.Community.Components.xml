@@ -12177,105 +12177,1015 @@
             <param name="change">Value indicating if the media has changed.</param>
             <returns>Returns a task which raises the event callback <see cref="P:FluentUI.Blazor.Community.Components.FluentCxMediaQuery.OnMediaChanged"/> when completed.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserversProvider.OnAfterRenderAsync(System.Boolean)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserversProvider.DisposeAsync">
-            <inheritdoc />
-        </member>
-        <member name="T:FluentUI.Blazor.Community.Components.IObserver">
+        <member name="T:FluentUI.Blazor.Community.Components.DomRect">
             <summary>
-            Represents an observer that responds to asynchronous events related to resizing, intersection, and measurement.
+            Represents the dimensions and position of a rectangle, typically used to describe the bounding box of an element in
+            a coordinate space.
             </summary>
-            <remarks>This interface defines methods for handling specific asynchronous events, such as changes in size,
-            intersection events,  and measurement updates. Implementations of this interface are expected to handle these events
-            appropriately and  support asynchronous disposal.</remarks>
+            <remarks>The rectangle is defined by its top, left, bottom, and right edges, as well as its width and height.
+            All values are expressed in the same coordinate system, and may be fractional. This type is commonly used in
+            scenarios such as layout calculations, collision detection, or graphical rendering.</remarks>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.IObserver.Id">
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Top">
             <summary>
-            Gets the unique identifier for the observer.
+            Gets the top coordinate value.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.IObserver.OnResizedAsync(System.Int32,System.Int32)">
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Left">
             <summary>
-            Handles the event triggered when the size of a component or window is resized.
+            Gets the left coordinate value.
             </summary>
-            <param name="width">The new width, in pixels, after the resize event.</param>
-            <param name="height">The new height, in pixels, after the resize event.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Bottom">
+            <summary>
+            Gets the bottom coordinate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Right">
+            <summary>
+            Gets the right coordinate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Width">
+            <summary>
+            Gets the width of the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DomRect.Height">
+            <summary>
+            Gets the height of the element.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider">
+            <summary>
+            Provides a mechanism for managing and observing changes in Fluent components.
+            </summary>
+            <remarks>This class serves as a base for implementing functionality related to observing and reacting to
+            changes in Fluent components. It is sealed and cannot be inherited.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._dotNetRef">
+            <summary>
+            Represents a reference to a .NET object that is used to interact with the  <see
+            cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> instance from JavaScript in a Blazor application.
+            </summary>
+            <remarks>This field holds a <see cref="T:Microsoft.JSInterop.DotNetObjectReference`1"/> instance, which allows the  <see
+            cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> to be passed to JavaScript and invoked from there. It is intended for internal
+            use and should not be accessed directly by external code.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._isRendered">
+            <summary>
+            Indicates whether the object has been rendered.
+            </summary>
+            <remarks>This field is used to track the rendering state of the object.  It is intended for internal
+            use and should not be accessed directly.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._pendingItems">
+            <summary>
+            A thread-safe queue used to store pending observer items for processing.
+            </summary>
+            <remarks>This queue ensures safe concurrent access and is used to manage items that are awaiting
+            processing in a multi-threaded environment.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._pendingGroups">
+            <summary>
+            A thread-safe queue that holds pending group observer items to be processed.
+            </summary>
+            <remarks>This queue is used to manage and store items of type <see cref="T:FluentUI.Blazor.Community.Components.GroupObserverItem"/> that are
+            awaiting processing. The use of <see cref="T:System.Collections.Concurrent.ConcurrentQueue`1"/> ensures thread-safe operations for adding and
+            removing items in a concurrent environment.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._jsModule">
+            <summary>
+            Represents a reference to a JavaScript module that is used for interop operations.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.JsModulePath">
+            <summary>
+            The relative path to the JavaScript module used by the FluentCxObserverProvider component.
+            </summary>
+            <remarks>This path is used to locate the JavaScript file that contains the implementation for the
+            FluentCxObserverProvider. Ensure that the file exists at the specified location and is correctly deployed as
+            part of the application.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.ObserverState">
+            <summary>
+            Gets or sets the observer state used to manage and track the state of observed elements.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.DebounceResize">
+            <summary>
+            Gets or sets the debounce interval for resize events.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.DebounceIntersect">
+            <summary>
+            Gets or sets the debounce duration for handling intersection events.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.Threshold">
+            <summary>
+            Gets or sets the threshold for intersection observation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.JSRuntime">
+            <summary>
+            Gets or sets the JavaScript runtime abstraction used to invoke JavaScript functions from .NET.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.NotifyAsync(FluentUI.Blazor.Community.Components.GroupObserverItem)">
+            <summary>
+            Notifies the system of changes to the specified group by registering intersection      and resize observers for
+            each item in the group.
+            </summary>
+            <remarks>This method performs no action if the component has not been rendered.      For each item in
+            the group, intersection and resize observers are registered      to monitor changes related to the item's
+            associated element.</remarks>
+            <param name="group">The group containing the items to be observed.      Each item must have a valid identifier and associated
+            element.</param>
             <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.IObserver.OnIntersectAsync(FluentUI.Blazor.Community.Components.IntersectionEventArgs)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.NotifyAsync(FluentUI.Blazor.Community.Components.ObserverItem)">
             <summary>
-            Handles the intersection event triggered when an observed element intersects with a specified threshold.
+            Notifies the system to register intersection and resize observers for the specified item.
             </summary>
-            <param name="e">The event arguments containing details about the intersection, such as the target element and intersection
-            ratio. Cannot be <see langword="null"/>.</param>
+            <remarks>This method registers intersection and resize observers for the provided item if the system
+            is in a rendered state. The <paramref name="item"/> must have a non-null identifier and element for the
+            operation to succeed.</remarks>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> containing the identifier and element to be observed.</param>
             <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.IObserver.OnMeasuredAsync(System.Int32,System.Int32)">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnnotifyGroupAsync(System.String)">
             <summary>
-            Handles the event triggered when a measurement is completed, providing the measured width and height.
+            Asynchronously removes notifications for all items in the specified group.
             </summary>
-            <param name="width">The measured width, in pixels. Must be a non-negative value.</param>
-            <param name="height">The measured height, in pixels. Must be a non-negative value.</param>
+            <remarks>This method unregisters intersection and resize notifications for each item in the group.  It
+            has no effect if the group does not exist or if the component has not been rendered.</remarks>
+            <param name="groupId">The unique identifier of the group whose notifications are to be removed. Cannot be <see langword="null"/> or
+            empty.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnnotifyItemAsync(System.String)">
+            <summary>
+            Removes notifications for the specified item, including intersection and resize event tracking, if the component
+            is rendered.
+            </summary>
+            <param name="id">The unique identifier of the item to unnotify. Cannot be <see langword="null"/> or empty.</param>
             <returns>A <see cref="T:System.Threading.Tasks.ValueTask"/> that represents the asynchronous operation.</returns>
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.ObserverService">
-            <summary>
-            Represents a service for managing observers that monitor changes to elements in the DOM.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.ObserverService._isInitialized">
-            <summary>
-            Value indicating whether the service has been initialized.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.ObserverService._module">
-            <summary>
-            Reference to the JavaScript module for observer functionality.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.ObserverService._providerId">
-            <summary>
-            Reference ID for the provider associated with this service.
-            </summary>
-        </member>
-        <member name="P:FluentUI.Blazor.Community.Components.ObserverService.Observers">
-            <summary>
-            Gets a dictionary of observers managed by the service.
-            </summary>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.AddObserverAsync(FluentUI.Blazor.Community.Components.IObserver)">
-            <summary>
-            Adds an observer to the service and initializes it if the service is already initialized.
-            </summary>
-            <param name="observer">Observer to add into the service.</param>
-            <returns>Returns a task which adds the observer into the service when completed.</returns>
-            <exception cref="T:System.ArgumentException">Occurs if <see cref="P:FluentUI.Blazor.Community.Components.IObserver.Id"/> is not provided.</exception>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.RemoveObserverAsync(FluentUI.Blazor.Community.Components.IObserver)">
-            <summary>
-            Removes an observer to the service and initializes it if the service is already initialized.
-            </summary>
-            <param name="observer">Observer to remove from the service.</param>
-            <returns>Returns a task which removes the observer from the service when completed.</returns>
-            <exception cref="T:System.ArgumentException">Occurs if <see cref="P:FluentUI.Blazor.Community.Components.IObserver.Id"/> is not provided.</exception>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.WaitInitializationCompleted">
-            <summary>
-            Waits until the service is initialized.
-            </summary>
-            <returns>Returns a task which waits until the service is initialized.</returns>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.Initialize(System.String,Microsoft.JSInterop.IJSObjectReference)">
-            <summary>
-            Initializes the instance with the specified provider ID and JavaScript module reference.
-            </summary>
-            <param name="id">The unique identifier for the provider. Cannot be null or empty.</param>
-            <param name="module">The JavaScript module reference to associate with the instance. Cannot be null.</param>
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.ObserverService.Dispose">
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterIntersectAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference)">
             <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterIntersectAsync(System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterResizeAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterResizeAsync(System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterIntersectAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterIntersectAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterResizeAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterResizeAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.RegisterMutationAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference,FluentUI.Blazor.Community.Components.MutationObserverOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.UnregisterMutationAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnInitializedAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnIntersectBatchAsync(FluentUI.Blazor.Community.Components.IntersectBatch)">
+            <summary>
+            Processes a batch of intersection events and notifies registered observers for each intersected element.
+            </summary>
+            <remarks>This method is intended to be invoked from JavaScript via interop. Each entry in the batch is
+            dispatched to the corresponding observer if it is registered. No notification occurs for elements without a
+            registered observer.</remarks>
+            <param name="batch">The batch of intersection entries to process. Must not be null.</param>
+            <returns>A task that represents the asynchronous operation of notifying observers for each intersection entry.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnMutationBatchAsync(FluentUI.Blazor.Community.Components.MutationBatch)">
+            <summary>
+            Processes a batch of DOM mutation events received from JavaScript and dispatches them to registered observers
+            asynchronously.
+            </summary>
+            <remarks>This method is intended to be invoked from JavaScript via interop. Each mutation entry in the
+            batch is delivered to the corresponding observer based on its group and identifier. If no observer is registered
+            for a given entry, that entry is ignored.</remarks>
+            <param name="batch">The batch of mutation events to process. Must not be null. Contains the collection of mutation entries and the
+            associated group identifier.</param>
+            <returns>A task that represents the asynchronous operation of dispatching mutation events to observers.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnResizeBatchAsync(FluentUI.Blazor.Community.Components.ResizeBatch)">
+            <summary>
+            Processes a batch of resize events and asynchronously notifies observers for each affected element.
+            </summary>
+            <remarks>This method is intended to be invoked from JavaScript via interop. Observers are notified
+            only for elements that are currently registered in the specified group.</remarks>
+            <param name="batch">The batch of resize event data containing the group identifier and a collection of entries representing elements
+            that have been resized.</param>
+            <returns>A task that represents the asynchronous operation of notifying observers for each resize event.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.OnWindowResizeAsync(FluentUI.Blazor.Community.Components.ResizeWindowEventArgs)">
+            <summary>
+            Invokes window resize event handlers for all observers that are subscribed to window resize notifications.
+            </summary>
+            <remarks>This method is intended to be called from JavaScript via interop when a window resize event
+            occurs. Only observers with window resize observation enabled will be notified. The method completes when all
+            observer handlers have finished processing the event.</remarks>
+            <param name="e">An object containing details about the window resize event, such as the new dimensions.</param>
+            <returns>A task that represents the asynchronous operation of notifying all relevant observers of the window resize
+            event.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxObserverProvider.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.GroupObserverItem">
+            <summary>
+            Represents an item within a group observer, typically used to monitor or manage changes in a grouped collection of
+            components.
+            </summary>
+            <remarks>This class is intended to be used as part of a group observation mechanism, where it serves as an
+            individual item within the group. It inherits from <see cref="T:Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase"/>, which provides base
+            functionality for fluent component design.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.GroupObserverItem"/> class.
+            </summary>
+            <remarks>The constructor generates a new unique identifier for the instance using <see
+            cref="M:Microsoft.FluentUI.AspNetCore.Components.Identifier.NewId(System.Int32)"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GroupObserverItem.GroupId">
+            <summary>
+            Gets or sets the unique identifier for the group to which this item belongs.
+            </summary>
+            <remarks>This property is used to associate the item with a specific group. It is essential for grouping
+            functionality and should be unique within the context of the application.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GroupObserverItem.ChildContent">
+            <summary>
+            Gets or sets the child content to be rendered within the group observer item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.GroupObserverItem.Items">
+            <summary>
+            Gets the collection of observer items contained within this group.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.AddObserverItem(FluentUI.Blazor.Community.Components.ObserverItem)">
+            <summary>
+            Adds an observer item to the collection.
+            </summary>
+            <remarks>This method adds the specified observer item to the internal collection. Ensure that the item
+            is not <c>null</c>  before calling this method to avoid unexpected behavior.</remarks>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> to add to the collection. Cannot be <c>null</c>.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.GroupObserverItem.RemoveItem(FluentUI.Blazor.Community.Components.ObserverItem)">
+            <summary>
+            Removes the specified observer item from the collection.
+            </summary>
+            <remarks>If the specified item does not exist in the collection, no action is taken.</remarks>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> to remove from the collection. Cannot be <see langword="null"/>.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IIntersectObserver">
+            <summary>
+            Defines methods for registering and unregistering elements for intersection observation.
+            </summary>
+            <remarks>This interface is typically used to monitor the visibility or intersection of elements within a
+            viewport or container. It supports grouping elements for more granular control over intersection
+            observation.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IIntersectObserver.RegisterIntersectAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <summary>
+            Registers an intersection observer for the specified element within a group.
+            </summary>
+            <param name="groupId">The unique identifier of the group to which the element belongs.</param>
+            <param name="elementId">The unique identifier of the element to observe.</param>
+            <param name="elementReference">A reference to the DOM element to be observed.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IIntersectObserver.UnregisterIntersectAsync(System.String,System.String)">
+            <summary>
+            Asynchronously unregisters an intersecting element from a specified group.
+            </summary>
+            <remarks>This method removes the specified element from the group, ensuring it is no longer considered
+            part of the intersection. If the element or group does not exist, the method completes without making
+            changes.</remarks>
+            <param name="groupId">The unique identifier of the group from which the element will be unregistered. Cannot be null or empty.</param>
+            <param name="elementId">The unique identifier of the element to be unregistered. Cannot be null or empty.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IMutationObserver">
+            <summary>
+            Defines an interface for observing and managing DOM mutations on specified elements within a group context.
+            </summary>
+            <remarks>Implementations of this interface allow clients to register and unregister mutation observers for
+            elements, typically to react to changes in the DOM such as attribute modifications, child list updates, or subtree
+            changes. This is commonly used in scenarios where dynamic UI updates or synchronization with client-side state are
+            required. Thread safety and observer lifecycle management depend on the specific implementation.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IMutationObserver.RegisterMutationAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference,FluentUI.Blazor.Community.Components.MutationObserverOptions)">
+            <summary>
+            Registers a mutation observer for the specified DOM element, enabling asynchronous tracking of changes according
+            to the provided options.
+            </summary>
+            <remarks>If an observer is already registered for the specified element and group, this method may
+            overwrite the previous registration. This method does not begin observing until registration is
+            complete.</remarks>
+            <param name="groupId">The identifier for the observer group. Used to associate the mutation observer with a logical group for
+            management or disposal.</param>
+            <param name="elementId">The unique identifier of the DOM element to observe for mutations.</param>
+            <param name="elementReference">A reference to the DOM element that will be observed for mutations. Must not be null.</param>
+            <param name="options">The configuration options that specify which types of mutations to observe, such as attribute changes, child
+            list modifications, or subtree changes. Cannot be null.</param>
+            <returns>A task that represents the asynchronous registration operation. The task completes when the mutation observer
+            has been successfully registered.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IMutationObserver.UnregisterMutationAsync(System.String,System.String)">
+            <summary>
+            Asynchronously unregisters a mutation identified by the specified group and element IDs.
+            </summary>
+            <param name="groupId">The unique identifier of the mutation group containing the mutation to unregister. Cannot be null or empty.</param>
+            <param name="elementId">The unique identifier of the mutation element to unregister within the specified group. Cannot be null or empty.</param>
+            <returns>A task that represents the asynchronous unregister operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IntersectBatch">
+            <summary>
+            Represents a batch of intersect entries grouped by a unique identifier.
+            </summary>
+            <remarks>This record is used to encapsulate a collection of intersect entries, identified by a group ID. It is
+            typically used in scenarios where multiple entries need to be processed or analyzed together as part of a single
+            logical group.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectBatch.GroupId">
+            <summary>
+            Gets the unique identifier for the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectBatch.Entries">
+            <summary>
+            Gets the list of intersect entries associated with the group.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IntersectEntry">
+            <summary>
+            Represents an entry that contains information about the intersection state of an entity.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.Id">
+            <summary>
+            Gets the unique identifier for the entity.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.IsIntersecting">
+            <summary>
+            Gets a value indicating whether the current object intersects with another object.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.IntersectionRatio">
+            <summary>
+            Gets the ratio representing the intersection of two entities as a value between 0.0 and 1.0.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.BoundingClientRect">
+            <summary>
+            Gets the bounding rectangle of the element relative to the viewport, if available.
+            </summary>
+            <remarks>The bounding rectangle provides the position and dimensions of the element as rendered in the
+            browser. If the element is not currently rendered or its layout information is unavailable, this property may be
+            <see langword="null"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.IntersectionRect">
+            <summary>
+            Gets the rectangle representing the intersection area between the target element and its root, if any.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEntry.RootBounds">
+            <summary>
+            Gets the bounding rectangle of the root element at the time of observation, if available.
+            </summary>
+            <remarks>If the root element is no longer present or its bounds cannot be determined, this property
+            returns <see langword="null"/>.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IntersectEventArgs">
+            <summary>
+            Represents the event data for an intersection event, providing details about the observed element's intersection
+            state.
+            </summary>
+            <remarks>This class is typically used in scenarios where intersection events are monitored, such as detecting
+            when an element enters or leaves the viewport or a specified root element. It provides information about the
+            observed element's identifiers, intersection state, and the ratio of the intersection area.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.GroupId">
+            <summary>
+            Gets the unique identifier for the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.ElementId">
+            <summary>
+            Gets the unique identifier for the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.IsIntersecting">
+            <summary>
+            Gets a value indicating whether the observed element is currently intersecting with the root element or viewport.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.IntersectionRatio">
+            <summary>
+            Gets the ratio of the intersection area to the bounding box area of the observed element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.BoundingClientRect">
+            <summary>
+            Gets the bounding rectangle of the element relative to the viewport, if available.
+            </summary>
+            <remarks>The bounding rectangle provides the position and dimensions of the element as rendered in the
+            browser. If the element is not currently rendered or its layout information is unavailable, this property may be
+            <see langword="null"/>.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.IntersectionRect">
+            <summary>
+            Gets the rectangle representing the intersection area between the target element and its root, if any.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.IntersectEventArgs.RootBounds">
+            <summary>
+            Gets the bounding rectangle of the root element at the time of observation, if available.
+            </summary>
+            <remarks>If the root element is no longer present or its bounds cannot be determined, this property
+            returns <see langword="null"/>.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IResizeObserver">
+            <summary>
+            Defines methods for observing and managing resize events for DOM elements.
+            </summary>
+            <remarks>This interface provides functionality to register and unregister DOM elements for resize observation.
+            It supports grouping elements by an optional group identifier, allowing for more granular control over resize event
+            handling. Use this interface to monitor size changes of specific elements in a web application.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IResizeObserver.RegisterResizeAsync(System.String,System.String,Microsoft.AspNetCore.Components.ElementReference)">
+            <summary>
+            Registers an element for resize event tracking within a specified group.
+            </summary>
+            <remarks>This method enables resize event tracking for the specified element, allowing the application
+            to respond to changes in the element's size. Ensure that the <paramref name="groupId"/> and <paramref
+            name="elementId"/> are unique within the context of the application.</remarks>
+            <param name="groupId">The identifier of the group to which the element belongs. This value cannot be null or empty.</param>
+            <param name="elementId">The unique identifier of the element to be tracked. This value cannot be null or empty.</param>
+            <param name="elementReference">A reference to the DOM element to be monitored for resize events.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IResizeObserver.UnregisterResizeAsync(System.String,System.String)">
+            <summary>
+            Unregisters a resize listener for a specific element within a group asynchronously.
+            </summary>
+            <param name="groupId">The identifier of the group containing the element. Cannot be <see langword="null"/> or empty.</param>
+            <param name="elementId">The identifier of the element to unregister. Cannot be <see langword="null"/> or empty.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationBatch">
+            <summary>
+            Represents a batch of mutation entries grouped under a common identifier.
+            </summary>
+            <remarks>Use this type to organize multiple mutation operations that should be processed together as a single
+            batch. The batch is identified by the <see cref="P:FluentUI.Blazor.Community.Components.MutationBatch.GroupId"/> property, which can be used to correlate related
+            mutations.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationBatch.GroupId">
+            <summary>
+            Gets the unique identifier for the group associated with this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationBatch.Entries">
+            <summary>
+            Gets the collection of mutation entries associated with this instance.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationEntry">
+            <summary>
+            Represents a record of a single mutation event, including details about the type of mutation and affected nodes or
+            attributes.
+            </summary>
+            <remarks>Use this type to capture and convey information about changes to a document structure, such as
+            attribute modifications or node additions and removals. The properties provide context for the mutation, including
+            the mutation type, affected attribute name, previous value, and serialized representations of added or removed
+            nodes. This record is typically used in scenarios involving DOM change tracking or synchronization.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.Id">
+            <summary>
+            Gets the unique identifier for this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.Type">
+            <summary>
+            Gets the type of mutation to observe or process.
+            </summary>
+            <remarks>Valid values include "attributes", "childList", and "subtree". The meaning of each value
+            depends on the context in which the property is used. This property is immutable after initialization.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.AttributeName">
+            <summary>
+            Gets the name of the attribute associated with this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.OldValue">
+            <summary>
+            Gets the previous value before the most recent change, or null if no prior value exists.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.AddedNodes">
+            <summary>
+            Gets the serialized representation of the nodes that were added.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEntry.RemovedNodes">
+            <summary>
+            Gets the serialized representation of nodes that have been removed.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationEventArgs">
+            <summary>
+            Provides data for mutation-related events, encapsulating information about changes to attributes, child nodes, or
+            subtrees within a group or instance.
+            </summary>
+            <remarks>Use this record to access details about a mutation event, such as the type of mutation, affected
+            attributes, and lists of added or removed nodes. All properties are immutable after initialization, ensuring event
+            data remains consistent throughout its lifecycle.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.GroupId">
+            <summary>
+            Gets the unique identifier for the group associated with this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.Id">
+            <summary>
+            Gets the unique identifier for this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.Type">
+            <summary>
+            Gets the type of mutation to observe or process.
+            </summary>
+            <remarks>Valid values include "attributes", "childList", and "subtree". The meaning of each value
+            depends on the context in which the property is used. This property is immutable after initialization.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.AttributeName">
+            <summary>
+            Gets the name of the attribute associated with this instance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.OldValue">
+            <summary>
+            Gets the previous value before the most recent change, or null if no prior value exists.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.AddedNodes">
+            <summary>
+            Gets the serialized representation of the nodes that were added.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationEventArgs.RemovedNodes">
+            <summary>
+            Gets the serialized representation of nodes that have been removed.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationObserverOptions">
+            <summary>
+            Represents configuration options for observing mutations in a DOM tree using a mutation observer.
+            </summary>
+            <remarks>Use this record to specify which types of DOM changes should be monitored, such as attribute
+            modifications, changes to child elements, or updates to character data. Each property corresponds to a specific
+            aspect of mutation observation and can be set to enable or disable monitoring of that aspect. These options are
+            typically used when initializing a mutation observer to control its behavior.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.Attributes">
+            <summary>
+            Gets a value indicating whether attributes are enabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.ChildList">
+            <summary>
+            Gets a value indicating whether child elements are included in the list.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.Subtree">
+            <summary>
+            Gets a value indicating whether operations should include the entire subtree of elements.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.AttributeOldValue">
+            <summary>
+            Gets a value indicating whether the original value of an attribute is included during change tracking
+            operations.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.CharacterData">
+            <summary>
+            Gets a value indicating whether character data is included in the output.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MutationObserverOptions.CharacterDataOldValue">
+            <summary>
+            Gets a value indicating whether the old value of character data is included in mutation records.
+            </summary>
+            <remarks>When set to <see langword="true"/>, mutation records will contain the previous value of the
+            character data before the change occurred. This can be useful for tracking changes or implementing undo
+            functionality. When <see langword="false"/>, the old value is omitted from mutation records, which may improve
+            performance if the previous value is not needed.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MutationType">
+            <summary>
+            Specifies the type of change detected in a DOM mutation event, such as attribute modifications, changes to child
+            nodes, or updates to textual content.
+            </summary>
+            <remarks>Use this enumeration to determine the nature of a DOM mutation when handling mutation events. Each
+            value corresponds to a distinct category of change: attribute updates, additions or removals of child nodes, or
+            modifications to character data. This can be useful for filtering or responding to specific mutation types in event
+            handlers.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.MutationType.Attributes">
+            <summary>
+            Gets the collection of attributes associated with the current object.
+            </summary>
+            <remarks>Use this property to access metadata or custom information attached to the object, such as
+            data annotations or user-defined attributes. The returned collection may be empty if no attributes are
+            present.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.MutationType.ChildList">
+            <summary>
+            Represents a collection of child elements associated with a parent object.
+            </summary>
+            <remarks>Use this collection to access, enumerate, or manage child elements in hierarchical data
+            structures. The order and mutability of the collection may depend on the specific implementation.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.MutationType.CharacterData">
+            <summary>
+            Represents the textual data contained within a character node, such as text, CDATA, or comments, in a document
+            object model (DOM).
+            </summary>
+            <remarks>Use this type to access or manipulate the character data of nodes that store text content. It
+            is commonly used when working with XML or HTML documents to retrieve or modify the value of text nodes, CDATA
+            sections, or comment nodes. This type does not represent element nodes or attributes.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ObserverItem">
+            <summary>
+            Represents an observer item which can be used within a <see cref="T:FluentUI.Blazor.Community.Components.GroupObserverItem"/> to monitor or manage changes in a grouped collection of components.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.Parent">
+            <summary>
+            Gets or sets the parent <see cref="T:FluentUI.Blazor.Community.Components.GroupObserverItem"/> component that this observer item is associated with.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserverState">
+            <summary>
+            Gets or sets the state of the observer, which is used to manage and track the observer's behavior and data.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.OnResize">
+            <summary>
+            Gets or sets the callback that is invoked when the component is resized.
+            </summary>
+            <remarks>Use this property to handle resize events and respond to changes in the component's
+            dimensions.  The callback is triggered whenever a resize event occurs, providing information such as the new
+            size.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.OnIntersect">
+            <summary>
+            Gets or sets the callback to be invoked when an intersection event occurs.
+            </summary>
+            <remarks>The callback is triggered with an <see cref="T:FluentUI.Blazor.Community.Components.IntersectEventArgs"/> instance containing
+            details about the intersection event. Use this property to handle intersection events, such as when an element
+            enters or exits the viewport.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.OnMutation">
+            <summary>
+            Gets or sets the callback that is invoked when a mutation event occurs within the component.
+            </summary>
+            <remarks>Assign a delegate to handle mutation events, such as changes to the component's data or
+            state. The event provides details through the <see cref="T:FluentUI.Blazor.Community.Components.MutationEventArgs"/> parameter. This callback is
+            typically used to respond to or process mutations initiated by user actions or other triggers.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.OnWindowResizedAsync">
+            <summary>
+            Gets or sets the callback that is invoked asynchronously when the browser window is resized.
+            </summary>
+            <remarks>The callback receives a <see cref="T:FluentUI.Blazor.Community.Components.ResizeWindowEventArgs"/> instance containing details about
+            the resize event. Assign this property to handle window resize events in a Blazor component. The callback is
+            executed asynchronously and can be used to update UI or perform other actions in response to window size
+            changes.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserveResize">
+            <summary>
+            Gets or sets a value indicating whether the component observes changes to its size and responds to resize
+            events.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.MutationOptions">
+            <summary>
+            Gets or sets the options used to configure the behavior of the mutation observer for this component.
+            </summary>
+            <remarks>Specify mutation observer options to control which DOM changes are monitored, such as
+            attribute modifications, child list changes, or subtree updates. If not set, default observation behavior will
+            be used.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserveIntersection">
+            <summary>
+            Gets or sets a value indicating whether intersection observation is enabled for the component.
+            </summary>
+            <remarks>When enabled, the component will monitor its visibility or intersection with a parent
+            container, which can be used to trigger actions such as lazy loading or animations. This property is typically
+            used in scenarios where you need to respond to changes in the component's visibility within the
+            viewport.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserveMutation">
+            <summary>
+            Gets or sets a value indicating whether changes to the component's content should be observed for mutations.
+            </summary>
+            <remarks>When set to <see langword="true"/>, the component will monitor its content for dynamic
+            changes, such as additions or removals of child elements. This can be useful for scenarios where the content is
+            updated outside of the normal rendering cycle.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ObserverItem.ObserveWindowResize">
+            <summary>
+            Gets or sets a value indicating whether the component should observe window resize events and respond
+            accordingly.
+            </summary>
+            <remarks>When set to <see langword="true"/>, the component will automatically detect changes to the
+            browser window size and may update its layout or behavior in response. This is useful for creating responsive
+            user interfaces that adapt to different screen sizes.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnResizeAsync(FluentUI.Blazor.Community.Components.ResizeEventArgs)">
+            <summary>
+            Handles the resize event and invokes the associated delegate asynchronously, if one is assigned.
+            </summary>
+            <param name="e">The event arguments containing details about the resize event.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnIntersectAsync(FluentUI.Blazor.Community.Components.IntersectEventArgs)">
+            <summary>
+            Handles the intersection event by invoking the associated event callback asynchronously.
+            </summary>
+            <remarks>This method checks if the <see cref="P:FluentUI.Blazor.Community.Components.ObserverItem.OnIntersect"/> event has any registered delegates  and
+            invokes them asynchronously if present. Ensure that the event arguments provided  are valid and contain the
+            necessary data for the event handlers.</remarks>
+            <param name="e">The event arguments containing details about the intersection event.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnMutationAsync(FluentUI.Blazor.Community.Components.MutationEventArgs)">
+            <summary>
+            Handles a mutation event asynchronously when a data change occurs.
+            </summary>
+            <remarks>Override this method in a derived class to implement custom mutation handling logic. The base
+            implementation throws a <see cref="T:System.NotImplementedException"/>.</remarks>
+            <param name="entry">The event arguments containing details about the mutation to process.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+            <exception cref="T:System.NotImplementedException">Thrown if the method is not overridden in a derived class.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnWindowResizeAsync(FluentUI.Blazor.Community.Components.ResizeWindowEventArgs)">
+            <summary>
+            Handles a window resize event asynchronously when window resize observation is enabled.
+            </summary>
+            <param name="e">The event data associated with the window resize operation.</param>
+            <returns>A task that represents the asynchronous operation of handling the window resize event.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverItem.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ObserverState">
+            <summary>
+            Represents the internal state of the observer, managing groups and items along with their notification status.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._groups">
+            <summary>
+            Represents the collection of groups managed by the observer state, indexed by their unique group identifiers.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._items">
+            <summary>
+            Represents the collection of individual observer items, indexed by their unique identifiers.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._provider">
+            <summary>
+            References the provider responsible for handling notifications. This may be <see langword="null"/> if no provider is currently set.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._addPendingGroups">
+            <summary>
+            Represents queues for managing pending notification actions when the provider is not available.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._addPendingItems">
+            <summary>
+            Represents a queue of items pending addition notifications when the provider is not available.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._removePendingGroups">
+            <summary>
+            Represents a queue of group IDs pending removal notifications when the provider is not available.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObserverState._removePendingItems">
+            <summary>
+            Represents a queue of item IDs pending removal notifications when the provider is not available.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.AddGroupAsync(FluentUI.Blazor.Community.Components.GroupObserverItem)">
+            <summary>
+            Adds a group to the collection and notifies the provider if available.
+            </summary>
+            <remarks>If the provider is not available, the group is added to a pending queue for later processing.
+            Otherwise, the provider is immediately notified of the added group.</remarks>
+            <param name="group">The group to add. The group's <see cref="P:FluentUI.Blazor.Community.Components.GroupObserverItem.GroupId"/> must not be null, empty, or whitespace.</param>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="group"/> has a <see cref="P:FluentUI.Blazor.Community.Components.GroupObserverItem.GroupId"/> that is null, empty, or
+            consists only of whitespace.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.RemoveGroupAsync(System.String)">
+            <summary>
+            Removes the specified group from the collection and updates its notification status.
+            </summary>
+            <remarks>If the provider is not available, the group is added to a queue of pending removals.
+            Otherwise, the group is unnotified immediately.</remarks>
+            <param name="groupId">The unique identifier of the group to remove. Cannot be null, empty, or consist only of whitespace.</param>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="groupId"/> is null, empty, or consists only of whitespace.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.AddItemAsync(FluentUI.Blazor.Community.Components.ObserverItem)">
+            <summary>
+            Adds an item to the collection and notifies the provider if available.
+            </summary>
+            <remarks>If the provider is not available, the item is added to a pending queue to be processed later.
+            Otherwise, the provider is notified immediately after the item is added.</remarks>
+            <param name="item">The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> to add. The item's <see cref="P:Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase.Id"/> must not be null or empty.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.RemoveItemAsync(FluentUI.Blazor.Community.Components.ObserverItem)">
+            <summary>
+            Removes the specified item from the collection and updates its notification state.
+            </summary>
+            <remarks>If a notification provider is available, the item's notification state is updated by calling
+            the provider.  Otherwise, the item's ID is added to a queue for pending removal.</remarks>
+            <param name="item">The item to remove. The item's <see cref="P:Microsoft.FluentUI.AspNetCore.Components.FluentComponentBase.Id"/> must not be null or empty.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.SetProviderAsync(FluentUI.Blazor.Community.Components.FluentCxObserverProvider)">
+            <summary>
+            Sets the provider responsible for handling notifications and processes any pending notification actions.
+            </summary>
+            <remarks>When a new provider is set, any pending groups or items queued for notification are processed
+            and sent to the provider. If the provider is set to <see langword="null"/>, all pending notifications are
+            discarded.</remarks>
+            <param name="value">The <see cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> instance to set as the current provider.  If <paramref name="value"/>
+            is <see langword="null"/>, all pending notifications are cleared.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.GetItems(System.String)">
+            <summary>
+            Retrieves the list of items associated with the specified group identifier.
+            </summary>
+            <param name="groupId">The unique identifier of the group whose items are to be retrieved. Cannot be null or empty.</param>
+            <returns>A list of <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> objects associated with the specified group.  Returns an empty list if the
+            group does not exist.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.GetItem(System.String,System.String)">
+            <summary>
+            Retrieves an item by its identifier, searching within a specified group or globally if the group is not found.
+            </summary>
+            <param name="groupId">The identifier of the group to search within. Cannot be <see langword="null"/> or empty.</param>
+            <param name="itemId">The identifier of the item to retrieve. Cannot be <see langword="null"/> or empty.</param>
+            <returns>The <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> that matches the specified <paramref name="itemId"/>.  If the group is found, the
+            search is limited to that group; otherwise, a global search is performed.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Thrown if no item with the specified <paramref name="itemId"/> is found in the specified group or globally.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ObserverState.GetAllItems">
+            <summary>
+            Returns a collection containing all observer items currently managed by the instance.
+            </summary>
+            <returns>An enumerable collection of <see cref="T:FluentUI.Blazor.Community.Components.ObserverItem"/> objects representing all items. The collection will be
+            empty if no items are present.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizeBatch">
+            <summary>
+            Represents a batch of resize entries grouped by a unique identifier.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeBatch.GroupId">
+            <summary>
+            Gets the unique identifier for the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeBatch.Entries">
+            <summary>
+            Gets the list of resize entries associated with the group.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizeEntry">
+            <summary>
+            Represents an entry containing dimensions for resizing operations.
+            </summary>
+            <remarks>This record is typically used to store and transfer information about the dimensions of an object,
+            including its unique identifier and its width and height values.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEntry.Id">
+            <summary>
+            Gets the unique identifier for the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEntry.Width">
+            <summary>
+            Gets the width of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEntry.Height">
+            <summary>
+            Gets the height of the entry.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEntry.Rect">
+            <summary>
+            Gets the DOM rectangle representing position of the entry.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizeEventArgs">
+            <summary>
+            Represents the event data for a resize operation, including the dimensions of the resized element and its
+            identifiers.
+            </summary>
+            <remarks>This class provides information about a resize event, such as the group and element identifiers, as
+            well as the new width and height of the resized element.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.GroupId">
+            <summary>
+            Gets the unique identifier for the group.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.ElementId">
+            <summary>
+            Gets the unique identifier for the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Width">
+            <summary>
+            Gets the width of the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Height">
+            <summary>
+            Gets the height of the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeEventArgs.Rect">
+            <summary>
+            Gets the bounding rectangle of the element.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResizeWindowEventArgs">
+            <summary>
+            Provides data for an event that reports the new dimensions of a resized window.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeWindowEventArgs.Width">
+            <summary>
+            Gets the width of the window.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResizeWindowEventArgs.Height">
+            <summary>
+            Gets the height of the window.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxPathBar">
             <summary>
@@ -12809,6 +13719,401 @@
         <member name="M:FluentUI.Blazor.Community.Components.PathBarItemEqualityComparer.GetHashCode(FluentUI.Blazor.Community.Components.IPathBarItem)">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.BorderRadius">
+            <summary>
+            Represents the border radius options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.None">
+            <summary>
+            No radius applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.Circle">
+            <summary>
+            A circular radius applied, making the picture appear as a circle.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.Square">
+            <summary>
+            A square radius applied, making the picture appear with sharp corners.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.RoundSquare">
+            <summary>
+            A rounded square radius applied, making the picture appear with slightly rounded corners.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderRadius.Custom">
+            <summary>
+            A custom radius applied, allowing for specific radius values to be set.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.BorderStyle">
+            <summary>
+            Represents the border style options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.None">
+            <summary>
+            No border applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.Solid">
+            <summary>
+            A solid border applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.Dashed">
+            <summary>
+            A dashed border applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.Dotted">
+            <summary>
+            A dotted border applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.BorderStyle.Double">
+            <summary>
+            A double border applied.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FetchPriority">
+            <summary>
+            Represents the fetch priority options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FetchPriority.Auto">
+            <summary>
+            Represents an automatic mode or setting, typically used to indicate that a value or behavior should be
+            determined automatically based on context or default logic.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FetchPriority.High">
+            <summary>
+            Represents the high priority setting, which fetches the resource with high priority.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FetchPriority.Low">
+            <summary>
+            Represents the low priority setting, which fetches the resource with low priority.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxPicture">
+            <summary>
+            Represents a picture component with various customization options.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxPicture._internalResponsiveSources">
+            <summary>
+            Represents the internal list of responsive image sources.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Source">
+            <summary>
+            Gets or sets the source URL of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.SourceSet">
+            <summary>
+            Gets or sets the source set for responsive images.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Preload">
+            <summary>
+            Gets or sets a value indicating whether to preload the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Loading">
+            <summary>
+            Gets or sets the loading behavior of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.FetchPriority">
+            <summary>
+            Gets or sets the fetch priority of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Format">
+            <summary>
+            Gets or sets the image format (e.g., "webp", "jpeg").
+            </summary>
+            <remarks>This is used for the image processing middleware.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Quality">
+            <summary>
+            Gets or sets the quality of the image (e.g., "80" for 80% quality).
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Effects">
+            <summary>
+            Gets or sets the CSS filter effects to apply to the image (e.g., "grayscale(100%)", "blur(5px)").
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Shadow">
+            <summary>
+            Gets or sets the shadow effect for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Width">
+            <summary>
+            Gets or sets the width of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Height">
+            <summary>
+            Gets or sets the height of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderRadius">
+            <summary>
+            Gets or sets the border radius type of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderRadiusValue">
+            <summary>
+            Gets or sets the custom border radius value when <see cref="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderRadius"/> is set to <see cref="F:FluentUI.Blazor.Community.Components.BorderRadius.Custom"/>.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderStyle">
+            <summary>
+            Gets or sets the border style of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderWidth">
+            <summary>
+            Gets or sets the border width of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.BorderColor">
+            <summary>
+            Gets or sets the border color of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.OverlayContent">
+            <summary>
+            Gets or sets the overlay content to be displayed over the picture.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.ObjectFit">
+            <summary>
+            Gets or sets how the image should be resized to fit its container.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Alt">
+            <summary>
+            Gets or sets the alt text for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Title">
+            <summary>
+            Gets or sets the title for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Caption">
+            <summary>
+            Gets or sets the caption for the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.Language">
+            <summary>
+            Gets or sets the language of the image for accessibility purposes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.ResponsiveContent">
+            <summary>
+            Gets or sets the responsive content to be rendered within the picture element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.InternalClass">
+            <summary>
+            Gets the internal CSS class for the picture component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxPicture.InternalStyle">
+            <summary>
+            Gets the internal style for the picture component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPicture.AddSource(FluentUI.Blazor.Community.Components.ResponsiveImage)">
+            <summary>
+            Adds a responsive image source to the internal list.
+            </summary>
+            <param name="source">Source to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxPicture.RemoveSource(FluentUI.Blazor.Community.Components.ResponsiveImage)">
+            <summary>
+            Removes a responsive image source from the internal list.
+            </summary>
+            <param name="source">Source to remove.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LoadingBehavior">
+            <summary>
+            Represents the loading behavior options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoadingBehavior.Auto">
+            <summary>
+            Represents an automatic mode, typically allowing the browser to decide the best loading strategy based on context.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoadingBehavior.Lazy">
+            <summary>
+            Represents a lazy loading strategy, where the image is loaded only when it is about to enter the viewport.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LoadingBehavior.Eager">
+            <summary>
+            Represents an eager loading strategy, where the image is loaded immediately, regardless of its position in the viewport.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ObjectFit">
+            <summary>
+            Represents the object fit options for a picture component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.None">
+            <summary>
+            The default value, which means no specific object fit behavior is applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.Fill">
+            <summary>
+            Fills the entire container, potentially cropping the image if its aspect ratio differs from that of the container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.Cover">
+            <summary>
+            Covers the entire container while maintaining the image's aspect ratio. This may result in some parts of the image being cropped.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.Contain">
+            <summary>
+            Contains the image within the container while maintaining its aspect ratio. This may result in empty space (letterboxing) if the aspect ratios differ.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ObjectFit.ScaleDown">
+            <summary>
+            Reduces the size or scale of the object by a specified factor.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PictureOverlay">
+            <summary>
+            Represents an overlay component that can be positioned over a picture.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PictureOverlay.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.PictureOverlay"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PictureOverlay.Position">
+            <summary>
+            Gets or sets the CSS class for the overlay component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PictureOverlay.ChildContent">
+            <summary>
+            Gets or sets the content to be displayed within the overlay.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PictureOverlay.InternalCss">
+            <summary>
+            Gets the internal CSS classes for the overlay component.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PictureOverlayPosition">
+            <summary>
+            Represents the position options for a picture overlay component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.TopLeft">
+            <summary>
+            The overlay is positioned at the top-left corner of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.TopCenter">
+            <summary>
+            The overlay is positioned at the top-center of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.TopRight">
+            <summary>
+            The overlay is positioned at the top-right corner of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.MiddleLeft">
+            <summary>
+            The overlay is positioned at the middle-left of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.MiddleCenter">
+            <summary>
+            The overlay is positioned at the center of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.MiddleRight">
+            <summary>
+            The overlay is positioned at the middle-right of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.BottomLeft">
+            <summary>
+            The overlay is positioned at the bottom-left corner of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.BottomCenter">
+            <summary>
+            The overlay is positioned at the bottom-center of the picture.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PictureOverlayPosition.BottomRight">
+            <summary>
+            The overlay is positioned at the bottom-right corner of the picture.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ResponsiveImage">
+            <summary>
+            Represents a responsive image component.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Shadow">
+            <summary>
+            Represents a shadow effect with customizable properties such as offset, blur radius, spread radius, and color.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.OffsetX">
+            <summary>
+            Gets or sets the horizontal offset of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.OffsetY">
+            <summary>
+            Gets or sets the vertical offset of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.BlurRadius">
+            <summary>
+            Gets or sets the blur radius of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.SpreadRadius">
+            <summary>
+            Gets or sets the spread radius of the shadow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Shadow.Color">
+            <summary>
+            Gets or sets the color of the shadow.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Shadow.ToCss">
+            <summary>
+            Returns the CSS representation of the shadow.
+            </summary>
+            <returns>Returns the CSS representation of the shadow.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxResizer">
             <summary>
             Represents a resizer component.
@@ -13283,6 +14588,9 @@
             <remarks>This method asynchronously clears the signature data by invoking the <see cref="M:FluentUI.Blazor.Community.Components.Signature.ClearAsync"/>
             method  on the signature object. If no signature is present, the method does nothing.</remarks>
             <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSignature.OnResizeAsync(FluentUI.Blazor.Community.Components.ResizeEventArgs)">
+            <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SignatureGridLayer">
             <summary>
@@ -13989,11 +15297,6 @@
             Gets or sets the JavaScript runtime for interop calls.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.Signature.ObserverService">
-            <summary>
-            Gets or sets the observer service for managing observers.
-            </summary>
-        </member>
         <member name="P:FluentUI.Blazor.Community.Components.Signature.Options">
             <summary>
             Gets or sets the signature options for configuring the signature component.
@@ -14057,15 +15360,6 @@
             <returns>Returns a task which refreshs the overlay layer when completed.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.Signature.OnResizedAsync(System.Int32,System.Int32)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Signature.OnIntersectAsync(FluentUI.Blazor.Community.Components.IntersectionEventArgs)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Signature.OnMeasuredAsync(System.Int32,System.Int32)">
-            <inheritdoc />
-        </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Signature.DisposeAsync">
             <inheritdoc />
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SignatureExporter">
@@ -15693,6 +16987,11 @@
             Represents a value indicating if the show indicator has changed.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isSizeChanged">
+            <summary>
+            Represents a value indicating if the size has changed.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowControls">
             <summary>
             Gets or sets a value indicating that the controls are shown.
@@ -16068,9 +17367,6 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Dispose">
-            <inheritdoc />
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DisposeAsync">
             <inheritdoc />
         </member>
@@ -16087,6 +17383,11 @@
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAutoSizeCompletedAsync">
+            <summary>
+            Occurs when all images have been resized.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnContainerSizeCompletedAsync">
             <summary>
             Occurs when all images have been resized.
             </summary>
@@ -16129,10 +17430,90 @@
             Gets or sets the child content of the component.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.Fixed">
+            <summary>
+            Gets or sets a value indicating whether the caption is fixed to the bottom of the slideshow item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.MaxWidth">
+            <summary>
+            Gets or sets the maximum width, in pixels, that the component can occupy.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.Css">
             <summary>
             Gets the css classes to use.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaption.InternalStyle">
+            <summary>
+            Gets the computed CSS style string for the component, including any maximum width constraints.
+            </summary>
+            <remarks>This property is intended for internal use to generate the final style attribute value based
+            on the component's configuration. It should not be accessed directly from outside the class.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowCaptionText">
+            <summary>
+            Represents a configurable text component for displaying descriptive content within a slideshow, allowing
+            customization of text, color, font, and layout styles.
+            </summary>
+            <remarks>Use this component to present descriptive or explanatory text in a slideshow interface. The
+            appearance of the text can be customized using standard CSS style values for color, font family, font size, font
+            weight, letter spacing, line height, and margin. All style-related properties accept valid CSS values as strings. If
+            a property is not set, a default value is applied as specified in each property's documentation.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.Text">
+            <summary>
+            Gets or sets the text to display in the description area of the slideshow.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.Color">
+            <summary>
+            Gets or sets the CSS color value to apply to the component's content.
+            </summary>
+            <remarks>If not set, the default color is "white". Accepts any valid CSS color string, such as a named
+            color (e.g., "red"), a hex code (e.g., "#FF0000"), or an RGB/RGBA value.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.FontFamily">
+            <summary>
+            Gets or sets the CSS font family to apply to the component's text.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.FontSize">
+            <summary>
+            Gets or sets the CSS font size to apply to the component's content.
+            </summary>
+            <remarks>The value should be a valid CSS font-size string, such as "16px", "1.5em", or "large". If not
+            set, the default value is "24px".</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.FontWeight">
+            <summary>
+            Gets or sets the font weight to apply to the text content.
+            </summary>
+            <remarks>Accepts standard CSS font-weight values, such as numeric values (e.g., "400", "700") or
+            keywords (e.g., "normal", "bold"). The default value is "400".</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.LetterSpacing">
+            <summary>
+            Gets or sets the CSS letter-spacing value to apply to the element's text content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.LineHeight">
+            <summary>
+            Gets or sets the line height value for the element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.Margin">
+            <summary>
+            Gets or sets the margin value to apply, typically used to define spacing around an element.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.InternalStyle">
+            <summary>
+            Gets the computed CSS style string based on the current style-related property values.
+            </summary>
+            <remarks>This property combines individual style settings, such as color, font, and spacing, into a
+            single CSS style string. It is intended for internal use when rendering elements with dynamic styles.</remarks>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowImage`1">
             <summary>
@@ -16199,6 +17580,11 @@
             <remarks>When the dimensions of the container are not set, the width of the container is set to 100%,
              after that, the first image in the slideshow, when stretched, gives the height of the container,
              and the other images will take that height.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.Container">
+            <summary>
+            The image covers the entire container, without keeping the aspect ratio.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition">
             <summary>
@@ -16670,6 +18056,395 @@
             <summary>
             Gets or sets the row span of the item.
             </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AngleUnit">
+            <summary>
+            Represents angle units for CSS properties.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AngleUnit.Degrees">
+            <summary>
+            Represents degrees, the most common unit for angles.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AngleUnit.Radians">
+            <summary>
+            Represents radians, a mathematical unit for angles.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AngleUnit.Gradians">
+            <summary>
+            Represents gradians, a less common unit where a right angle is 100 gradians.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AngleUnit.Turns">
+            <summary>
+            Represents turns, where a full circle is 1 turn.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CssLength">
+            <summary>
+            Represents a CSS length value with a unit.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CssLength._value">
+            <summary>
+            Represents the numeric value of the length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CssLength._unit">
+            <summary>
+            Represents the unit of the length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CssLength._culture">
+            <summary>
+            Represents the culture info for formatting.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CssLength.#ctor(System.Double,FluentUI.Blazor.Community.Components.LengthUnit)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.CssLength"/> struct.
+            </summary>
+            <param name="value">Value of the length.</param>
+            <param name="unit">Unit of the length.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CssLength.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LengthUnit">
+            <summary>
+            Represents length units for CSS properties.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Pixels">
+            <summary>
+            Represents pixels, the most common unit for lengths in web design.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Percent">
+            <summary>
+            Represents percentage, a relative unit based on the parent element's size.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Em">
+            <summary>
+            Represents em, a relative unit based on the font size of the element.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Rem">
+            <summary>
+            Represents rem, a relative unit based on the font size of the root element.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.ViewportWidth">
+            <summary>
+            Represents vw, a relative unit based on 1% of the viewport's width.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.ViewportHeight">
+            <summary>
+            Represents vh, a relative unit based on 1% of the viewport's height.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.ViewportMin">
+            <summary>
+            Represents vmin, a relative unit based on 1% of the smaller dimension of the viewport (width or height).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.ViewportMax">
+            <summary>
+            Represents vmax, a relative unit based on 1% of the larger dimension of the viewport (width or height).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Centimeters">
+            <summary>
+            Represents centimeters, a physical unit of length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Millimeters">
+            <summary>
+            Represents millimeters, a physical unit of length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Inches">
+            <summary>
+            Represents inches, a physical unit of length.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Points">
+            <summary>
+            Represents points, a physical unit of length commonly used in typography (1 point = 1/72 inch).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Picas">
+            <summary>
+            Represents picas, a physical unit of length commonly used in typography (1 pica = 12 points).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.Character">
+            <summary>
+            Represents character units, a relative unit based on the width of the "0" (zero) character in the element's font.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.LengthUnit.XHeight">
+            <summary>
+            Represents x-height units, a relative unit based on the height of lowercase "x" in the element's font.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.RgbaColor">
+            <summary>
+            Represents an RGBA color value for CSS.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._r">
+            <summary>
+            Represents the red component of the color (0-255).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._g">
+            <summary>
+            Represents the green component of the color (0-255).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._b">
+            <summary>
+            Represents the blue component of the color (0-255).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._a">
+            <summary>
+            Represents the alpha (opacity) component of the color (0.0-1.0).
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RgbaColor._culture">
+            <summary>
+            Represents the culture info for formatting.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.RgbaColor.#ctor(System.Byte,System.Byte,System.Byte,System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.RgbaColor"/> class with the specified red, green, blue, and alpha
+            channel values.
+            </summary>
+            <param name="r">The red component of the color, ranging from 0 to 255.</param>
+            <param name="g">The green component of the color, ranging from 0 to 255.</param>
+            <param name="b">The blue component of the color, ranging from 0 to 255.</param>
+            <param name="a">The alpha (transparency) component of the color, ranging from 0.0 (completely transparent) to 1.0 (completely
+            opaque). Defaults to 1.0.</param>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="a"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.RgbaColor.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy">
+            <summary>
+            Represents a strategy for handling Base64-encoded image URLs.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.Base64ImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy">
+            <summary>
+            Represents a strategy for handling FTP image URLs.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy._httpClient">
+            <summary>
+            Represents the HTTP client used to fetch images.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Represents a strategy for handling FTP image URLs.
+            </summary>
+            <param name="httpClient">Http client to handle requests.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.FtpImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy">
+            <summary>
+            Represents a strategy for handling HTTP image URLs.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy._httpClient">
+            <summary>
+            Represents the HTTP client used to fetch images.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy"/> class.
+            </summary>
+            <param name="httpClient">Http client</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.HttpImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy">
+            <summary>
+            Represents a strategy for handling image sources.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy.Priority">
+            <summary>
+            Gets the priority of the strategy. Lower values indicate higher priority.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy.CanHandle(System.String)">
+            <summary>
+            Checks if the strategy can handle the given URL.
+            </summary>
+            <param name="url">Url to check.</param>
+            <returns>Returns true if the strategy can handle the given URL; otherwise, false.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Gets the image bytes from the given URL.
+            </summary>
+            <param name="url">Url to fetch.</param>
+            <param name="logger">Logger to use.</param>
+            <returns>Returns the image bytes.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy">
+            <summary>
+            Represents a strategy for handling IPFS image URLs.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy._httpClient">
+            <summary>
+            Represents the HTTP client used to fetch images.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy"/> class.
+            </summary>
+            <param name="httpClient">Http client to use to fetch image.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy.CanHandle(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.IpfsImageStrategy.GetImageBytesAsync(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware">
+            <summary>
+            Responsible for processing image requests, including fetching, resizing, format conversion, and caching.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._next">
+            <summary>
+            Represents the next middleware in the pipeline.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._logger">
+            <summary>
+            Represents the logger instance.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._strategies">
+            <summary>
+            Represents the collection of image source strategies.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._cache">
+            <summary>
+            Represents the memory cache for storing processed images.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware._contentTypeProvider">
+            <summary>
+            Represents the content type provider for determining MIME types.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.Extensions.Logging.ILogger{FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware},System.Collections.Generic.IEnumerable{FluentUI.Blazor.Community.Components.Middleware.IImageSourceStrategy},Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware"/> class.
+            </summary>
+            <param name="next">The next request to process.</param>
+            <param name="logger">Logger to use to write information.</param>
+            <param name="strategies">List of strategies to use.</param>
+            <param name="cache">Cache.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Processes HTTP requests to handle image proxying, including resizing, reformatting, and caching.
+            </summary>
+            <remarks>This middleware intercepts requests with the path starting with "/image-proxy" and processes
+            them  to retrieve, resize, and reformat images based on query parameters. The processed image is cached  for
+            subsequent requests to improve performance. If the path does not match, the request is passed  to the next
+            middleware in the pipeline.  Query parameters: <list type="bullet"> <item> <term>url</term> <description>The URL
+            of the image to be processed. This parameter is required.</description> </item> <item> <term>format</term>
+            <description>The desired image format (e.g., "jpeg", "png"). Defaults to "jpeg" if not specified.</description>
+            </item> <item> <term>quality</term> <description>The quality of the output image (1-100). Defaults to 80 if not
+            specified or invalid.</description> </item> <item> <term>width</term> <description>The desired width of the
+            output image. If 0 or not specified, the original width is used.</description> </item> <item>
+            <term>height</term> <description>The desired height of the output image. If 0 or not specified, the original
+            height is used.</description> </item> </list>  Responses: <list type="bullet"> <item> <term>200 OK</term>
+            <description>The processed image is returned in the response body.</description> </item> <item> <term>400 Bad
+            Request</term> <description>Returned if the "url" query parameter is missing or invalid.</description> </item>
+            <item> <term>500 Internal Server Error</term> <description>Returned if an error occurs during image
+            processing.</description> </item> </list></remarks>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> representing the current HTTP request and response.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.DownloadImageAsync(System.String)">
+            <summary>
+            Downloads the image from the specified URL using the appropriate strategy.
+            </summary>
+            <param name="url">Url of the image to download.</param>
+            <returns>Returns a task which downloads the url when completed.</returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.ResizeImage(SkiaSharp.SKBitmap,System.Int32,System.Int32)">
+            <summary>
+            Resizes the specified image to the given dimensions while maintaining the aspect ratio if one dimension is set
+            to zero.
+            </summary>
+            <param name="original">The original image to resize. Cannot be <see langword="null"/>.</param>
+            <param name="width">The desired width of the resized image. If set to 0, the width is calculated to maintain the aspect ratio.</param>
+            <param name="height">The desired height of the resized image. If set to 0, the height is calculated to maintain the aspect ratio.</param>
+            <returns>A new <see cref="T:SkiaSharp.SKBitmap"/> instance representing the resized image. If both <paramref name="width"/> and
+            <paramref name="height"/> are 0, the original image is returned.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Middleware.ImageProcessingMiddleware.EncodeImage(SkiaSharp.SKBitmap,System.String,System.Int32,System.String@)">
+            <summary>
+            Encodes an image into a specified format with a given quality level.
+            </summary>
+            <remarks>This method supports a variety of image formats, including PNG, JPEG, WebP, AVIF, HEIF, GIF,
+            BMP, WBMP, KTX, and ICO. If the specified format is not recognized, the image is encoded as JPEG.</remarks>
+            <param name="bitmap">The <see cref="T:SkiaSharp.SKBitmap"/> representing the image to encode.</param>
+            <param name="format">The desired image format as a string (e.g., "png", "jpeg", "webp"). If the format is not recognized,  the
+            default format is JPEG.</param>
+            <param name="quality">The quality level of the encoded image, ranging from 0 to 100. Higher values indicate better quality.</param>
+            <param name="mimeType">When the method returns, contains the MIME type corresponding to the encoded image format.  If the format is not
+            recognized, the MIME type defaults to "image/jpeg".</param>
+            <returns>A byte array containing the encoded image data.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxLottieProvider.OnInitialized">
             <inheritdoc />
@@ -17474,6 +19249,119 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.ByteSizeTypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
             <inheritdoc/>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.EffectBuilder">
+            <summary>
+            Represents a builder for constructing CSS filter effects.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.EffectBuilder._effects">
+            <summary>
+            Represents the list of effects to be applied.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.EffectBuilder._invariantCulture">
+            <summary>
+            Represents the culture info for formatting.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddBlur(System.Double,FluentUI.Blazor.Community.Components.LengthUnit)">
+            <summary>
+            Adds a blur effect to the current effect builder with the specified intensity and unit.
+            </summary>
+            <param name="value">The intensity of the blur effect. Must be a non-negative finite number.</param>
+            <param name="unit">The unit of measurement for the blur intensity. Defaults to <see cref="F:FluentUI.Blazor.Community.Components.LengthUnit.Pixels"/>.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is negative, not a number, or infinite.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddBrightness(System.Double)">
+            <summary>
+            Adds a brightness adjustment effect to the current effect builder.
+            </summary>
+            <param name="value">The brightness adjustment value. Must be a non-negative finite number.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, is <see cref="F:System.Double.NaN"/>, or is <see
+            cref="F:System.Double.PositiveInfinity"/> or <see cref="F:System.Double.NegativeInfinity"/>.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddContrast(System.Double)">
+            <summary>
+            Adds a contrast adjustment effect with the specified value to the current effect builder.
+            </summary>
+            <param name="value">The contrast adjustment value. Must be a finite number greater than or equal to 0.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, is <see cref="F:System.Double.NaN"/>, or is infinite.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddGrayscale(System.Double)">
+            <summary>
+            Adds a grayscale effect to the current effect builder with the specified intensity.
+            </summary>
+            <param name="value">A value between 0 and 1 (inclusive) that specifies the intensity of the grayscale effect,  where 0 represents no
+            effect and 1 represents full grayscale.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddHueRotate(System.Double,FluentUI.Blazor.Community.Components.AngleUnit)">
+            <summary>
+            Adds a hue rotation effect to the current effect builder.
+            </summary>
+            <param name="angle">The angle by which to rotate the hue. Must be a valid finite number.</param>
+            <param name="unit">The unit of the angle, such as degrees or radians. The default is <see cref="F:FluentUI.Blazor.Community.Components.AngleUnit.Degrees"/>.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="angle"/> is not a valid finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddInvert(System.Double)">
+            <summary>
+            Adds an invert effect with the specified intensity to the effect builder.
+            </summary>
+            <param name="value">The intensity of the invert effect, specified as a value between 0 and 1, inclusive. A value of 0 applies no
+            inversion, while a value of 1 applies full inversion.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddOpacity(System.Double)">
+            <summary>
+            Adds an opacity effect to the current effect builder with the specified value.
+            </summary>
+            <param name="value">A value between 0 and 1 (inclusive) representing the opacity level, where 0 is fully transparent and 1 is fully
+            opaque.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddSaturate(System.Double)">
+            <summary>
+            Adds a saturation effect with the specified intensity to the effect builder.
+            </summary>
+            <param name="value">The intensity of the saturation effect. Must be a non-negative finite number.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, is <see cref="F:System.Double.NaN"/>, or is infinite.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddSepia(System.Double)">
+            <summary>
+            Adds a sepia tone effect to the current effect chain with the specified intensity.
+            </summary>
+            <param name="value">The intensity of the sepia effect, ranging from 0 to 1. A value of 0 applies no sepia effect,  while a value of
+            1 applies the maximum sepia effect.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <paramref name="value"/> is less than 0, greater than 1, or is not a finite number.</exception>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.AddDropShadow(FluentUI.Blazor.Community.Components.CssLength,FluentUI.Blazor.Community.Components.CssLength,FluentUI.Blazor.Community.Components.CssLength,FluentUI.Blazor.Community.Components.RgbaColor)">
+            <summary>
+            Adds a drop shadow effect to the current effect builder.
+            </summary>
+            <remarks>This method appends a CSS-compatible drop shadow effect to the internal list of effects.  The
+            resulting shadow is defined by the specified offsets, blur radius, and color.</remarks>
+            <param name="offsetX">The horizontal offset of the shadow. This value is specified as a <see cref="T:FluentUI.Blazor.Community.Components.CssLength"/>.</param>
+            <param name="offsetY">The vertical offset of the shadow. This value is specified as a <see cref="T:FluentUI.Blazor.Community.Components.CssLength"/>.</param>
+            <param name="blurRadius">The blur radius of the shadow. This value is specified as a <see cref="T:FluentUI.Blazor.Community.Components.CssLength"/> and must be non-negative.</param>
+            <param name="color">The color of the shadow, specified as an <see cref="T:FluentUI.Blazor.Community.Components.RgbaColor"/>.</param>
+            <returns>The current <see cref="T:FluentUI.Blazor.Community.EffectBuilder"/> instance, allowing for method chaining.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.EffectBuilder.Build">
+            <summary>
+            Builds and returns a string representation of the effects, separated by spaces.
+            </summary>
+            <remarks>If no effects are present, the method returns <see langword="null"/>.</remarks>
+            <returns>A string containing the effects separated by spaces, or <see langword="null"/> if no effects are present.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions">
             <summary>

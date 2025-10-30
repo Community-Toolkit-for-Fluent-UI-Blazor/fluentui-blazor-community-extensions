@@ -7,11 +7,13 @@ public class SlideshowImageRatioTests
     {
         Assert.Equal(0, (int)SlideshowImageRatio.Auto);
         Assert.Equal(1, (int)SlideshowImageRatio.Fill);
+        Assert.Equal(2, (int)SlideshowImageRatio.Container);
     }
 
     [Theory]
     [InlineData(SlideshowImageRatio.Auto, "Auto")]
     [InlineData(SlideshowImageRatio.Fill, "Fill")]
+    [InlineData(SlideshowImageRatio.Container, "Container")]
     public void ToString_Should_Return_Correct_Name(SlideshowImageRatio ratio, string expected)
     {
         Assert.Equal(expected, ratio.ToString());
@@ -20,6 +22,7 @@ public class SlideshowImageRatioTests
     [Theory]
     [InlineData("Auto", SlideshowImageRatio.Auto)]
     [InlineData("Fill", SlideshowImageRatio.Fill)]
+    [InlineData("Container", SlideshowImageRatio.Container)]
     public void Parse_Should_Return_Correct_Enum(string value, SlideshowImageRatio expected)
     {
         var result = Enum.Parse<SlideshowImageRatio>(value);
@@ -32,6 +35,7 @@ public class SlideshowImageRatioTests
         var values = System.Enum.GetValues<SlideshowImageRatio>();
         Assert.Contains(SlideshowImageRatio.Auto, values);
         Assert.Contains(SlideshowImageRatio.Fill, values);
-        Assert.Equal(2, values.Length);
+        Assert.Contains(SlideshowImageRatio.Container, values);
+        Assert.Equal(3, values.Length);
     }
 }

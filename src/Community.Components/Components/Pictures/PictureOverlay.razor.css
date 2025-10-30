@@ -1,0 +1,59 @@
+.picture-overlay {
+  position: absolute;
+  padding: 0.5em 1em;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.top-left {
+  top: 16px;
+  left: 16px;
+}
+
+.top-center {
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.top-right {
+  top: 16px;
+  right: 16px;
+}
+
+.middle-left {
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+}
+
+.middle-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.middle-right {
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}
+
+.bottom-left {
+  bottom: 16px;
+  left: 16px;
+}
+
+.bottom-center {
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bottom-right {
+  bottom: 16px;
+  right: 16px;
+}
+
