@@ -14347,6 +14347,11 @@
             Represents a value indicating if the show indicator has changed.
             </summary>
         </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1._isSizeChanged">
+            <summary>
+            Represents a value indicating if the size has changed.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.ShowControls">
             <summary>
             Gets or sets a value indicating that the controls are shown.
@@ -14722,9 +14727,6 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.Dispose">
-            <inheritdoc />
-        </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.DisposeAsync">
             <inheritdoc />
         </member>
@@ -14741,6 +14743,11 @@
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnAutoSizeCompletedAsync">
+            <summary>
+            Occurs when all images have been resized.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.OnContainerSizeCompletedAsync">
             <summary>
             Occurs when all images have been resized.
             </summary>
@@ -14933,6 +14940,11 @@
             <remarks>When the dimensions of the container are not set, the width of the container is set to 100%,
              after that, the first image in the slideshow, when stretched, gives the height of the container,
              and the other images will take that height.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.Container">
+            <summary>
+            The image covers the entire container, without keeping the aspect ratio.
+            </summary>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowIndicatorPosition">
             <summary>

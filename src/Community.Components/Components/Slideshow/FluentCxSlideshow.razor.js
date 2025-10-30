@@ -1,6 +1,7 @@
 const _instances = [];
 const auto = 0;
 const fill = 1;
+const container = 2;
 const horizontal = 0;
 const moveNext = 0;
 const movePrevious = 1;
@@ -87,6 +88,25 @@ function setFillSizeImage(instance, img, imageIdCollection) {
   instance.dotnetReference.invokeMethodAsync('setFillSizeCompleted', w, h);
 }
 
+function setContainerSizeImage(instance, img, imageIdCollection) {
+  const w = instance.width;
+  const h = instance.height;
+
+  img.width = w;
+  img.height = h;
+
+  for (let i = 1; i < imageIdCollection.length; ++i) {
+    const childImg = document.getElementById(imageIdCollection[i]);
+
+    if (childImg) {
+      childImg.width = w;
+      childImg.height = h;
+    }
+  }
+
+  instance.dotnetReference.invokeMethodAsync('setContainerSizeCompleted', w, h);
+}
+
 function setFillSizeImages(instance, imageIdCollection) {
   const img = document.getElementById(imageIdCollection[0]);
 
@@ -103,6 +123,26 @@ function setFillSizeImages(instance, imageIdCollection) {
     }
     else {
       setFillSizeImage(instance, img, imageIdCollection);
+    }
+  }
+}
+
+function setContainerSizeImages(instance, imageIdCollection) {
+  const img = document.getElementById(imageIdCollection[0]);
+
+  if (img) {
+    // If the image wasn't loaded.
+    if (img.naturalHeight === 0 || img.naturalWidth === 0) {
+      // Force loading
+      img.loading = 'eager';
+      img.src = img.src;
+
+      img.onload = () => {
+        setContainerSizeImage(instance, img, imageIdCollection);
+      };
+    }
+    else {
+      setContainerSizeImage(instance, img, imageIdCollection);
     }
   }
 }
@@ -187,15 +227,15 @@ export function setImagesSize(containerId, imageRatio, imageIdCollection) {
     else if (imageRatio === fill) {
       setFillSizeImages(instance, imageIdCollection);
     }
+    else if (imageRatio === container) {
+      setContainerSizeImages(instance, imageIdCollection);
+    }
   }
 }
 
 function onTouchStart(instance, e) {
   instance.startX = e.touches[0].clientX;
   instance.startY = e.touches[0].clientY;
-
-
-  console.log(`Touch start: (${instance.startX}, ${instance.startY})`);
 }
 
 function onTouchEnd(instance, e, touchThreshold) {
@@ -224,14 +264,10 @@ function onTouchEnd(instance, e, touchThreshold) {
       }
     }
   }
-
-  console.log(`Touch end: (${endX}, ${endY}) - Delta: (${deltaX}, ${deltaY})`);
 }
 
 function onTouchMove(e) {
   e.preventDefault();
-
-  console.log(`Touch move: (${e.touches[0].clientX}, ${e.touches[0].clientY})`);
 }
 
 export function disableOrEnableTouch(containerId, isTouchEnabled, touchThreshold) {
@@ -362,5 +398,14 @@ export function clearTransition(id) {
   if (instance) {
     instance.itemsContainer.style.transition = '';
     instance.itemsContainer.style.transform = '';
+  }
+}
+
+export function setSize(id, width, height) {
+  const instance = getInstance(id);
+  if (instance) {
+    instance.width = width;
+    instance.height = height;
+    setImagesSize(instance.id, instance.imageRatio, instance.imageIdCollection);
   }
 }

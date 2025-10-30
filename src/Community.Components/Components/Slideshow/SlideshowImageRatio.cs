@@ -17,5 +17,10 @@ public enum SlideshowImageRatio
     /// <remarks>When the dimensions of the container are not set, the width of the container is set to 100%,
     ///  after that, the first image in the slideshow, when stretched, gives the height of the container,
     ///  and the other images will take that height.</remarks>
-    Fill
+    Fill,
+
+    /// <summary>
+    /// The image covers the entire container, without keeping the aspect ratio.
+    /// </summary>
+    Container
 }
