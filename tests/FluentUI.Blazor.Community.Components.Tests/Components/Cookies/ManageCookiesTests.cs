@@ -34,7 +34,7 @@ public class ManageCookieTests : TestBase
         var cut = RenderComponent<FluentDialog>(
             parameters => parameters.AddChildContent<ManageCookie>(p => p.Add(m => m.Content, data))
                                     .Add(p => p.Instance, new DialogInstance(typeof(ManageCookie),
-                                    new DialogParameters(), data))
+                                    new DialogParameters(), data, null))
         );
 
         // Act
@@ -53,7 +53,7 @@ public class ManageCookieTests : TestBase
         var cut = RenderComponent<FluentDialog>(
             parameters => parameters.AddChildContent<ManageCookie>(p => p.Add(m => m.Content, data))
                                     .Add(p => p.Instance, new DialogInstance(typeof(ManageCookie),
-                                    new DialogParameters(), data))
+                                    new DialogParameters(), data, null))
         );
 
         // Act
@@ -77,7 +77,7 @@ public class ManageCookieTests : TestBase
                                     {
                                         PrimaryAction = "Save Changes",
                                         SecondaryAction = "Cancel"
-                                    }, data))
+                                    }, data, null))
         );
 
         // Act
@@ -108,7 +108,7 @@ public class ManageCookieTests : TestBase
                                     {
                                         PrimaryAction = "Save Changes",
                                         SecondaryAction = "Cancel"
-                                    }, data))
+                                    }, data, null))
         );
 
         // Act
