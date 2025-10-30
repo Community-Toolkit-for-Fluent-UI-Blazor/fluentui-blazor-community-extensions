@@ -16,7 +16,7 @@ public class SlideshowDescriptionTests : TestBase
         var childContent = "<span>Test Caption</span>";
 
         // Act
-        var cut = RenderComponent<SlideshowDescription>(parameters => parameters
+        var cut = RenderComponent<SlideshowCaption>(parameters => parameters
             .AddChildContent(childContent)
         );
 

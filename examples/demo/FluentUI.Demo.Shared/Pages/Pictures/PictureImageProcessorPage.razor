@@ -1,0 +1,16 @@
+﻿@page "/picture-image-processor"
+
+<PageTitle>Picture Image Processor</PageTitle>
+
+<MarkdownSection FromAsset="./_content/FluentUI.Demo.Shared/docs/PictureImageProcessing.md" OnContentConverted="RefreshTableOfContents" />
+
+@code {
+
+    [CascadingParameter]
+    public EventCallback OnRefreshTableOfContents { get; set; }
+
+    private async Task RefreshTableOfContents()
+    {
+        await OnRefreshTableOfContents.InvokeAsync();
+    }
+}

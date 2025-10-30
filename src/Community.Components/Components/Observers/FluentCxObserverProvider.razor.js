@@ -1,6 +1,8 @@
 const _resizeGroup = new Map();
 const _intersectionGroup = new Map();
 const _mutationGroup = new Map();
+let _windowResizeHandler = null;
+
 function debounce(callback, delay) {
   let timer;
 
@@ -243,11 +245,36 @@ function unregisterIntersect(groupId, id) {
   }
 }
 
-  export const fluentCxObserverProvider = {
+function registerWindowResize(dotNetRef, options = {}) {
+  if (_windowResizeHandler) {
+    return;
+  }
+
+  const delay = options.debounce || 100;
+  _windowResizeHandler = debounce(() => {
+    dotNetRef.invokeMethodAsync("OnWindowResize", {
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+  }, delay);
+
+  window.addEventListener("resize", _windowResizeHandler);
+}
+
+function unregisterWindowResize() {
+  if (_windowResizeHandler) {
+    window.removeEventListener("resize", _windowResizeHandler);
+    _windowResizeHandler = null;
+  }
+}
+
+export const fluentCxObserverProvider = {
     registerResize: (groupId, id, element, dotNetRef, options) => registerResize(groupId, id, element, dotNetRef, options),
     unregisterResize: (groupId, id) => unregisterResize(groupId, id),
     registerIntersect: (groupId, id, element, dotNetRef, options) => registerIntersect(groupId, id, element, dotNetRef, options),
     unregisterIntersect: (groupId, id) => unregisterIntersect(groupId, id),
     registerMutation: (groupId, id, element, dotNetRef, options) => registerMutation(groupId, id, element, dotNetRef, options),
-    unregisterMutation: (groupId, id) => unregisterMutation(groupId, id)
-  };
+    unregisterMutation: (groupId, id) => unregisterMutation(groupId, id),
+    registerWindowResize: (dotNetRef, options) => registerWindowResize(dotNetRef, options),
+    unregisterWindowResize: () => unregisterWindowResize()
+};

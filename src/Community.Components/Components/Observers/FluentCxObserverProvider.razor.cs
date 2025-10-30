@@ -27,7 +27,7 @@ public sealed partial class FluentCxObserverProvider
     /// </summary>
     /// <remarks>This field is used to track the rendering state of the object.  It is intended for internal
     /// use and should not be accessed directly.</remarks>
-    private bool _isRendered;
+    private bool _hasModule;
 
     /// <summary>
     /// A thread-safe queue used to store pending observer items for processing.
@@ -108,7 +108,7 @@ public sealed partial class FluentCxObserverProvider
     /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
     internal async ValueTask NotifyAsync(GroupObserverItem group)
     {
-        if (_isRendered)
+        if (_hasModule)
         {
             foreach (var item in group.Items)
             {
@@ -144,7 +144,7 @@ public sealed partial class FluentCxObserverProvider
     /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
     internal async ValueTask NotifyAsync(ObserverItem item)
     {
-        if (_isRendered)
+        if (_hasModule)
         {
             if (item.ObserveIntersection)
             {
@@ -172,7 +172,7 @@ public sealed partial class FluentCxObserverProvider
     /// <returns></returns>
     internal async ValueTask UnnotifyGroupAsync(string groupId)
     {
-        if (_isRendered)
+        if (_hasModule)
         {
             var items = ObserverState.GetItems(groupId);
 
@@ -192,7 +192,7 @@ public sealed partial class FluentCxObserverProvider
     /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
     internal async ValueTask UnnotifyItemAsync(string id)
     {
-        if (_isRendered)
+        if (_hasModule)
         {
             await UnregisterIntersectAsync(id, id);
             await UnregisterResizeAsync(id, id);
@@ -202,9 +202,9 @@ public sealed partial class FluentCxObserverProvider
     /// <inheritdoc />
     public async Task RegisterIntersectAsync(string groupId, string elementId, ElementReference elementReference)
     {
-        if (_jsModule is not null)
+        if (_hasModule)
         {
-            await _jsModule.InvokeVoidAsync("fluentCxObserverProvider.registerIntersect", groupId, elementId, elementReference, _dotNetRef, new { debounce = (int)DebounceIntersect.TotalMilliseconds, threshold = Threshold });
+            await _jsModule!.InvokeVoidAsync("fluentCxObserverProvider.registerIntersect", groupId, elementId, elementReference, _dotNetRef, new { debounce = (int)DebounceIntersect.TotalMilliseconds, threshold = Threshold });
         }
     }
 
@@ -217,9 +217,9 @@ public sealed partial class FluentCxObserverProvider
     /// <inheritdoc />
     public async Task RegisterResizeAsync(string groupId, string elementId, ElementReference elementReference)
     {
-        if (_jsModule is not null)
+        if (_hasModule)
         {
-            await _jsModule.InvokeVoidAsync("fluentCxObserverProvider.registerResize", groupId, elementId, elementReference, _dotNetRef, new { debounce = (int)DebounceResize.TotalMilliseconds });
+            await _jsModule!.InvokeVoidAsync("fluentCxObserverProvider.registerResize", groupId, elementId, elementReference, _dotNetRef, new { debounce = (int)DebounceResize.TotalMilliseconds });
         }
     }
 
@@ -238,9 +238,9 @@ public sealed partial class FluentCxObserverProvider
     /// <inheritdoc />
     public async Task UnregisterIntersectAsync(string groupId, string elementId)
     {
-        if (_jsModule is not null)
+        if (_hasModule)
         {
-            await _jsModule.InvokeVoidAsync("fluentCxObserverProvider.unregisterIntersect", groupId, elementId);
+            await _jsModule!.InvokeVoidAsync("fluentCxObserverProvider.unregisterIntersect", groupId, elementId);
         }
     }
 
@@ -253,27 +253,27 @@ public sealed partial class FluentCxObserverProvider
     /// <inheritdoc />
     public async Task UnregisterResizeAsync(string groupId, string elementId)
     {
-        if (_jsModule is not null)
+        if (_hasModule)
         {
-            await _jsModule.InvokeVoidAsync("fluentCxObserverProvider.unregisterResize", groupId, elementId);
+            await _jsModule!.InvokeVoidAsync("fluentCxObserverProvider.unregisterResize", groupId, elementId);
         }
     }
 
     /// <inheritdoc />
     public async Task RegisterMutationAsync(string groupId, string elementId, ElementReference elementReference, MutationObserverOptions options)
     {
-        if (_jsModule is not null)
+        if (_hasModule)
         {
-            await _jsModule.InvokeVoidAsync("fluentCxObserverProvider.registerMutation", groupId, elementId, elementReference, options);
+            await _jsModule!.InvokeVoidAsync("fluentCxObserverProvider.registerMutation", groupId, elementId, elementReference, options);
         }
     }
 
     /// <inheritdoc />
     public async Task UnregisterMutationAsync(string groupId, string elementId)
     {
-        if (_jsModule is not null)
+        if (_hasModule)
         {
-            await _jsModule.InvokeVoidAsync("fluentCxObserverProvider.unregisterMutation", groupId, elementId);
+            await _jsModule!.InvokeVoidAsync("fluentCxObserverProvider.unregisterMutation", groupId, elementId);
         }
     }
 
@@ -291,8 +291,8 @@ public sealed partial class FluentCxObserverProvider
 
         if (firstRender)
         {
-            _isRendered = firstRender;
             _jsModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", JsModulePath);
+            _hasModule = _jsModule is not null;
 
             while (_pendingItems.TryDequeue(out var item))
             {
@@ -405,10 +405,42 @@ public sealed partial class FluentCxObserverProvider
         }
     }
 
+    /// <summary>
+    /// Invokes window resize event handlers for all observers that are subscribed to window resize notifications.
+    /// </summary>
+    /// <remarks>This method is intended to be called from JavaScript via interop when a window resize event
+    /// occurs. Only observers with window resize observation enabled will be notified. The method completes when all
+    /// observer handlers have finished processing the event.</remarks>
+    /// <param name="e">An object containing details about the window resize event, such as the new dimensions.</param>
+    /// <returns>A task that represents the asynchronous operation of notifying all relevant observers of the window resize
+    /// event.</returns>
+    [JSInvokable("OnWindowResize")]
+    public async Task OnWindowResizeAsync(ResizeWindowEventArgs e)
+    {
+        var tasks = new List<Task>();
+
+        foreach (var item in ObserverState.GetAllItems())
+        {
+            if (item.ObserveWindowResize)
+            {
+                tasks.Add(item.OnWindowResizeAsync(e));
+            }
+        }
+
+        await Task.WhenAll(tasks);
+    }
+
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
-        await ObserverState.SetProviderAsync(null);
+        try
+        {
+            await ObserverState.SetProviderAsync(null);
+        }
+        catch (JSDisconnectedException)
+        {
+
+        }
     }
 }
 

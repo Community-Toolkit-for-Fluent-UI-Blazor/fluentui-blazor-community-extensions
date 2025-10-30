@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\videos\" />
+    <Folder Include="wwwroot\pictures\" />
   </ItemGroup>
 
   <Target Name="CopySources" BeforeTargets="BeforeBuild">
