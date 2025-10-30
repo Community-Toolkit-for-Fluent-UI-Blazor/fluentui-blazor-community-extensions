@@ -1,0 +1,11 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     class="minimal-player @Class"
+     style="@Style">
+    <Audio Id="@($"audio-{Id}")" />
+    <PlayOrPauseButton PlayLabel="@PlayLabel"
+                       PauseLabel="@PauseLabel"
+                       OnPlayChanged="@OnPlayPause" />
+</div>

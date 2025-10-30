@@ -1,0 +1,51 @@
+﻿@page "/audio"
+@using FluentUI.Demo.Shared.Pages.Audio.Examples
+
+<h1>Audio</h1>
+
+<p>
+    The <code>FluentCxAudio</code> component allows you to play audio files in your Blazor application.
+</p>
+
+<h2 id="example">Examples</h2>
+
+<DemoSection Component="typeof(AudioDefault)" Title="Default">
+    <Description>
+        The FluentCxAudio component can plays many audio files.
+        You can play, pause, move to next or previous track, show the playlist, manage volume, download track.
+        To download a track, if the track is on an outside website, you need to configure CORS.
+
+        The FluentCxAudio has 4 views :
+
+        <ul>
+            <li>Default</li>
+            <li>Compact</li>
+            <li>Minimal</li>
+            <li>Floating</li>
+        </ul>
+
+        The visualizer has 8 modes for now :
+        <ul>
+            <li>Spectrum</li>
+            <li>Waveform</li>
+            <li>Spatial</li>
+            <li>Vortex</li>
+            <li>Particles</li>
+            <li>RadialWaveform</li>
+            <li>Tunnel</li>
+            <li>Constellation</li>
+            <li>Fractal</li>
+        </ul>
+    </Description>
+</DemoSection>
+
+<h2 id="documentation">Documentation</h2>
+
+<ApiDocumentation Component="typeof(FluentCxAudio)" />
+<ApiDocumentation Component="typeof(AudioTrackItem)" />
+<ApiDocumentation Component="typeof(MinimalPlayer)" />
+<ApiDocumentation Component="typeof(TrackInfo)" />
+<ApiDocumentation Component="typeof(AudioTitleScroller)" />
+<ApiDocumentation Component="typeof(CompactPlayer)" />
+<ApiDocumentation Component="typeof(AudioVisualizer)" />
+<ApiDocumentation Component="typeof(AudioControls)" />

@@ -1,0 +1,96 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div id="@Id"
+         class="@Class"
+         style="@Style">
+        @ChildContent
+
+        @if (View == AudioPlayerView.Default)
+        {
+            <FluentStack>
+                <FluentCard>
+                    <Audio @ref=_audioReference />
+
+                    <div class="main-ui">
+                        <FluentStack Style="height: 100%">
+                            <AudioPlaylist Playlist="@(_isShuffling? _shuffledPlaylist : _originalPlaylist)"
+                                           CurrentTrack="@CurrentTrack"
+                                           IsVisible="@_showPlaylist"
+                                           Height="@Height"
+                                           OnTrackSelected="@OnPlayTrackAsync" />
+
+                            <AudioVisualizer Anchor="@_audioReference!.Id"
+                                             Mode="@VisualizerMode"
+                                             Cover="@CurrentTrack?.Metadata?.Visual?.CoverUrl"
+                                             @ref="_audioVisualizer"
+                                             Height="@Height"
+                                             IsVisible="@(ShowVisualizer && !_showPlaylist)"/>                            
+                        </FluentStack>
+
+                        <FluentDivider Orientation="Orientation.Horizontal" />
+
+                        <FluentStack Orientation="Orientation.Vertical">
+                            <TrackInfo Track="@CurrentTrack" />
+
+                            <SeekBar CurrentTime="@_currentTime"
+                                     Duration="@_duration"
+                                     OnSeek="@OnSeekAsync"
+                                     OnSeekStart="@OnPauseAsync"
+                                     OnSeekEnd="@OnSeekEndAsync"
+                                     Mode="MediaMode.Audio" />
+
+                            <AudioControls @ref="_audioControls"
+                                           OnNext="@OnNextTrackAsync"
+                                           OnPrevious="@OnPreviousTrackAsync"
+                                           OnRepeatModeChanged="@(p => _repeatMode = p)"
+                                           OnShuffleChanged="@(OnToggleShuffle)"
+                                           OnPlayPauseToggled=@OnTogglePlayPauseAsync
+                                           OnVolumeChanged="@OnChangeVolumeAsync"
+                                           IsDownloadVisible=@IsDownloadVisible
+                                           OnDownload="@OnDownloadAsync"
+                                           OnPlaylistToggled="@OnPlaylistToogled"
+                                           OnStop="@OnStopAsync"
+										   OnProperties="@OnPropertiesAsync"
+                                           IsPlayOrPauseDisabled=@IsPlayOrPauseDisabled
+                                           IsPreviousDisabled=@IsPreviousDisabled
+                                           IsNextDisabled=@IsNextDisabled
+                                           IsStopDisabled=@IsStopDisabled
+										   IsDownloadDisabled="@IsDownloadDisabled"
+										   IsPropertiesDisabled=@IsPropertiesDisabled
+                                           Labels="@Labels"/>
+                        </FluentStack>
+                    </div>
+                </FluentCard>
+            </FluentStack>
+        }
+        else if (View == AudioPlayerView.Compact ||
+                 View == AudioPlayerView.Floating)
+        {
+            <Audio @ref=_audioReference />
+
+            <CompactPlayer CurrentTrack="CurrentTrack"
+                           IsPreviousDisabled="@IsPreviousDisabled"
+                           IsNextDisabled="@IsNextDisabled"
+                           OnPrevious="@OnPreviousTrackAsync"
+                           OnNext="@OnNextTrackAsync"
+                           OnPlayPauseChanged="@OnTogglePlayPauseAsync"
+                           NextLabel="@Labels.NextLabel"
+                           PreviousLabel="@Labels.PreviousLabel"
+                           PauseLabel="@Labels.PauseLabel"
+                           PlayLabel="@Labels.PlayLabel"                          
+                           IsFloating="@(View == AudioPlayerView.Floating)"
+                           Duration="@_duration"
+                           CurrentTime="@_currentTime"/>
+        }
+        else if (View == AudioPlayerView.Minimal)
+        {
+            <Audio @ref=_audioReference />
+
+            <MinimalPlayer PlayLabel="@Labels.PlayLabel"
+                           PauseLabel="@Labels.PauseLabel"
+                           OnPlayPause="@OnTogglePlayPauseAsync" />
+        }
+    </div>
+</CascadingValue>

@@ -2235,6 +2235,2251 @@
         <member name="M:FluentUI.Blazor.Community.Components.ZigZagLayout.Update(System.Int32,System.Int32,FluentUI.Blazor.Community.Components.AnimatedElement)">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioControls">
+            <summary>
+            Represents audio control buttons for play, pause, stop, and other functionalities.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioControls._playOrPauseButton">
+            <summary>
+            Represents the play or pause button control used to toggle playback state.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioControls.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.AudioControls"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.Labels">
+            <summary>
+            Gets or sets the labels for the audio control buttons.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsDownloadVisible">
+            <summary>
+            Gets or sets a value indicating whether the download button is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnShuffleChanged">
+            <summary>
+            Gets or sets the event callback that is invoked when the shuffle state changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnPlaylistToggled">
+            <summary>
+            Gets or sets the event callback that is invoked when the playlist button is toggled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnPrevious">
+            <summary>
+            Gets or sets the event callback that is invoked when the previous button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnDownload">
+            <summary>
+            Gets or sets the event callback that is invoked when the download button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnStop">
+            <summary>
+            Gets or sets the event callback that is invoked when the stop button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnNext">
+            <summary>
+            Gets or sets the callback to be invoked when the next button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnRepeatModeChanged">
+            <summary>
+            Gets or sets the callback to be invoked when the repeat mode changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnPlayPauseToggled">
+            <summary>
+            Gets or sets the callback to be invoked when the play/pause button is toggled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnVolumeChanged">
+            <summary>
+            Gets or sets the callback to be invoked when the volume changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.OnProperties">
+            <summary>
+            Gets or sets the callback to be invoked when the properties button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsPreviousDisabled">
+            <summary>
+            Gets or sets a value indicating whether the previous button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsNextDisabled">
+            <summary>
+            Gets or sets a value indicating whether the next button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsStopDisabled">
+            <summary>
+            Gets or sets a value indicating whether the stop button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsDownloadDisabled">
+            <summary>
+            Gets or sets a value indicating whether downloading is disabled for this component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsPlayOrPauseDisabled">
+            <summary>
+            Gets or sets a value indicating whether the play/pause button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioControls.IsPropertiesDisabled">
+            <summary>
+            Gets or sets a value indicating whether the properties button is disabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioControls.SetPlayPauseState(System.Boolean)">
+            <summary>
+            Sets the play/pause state of the associated control.
+            </summary>
+            <param name="isPlaying">A value indicating whether the control should reflect the "playing" state.  <see langword="true"/> if the
+            control should indicate playback is active; otherwise, <see langword="false"/>.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PlayLabel">
+            <summary>
+            Gets the label for the play button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PauseLabel">
+            <summary>
+            Gets the label for the pause button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PreviousLabel">
+            <summary>
+            Gets the label for the previous button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.NextLabel">
+            <summary>
+            Gets the label for the next button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.VolumeLabel">
+            <summary>
+            Gets the label for the volume control.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.ShuffleOnLabel">
+            <summary>
+            Gets the label for the shuffle on button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.ShuffleOffLabel">
+            <summary>
+            Gets the label for the shuffle off button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PlaylistLabel">
+            <summary>
+            Gets the label for the playlist button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.DownloadLabel">
+            <summary>
+            Gets the label for the download button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.StopLabel">
+            <summary>
+            Gets the label for the stop button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PlaylistLoopLabel">
+            <summary>
+            Gets the label for the playlist loop mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PlaylistOnceLabel">
+            <summary>
+            Gets the label for the playlist once mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.SingleLoopLabel">
+            <summary>
+            Gets the label for the single loop mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.SingleOnceLabel">
+            <summary>
+            Gets the label for the single once mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.TitleLabel">
+            <summary>
+            Gets the label for the title field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.AlbumArtistsLabel">
+            <summary>
+            Gets the label for the performers field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PropertiesLabel">
+            <summary>
+            Gets the label for the properties section.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.CloseLabel">
+            <summary>
+            Gets the label for close dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.AlbumLabel">
+            <summary>
+            Gets the label for the album field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.AlbumArtistLabel">
+            <summary>
+            Gets the display label used for the album artist field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.TrackNumberLabel">
+            <summary>
+            Gets the label for the track number field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.DurationLabel">
+            <summary>
+            Gets the label for the duration field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.GenreLabel">
+            <summary>
+            Gets the label text used to represent the genre field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.YearLabel">
+            <summary>
+            Gets the label text used to represent a year.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.BitrateLabel">
+            <summary>
+            Gets the display label used to represent the bitrate value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.MimeLabel">
+            <summary>
+            Gets the label for the MIME type field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PublisherLabel">
+            <summary>
+            Gets the display label used for the publisher field.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.CoverLabel">
+            <summary>
+            Gets the label for the cover field.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioPlayerView">
+            <summary>
+            Specifies the rendering mode for an audio player.
+            </summary>
+            <remarks>The rendering mode determines the layout and appearance of the audio player. Use the appropriate mode
+            based on the desired user interface and available screen space.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioPlayerView.Default">
+            <summary>
+            Represents the normal rendering mode of the audio player, which includes all standard controls and features.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioPlayerView.Compact">
+            <summary>
+            Represents the compact rendering mode of the audio player, which provides a smaller layout with essential controls only.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioPlayerView.Floating">
+            <summary>
+            Represents the floating rendering mode of the audio player, which allows the player to be positioned independently of other content.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioPlayerView.Minimal">
+            <summary>
+            Represents the minimal rendering mode of the audio player, which offers a very simplified interface with only the most basic controls.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioPlaylist">
+            <summary>
+            Represents an audio playlist component that displays a list of audio tracks and allows users to select and play them.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioPlaylist.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.AudioPlaylist"/> class.
+            </summary>
+            <remarks>The playlist is assigned a unique identifier upon creation.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylist.Playlist">
+            <summary>
+            Gets or sets the playlist of audio tracks.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylist.CurrentTrack">
+            <summary>
+            Gets or sets the currently selected audio track.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylist.OnTrackSelected">
+            <summary>
+            Gets or sets the event callback that is invoked when a track is selected.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylist.IsVisible">
+            <summary>
+            Gets or sets a value indicating whether the playlist is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylist.Height">
+            <summary>
+            Gets or sets the height of the playlist component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylist.InternalStyle">
+            <summary>
+            Gets the internal style for the component, including the height.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioPlaylistItem">
+            <summary>
+            Represents an item in an audio playlist, including its associated track, selection state, and actions.
+            </summary>
+            <remarks>This component is designed to display an audio track within a playlist and manage its selection
+            state. It provides functionality to handle user interactions, such as selecting a track, and displays an appropriate
+            icon based on whether the track is currently selected.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioPlaylistItem.PlayIcon">
+            <summary>
+            Represents the icon used to indicate the play action for an audio track.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioPlaylistItem.PollIcon">
+            <summary>
+            Represents the icon used to indicate the poll action for an audio track.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioPlaylistItem._hasTrackChanged">
+            <summary>
+            Represents whether the track has changed since the last render.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioPlaylistItem._performers">
+            <summary>
+            Represents the performers of the audio track.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioPlaylistItem.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.AudioPlaylistItem"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.Track">
+            <summary>
+            Gets or sets the audio track item to be displayed in the playlist.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.IsSelected">
+            <summary>
+            Gets or sets a value indicating whether the track is currently selected.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.TrackIcon">
+            <summary>
+            Gets the appropriate icon based on whether the track is selected.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.OnSelected">
+            <summary>
+            Gets or sets the event callback that is invoked when the track is selected.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioPlaylistItem.OnHandleClickAsync">
+            <summary>
+            Handles the click event asynchronously and invokes the <see cref="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.OnSelected"/> callback with the current <see
+            cref="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.Track"/>.
+            </summary>
+            <remarks>This method checks if the <see cref="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.OnSelected"/> callback has been assigned and if the <see
+            cref="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.Track"/> is not null before invoking the callback. Ensure that both <see cref="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.OnSelected"/> and <see
+            cref="P:FluentUI.Blazor.Community.Components.AudioPlaylistItem.Track"/> are properly set before calling this method.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioPlaylistItem.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioPlaylistItem.OnParametersSet">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioRepeatMode">
+            <summary>
+            Specifies the repeat mode for audio playback.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioRepeatMode.SingleOnce">
+            <summary>
+            The track will play once and stop.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioRepeatMode.SingleLoop">
+            <summary>
+            The track will loop continuously.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioRepeatMode.PlaylistOnce">
+            <summary>
+            The playlist will play once and stop.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioRepeatMode.PlaylistLoop">
+            <summary>
+            The playlist will loop continuously.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioTitleScroller">
+            <summary>
+            Renders a scrolling title for audio tracks.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioTitleScroller.Title">
+            <summary>
+            Gets or sets the title to display.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioTrackItem">
+            <summary>
+            Represents an audio track with properties for title, artist, source URL, and cover URL.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioTrackItem.Source">
+            <summary>
+            Gets or sets the source URL of the audio track.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioTrackItem.Metadata">
+            <summary>
+            Gets or sets the audio metadata associated with the track.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioTrackItem.Parent">
+            <summary>
+            Gets or sets the parent of this track item.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioTrackItem.OnInitializedAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioTrackItem.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioVisualizer">
+            <summary>
+            Represents an audio visualizer component that can display audio data in various visual formats.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioVisualizer.JavaScriptFile">
+            <summary>
+            Represets the JavaScript file for the audio visualizer component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioVisualizer._module">
+            <summary>
+            Represents the JavaScript module for the audio visualizer component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioVisualizer._hasChanged">
+            <summary>
+            Value indicating whether the visualizer mode has changed.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioVisualizer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.AudioVisualizer"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVisualizer.Mode">
+            <summary>
+            Gets or sets the visualizer mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVisualizer.Cover">
+            <summary>
+            Gets or sets the cover source URL.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVisualizer.Width">
+            <summary>
+            Gets or sets the width of the visualizer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVisualizer.Height">
+            <summary>
+            Gets or sets the height of the visualizer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVisualizer.Anchor">
+            <summary>
+            Gets or sets the anchor audio element identifier.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVisualizer.IsVisible">
+            <summary>
+            Gets or sets a value indicating whether the visualizer is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioVisualizer.JS">
+            <summary>
+            Gets or sets the JavaScript runtime.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioVisualizer.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioVisualizer.OnInitialized">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioVisualizer.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioVisualizer.DisposeAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CompactPlayer">
+            <summary>
+            Represents a compact audio player component that provides basic audio playback functionality.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.CompactPlayer._showControls">
+            <summary>
+            Value indicating whether to show the playback controls.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CompactPlayer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.CompactPlayer"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.CurrentTrack">
+            <summary>
+            Gets or sets the current audio track to be played.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.OnPlayPauseChanged">
+            <summary>
+            Gets or sets the callback that is invoked when the play/pause button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.IsPreviousDisabled">
+            <summary>
+            Gets or sets a value indicating whether the previous button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.OnPrevious">
+            <summary>
+            Gets or sets the callback that is invoked when the previous button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.PreviousLabel">
+            <summary>
+            Gets or sets the label for the previous button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.IsNextDisabled">
+            <summary>
+            Gets or sets a value indicating whether the next button is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.OnNext">
+            <summary>
+            Gets or sets the callback that is invoked when the next button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.NextLabel">
+            <summary>
+            Gets or sets the label for the next button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.PlayLabel">
+            <summary>
+            Gets or sets the label for the play button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.PauseLabel">
+            <summary>
+            Gets or sets the label for the pause button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.Duration">
+            <summary>
+            Gets or sets the total duration of the current track, in seconds.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.CurrentTime">
+            <summary>
+            Gets or sets the current playback time of the track, in seconds.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.IsFloating">
+            <summary>
+            Gets or sets a value indicating whether the player is floating.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactPlayer.InternalStyle">
+            <summary>
+            Gets the style string that includes the opacity for the playback controls based on the current state.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CompactPlayer.OnPointerEnter(Microsoft.AspNetCore.Components.Web.PointerEventArgs)">
+            <summary>
+            Handles the pointer enter event by updating the component's state.
+            </summary>
+            <param name="e">The event arguments associated with the pointer enter event.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CompactPlayer.OnPointerLeave(Microsoft.AspNetCore.Components.Web.PointerEventArgs)">
+            <summary>
+            Handles the pointer leave event by updating the component's state.
+            </summary>
+            <param name="e">The event data associated with the pointer leave event.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.CompactSeekBar">
+            <summary>
+            Represents a compact seek bar component for media playback, providing functionality to display and interact with
+            playback progress.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.CompactSeekBar.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.CompactSeekBar"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactSeekBar.Duration">
+            <summary>
+            Gets or sets the duration of the track, in seconds.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactSeekBar.CurrentTime">
+            <summary>
+            Gets or sets the current playback time of the media, in seconds.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.CompactSeekBar.Progression">
+            <summary>
+            Gets the progression percentage of the current time relative to the duration.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DownloadButton">
+            <summary>
+            Represents a button component designed for initiating download actions.
+            </summary>
+            <remarks>The <see cref="T:FluentUI.Blazor.Community.Components.DownloadButton"/> component provides a customizable button with an optional label and
+            icon. It supports an event callback that is triggered when the button is clicked, allowing developers to handle
+            download-related logic in their applications.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.DownloadButton.Icon">
+            <summary>
+            Represents the icon to be displayed on the button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DownloadButton.OnDownload">
+            <summary>
+            Gets or sets the event callback that is invoked when the download button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DownloadButton.Label">
+            <summary>
+            Gets or sets the label for the download button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DownloadButton.IsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the download button is disabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DownloadButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.DownloadButton"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.DownloadButton.OnClickAsync">
+            <summary>
+            Occurs when the download button is clicked.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.DownloadButton.OnDownload" /> callback.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.NextButton">
+            <summary>
+            Represents the previous button.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.NextButton.Icon">
+            <summary>
+            Represents the icon displayed when shuffling is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.NextButton.OnNext">
+            <summary>
+            Gets or sets the event callback that is invoked when the next button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.NextButton.Label">
+            <summary>
+            Gets or sets the label for the next button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.NextButton.IsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the next button is disabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.NextButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.NextButton"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.NextButton.OnClickAsync">
+            <summary>
+            Occurs when the next button is clicked.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.NextButton.OnNext" /> callback.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PlaylistButton">
+            <summary>
+            Represents the playlist button.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PlaylistButton._showPlaylist">
+            <summary>
+            Indicates whether the playlist should be displayed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PlaylistButton.Icon">
+            <summary>
+            Represents the icon displayed when shuffling is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PlaylistButton.OnPlaylist">
+            <summary>
+            Gets or sets the event callback that is invoked when the stop button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PlaylistButton.Label">
+            <summary>
+            Gets or sets the label for the previous button.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PlaylistButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.PlaylistButton"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PlaylistButton.OnTogglePlaylistAsync">
+            <summary>
+            Occurs when the playlist button is clicked.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.PlaylistButton.OnPlaylist" /> callback.</returns>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PlayOrPauseButton.PlayIcon">
+            <summary>
+            Represents the icon displayed when shuffling is disabled.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PlayOrPauseButton.PauseIcon">
+            <summary>
+            Represents the icon displayed when shuffling is enabvled.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PlayOrPauseButton._isPlaying">
+            <summary>
+            Indicates whether the collection is currently being shuffled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PlayOrPauseButton.OnPlayChanged">
+            <summary>
+            Gets or sets the event callback that is invoked when the play state changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PlayOrPauseButton.PlayLabel">
+            <summary>
+            Gets or sets the label for the play button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PlayOrPauseButton.PauseLabel">
+            <summary>
+            Gets or sets the label for the pause button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PlayOrPauseButton.PlayOrPauseLabel">
+            <summary>
+            Gets the label for the current state of the button.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PlayOrPauseButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.PlayOrPauseButton"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PlayOrPauseButton.IsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the button is disabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PlayOrPauseButton.OnTogglePlayOrPauseAsync">
+            <summary>
+            Occurs when the shuffle button is clicked.
+            </summary>
+            <returns>Returns a task which toggles on / off the shuffle</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PlayOrPauseButton.SetPlayPauseState(System.Boolean)">
+            <summary>
+            Sets the play/pause state of the button.
+            </summary>
+            <param name="isPlaying">Value indicating if the button is in playing state.</param>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PreviousButton">
+            <summary>
+            Represents the previous button.
+            </summary>
+            <remarks>The <see cref="T:FluentUI.Blazor.Community.Components.PreviousButton"/> component provides functionality to toggle between shuffle modes for
+            a collection. It displays an appropriate icon based on the current shuffle state and invokes a callback when the
+            shuffle state changes.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PreviousButton.Icon">
+            <summary>
+            Represents the icon displayed when shuffling is disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PreviousButton.OnPrevious">
+            <summary>
+            Gets or sets the event callback that is invoked when the stop button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PreviousButton.Label">
+            <summary>
+            Gets or sets the label for the previous button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PreviousButton.IsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the previous button is disabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PreviousButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.PreviousButton"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PreviousButton.OnPreviousAsync">
+            <summary>
+            Occurs when the previous button is clicked.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.PreviousButton.OnPrevious" /> callback.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PropertiesButton">
+            <summary>
+            Represents a button component designed for initiating properties actions.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.PropertiesButton.Icon">
+            <summary>
+            Represents the icon to be displayed on the button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PropertiesButton.OnProperties">
+            <summary>
+            Gets or sets the event callback that is invoked when the download button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PropertiesButton.Label">
+            <summary>
+            Gets or sets the label for the download button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.PropertiesButton.IsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the download button is disabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PropertiesButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.PropertiesButton"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.PropertiesButton.OnClickAsync">
+            <summary>
+            Occurs when the download button is clicked.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.PropertiesButton.OnProperties" /> callback.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.RepeatButton">
+            <summary>
+            Represents a button that allows users to cycle through different audio repeat modes.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RepeatButton.SingleOnceIcon">
+            <summary>
+            Represents the icon for the "Single Once" repeat mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RepeatButton.SingleLoopIcon">
+            <summary>
+            Represents the icon for the "Single Loop" repeat mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RepeatButton.PlaylistOnceIcon">
+            <summary>
+            Represents the icon for the "Playlist Once" repeat mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RepeatButton.PlaylistLoopIcon">
+            <summary>
+            Represents the icon for the "Playlist Loop" repeat mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.RepeatButton._repeatMode">
+            <summary>
+            Represents the current repeat mode of the audio player.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.RepeatButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.RepeatButton"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RepeatButton.RepeatIcon">
+            <summary>
+            Gets the icon corresponding to the current repeat mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RepeatButton.OnRepeatModeChanged">
+            <summary>
+            Gets or sets the event callback that is invoked when the repeat mode changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RepeatButton.SingleOnceLabel">
+            <summary>
+            Gets or sets the label for the "Single Once" repeat mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RepeatButton.SingleLoopLabel">
+            <summary>
+            Gets or sets the label for the "Single Loop" repeat mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RepeatButton.PlaylistOnceLabel">
+            <summary>
+            Gets or sets the label for the "Playlist Once" repeat mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RepeatButton.PlaylistLoopLabel">
+            <summary>
+            Gets or sets the label for the "Playlist Loop" repeat mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.RepeatButton.RepeatLabel">
+            <summary>
+            Gets the label corresponding to the current repeat mode.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.RepeatButton.OnChangeRepeatModeAsync">
+            <summary>
+            Cycles through the available audio repeat modes in a predefined order.
+            </summary>
+            <remarks>The repeat modes transition in the following sequence:  <see
+            cref="F:FluentUI.Blazor.Community.Components.AudioRepeatMode.SingleOnce"/> → <see cref="F:FluentUI.Blazor.Community.Components.AudioRepeatMode.SingleLoop"/> →  <see
+            cref="F:FluentUI.Blazor.Community.Components.AudioRepeatMode.PlaylistOnce"/> → <see cref="F:FluentUI.Blazor.Community.Components.AudioRepeatMode.PlaylistLoop"/> →  <see
+            cref="F:FluentUI.Blazor.Community.Components.AudioRepeatMode.SingleOnce"/>. After updating the repeat mode, the component's state is
+            refreshed.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SeekBar">
+            <summary>
+            Represents a seek bar component for audio or video playback, allowing users to navigate through the media timeline.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SeekBar._isDragging">
+            <summary>
+            Variable to track if the user is currently dragging the seek bar thumb.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SeekBar._cts">
+            <summary>
+            Represents a cancellation token source used for hiding the preview.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SeekBar._showPreview">
+            <summary>
+            Indicates whether the preview is displayed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SeekBar._previewTime">
+            <summary>
+            Represents the preview time in seconds.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SeekBar._containerWidth">
+            <summary>
+            Represents the width of the container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SeekBar._dotNetRef">
+            <summary>
+            Represents a reference to a .NET object of type <see cref="T:FluentUI.Blazor.Community.Components.SeekBar"/> that can be passed to JavaScript interop.
+            </summary>
+            <remarks>This field is used to enable JavaScript to invoke methods on the associated <see
+            cref="T:FluentUI.Blazor.Community.Components.SeekBar"/> instance. It is a readonly field and should be initialized with a valid <see
+            cref="T:Microsoft.JSInterop.DotNetObjectReference`1"/> instance.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SeekBar._module">
+            <summary>
+            Represents a reference to a JavaScript module that can be used for invoking JavaScript functions.
+            </summary>
+            <remarks>This field holds an instance of <see cref="T:Microsoft.JSInterop.IJSObjectReference"/> that represents a JavaScript
+            module. It is nullable, indicating that the module may not be initialized. Ensure the module is initialized
+            before attempting to use it.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.SeekBar"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.Duration">
+            <summary>
+            Gets or sets the duration of the track, in seconds.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.CurrentTime">
+            <summary>
+            Gets or sets the current playback time of the media, in seconds.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.Chapters">
+            <summary>
+            Gets or sets the collection of chapters associated with the current context.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.Mode">
+            <summary>
+            Gets or sets the media mode for the seek bar.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.ThumbnailProvider">
+            <summary>
+            Gets or sets a function that generates a thumbnail URL based on a given timeline.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.Step">
+            <summary>
+            Gets or sets the step value used to increment or decrement the associated value.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.OnSeek">
+            <summary>
+            Gets or sets the callback that is invoked when a seek operation occurs.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.OnSeekStart">
+            <summary>
+            Gets or sets the callback that is invoked when a seek operation starts.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.OnSeekEnd">
+            <summary>
+            Gets or sets the callback that is invoked when a seek operation is completed.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.OnChapterChanged">
+            <summary>
+            Gets or sets the callback that is invoked when the chapter changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.JS">
+            <summary>
+            Gets or sets the JavaScript runtime instance used for invoking JavaScript functions from .NET.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SeekBar.Progression">
+            <summary>
+            Gets the progression percentage of the current time relative to the duration.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.OnResizeAsync">
+            <summary>
+            Invoked by JavaScript to handle resize events and update the component's state accordingly.
+            </summary>
+            <remarks>This method is intended to be called from JavaScript via the <see
+            cref="T:Microsoft.JSInterop.JSInvokableAttribute"/> with the identifier "onResize". It triggers an asynchronous operation to measure
+            the width of the component and update its state.</remarks>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.MeasureWidthAsync">
+            <summary>
+            Asynchronously measures the width of the container associated with the current instance.
+            </summary>
+            <remarks>This method invokes a JavaScript function to retrieve the width of the container element
+            identified by the <c>Id</c> property. Ensure that the JavaScript module is properly initialized before calling
+            this method.</remarks>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.StartDragAsync(Microsoft.AspNetCore.Components.Web.PointerEventArgs)">
+            <summary>
+            Initiates a drag operation based on the specified pointer event.
+            </summary>
+            <remarks>This method sets the internal dragging state and triggers the <see cref="P:FluentUI.Blazor.Community.Components.SeekBar.OnSeekStart"/> event
+            if it has subscribers.  It also updates the seek position based on the pointer's client X-coordinate.</remarks>
+            <param name="e">The pointer event arguments containing details about the pointer event, such as the client X-coordinate.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.OnDragAsync(Microsoft.AspNetCore.Components.Web.PointerEventArgs)">
+            <summary>
+            Handles the drag event and updates the seek position based on the pointer's horizontal position.
+            </summary>
+            <param name="e">The pointer event arguments containing information about the drag event, including the pointer's position.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.EndDragAsync(Microsoft.AspNetCore.Components.Web.PointerEventArgs)">
+            <summary>
+            Ends the drag operation and triggers the seek end event if applicable.
+            </summary>
+            <remarks>This method is called to finalize a drag operation. If the drag operation was active, it
+            stops the drag,  hides the preview, and invokes the <see cref="P:FluentUI.Blazor.Community.Components.SeekBar.OnSeekEnd"/> event with the current time
+            value.</remarks>
+            <param name="e">The pointer event arguments associated with the drag operation.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.StartTouchAsync(Microsoft.AspNetCore.Components.Web.TouchEventArgs)">
+            <summary>
+            Initiates the touch interaction for seeking functionality.
+            </summary>
+            <remarks>This method sets the dragging state to active and triggers the seek start event with the
+            current time. It then updates the seek position based on the horizontal client coordinate of the first touch
+            point.</remarks>
+            <param name="e">The touch event arguments containing details about the touch interaction. The first touch point is used to
+            determine the starting position.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.OnTouchMoveAsync(Microsoft.AspNetCore.Components.Web.TouchEventArgs)">
+            <summary>
+            Handles the touch move event and updates the seek position based on the touch's client X-coordinate.
+            </summary>
+            <remarks>This method is invoked during a touch move gesture when dragging is active. It processes the
+            first touch point and updates the seek position accordingly. Ensure that dragging is enabled before invoking
+            this method.</remarks>
+            <param name="e">The touch event arguments containing information about the touch gesture.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.EndTouchAsync(Microsoft.AspNetCore.Components.Web.TouchEventArgs)">
+            <summary>
+            Ends the current touch interaction, finalizing any ongoing drag operation.
+            </summary>
+            <remarks>This method is typically called when a touch interaction is completed. If a drag operation 
+            was in progress, it stops the drag and hides the preview. Additionally, it triggers the  <see cref="P:FluentUI.Blazor.Community.Components.SeekBar.OnSeekEnd"/>
+            event with the current time value.</remarks>
+            <param name="e">The <see cref="T:Microsoft.AspNetCore.Components.Web.TouchEventArgs"/> containing details about the touch event.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.OnKeyDownAsync(Microsoft.FluentUI.AspNetCore.Components.FluentKeyCodeEventArgs)">
+            <summary>
+            Handles key press events to perform seek operations in a media playback context.
+            </summary>
+            <remarks>This method processes specific key inputs to adjust the playback position: <list
+            type="bullet"> <item><description><see cref="F:Microsoft.FluentUI.AspNetCore.Components.KeyCode.Left"/> seeks backward by a predefined
+            step.</description></item> <item><description><see cref="F:Microsoft.FluentUI.AspNetCore.Components.KeyCode.Right"/> seeks forward by a predefined
+            step.</description></item> <item><description><see cref="F:Microsoft.FluentUI.AspNetCore.Components.KeyCode.Home"/> seeks to the beginning of the
+            media.</description></item> <item><description><see cref="F:Microsoft.FluentUI.AspNetCore.Components.KeyCode.End"/> seeks to the end of the
+            media.</description></item> </list></remarks>
+            <param name="e">The key event arguments containing information about the key pressed.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.UpdateSeekAsync(System.Double)">
+            <summary>
+            Updates the seek position of the media playback based on the specified horizontal offset.
+            </summary>
+            <remarks>The method calculates the seek position as a percentage of the total duration based on the
+            provided offset and the width of the container. The seek operation is performed asynchronously and may include a
+            preview of the media at the calculated position.</remarks>
+            <param name="offsetX">The horizontal offset, in pixels, used to calculate the new seek position. Must be a value between 0 and the
+            width of the container.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.UpdateSeekFromClientXAsync(System.Double)">
+            <summary>
+            Updates the seek position based on the specified client X-coordinate.
+            </summary>
+            <remarks>This method calculates the offset relative to the seek bar using the provided client
+            X-coordinate and updates the seek position accordingly. If the module is not initialized, the method exits
+            without performing any action.</remarks>
+            <param name="clientX">The X-coordinate, in pixels, from the client that determines the seek position.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.SeekToAsync(System.Double,System.Boolean)">
+            <summary>
+            Seeks to the specified time within the media and optionally enables preview mode.
+            </summary>
+            <remarks>This method updates the current playback time and triggers the <see cref="P:FluentUI.Blazor.Community.Components.SeekBar.OnSeek"/> event if
+            it has subscribers.  If the seek operation results in a chapter change, the <see cref="P:FluentUI.Blazor.Community.Components.SeekBar.OnChapterChanged"/> event
+            is also triggered.</remarks>
+            <param name="time">The target time, in seconds, to seek to. The value is clamped between 0 and the total duration of the media.</param>
+            <param name="preview">A boolean value indicating whether to enable preview mode.  If <see langword="true"/>, the preview state is
+            updated without committing the seek operation.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.HidePreviewAfterDelayAsync(System.Threading.CancellationToken)">
+            <summary>
+            Hides the preview after a delay of 2 seconds.
+            </summary>
+            <remarks>If the operation is canceled via the provided <paramref name="token"/>, the preview will not
+            be hidden.</remarks>
+            <param name="token">A <see cref="T:System.Threading.CancellationToken"/> that can be used to cancel the delay operation.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.OnClickSeek(Microsoft.AspNetCore.Components.Web.MouseEventArgs)">
+            <summary>
+            Handles the click event on the seek bar and updates the seek position based on the mouse click location.
+            </summary>
+            <remarks>This method does not perform any action if a drag operation is currently in
+            progress.</remarks>
+            <param name="e">The <see cref="T:Microsoft.AspNetCore.Components.Web.MouseEventArgs"/> containing information about the mouse click event, including the client
+            X-coordinate.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.GetChapterColor(FluentUI.Blazor.Community.Components.ChapterStatus)">
+            <summary>
+            Determines the color representation for a chapter based on its status.
+            </summary>
+            <param name="status">The status of the chapter. Must be one of the <see cref="T:FluentUI.Blazor.Community.Components.ChapterStatus"/> enumeration values.</param>
+            <returns>A CSS linear-gradient string representing the color associated with the specified chapter status. Returns "gray"
+            if the status is not recognized.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.FormatTime(System.Double)">
+            <summary>
+            Formats a time value in seconds into a string representation in the format "mm:ss".
+            </summary>
+            <param name="seconds">Number of elapsed seconds.</param>
+            <returns>Returns the formatted value.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.SeekBar.DisposeAsync">
+            <inheritdoc/>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ShuffleButton.ShuffleOffIcon">
+            <summary>
+            Represents the icon displayed when shuffling is disabled.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ShuffleButton.ShuffleOnIcon">
+            <summary>
+            Represents the icon displayed when shuffling is enabvled.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ShuffleButton._isShuffling">
+            <summary>
+            Indicates whether the collection is currently being shuffled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ShuffleButton.OnShuffleChanged">
+            <summary>
+            Gets or sets the event callback that is invoked when the shuffle state changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ShuffleButton.ShuffleOnLabel">
+            <summary>
+            Gets or sets the label for the shuffle on button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ShuffleButton.ShuffleOffLabel">
+            <summary>
+            Gets or sets the label displayed when the shuffle feature is turned off.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ShuffleButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.ShuffleButton"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ShuffleButton.OnToggleShuffleAsync">
+            <summary>
+            Occurs when the shuffle button is clicked.
+            </summary>
+            <returns>Returns a task which toggles on / off the shuffle</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.StopButton">
+            <summary>
+            Represents the stop button.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.StopButton.Icon">
+            <summary>
+            Represents the icon displaye.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.StopButton.OnStop">
+            <summary>
+            Gets or sets the event callback that is invoked when the stop button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.StopButton.Label">
+            <summary>
+            Gets or sets the label for the stop button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.StopButton.IsDisabled">
+            <summary>
+            Gets or sets a value indicating whether the stop button is disabled.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.StopButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.StopButton"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.StopButton.OnStopAsync">
+            <summary>
+            Occurs when the stop button is clicked.
+            </summary>
+            <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.StopButton.OnStop" /> callback.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.VolumeButton">
+            <summary>
+            Represents a button to control the volume of an audio player.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VolumeButton.VolumeZero">
+            <summary>
+            Represents an icon for a speaker with zero volume.
+            </summary>
+            <remarks>This icon can be used to visually indicate a muted or silent state in the user
+            interface.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VolumeButton.VolumeOne">
+            <summary>
+            Represents an icon for a speaker with one sound wave, typically used to indicate low volume.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VolumeButton.VolumeTwo">
+            <summary>
+            Represents an icon for a speaker with two sound waves, typically used to indicate medium volume.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VolumeButton._isVolumePopoverOpen">
+            <summary>
+            Represents whether the volume popover is open.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VolumeButton._volume">
+            <summary>
+            Represents the volume level, where 1.0 is the default maximum value.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.VolumeButton.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.VolumeButton"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VolumeButton.VolumeIcon">
+            <summary>
+            Gets the appropriate volume icon based on the current volume level.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VolumeButton.OnVolumeChanged">
+            <summary>
+            Gets or sets the callback that is invoked when the volume changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VolumeButton.Label">
+            <summary>
+            Gets or sets the label for the volume button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VolumeButton.AriaLabel">
+            <summary>
+            Gets the ARIA label for the volume button, combining the volume label and the current volume percentage.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.VolumeButton.OnVolumeChangedAsync(System.Double)">
+            <summary>
+            Handles the volume change event asynchronously.
+            </summary>
+            <remarks>This method updates the internal volume state and invokes the <see cref="P:FluentUI.Blazor.Community.Components.VolumeButton.OnVolumeChanged"/>
+            event if it has subscribers.</remarks>
+            <param name="value">The new volume level. Must be a value between 0.0 and 1.0, where 0.0 represents mute and 1.0 represents the
+            maximum volume.</param>
+            <returns></returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FluentCxAudio">
+            <summary>
+            Represents a full-featured audio player component with various playback and visualization options.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._audioReference">
+            <summary>
+            Represents the reference to the HTML audio element.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._containerHeight">
+            <summary>
+            Represents the height of the container element.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._hasViewChanged">
+            <summary>
+            Value indicating whether the view has changed.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._originalPlaylist">
+            <summary>
+            Represents the playlist of audio tracks.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._shuffledPlaylist">
+            <summary>
+            Represents the shuffled version of the playlist.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._showPlaylist">
+            <summary>
+            Represents whether to display the playlist.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._dotNetRef">
+            <summary>
+            Represents the .NET object reference for JavaScript interop.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._isShuffling">
+            <summary>
+            Represents whether the audio player is in shuffle mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._audioControls">
+            <summary>
+            Represents the audio controls component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._audioVisualizer">
+            <summary>
+            Reference to the audio visualizer component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._currentTrackIndex">
+            <summary>
+            Represents the index of the current track in the playlist.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio.JavaScriptFile">
+            <summary>
+            The relative path to the JavaScript file used by the FluentCxAudio component.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._module">
+            <summary>
+            The JavaScript module reference for interop calls.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._volume">
+            <summary>
+            Represents the volume level, where 1.0 is the default maximum value.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._currentTime">
+            <summary>
+            Represents the current time value.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._duration">
+            <summary>
+            Represents the duration of the audio file.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxAudio._repeatMode">
+            <summary>
+            Represents the repeat mode of the audio player.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxAudio"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.IsPreviousDisabled">
+            <summary>
+            Gets a value indicating whether the previous button should be disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.IsNextDisabled">
+            <summary>
+            Gets a value indicating whether the next button should be disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.ChildContent">
+            <summary>
+            Gets or sets the child content to be rendered inside the audio player component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.CurrentTrack">
+            <summary>
+            Gets  the current audio track to be played.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.IsStopDisabled">
+            <summary>
+            Gets a value indicating whether the stop button should be disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.IsPlayOrPauseDisabled">
+            <summary>
+            Gets a value indicating whether the play or pause button should be disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.IsPropertiesDisabled">
+            <summary>
+            Gets a value indicating whether the audio properties should be disabled.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.IsDownloadDisabled">
+            <summary>
+            Gets a value indicating whether downloading the current track is disabled.
+            </summary>
+            <remarks>Downloading is disabled if there is no current track selected or if the current track does
+            not have a valid source. This property can be used to determine whether download-related UI elements should be
+            enabled.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.View">
+            <summary>
+            Gets or sets the render mode of the audio player.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.VisualizerMode">
+            <summary>
+            Gets or sets the visualizer mode.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.ShowVisualizer">
+            <summary>
+            Gets or sets a value indicating whether to display the audio visualizer.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.IsDownloadVisible">
+            <summary>
+            Gets or sets a value indicating whether the download button is visible.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.JSRuntime">
+            <summary>
+            Gets or sets the JavaScript runtime for interop calls.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.Height">
+            <summary>
+            Gets or sets the height of the visualizer or the playlist viewer in pixels.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.Labels">
+            <summary>
+            Gets or sets the labels for the audio control buttons.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxAudio.DialogService">
+            <summary>
+            Gets or sets the service used to display dialogs within the component.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnDownloadAsync">
+            <summary>
+            Occurs when the download button is clicked.
+            </summary>
+            <returns>Returns a task which downloads the track.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnPlaylistToogled(System.Boolean)">
+            <summary>
+            Toggles the visibility of the playlist.
+            </summary>
+            <param name="value">A boolean value indicating whether the playlist should be shown.  <see langword="true"/> to show the playlist;
+            otherwise, <see langword="false"/>.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.SetAudioSourceAsync">
+            <summary>
+            Sets the audio source and volume for the current track asynchronously.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.PlayAsync">
+            <summary>
+            Plays the audio associated with the current instance asynchronously.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnPauseAsync">
+            <summary>
+            Pauses the audio playback associated with the current instance.
+            </summary>
+            <remarks>This method invokes a JavaScript function to pause the audio playback.  Ensure that the
+            associated module is initialized before calling this method.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnTogglePlayPauseAsync">
+            <summary>
+            Toggles the playback state of the audio element between play and pause.
+            </summary>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnPreviousTrackAsync">
+            <summary>
+            Skips to the previous track in the playlist and starts playback.
+            </summary>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnNextTrackAsync">
+            <summary>
+            Advances to the next track in the playlist and begins playback.
+            </summary>
+            <returns>A task that represents the asynchronous operation of advancing to the next track  and starting playback.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnPropertiesAsync">
+            <summary>
+            Displays the track properties dialog asynchronously and waits for the user to close it.
+            </summary>
+            <returns>A task that represents the asynchronous operation of showing the properties dialog and awaiting its closure.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnSeekAsync(System.Double)">
+            <summary>
+            Handles the seek operation by updating the current playback time and invoking the corresponding JavaScript
+            function.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnChangeVolumeAsync(System.Double)">
+            <summary>
+            Asynchronously updates the volume level and notifies the associated audio module.
+            </summary>
+            <param name="value">The new volume level to set. Must be a value between 0.0 and 1.0, where 0.0 represents mute and 1.0 represents
+            the maximum volume.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnSeekEndAsync(System.Double)">
+            <summary>
+            Seeks to the specified position in the audio track and resumes playback.
+            </summary>
+            <remarks>This method invokes a JavaScript function to perform the seek operation. Ensure that the
+            audio module is initialized before calling this method. If the module is not initialized, the method will have
+            no effect.</remarks>
+            <param name="value">The position, in seconds, to seek to within the audio track. Must be a non-negative value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnPlayTrackAsync(FluentUI.Blazor.Community.Components.AudioTrackItem)">
+            <summary>
+            Plays the specified audio track by setting it as the current track and starting playback.
+            </summary>
+            <remarks>If the specified track exists in the playlist, it is set as the current track, and playback
+            begins. If the track is not found in the playlist, no action is taken.</remarks>
+            <param name="track">The audio track to play. Must be an item in the current playlist.</param>
+            <returns>Returns a task which plays the track.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnStopAsync">
+            <summary>
+            Stops the audio playback and resets the internal playback state.
+            </summary>
+            <returns>Returns a task which stops the audio playback.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnToggleShuffle(System.Boolean)">
+            <summary>
+            Invoked when the shuffle mode is toggled.
+            </summary>
+            <param name="shuffling">Value indicating if the list must be shuffled or not.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnTrackEndedAsync">
+            <summary>
+            Invoked when a media track ends. This method is called via JavaScript interop.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.SetDuration(System.Double)">
+            <summary>
+            Sets the duration of the audio playback.
+            </summary>
+            <param name="duration"></param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.SetSeek(System.Double)">
+            <summary>
+            Sets the current of the audio playback.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.UpdateElapsedTime(System.Double)">
+            <summary>
+            Updates the current elapsed time with the specified value.
+            </summary>
+            <remarks>This method updates the internal state to reflect the provided elapsed time and triggers a
+            re-render of the component. It can be invoked from JavaScript using the identifier
+            "updateElapsedTime".</remarks>
+            <param name="value">The new elapsed time, in seconds.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.AddTrackAsync(FluentUI.Blazor.Community.Components.AudioTrackItem)">
+            <summary>
+            Adds an audio track to the playlist.
+            </summary>
+            <param name="audioTrack">Audio track to add.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.RemoveTrackAsync(FluentUI.Blazor.Community.Components.AudioTrackItem)">
+            <summary>
+            Removes an audio track from the playlist.
+            </summary>
+            <param name="audioTrack">Audio track to remove.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnAfterRenderAsync(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioMetadata">
+            <summary>
+            Represents a collection of metadata categories associated with an audio asset.
+            </summary>
+            <remarks>This class provides access to various types of metadata, including descriptive, technical, legal, 
+            and visual information. Each metadata category is represented by a corresponding property, which  can be used to
+            retrieve or modify the associated metadata.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioMetadata.Descriptive">
+            <summary>
+            Gets or sets the descriptive metadata associated with the current object.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioMetadata.Extended">
+            <summary>
+            Gets or sets the extended metadata associated with the current object.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioMetadata.Technical">
+            <summary>
+            Gets or sets the technical metadata associated with the current object.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioMetadata.Legal">
+            <summary>
+            Gets or sets the legal metadata associated with the current object.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioMetadata.Visual">
+            <summary>
+            Gets or sets the visual metadata associated with the current object.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioMetadataProvider">
+            <summary>
+            Provides functionality to retrieve metadata for audio files.
+            </summary>
+            <remarks>This class is intended to be used for extracting and managing metadata such as title, artist, album, 
+            and other relevant information from audio files. It supports various audio formats.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioMetadataProvider.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILogger{FluentUI.Blazor.Community.Components.AudioMetadataProvider})">
+            <summary>
+            Provides functionality to retrieve metadata for audio files.
+            </summary>
+            <remarks>This class is intended to be used for extracting and managing metadata such as title, artist, album, 
+            and other relevant information from audio files. It supports various audio formats.</remarks>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.AudioMetadataProvider._fileExtensionContentTypeProvider">
+            <summary>
+            Provides a static instance of <see cref="T:Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider"/> used to map file extensions to MIME
+            content types.
+            </summary>
+            <remarks>This instance can be used to look up MIME types for file extensions. It is initialized with
+            default mappings provided by the framework.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioMetadataProvider.GetFromFileAsync(Microsoft.AspNetCore.Components.Forms.IBrowserFile)">
+            <summary>
+            Asynchronously retrieves audio metadata from the specified file.
+            </summary>
+            <remarks>This method reads the file's content into memory and extracts metadata from the stream. 
+            Ensure the file size is within the limits supported by the application to avoid memory issues.</remarks>
+            <param name="browserFile">The file to extract audio metadata from. Must not be <c>null</c>.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains the extracted  <see
+            cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/> if the operation is successful; otherwise, <c>null</c>.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioMetadataProvider.GetFromStream(System.String,System.IO.Stream)">
+            <summary>
+            Extracts audio metadata from a given stream.
+            </summary>
+            <remarks>This method uses the TagLib library to parse the audio file and extract metadata. The
+            extracted metadata includes information such as title, album, artists, duration, bitrate, and cover art. If the
+            audio file is corrupt or in an unsupported format, the method logs the error and returns an empty <see
+            cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/> object.</remarks>
+            <param name="name">The name of the audio file, used for logging and identification purposes.</param>
+            <param name="stream">The input stream containing the audio file data. The stream must be readable and seekable.</param>
+            <returns>An <see cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/> object containing descriptive, technical, extended, legal, and visual metadata
+            extracted from the audio file. Returns an empty <see cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/> object if the file is corrupt,
+            unsupported, or an error occurs during processing.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.AudioMetadataProvider.GetFromUrlAsync(System.String,System.String)">
+            <summary>
+            Retrieves audio metadata from a specified URL.
+            </summary>
+            <remarks>This method downloads the audio file from the specified URL, processes it in memory,  and
+            extracts its metadata. Ensure that the URL points to a valid audio file.</remarks>
+            <param name="name">The name to associate with the audio metadata.</param>
+            <param name="url">The URL of the audio file. Can be <see langword="null"/> if no URL is provided.</param>
+            <returns>An <see cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/> object containing the metadata of the audio file,  or <see langword="null"/> if
+            the metadata could not be retrieved.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.DescriptiveMetadata">
+            <summary>
+            Represents descriptive metadata for a musical track, including details such as title, album, performers, and other
+            related information.
+            </summary>
+            <remarks>This class provides a structured way to store and access metadata commonly associated with musical
+            tracks.  It includes properties for identifying the track's title, album, contributors, genres, and other
+            descriptive details. All string array properties are initialized as empty arrays to ensure safe iteration.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DescriptiveMetadata.Title">
+            <summary>
+            Gets or sets the title associated with the object.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DescriptiveMetadata.Album">
+            <summary>
+            Gets or sets the name of the album associated with the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DescriptiveMetadata.Performers">
+            <summary>
+            Gets or sets the list of performers associated with the event.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DescriptiveMetadata.AlbumArtists">
+            <summary>
+            Gets or sets the list of album artists associated with the album.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DescriptiveMetadata.Composers">
+            <summary>
+            Gets or sets the list of composers associated with the current context.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DescriptiveMetadata.Conductor">
+            <summary>
+            Gets or sets the name of the conductor associated with the performance.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DescriptiveMetadata.Genres">
+            <summary>
+            Gets or sets the list of genres associated with the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DescriptiveMetadata.Year">
+            <summary>
+            Gets or sets the year associated with the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.DescriptiveMetadata.Comment">
+            <summary>
+            Gets or sets comments associated with the item.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ExtendedMetadata">
+            <summary>
+            Represents extended metadata for an audio file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ExtendedMetadata.TrackNumber">
+            <summary>
+            Gets or sets the track number associated with the item.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ExtendedMetadata.DiscNumber">
+            <summary>
+            Gets or sets the disc number associated with the item. 
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ExtendedMetadata.TotalTracks">
+            <summary>
+            Gets or sets the total number of tracks in the collection.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ExtendedMetadata.TotalDiscs">
+            <summary>
+            Gets or sets the total number of discs in a collection or set.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ExtendedMetadata.Lyrics">
+            <summary>
+            Gets or sets the lyrics of the song.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ExtendedMetadata.ISRC">
+            <summary>
+            Gets or sets the International Standard Recording Code (ISRC) associated with the recording.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ExtendedMetadata.Grouping">
+            <summary>
+            Gets or sets the grouping identifier used to categorize related items.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ExtendedMetadata.BeatsPerMinute">
+            <summary>
+            Gets or sets the tempo of the music in beats per minute (BPM).
+            </summary>
+            <remarks>The value must be a positive integer. Common tempos range from 40 BPM (slow) to 200 BPM
+            (fast),  but the property does not enforce specific limits.</remarks>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.IAudioMetadataProvider">
+            <summary>
+            Defines methods for retrieving audio metadata from various sources, such as URLs or uploaded files.
+            </summary>
+            <remarks>This interface provides asynchronous methods to extract metadata from audio files, including details
+            such as title, artist, album, and duration. Implementations may support different audio formats and
+            sources.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IAudioMetadataProvider.GetFromUrlAsync(System.String,System.String)">
+            <summary>
+            Asynchronously retrieves audio metadata from the specified URL.
+            </summary>
+            <remarks>This method performs an asynchronous operation to fetch and parse metadata from the provided
+            URL. Ensure the URL points to a valid and accessible audio file.</remarks>
+            <param name="url">The URL of the audio file to retrieve metadata from. Can be null or empty, in which case the method will return
+            <see langword="null"/>.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains an <see cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/>
+            object with the metadata of the audio file, or <see langword="null"/> if the metadata could not be retrieved.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IAudioMetadataProvider.GetFromFileAsync(Microsoft.AspNetCore.Components.Forms.IBrowserFile)">
+            <summary>
+            Asynchronously retrieves audio metadata from the specified file.
+            </summary>
+            <param name="browserFile">The file from which to extract audio metadata. Must not be null.</param>
+            <returns>A task that represents the asynchronous operation. The task result contains the extracted  <see
+            cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/> if the operation is successful; otherwise, <see langword="null"/>  if the metadata could
+            not be retrieved.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.IAudioMetadataProvider.GetFromStream(System.String,System.IO.Stream)">
+            <summary>
+            Extracts audio metadata from the specified stream.
+            </summary>
+            <remarks>The caller is responsible for ensuring the stream remains open and readable during the
+            operation.  The method does not modify the position of the stream.</remarks>
+            <param name="stream">The input stream containing audio data. The stream must be readable and positioned at the start of the audio
+            content.</param>
+            <returns>An <see cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/> object containing the extracted metadata, such as duration, format, and bitrate.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.LegalMetadata">
+            <summary>
+            Represents metadata related to legal information, such as copyright and publisher details.
+            </summary>
+            <remarks>This class is typically used to store and manage legal information associated with a document, 
+            product, or other content. Both properties are optional and can be set to <see langword="null"/>  if the
+            corresponding information is not available.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LegalMetadata.Copyright">
+            <summary>
+            Gets or sets the copyright information associated with the application.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.LegalMetadata.Publisher">
+            <summary>
+            Gets or sets the name of the publisher associated with the item.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.StreamFileAbstraction">
+            <summary>
+            Provides an abstraction for file operations using streams, implementing the <see
+            cref="T:TagLib.File.IFileAbstraction"/> interface.
+            </summary>
+            <param name="name">Name or identifier of the abstraction.</param>
+            <param name="readStream">Represents the readable stream.</param>
+            <param name="writeStream">Represents the writeable stream.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.StreamFileAbstraction.#ctor(System.String,System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Provides an abstraction for file operations using streams, implementing the <see
+            cref="T:TagLib.File.IFileAbstraction"/> interface.
+            </summary>
+            <param name="name">Name or identifier of the abstraction.</param>
+            <param name="readStream">Represents the readable stream.</param>
+            <param name="writeStream">Represents the writeable stream.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.StreamFileAbstraction.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.StreamFileAbstraction.ReadStream">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.StreamFileAbstraction.WriteStream">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.StreamFileAbstraction.CloseStream(System.IO.Stream)">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.TechnicalMetadata">
+            <summary>
+            Represents technical metadata for a media file, including properties such as duration, bitrate, sample rate, and
+            codec information.
+            </summary>
+            <remarks>This class provides a set of properties to describe the technical characteristics of a media file. 
+            All properties are nullable, allowing for scenarios where specific metadata may not be available.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TechnicalMetadata.Duration">
+            <summary>
+            Gets or sets the duration of the operation.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TechnicalMetadata.AudioBitrate">
+            <summary>
+            Gets or sets the bitrate of the media, in bits per second.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TechnicalMetadata.SampleRate">
+            <summary>
+            Gets or sets the sample rate, in hertz, for the audio processing operation.
+            </summary>
+            <remarks>The sample rate determines the number of audio samples processed per second. Ensure the value
+            is compatible with the audio source and processing requirements.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TechnicalMetadata.AudioChannels">
+            <summary>
+            Gets or sets the number of channels to be used. 
+            </summary>
+            <remarks>A value of <see langword="null"/> indicates that the default number of channels will be
+            used.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TechnicalMetadata.Codec">
+            <summary>
+            Gets or sets the codec used for encoding or decoding data.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TechnicalMetadata.MediaTypes">
+            <summary>
+            Gets or sets the media types associated with the file.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TechnicalMetadata.FileType">
+            <summary>
+            Gets or sets the file type of the media, such as "audio/mpeg" or "video/mp4".
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TechnicalMetadata.FileSize">
+            <summary>
+            Gets or sets the size of the file in bytes.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.VisualMetadata">
+            <summary>
+            Represents visual metadata, including cover image URL, MIME type, description, and type.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VisualMetadata.CoverUrl">
+            <summary>
+            Gets or sets the URL of the cover image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VisualMetadata.MimeType">
+            <summary>
+            Gets or sets the MIME type of the cover image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VisualMetadata.Description">
+            <summary>
+            Gets or sets the description associated with the object.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VisualMetadata.Type">
+            <summary>
+            Gets or sets the type of the entity or object.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MinimalPlayer">
+            <summary>
+            Represents a minimal audio player component with play/pause functionality.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.MinimalPlayer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.MinimalPlayer"/> class with a unique identifier.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MinimalPlayer.OnPlayPause">
+            <summary>
+            Gets or sets the event callback that is triggered when the play/pause button is clicked.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MinimalPlayer.PlayLabel">
+            <summary>
+            Gets or sets the label for the play button.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.MinimalPlayer.PauseLabel">
+            <summary>
+            Gets or sets the label for the pause button.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.TrackInfo">
+            <summary>
+            Represents a component that displays information about an audio track.
+            </summary>
+            <remarks>This class is used to manage and display details about a specific audio track.  The <see
+            cref="P:FluentUI.Blazor.Community.Components.TrackInfo.Track"/> property can be set to specify the audio track  for which information should be
+            displayed.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.TrackInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.TrackInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TrackInfo.Track">
+            <summary>
+            Gets or sets the current audio track to display information for.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TrackInfo.OnClick">
+            <summary>
+            Gets or sets the callback that is invoked when the track info component is clicked.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.TrackInfo.OnHandleClickAsync">
+            <summary>
+            Handles the click event by invoking the associated callback with the current track.
+            </summary>
+            <remarks>This method checks if a track is available and if a callback delegate is assigned before
+            invoking the callback asynchronously.</remarks>
+            <returns></returns>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TrackProperties.Labels">
+            <summary>
+            Gets or sets the set of audio labels to be used for classification or annotation.
+            </summary>
+            <remarks>The default value is <see cref="P:FluentUI.Blazor.Community.Components.AudioLabels.Default"/>. Changing this property allows
+            customization of the labels used in audio processing scenarios.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.TrackProperties.Content">
+            <summary>
+            Gets or sets the audio track item associated with this instance.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.VisualizerMode">
+            <summary>
+            Represents the different modes available for the audio visualizer.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VisualizerMode.Spectrum">
+            <summary>
+            Represents the spectrum dispaly mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VisualizerMode.Waveform">
+            <summary>
+            Represents the waveform display mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VisualizerMode.Spatial">
+            <summary>
+            Represents the spatial display mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VisualizerMode.Vortex">
+            <summary>
+            Represents the vortex display mode.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VisualizerMode.Particles">
+            <summary>
+            Represents a particles field.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VisualizerMode.RadialWaveform">
+            <summary>
+            Represents a radial waveform.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VisualizerMode.Tunnel">
+            <summary>
+            Represents a tunnel.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VisualizerMode.Constellation">
+            <summary>
+            Represents a constellation.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.VisualizerMode.Fractal">
+            <summary>
+            Represents a fractal.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Chapter">
+            <summary>
+            Represents a chapter within a media file, defined by its start and end times, title, and status.
+            </summary>
+            <remarks>This record is commonly used to represent segments of a media file, such as chapters in an audiobook
+            or scenes in a video. The <see cref="P:FluentUI.Blazor.Community.Components.Chapter.Start"/> and <see cref="P:FluentUI.Blazor.Community.Components.Chapter.End"/> properties define the time range of the chapter,
+            while the <see cref="P:FluentUI.Blazor.Community.Components.Chapter.Title"/> provides a descriptive name. The <see cref="P:FluentUI.Blazor.Community.Components.Chapter.Status"/> indicates the current state of
+            the chapter, such as whether it is active or inactive.</remarks>
+            <param name="Start">The start time of the chapter, in seconds. Must be greater than or equal to 0.</param>
+            <param name="End">The end time of the chapter, in seconds. Must be greater than <paramref name="Start"/>.</param>
+            <param name="Title">The title of the chapter. Cannot be null or empty.</param>
+            <param name="Status">The status of the chapter, indicating its current state.</param>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Chapter.#ctor(System.Double,System.Double,System.String,FluentUI.Blazor.Community.Components.ChapterStatus)">
+            <summary>
+            Represents a chapter within a media file, defined by its start and end times, title, and status.
+            </summary>
+            <remarks>This record is commonly used to represent segments of a media file, such as chapters in an audiobook
+            or scenes in a video. The <see cref="P:FluentUI.Blazor.Community.Components.Chapter.Start"/> and <see cref="P:FluentUI.Blazor.Community.Components.Chapter.End"/> properties define the time range of the chapter,
+            while the <see cref="P:FluentUI.Blazor.Community.Components.Chapter.Title"/> provides a descriptive name. The <see cref="P:FluentUI.Blazor.Community.Components.Chapter.Status"/> indicates the current state of
+            the chapter, such as whether it is active or inactive.</remarks>
+            <param name="Start">The start time of the chapter, in seconds. Must be greater than or equal to 0.</param>
+            <param name="End">The end time of the chapter, in seconds. Must be greater than <paramref name="Start"/>.</param>
+            <param name="Title">The title of the chapter. Cannot be null or empty.</param>
+            <param name="Status">The status of the chapter, indicating its current state.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Chapter.Start">
+            <summary>The start time of the chapter, in seconds. Must be greater than or equal to 0.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Chapter.End">
+            <summary>The end time of the chapter, in seconds. Must be greater than <paramref name="Start"/>.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Chapter.Title">
+            <summary>The title of the chapter. Cannot be null or empty.</summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Chapter.Status">
+            <summary>The status of the chapter, indicating its current state.</summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ChapterStatus">
+            <summary>
+            Represents the status of a chapter in media content.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChapterStatus.Unspecified">
+            <summary>
+            Represents an unspecified state.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChapterStatus.NotStarted">
+            <summary>
+            Represents the state of a chapter that has not yet started.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChapterStatus.Current">
+            <summary>
+            Represents the state of a chapter that is currently in progress.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.ChapterStatus.Completed">
+            <summary>
+            Represents the state of a chapter that has been completed.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.ColorPaletteEasing">
             <summary>
             Represents the easing functions available for color transitions in the ColorPalette component.
@@ -9987,7 +12232,7 @@
             cref="T:FluentUI.Blazor.Community.Components.FluentCxObserverProvider"/> to be passed to JavaScript and invoked from there. It is intended for internal
             use and should not be accessed directly by external code.</remarks>
         </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._isRendered">
+        <member name="F:FluentUI.Blazor.Community.Components.FluentCxObserverProvider._hasModule">
             <summary>
             Indicates whether the object has been rendered.
             </summary>
