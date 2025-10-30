@@ -16,7 +16,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <typeparam name="TItem">Type of the item.</typeparam>
 [CascadingTypeParameter(nameof(TItem))]
 public partial class FluentCxSlideshow<TItem>
-    : FluentComponentBase, IAsyncDisposable, IDisposable
+    : FluentComponentBase, IAsyncDisposable
 {
     #region Fields
 
@@ -145,6 +145,11 @@ public partial class FluentCxSlideshow<TItem>
     /// Represents a value indicating if the show indicator has changed.
     /// </summary>
     private bool _showIndicatorChanged;
+
+    /// <summary>
+    /// Represents a value indicating if the size has changed.
+    /// </summary>
+    private bool _isSizeChanged;
 
     #endregion Fields
 
@@ -545,7 +550,7 @@ public partial class FluentCxSlideshow<TItem>
                 await SetInternalIndexAsync(Items.Count());
             }
         }
-        
+
         StartTimer();
 
         async Task SetInternalIndexAsync(int count)
@@ -775,7 +780,7 @@ public partial class FluentCxSlideshow<TItem>
         if (_slides.Count > 0 &&
             _module is not null)
         {
-            await _module.InvokeVoidAsync(store ? "storeItems" : "restoreItems", Id, _slides.Select(x=> x.Id).ToArray());
+            await _module.InvokeVoidAsync(store ? "storeItems" : "restoreItems", Id, _slides.Select(x => x.Id).ToArray());
             await _module.InvokeVoidAsync("clearTransition", Id);
         }
 
@@ -817,6 +822,8 @@ public partial class FluentCxSlideshow<TItem>
         _isTouchEnabledChanged = parameters.HasValueChanged(nameof(IsTouchEnabled), IsTouchEnabled);
         _isLoopingModeChanged = parameters.HasValueChanged(nameof(LoopMode), LoopMode);
         _showIndicatorChanged = parameters.HasValueChanged(nameof(ShowIndicators), ShowIndicators);
+        _isSizeChanged = parameters.HasValueChanged(nameof(Width), Width) ||
+                         parameters.HasValueChanged(nameof(Height), Height);
 
         return base.SetParametersAsync(parameters);
     }
@@ -897,6 +904,19 @@ public partial class FluentCxSlideshow<TItem>
         {
             await OnLoopingModeChangedAsync();
         }
+
+        if (_isSizeChanged)
+        {
+            await OnSetSizeAsync();
+        }
+    }
+
+    private async Task OnSetSizeAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.InvokeVoidAsync("setSize", Id, Width.GetValueOrDefault(), Height.GetValueOrDefault());
+        }
     }
 
     /// <inheritdoc />
@@ -921,7 +941,7 @@ public partial class FluentCxSlideshow<TItem>
     }
 
     /// <inheritdoc />
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         if (_timer is not null)
         {
@@ -933,12 +953,6 @@ public partial class FluentCxSlideshow<TItem>
 
         _dotnetReference?.Dispose();
 
-        GC.SuppressFinalize(this);
-    }
-
-    /// <inheritdoc />
-    public async ValueTask DisposeAsync()
-    {
         if (DeviceInfoState.DeviceInfo is not null)
         {
             DeviceInfoState.DeviceInfo.OrientationChanged -= OnOrientationChanged;
@@ -989,6 +1003,18 @@ public partial class FluentCxSlideshow<TItem>
     /// </summary>
     [JSInvokable("setAutoSizeCompleted")]
     public async Task OnAutoSizeCompletedAsync()
+    {
+        if (OnImagesResizeCompleted.HasDelegate)
+        {
+            await OnImagesResizeCompleted.InvokeAsync();
+        }
+    }
+
+    /// <summary>
+    /// Occurs when all images have been resized.
+    /// </summary>
+    [JSInvokable("setContainerSizeCompleted")]
+    public async Task OnContainerSizeCompletedAsync()
     {
         if (OnImagesResizeCompleted.HasDelegate)
         {

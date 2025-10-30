@@ -3,26 +3,37 @@
                        ShowControls>
         <SlideshowItem>
             <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/1.jpg" />
-            <SlideshowCaption Style="background-color: rgba(0, 0, 0, 0.5)">
+            <SlideshowDescription Fixed Style="background-color: rgba(0, 0, 0, 0.5)">
                 <h2 style="color: white">Caption for the First Item</h2>
                 <p style="color: white">Test to create caption for your item.</p>
-            </SlideshowCaption>
+            </SlideshowDescription>
         </SlideshowItem>
     
         <SlideshowItem>
             <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/2.jpg" />
-            <SlideshowCaption Style="background-color: rgba(0, 0, 0, 0.5);">
+            <SlideshowDescription Fixed Style="background-color: rgba(0, 0, 0, 0.5);">
                 <h2 style="color: white">Caption for the Second Item</h2>
                 <p style="color: white">Test to create caption for your item.</p>
-            </SlideshowCaption>
+            </SlideshowDescription>
         </SlideshowItem>
     
         <SlideshowItem>
             <SlideshowImage Source="./_content/FluentUI.Demo.Shared/slideshowimages/3.jpg" />
-            <SlideshowCaption Style="background-color: rgba(0, 0, 0, 0.5)">
+            <SlideshowDescription Fixed Style="background-color: rgba(0, 0, 0, 0.5)">
                 <h2 style="color: white">Caption for the Third Item</h2>
                 <p style="color: white">Test to create caption for your item.</p>
-            </SlideshowCaption>
+            </SlideshowDescription>
+
+            <SlideshowDescription MaxWidth=520 Style="top: 10%; left: 10%">
+                <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+                    <h2 style="color: white">Caption for the Third Item</h2>
+                    <SlideshowDescriptionText FontSize="48px" FontWeight="800" Text="Test to create caption for your item."/>
+
+                    <FluentButton Appearance="Appearance.Accent" Style="width: 200px; height: 50px; font-size: 20px; font-weight: 600; margin-top: 20px;">
+                        More Info
+                    </FluentButton>
+                </FluentStack>
+            </SlideshowDescription>
         </SlideshowItem>
     </FluentCxSlideshow>
 </div>

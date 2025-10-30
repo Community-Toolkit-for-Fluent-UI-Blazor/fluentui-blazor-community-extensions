@@ -30,7 +30,7 @@
     Each item in the slideshow is represented by a <code>SlideshowItem</code> component, which can contain any content.
     To display an image in the slideshow, use the <code>SlideshowImage</code> component inside a <code>SlideshowItem</code>.
     The <code>SlideshowImage</code> component has a <code>Source</code> parameter to set the image source.
-    Optionally, a <code>SlideshowCaption</code> component can be used to display a caption for the image.
+    Optionally, a <code>SlideshowDescription</code> component can be used to display a caption for the image.
 </p>
 
 <p>
@@ -69,10 +69,13 @@
     </Description>
 </DemoSection>
 
-<DemoSection Component="typeof(SlideshowCaptions)" Title="Captions">
+<DemoSection Component="typeof(SlideshowDescriptions)" Title="Captions">
     <Description>
-        The <code>SlideshowCaption</code> component is used to display a caption for the image.
-        The caption is displayed at the bottom of the image.
+        The <code>SlideshowCaption</code> component is used to display a description for the image.
+        The description can be fixed or not. If the description is fixed, it will be displayed at the bottom of the image.
+        If the description is not fixed, it can be positioned anywhere on the image using CSS.
+        The description can contain any content.
+        A <code>SlideshowCaptionText</code> component is used to display text with various options inside the caption.
     </Description>
 </DemoSection>
 
@@ -82,3 +85,4 @@
 <ApiDocumentation Component="typeof(SlideshowItem<>)" />
 <ApiDocumentation Component="typeof(SlideshowCaption)" />
 <ApiDocumentation Component="typeof(SlideshowImage<>)" />
+<ApiDocumentation Component="typeof(SlideshowCaptionText)" />
