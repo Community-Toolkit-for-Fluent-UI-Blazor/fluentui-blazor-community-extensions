@@ -1,0 +1,9 @@
+﻿<div class="height: 500px">
+    <FluentCxPicture Caption="This is a caption for the FluentCxPicture" Source="./_content/FluentUI.Demo.Shared/pictures/red.png">
+        <ResponsiveContent>
+            <ResponsiveImage Source="./_content/FluentUI.Demo.Shared/pictures/butterfly.png" ContentType="image/png" Media="(max-width: 600px)" />
+            <ResponsiveImage Source="./_content/FluentUI.Demo.Shared/pictures/morpho.png" ContentType="image/png" Media="(max-width: 800px)" />
+            <ResponsiveImage Source="./_content/FluentUI.Demo.Shared/pictures/monarch.png" ContentType="image/png" Media="(min-width: 801px) and (max-width: 1100px)" />
+        </ResponsiveContent>
+    </FluentCxPicture>
+</div>
