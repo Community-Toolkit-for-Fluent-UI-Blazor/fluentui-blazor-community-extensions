@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.FluentUI.AspNetCore.Components;
 using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons;
 
 namespace FluentUI.Demo.Shared.Layout;
@@ -97,6 +96,11 @@ public class DemoNavProvider
                             title: "Default"
                           )
                         ]
+                    ),
+                    new NavLink(
+                        href: "audio",
+                        icon: new Icons.Regular.Size20.SoundWaveCircle(),
+                        title: "Audio"
                     ),
                     new NavLink(
                         href: "cookies",
