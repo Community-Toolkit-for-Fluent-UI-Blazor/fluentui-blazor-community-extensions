@@ -1,0 +1,24 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using System.Globalization
+@implements IDialogContentComponent<(AudioVideoLabels, VideoTrackItem)>
+
+<FluentDialogBody>
+    <FluentListbox Items="@_qualityOptions"
+                   TOption="Option<int>"
+                   OptionText="@(e => e.Text)"
+                   OptionSelected="@(e => e.Selected)"
+                   AriaLabel="@Content.Item1.VideoQualityLabel"
+                   @bind-SelectedOption="_selectedQualityIndex" />
+        
+</FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent"
+                  OnClick="@OnCloseAsync">
+        @Dialog.Instance.Parameters.PrimaryAction
+    </FluentButton>
+
+    <FluentButton Appearance="Appearance.Neutral" OnClick="@OnCancelAsync">
+        @Dialog.Instance.Parameters.SecondaryAction
+    </FluentButton>
+</FluentDialogFooter>

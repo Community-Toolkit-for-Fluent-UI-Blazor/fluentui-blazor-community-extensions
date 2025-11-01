@@ -1,0 +1,24 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentStack Id="@Id"
+             Class="@Class"
+             Style="@Style"
+             VerticalAlignment="VerticalAlignment.Center"
+             @onclick="OnHandleClickAsync">
+    @if (Track is not null)
+    {
+        @if (!string.IsNullOrEmpty(Track?.Metadata?.Visual?.ThumbnailUrl))
+        {
+            <div style="width: 96px; height: 96px; border-radius: 8px; background-color: white">
+                <img width="96"
+                     height="96"
+                     src="@Track.Metadata.Visual.ThumbnailUrl"
+                     title="@Track?.Metadata?.Descriptive?.Title"
+                     aria-label="@Track?.Metadata?.Descriptive?.Title" />
+            </div>
+        }
+
+        <FluentLabel Color=Color.Accent Style="font-size: 18px" Weight="FontWeight.Bold">@Track?.Metadata?.Descriptive?.Title</FluentLabel>
+    }
+</FluentStack>

@@ -10,7 +10,7 @@ public class TrackInfoTests : TestBase
     public void RendersNothing_WhenTrackIsNull()
     {
         // Arrange & Act
-        var cut = RenderComponent<TrackInfo>(parameters => parameters
+        var cut = RenderComponent<AudioTrackInfo>(parameters => parameters
             .Add(p => p.Track, null)
         );
 
@@ -39,7 +39,7 @@ public class TrackInfoTests : TestBase
             }
         };
 
-        var cut = RenderComponent<TrackInfo>(parameters => parameters
+        var cut = RenderComponent<AudioTrackInfo>(parameters => parameters
             .Add(p => p.Track, track)
         );
 
@@ -62,7 +62,7 @@ public class TrackInfoTests : TestBase
             Metadata = new()
         };
 
-        var cut = RenderComponent<TrackInfo>(parameters => parameters
+        var cut = RenderComponent<AudioTrackInfo>(parameters => parameters
             .Add(p => p.Track, track)
         );
 
@@ -79,7 +79,7 @@ public class TrackInfoTests : TestBase
         };
 
         var clicked = false;
-        var cut = RenderComponent<TrackInfo>(parameters => parameters
+        var cut = RenderComponent<AudioTrackInfo>(parameters => parameters
             .Add(p => p.Track, track)
             .Add(p => p.OnClick, EventCallback.Factory.Create<AudioTrackItem>(this, (e) => clicked = true))
         );

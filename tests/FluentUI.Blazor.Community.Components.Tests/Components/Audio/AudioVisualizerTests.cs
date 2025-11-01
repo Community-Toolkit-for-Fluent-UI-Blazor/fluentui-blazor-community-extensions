@@ -54,7 +54,7 @@ public class AudioVisualizerTests : TestBase
     public void OnAfterRenderAsync_ImportsJsAndInitializesVisualizer()
     {
         // Arrange
-        var jsModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Audio/AudioVisualizer.razor.js");
+        var jsModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/AudioVideo/Audio/AudioVisualizer.razor.js");
         jsModule.SetupVoid("fluentCxAudioVisualizer.initialize");
 
         var cut = RenderComponent<AudioVisualizer>(p => p
@@ -74,7 +74,7 @@ public class AudioVisualizerTests : TestBase
     public async Task DisposeAsync_CallsJsDisposeAndDisposesModule()
     {
         // Arrange
-        var jsModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/Audio/AudioVisualizer.razor.js");
+        var jsModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/AudioVideo/Audio/AudioVisualizer.razor.js");
         jsModule.SetupVoid("fluentCxAudioVisualizer.dispose");
 
         var cut = RenderComponent<AudioVisualizer>(p => p.Add(a => a.Anchor, "audio1"));

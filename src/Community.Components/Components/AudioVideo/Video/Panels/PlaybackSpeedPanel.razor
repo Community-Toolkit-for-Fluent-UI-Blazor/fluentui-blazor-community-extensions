@@ -1,0 +1,48 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using System.Globalization
+@implements IDialogContentComponent<(AudioVideoLabels, VideoPlaybackSpeedOptions)>
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical"
+                 VerticalGap="0"
+                 Style="width: 95%">
+        <FluentSlider Min="0.25"
+                      Max="2.0"
+                      Step="0.05"
+                      Label="@(string.Format(Content.Item1.PlaybackSpeedLabelCustomFormat, (double)Content.Item2.Speed))"
+                      AriaLabel="@(string.Format(Content.Item1.PlaybackSpeedLabelCustomFormat, (double)Content.Item2.Speed))"
+                      @bind-Value=Content.Item2.Speed
+                      Style="margin-bottom: 20px" />
+
+        <FluentRadioGroup @bind-Value=Content.Item2.Speed
+                          Orientation="Orientation.Vertical"
+                          Label="@Content.Item1.PlaybackSpeedLabel"
+                          AriaLabel="@Content.Item1.PlaybackSpeedLabel"
+                          Style="margin-bottom: 20px">
+            <FluentRadio Value=0.25>
+                @(0.25.ToString(CultureInfo.CurrentCulture))x
+            </FluentRadio>
+            <FluentRadio Value=0.50>
+                @(0.50.ToString(CultureInfo.CurrentCulture))x
+            </FluentRadio>
+            <FluentRadio Value=0.75>
+                @(0.75.ToString(CultureInfo.CurrentCulture))x
+            </FluentRadio>
+            <FluentRadio Value=1>
+                @Content.Item1.NormalPlaybackSpeedLabel
+            </FluentRadio>
+            <FluentRadio Value=1.25>
+                @(1.25.ToString(CultureInfo.CurrentCulture))x
+            </FluentRadio>
+            <FluentRadio Value=1.50>
+                @(1.50.ToString(CultureInfo.CurrentCulture))x
+            </FluentRadio>
+            <FluentRadio Value=1.75>
+                @(1.75.ToString(CultureInfo.CurrentCulture))x
+            </FluentRadio>
+            <FluentRadio Value=2>
+                @(2.ToString(CultureInfo.CurrentCulture))x
+            </FluentRadio>
+        </FluentRadioGroup>
+    </FluentStack>
+</FluentDialogBody>

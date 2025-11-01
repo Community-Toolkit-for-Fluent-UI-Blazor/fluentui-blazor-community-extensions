@@ -1,0 +1,13 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentButton Id="@Id"
+              Appearance="Appearance.Stealth"
+              IconStart="@(Icon)"
+              Title="@Label"
+              Style="width: 100%;"
+              Class="@Class"
+              aria-label="@Label"
+              OnClick="@OnClick">
+    @Label
+</FluentButton>

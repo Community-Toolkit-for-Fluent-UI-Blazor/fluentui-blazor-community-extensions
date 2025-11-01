@@ -22,6 +22,8 @@ public static class ServiceCollectionExtensions
                        .AddScoped<LottieState>()
                        .AddSingleton<ObserverState>()
                        .AddScoped<DeviceInfoState>()
-                       .AddScoped<IAudioMetadataProvider, AudioMetadataProvider>();
+                       .AddScoped<IAudioMetadataProvider, AudioMetadataProvider>()
+                       .AddScoped<IVideoMetadataProvider, VideoMetadataProvider>()
+                       .AddScoped<VideoState>();
     }
 }

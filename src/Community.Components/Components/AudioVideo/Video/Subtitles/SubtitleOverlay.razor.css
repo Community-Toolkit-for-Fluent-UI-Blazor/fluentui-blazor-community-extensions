@@ -1,0 +1,10 @@
+.subtitle-overlay {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 1.5rem;
+  padding-top: 12px;
+  padding-bottom: 16px;
+}

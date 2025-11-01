@@ -1,0 +1,10 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (IsVisible && Entry is not null)
+{
+    <div class="subtitle-overlay @Class"
+         style="@InternalStyle">
+        @((MarkupString)Entry.Text)
+    </div>
+}

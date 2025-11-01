@@ -20,9 +20,9 @@ public class RepeatButtonTests : TestBase
     [Fact]
     public void RepeatButton_OnChangeRepeatModeAsync_CyclesModeAndInvokesCallback()
     {
-        AudioRepeatMode? mode = null;
+        AudioVideoRepeatMode? mode = null;
         var cut = RenderComponent<RepeatButton>(parameters => parameters
-            .Add(p => p.OnRepeatModeChanged, EventCallback.Factory.Create<AudioRepeatMode>(this, m => mode = m))
+            .Add(p => p.OnRepeatModeChanged, EventCallback.Factory.Create<AudioVideoRepeatMode>(this, m => mode = m))
         );
 
         var method = cut.Instance.GetType().GetMethod("OnChangeRepeatModeAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);

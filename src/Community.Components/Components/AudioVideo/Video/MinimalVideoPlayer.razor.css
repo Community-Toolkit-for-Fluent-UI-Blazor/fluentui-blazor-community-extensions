@@ -1,0 +1,10 @@
+.minimal-player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  width: 120px;
+  height: 120px;
+  border: calc(var(--stroke-width) * 1px) solid var(--neutral-stroke-rest);
+  border-radius: calc(var(--control-corner-radius) * 1px);
+}

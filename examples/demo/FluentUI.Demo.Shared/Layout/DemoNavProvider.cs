@@ -170,6 +170,11 @@ public class DemoNavProvider
                         icon: new Icons.Regular.Size20.Color(),
                         title: "Color palette"
                     ),
+                    new NavLink(
+                        href: "video",
+                        icon: new Icons.Regular.Size20.Video(),
+                        title: "Video"
+                    ),
                 ]),
             new NavGroup(
                 icon: new Icons.Regular.Size20.Beaker(),
