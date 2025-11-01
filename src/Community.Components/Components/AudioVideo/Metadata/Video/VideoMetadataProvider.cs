@@ -1,10 +1,12 @@
+using System.Drawing;
+using FFMpegCore;
+using FluentUI.Blazor.Community.Helpers;
 using MetadataExtractor;
 using MetadataExtractor.Formats.QuickTime;
 using MetadataExtractor.Formats.Xmp;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
-using Xabe.FFmpeg;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -107,111 +109,108 @@ internal class VideoMetadataProvider(HttpClient httpClient, ILogger<VideoMetadat
     {
         try
         {
-            var mediaInfo = await FFmpeg.GetMediaInfo(path);
-            var videoStream = mediaInfo.VideoStreams.FirstOrDefault();
-            var audioStream = mediaInfo.AudioStreams.FirstOrDefault();
-
-            var technical = new VideoTechnicalMetadata
+            if (!RunningWasmHelper.IsWasm)
             {
-                Duration = mediaInfo.Duration,
-                FileType = Path.GetExtension(name),
-                MimeType = _contentTypeProvider.TryGetContentType(name, out var mime) ? mime : "application/octet-stream",
-                FileSize = new FileInfo(path).Length,
-                VideoCodec = videoStream?.Codec,
-                VideoBitrate = videoStream?.Bitrate,
-                FrameRate = videoStream?.Framerate,
-                AspectRatio = videoStream != null ? $"{videoStream.Width}:{videoStream.Height}" : null,
-                AudioCodec = audioStream?.Codec,
-                AudioBitrate = audioStream?.Bitrate,
-                AudioChannels = audioStream?.Channels,
-                AudioSampleRate = audioStream?.SampleRate
-            };
+                var mediaInfo = await FFProbe.AnalyseAsync(path);
+                var videoStream = mediaInfo.VideoStreams.FirstOrDefault();
+                var audioStream = mediaInfo.AudioStreams.FirstOrDefault();
 
-            var visual = new VideoVisualMetadata
-            {
-                Width = videoStream?.Width,
-                Height = videoStream?.Height
-            };
-
-            if (videoStream != null)
-            {
-                var thumbPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.jpg");
-
-                var captureTime = mediaInfo.Duration > TimeSpan.FromSeconds(5)
-                    ? TimeSpan.FromSeconds(5)
-                    : TimeSpan.FromSeconds(1);
-
-                await FFmpeg.Conversions.New()
-                    .AddStream(videoStream)
-                    .SetSeek(captureTime)
-                    .SetOutput(thumbPath)
-                    .SetOverwriteOutput(true)
-                    .Start();
-
-                if (File.Exists(thumbPath))
+                var technical = new VideoTechnicalMetadata
                 {
-                    var bytes = await File.ReadAllBytesAsync(thumbPath);
-                    var base64 = Convert.ToBase64String(bytes);
-                    visual.ThumbnailUrl = $"data:image/jpeg;base64,{base64}";
-                }
-            }
+                    Duration = mediaInfo.Duration,
+                    FileType = Path.GetExtension(name),
+                    MimeType = _contentTypeProvider.TryGetContentType(name, out var mime) ? mime : "application/octet-stream",
+                    FileSize = new FileInfo(path).Length,
+                    VideoCodec = videoStream?.CodecName,
+                    VideoBitrate = videoStream?.BitRate,
+                    FrameRate = videoStream?.FrameRate,
+                    AspectRatio = videoStream != null ? $"{videoStream.Width}:{videoStream.Height}" : null,
+                    AudioCodec = audioStream?.CodecName,
+                    AudioBitrate = audioStream?.BitRate,
+                    AudioChannels = audioStream?.Channels,
+                    AudioSampleRate = audioStream?.SampleRateHz
+                };
 
-            var directories = ImageMetadataReader.ReadMetadata(path);
-
-            var descriptive = new VideoDescriptiveMetadata();
-            var extended = new VideoExtendedMetadata();
-            var legal = new VideoLegalMetadata();
-
-            var qtMeta = directories.OfType<QuickTimeMetadataHeaderDirectory>().FirstOrDefault();
-
-            if (qtMeta is not null)
-            {
-                descriptive.Title = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagDisplayName);
-                descriptive.Description = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagDescription);
-                descriptive.Comment = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagComment);
-                legal.Copyright = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagCopyright);
-                legal.Publisher = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagPublisher);
-            }
-
-            var xmp = directories.OfType<XmpDirectory>().FirstOrDefault();
-
-            if (xmp != null)
-            {
-                var props = xmp.GetXmpProperties();
-                if (props.TryGetValue("dc:title", out var title))
+                var visual = new VideoVisualMetadata
                 {
-                    descriptive.Title ??= title;
+                    Width = videoStream?.Width,
+                    Height = videoStream?.Height
+                };
+
+                if (videoStream != null)
+                {
+                    var thumbPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.jpg");
+
+                    var captureTime = mediaInfo.Duration > TimeSpan.FromSeconds(5)
+                        ? TimeSpan.FromSeconds(5)
+                        : TimeSpan.FromSeconds(1);
+
+                    await FFMpeg.SnapshotAsync(path, thumbPath, new Size(320, 240), captureTime);
+
+                    if (File.Exists(thumbPath))
+                    {
+                        var bytes = await File.ReadAllBytesAsync(thumbPath);
+                        var base64 = Convert.ToBase64String(bytes);
+                        visual.ThumbnailUrl = $"data:image/jpeg;base64,{base64}";
+                    }
                 }
 
-                if (props.TryGetValue("dc:description", out var desc))
+                var directories = ImageMetadataReader.ReadMetadata(path);
+
+                var descriptive = new VideoDescriptiveMetadata();
+                var extended = new VideoExtendedMetadata();
+                var legal = new VideoLegalMetadata();
+
+                var qtMeta = directories.OfType<QuickTimeMetadataHeaderDirectory>().FirstOrDefault();
+
+                if (qtMeta is not null)
                 {
-                    descriptive.Description ??= desc;
+                    descriptive.Title = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagDisplayName);
+                    descriptive.Description = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagDescription);
+                    descriptive.Comment = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagComment);
+                    legal.Copyright = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagCopyright);
+                    legal.Publisher = qtMeta.GetDescription(QuickTimeMetadataHeaderDirectory.TagPublisher);
                 }
 
-                if (props.TryGetValue("dc:creator", out var creator))
+                var xmp = directories.OfType<XmpDirectory>().FirstOrDefault();
+
+                if (xmp != null)
                 {
-                    descriptive.Comment ??= creator;
+                    var props = xmp.GetXmpProperties();
+                    if (props.TryGetValue("dc:title", out var title))
+                    {
+                        descriptive.Title ??= title;
+                    }
+
+                    if (props.TryGetValue("dc:description", out var desc))
+                    {
+                        descriptive.Description ??= desc;
+                    }
+
+                    if (props.TryGetValue("dc:creator", out var creator))
+                    {
+                        descriptive.Comment ??= creator;
+                    }
                 }
-            }
 
-            if (audioStream != null && !string.IsNullOrEmpty(audioStream.Language))
-            {
-                extended.Languages = [audioStream.Language];
-            }
+                if (audioStream != null && !string.IsNullOrEmpty(audioStream.Language))
+                {
+                    extended.Languages = [audioStream.Language];
+                }
 
-            return new VideoMetadata
+                return new VideoMetadata
+                {
+                    Descriptive = descriptive,
+                    Extended = extended,
+                    Legal = legal,
+                    Technical = technical,
+                    Visual = visual
+                };
+            }
+            else
             {
-                Descriptive = descriptive,
-                Extended = extended,
-                Legal = legal,
-                Technical = technical,
-                Visual = visual
-            };
-        }
-        catch(Xabe.FFmpeg.Exceptions.FFmpegNotFoundException ex)
-        {
-            logger.LogError(ex, "FFmpeg not found. Please ensure FFmpeg is installed and configured correctly.");
-            return new();
+                return new();
+            }
         }
         catch (Exception ex)
         {

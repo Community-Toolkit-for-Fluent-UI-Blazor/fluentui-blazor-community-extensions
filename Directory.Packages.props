@@ -7,6 +7,8 @@
     <!-- For Sample Apps -->
     <PackageVersion Include="AWSSDK.S3" Version="4.0.7.6" />
     <PackageVersion Include="Azure.Storage.Blobs" Version="12.25.1" />
+    <PackageVersion Include="FFmpegBlazor" Version="1.0.0.10" />
+    <PackageVersion Include="FFMpegCore" Version="5.4.0" />
     <PackageVersion Include="Google.Cloud.Storage.V1" Version="4.13.0" />
 
     <PackageVersion Include="Markdig.Signed" Version="0.43.0" />

@@ -57,6 +57,7 @@
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="FFMpegCore" />
     <PackageReference Include="MetadataExtractor" />
     <PackageReference Include="Microsoft.AspNetCore.Components" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
@@ -68,7 +69,6 @@
     <PackageReference Include="SkiaSharp" />
     <PackageReference Include="Svg.Skia" />
     <PackageReference Include="TagLibSharp" />
-    <PackageReference Include="Xabe.FFmpeg" />
   </ItemGroup>
 
   <PropertyGroup>
