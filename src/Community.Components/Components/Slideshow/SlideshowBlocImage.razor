@@ -1,0 +1,32 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+
+<div class="slideshow-bloc-image @Class" style="@InternalStyle">
+    @if (ImagePosition == SlideshowImagePosition.Left)
+    {
+        <SlideshowImage Alt="@AltText"
+                        Source="@Source"
+                        Title="@Title"
+                        Width="@ImageWidth"
+                        Height="@ImageHeight"
+                        TItem="TItem"
+                        Style="@InternalImageStyle" />
+    }
+
+    <div class="slideshow-bloc-image-child-content">
+        @ChildContent
+    </div>
+
+    @if (ImagePosition == SlideshowImagePosition.Right)
+    {
+        <SlideshowImage Alt="@AltText"
+                        Source="@Source"
+                        Title="@Title"
+                        Width="@ImageWidth"
+                        Height="@ImageHeight"
+                        TItem="TItem"
+                        Style="@InternalImageStyle" />
+    }
+</div>

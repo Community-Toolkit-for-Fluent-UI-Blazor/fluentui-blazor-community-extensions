@@ -17420,6 +17420,90 @@
             <returns>Returns a task wich moves the slide according to the <paramref name="direction"/>
              when completed.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1">
+            <summary>
+            Represents an image component for use within a slideshow, supporting customizable layout, appearance, and content.
+            </summary>
+            <remarks>This component allows you to display an image with configurable properties such as alternative text,
+            source URL, title, background color, dimensions, border radius, and image position. Additional content can be
+            provided using the ChildContent parameter. The component is designed for use in Blazor applications and can be
+            integrated into a larger slideshow or carousel UI.</remarks>
+            <typeparam name="TItem">The type of the data item associated with the slideshow image.</typeparam>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.AltText">
+            <summary>
+            Gets or sets the alternative text to display when the image cannot be rendered.
+            </summary>
+            <remarks>Alternative text is important for accessibility, as it is read by screen readers and
+            displayed if the image fails to load. Provide a descriptive value to improve the user experience for all
+            users.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.Source">
+            <summary>
+            Gets or sets the source identifier or URI for the component's data or content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.Title">
+            <summary>
+            Gets or sets the title to display for the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.BackgroundColor">
+            <summary>
+            Gets or sets the background color of the component.
+            </summary>
+            <remarks>Set this property to specify a custom background color using a valid CSS color value, such as
+            a color name, hexadecimal, RGB, or other supported CSS formats. If not set, the component uses its default
+            background color.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.ImageWidth">
+            <summary>
+            Gets or sets the width, in pixels, of the image to be rendered.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.ImageHeight">
+            <summary>
+            Gets or sets the height, in pixels, of the image to be rendered.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.ImagePosition">
+            <summary>
+            Gets or sets the position of the image within the slideshow component.
+            </summary>
+            <remarks>Use this property to control where the image appears relative to other content in the
+            slideshow. The default value is SlideshowImagePosition.Left.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.ChildContent">
+            <summary>
+            Gets or sets the content to be rendered inside this component.
+            </summary>
+            <remarks>Use this property to specify the child elements or markup that will be rendered within the
+            component. Typically set implicitly by placing content between the component's opening and closing tags in Razor
+            syntax.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.BorderRadius">
+            <summary>
+            Gets or sets the border radius, in pixels, to apply to the component's corners.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.ImageBorderRadius">
+            <summary>
+            Gets or sets the CSS border-radius value to apply to the image.
+            </summary>
+            <remarks>Set this property to control the roundness of the image's corners using standard CSS
+            border-radius syntax (e.g., "8px", "50%", or "1em"). If not set, the image will use the default border radius
+            defined by the component or stylesheet.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.InternalStyle">
+            <summary>
+            Gets the computed CSS style string based on the current style settings.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowBlocImage`1.InternalImageStyle">
+            <summary>
+            Gets the inline CSS style string for the image based on the current image settings.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowCaption">
             <summary>
             Represents a caption for a <see cref="T:FluentUI.Blazor.Community.Components.SlideshowItem`1"/>.
@@ -17493,6 +17577,21 @@
             <remarks>Accepts standard CSS font-weight values, such as numeric values (e.g., "400", "700") or
             keywords (e.g., "normal", "bold"). The default value is "400".</remarks>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.Rotation">
+            <summary>
+            Gets or sets the rotation angle (in degrees) to apply to the text content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.Shadow">
+            <summary>
+            Gets or sets the text shadow effect to apply to the text content.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.Highlight">
+            <summary>
+            Gets or sets the highlight background color to apply to the text content.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.SlideshowCaptionText.LetterSpacing">
             <summary>
             Gets or sets the CSS letter-spacing value to apply to the element's text content.
@@ -17556,15 +17655,45 @@
             Gets or sets a value indicating whether the image has high fetch priority.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Width">
+            <summary>
+            Gets or sets the width of the image.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.SlideshowImage`1.Height">
+            <summary>
+            Gets or sets the height of the image.
+            </summary>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.OnInitialized">
             <inheritdoc />
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.SlideshowImage`1.Dispose">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.SlideshowImagePosition">
+            <summary>
+            Specifies the horizontal position of an image within a slideshow layout.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImagePosition.Left">
+            <summary>
+            Indicates that the image should be positioned on the left side of the slideshow.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImagePosition.Right">
+            <summary>
+            Indicates that the image should be positioned on the right side of the slideshow.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.SlideshowImageRatio">
             <summary>
             Represents the available ratios for images in the <see cref="T:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1" />.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.None">
+            <summary>
+            No specific ratio is applied to the image.
             </summary>
         </member>
         <member name="F:FluentUI.Blazor.Community.Components.SlideshowImageRatio.Auto">

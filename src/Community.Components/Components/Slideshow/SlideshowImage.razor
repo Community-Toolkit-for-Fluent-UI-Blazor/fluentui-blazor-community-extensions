@@ -2,9 +2,52 @@
 @inherits FluentComponentBase
 @typeparam TItem
 
-<img id="@Id"
-     loading="@(IsLazy ? "lazy" : "eager")"
-     fetchpriority="@(FetchPriorityHigh ? "high" : "low")"
-     src="@Source"
-     alt="@Alt"
-     title="@Title" />
+@if (!Width.HasValue && !Height.HasValue)
+{
+    <img id="@Id"
+         loading="@(IsLazy ? "lazy" : "eager")"
+         fetchpriority="@(FetchPriorityHigh ? "high" : "low")"
+         src="@Source"
+         alt="@Alt"
+         title="@Title"
+         class="@Class"
+         style="@Style" />
+}
+else if (Width.HasValue && Height.HasValue)
+{
+    <img id="@Id"
+         loading="@(IsLazy ? "lazy" : "eager")"
+         fetchpriority="@(FetchPriorityHigh ? "high" : "low")"
+         src="@Source"
+         alt="@Alt"
+         title="@Title"
+         width="@Width.GetValueOrDefault()"
+         height="@Height.GetValueOrDefault()"
+         class="@Class"
+         style="@Style" />
+}
+else if (Width.HasValue)
+{
+    <img id="@Id"
+         loading="@(IsLazy ? "lazy" : "eager")"
+         fetchpriority="@(FetchPriorityHigh ? "high" : "low")"
+         src="@Source"
+         alt="@Alt"
+         title="@Title"
+         width="@Width.GetValueOrDefault()"
+         class="@Class"
+         style="@Style" />
+}
+else if (Height.HasValue)
+{
+    <img id="@Id"
+         loading="@(IsLazy ? "lazy" : "eager")"
+         fetchpriority="@(FetchPriorityHigh ? "high" : "low")"
+         src="@Source"
+         alt="@Alt"
+         title="@Title"
+         height="@Height.GetValueOrDefault()"
+         class="@Class"
+         style="@Style" />
+}
+

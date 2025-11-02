@@ -6,6 +6,11 @@ namespace FluentUI.Blazor.Community.Components;
 public enum SlideshowImageRatio
 {
     /// <summary>
+    /// No specific ratio is applied to the image.
+    /// </summary>
+    None,
+
+    /// <summary>
     /// If the image natural dimensions are greater than the container dimensions,
     ///  the image is shrinked, and the aspect ratio is maintened.
     /// </summary>

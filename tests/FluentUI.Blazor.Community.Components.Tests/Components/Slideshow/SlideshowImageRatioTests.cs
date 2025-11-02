@@ -5,12 +5,14 @@ public class SlideshowImageRatioTests
     [Fact]
     public void Enum_Should_Have_Auto_And_Fill_Members()
     {
-        Assert.Equal(0, (int)SlideshowImageRatio.Auto);
-        Assert.Equal(1, (int)SlideshowImageRatio.Fill);
-        Assert.Equal(2, (int)SlideshowImageRatio.Container);
+        Assert.Equal(0, (int)SlideshowImageRatio.None);
+        Assert.Equal(1, (int)SlideshowImageRatio.Auto);
+        Assert.Equal(2, (int)SlideshowImageRatio.Fill);
+        Assert.Equal(3, (int)SlideshowImageRatio.Container);
     }
 
     [Theory]
+    [InlineData(SlideshowImageRatio.None, "None")]
     [InlineData(SlideshowImageRatio.Auto, "Auto")]
     [InlineData(SlideshowImageRatio.Fill, "Fill")]
     [InlineData(SlideshowImageRatio.Container, "Container")]
@@ -20,6 +22,7 @@ public class SlideshowImageRatioTests
     }
 
     [Theory]
+    [InlineData("None", SlideshowImageRatio.None)]
     [InlineData("Auto", SlideshowImageRatio.Auto)]
     [InlineData("Fill", SlideshowImageRatio.Fill)]
     [InlineData("Container", SlideshowImageRatio.Container)]
@@ -33,9 +36,10 @@ public class SlideshowImageRatioTests
     public void GetValues_Should_Contain_All_Members()
     {
         var values = System.Enum.GetValues<SlideshowImageRatio>();
+        Assert.Contains(SlideshowImageRatio.None, values);
         Assert.Contains(SlideshowImageRatio.Auto, values);
         Assert.Contains(SlideshowImageRatio.Fill, values);
         Assert.Contains(SlideshowImageRatio.Container, values);
-        Assert.Equal(3, values.Length);
+        Assert.Equal(4, values.Length);
     }
 }

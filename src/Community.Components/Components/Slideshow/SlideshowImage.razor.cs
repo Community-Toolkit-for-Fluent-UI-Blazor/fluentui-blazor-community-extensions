@@ -60,6 +60,18 @@ public partial class SlideshowImage<TItem>
     [Parameter]
     public bool FetchPriorityHigh { get; set; } = false;
 
+    /// <summary>
+    /// Gets or sets the width of the image.
+    /// </summary>
+    [Parameter]
+    public int? Width { get; set; }
+
+    /// <summary>
+    /// Gets or sets the height of the image.
+    /// </summary>
+    [Parameter]
+    public int? Height { get; set; }
+
     #endregion Properties
 
     #region Methods

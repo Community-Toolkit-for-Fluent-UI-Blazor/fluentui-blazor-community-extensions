@@ -20,7 +20,7 @@
                 {
                     @ChildContent
                 }
-                else if (ItemTemplate is not null && ItemFunc is not null)
+                else if (ItemTemplate is not null && ItemFunc is not null && Items.Any())
                 {
                     var i = 1;
 
@@ -59,7 +59,7 @@
         }
 
         @if (ShowIndicators &&
-             LoopMode != SlideshowLoopingMode.Infinite)
+                LoopMode != SlideshowLoopingMode.Infinite)
         {
             <div class="@InternalIndicatorsCss">
                 <FluentStack Style="height: 100%;"
@@ -101,7 +101,7 @@
                     <DotIndicator TItem="TItem"
                                   Index="@i"
                                   Orientation="@InternalOrientation"
-                                  CurrentSlideshowIndex="@Index"/>
+                                  CurrentSlideshowIndex="@Index" />
                 }
             }
         };

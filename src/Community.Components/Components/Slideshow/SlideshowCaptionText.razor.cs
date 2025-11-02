@@ -51,6 +51,24 @@ public partial class SlideshowCaptionText : FluentComponentBase
     public string? FontWeight { get; set; } = "400";
 
     /// <summary>
+    /// Gets or sets the rotation angle (in degrees) to apply to the text content.
+    /// </summary>
+    [Parameter]
+    public int Rotation { get; set; } = 0;
+
+    /// <summary>
+    /// Gets or sets the text shadow effect to apply to the text content.
+    /// </summary>
+    [Parameter]
+    public string? Shadow { get; set; }
+
+    /// <summary>
+    /// Gets or sets the highlight background color to apply to the text content.
+    /// </summary>
+    [Parameter]
+    public string? Highlight { get; set; }
+
+    /// <summary>
     /// Gets or sets the CSS letter-spacing value to apply to the element's text content.
     /// </summary>
     [Parameter]
@@ -79,5 +97,8 @@ public partial class SlideshowCaptionText : FluentComponentBase
         .AddStyle("letter-spacing", LetterSpacing, !string.IsNullOrEmpty(LetterSpacing))
         .AddStyle("line-height", LineHeight, !string.IsNullOrEmpty(LineHeight))
         .AddStyle("margin", Margin, !string.IsNullOrEmpty(Margin))
+        .AddStyle("transform", $"rotate({Rotation}deg)", Rotation != 0)
+        .AddStyle("text-shadow", Shadow, !string.IsNullOrEmpty(Shadow))
+        .AddStyle("background", Highlight, !string.IsNullOrEmpty(Highlight))
         .Build();
 }
