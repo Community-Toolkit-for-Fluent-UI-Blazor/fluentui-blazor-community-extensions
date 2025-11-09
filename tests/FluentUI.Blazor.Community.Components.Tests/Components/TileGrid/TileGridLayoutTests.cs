@@ -22,7 +22,7 @@ public class TileGridLayoutTests
         var key = "test-item";
 
         // Add an item first using the protected Add method
-        layout.Add<TileGridLayoutItem>(key, 0);
+        layout.Add(new TileGridLayoutItem() { Key = key, Index = 0 });
 
         // Act
         layout.UpdateSpan(key, 3, 2);
@@ -53,7 +53,7 @@ public class TileGridLayoutTests
     {
         // Arrange
         var layout = new TileGridLayout();
-        layout.Add<TileGridLayoutItem>("test", 0);
+        layout.Add(new TileGridLayoutItem() { Key = "test", Index = 0 });
 
         // Act & Assert - Should not throw
         layout.UpdateSpan(null!, 3, 2);
@@ -64,7 +64,7 @@ public class TileGridLayoutTests
     {
         // Arrange
         var layout = new TileGridLayout();
-        layout.Add<TileGridLayoutItem>("test", 0);
+        layout.Add(new TileGridLayoutItem() { Key = "test", Index = 0 });
 
         // Act & Assert - Should not throw
         layout.UpdateSpan("", 3, 2);
@@ -76,7 +76,7 @@ public class TileGridLayoutTests
         // Arrange
         var layout = new TileGridLayout();
         var key = "test-item";
-        layout.Add<TileGridLayoutItem>(key, 0);
+        layout.Add(new TileGridLayoutItem() { Key = key, Index = 0 });
 
         // Act
         layout.UpdateSpan(key, 0, 0);
@@ -93,7 +93,7 @@ public class TileGridLayoutTests
         // Arrange
         var layout = new TileGridLayout();
         var key = "test-item";
-        layout.Add<TileGridLayoutItem>(key, 0);
+        layout.Add(new TileGridLayoutItem() { Key = key, Index = 0 });
 
         // Act
         layout.UpdateSpan(key, -1, -2);
@@ -110,7 +110,7 @@ public class TileGridLayoutTests
         // Arrange
         var layout = new TileGridLayout();
         var key = "Test-Item";
-        layout.Add<TileGridLayoutItem>(key, 0);
+        layout.Add(new TileGridLayoutItem() { Key = key, Index = 0 });
 
         // Act - Use different case
         layout.UpdateSpan("TEST-ITEM", 5, 4);
@@ -125,10 +125,12 @@ public class TileGridLayoutTests
     public void TileGridLayout_UpdateSpan_MultipleItems_UpdatesCorrectItem()
     {
         // Arrange
-        var layout = new TileGridLayout();
-        layout.Add<TileGridLayoutItem>("item1", 0);
-        layout.Add<TileGridLayoutItem>("item2", 1);
-        layout.Add<TileGridLayoutItem>("item3", 2);
+        var layout = new TileGridLayout
+        {
+            new TileGridLayoutItem() { Key = "item1", Index = 0 },
+            new TileGridLayoutItem() { Key = "item2", Index = 1 },
+            new TileGridLayoutItem() { Key = "item3", Index = 2 }
+        };
 
         // Act
         layout.UpdateSpan("item2", 7, 8);
@@ -156,7 +158,7 @@ public class TileGridLayoutTests
         // Arrange
         var layout = new TileGridLayout();
         var key = "test-item";
-        layout.Add<TileGridLayoutItem>(key, 0);
+        layout.Add(new TileGridLayoutItem() { Key = key, Index = 0 });
 
         // Act - Multiple updates
         layout.UpdateSpan(key, 1, 1);

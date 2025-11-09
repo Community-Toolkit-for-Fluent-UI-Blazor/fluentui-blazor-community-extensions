@@ -56,7 +56,6 @@ public class TileGridTests
         Assert.Null(instance.IsDropAllowed);
     }
 
-
     [Theory]
     [InlineData(5)]
     [InlineData(3)]
@@ -464,10 +463,12 @@ public class TileGridTests
     [Fact]
     public void FluentCxTileGrid_PersistenceEnabled_LoadLayout()
     {
-        var mockTileGridLayout = new TileGridLayout();
-        mockTileGridLayout.Add<TileGridLayoutItem>("1", 0);
-        mockTileGridLayout.Add<TileGridLayoutItem>("2", 1);
-        mockTileGridLayout.Add<TileGridLayoutItem>("3", 2);
+        var mockTileGridLayout = new TileGridLayout
+        {
+            new TileGridLayoutItem() { Key = "1", Index = 0 },
+            new TileGridLayoutItem() { Key = "2", Index = 1 },
+            new TileGridLayoutItem() { Key = "3", Index = 2 }
+        };
 
         var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/js/TileGridLayout.js");
         mockModule.Setup<TileGridLayout>("loadLayout", "123").SetResult(mockTileGridLayout);
@@ -503,10 +504,12 @@ public class TileGridTests
             },
         };
 
-        var mockTileGridLayout = new TileGridLayout();
-        mockTileGridLayout.Add<TileGridLayoutItem>("1", 0);
-        mockTileGridLayout.Add<TileGridLayoutItem>("2", 1);
-        mockTileGridLayout.Add<TileGridLayoutItem>("3", 2);
+        var mockTileGridLayout = new TileGridLayout
+        {
+            new TileGridLayoutItem() { Key = "1", Index = 0 },
+            new TileGridLayoutItem() { Key = "2", Index = 1 },
+            new TileGridLayoutItem() { Key = "3", Index = 2 }
+        };
 
         var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/js/TileGridLayout.js");
         mockModule.Setup<TileGridLayout>("loadLayout", "123").SetResult(mockTileGridLayout);
@@ -550,10 +553,12 @@ public class TileGridTests
             parameters.Add(p => p.Id, "123");
         });
 
-        var mockTileGridLayout = new TileGridLayout();
-        mockTileGridLayout.Add<TileGridLayoutItem>("1", 0);
-        mockTileGridLayout.Add<TileGridLayoutItem>("2", 1);
-        mockTileGridLayout.Add<TileGridLayoutItem>("3", 2);
+        var mockTileGridLayout = new TileGridLayout
+        {
+            new TileGridLayoutItem() { Key = "1", Index = 0 },
+            new TileGridLayoutItem() { Key = "2", Index = 1 },
+            new TileGridLayoutItem() { Key = "3", Index = 2 }
+        };
 
         var serializedLayout = JsonSerializer.Serialize(mockTileGridLayout);
 

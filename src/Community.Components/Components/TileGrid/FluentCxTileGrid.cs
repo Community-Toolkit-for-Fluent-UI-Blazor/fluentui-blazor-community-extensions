@@ -56,7 +56,9 @@ public class FluentCxTileGrid<TItem>
         MinimumColumnWidth = MinimumColumnWidth,
         RowHeight = RowHeight,
         Width = Width,
-        MinimumRowHeight = MinimumRowHeight
+        MinimumRowHeight = MinimumRowHeight,
+        ColumnGap = ColumnGap,
+        RowGap = RowGap
     };
 
     [Inject]
@@ -180,6 +182,23 @@ public class FluentCxTileGrid<TItem>
     public string? Height { get; set; } = "100%";
 
     /// <summary>
+    /// Gets or sets the vertical spacing between rows in the layout, specified as a CSS length value.
+    /// </summary>
+    /// <remarks>Set this property to control the space between rows when rendering content in a grid or flex
+    /// container. Acceptable values include standard CSS units such as "10px", "1em", or "2rem". If not set, the
+    /// default spacing defined by the component or stylesheet will be used.</remarks>
+    [Parameter]
+    public string? RowGap { get; set; }
+
+    /// <summary>
+    /// Gets or sets the CSS column gap value that defines the spacing between columns in the layout.
+    /// </summary>
+    /// <remarks>Set this property to specify the distance between columns using any valid CSS length or
+    /// keyword, such as "16px", "1em", or "normal". If not set, the default browser styling will be applied.</remarks>
+    [Parameter]
+    public string? ColumnGap { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating if the layout will be stored in the local storage of the app or not.
     /// </summary>
     /// <remarks>
@@ -214,7 +233,13 @@ public class FluentCxTileGrid<TItem>
     {
         if (index.HasValue && value is not null && ItemKey is not null)
         {
-            _layout.Add<TileGridLayoutItem>(ItemKey(value.Value), index.Value);
+            _layout.Add(new TileGridLayoutItem()
+            {
+                ColumnSpan = value.ColumnSpan,
+                RowSpan = value.RowSpan,
+                Key = ItemKey(value.Value),
+                Index = index.Value
+            });
         }
     }
 
@@ -305,25 +330,25 @@ public class FluentCxTileGrid<TItem>
         base.BuildRenderTree(builder);
 
         builder.OpenComponent<CascadingValue<FluentCxTileGrid<TItem>>>(0);
-        builder.AddComponentParameter(1, nameof(CascadingValue<FluentCxDropZoneContainer<TItem>>.Value), this);
-        builder.AddComponentParameter(2, nameof(CascadingValue<FluentCxDropZoneContainer<TItem>>.IsFixed), true);
+        builder.AddComponentParameter(1, nameof(CascadingValue<>.Value), this);
+        builder.AddComponentParameter(2, nameof(CascadingValue<>.IsFixed), true);
         builder.AddChildContent(3, __builder2 =>
         {
             __builder2.OpenComponent<FluentCxDropZoneContainer<TItem>>(4);
-            __builder2.AddComponentParameter(5, nameof(FluentCxDropZoneContainer<TItem>.Immediate), RuntimeHelpers.TypeCheck(Immediate));
-            __builder2.AddComponentParameter(6, nameof(FluentCxDropZoneContainer<TItem>.CloneItem), CloneItem);
-            __builder2.AddComponentParameter(7, nameof(FluentCxDropZoneContainer<TItem>.IsDragAllowed), IsDragAllowed);
-            __builder2.AddComponentParameter(8, nameof(FluentCxDropZoneContainer<TItem>.IsDropAllowed), IsDropAllowed);
-            __builder2.AddComponentParameter(9, nameof(FluentCxDropZoneContainer<TItem>.IsDragEnabled), CanReorder);
-            __builder2.AddComponentParameter(10, nameof(FluentCxDropZoneContainer<TItem>.Items), Items);
-            __builder2.AddComponentParameter(11, nameof(FluentCxDropZoneContainer<TItem>.ItemCss), ItemCss);
-            __builder2.AddComponentParameter(12, nameof(FluentCxDropZoneContainer<TItem>.Id), Id);
-            __builder2.AddComponentParameter(13, nameof(FluentCxDropZoneContainer<TItem>.ChildContent), ChildContent);
-            __builder2.AddComponentParameter(14, nameof(FluentCxDropZoneContainer<TItem>.ItemContent), ItemContent);
-            __builder2.AddComponentParameter(15, nameof(FluentCxDropZoneContainer<TItem>.TileGridSettings), GridSettings);
-            __builder2.AddComponentParameter(16, nameof(FluentCxDropZoneContainer<TItem>.CanOverflow), CanOverflow);
-            __builder2.AddComponentParameter(17, nameof(FluentCxDropZoneContainer<TItem>.Layout), _layout);
-            __builder2.AddComponentParameter(18, nameof(FluentCxDropZoneContainer<TItem>.ItemKey), ItemKey);
+            __builder2.AddComponentParameter(5, nameof(FluentCxDropZoneContainer<>.Immediate), RuntimeHelpers.TypeCheck(Immediate));
+            __builder2.AddComponentParameter(6, nameof(FluentCxDropZoneContainer<>.CloneItem), CloneItem);
+            __builder2.AddComponentParameter(7, nameof(FluentCxDropZoneContainer<>.IsDragAllowed), IsDragAllowed);
+            __builder2.AddComponentParameter(8, nameof(FluentCxDropZoneContainer<>.IsDropAllowed), IsDropAllowed);
+            __builder2.AddComponentParameter(9, nameof(FluentCxDropZoneContainer<>.IsDragEnabled), CanReorder);
+            __builder2.AddComponentParameter(10, nameof(FluentCxDropZoneContainer<>.Items), Items);
+            __builder2.AddComponentParameter(11, nameof(FluentCxDropZoneContainer<>.ItemCss), ItemCss);
+            __builder2.AddComponentParameter(12, nameof(Id), Id);
+            __builder2.AddComponentParameter(13, nameof(FluentCxDropZoneContainer<>.ChildContent), ChildContent);
+            __builder2.AddComponentParameter(14, nameof(FluentCxDropZoneContainer<>.ItemContent), ItemContent);
+            __builder2.AddComponentParameter(15, nameof(FluentCxDropZoneContainer<>.TileGridSettings), GridSettings);
+            __builder2.AddComponentParameter(16, nameof(FluentCxDropZoneContainer<>.CanOverflow), CanOverflow);
+            __builder2.AddComponentParameter(17, nameof(FluentCxDropZoneContainer<>.Layout), _layout);
+            __builder2.AddComponentParameter(18, nameof(FluentCxDropZoneContainer<>.ItemKey), ItemKey);
             __builder2.AddComponentParameter(19, nameof(PersistenceEnabled), PersistenceEnabled);
             __builder2.AddComponentReferenceCapture(20, (__value) =>
             {
