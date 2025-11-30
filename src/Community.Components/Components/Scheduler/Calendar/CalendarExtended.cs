@@ -48,7 +48,7 @@ public static class CalendarExtended
     /// dates from adjacent months if the week overlaps month boundaries.</returns>
     public static IReadOnlyList<DateTime> GetDaysOfWeek(int weekIndex, DateTime? referenceMonth = null, CultureInfo? culture = null)
     {
-        culture ??= CultureInfo.CurrentCulture;
+        culture ??= CultureInfo.InvariantCulture;
         referenceMonth ??= DateTime.Today;
 
         var firstOfMonth = new DateTime(referenceMonth.Value.Year, referenceMonth.Value.Month, 1);

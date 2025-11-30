@@ -57,10 +57,14 @@
 .scheduler-hour {
   width: 80px;
   background: var(--neutral-fill-stealth-rest, #fafafa);
-  font-weight: 600;
   color: var(--neutral-foreground-hint, #555);
   text-align: right;
   padding-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
 }
 
 .scheduler-hour-label {
@@ -93,14 +97,6 @@
 
 .scheduler-hours-column {
   border-right: 1px solid #ccc;
-}
-
-.scheduler-hour-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  border-bottom: 1px solid #eee;
 }
 
 .scheduler-slots-columns {

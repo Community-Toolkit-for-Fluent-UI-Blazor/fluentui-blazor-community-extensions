@@ -35,7 +35,7 @@ public partial class SchedulerCalendar
     /// Changing this property affects how dates, numbers, and other culture-sensitive data are displayed and
     /// interpreted.</remarks>
     [Parameter]
-    public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
+    public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
 
     /// <summary>
     /// Gets or sets the delegate used to determine whether a slot is available for a given date and time.
@@ -105,6 +105,11 @@ public partial class SchedulerCalendar
     /// state from previous interactions.</remarks>
     private void InitializeOpenPopoverArray()
     {
+        if (Month == DateTime.MinValue || Month == DateTime.MaxValue)
+        {
+            return;
+        }
+
         for (var week = 0; week < 6; week++)
         {
             foreach (var day in CalendarExtended.GetDaysOfWeek(week, Month, Culture))
