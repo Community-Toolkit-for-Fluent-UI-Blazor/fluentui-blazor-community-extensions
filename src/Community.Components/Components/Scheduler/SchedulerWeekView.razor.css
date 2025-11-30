@@ -1,0 +1,126 @@
+.scheduler-week {
+  display: flex;
+  flex-direction: column;
+  background: var(--neutral-fill-rest, #fff);
+  font-family: var(--body-font, Arial, sans-serif);
+  font-size: 14px;
+  color: var(--neutral-foreground-rest, #333);
+}
+
+.scheduler-week-grid.cells-disabled .scheduler-week-day {
+  pointer-events: none;
+}
+
+
+.scheduler-week-grid {
+  display: grid;
+  grid-template-columns: 80px 80px repeat(7, 1fr);
+  grid-auto-rows: var(--slot-height, 60px);
+}
+
+.scheduler-week-day-header {
+  background: var(--neutral-fill-stealth-rest, #fafafa);
+  border: 1px solid var(--neutral-stroke-rest, #eee);
+  padding: 4px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  position: relative;
+  font-weight: 600;
+  color: var(--neutral-foreground-rest, #333);
+  pointer-events: none;
+}
+
+.scheduler-week-day {
+  background: var(--neutral-fill-rest, #fff);
+  border: 1px solid var(--neutral-stroke-rest, #eee);
+  padding: 4px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--slot-height, 60px);
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+  .scheduler-week-day:hover {
+    background: var(--neutral-fill-stealth-hover, #f0f0f0);
+    cursor: pointer;
+    box-shadow: inset 0 0 0 2px var(--accent-fill-rest, #0078d4);
+  }
+
+.scheduler-week-subdivision-label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--accent-fill-rest, #0078d4);
+}
+
+.scheduler-week-subdivision {
+  background: var(--neutral-fill-stealth-rest, #fafafa);
+  font-weight: 600;
+  text-align: right;
+  padding: 4px 8px;
+  border-right: 1px solid var(--neutral-stroke-rest, #eee);
+  font-size: 0.85rem;
+  color: var(--neutral-foreground-hint, #555);
+  pointer-events: none;
+}
+
+.scheduler-week-day-label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--accent-fill-rest, #0078d4);
+}
+
+.scheduler-week-label {
+  background: var(--neutral-fill-stealth-rest, #fafafa);
+  font-weight: 600;
+  text-align: right;
+  padding: 4px 8px;
+  border-right: 1px solid var(--neutral-stroke-rest, #eee);
+  font-size: 0.85rem;
+  color: var(--neutral-foreground-hint, #555);
+  pointer-events: none;
+}
+
+.scheduler-week-header {
+  display: grid;
+  grid-template-columns: 80px 80px repeat(7, 1fr);
+}
+
+.scheduler-week-header-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 0;
+  background: var(--neutral-fill-stealth-rest, #fafafa);
+  border: 1px solid var(--neutral-stroke-rest, #ddd);
+  font-size: 0.85rem;
+}
+
+  .scheduler-week-header-cell .day-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--neutral-foreground-rest, #333);
+  }
+
+  .scheduler-week-header-cell .day-date {
+    font-size: 0.75rem;
+    color: var(--neutral-foreground-hint, #666);
+  }
+
+.outside-working-hours-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--neutral-fill-stealth-rest, #fafafa);
+  opacity: 0.6;
+  z-index: 1;
+  pointer-events: none;
+}

@@ -1,0 +1,61 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     @ref="Element"
+     class="schedular-month @Class"
+     style="@InternalStyle">
+    <div class="scheduler-month-name-header">
+        @if (Culture is not null)
+        {
+            @($"{Culture.TextInfo.ToTitleCase(Culture.DateTimeFormat.MonthNames[Date.Month - 1])} {Date.Year}")
+        }
+    </div>
+    <div class="scheduler-month-header" style="margin-bottom: 8px;">
+        @if (Culture is not null)
+        {
+            var firstDayOfWeek = Culture.DateTimeFormat.FirstDayOfWeek;
+
+            foreach (var day in Enumerable.Range(0, 7))
+            {
+                var dayName = Culture.DateTimeFormat.DayNames[((int)firstDayOfWeek + day) % 7];
+
+                <div class="scheduler-weekday-cell">
+                    @dayName
+                </div>
+            }
+        }
+    </div>
+
+    <div class="scheduler-content">
+        <div class="scheduler-month-grid @(DisabledCells ? "cells-disabled" : "")">
+            @foreach (var slot in Slots)
+            {
+                var cssClass = slot.Disabled ? "scheduler-day-cell disabled" : "scheduler-day-cell";
+
+                <div class="@cssClass"
+                     @ondblclick="() => OnSlotDoubleClickAsync(slot)">
+                    @if (SlotTemplate != null)
+                    {
+                        @SlotTemplate(slot)
+                    }
+                    else
+                    {
+                        <div class="scheduler-day-label">@slot.Label</div>
+                    }
+
+                    @if (!slot.Disabled && OverflowByDay.TryGetValue(slot.Start.Date, out var hiddenCount))
+                    {
+                        <div class="scheduler-item-more">
+                            <FluentButton Appearance="Appearance.Neutral"
+                                          IconStart="@(new Regular.Size24.MoreHorizontal())"
+                                          OnClick="@(() => OnDaySelectedAsync(slot))"
+                                          Title="@($"+{hiddenCount}")"
+                                          Style="width: 100%" />
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

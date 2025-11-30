@@ -1,0 +1,42 @@
+.scheduler-year {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background-color: var(--neutral-fill-rest, #ffffff);
+}
+
+.scheduler-year-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 16px;
+}
+
+.scheduler-item {
+  box-sizing: border-box;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  min-height: 22px;
+  font-size: 13px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent-fill-rest, #0078d4) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-fill-rest, #0078d4) 45%, transparent);
+  color: var(--neutral-foreground-rest, #333);
+  transition: box-shadow 120ms ease, transform 120ms ease;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  width: 100%;
+  max-width: 272px;
+  overflow: hidden; 
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+  .scheduler-item:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+  }

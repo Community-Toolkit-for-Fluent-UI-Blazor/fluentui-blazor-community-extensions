@@ -1,0 +1,27 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem
+
+@if ((Parent?.View == SchedulerView.Day ||
+     Parent?.View == SchedulerView.Week ||
+     Parent?.View == SchedulerView.Timeline) &&
+     Parent?.ShowBusinessHoursSettings == true)
+{
+    @if (Parent?.ShowNonWorkingHours == true)
+    {
+        <FluentButton IconStart="@(new Regular.Size24.Clock())"
+                      Appearance="Appearance.Neutral"
+                      OnClick="@OnBusinessHoursToggle"
+                      Title="@Parent!.Labels.ShowBusinessHours">
+            @Parent!.Labels.ShowBusinessHours
+        </FluentButton>
+    }
+    else
+    {
+        <FluentButton IconStart="@(new Regular.Size24.Clock())"
+                      Appearance="Appearance.Neutral"
+                      OnClick="@OnBusinessHoursToggle"
+                      Title="@Parent!.Labels.ShowAllDay">
+            @Parent!.Labels.ShowAllDay
+        </FluentButton>
+    }
+}

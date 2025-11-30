@@ -1,0 +1,125 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<div id="@Id"
+     @ref="Element"
+     class="schedular-agenda @Class"
+     style="--agenda-cell-height:@(CellHeight)px; @Style">
+    <table class="agenda-table">
+        <thead>
+            <tr>
+                <th class="agenda-header-date">Date</th>
+                <th class="agenda-header-time">Time</th>
+                <th class="agenda-header-event">Events</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dayGroup in GetAgendaDays())
+            {
+                var items = dayGroup.Value;
+
+                if (items.Count == 0)
+                {
+                    <tr class="agenda-row agenda-single">
+                        <td class="agenda-date">
+                            <div class="agenda-date-wrap">
+                                <div class="agenda-day-number">@dayGroup.Key.Day</div>
+                                <div class="agenda-day-info">
+                                    <div class="agenda-day-name">@dayGroup.Key.ToString("dddd")</div>
+                                    <div class="agenda-day-month">@dayGroup.Key.ToString("MMMM yyyy")</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="agenda-hour"><div class="agenda-cell"></div></td>
+                        <td class="agenda-event"><div class="agenda-cell"></div></td>
+                    </tr>
+                }
+                else if (items.Count == 1)
+                {
+                    var item = items[0];
+                    var times = GetDailySegmentTexts(Culture, item, dayGroup.Key);
+
+                    <tr class="agenda-row agenda-single">
+                        <td class="agenda-date">
+                            <div class="agenda-date-wrap">
+                                <div class="agenda-day-number">@dayGroup.Key.Day</div>
+                                <div class="agenda-day-info">
+                                    <div class="agenda-day-name">@dayGroup.Key.ToString("dddd")</div>
+                                    <div class="agenda-day-month">@dayGroup.Key.ToString("MMMM yyyy")</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="agenda-hour">
+                            <div class="agenda-cell">
+                                @times.StartText - @times.EndText
+                            </div>
+                        </td>
+                        <td class="agenda-event">
+                            <div class="agenda-cell">
+                                @if (item.Recurrence != null)
+                                {
+                                    <FluentIcon Value="@(new Regular.Size20.CalendarArrowRepeatAll())" />
+                                }
+
+                                @item.Title       
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    var first = items[0];
+                    var firstTimes = GetDailySegmentTexts(Culture, first, dayGroup.Key);
+
+                    <tr class="agenda-row agenda-multi">
+                        <td class="agenda-date" rowspan="@items.Count">
+                            <div class="agenda-date-wrap">
+                                <div class="agenda-day-number">@dayGroup.Key.Day</div>
+                                <div class="agenda-day-info">
+                                    <div class="agenda-day-name">@dayGroup.Key.ToString("dddd")</div>
+                                    <div class="agenda-day-month">@dayGroup.Key.ToString("MMMM yyyy")</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="agenda-hour">
+                            <div class="agenda-cell">
+                                @firstTimes.StartText - @firstTimes.EndText
+                            </div>
+                        </td>
+                        <td class="agenda-event">
+                            <div class="agenda-cell">
+                                @first.Title
+                            </div>
+                        </td>
+                    </tr>
+
+                    @for (int i = 1; i < items.Count; i++)
+                    {
+                        var item = items[i];
+                        var times = GetDailySegmentTexts(Culture, item, dayGroup.Key);
+
+                        <tr class="agenda-row agenda-multi">
+                            <td class="agenda-hour">
+                                <div class="agenda-cell">
+                                    @times.StartText - @times.EndText
+                                </div>
+                            </td>
+
+                            <td class="agenda-event">
+                                <div class="agenda-cell">
+                                    @if (item.Recurrence != null)
+                                    {
+                                        <FluentIcon Value="@(new Regular.Size20.CalendarArrowRepeatAll())" />
+                                    }
+
+                                    @item.Title
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
