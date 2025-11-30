@@ -9,7 +9,7 @@
 </div>
 
 @code {
-    private int _nextId = 1;
+    private long _nextId = 1;
     private readonly List<SchedulerItem<string>> _items = [];
 
     [Inject]
@@ -66,6 +66,7 @@
                                           (item.Recurrence != null && item.Start <= to && (!item.Recurrence.Until.HasValue || item.Recurrence.Until.Value >= from))
 );
 
+        _nextId = _items.Count > 0 ? _items.Max(i => i.Id) + 1 : 1;
         return result;
     }
 }

@@ -443,6 +443,7 @@ public partial class SchedulerCanvas<TItem> : FluentComponentBase, IAsyncDisposa
     public async ValueTask DisposeAsync()
     {
         _dotNetRef?.Dispose();
+        _dotNetRef = null;
 
         if (_module != null)
         {
