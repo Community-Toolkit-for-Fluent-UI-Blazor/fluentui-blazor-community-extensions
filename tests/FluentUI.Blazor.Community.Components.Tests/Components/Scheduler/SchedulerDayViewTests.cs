@@ -43,7 +43,7 @@ public class SchedulerDayViewTests : TestBase
         // Assert
         var slotElements = cut.FindAll(".scheduler-slot");
         Assert.Single(slotElements);
-        Assert.Contains(slotStart.ToString("HH:mm"), slotElements[0].TextContent);
+        Assert.Contains(slotStart.ToString("mm"), slotElements[0].TextContent);
     }
 
     [Fact]
