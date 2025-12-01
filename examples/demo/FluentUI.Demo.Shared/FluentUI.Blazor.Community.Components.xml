@@ -10730,13 +10730,12 @@
             </summary>
             <param name="items">Items to add.</param>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.GridLayoutBase.Add``1(System.String,System.Int32)">
+        <member name="M:FluentUI.Blazor.Community.Components.GridLayoutBase.Add``1(``0)">
             <summary>
             Adds an item into the layout.
             </summary>
             <typeparam name="T">Type of the item.</typeparam>
-            <param name="key">Key of the item.</param>
-            <param name="index">Index of the item.</param>
+            <param name="item">Item to add.</param>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.GridLayoutBase.Remove(System.Int32)">
             <summary>
@@ -11582,6 +11581,12 @@
         <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.RowHeight">
             <inheritdoc />
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.RowGap">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.ColumnGap">
+            <inheritdoc />
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.Internal.TileGridSettings.Width">
             <inheritdoc />
         </member>
@@ -11630,6 +11635,22 @@
             <summary>
             Gets the height of the row.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.RowGap">
+            <summary>
+            Gets or sets the vertical spacing between rows, typically specified as a CSS length value.
+            </summary>
+            <remarks>Set this property to control the gap between rows in a grid or layout. Common values include
+            pixel (e.g., "10px"), em (e.g., "1em"), or percentage units. If the value is <c>null</c> or an empty string, no
+            additional row gap will be applied.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.ColumnGap">
+            <summary>
+            Gets or sets the gap size between columns, typically specified as a CSS length value.
+            </summary>
+            <remarks>Set this property to control the spacing between columns in a multi-column layout. Common
+            values include pixel (e.g., "16px"), em (e.g., "1em"), or other valid CSS units. If the value is null or empty,
+            the default column gap will be used.</remarks>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.ITileGridSettings.Width">
             <summary>
@@ -17849,6 +17870,21 @@
             Gets or sets the height of the grid.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.RowGap">
+            <summary>
+            Gets or sets the vertical spacing between rows in the layout, specified as a CSS length value.
+            </summary>
+            <remarks>Set this property to control the space between rows when rendering content in a grid or flex
+            container. Acceptable values include standard CSS units such as "10px", "1em", or "2rem". If not set, the
+            default spacing defined by the component or stylesheet will be used.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.ColumnGap">
+            <summary>
+            Gets or sets the CSS column gap value that defines the spacing between columns in the layout.
+            </summary>
+            <remarks>Set this property to specify the distance between columns using any valid CSS length or
+            keyword, such as "16px", "1em", or "normal". If not set, the default browser styling will be applied.</remarks>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGrid`1.PersistenceEnabled">
             <summary>
             Gets or sets a value indicating if the layout will be stored in the local storage of the app or not.
@@ -17952,6 +17988,16 @@
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.Parent">
             <summary>
             Gets or sets the parent of the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.OnResized">
+            <summary>
+            Gets or sets the callback that is invoked when the component is resized.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.ShowOverflow">
+            <summary>
+            Gets or sets a value indicating whether content that exceeds the available space is visible.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxTileGridItem`1.InternalStyle">

@@ -19,7 +19,13 @@ internal class TileGridSettings
     public int? Columns { get; set; }
 
     /// <inheritdoc />
-    public string RowHeight { get; set; } = "1fr";
+    public string? RowHeight { get; set; } = "1fr";
+
+    /// <inheritdoc />
+    public string? RowGap { get; set; } = "10px";
+
+    /// <inheritdoc />
+    public string? ColumnGap { get; set; } = "10px";
 
     /// <inheritdoc />
     public string? Width { get; set; } = "100%";
@@ -101,9 +107,11 @@ internal class TileGridSettings
         return new StyleBuilder()
             .AddStyle("display", "grid")
             .AddStyle("grid-template-columns", GetColumns())
-            .AddStyle("grid-auto-rows", GetRows())
+            .AddStyle("grid-auto-rows", GetRows(), !string.IsNullOrEmpty(RowHeight))
             .AddStyle("width", Width, !string.IsNullOrEmpty(Width))
             .AddStyle("height", Height, !string.IsNullOrEmpty(Height))
+            .AddStyle("grid-row-gap", RowGap, !string.IsNullOrEmpty(RowGap))
+            .AddStyle("grid-column-gap", ColumnGap, !string.IsNullOrEmpty(ColumnGap))
             .Build();
     }
 }

@@ -60,13 +60,25 @@ public partial class FluentCxTileGridItem<TItem>
     private FluentCxTileGrid<TItem>? Parent { get; set; }
 
     /// <summary>
+    /// Gets or sets the callback that is invoked when the component is resized.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ResizedEventArgs> OnResized { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether content that exceeds the available space is visible.
+    /// </summary>
+    [Parameter]
+    public bool ShowOverflow { get; set; }
+
+    /// <summary>
     /// Gets the computed CSS style string with enforced layout constraints for internal use.
     /// </summary>
     private string? InternalStyle => new StyleBuilder(Style)
         .AddStyle("width", "100%")
         .AddStyle("height", "100%")
         .AddStyle("max-width", "100%")
-        .AddStyle("overflow", "hidden")
+        .AddStyle("overflow", "hidden", !ShowOverflow)
         .Build();
 
     /// <summary>
@@ -82,6 +94,11 @@ public partial class FluentCxTileGridItem<TItem>
         if (Parent is not null)
         {
             await Parent.UpdateLayoutAsync(this);
+        }
+
+        if (OnResized.HasDelegate)
+        {
+            await OnResized.InvokeAsync(e);
         }
 
         await InvokeAsync(StateHasChanged);

@@ -71,15 +71,10 @@ public abstract class GridLayoutBase
     /// Adds an item into the layout.
     /// </summary>
     /// <typeparam name="T">Type of the item.</typeparam>
-    /// <param name="key">Key of the item.</param>
-    /// <param name="index">Index of the item.</param>
-    internal void Add<T>(string key, int index) where T : GridLayoutBaseItem, new()
+    /// <param name="item">Item to add.</param>
+    internal void Add<T>(T item) where T : GridLayoutBaseItem, new()
     {
-        _items.Add(new T()
-        {
-            Index = index,
-            Key = key
-        });
+        _items.Add(item);
     }
 
     /// <summary>

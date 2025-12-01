@@ -11,9 +11,9 @@ public class GridLayoutBaseTests
             return base.Get<T>(key);
         }
 
-        public new void Add<T>(string key, int index) where T : GridLayoutBaseItem, new()
+        public new void Add<T>(T value) where T : GridLayoutBaseItem, new()
         {
-            base.Add<T>(key, index);
+            base.Add<T>(value);
         }
 
         public new void Remove(int index)
@@ -70,10 +70,15 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Add_AddsItemCorrectly()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-
-        // Act
-        layout.Add<TileGridLayoutItem>("test-key", 5);
+        var layout = new TestableGridLayout
+        {
+            // Act
+            new TileGridLayoutItem()
+            {
+                Key = "test-key",
+                Index = 5
+            }
+        };
 
         // Assert
         Assert.Single(layout.Items);
@@ -86,12 +91,13 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Add_MultipleItems_AddsAll()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-
-        // Act
-        layout.Add<TileGridLayoutItem>("item1", 0);
-        layout.Add<TileGridLayoutItem>("item2", 1);
-        layout.Add<TestItem>("item3", 2);
+        var layout = new TestableGridLayout
+        {
+            // Act
+            new TileGridLayoutItem() { Key = "item1", Index = 0 },
+            new TileGridLayoutItem() { Key = "item2", Index = 1 },
+            new TestItem() { Key = "item3", Index = 2 }
+        };
 
         // Assert
         Assert.Equal(3, layout.Items.Count());
@@ -109,8 +115,10 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Get_WithExistingKey_ReturnsItem()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("test-key", 0);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "test-key", Index = 0 }
+        };
 
         // Act
         var result = layout.Get<TileGridLayoutItem>("test-key");
@@ -125,8 +133,10 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Get_WithNonExistentKey_ReturnsNull()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("existing-key", 0);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "existing-key", Index = 0 }
+        };
 
         // Act
         var result = layout.Get<TileGridLayoutItem>("non-existent-key");
@@ -139,8 +149,10 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Get_WithNullKey_ReturnsNull()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("test-key", 0);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "test-key", Index = 0 }
+        };
 
         // Act
         var result = layout.Get<TileGridLayoutItem>(null);
@@ -153,8 +165,10 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Get_CaseInsensitive_FindsItem()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("Test-Key", 0);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "Test-Key", Index = 0 }
+        };
 
         // Act
         var result = layout.Get<TileGridLayoutItem>("TEST-KEY");
@@ -168,10 +182,12 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Remove_WithExistingIndex_RemovesItem()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("item1", 0);
-        layout.Add<TileGridLayoutItem>("item2", 1);
-        layout.Add<TileGridLayoutItem>("item3", 2);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "item1", Index = 0 },
+            new TileGridLayoutItem() { Key = "item2", Index = 1 },
+            new TileGridLayoutItem() { Key = "item3", Index = 2 }
+        };
 
         // Act
         layout.Remove(1);
@@ -188,8 +204,10 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Remove_WithNonExistentIndex_DoesNothing()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("item1", 0);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "item1", Index = 0 }
+        };
 
         // Act
         layout.Remove(999);
@@ -221,8 +239,10 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_AddRange_WithExistingItems_ReplacesItems()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("original", 0); // Add one item first
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "original", Index = 0 } // Add one item first
+        };
 
         var newItems = new List<GridLayoutBaseItem>
         {
@@ -245,8 +265,10 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_AddRange_WithNullItems_DoesNothing()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("original", 0);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "original", Index = 0 }
+        };
 
         // Act
         layout.AddRange(null!);
@@ -260,8 +282,10 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_AddRange_WithEmptyCollection_DoesNothing()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("original", 0);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "original", Index = 0 }
+        };
 
         // Act
         layout.AddRange(new List<GridLayoutBaseItem>());
@@ -275,10 +299,12 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Update_WithValidKeyFunc_UpdatesIndices()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("item1", 0);
-        layout.Add<TileGridLayoutItem>("item2", 1);
-        layout.Add<TileGridLayoutItem>("item3", 2);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "item1", Index = 0 },
+            new TileGridLayoutItem() { Key = "item2", Index = 1 },
+            new TileGridLayoutItem() { Key = "item3", Index = 2 }
+        };
 
         var reorderedItems = new List<string> { "item3", "item1", "item2" };
 
@@ -314,8 +340,10 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Update_WithNonExistentKeys_DoesNotThrow()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("item1", 0);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "item1", Index = 0 }
+        };
 
         var items = new List<string> { "non-existent-item" };
 
@@ -366,10 +394,12 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_Enumeration_ReturnsAllItems()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("item1", 0);
-        layout.Add<TileGridLayoutItem>("item2", 1);
-        layout.Add<TestItem>("item3", 2);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "item1", Index = 0 },
+            new TileGridLayoutItem() { Key = "item2", Index = 1 },
+            new TestItem() { Key = "item3", Index = 2 }
+        };
 
         // Act
         var enumeratedItems = new List<GridLayoutBaseItem>();
@@ -389,9 +419,11 @@ public class GridLayoutBaseTests
     public void GridLayoutBase_EnumerationGeneric_ReturnsAllItems()
     {
         // Arrange
-        var layout = new TestableGridLayout();
-        layout.Add<TileGridLayoutItem>("item1", 0);
-        layout.Add<TileGridLayoutItem>("item2", 1);
+        var layout = new TestableGridLayout
+        {
+            new TileGridLayoutItem() { Key = "item1", Index = 0 },
+            new TileGridLayoutItem() { Key = "item2", Index = 1 }
+        };
 
         // Act
         var items = layout.ToList();
