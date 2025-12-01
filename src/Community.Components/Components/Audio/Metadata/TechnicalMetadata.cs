@@ -40,12 +40,12 @@ public class TechnicalMetadata
     /// <summary>
     /// Gets or sets the media types associated with the file.
     /// </summary>
-    public string MediaTypes { get; set; }
+    public string? MediaTypes { get; set; }
 
     /// <summary>
     /// Gets or sets the file type of the media, such as "audio/mpeg" or "video/mp4".
     /// </summary>
-    public string FileType { get; set; }
+    public string? FileType { get; set; }
 
     /// <summary>
     /// Gets or sets the size of the file in bytes.

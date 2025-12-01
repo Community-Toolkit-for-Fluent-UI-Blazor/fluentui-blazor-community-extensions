@@ -559,10 +559,10 @@ public partial class FluentCxColorPalette
         _focusIndex = index;
         await InvokeAsync(StateHasChanged);
 
-                    if (_jsModule is not null)
-            {
-                await _jsModule.InvokeVoidAsync("blurAll", Id);
-            }
+        if (_jsModule is not null)
+        {
+            await _jsModule.InvokeVoidAsync("blurAll", Id);
+        }
 
         if (index >= 0 &&
             index < _buttonsRef.Length)
@@ -583,40 +583,38 @@ public partial class FluentCxColorPalette
             return;
         }
 
-        var next = _focusIndex;
-
         switch (e.Key)
         {
             case KeyCode.Left:
-                next = GlobalState.Dir== LocalizationDirection.RightToLeft ? MoveRight(_focusIndex) : MoveLeft(_focusIndex);
+                _focusIndex = GlobalState.Dir == LocalizationDirection.RightToLeft ? MoveRight(_focusIndex) : MoveLeft(_focusIndex);
+                await SetFocusAsync(_focusIndex);
                 break;
 
             case KeyCode.Right:
-                next = GlobalState.Dir == LocalizationDirection.RightToLeft ? MoveLeft(_focusIndex) : MoveRight(_focusIndex);
+                _focusIndex = GlobalState.Dir == LocalizationDirection.RightToLeft ? MoveLeft(_focusIndex) : MoveRight(_focusIndex);
+                await SetFocusAsync(_focusIndex);
                 break;
 
             case KeyCode.Up:
-                next = MoveUp(_focusIndex);
+                _focusIndex = MoveUp(_focusIndex);
+                await SetFocusAsync(_focusIndex);
                 break;
 
             case KeyCode.Down:
-                next = MoveDown(_focusIndex);
+                _focusIndex = MoveDown(_focusIndex);
+                await SetFocusAsync(_focusIndex);
                 break;
 
             case KeyCode.Home:
-                next = (_focusIndex / Columns) * Columns;
+            case KeyCode.PageUp:
+                _focusIndex = 0;
+                await SetFocusAsync(_focusIndex);
                 break;
 
             case KeyCode.End:
-                next = Math.Min((_focusIndex / Columns) * Columns + (Columns - 1), _colors.Count - 1);
-                break;
-
-            case KeyCode.PageUp:
-                next = 0;
-                break;
-
             case KeyCode.PageDown:
-                next = _colors.Count - 1;
+                _focusIndex = _colors.Count - 1;
+                await SetFocusAsync(_focusIndex);
                 break;
 
             case KeyCode.Enter:
@@ -627,10 +625,6 @@ public partial class FluentCxColorPalette
             default:
                 return;
         }
-
-        next = (_focusIndex + _colors.Count) % _colors.Count;
-
-        await SetFocusAsync(_focusIndex);
     }
 
     /// <summary>

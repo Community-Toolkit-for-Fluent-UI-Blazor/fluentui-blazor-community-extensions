@@ -15,10 +15,10 @@ public class WaveLayoutTests
         layout.GetType().GetMethod("Update", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
 .Invoke(layout, [2, 5, element]);
 
-        double x = 2 * 10;
-        double y = 20 * Math.Sin(0.5 * x);
+        var x = 2 * 10;
+        var y = 20 * Math.Sin(0.5 * x);
 
-        Assert.Equal(x, element.OffsetXState.EndValue, 4);
-        Assert.Equal(y, element.OffsetYState.EndValue, 4);
+        Assert.Equal(x, element.OffsetXState!.EndValue, 4);
+        Assert.Equal(y, element.OffsetYState!.EndValue, 4);
     }
 }

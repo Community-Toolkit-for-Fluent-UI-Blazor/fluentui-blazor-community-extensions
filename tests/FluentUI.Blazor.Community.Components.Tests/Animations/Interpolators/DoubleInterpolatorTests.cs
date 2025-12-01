@@ -19,7 +19,3 @@ public class DoubleInterpolatorTests
         Assert.Equal(expected, result, 6);
     }
 }
-
-
-
-

@@ -3,6 +3,13 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Represents a component for displaying and editing audio track properties, including metadata and classification
+/// labels.
+/// </summary>
+/// <remarks>This class is typically used within dialog interfaces to provide configurable audio track details. It
+/// exposes properties for both the audio metadata and the set of labels used for classification or annotation. The
+/// component is designed for integration with UI frameworks that support parameter binding.</remarks>
 public partial class TrackProperties : IDialogContentComponent<AudioMetadata>
 {
     /// <summary>

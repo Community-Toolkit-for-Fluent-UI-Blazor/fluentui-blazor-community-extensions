@@ -1,13 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using FluentUI.Blazor.Community.Components;
 using SkiaSharp;
 
 namespace FluentUI.Blazor.Community.Helpers;
 
+/// <summary>
+/// Provides methods for converting SVG content to image or PDF formats.
+/// </summary>
+/// <remarks>This class uses SkiaSharp to render SVG strings and encode them into various output formats, such as
+/// PNG, JPEG, or PDF. All methods are static and require valid SVG input. The output format and quality can be
+/// specified for image conversion. The class is intended for internal use and is not thread-safe.</remarks>
 internal class SvgConverter
 {
     /// <summary>
@@ -44,6 +46,12 @@ internal class SvgConverter
         return data.ToArray();
     }
 
+    /// <summary>
+    /// Converts a SignatureImageFormat value to its corresponding SKEncodedImageFormat value.
+    /// </summary>
+    /// <param name="format">The image format to convert. Must be a supported SignatureImageFormat value.</param>
+    /// <returns>The SKEncodedImageFormat value that corresponds to the specified SignatureImageFormat.</returns>
+    /// <exception cref="NotSupportedException">Thrown if the specified format is not supported for conversion.</exception>
     private static SKEncodedImageFormat GetFromFormat(SignatureImageFormat format)
     {
         return format switch

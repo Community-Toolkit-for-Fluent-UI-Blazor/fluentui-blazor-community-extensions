@@ -57,7 +57,7 @@ internal class PathBarItemBuilder
     /// <returns>Returns the <see cref="IPathBarItem"/> items.</returns>
     public static IEnumerable<IPathBarItem> From<TItem>(IEnumerable<FileManagerEntry<TItem>> values) where TItem : class, new()
     {
-        List<IPathBarItem> items = new();
+        List<IPathBarItem> items = [];
 
         foreach (var value in values)
         {
@@ -214,10 +214,7 @@ internal class PathBarItemBuilder
 
         var item = Find(rootPath.Items, id, true);
 
-        if (item is not null)
-        {
-            item.Label = newLabel;
-        }
+        item?.Label = newLabel;
     }
 
     /// <summary>

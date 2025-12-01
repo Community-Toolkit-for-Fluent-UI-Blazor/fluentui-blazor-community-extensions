@@ -21,7 +21,12 @@
 
         <FluentStack VerticalGap=1 Orientation="Orientation.Vertical">
             <FluentLabel Color=Color.Accent Style="font-size: 18px" Weight="FontWeight.Bold">@Track?.Metadata?.Descriptive?.Title</FluentLabel>
-            <FluentLabel Color="Color.FillInverse">@(string.Join(", ", Track?.Metadata?.Descriptive?.Performers))</FluentLabel>
+            <FluentLabel Color="Color.FillInverse">
+                @if (Track?.Metadata?.Descriptive?.Performers is not null)
+                {
+                    @(string.Join(", ", Track.Metadata.Descriptive.Performers))
+                }
+            </FluentLabel>
         </FluentStack>
     }
 </FluentStack>

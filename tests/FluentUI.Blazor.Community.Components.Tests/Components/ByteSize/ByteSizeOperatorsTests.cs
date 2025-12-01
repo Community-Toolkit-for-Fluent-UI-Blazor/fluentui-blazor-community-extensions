@@ -93,8 +93,6 @@ public class ByteSizeOperatorsTests
         Assert.True(a <= b);
         Assert.True(b > a);
         Assert.True(b >= a);
-        Assert.True(a <= a);
-        Assert.True(a >= a);
     }
 
     [Fact]

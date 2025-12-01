@@ -11,14 +11,13 @@ namespace FluentUI.Blazor.Community.Components;
 public interface IAudioMetadataProvider
 {
     /// <summary>
-    /// Asynchronously retrieves audio metadata from the specified URL.
+    /// Asynchronously retrieves audio metadata from the specified URL and associates it with the given name.
     /// </summary>
-    /// <remarks>This method performs an asynchronous operation to fetch and parse metadata from the provided
-    /// URL. Ensure the URL points to a valid and accessible audio file.</remarks>
-    /// <param name="url">The URL of the audio file to retrieve metadata from. Can be null or empty, in which case the method will return
-    /// <see langword="null"/>.</param>
+    /// <param name="name">The name to assign to the retrieved audio metadata. Cannot be null or empty.</param>
+    /// <param name="url">The URL from which to fetch the audio metadata. If null, the method will attempt to resolve the URL based on the
+    /// provided name.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains an <see cref="AudioMetadata"/>
-    /// object with the metadata of the audio file, or <see langword="null"/> if the metadata could not be retrieved.</returns>
+    /// instance with the retrieved metadata, or <see langword="null"/> if the metadata could not be obtained.</returns>
     Task<AudioMetadata?> GetFromUrlAsync(string name, string? url);
 
     /// <summary>
@@ -31,12 +30,12 @@ public interface IAudioMetadataProvider
     Task<AudioMetadata?> GetFromFileAsync(IBrowserFile browserFile);
 
     /// <summary>
-    /// Extracts audio metadata from the specified stream.
+    /// Retrieves audio metadata from the specified stream and associates it with the given name.
     /// </summary>
-    /// <remarks>The caller is responsible for ensuring the stream remains open and readable during the
-    /// operation.  The method does not modify the position of the stream.</remarks>
-    /// <param name="stream">The input stream containing audio data. The stream must be readable and positioned at the start of the audio
-    /// content.</param>
-    /// <returns>An <see cref="AudioMetadata"/> object containing the extracted metadata, such as duration, format, and bitrate.</returns>
+    /// <param name="name">The name to associate with the extracted audio metadata. Cannot be null or empty.</param>
+    /// <param name="stream">The stream containing audio data from which metadata will be extracted. Must be readable and positioned at the
+    /// start of the audio content.</param>
+    /// <returns>An AudioMetadata instance containing information extracted from the provided stream. Returns null if the stream
+    /// does not contain valid audio metadata.</returns>
     AudioMetadata GetFromStream(string name, Stream stream);
 }

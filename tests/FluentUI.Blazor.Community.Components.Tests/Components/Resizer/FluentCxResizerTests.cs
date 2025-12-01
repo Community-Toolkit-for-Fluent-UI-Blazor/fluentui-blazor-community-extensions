@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 
-
 namespace Microsoft.FluentUI.AspNetCore.Components.Tests.Components.Resizer;
 
 public class FluentCxResizerTests : TestBase

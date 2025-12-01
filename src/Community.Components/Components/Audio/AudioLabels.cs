@@ -1,9 +1,28 @@
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Provides a set of customizable display labels for audio player controls and metadata fields, supporting localization
+/// and user interface customization.
+/// </summary>
+/// <remarks>Use this record to supply localized or custom text for audio player UI elements such as play, pause,
+/// volume, and metadata fields. Predefined instances such as <see cref="AudioLabels.Default"/> and <see
+/// cref="AudioLabels.French"/> are available for common scenarios, or you can create your own instance with specific
+/// label values. This type is immutable and thread-safe.</remarks>
 public record AudioLabels
 {
+    /// <summary>
+    /// Gets the default set of audio labels used for standard classification tasks.
+    /// </summary>
+    /// <remarks>Use this property to access a predefined collection of audio labels suitable for common
+    /// scenarios. The returned instance is read-only and can be shared across multiple components.</remarks>
     public static AudioLabels Default { get; } = new AudioLabels();
 
+    /// <summary>
+    /// Gets the set of audio interface labels localized in French.
+    /// </summary>
+    /// <remarks>Use this property to access French translations for common audio controls and metadata
+    /// fields, such as play, pause, volume, and track information. The labels are suitable for user interface elements
+    /// in audio applications targeting French-speaking users.</remarks>
     public static AudioLabels French { get; } = new AudioLabels
     {
         PlayLabel = "Lire",

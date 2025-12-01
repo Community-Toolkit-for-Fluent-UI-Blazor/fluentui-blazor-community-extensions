@@ -136,10 +136,7 @@ public abstract class GridLayoutBase
         {
             var layoutItem = _items.Find(x => string.Equals(x.Key, keyFunc(items[i]), StringComparison.OrdinalIgnoreCase));
 
-            if (layoutItem is not null)
-            {
-                layoutItem.Index = i;
-            }
+            layoutItem?.Index = i;
         }
     }
 }

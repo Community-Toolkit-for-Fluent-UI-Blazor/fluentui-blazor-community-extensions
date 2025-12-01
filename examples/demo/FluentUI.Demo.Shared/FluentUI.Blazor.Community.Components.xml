@@ -2347,6 +2347,31 @@
             <param name="isPlaying">A value indicating whether the control should reflect the "playing" state.  <see langword="true"/> if the
             control should indicate playback is active; otherwise, <see langword="false"/>.</param>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.AudioLabels">
+            <summary>
+            Provides a set of customizable display labels for audio player controls and metadata fields, supporting localization
+            and user interface customization.
+            </summary>
+            <remarks>Use this record to supply localized or custom text for audio player UI elements such as play, pause,
+            volume, and metadata fields. Predefined instances such as <see cref="P:FluentUI.Blazor.Community.Components.AudioLabels.Default"/> and <see
+            cref="P:FluentUI.Blazor.Community.Components.AudioLabels.French"/> are available for common scenarios, or you can create your own instance with specific
+            label values. This type is immutable and thread-safe.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.Default">
+            <summary>
+            Gets the default set of audio labels used for standard classification tasks.
+            </summary>
+            <remarks>Use this property to access a predefined collection of audio labels suitable for common
+            scenarios. The returned instance is read-only and can be shared across multiple components.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.French">
+            <summary>
+            Gets the set of audio interface labels localized in French.
+            </summary>
+            <remarks>Use this property to access French translations for common audio controls and metadata
+            fields, such as play, pause, volume, and track information. The labels are suitable for user interface elements
+            in audio applications targeting French-speaking users.</remarks>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.AudioLabels.PlayLabel">
             <summary>
             Gets the label for the play button.
@@ -2991,6 +3016,17 @@
             </summary>
             <returns>Returns a task which invokes the <see cref="P:FluentUI.Blazor.Community.Components.PlaylistButton.OnPlaylist" /> callback.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.PlayOrPauseButton">
+            <summary>
+            Represents a button component that toggles between play and pause states, displaying the appropriate icon and label
+            based on the current state.
+            </summary>
+            <remarks>Use this component to allow users to start or pause playback in a user interface. The button's label
+            and icon update automatically according to its state. You can customize the labels for play and pause states using
+            the <see cref="P:FluentUI.Blazor.Community.Components.PlayOrPauseButton.PlayLabel"/> and <see cref="P:FluentUI.Blazor.Community.Components.PlayOrPauseButton.PauseLabel"/> properties. To respond to state changes, handle the <see
+            cref="P:FluentUI.Blazor.Community.Components.PlayOrPauseButton.OnPlayChanged"/> event. The button can be disabled by setting <see cref="P:FluentUI.Blazor.Community.Components.PlayOrPauseButton.IsDisabled"/> to <see
+            langword="true"/>.</remarks>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.PlayOrPauseButton.PlayIcon">
             <summary>
             Represents the icon displayed when shuffling is disabled.
@@ -3475,6 +3511,15 @@
         <member name="M:FluentUI.Blazor.Community.Components.SeekBar.DisposeAsync">
             <inheritdoc/>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.ShuffleButton">
+            <summary>
+            Represents a button component that allows users to toggle the shuffle state of a collection, providing visual
+            feedback and customizable labels for both enabled and disabled states.
+            </summary>
+            <remarks>Use the <see cref="P:FluentUI.Blazor.Community.Components.ShuffleButton.OnShuffleChanged"/> event callback to respond to changes in the shuffle state. The
+            component displays different icons and labels depending on whether shuffling is enabled or disabled. This control is
+            typically used in scenarios where users can randomize the order of items, such as playlists or lists.</remarks>
+        </member>
         <member name="F:FluentUI.Blazor.Community.Components.ShuffleButton.ShuffleOffIcon">
             <summary>
             Represents the icon displayed when shuffling is disabled.
@@ -3945,6 +3990,15 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
             <inheritdoc />
         </member>
+        <member name="M:FluentUI.Blazor.Community.Components.FluentCxAudio.OnResize(System.Double,System.Double)">
+            <summary>
+            Handles a resize event by updating the container's height based on the specified dimensions.
+            </summary>
+            <remarks>This method is intended to be invoked from JavaScript via interop when the container's size
+            changes. It updates the UI to reflect the new height.</remarks>
+            <param name="width">The new width of the container, in pixels. This value is provided by the resize event.</param>
+            <param name="height">The new height of the container, in pixels. This value is used to update the container's height.</param>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.AudioMetadata">
             <summary>
             Represents a collection of metadata categories associated with an audio asset.
@@ -4146,14 +4200,13 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.IAudioMetadataProvider.GetFromUrlAsync(System.String,System.String)">
             <summary>
-            Asynchronously retrieves audio metadata from the specified URL.
+            Asynchronously retrieves audio metadata from the specified URL and associates it with the given name.
             </summary>
-            <remarks>This method performs an asynchronous operation to fetch and parse metadata from the provided
-            URL. Ensure the URL points to a valid and accessible audio file.</remarks>
-            <param name="url">The URL of the audio file to retrieve metadata from. Can be null or empty, in which case the method will return
-            <see langword="null"/>.</param>
+            <param name="name">The name to assign to the retrieved audio metadata. Cannot be null or empty.</param>
+            <param name="url">The URL from which to fetch the audio metadata. If null, the method will attempt to resolve the URL based on the
+            provided name.</param>
             <returns>A task that represents the asynchronous operation. The task result contains an <see cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/>
-            object with the metadata of the audio file, or <see langword="null"/> if the metadata could not be retrieved.</returns>
+            instance with the retrieved metadata, or <see langword="null"/> if the metadata could not be obtained.</returns>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.IAudioMetadataProvider.GetFromFileAsync(Microsoft.AspNetCore.Components.Forms.IBrowserFile)">
             <summary>
@@ -4166,13 +4219,13 @@
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.IAudioMetadataProvider.GetFromStream(System.String,System.IO.Stream)">
             <summary>
-            Extracts audio metadata from the specified stream.
+            Retrieves audio metadata from the specified stream and associates it with the given name.
             </summary>
-            <remarks>The caller is responsible for ensuring the stream remains open and readable during the
-            operation.  The method does not modify the position of the stream.</remarks>
-            <param name="stream">The input stream containing audio data. The stream must be readable and positioned at the start of the audio
-            content.</param>
-            <returns>An <see cref="T:FluentUI.Blazor.Community.Components.AudioMetadata"/> object containing the extracted metadata, such as duration, format, and bitrate.</returns>
+            <param name="name">The name to associate with the extracted audio metadata. Cannot be null or empty.</param>
+            <param name="stream">The stream containing audio data from which metadata will be extracted. Must be readable and positioned at the
+            start of the audio content.</param>
+            <returns>An AudioMetadata instance containing information extracted from the provided stream. Returns null if the stream
+            does not contain valid audio metadata.</returns>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.LegalMetadata">
             <summary>
@@ -4354,6 +4407,15 @@
             <remarks>This method checks if a track is available and if a callback delegate is assigned before
             invoking the callback asynchronously.</remarks>
             <returns></returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.TrackProperties">
+            <summary>
+            Represents a component for displaying and editing audio track properties, including metadata and classification
+            labels.
+            </summary>
+            <remarks>This class is typically used within dialog interfaces to provide configurable audio track details. It
+            exposes properties for both the audio metadata and the set of labels used for classification or annotation. The
+            component is designed for integration with UI frameworks that support parameter binding.</remarks>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.TrackProperties.Labels">
             <summary>
@@ -12116,6 +12178,21 @@
             Unregisters the component.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.MediaMode">
+            <summary>
+            Specifies the available modes for media content, such as audio or video.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.MediaMode.Audio">
+            <summary>
+            Represents the audio mode for the <see cref="T:FluentUI.Blazor.Community.Components.SeekBar" />.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.MediaMode.Video">
+            <summary>
+            Represents the video mode for the <see cref="T:FluentUI.Blazor.Community.Components.SeekBar" />.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxMediaQuery">
             <summary>
             Represents a Media Query detector.
@@ -14077,6 +14154,39 @@
             <summary>
             Represents a responsive image component.
             </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResponsiveImage.Parent">
+            <summary>
+            Gets or sets the parent <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPicture"/> component in the cascading parameter hierarchy.
+            </summary>
+            <remarks>This property is typically set automatically by the Blazor framework when the component is
+            used within a <see cref="T:FluentUI.Blazor.Community.Components.FluentCxPicture"/> parent. Accessing this property allows child components to interact
+            with or retrieve information from their parent picture component.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResponsiveImage.Media">
+            <summary>
+            Gets or sets the media type or query used to determine when the component should be rendered.
+            </summary>
+            <remarks>Specify a media type (such as "screen" or "print") or a media query (such as "(max-width:
+            600px)") to control the rendering behavior based on the target device or display conditions.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResponsiveImage.Source">
+            <summary>
+            Gets or sets the source URI or path for the content to be rendered.
+            </summary>
+            <remarks>Specify a relative or absolute URI, or a local file path, depending on the component's
+            requirements. If the value is null or empty, no content will be loaded.</remarks>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.ResponsiveImage.ContentType">
+            <summary>
+            Gets or sets the MIME type of the content to be rendered.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ResponsiveImage.OnInitialized">
+            <inheritdoc/>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.ResponsiveImage.Dispose">
+            <inheritdoc/>
         </member>
         <member name="T:FluentUI.Blazor.Community.Components.Shadow">
             <summary>
@@ -17029,7 +17139,7 @@
             <summary>
             Gets or sets the interval between items.
             </summary>
-            <remarks>If an item has its <see cref="!:SlideshowImage&lt;TItem&gt;.Interval"/> set, it will override
+            <remarks>If an item has its <see cref="P:FluentUI.Blazor.Community.Components.SlideshowItem`1.Interval"/> set, it will override
              the <see cref="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.AutoplayInterval"/>.</remarks>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.FluentCxSlideshow`1.SlideDuration">
@@ -19363,6 +19473,24 @@
             <remarks>If no effects are present, the method returns <see langword="null"/>.</remarks>
             <returns>A string containing the effects separated by spaces, or <see langword="null"/> if no effects are present.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Extensions.EnumExtensions">
+            <summary>
+            Provides extension methods for working with enumeration (enum) values.
+            </summary>
+            <remarks>This static class contains utility methods that extend the functionality of enum types, enabling more
+            expressive and convenient operations when handling enumerations.</remarks>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Extensions.EnumExtensions.IsOneOf``1(``0,``0[])">
+            <summary>
+            Determines whether the specified enum value matches any value in the provided list.
+            </summary>
+            <remarks>This method provides a convenient way to check if an enum value is one of several specified
+            values. The comparison uses the default equality comparer for the enum type.</remarks>
+            <typeparam name="T">The enum type to compare.</typeparam>
+            <param name="value">The enum value to check for a match.</param>
+            <param name="values">An array of enum values to compare against. Can contain zero or more values.</param>
+            <returns>true if the specified value is equal to any value in the list; otherwise, false.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.ParameterViewExtensions">
             <summary>
             Represents extensions for <see cref="T:Microsoft.AspNetCore.Components.ParameterView"/> struct.
@@ -19770,6 +19898,14 @@
             Gets a value indicating whether the application is running in a WebAssembly environment.
             </summary>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Helpers.SvgConverter">
+            <summary>
+            Provides methods for converting SVG content to image or PDF formats.
+            </summary>
+            <remarks>This class uses SkiaSharp to render SVG strings and encode them into various output formats, such as
+            PNG, JPEG, or PDF. All methods are static and require valid SVG input. The output format and quality can be
+            specified for image conversion. The class is intended for internal use and is not thread-safe.</remarks>
+        </member>
         <member name="M:FluentUI.Blazor.Community.Helpers.SvgConverter.ConvertToImage(System.String,FluentUI.Blazor.Community.Components.SignatureImageFormat,System.Int32)">
             <summary>
             Converts an SVG string to an image in the specified format and quality.
@@ -19781,6 +19917,14 @@
             <param name="format">The desired image format, such as PNG or JPEG.</param>
             <param name="quality">The quality of the output image, ranging from 0 to 100. Higher values indicate better quality.</param>
             <returns>A byte array representing the image data in the specified format.</returns>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Helpers.SvgConverter.GetFromFormat(FluentUI.Blazor.Community.Components.SignatureImageFormat)">
+            <summary>
+            Converts a SignatureImageFormat value to its corresponding SKEncodedImageFormat value.
+            </summary>
+            <param name="format">The image format to convert. Must be a supported SignatureImageFormat value.</param>
+            <returns>The SKEncodedImageFormat value that corresponds to the specified SignatureImageFormat.</returns>
+            <exception cref="T:System.NotSupportedException">Thrown if the specified format is not supported for conversion.</exception>
         </member>
         <member name="M:FluentUI.Blazor.Community.Helpers.SvgConverter.ConvertToPdf(System.String)">
             <summary>

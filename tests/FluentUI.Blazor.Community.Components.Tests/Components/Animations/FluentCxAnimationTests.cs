@@ -36,11 +36,12 @@ public class FluentCxAnimationTests : TestBase
             p => p.AddChildContent<AnimationItem>());
 
         var fieldInstance = typeof(FluentCxAnimation).GetField("_animationEngine", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            .GetValue(cut.Instance) as AnimationEngine;
+            ?.GetValue(cut.Instance) as AnimationEngine;
 
         var elementsField = typeof(AnimationEngine).GetField("_elements", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var elements = elementsField.GetValue(fieldInstance) as List<AnimatedElement>;
+        var elements = elementsField?.GetValue(fieldInstance) as List<AnimatedElement>;
 
+        Assert.NotNull(elements);
         Assert.Single(elements);
     }
 
@@ -54,11 +55,12 @@ public class FluentCxAnimationTests : TestBase
         item.Instance.Dispose();
 
         var fieldInstance = typeof(FluentCxAnimation).GetField("_animationEngine", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            .GetValue(cut.Instance) as AnimationEngine;
+            ?.GetValue(cut.Instance) as AnimationEngine;
 
         var elementsField = typeof(AnimationEngine).GetField("_elements", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var elements = elementsField.GetValue(fieldInstance) as List<AnimatedElement>;
+        var elements = elementsField?.GetValue(fieldInstance) as List<AnimatedElement>;
 
+        Assert.NotNull(elements);
         Assert.Empty(elements);
     }
 
@@ -69,11 +71,12 @@ public class FluentCxAnimationTests : TestBase
             p => p.AddChildContent<AnimationGroup>());
 
         var fieldInstance = typeof(FluentCxAnimation).GetField("_animationEngine", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-           .GetValue(cut.Instance) as AnimationEngine;
+           ?.GetValue(cut.Instance) as AnimationEngine;
 
         var groupsField = typeof(AnimationEngine).GetField("_groups", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var groups = groupsField.GetValue(fieldInstance) as List<AnimatedElementGroup>;
+        var groups = groupsField?.GetValue(fieldInstance) as List<AnimatedElementGroup>;
 
+        Assert.NotNull(groups);
         Assert.Single(groups);
     }
 
@@ -87,11 +90,12 @@ public class FluentCxAnimationTests : TestBase
         group.Instance.Dispose();
 
         var fieldInstance = typeof(FluentCxAnimation).GetField("_animationEngine", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-           .GetValue(cut.Instance) as AnimationEngine;
+           ?.GetValue(cut.Instance) as AnimationEngine;
 
         var groupsField = typeof(AnimationEngine).GetField("_groups", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var groups = groupsField.GetValue(fieldInstance) as List<AnimatedElementGroup>;
+        var groups = groupsField?.GetValue(fieldInstance) as List<AnimatedElementGroup>;
 
+        Assert.NotNull(groups);
         Assert.Empty(groups);
     }
 
@@ -105,7 +109,7 @@ public class FluentCxAnimationTests : TestBase
                 builder.CloseComponent();
             }));
 
-        var layout = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as List<ILayoutStrategy>;
+        var layout = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.GetValue(cut.Instance) as List<ILayoutStrategy>;
 
         Assert.NotNull(layout);
         Assert.Single(layout);
@@ -122,13 +126,13 @@ public class FluentCxAnimationTests : TestBase
                 builder.CloseComponent();
             }));
 
-        var layouts = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as List<ILayoutStrategy>;
+        var layouts = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.GetValue(cut.Instance) as List<ILayoutStrategy>;
 
         Assert.NotNull(layouts);
         Assert.Single(layouts);
         cut.Instance.RemoveLayout(layouts.First());
 
-        Assert.Empty(cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as List<ILayoutStrategy>);
+        Assert.Empty(layouts);
     }
 
     [Fact]
@@ -141,10 +145,11 @@ public class FluentCxAnimationTests : TestBase
                 builder.CloseComponent();
             }));
 
-        var layouts = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as List<ILayoutStrategy>;
-        var layout = layouts.First();
+        var layouts = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.GetValue(cut.Instance) as List<ILayoutStrategy>;
+        var layout = layouts?.First();
         await cut.Instance.OnLoopCompletedAsync();
 
+        Assert.NotNull(layout);
         Assert.Equal(DateTime.Now, layout.StartTime, TimeSpan.FromMilliseconds(1));
     }
 
@@ -167,10 +172,12 @@ public class FluentCxAnimationTests : TestBase
         }));
 
         await cut.Instance.OnAnimationCompletedAsync();
-        var layout = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(cut.Instance) as List<ILayoutStrategy>;
+        var layout = cut.Instance.GetType().GetField("_layouts", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.GetValue(cut.Instance) as List<ILayoutStrategy>;
+
+        Assert.NotNull(layout);
         Assert.Single(layout);
 
-        var _currentLayoutIndex = typeof(MorphingLayout).GetField("_currentLayoutIndex", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(layout[0]);
+        var _currentLayoutIndex = typeof(MorphingLayout).GetField("_currentLayoutIndex", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.GetValue(layout[0]);
 
         Assert.Equal(0, _currentLayoutIndex);
     }

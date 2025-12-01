@@ -50,7 +50,6 @@ public class SleekDialPopupTests
 
         instance.RadialPositionUpdated(rect);
 
-
         Assert.Equal(1, GetField(instance, "_xOffset"));
         Assert.Equal(2, GetField(instance, "_yOffset"));
         Assert.Equal(3, GetField(instance, "_width"));

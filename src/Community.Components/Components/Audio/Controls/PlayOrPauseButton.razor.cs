@@ -3,6 +3,15 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Represents a button component that toggles between play and pause states, displaying the appropriate icon and label
+/// based on the current state.
+/// </summary>
+/// <remarks>Use this component to allow users to start or pause playback in a user interface. The button's label
+/// and icon update automatically according to its state. You can customize the labels for play and pause states using
+/// the <see cref="PlayLabel"/> and <see cref="PauseLabel"/> properties. To respond to state changes, handle the <see
+/// cref="OnPlayChanged"/> event. The button can be disabled by setting <see cref="IsDisabled"/> to <see
+/// langword="true"/>.</remarks>
 public partial class PlayOrPauseButton
     : FluentComponentBase
 {

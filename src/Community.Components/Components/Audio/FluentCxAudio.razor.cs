@@ -1,6 +1,5 @@
 using System.Drawing;
 using System.Globalization;
-using System.Threading.Tasks;
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -337,6 +336,7 @@ public sealed partial class FluentCxAudio
                         return;
                     }
                 }
+
                 break;
 
             case AudioRepeatMode.PlaylistLoop:
@@ -370,6 +370,7 @@ public sealed partial class FluentCxAudio
                 {
                     return;
                 }
+
                 break;
 
             case AudioRepeatMode.PlaylistLoop:
@@ -615,7 +616,7 @@ public sealed partial class FluentCxAudio
     {
         _originalPlaylist.Remove(audioTrack);
 
-        if(_currentTrackIndex != 0 && _originalPlaylist.Count > 0)
+        if (_currentTrackIndex != 0 && _originalPlaylist.Count > 0)
         {
             _currentTrackIndex = 0;
             await SetAudioSourceAsync();
@@ -661,6 +662,13 @@ public sealed partial class FluentCxAudio
         return base.SetParametersAsync(parameters);
     }
 
+    /// <summary>
+    /// Handles a resize event by updating the container's height based on the specified dimensions.
+    /// </summary>
+    /// <remarks>This method is intended to be invoked from JavaScript via interop when the container's size
+    /// changes. It updates the UI to reflect the new height.</remarks>
+    /// <param name="width">The new width of the container, in pixels. This value is provided by the resize event.</param>
+    /// <param name="height">The new height of the container, in pixels. This value is used to update the container's height.</param>
     [JSInvokable("onResize")]
     public void OnResize(double width, double height)
     {

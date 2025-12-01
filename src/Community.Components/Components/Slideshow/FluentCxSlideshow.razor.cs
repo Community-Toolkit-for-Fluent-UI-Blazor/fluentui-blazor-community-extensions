@@ -197,7 +197,7 @@ public partial class FluentCxSlideshow<TItem>
     /// <summary>
     /// Gets or sets the interval between items.
     /// </summary>
-    /// <remarks>If an item has its <see cref="SlideshowImage{TItem}.Interval"/> set, it will override
+    /// <remarks>If an item has its <see cref="SlideshowItem{TItem}.Interval"/> set, it will override
     ///  the <see cref="AutoplayInterval"/>.</remarks>
     [Parameter]
     public TimeSpan AutoplayInterval { get; set; } = TimeSpan.FromSeconds(5);

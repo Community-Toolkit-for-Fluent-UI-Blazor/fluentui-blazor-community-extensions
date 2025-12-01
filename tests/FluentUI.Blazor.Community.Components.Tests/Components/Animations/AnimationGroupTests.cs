@@ -82,7 +82,7 @@ public class AnimationGroupTests : TestBase
     {
         var cut = RenderComponent<AnimationGroup>(p =>
         {
-            p.Add(x=>x.Layout, builder =>
+            p.Add(x => x.Layout, builder =>
             {
                 builder.OpenComponent(0, typeof(StackedRotatingLayout));
                 builder.CloseComponent();
@@ -129,14 +129,15 @@ public class AnimationGroupTests : TestBase
         var group = cut.FindComponent<AnimationGroup>();
         Assert.NotNull(group);
 
-         group.Instance.Dispose();
+        group.Instance.Dispose();
 
         var fieldInstance = typeof(FluentCxAnimation).GetField("_animationEngine", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            .GetValue(cut.Instance) as AnimationEngine;
+            ?.GetValue(cut.Instance) as AnimationEngine;
 
         var groupsField = typeof(AnimationEngine).GetField("_groups", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var groups = groupsField.GetValue(fieldInstance) as List<AnimatedElementGroup>;
+        var groups = groupsField?.GetValue(fieldInstance) as List<AnimatedElementGroup>;
 
+        Assert.NotNull(groups);
         Assert.Empty(groups);
     }
 }

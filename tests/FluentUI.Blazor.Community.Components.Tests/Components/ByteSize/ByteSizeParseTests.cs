@@ -7,11 +7,11 @@ public class ByteSizeParseTests
     [Fact]
     public void Parse_ValidSIUnits()
     {
-        Assert.Equal(ByteSize.FromBytes(1_000), ByteSize.Parse("1 KB"));
-        Assert.Equal(ByteSize.FromBytes(2_000_000), ByteSize.Parse("2 MB"));
-        Assert.Equal(ByteSize.FromBytes(3_000_000_000), ByteSize.Parse("3 GB"));
-        Assert.Equal(ByteSize.FromBytes(4_000_000_000_000), ByteSize.Parse("4 TB"));
-        Assert.Equal(ByteSize.FromBytes(5_000_000_000_000_000), ByteSize.Parse("5 PB"));
+        Assert.Equal(ByteSize.FromBytes(1_000), ByteSize.Parse("1 KB", NumberFormatInfo.CurrentInfo));
+        Assert.Equal(ByteSize.FromBytes(2_000_000), ByteSize.Parse("2 MB", NumberFormatInfo.CurrentInfo));
+        Assert.Equal(ByteSize.FromBytes(3_000_000_000), ByteSize.Parse("3 GB", NumberFormatInfo.CurrentInfo));
+        Assert.Equal(ByteSize.FromBytes(4_000_000_000_000), ByteSize.Parse("4 TB", NumberFormatInfo.CurrentInfo));
+        Assert.Equal(ByteSize.FromBytes(5_000_000_000_000_000), ByteSize.Parse("5 PB", NumberFormatInfo.CurrentInfo));
     }
 
     [Fact]

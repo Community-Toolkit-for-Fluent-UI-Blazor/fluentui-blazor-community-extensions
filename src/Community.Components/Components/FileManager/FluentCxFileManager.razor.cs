@@ -761,10 +761,7 @@ public partial class FluentCxFileManager<TItem>
             {
                 var item = FindTreeViewItem(_treeViewItems, entry.Id);
 
-                if (item is not null)
-                {
-                    item.Text = entry.Name;
-                }
+                item?.Text = entry.Name;
             }
 
             PathBarItemBuilder.UpdateLabel(_rootPath, entry.Id, entry.Name);

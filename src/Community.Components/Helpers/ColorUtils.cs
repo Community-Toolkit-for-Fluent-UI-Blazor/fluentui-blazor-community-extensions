@@ -231,15 +231,11 @@ public static class ColorUtils
         var bd = b / 255.0;
         var max = Math.Max(rd, Math.Max(gd, bd));
         var min = Math.Min(rd, Math.Min(gd, bd));
-        var h = 0d;
+        var h = 0.0;
         var s = 0d;
         var l = (max + min) / 2.0;
 
-        if (Math.Abs(max - min) < 1e-9)
-        {
-            h = 0d;
-        }
-        else
+        if (Math.Abs(max - min) >= 1e-9)
         {
             var d = max - min;
             s = l > 0.5 ? d / (2.0 - max - min) : d / (max + min);

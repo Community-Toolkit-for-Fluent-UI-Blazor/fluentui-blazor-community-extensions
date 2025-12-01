@@ -142,30 +142,36 @@ public class FloatingButtonTests : TestBase
     [Fact]
     public void OnInitialized_SetsIsFixed_WhenRelativeContainerIdIsNull()
     {
-        var button = new FluentCxFloatingButton();
-        button.RelativeContainerId = null;
-        button.InvokeOnInitialized();
-        Assert.True(GetPrivateField<bool>(button, "_isFixed"));
+        var cut = RenderComponent<FluentCxFloatingButton>(parameters => parameters
+            .Add(p => p.RelativeContainerId, null)
+        );
+
+        Assert.True(GetPrivateField<bool>(cut.Instance, "_isFixed"));
     }
 
     [Fact]
     public void OnInitialized_SetsIsFixed_WhenRelativeContainerIdIsNotNull()
     {
-        var button = new FluentCxFloatingButton();
-        button.RelativeContainerId = "container";
-        button.InvokeOnInitialized();
-        Assert.False(GetPrivateField<bool>(button, "_isFixed"));
+        var mockModule = JSInterop.SetupModule("./_content/FluentUI.Blazor.Community.Components/Components/FloatingButton/FluentCxFloatingButton.razor.js");
+        mockModule.Setup<bool>("hasValidTarget", "container").SetResult(true);
+
+        var cut = RenderComponent<FluentCxFloatingButton>(parameters => parameters
+            .Add(p => p.RelativeContainerId, "container")
+        );
+
+        Assert.False(GetPrivateField<bool>(cut.Instance, "_isFixed"));
     }
 
     [Fact]
     public async Task OnMouseEnterAsync_InvokesCallback_WhenHasDelegate()
     {
         var called = false;
-        var button = new FluentCxFloatingButton
-        {
-            OnMouseEnter = EventCallback.Factory.Create(this, (MouseEventArgs e) => { called = true; })
-        };
-        await InvokePrivateAsync(button, "OnMouseEnterAsync", new MouseEventArgs());
+
+        var cut = RenderComponent<FluentCxFloatingButton>(parameters => parameters
+            .Add(p => p.OnMouseEnter, EventCallback.Factory.Create(this, (MouseEventArgs e) => { called = true; }))
+        );
+
+        await InvokePrivateAsync(cut.Instance, "OnMouseEnterAsync", new MouseEventArgs());
         Assert.True(called);
     }
 
@@ -180,11 +186,12 @@ public class FloatingButtonTests : TestBase
     [Fact]
     public async Task GetIsFixedAsync_SetsIsFixed_True_WhenModuleNull()
     {
-        var button = new FluentCxFloatingButton();
-        SetPrivateField(button, "_module", null);
-        button.RelativeContainerId = "container";
-        await InvokePrivateAsync(button, "GetIsFixedAsync");
-        Assert.True(GetPrivateField<bool>(button, "_isFixed"));
+        var cut = RenderComponent<FluentCxFloatingButton>(parameters => parameters
+           .Add(p => p.RelativeContainerId, "container")
+       );
+        SetPrivateField(cut.Instance, "_module", null);
+        await InvokePrivateAsync(cut.Instance, "GetIsFixedAsync");
+        Assert.True(GetPrivateField<bool>(cut.Instance, "_isFixed"));
     }
 
     [Fact]
@@ -217,21 +224,24 @@ public class FloatingButtonTests : TestBase
     private static T GetPrivateField<T>(object obj, string fieldName)
     {
         var field = obj.GetType().GetField(fieldName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        return (T)field.GetValue(obj)!;
+        return (T)field?.GetValue(obj)!;
     }
 
     private static void SetPrivateField(object obj, string fieldName, object? value)
     {
         var field = obj.GetType().GetField(fieldName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        field.SetValue(obj, value);
+        field?.SetValue(obj, value);
     }
 
     private static async Task InvokePrivateAsync(object obj, string methodName, params object[]? parameters)
     {
         var method = obj.GetType().GetMethod(methodName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var result = method.Invoke(obj, parameters);
+        var result = method?.Invoke(obj, parameters);
+
         if (result is Task t)
+        {
             await t;
+        }
     }
 }
 
@@ -240,6 +250,6 @@ public static class FluentCxFloatingButtonTestExtensions
     public static void InvokeOnInitialized(this FluentCxFloatingButton button)
     {
         var method = typeof(FluentCxFloatingButton).GetMethod("OnInitialized", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        method.Invoke(button, null);
+        method?.Invoke(button, null);
     }
 }

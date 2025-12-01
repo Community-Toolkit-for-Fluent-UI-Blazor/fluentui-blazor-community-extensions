@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
@@ -19,7 +18,7 @@ internal class AudioMetadataProvider(HttpClient httpClient, ILogger<AudioMetadat
     /// </summary>
     /// <remarks>This instance can be used to look up MIME types for file extensions. It is initialized with
     /// default mappings provided by the framework.</remarks>
-    private static FileExtensionContentTypeProvider _fileExtensionContentTypeProvider = new();
+    private static readonly FileExtensionContentTypeProvider _fileExtensionContentTypeProvider = new();
 
     /// <summary>
     /// Asynchronously retrieves audio metadata from the specified file.
@@ -116,7 +115,7 @@ internal class AudioMetadataProvider(HttpClient httpClient, ILogger<AudioMetadat
                 }
             };
         }
-        catch(TagLib.CorruptFileException ex)
+        catch (TagLib.CorruptFileException ex)
         {
             logger.LogError(ex, "Corrupt audio file: {FileName}", name);
             return new();

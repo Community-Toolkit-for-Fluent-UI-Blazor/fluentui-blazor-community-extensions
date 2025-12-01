@@ -3,6 +3,13 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
 
+/// <summary>
+/// Represents a button component that allows users to toggle the shuffle state of a collection, providing visual
+/// feedback and customizable labels for both enabled and disabled states.
+/// </summary>
+/// <remarks>Use the <see cref="OnShuffleChanged"/> event callback to respond to changes in the shuffle state. The
+/// component displays different icons and labels depending on whether shuffling is enabled or disabled. This control is
+/// typically used in scenarios where users can randomize the order of items, such as playlists or lists.</remarks>
 public partial class ShuffleButton
     : FluentComponentBase
 {
