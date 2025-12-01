@@ -1,0 +1,148 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using Microsoft.AspNetCore.Components.Forms
+@implements IDialogContentComponent<SchedulerEventContent<TItem>>
+@typeparam TItem
+
+<FluentDialogBody>
+    <FluentEditForm style="height: 100%"
+                    @ref=_fluentEditForm
+                    Model="@_item">
+        <DataAnnotationsValidator />
+
+        @if (_item is not null)
+        {
+            <FluentStack Orientation="Orientation.Vertical"
+                         VerticalGap=0
+                         Style="height: 100%">
+                <FluentStack Orientation="Orientation.Vertical"
+                             Style="margin-bottom: 10px">
+                    <FluentTextField Label="@Content.Labels.EventTitle"
+                                     @bind-Value="_item.Title"
+                                     Required="true"
+                                     AriaLabel="@Content.Labels.EventTitle"
+                                     InputMode="InputMode.Text"
+                                     Style="width: 100%;" />
+
+                    <FluentValidationMessage For="@(() => _item.Title)" />
+                </FluentStack>
+
+                <FluentStack Orientation="Orientation.Vertical"
+                             VerticalGap="1"
+                             Style="margin-bottom: 10px">
+                    @Content.Labels.Start
+                    <FluentStack>
+                        <FluentDatePicker @bind-Value="_item.Start" />
+                        <FluentTimePicker @bind-Value=_item.StartTime />
+                    </FluentStack>
+                </FluentStack>
+
+                <FluentStack Orientation="Orientation.Vertical"
+                             VerticalGap="1"
+                             Style="margin-bottom: 10px">
+                    @Content.Labels.End
+                    <FluentStack>
+                        <FluentDatePicker @bind-Value="_item.End" />
+                        <FluentTimePicker @bind-Value=_item.EndTime />
+                    </FluentStack>
+                </FluentStack>
+
+                <!-- Recurrence -->
+                <FluentStack Orientation="Orientation.Vertical"
+                             VerticalGap="1"
+                             Style="margin-bottom: 10px">
+                    @Content.Labels.Recurrence
+
+                    <FluentStack HorizontalAlignment="HorizontalAlignment.Stretch" HorizontalGap="1">
+                        <FluentButton Style="flex: 1; min-width: 120px;"
+                                      OnClick="@(() => OnSetRecurrence())"
+                                      Appearance="@GetAppearanceFromRecurrence()">
+                            @Content.Labels.NoRecurrence
+                        </FluentButton>
+
+                        <FluentButton OnClick="@(() => OnSetRecurrence(RecurrenceFrequency.Daily))"
+                                      Appearance="@GetAppearanceFromRecurrence(RecurrenceFrequency.Daily)"
+                                      Style="flex: 1; min-width: 120px;">
+                            @Content.Labels.Daily
+                        </FluentButton>
+
+                        <FluentButton OnClick="@(() => OnSetRecurrence(RecurrenceFrequency.Weekly))"
+                                      Appearance="@GetAppearanceFromRecurrence(RecurrenceFrequency.Weekly)"
+                                      Style="flex: 1; min-width: 120px;">
+                            @Content.Labels.Weekly
+                        </FluentButton>
+
+                        <FluentButton OnClick="@(() => OnSetRecurrence(RecurrenceFrequency.Monthly))"
+                                      Appearance="@GetAppearanceFromRecurrence(RecurrenceFrequency.Monthly)"
+                                      Style="flex: 1; min-width: 120px;">
+                            @Content.Labels.Monthly
+                        </FluentButton>
+
+                        <FluentButton OnClick="@(() => OnSetRecurrence(RecurrenceFrequency.Yearly))"
+                                      Appearance="@GetAppearanceFromRecurrence(RecurrenceFrequency.Yearly)"
+                                      Style="flex: 1; min-width: 120px;">
+                            @Content.Labels.Yearly
+                        </FluentButton>
+                    </FluentStack>
+                </FluentStack>
+
+                @if (_item.Recurrence is not null)
+                {
+                    switch(_item.Recurrence.Frequency)
+                    {
+                        case RecurrenceFrequency.Daily:
+                            <DailyRecurrence Labels="@Content.Labels"
+                                             Recurrence="@_item.Recurrence"
+                                             Exceptions="@_item.Exceptions"
+                                             Culture="@Content.Culture" />
+                            break;
+
+                        case RecurrenceFrequency.Weekly:
+                            <WeeklyRecurrence Labels="@Content.Labels"
+                                              Recurrence="@_item.Recurrence"
+                                              Exceptions="@_item.Exceptions"
+                                              Culture="@Content.Culture" />
+                            break;
+
+                        case RecurrenceFrequency.Monthly:
+                            <MonthlyRecurrence Labels="@Content.Labels"
+                                               Recurrence="@_item.Recurrence"
+                                               Exceptions="@_item.Exceptions"
+                                               Culture="@Content.Culture" />
+                            break;
+
+                        case RecurrenceFrequency.Yearly:
+                            <YearlyRecurrence Labels="@Content.Labels"
+                                              Recurrence="@_item.Recurrence"
+                                              Exceptions="@_item.Exceptions"
+                                              Culture="@Content.Culture" />
+                            break;
+                    }
+                }
+
+                @if (_item.Data is not null)
+                {
+                            @Content.Template(_item.Data)
+                }
+
+                <FluentTextArea Label="Description"
+                                Style="width: 100%;"    
+                                AriaLabel="@_item.Description"
+                                @bind-Value="_item.Description"
+                                Rows="3" />
+            </FluentStack>
+        }
+    </FluentEditForm>
+</FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Neutral"
+                  OnClick="@OnCancelAsync">
+        @Content.Labels.Cancel
+    </FluentButton>
+
+    <FluentButton Appearance="Appearance.Accent"
+                  Disabled="@(!_fluentEditForm?.EditContext?.Validate() ?? false)"
+                  OnClick="@OnCloseAsync">
+        @Content.Labels.OK
+    </FluentButton>
+</FluentDialogFooter>

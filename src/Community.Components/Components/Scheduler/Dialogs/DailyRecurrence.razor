@@ -1,0 +1,73 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using System.Globalization
+
+@if (Recurrence is not null)
+{
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+
+        <!-- Interval -->
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="1" Style="margin-bottom: 12px">
+            <FluentLabel Typo="Typography.Body" Weight="FontWeight.Bold">@string.Format(Culture, Labels.RepeatEveryXDays, Recurrence.Interval)</FluentLabel>
+            <FluentNumberField @bind-Value="Recurrence.Interval" Min="1" Step="1" />
+        </FluentStack>
+    
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="4" Style="margin-bottom: 12px">
+            <FluentLabel Typo="Typography.Body" Weight="FontWeight.Bold">@Labels.EndOfRecurrence</FluentLabel>
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Stretch" HorizontalGap="2" Style="margin-bottom: 5px">
+                <FluentButton Style="flex: 1; min-width: 120px;"
+                              OnClick="@(() => _endMode = 0)"
+                              Appearance="@(GetAppearance(_endMode == 0))">
+                    @Labels.Never
+                </FluentButton>
+
+                <FluentButton Style="flex: 1; min-width: 120px;"
+                              OnClick="@(() => _endMode = 1)"
+                              Appearance="@(GetAppearance(_endMode == 1))">
+                    @Labels.Until
+                </FluentButton>
+
+                <FluentButton Style="flex: 1; min-width: 120px;"
+                              OnClick="@(() => _endMode = 2)"
+                              Appearance="@(GetAppearance(_endMode == 2))">
+                    @string.Format(Culture, Labels.AfterXOccurrences, Recurrence.Count ?? 0)
+                </FluentButton>
+            </FluentStack>
+
+            @if (_endMode == 1)
+            {
+                <FluentDatePicker Label="@Labels.Until" AriaLabel="@Labels.Until" @bind-Value="Recurrence.Until" />
+            }
+            else if (_endMode == 2)
+            {
+                <FluentNumberField @bind-Value="Recurrence.Count"
+                                   Label="@string.Format(Culture, Labels.AfterXOccurrences, Recurrence.Count)"
+                                   AriaLabel="@string.Format(Culture, Labels.AfterXOccurrences, Recurrence.Count)"
+                                   Step="1"
+                                   Min="1" />
+            }
+        </FluentStack>       
+
+        <!-- Exceptions -->
+        <FluentLabel Typo="Typography.Body"
+                     Weight="FontWeight.Bold">
+                     @Labels.DateExceptions
+        </FluentLabel>
+        <FluentStack Style="margin-bottom: 12px">
+            <FluentDatePicker @bind-Value="_exceptionDate" />
+            <FluentButton OnClick="@AddException">@Labels.Add</FluentButton>
+        </FluentStack>
+
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="4">
+            @foreach (var ex in Exceptions)
+            {
+                <FluentStack>
+                    <FluentLabel>@ex.ToShortDateString()</FluentLabel>
+                    <FluentButton Appearance="Appearance.Stealth"
+                                  IconStart="@(new Regular.Size24.Dismiss())"
+                                  Title="@Labels.RemoveDateExceptions"
+                                  OnClick="@(() => RemoveException(ex))"/>
+                </FluentStack>
+            }
+        </FluentStack>
+    </FluentStack>
+}
