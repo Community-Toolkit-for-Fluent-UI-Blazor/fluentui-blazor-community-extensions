@@ -1,0 +1,11 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentButton Appearance="Appearance.Accent"
+              IconStart="@(_isPlaying ? PauseIcon : PlayIcon)"
+              Title="@PlayOrPauseLabel"
+              Disabled=@IsDisabled
+              Class="@Class"
+              Style="@InternalStyle"
+              OnClick="@OnTogglePlayOrPauseAsync"
+              Id="@Id"/>    

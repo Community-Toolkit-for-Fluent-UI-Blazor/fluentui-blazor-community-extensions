@@ -1,0 +1,67 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentKeyCode Anchor="@Id" OnKeyDown="@OnKeyDownAsync" />
+
+<FluentStack VerticalAlignment="VerticalAlignment.Center">
+    <FluentLabel>@FormatTime(CurrentTime)</FluentLabel>
+    <FluentSpacer Width="8" />
+
+    <div class="seekbar-container @(Disabled ? "disabled" : "")"
+         tabindex="@(Disabled ? -1 : 0)"
+         id="@Id"
+         @ref="Element"
+         @onpointerdown="@(Disabled ? null : StartDragAsync)"
+         @onpointermove="@(Disabled ? null : OnDragAsync)"
+         @onpointerup="@(Disabled ? null : EndDragAsync)"
+         @onpointerleave="@(Disabled ? null : EndDragAsync)"
+         @ontouchstart="@(Disabled ? null : StartTouchAsync)"
+         @ontouchmove="@(Disabled ? null : OnTouchMoveAsync)"
+         @ontouchend="@(Disabled ? null : EndTouchAsync)"
+         @onclick="@(Disabled ? null : OnClickSeek)"
+         role="slider"
+         aria-disabled="@Disabled"
+         aria-valuemin="0"
+         aria-valuemax="@Duration"
+         aria-valuenow="@CurrentTime">
+
+        <div class="seekbar-track">
+            <div class="seekbar-progress" style="width:@Progression"></div>
+
+            @foreach (var chapter in Chapters)
+            {
+                <div class="seekbar-chapter"
+                     style="left:@(chapter.StartTime / Duration * 100)%;
+                            width:@((chapter.EndTime - chapter.StartTime) / Duration * 100)%;
+                            background:@GetChapterColor(chapter.Status);">
+                </div>
+            }
+        </div>
+
+        <div class="seekbar-handle" style="left:@Progression"></div>
+
+        @if (_showPreview)
+        {
+            <div class="seekbar-preview" style="left:@Progression">
+                <canvas id="canvas-@Id"
+                        @ref="_canvasElement"
+                        width="140"
+                        height="90"
+                        style="display:none" />
+
+                @if (Mode == MediaMode.Video &&
+                             ShowThumbnails)
+                {
+                    <div class="thumbnail-box">
+                        <img @ref="_thumbnailElement"
+                             alt="Represents a thumbnail of the current time"
+                             title="Thumbnail of the current timeline"/>
+                    </div>
+                }
+                <div class="time-label">@FormatTime(_previewTime)</div>
+            </div>
+        }
+    </div>
+    <FluentSpacer Width="8" />
+    <FluentLabel>@FormatTime(Duration)</FluentLabel>
+</FluentStack>

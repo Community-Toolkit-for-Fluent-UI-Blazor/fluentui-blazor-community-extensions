@@ -1,0 +1,25 @@
+.chapter-list {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  border: calc(var(--stroke-width) * 1px) solid var(--neutral-stroke-rest);
+  border-radius: calc(var(--control-corner-radius) * 1px);
+}
+
+  .chapter-list.horizontal {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 12px;
+    width: 100%;
+    gap: 12px;
+    height: 350px;
+    overflow-y: hidden;
+  }
+
+  .chapter-list.vertical {
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+    row-gap: 12px;
+    width: 476px;
+  }
