@@ -2,9 +2,8 @@
     You can position the button using the <code>Position</code> property.
 </p>
 
-<FluentSelect TOption="FloatingPosition"
-              Items="@_positions"
-              @bind-SelectedOption=_position></FluentSelect>
+<FluentSelect Items="@_positions"
+              @bind-Value=_position />
 
 <div style="position: relative; height: 400px" id="target2">
     <FluentDataGrid TGridItem="string">
