@@ -4838,6 +4838,61 @@
             content.</param>
             <returns>An <see cref="T:FluentUI.Blazor.Community.Components.VideoMetadata"/> object containing the extracted metadata, such as duration, format, and bitrate.</returns>
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata">
+            <summary>
+            Represents descriptive metadata information for a video, including title, series, directors, cast, genres, and
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Title">
+            <summary>
+            Gets or sets the title associated with the video.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Series">
+            <summary>
+            Gets or sets the series identifier or name associated with the video.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Directors">
+            <summary>
+            Gets or sets the names of the directors associated with the video.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Writers">
+            <summary>
+            Gets or sets the collection of writer names associated with the video.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Cast">
+            <summary>
+            Gets or sets the list of cast members associated with the video.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Producers">
+            <summary>
+            Gets or sets the list of producers associated with the video.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Genres">
+            <summary>
+            Gets or sets the genres associated with the video.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Year">
+            <summary>
+            Gets or sets the year associated with the video.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Description">
+            <summary>
+            Gets or sets the description associated with the video.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.VideoDescriptiveMetadata.Comment">
+            <summary>
+            Gets or sets the optional comment associated with this video.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.VideoMetadata">
             <summary>
             Represents a collection of metadata describing various aspects of a video, including descriptive, technical, legal,
