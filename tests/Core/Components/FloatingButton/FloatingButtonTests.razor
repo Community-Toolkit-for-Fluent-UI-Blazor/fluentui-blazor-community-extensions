@@ -1,0 +1,25 @@
+﻿@inherits BunitContext
+
+@code {
+    public FloatingButtonTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddFluentUIComponents();
+    }
+
+    [Fact]
+    public void FloatingButton_Default()
+    {
+        // Arrange
+        using var id = Identifier.SequentialContext();
+
+        // Act
+        var cut = Render(@<div id="my-div">
+            <FluentCxFloatingButton RelativeContainerId="my-div" />
+        </div>
+        );
+
+        // Assert
+        cut.Verify();
+    }
+}
