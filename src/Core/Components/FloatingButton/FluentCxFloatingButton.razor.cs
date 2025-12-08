@@ -1,6 +1,5 @@
 using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 using Microsoft.JSInterop;
@@ -21,12 +20,9 @@ public partial class FluentCxFloatingButton : FluentButton
         Id = Identifier.NewId();
         AdditionalAttributes = new Dictionary<string, object>()
         {
-            ["onmouseenter"] = new OnMouseEnterDelegate(OnMouseEnterAsync),
             ["tabindex"] = -1
         };
     }
-
-    private delegate Task OnMouseEnterDelegate(MouseEventArgs e);
 
     /// <summary>
     /// Represents a value indicating if the floating button is fixed position.
@@ -98,24 +94,10 @@ public partial class FluentCxFloatingButton : FluentButton
     public string? RelativeContainerId { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback when the mouse enters the button.
-    /// </summary>
-    [Parameter]
-    public EventCallback<MouseEventArgs> OnMouseEnter { get; set; }
-
-    /// <summary>
     /// Gets or sets the callback when a key is pressed when the button is focused.
     /// </summary>
     [Parameter]
     public EventCallback<FluentKeyCodeEventArgs> OnKeyDown { get; set; }
-
-    private async Task OnMouseEnterAsync(MouseEventArgs e)
-    {
-        if (OnMouseEnter.HasDelegate)
-        {
-            await OnMouseEnter.InvokeAsync(e);
-        }
-    }
 
     /// <summary>
     /// Gets if the position of the button is fixed or not.
