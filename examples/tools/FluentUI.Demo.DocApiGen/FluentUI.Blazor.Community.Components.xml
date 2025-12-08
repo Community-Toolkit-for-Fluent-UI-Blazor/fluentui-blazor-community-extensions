@@ -4,56 +4,6 @@
         <name>FluentUI.Blazor.Community.Components</name>
     </assembly>
     <members>
-        <member name="T:FluentUI.Blazor.Community.Components.FloatingPosition">
-            <summary>
-            Represents the position of the floating button.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.TopLeft">
-            <summary>
-            The button is placed at the top left based on its relative parent container.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.TopCenter">
-            <summary>
-            The button is placed at the top center based on its relative parent container.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.TopRight">
-            <summary>
-            The button is placed at the top right based on its relative parent container.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.MiddleLeft">
-            <summary>
-            The button is placed at the middle left based on its relative parent container.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.MiddleCenter">
-            <summary>
-            The button is placed at the middle center based on its relative parent container.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.MiddleRight">
-            <summary>
-            The button is placed at the middle right based on its relative parent container.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.BottomLeft">
-            <summary>
-            The button is placed at the bottom left based on its relative parent container.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.BottomCenter">
-            <summary>
-            The button is placed at the bottom center based on its relative parent container.
-            </summary>
-        </member>
-        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.BottomRight">
-            <summary>
-            The button is placed at the bottom right based on its relative parent container.
-            </summary>
-        </member>
         <member name="T:FluentUI.Blazor.Community.Components.FluentCxFloatingButton">
             <summary>
             Represents a floating button.
@@ -126,6 +76,56 @@
         <member name="M:FluentUI.Blazor.Community.Components.FluentCxFloatingButton.OnAfterRenderAsync(System.Boolean)">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.FloatingPosition">
+            <summary>
+            Represents the position of the floating button.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.TopLeft">
+            <summary>
+            The button is placed at the top left based on its relative parent container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.TopCenter">
+            <summary>
+            The button is placed at the top center based on its relative parent container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.TopRight">
+            <summary>
+            The button is placed at the top right based on its relative parent container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.MiddleLeft">
+            <summary>
+            The button is placed at the middle left based on its relative parent container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.MiddleCenter">
+            <summary>
+            The button is placed at the middle center based on its relative parent container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.MiddleRight">
+            <summary>
+            The button is placed at the middle right based on its relative parent container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.BottomLeft">
+            <summary>
+            The button is placed at the bottom left based on its relative parent container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.BottomCenter">
+            <summary>
+            The button is placed at the bottom center based on its relative parent container.
+            </summary>
+        </member>
+        <member name="F:FluentUI.Blazor.Community.Components.FloatingPosition.BottomRight">
+            <summary>
+            The button is placed at the bottom right based on its relative parent container.
+            </summary>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Extensions.EnumExtensions">
             <summary>
             Provides extension methods for working with enum values.
@@ -138,15 +138,6 @@
             <typeparam name="T">The enum type.</typeparam>
             <param name="value">The enum instance to test.</param>
             <param name="values">A list of candidate values to compare against.</param>
-            <returns>
-            <see langword="true"/> if <paramref name="value"/> matches any element in <paramref name="values"/>; otherwise, <see langword="false"/>.
-            If no <paramref name="values"/> are supplied the method returns <see langword="false"/>.
-            </returns>
-            <example>
-            <code>
-            var result = myEnumValue.IsOneOf(MyEnum.OptionA, MyEnum.OptionB);
-            </code>
-            </example>
         </member>
     </members>
 </doc>

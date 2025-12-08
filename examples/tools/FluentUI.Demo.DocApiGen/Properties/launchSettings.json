@@ -2,7 +2,7 @@
   "profiles": {
     "FluentUI.Demo.DocApiGen": {
       "commandName": "Project",
-      "commandLineArgs": "--xml \"$(MSBuildProjectDirectory)/FluentUI.Blazor.Community.Components.xml\" --dll \"$(SolutionDir)src/Core/bin/$(Configuration)/net10.0/FluentUI.Blazor.Community.Components.dll\" --output \"$(SolutionDir)examples/Demo/FluentUI.Demo.Client/wwwroot/api-comments.json\" --format json"
+      "commandLineArgs": "--xml \"$(MSBuildProjectDirectory)/FluentUI.Blazor.Community.Components.xml\" --dll \"$(SolutionDir)src/Core/bin/$(Configuration)/net10.0/FluentUI.Blazor.Community.Components.dll\" --output \"$(SolutionDir)examples/demo/FluentUI.Demo.Client/wwwroot/api-comments.json\" --format json"
     }
   }
 }
