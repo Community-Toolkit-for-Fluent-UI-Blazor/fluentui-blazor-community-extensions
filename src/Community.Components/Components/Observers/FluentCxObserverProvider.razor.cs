@@ -55,7 +55,7 @@ public sealed partial class FluentCxObserverProvider
     /// <remarks>This path is used to locate the JavaScript file that contains the implementation for the
     /// FluentCxObserverProvider. Ensure that the file exists at the specified location and is correctly deployed as
     /// part of the application.</remarks>
-    private const string JsModulePath = "./_content/FluentUI.Blazor.Community.Components/components/observers/FluentCxObserverProvider.razor.js";
+    private const string JsModulePath = "./_content/FluentUI.Blazor.Community.Components/Components/Observers/FluentCxObserverProvider.razor.js";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluentCxObserverProvider"/> class.
