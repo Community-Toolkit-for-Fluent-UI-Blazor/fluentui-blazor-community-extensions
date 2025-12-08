@@ -9,5 +9,13 @@
         <PropertyColumn Title="Data 3" Property="@(s => s)" />
         <PropertyColumn Title="Data 4" Property="@(s => s)" />
     </FluentDataGrid>
-    <FluentCxFloatingButton IconStart=@(new Icons.Regular.Size24.Navigation()) RelativeContainerId="target" />
+    <FluentCxFloatingButton IconStart=@(new Icons.Regular.Size24.Navigation()) RelativeContainerId="target" OnClick="OnClick" />
 </div>
+
+@code {
+    private Task OnClick()
+    {
+        Console.WriteLine("Floating button clicked");
+        return Task.CompletedTask;
+    }
+}

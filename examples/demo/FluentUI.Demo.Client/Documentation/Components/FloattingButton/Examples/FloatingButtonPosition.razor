@@ -12,10 +12,18 @@
         <PropertyColumn Title="Data 3" Property="@(s => s)" />
         <PropertyColumn Title="Data 4" Property="@(s => s)" />
     </FluentDataGrid>
-    <FluentCxFloatingButton Position=@_position IconStart=@(new Icons.Regular.Size24.Navigation()) RelativeContainerId="target2" />
+    <FluentCxFloatingButton Position=@_position IconStart=@(new Icons.Regular.Size24.Navigation()) RelativeContainerId="target2" OnClick="OnClick" />
 </div>
 
 @code {
     private FloatingPosition _position = FloatingPosition.BottomRight;
     private readonly FloatingPosition[] _positions = Enum.GetValues<FloatingPosition>();
+
+    @code {
+    private Task OnClick()
+    {
+        Console.WriteLine("Floating button clicked");
+        return Task.CompletedTask;
+    }
+}
 }
