@@ -1,75 +1,75 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
-    <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
-    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
-    <NuGetAuditMode>direct</NuGetAuditMode>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+		<WarningsNotAsErrors>612,618</WarningsNotAsErrors>
+		<NuGetAuditMode>direct</NuGetAuditMode>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" />
+		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Core\FluentUI.Blazor.Community.Components.csproj" />
-    <ProjectReference Include="..\..\Tools\FluentUI.Demo.DocViewer\FluentUI.Demo.DocViewer.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\Core\FluentUI.Blazor.Community.Components.csproj" />
+		<ProjectReference Include="..\..\Tools\FluentUI.Demo.DocViewer\FluentUI.Demo.DocViewer.csproj" />
+	</ItemGroup>
 
-  <!-- Copy all .razor files to .txt files in wwwroot\sources -->
-  <Target Name="CopySources" BeforeTargets="BeforeBuild" Condition="'$(TargetFramework)'=='net9.0'">
-    <ItemGroup>
-      <Sources Include="$(ProjectDir)\Documentation\**\*.razor*;$(ProjectDir)\Documentation\**\*.cs*;" />
-    </ItemGroup>
-    <Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(ProjectDir)wwwroot\sources\%(Filename)%(Extension).txt')" SkipUnchangedFiles="true" />
+	<!-- Copy all .razor files to .txt files in wwwroot\sources -->
+	<Target Name="CopySources" BeforeTargets="BeforeBuild">
+		<ItemGroup>
+			<Sources Include="$(ProjectDir)\Documentation\**\*.razor*;$(ProjectDir)\Documentation\**\*.cs*;" />
+		</ItemGroup>
+		<Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(ProjectDir)wwwroot\sources\%(Filename)%(Extension).txt')" SkipUnchangedFiles="true" />
 
-    <!-- Add a task to generate files.txt with all filenames -->
-    <WriteLinesToFile File="$(ProjectDir)wwwroot\sources\files.txt" Lines="@(Sources->'%(Filename)%(Extension).txt')" Overwrite="true" />
-  </Target>
+		<!-- Add a task to generate files.txt with all filenames -->
+		<WriteLinesToFile File="$(ProjectDir)wwwroot\sources\files.txt" Lines="@(Sources->'%(Filename)%(Extension).txt')" Overwrite="true" />
+	</Target>
 
-  <!-- Code Analysis -->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<!-- Code Analysis -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="**\*.md" />
-    <AdditionalFiles Include="$(ProjectDir)/*.xml" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="**\*.md" />
+		<AdditionalFiles Include="$(ProjectDir)/*.xml" />
+	</ItemGroup>
 
-  <!-- Embedd other languages under root resx file -->
-  <ItemGroup>
-    <None Include="**\*.*.resx" />
-    <None Update="**\*.*.resx">
-      <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-      <DependentUpon>%(ParentFile).resx</DependentUpon>
-    </None>
+	<!-- Embedd other languages under root resx file -->
+	<ItemGroup>
+		<None Include="**\*.*.resx" />
+		<None Update="**\*.*.resx">
+			<ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
+			<DependentUpon>%(ParentFile).resx</DependentUpon>
+		</None>
 
-    <Compile Update="**\*.Designer.cs">
-      <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>%(ParentFile).resx</DependentUpon>
-    </Compile>
+		<Compile Update="**\*.Designer.cs">
+			<ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>%(ParentFile).resx</DependentUpon>
+		</Compile>
 
-    <EmbeddedResource Update="**\*.resx">
-      <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>%(ParentFile).Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\sources\" />
-  </ItemGroup>
+		<EmbeddedResource Update="**\*.resx">
+			<ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>%(ParentFile).Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="wwwroot\sources\" />
+	</ItemGroup>
 
 </Project>
