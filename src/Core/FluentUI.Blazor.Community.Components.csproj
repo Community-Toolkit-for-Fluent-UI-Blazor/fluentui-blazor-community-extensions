@@ -14,11 +14,11 @@
 
   </PropertyGroup>
 
-
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
+  <!-- Dependencies -->
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />

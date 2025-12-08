@@ -68,5 +68,8 @@
       <LastGenOutput>%(ParentFile).Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\sources\" />
+  </ItemGroup>
 
 </Project>
