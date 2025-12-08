@@ -17,4 +17,9 @@
     <ProjectReference Include="..\..\..\src\Core\FluentUI.Blazor.Community.Components.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Documentation\" />
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
 </Project>
