@@ -6,4 +6,16 @@
     <File Path="Directory.Packages.props" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/examples/" />
+  <Folder Name="/examples/demo/">
+    <Project Path="examples/demo/FluentUI.Demo.Client/FluentUI.Demo.Client.csproj" />
+    <Project Path="examples/demo/FluentUI.Demo/FluentUI.Demo.csproj" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="src/Core/FluentUI.Blazor.Community.Components.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Core/Components.Tests.csproj" />
+  </Folder>
 </Solution>
