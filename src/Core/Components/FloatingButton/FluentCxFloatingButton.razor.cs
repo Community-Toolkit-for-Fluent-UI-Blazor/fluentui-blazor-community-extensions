@@ -125,7 +125,7 @@ public partial class FluentCxFloatingButton : FluentButton
     {
         if (_module is not null && !string.IsNullOrEmpty(RelativeContainerId))
         {
-            var isValid = await _module.InvokeAsync<bool>("hasValidTarget", RelativeContainerId);
+            var isValid = await _module.InvokeAsync<bool>("FluentUI.Blazor.Community.FloatingButton.HasValidTarget", RelativeContainerId);
             _isFixed = !isValid;
         }
         else
