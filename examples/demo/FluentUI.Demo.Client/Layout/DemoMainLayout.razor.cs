@@ -1,0 +1,67 @@
+// ------------------------------------------------------------------------
+// This file is licensed to you under the MIT License.
+// ------------------------------------------------------------------------
+
+using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
+using Microsoft.JSInterop;
+
+namespace FluentUI.Demo.Client.Layout;
+
+public partial class DemoMainLayout
+{
+    private FluentLayoutHamburger _hamburger = default!;
+    private bool _consoleLogOpened;
+    private bool _useReboot;
+
+    [Inject]
+    public required IJSRuntime JSRuntime { get; set; }
+
+    [Inject]
+    public required NavigationManager Navigation { get; set; }
+
+    [Parameter]
+    public RenderFragment? Body { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _useReboot = new Uri(Navigation.Uri).Query.Contains("reboot", StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private string? LayoutStyleHeight => new StyleBuilder()
+        .AddStyle("--layout-footer-height", "calc(150px + 36px)", when: _consoleLogOpened == true)
+        .AddStyle("--layout-footer-height", "36px", when: _consoleLogOpened == false)
+        .Build();
+
+    private async Task SwitchThemeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("Blazor.theme.switchTheme");
+    }
+
+    private void ReloadReboot()
+    {
+        var uri = new Uri(Navigation.Uri);
+        var baseUri = uri.GetLeftPart(UriPartial.Path);
+
+        _useReboot = uri.Query.Contains("reboot", StringComparison.InvariantCultureIgnoreCase);
+
+        // Toggle the reboot flag
+        _useReboot = !_useReboot;
+
+        if (_useReboot)
+        {
+            Navigation.NavigateTo($"{baseUri}?reboot", true);
+        }
+        else
+        {
+            Navigation.NavigateTo(baseUri, true);
+        }
+    }
+
+    /// <summary />
+    private bool IsHomePage() => Navigation.Uri == Navigation.BaseUri;
+
+    /// <summary />
+    private string GetLayoutKey() => IsHomePage() ? "Home" : string.Empty;
+}

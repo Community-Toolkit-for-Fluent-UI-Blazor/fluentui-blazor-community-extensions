@@ -12,6 +12,12 @@
     <Project Path="examples/demo/FluentUI.Demo.Client/FluentUI.Demo.Client.csproj" />
     <Project Path="examples/demo/FluentUI.Demo/FluentUI.Demo.csproj" />
   </Folder>
+  <Folder Name="/examples/tools/">
+    <Project Path="examples/Tools/FluentUI.Demo.DocApiGen/FluentUI.Demo.DocApiGen.csproj" />
+    <Project Path="examples/Tools/FluentUI.Demo.DocViewer/FluentUI.Demo.DocViewer.csproj" />
+    <Project Path="examples/Tools/FluentUI.Demo.SampleApi/FluentUI.Demo.SampleApi.csproj" />
+    <Project Path="examples/Tools/FluentUI.Demo.SampleData/FluentUI.Demo.SampleData.csproj" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/Core/">
     <Project Path="src/Core/FluentUI.Blazor.Community.Components.csproj" />

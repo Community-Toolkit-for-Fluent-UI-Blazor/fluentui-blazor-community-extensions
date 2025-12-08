@@ -23,5 +23,6 @@
     <!-- Enable code style analysis -->
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+
   </PropertyGroup>
 </Project>
