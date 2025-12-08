@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Core\FluentUI.Blazor.Community.Components.csproj" />
     <ProjectReference Include="..\FluentUI.Demo.Client\FluentUI.Demo.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
   </ItemGroup>

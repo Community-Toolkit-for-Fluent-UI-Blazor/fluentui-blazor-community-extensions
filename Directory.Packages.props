@@ -6,9 +6,11 @@
   <ItemGroup>
     <!-- Demo Apps -->
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
 
     <!-- Main dependencies -->
     <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.0-rc.1-25335.1" />
 
     <!-- Tests -->
     <PackageVersion Include="bunit" Version="2.1.1" />
