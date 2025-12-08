@@ -1,0 +1,34 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentButton
+
+@if (IsVisible)
+{
+    <FluentKeyCode OnKeyDown="@OnKeyDown" Anchor="@Id" />
+
+    <FluentButton FormAction="@FormAction"
+                  AdditionalAttributes="@AdditionalAttributes"
+                  Appearance="@Appearance"
+                  AutoFocus="@AutoFocus"
+                  BackgroundColor="@BackgroundColor"
+                  ChildContent="@ChildContent"
+                  Class="@Class"
+                  Color="@Color"
+                  Data="@Data"
+                  Disabled=@Disabled
+                  FormEnctype="@FormEncType"
+                  FormId="@FormId"
+                  IconEnd="@IconEnd"
+                  IconStart="@IconStart"
+                  Id="@Id"
+                  Loading=@Loading
+                  FormMethod="@FormMethod"
+                  Name="@Name"
+                  FormNoValidate="@FormNoValidate"
+                  OnClick="@OnClick"
+                  Required=@Required
+                  StopPropagation=@StopPropagation
+                  Style="@InternalStyle"
+                  Title="@Title"
+                  Type="@Type"
+                  Value="@Value" />
+}
