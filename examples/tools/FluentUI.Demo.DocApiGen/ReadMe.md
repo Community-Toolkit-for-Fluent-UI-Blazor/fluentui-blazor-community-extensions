@@ -16,5 +16,5 @@ From command line
 1. Open a command line in the folder `FluentUI.Demo.DocApiGen`.
 1. Run the command
    ```
-   dotnet run --xml "./Microsoft.FluentUI.AspNetCore.Components.xml" --dll "../../../src/Core/bin/Debug/net9.0/Microsoft.FluentUI.AspNetCore.Components.dll" --output "../../../examples/Demo/FluentUI.Demo.Client/wwwroot/api-comments.json" --format json
+   dotnet run --xml "./FluentUI.Blazor.Community.Components.xml" --dll "../../../src/Core/bin/Debug/net10.0/FluentUI.Blazor.Community.Components.dll" --output "../../../examples/Demo/FluentUI.Demo.Client/wwwroot/api-comments.json" --format json
    ```

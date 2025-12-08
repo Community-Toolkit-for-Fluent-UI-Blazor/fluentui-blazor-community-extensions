@@ -13,7 +13,7 @@ using System.Reflection;
 namespace FluentUI.Demo.DocViewer.Models;
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
-internal class ApiClass
+internal sealed class ApiClass
 {
     private static readonly string[] MEMBERS_TO_EXCLUDE =
     [
@@ -150,7 +150,7 @@ internal class ApiClass
                                 {
                                     defaultValue = GetObjectValue(propertyInfo.Name)?.ToString();
                                 }
-                                
+
                                 members.Add(new ApiClassMember()
                                 {
                                     MemberType = MemberTypes.Property,

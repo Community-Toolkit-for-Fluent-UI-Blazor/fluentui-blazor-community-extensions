@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace FluentUI.Demo.DocViewer.Models;
 
-internal record ApiClassMember
+internal sealed record ApiClassMember
 {
     /// <summary>
     /// Gets the type of the MemberInfo: Property, Method, Event.

@@ -4,6 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
 
@@ -15,5 +16,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <XmlFiles Include="$(ProjectDir)bin\$(Configuration)\net10.0\*.xml" />
+    </ItemGroup>
+    <Copy SourceFiles="@(XmlFiles)" DestinationFolder="$(SolutionDir)examples\tools\FluentUI.Demo.DocApiGen" />
+  </Target>
 
 </Project>

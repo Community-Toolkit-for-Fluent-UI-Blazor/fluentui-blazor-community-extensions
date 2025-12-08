@@ -402,7 +402,7 @@ dotnet_diagnostic.MA0026.severity = none
 # IDE0130: Namespace does not match folder structure
 dotnet_diagnostic.IDE0130.severity = none
 
-[{tests/**.{cs,razor},examples/Tools/FluentUI.Demo.DocViewer.Tests/**.{cs,razor}}]
+[{tests/**.{cs,razor}}]
 # CA1018: Mark attributes with AttributeUsageAttribute
 dotnet_diagnostic.CA1018.severity = suggestion
 # CA1507: Use nameof to express symbol names
@@ -513,7 +513,7 @@ dotnet_diagnostic.CA2007.severity = none
 # MA0015: Specify the parameter name in ArgumentException (not valid in OnParametersSet)
 dotnet_diagnostic.MA0015.severity = none
 
-[examples/Demo/**/*.{cs,razor}]
+[examples/demo/**/*.{cs,razor}]
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
 

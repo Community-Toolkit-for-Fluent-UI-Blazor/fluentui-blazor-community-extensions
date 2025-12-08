@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 namespace FluentUI.Demo.Client;
 
 /// <summary />
-internal class ServerStaticAssetService : IStaticAssetService
+internal sealed class ServerStaticAssetService : IStaticAssetService
 {
     private readonly HttpClient _httpClient;
 
