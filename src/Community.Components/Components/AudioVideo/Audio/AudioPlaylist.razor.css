@@ -1,6 +1,0 @@
-.audio-playlist {
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: var(--audio-playlist-height, 100%);
-  width: 100%;
-}
