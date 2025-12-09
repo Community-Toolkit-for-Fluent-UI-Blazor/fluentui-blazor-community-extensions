@@ -7,9 +7,11 @@ route: /Resizers
 
 The resizer allows you to resize your component horizontally and / or vertically.
 
-## Example
+## Examples
 
 {{ ResizeButtonExample }}
+
+{{ ResizeCardExample }}
 
 
 ## API Resizer
