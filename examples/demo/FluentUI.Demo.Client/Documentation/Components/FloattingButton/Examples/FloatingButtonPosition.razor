@@ -5,14 +5,14 @@
 <FluentSelect Items="@_positions"
               @bind-Value=_position />
 
-<div style="position: relative; height: 400px" id="target2">
+<div style="position: relative; height: 400px">
     <FluentDataGrid TGridItem="string">
         <PropertyColumn Title="Data 1" Property="@(s => s)" />
         <PropertyColumn Title="Data 2" Property="@(s => s)" />
         <PropertyColumn Title="Data 3" Property="@(s => s)" />
         <PropertyColumn Title="Data 4" Property="@(s => s)" />
     </FluentDataGrid>
-    <FluentCxFloatingButton Position=@_position IconStart=@(new Icons.Regular.Size24.Navigation()) RelativeContainerId="target2" OnClick="OnClick" />
+    <FluentCxFloatingButton Position=@_position IconStart=@(new Icons.Regular.Size24.Navigation()) OnClick="OnClick" />
 </div>
 
 @code {

@@ -2,17 +2,20 @@
     By default, the position of the <code>FluentCxFloatingButton</code> is <code>@FloatingPosition.BottomRight</code>.
 </p>
 
-<div style="position: relative; height: 400px" id="target">
+<FluentSwitch @bind-Value="_isFixed" Label="IsFixed" />
+    
+<div style="position: relative; height: 400px">
     <FluentDataGrid TGridItem="string">
         <PropertyColumn Title="Data 1" Property="@(s=>s)" />
         <PropertyColumn Title="Data 2" Property="@(s => s)" />
         <PropertyColumn Title="Data 3" Property="@(s => s)" />
         <PropertyColumn Title="Data 4" Property="@(s => s)" />
     </FluentDataGrid>
-    <FluentCxFloatingButton IconStart=@(new Icons.Regular.Size24.Navigation()) RelativeContainerId="target" OnClick="OnClick" />
+    <FluentCxFloatingButton IconStart=@(new Icons.Regular.Size24.Navigation()) IsFixed="@_isFixed" OnClick="OnClick" />
 </div>
 
 @code {
+    private bool _isFixed;
     private Task OnClick()
     {
         Console.WriteLine("Floating button clicked");
