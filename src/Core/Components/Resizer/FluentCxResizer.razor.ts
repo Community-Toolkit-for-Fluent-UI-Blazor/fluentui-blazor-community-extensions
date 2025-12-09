@@ -132,6 +132,79 @@ export namespace FluentUI.Blazor.Community.Resizer {
 
     function resize(e: MouseEvent) {
       console.log(e);
+
+      if (instance.tileGrid != null &&
+        instance.tileGrid !== undefined &&
+        instance.dropzone != null &&
+        instance.dropzone !== undefined) {
+
+        //let width = instance.originalWidth + (e.pageX - instance.originalMouseX);
+        //let height = instance.originalHeight + (e.pageY - instance.originalMouseY);
+        //const rect = instance.dropzone.getBoundingClientRect();
+        //const columnEnd = parseInt(instance.dropzone.style.gridColumnEnd.replace('span', '').trim());
+        //const rowEnd = parseInt(instance.dropzone.style.gridRowEnd.replace('span', '').trim());
+        //const gridColumnWidth = rect.width / columnEnd;
+        //const gridRowHeight = rect.height / rowEnd;
+        //const maxSize = instance.tileGrid.getBoundingClientRect();
+        //instance.dropzone.style.backgroundColor = "var(--neutral-layer-1)";
+
+        //if (current.classList.contains('fluentcx-resizer-handler-cursor-nwse')) {
+        //  instance.orientation = 2;
+        //  resizeHorizontally(width, gridColumnWidth, maxSize.width);
+        //  resizeVertically(height, gridRowHeight, maxSize.height);
+        //}
+        //else if (current.classList.contains('fluentcx-resizer-handler-cursor-ns')) {
+        //  instance.orientation = 1;
+        //  resizeVertically(height, gridRowHeight, maxSize.height);
+        //}
+        //else if (current.classList.contains('fluentcx-resizer-handler-cursor-ew')) {
+        //  instance.orientation = 0;
+        //  resizeHorizontally(width, gridColumnWidth, maxSize.width);
+        //}
+      }
+      else {
+        const width = instance.originalWidth + (e.pageX - instance.originalMouseX);
+        const height = instance.originalHeight + (e.pageY - instance.originalMouseY);
+
+        if (current.classList.contains('fluentcx-resizer-handler-cursor-nwse')) {
+          instance.orientation = 2;
+
+          if (width > instance.minimumWidth) {
+            instance.newWidth = width;
+            instance.element.style.width = width + "px";
+          }
+
+          if (height > instance.minimumHeight) {
+            instance.newHeight = height;
+            instance.element.style.height = height + "px";
+          }
+        }
+        else if (current.classList.contains('fluentcx-resizer-handler-cursor-ns')) {
+          instance.orientation = 1;
+
+          if (height > instance.minimumHeight) {
+            instance.newHeight = height;
+
+            if (instance.element) {
+              instance.element.style.height = height + "px";
+              instance.element.style.width = instance.originalWidth + "px";
+            }
+          }
+        }
+        else if (current.classList.contains('fluentcx-resizer-handler-cursor-ew')) {
+          instance.orientation = 0;
+
+          if (width > instance.minimumWidth) {
+            instance.newWidth = width;
+
+            if (instance.element) {
+              instance.element.style.height = instance.originalHeight + "px";
+              instance.element.style.width = width + "px";
+            }
+          }
+        }
+      }
+
     }
     function cancelResize() {
       window.removeEventListener('keydown', cancelResize);
