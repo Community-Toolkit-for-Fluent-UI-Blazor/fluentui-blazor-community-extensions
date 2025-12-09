@@ -15,10 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="C:\Users\mk\.nuget\packages\microsoft.fluentui.aspnetcore.components\5.0.0-rc.1-25335.1\contentFiles\any\net9.0\tsconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
