@@ -15,7 +15,9 @@ export namespace FluentUI.Blazor.Community.Resizer {
     columnSpan: number,
     rowSpan: number,
     minimumWidth: number,
-    minimumHeight: number
+    minimumHeight: number,
+    newWidth: number,
+    newHeight: number
   }
 
   const _resizerComponents = [] as ResizerInstance[];
@@ -47,7 +49,9 @@ export namespace FluentUI.Blazor.Community.Resizer {
       columnSpan: 0,
       rowSpan: 0,
       minimumWidth: GetMinimumWidth(child),
-      minimumHeight: GetMinimumHeight(child)
+      minimumHeight: GetMinimumHeight(child),
+      newWidth: 0,
+      newHeight: 0
     };
 
     _resizerComponents.push(instance);
@@ -109,11 +113,13 @@ export namespace FluentUI.Blazor.Community.Resizer {
   function BeginResize(id: string, current: Element, e: MouseEvent) {
     e.preventDefault();
 
-    const instance = GetFromId(id);
+    const checkInstance = GetFromId(id);
 
-    if (!instance) {
+    if (!checkInstance) {
       return;
     }
+
+    const instance = checkInstance;
 
     window.addEventListener('mousemove', resize);
     window.addEventListener('mouseup', stopResize);
@@ -123,7 +129,6 @@ export namespace FluentUI.Blazor.Community.Resizer {
     instance.originalMouseY = e.pageY;
     instance.element.style.backgroundColor = "var(--neutral-layer-1)";
 
-    const localInstance = instance;
 
     function resize(e: MouseEvent) {
       console.log(e);
@@ -133,8 +138,8 @@ export namespace FluentUI.Blazor.Community.Resizer {
       window.removeEventListener('mousemove', resize);
       window.removeEventListener('mouseup', stopResize);
 
-      localInstance.element.style.width = localInstance.originalWidth + "px";
-      localInstance.element.style.height = localInstance.originalHeight + "px";
+      instance.element.style.width = instance.originalWidth + "px";
+      instance.element.style.height = instance.originalHeight + "px";
     }
 
     function stopResize() {
@@ -142,38 +147,41 @@ export namespace FluentUI.Blazor.Community.Resizer {
       window.removeEventListener('mousemove', resize);
       window.removeEventListener('mouseup', stopResize);
 
-      //const value = {
-      //  id: instance.id,
-      //  orientation: instance.orientation,
-      //  originalSize: {
-      //    width: instance.originalWidth,
-      //    height: instance.originalHeight
-      //  },
-      //  newSize: {
-      //    width: instance.newWidth,
-      //    height: instance.newHeight
-      //  },
-      //  rowSpan: instance.rowSpan,
-      //  columnSpan: instance.columnSpan
-      //}
+      const value = {
+        id: instance.id,
+        orientation: instance.orientation,
+        originalSize: {
+          width: instance.originalWidth,
+          height: instance.originalHeight
+        },
+        newSize: {
+          width: instance.newWidth,
+          height: instance.newHeight
+        },
+        rowSpan: instance.rowSpan,
+        columnSpan: instance.columnSpan
+      }
 
-      //instance.dotNetHelper.invokeMethodAsync('Resized', value);
+      instance.dotNetHelper.invokeMethodAsync('Resized', value);
 
-      //if (instance.tileGrid != null) {
-      //  instance.dropZone.style.backgroundColor = 'transparent';
-      //  instance.element.style.width = "100%";
-      //  instance.element.style.height = "100%";
-      //  const { left, top, width, height } = instance.element.getBoundingClientRect();
-      //  instance.originalWidth = width;
-      //  instance.originalHeight = height;
-      //}
-      //else {
-      //  instance.element.style.backgroundColor = 'transparent';
-      //  const { left, top, width, height } = instance.element.getBoundingClientRect();
-      //  instance.originalWidth = width;
-      //  instance.originalHeight = height;
-      //}
+      if (instance.tileGrid != null) {
+        if (instance.dropzone != null) {
+          instance.dropzone.style.backgroundColor = 'transparent';
+        }
+
+        instance.element.style.width = "100%";
+        instance.element.style.height = "100%";
+
+        const { left, top, width, height } = instance.element.getBoundingClientRect();
+        instance.originalWidth = width;
+        instance.originalHeight = height;
+      }
+      else {
+        instance.element.style.backgroundColor = 'transparent';
+        const { left, top, width, height } = instance.element.getBoundingClientRect();
+        instance.originalWidth = width;
+        instance.originalHeight = height;
+      }
     }
   }
-
 }
