@@ -115,21 +115,65 @@ export namespace FluentUI.Blazor.Community.Resizer {
       return;
     }
 
-    const localInstance = instance;
-
-    window.addEventListener('mousemove', (e: MouseEvent) => {
-      console.log(e);
-    });
-    window.addEventListener('mouseup', (e: MouseEvent) => {
-      console.log(e);
-    });
-    window.addEventListener('keydown', (e: KeyboardEvent) => {
-      console.log(e);
-    });
+    window.addEventListener('mousemove', resize);
+    window.addEventListener('mouseup', stopResize);
+    window.addEventListener('keydown', cancelResize);
 
     instance.originalMouseX = e.pageX;
     instance.originalMouseY = e.pageY;
     instance.element.style.backgroundColor = "var(--neutral-layer-1)";
+
+    const localInstance = instance;
+
+    function resize(e: MouseEvent) {
+      console.log(e);
+    }
+    function cancelResize() {
+      window.removeEventListener('keydown', cancelResize);
+      window.removeEventListener('mousemove', resize);
+      window.removeEventListener('mouseup', stopResize);
+
+      localInstance.element.style.width = localInstance.originalWidth + "px";
+      localInstance.element.style.height = localInstance.originalHeight + "px";
+    }
+
+    function stopResize() {
+      window.removeEventListener('keydown', cancelResize);
+      window.removeEventListener('mousemove', resize);
+      window.removeEventListener('mouseup', stopResize);
+
+      //const value = {
+      //  id: instance.id,
+      //  orientation: instance.orientation,
+      //  originalSize: {
+      //    width: instance.originalWidth,
+      //    height: instance.originalHeight
+      //  },
+      //  newSize: {
+      //    width: instance.newWidth,
+      //    height: instance.newHeight
+      //  },
+      //  rowSpan: instance.rowSpan,
+      //  columnSpan: instance.columnSpan
+      //}
+
+      //instance.dotNetHelper.invokeMethodAsync('Resized', value);
+
+      //if (instance.tileGrid != null) {
+      //  instance.dropZone.style.backgroundColor = 'transparent';
+      //  instance.element.style.width = "100%";
+      //  instance.element.style.height = "100%";
+      //  const { left, top, width, height } = instance.element.getBoundingClientRect();
+      //  instance.originalWidth = width;
+      //  instance.originalHeight = height;
+      //}
+      //else {
+      //  instance.element.style.backgroundColor = 'transparent';
+      //  const { left, top, width, height } = instance.element.getBoundingClientRect();
+      //  instance.originalWidth = width;
+      //  instance.originalHeight = height;
+      //}
+    }
   }
 
 }

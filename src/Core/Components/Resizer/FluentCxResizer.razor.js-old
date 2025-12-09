@@ -113,14 +113,7 @@ function beginResize(id, current, e) {
   instance.originalMouseY = e.pageY;
   instance.element.style.backgroundColor = "var(--neutral-layer-1)";
 
-  function cancelResize() {
-    window.removeEventListener('keydown', cancelResize);
-    window.removeEventListener('mousemove', resize);
-    window.removeEventListener('mouseup', stopResize);
 
-    instance.element.style.width = instance.originalWidth + "px";
-    instance.element.style.height = instance.originalHeight + "px";
-  }
 
   function resizeHorizontally(width, gridColumnWidth, maxWidth) {
     var newSpan = Math.ceil(width / gridColumnWidth);
@@ -229,43 +222,7 @@ function beginResize(id, current, e) {
     }
   }
 
-  function stopResize() {
-    window.removeEventListener('keydown', cancelResize);
-    window.removeEventListener('mousemove', resize);
-    window.removeEventListener('mouseup', stopResize);
-
-    const value = {
-      id: instance.id,
-      orientation: instance.orientation,
-      originalSize: {
-        width: instance.originalWidth,
-        height: instance.originalHeight
-      },
-      newSize: {
-        width: instance.newWidth,
-        height: instance.newHeight
-      },
-      rowSpan: instance.rowSpan,
-      columnSpan: instance.columnSpan
-    }
-
-    instance.dotNetHelper.invokeMethodAsync('Resized', value);
-
-    if (instance.tileGrid != null) {
-      instance.dropZone.style.backgroundColor = 'transparent';
-      instance.element.style.width = "100%";
-      instance.element.style.height = "100%";
-      const { left, top, width, height } = instance.element.getBoundingClientRect();
-      instance.originalWidth = width;
-      instance.originalHeight = height;
-    }
-    else {
-      instance.element.style.backgroundColor = 'transparent';
-      const { left, top, width, height } = instance.element.getBoundingClientRect();
-      instance.originalWidth = width;
-      instance.originalHeight = height;
-    }
-  }
+  
 }
 
 export function destroy(id) {
