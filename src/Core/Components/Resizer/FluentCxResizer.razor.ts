@@ -63,6 +63,19 @@ export namespace FluentUI.Blazor.Community.Resizer {
       })
     }
   }
+  export function Dispose(id: string) {
+    for (let i = _resizerComponents.length - 1; i > 0; i--) {
+      if (_resizerComponents[i].id == id) {
+        for (let j = 0; j < _resizerComponents[i].resizers.length; ++j) {
+          _resizerComponents[i].resizers[j].removeEventListener("mousedown", function (e: MouseEvent) {
+            BeginResize(id, _resizerComponents[i].resizers[j], e);
+          });
+        }
+
+        _resizerComponents.splice(i, 1);
+      }
+    }
+  }
 
   function GetMinimumWidth(child: HTMLElement): number {
     if (!child) {
@@ -110,6 +123,7 @@ export namespace FluentUI.Blazor.Community.Resizer {
 
     return null;
   }
+
   function BeginResize(id: string, current: Element, e: MouseEvent) {
     e.preventDefault();
 
