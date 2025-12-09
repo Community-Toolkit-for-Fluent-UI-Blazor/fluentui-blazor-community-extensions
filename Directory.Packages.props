@@ -8,11 +8,9 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
     <PackageVersion Include="LoxSmoke.DocXml" Version="3.8.0" />
-
     <!-- Main dependencies -->
     <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.0-rc.1-25335.1" />
-
+    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.0-preview.25343.1" />
     <!-- Shared dependencies -->
     <PackageVersion Include="Markdig.Signed" Version="0.43.0" />
     <PackageVersion Include="Meziantou.Analyzer" Version="2.0.162" />
@@ -25,7 +23,6 @@
     <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" Version="4.13.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.ResxSourceGenerator" Version="3.12.0-beta1.25155.1" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.CommandLine" Version="10.0.0" />
-
     <!-- Tests -->
     <PackageVersion Include="bunit" Version="2.1.1" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
