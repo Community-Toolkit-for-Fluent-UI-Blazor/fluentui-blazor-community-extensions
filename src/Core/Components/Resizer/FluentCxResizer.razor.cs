@@ -12,9 +12,9 @@ namespace FluentUI.Blazor.Community.Components;
 /// </summary>
 public partial class FluentCxResizer : FluentComponentBase
 {
-    private const string JAVASCRIPT_FILE = Constants.JAVASCRIPT_ROOT + "Resizer/FluentCxResizer.razor.js";
+    private const string JAVASCRIPT_FILE = FluentCxConstants.JAVASCRIPT_ROOT + "Resizer/FluentCxResizer.razor.js";
     private readonly DotNetObjectReference<FluentCxResizer> _dotNetHelper;
-    private IJSObjectReference? _module;
+
     ///// <summary>
     ///// Flag indicating if we need to reset the initialization of the component.
     ///// </summary>
@@ -122,14 +122,14 @@ public partial class FluentCxResizer : FluentComponentBase
         if (firstRender)
         {
 
-            _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", JAVASCRIPT_FILE);
-            await _module.InvokeVoidAsync("FluentUI.Blazor.Community.Resizer.Initialize", Id, _dotNetHelper);
+            var module = await JSModule.ImportJavaScriptModuleAsync(JAVASCRIPT_FILE);
+            await module.InvokeVoidAsync("FluentUI.Blazor.Community.Resizer.Initialize", Id, _dotNetHelper);
         }
 
-        //if (_resetInitialization && _module is not null)
+        //if (_resetInitialization && JSModule.Imported)
         //{
         //    //_resetInitialization = false;
-        //    //await _module.InvokeVoidAsync("setTileGrid", Id);
+        //    //await JSModule.ObjectReference.InvokeVoidAsync("setTileGrid", Id);
         //}
     }
 
@@ -161,12 +161,7 @@ public partial class FluentCxResizer : FluentComponentBase
     /// <summary />
     protected override async ValueTask DisposeAsync(IJSObjectReference jsModule)
     {
-        if (_module is not null)
-        {
-            await _module.InvokeVoidAsync("FluentUI.Blazor.Community.Resizer.Dispose", Id);
-            await _module.DisposeAsync();
-        }
-
+        await jsModule.InvokeVoidAsync("FluentUI.Blazor.Community.Resizer.Dispose", Id);
         await base.DisposeAsync(jsModule);
     }
 }

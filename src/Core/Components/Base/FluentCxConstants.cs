@@ -3,7 +3,7 @@ namespace FluentUI.Blazor.Community.Components.Components.Base;
 /// <summary>
 /// Common constants shared by the Fluent UI Blazor Community component library.
 /// </summary>
-public static class Constants
+public static class FluentCxConstants
 {
     /// <summary>
     /// Gets the root path for the JavaScript files.
