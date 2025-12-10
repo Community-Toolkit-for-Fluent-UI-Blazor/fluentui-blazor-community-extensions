@@ -1,8 +1,9 @@
+import { DotNet } from "../../d-ts/Microsoft.JSInterop";
 export namespace FluentUI.Blazor.Community.Resizer {
 
   interface ResizerInstance {
     id: string,
-    dotNetHelper: any,
+    dotNetHelper: DotNet.DotNetObject,
     element: HTMLElement,
     originalWidth: number,
     originalHeight: number,
@@ -21,7 +22,7 @@ export namespace FluentUI.Blazor.Community.Resizer {
   }
 
   const _resizerComponents = [] as ResizerInstance[];
-  export function Initialize(id: string, dotNetHelper: any): void {
+  export function Initialize(id: string, dotNetHelper: DotNet.DotNetObject): void {
     const element = document.getElementById(id) as HTMLElement;
 
     if (!element) {
