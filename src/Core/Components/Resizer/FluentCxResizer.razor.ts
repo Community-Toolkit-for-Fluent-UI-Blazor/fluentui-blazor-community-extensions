@@ -83,13 +83,13 @@ export namespace FluentUI.Blazor.Community.Resizer {
     }
 
     let tagName = child.tagName.toLowerCase();
+    const value = parseInt(child.style.minWidth);
 
-    if (tagName === 'fluent-card') {
-      return 50;
+    if (tagName === 'div' && child.classList.contains("fluent-card")) {
+      return isNaN(value) ? 50 : value;
     }
 
     if (tagName === 'fluent-button') {
-      const value = parseInt(child.style.minWidth);
       return isNaN(value) ? 96 : value;
     }
 
@@ -102,13 +102,13 @@ export namespace FluentUI.Blazor.Community.Resizer {
     }
 
     let tagName = child.tagName.toLowerCase();
+    const value = parseInt(child.style.minHeight);
 
-    if (tagName === 'fluent-card') {
-      return 50;
+    if (tagName === 'div' && child.classList.contains("fluent-card")) {
+      return isNaN(value) ? 50 : value;
     }
 
     if (tagName === 'fluent-button') {
-      const value = parseInt(child.style.minHeight);
       return isNaN(value) ? 32 : value;
     }
 

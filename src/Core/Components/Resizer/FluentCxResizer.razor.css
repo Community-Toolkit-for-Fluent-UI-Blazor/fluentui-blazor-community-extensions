@@ -36,3 +36,7 @@
   height: 100%;
   width: 100%;
 }
+
+::deep .fluentcx-resizer-child-content-container > div.fluent-card {
+  height: 100%;
+}

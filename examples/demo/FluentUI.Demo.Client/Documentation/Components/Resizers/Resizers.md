@@ -1,5 +1,8 @@
 ---
 title: Resizers
+order: 0000
+category: 10|Layout
+icon: Regular.Home
 route: /Resizers
 ---
 
