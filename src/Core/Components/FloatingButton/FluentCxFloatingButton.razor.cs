@@ -18,10 +18,8 @@ public partial class FluentCxFloatingButton : FluentButton
         Id = Identifier.NewId();
     }
 
-    /// <summary>
-    /// Gets the style of the button.
-    /// </summary>
-    private string? InternalStyle
+    /// <summary />
+    protected override string? StyleValue
     {
         get
         {
@@ -34,6 +32,7 @@ public partial class FluentCxFloatingButton : FluentButton
             };
 
             return DefaultStyleBuilder
+            .AddStyle(base.StyleValue)
             .AddStyle("top", "16px", Position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.TopCenter, FloatingPosition.TopRight))
             .AddStyle("bottom", "16px", Position.IsOneOf(FloatingPosition.BottomLeft, FloatingPosition.BottomCenter, FloatingPosition.BottomRight))
             .AddStyle("left", "16px", Position.IsOneOf(FloatingPosition.TopLeft, FloatingPosition.MiddleLeft, FloatingPosition.BottomLeft))
