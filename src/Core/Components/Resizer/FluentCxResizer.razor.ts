@@ -90,7 +90,7 @@ export namespace FluentUI.Blazor.Community.Resizer {
 
     if (tagName === 'fluent-button') {
       const value = parseInt(child.style.minWidth);
-      return isNaN(value) ? 40 : value;
+      return isNaN(value) ? 96 : value;
     }
 
     return 20;
@@ -108,7 +108,8 @@ export namespace FluentUI.Blazor.Community.Resizer {
     }
 
     if (tagName === 'fluent-button') {
-      return 32;
+      const value = parseInt(child.style.minHeight);
+      return isNaN(value) ? 32 : value;
     }
 
     return 20;
