@@ -79,14 +79,15 @@ public partial class FluentCxResizer : FluentComponentBase
     /// <summary>
     /// Gets the internal class the component use.
     /// </summary>
-    private string? InternalClass => new CssBuilder(Class)
+    private string? InternalClass => DefaultClassBuilder
         .AddClass("fluentcx-resizer")
         .Build();
 
     /// <summary>
     /// Gets the internal style the component use.
     /// </summary>
-    private string? InternalStyle => new StyleBuilder(Style).Build();
+    private string? InternalStyle => DefaultStyleBuilder
+        .Build();
 
     /// <summary>
     /// Occurs when the component is tapped.
