@@ -22,4 +22,32 @@
         // Assert
         cut.Verify();
     }
+
+    [Fact]
+    public void FloatingButton_IsFixedAttribute()
+    {
+        // Arrange
+        using var id = Identifier.SequentialContext();
+
+        // Act
+        var cut = Render(@<FluentCxFloatingButton IsFixed="true" />);
+
+        // Assert
+        cut.Verify();
+    }
+
+    [Theory]
+    [InlineData(FloatingPosition.MiddleCenter, "translate(-50%, -50%)")]
+    [InlineData(FloatingPosition.MiddleLeft, "translateY(-50%)")]
+    [InlineData(FloatingPosition.MiddleRight, "translateY(-50%)")]
+    [InlineData(FloatingPosition.TopCenter, "translateX(-50%)")]
+    [InlineData(FloatingPosition.BottomCenter, "translateX(-50%)")]
+    public void FloatingButton_PositionAttribute(FloatingPosition position, string expectedValue)
+    {
+        // Arrange && Act
+        var cut = Render(@<FluentCxFloatingButton Position="position" />);
+
+        var attribute = cut.Find("fluent-button").GetAttribute("style") ?? string.Empty;
+        Assert.Contains(expectedValue, attribute);
+    }
 }
