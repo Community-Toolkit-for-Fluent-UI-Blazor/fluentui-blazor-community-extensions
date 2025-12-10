@@ -23,4 +23,8 @@
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <WarningsNotAsErrors>NU3018;NU3027</WarningsNotAsErrors>
+  </PropertyGroup>
 </Project>
