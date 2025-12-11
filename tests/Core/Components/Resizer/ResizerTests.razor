@@ -1,0 +1,61 @@
+﻿@inherits FluentUITestContext
+
+@code {
+    public ResizerTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddFluentUIComponents();
+    }
+
+    [Fact]
+    public void Resizer_Default()
+    {
+        // Arrange
+        using var id = Identifier.SequentialContext();
+
+        // Act
+        var cut = Render(@<FluentCxResizer>
+            <FluentButton Style="min-height:60px; min-width: 100px;">FluentButton</FluentButton>
+        </FluentCxResizer>
+        );
+
+        // Assert
+        cut.Verify();
+    }
+
+    [Fact]
+    public async Task Resizer_OnResizeEvent()
+    {
+        // Arrange
+        ResizedEventArgs? eventArgs = null;
+
+        // Act
+        var cut = Render(@<FluentCxResizer OnResized="(e) => eventArgs = e">
+            <FluentButton Style="min-height:60px; min-width: 100px;">FluentButton</FluentButton>
+        </FluentCxResizer>
+        );
+
+        var component = cut.FindComponent<FluentCxResizer>();
+
+        // Build a ResizedEventArgs that mirrors the JS payload shape.
+        var args = new ResizedEventArgs
+        {
+            Id = "js-id",
+            Orientation = ResizerHandler.Horizontally,
+            OriginalSize = new System.Drawing.SizeF(100f, 50f),
+            NewSize = new System.Drawing.SizeF(120f, 60f),
+            ColumnSpan = 1,
+            RowSpan = 2
+        };
+
+        await component.Instance.Resized(args);
+
+        Assert.NotNull(eventArgs);
+        Assert.Equal(args.Id, eventArgs!.Id);
+        Assert.Equal(args.Orientation, eventArgs.Orientation);
+        Assert.Equal(args.OriginalSize, eventArgs.OriginalSize);
+        Assert.Equal(args.NewSize, eventArgs.NewSize);
+        Assert.Equal(args.ColumnSpan, eventArgs.ColumnSpan);
+        Assert.Equal(args.RowSpan, eventArgs.RowSpan);
+    }
+}
