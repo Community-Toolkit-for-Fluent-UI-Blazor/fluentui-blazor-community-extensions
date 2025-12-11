@@ -1,6 +1,5 @@
 using FluentUI.Blazor.Community.Components.Components.Base;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 using Microsoft.JSInterop;
@@ -65,18 +64,6 @@ public partial class FluentCxResizer : FluentComponentBase
     //public string? SpanGridId { get; set; }
 
     /// <summary>
-    /// Gets or sets an event callback when the component is tapped.
-    /// </summary>
-    [Parameter]
-    public EventCallback<MouseEventArgs> OnTapped { get; set; }
-
-    /// <summary>
-    /// Gets or sets an event callback when the component is double tapped.
-    /// </summary>
-    [Parameter]
-    public EventCallback<MouseEventArgs> OnDoubleTapped { get; set; }
-
-    /// <summary>
     /// Gets the internal class the component use.
     /// </summary>
     private string? InternalClass => DefaultClassBuilder
@@ -88,32 +75,6 @@ public partial class FluentCxResizer : FluentComponentBase
     /// </summary>
     private string? InternalStyle => DefaultStyleBuilder
         .Build();
-
-    /// <summary>
-    /// Occurs when the component is tapped.
-    /// </summary>
-    /// <param name="e">Event args which contains information about the mouse.</param>
-    /// <returns>Returns a task which invokes <see cref="OnTapped"/> when completed.</returns>
-    private async Task OnTappedAsync(MouseEventArgs e)
-    {
-        if (OnTapped.HasDelegate)
-        {
-            await OnTapped.InvokeAsync(e);
-        }
-    }
-
-    /// <summary>
-    /// Occurs when the component is double tapped.
-    /// </summary>
-    /// <param name="e">Event args which contains information about the mouse.</param>
-    /// <returns>Returns a task which invokes <see cref="OnDoubleTapped"/> when completed.</returns>
-    private async Task OnDoubleTappedAsync(MouseEventArgs e)
-    {
-        if (OnDoubleTapped.HasDelegate)
-        {
-            await OnDoubleTapped.InvokeAsync(e);
-        }
-    }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
