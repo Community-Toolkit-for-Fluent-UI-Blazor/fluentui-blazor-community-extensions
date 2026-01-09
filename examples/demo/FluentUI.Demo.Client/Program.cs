@@ -1,3 +1,4 @@
+using FluentUI.Blazor.Community;
 using FluentUI.Demo.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -10,6 +11,9 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 // Add FluentUI services
 builder.Services.AddFluentUIComponents();
+
+// Add FluentUI community extension services
+builder.Services.AddFluentCxUIComponents();
 
 // Add Demo server services
 builder.Services.AddFluentUIDemoServices().ForClient();

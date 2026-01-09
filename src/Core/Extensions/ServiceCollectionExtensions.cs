@@ -1,0 +1,21 @@
+using FluentUI.Blazor.Community.Components;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace FluentUI.Blazor.Community;
+
+/// <summary>
+/// Represents the extensions for the <see cref="IServiceCollection"/> instance.
+/// </summary>
+public static class ServiceCollectionExtensions
+{
+    /// <summary>
+    /// Add common services required by the FluentCx UI Web Components for Blazor library.
+    /// </summary>
+    /// <param name="services">Service collection.</param>
+    /// <returns>Returns the collection of services.</returns>
+    public static IServiceCollection AddFluentCxUIComponents(this IServiceCollection services)
+    {
+        return services
+            .AddScoped<DeviceInfoState>();
+    }
+}
