@@ -18,19 +18,14 @@ public static class ServiceCollectionExtensions
     /// <returns>Returns the collection of services.</returns>
     public static IServiceCollection AddFluentCxUIComponents(this IServiceCollection services, LibraryConfiguration? configuration = null)
     {
-        return services
-            .AddScoped<DeviceInfoState>();
-    }
-    /// <summary>
-    /// Add common services required by the Fluent UI Web Components for Blazor library
-    /// </summary>
-    /// <param name="services">Service collection</param>
-    /// <param name="configuration">Library configuration</param>
-    public static IServiceCollection AddFluentCxUIComponents(this IServiceCollection services, Action<LibraryConfiguration> configuration)
-    {
-        LibraryConfiguration options = new();
-        configuration.Invoke(options);
+        var options = configuration ?? new();
 
-        return AddFluentCxUIComponents(services, options);
+        var serviceLifetime = options?.ServiceLifetime ?? ServiceLifetime.Scoped;
+        if (serviceLifetime == ServiceLifetime.Transient)
+        {
+            throw new NotSupportedException("Transient lifetime is not supported for Fluent UI Community services.");
+        }
+
+        return services.AddScoped<DeviceInfoState>();
     }
 }

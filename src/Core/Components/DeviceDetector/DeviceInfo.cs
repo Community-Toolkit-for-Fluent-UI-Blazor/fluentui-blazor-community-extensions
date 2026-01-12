@@ -43,19 +43,19 @@ public record DeviceInfo
     {
         var handler = new DefaultInterpolatedStringHandler();
 
-        handler.AppendLiteral("Operating System : ");
+        handler.AppendLiteral("Operating System: ");
         handler.AppendFormatted(OperatingSystem);
         handler.AppendLiteral(Environment.NewLine);
 
-        handler.AppendLiteral("Browser : ");
+        handler.AppendLiteral("Browser: ");
         handler.AppendFormatted(Browser);
         handler.AppendLiteral(Environment.NewLine);
 
-        handler.AppendLiteral("IsMobile : ");
+        handler.AppendLiteral("IsMobile: ");
         handler.AppendFormatted(IsMobile);
         handler.AppendLiteral(Environment.NewLine);
 
-        handler.AppendLiteral("Orientation : ");
+        handler.AppendLiteral("Orientation: ");
         handler.AppendFormatted(Orientation);
         handler.AppendLiteral(Environment.NewLine);
 
@@ -70,19 +70,19 @@ public record DeviceInfo
     {
         var handler = new DefaultInterpolatedStringHandler();
 
-        handler.AppendLiteral("<strong>Operating System : </strong>");
+        handler.AppendLiteral("<strong>Operating System: </strong>");
         handler.AppendFormatted(OperatingSystem);
         handler.AppendLiteral("<br />");
 
-        handler.AppendLiteral("<strong>Browser : </strong>");
+        handler.AppendLiteral("<strong>Browser: </strong>");
         handler.AppendFormatted(Browser);
         handler.AppendLiteral("<br />");
 
-        handler.AppendLiteral("<strong>IsMobile : </strong>");
+        handler.AppendLiteral("<strong>IsMobile: </strong>");
         handler.AppendFormatted(IsMobile);
         handler.AppendLiteral("<br />");
 
-        handler.AppendLiteral("<strong>Orientation : </strong>");
+        handler.AppendLiteral("<strong>Orientation: </strong>");
         handler.AppendFormatted(Orientation);
         handler.AppendLiteral("<br />");
 

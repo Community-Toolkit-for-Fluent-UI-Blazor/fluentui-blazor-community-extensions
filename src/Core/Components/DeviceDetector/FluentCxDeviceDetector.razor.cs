@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentUI.Blazor.Community.Components.Components.Base;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -32,7 +33,7 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
     /// Gets the state which contains the information of the device.
     /// </summary>
     [Inject]
-    private DeviceInfoState State { get; set; } = default!;
+    public required DeviceInfoState State { get; set; }
 
     /// <summary>
     /// Gets or sets the callback to use when the device information is updated.
@@ -43,7 +44,7 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
     /// <summary>
     /// Gets the information about the device.
     /// </summary>
-    public DeviceInfo? DeviceInfo => State?.DeviceInfo;
+    public DeviceInfo? DeviceInfo => State.DeviceInfo;
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -82,6 +83,7 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
     }
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     protected override async ValueTask DisposeAsync(IJSObjectReference jsModule)
     {
         if (_jsInstance is not null)

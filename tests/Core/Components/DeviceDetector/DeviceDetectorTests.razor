@@ -1,20 +1,51 @@
 ﻿@inherits FluentUITestContext
 
 @code {
-    public DeviceDetectorTests()
+    public DeviceDetectorTests() : base()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         Services.AddFluentUIComponents();
         Services.AddFluentCxUIComponents();
     }
 
-    [Fact]
-    public void DeviceDetector_Default()
-    {
-        // Act
-        var cut = Render(@<FluentCxDeviceDetector />);
+    
 
+    [Fact]
+    public async Task DeviceDetector_Default()
+    {
+        // Arrange
+        bool deviceInfoUpdated = false;
+       
+        // Act
+        var cut = Render(@<FluentCxDeviceDetector DeviceInfoUpdated="() => deviceInfoUpdated = true" />);
+        Assert.True(deviceInfoUpdated);
+       
         // Assert
         cut.Verify();
+    }
+
+    [Fact]
+    public async Task DeviceDetector_OrientationChanged()
+    {
+        // Arrange
+        FluentCxDeviceDetector instance = default!;
+        var state = Services.GetRequiredService<DeviceInfoState>();
+        DeviceInfo? updatedDeviceInfo = null;
+
+        // Act
+        var cut = Render(@<FluentCxDeviceDetector @ref="instance" DeviceInfoUpdated="(info) => updatedDeviceInfo = info"  />);
+
+        // We need to define a state after the rendering because JS sets DeviceInfo to null becuase there is no browser instance
+        state.DeviceInfo = new()
+        {
+            Orientation = DeviceOrientation.Landscape
+        };
+
+        Assert.NotNull(instance.State);
+        Assert.NotNull(instance.DeviceInfo);
+
+        await instance.OrientationChanged("Portrait");
+        Assert.NotNull(updatedDeviceInfo);
+        Assert.Equal(DeviceOrientation.Portrait, updatedDeviceInfo.Orientation);
     }
 }
