@@ -20,6 +20,7 @@ public class ComponentBaseTests : BunitContext
     private static readonly Type[] Excluded =
     [
         typeof(FluentUI.Blazor.Community.Components._Imports),
+        typeof(FluentUI.Blazor.Community.Components.FluentCxDeviceDetector), // Renders no HTML output
     ];
 
     /// <summary>

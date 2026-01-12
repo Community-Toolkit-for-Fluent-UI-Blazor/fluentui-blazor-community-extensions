@@ -1,3 +1,4 @@
+using FluentUI.Blazor.Community.Components;
 using FluentUI.Demo.Components;
 using FluentUI.Demo.Client;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -25,6 +26,9 @@ builder.Services.AddFluentUIComponents(config =>
     // Use a custom localizer
     // config.Localizer = new FluentUI.Demo.MyLocalizer();
 });
+
+// Add FluentUI community extension services
+builder.Services.AddFluentCxUIComponents();
 
 // Add Demo server services
 builder.Services.AddFluentUIDemoServices().ForServer();
