@@ -10,12 +10,13 @@ export namespace FluentUI.Blazor.Community.DeviceDetector {
   }
   export function GetDeviceInfo(): DeviceInfo {
     const userAgent: string = navigator.userAgent;
+    const operatingSystem: string = getOperatingSystem(userAgent);
 
     const deviceInfo: DeviceInfo = {
       userAgent: userAgent,
       browser: getBrowser(userAgent),
-      operatingsystem: getOperatingSystem(userAgent),
-      isMobile: false,
+      operatingsystem: operatingSystem,
+      isMobile: operatingSystem === "iOS" || operatingSystem === "Android",
       hasTouch: 'ontouchstart' in document.documentElement
     };
 
@@ -52,15 +53,6 @@ export namespace FluentUI.Blazor.Community.DeviceDetector {
     // Windows user agents include 'Windows' or 'Windows NT'
     if (/Windows/.test(userAgent) || /Windows NT/.test(userAgent)) return "Windows";
 
-    // macOS / macOS-like (including iPadOS which may report 'Macintosh')
-    if (/Macintosh|Mac OS X|Mac\sOS|Mac/.test(userAgent)) return "Mac";
-
-    // Treat Android, Linux, X11, ChromeOS as 'Linux' for the simplified output
-    if (/Android|Linux|X11|CrOS/.test(userAgent)) return "Linux";
-
-    return "Undefined";
-  }
-  function getMobileType(userAgent: string): string {
     // Android devices
     if (/Android/i.test(userAgent)) return 'Android';
 
@@ -70,6 +62,12 @@ export namespace FluentUI.Blazor.Community.DeviceDetector {
     // iPadOS 13+ may report as Macintosh but supports touch points
     if (/Macintosh/i.test(userAgent) && typeof navigator !== 'undefined' && (navigator as any).maxTouchPoints > 1) return 'iOS';
 
-    return 'Undefined';
+    // macOS / macOS-like (including iPadOS which may report 'Macintosh')
+    if (/Macintosh|Mac OS X|Mac\sOS|Mac/.test(userAgent)) return "Mac";
+
+    // Treat Linux, X11, ChromeOS as 'Linux' for the simplified output
+    if (/Linux|X11|CrOS/.test(userAgent)) return "Linux";
+
+    return "Undefined";
   }
 }

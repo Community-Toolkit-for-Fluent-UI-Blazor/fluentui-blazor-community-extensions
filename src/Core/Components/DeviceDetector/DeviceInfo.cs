@@ -31,9 +31,8 @@ public record DeviceInfo
     public bool HasTouch { get; init; }
 
     /// <summary>
-    /// Gets the used mobile.
+    /// Gets if the device is a mobile device or tablet.
     /// </summary>
-    /// <remarks>If the app is running on desktop, this value is set to <see cref="Mobile.NotMobileDevice"/></remarks>
     public bool IsMobile { get; init; }
 
     /// <summary>

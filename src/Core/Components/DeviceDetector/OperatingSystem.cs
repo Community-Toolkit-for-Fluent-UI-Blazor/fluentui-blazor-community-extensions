@@ -23,5 +23,13 @@ public enum OperatingSystem
     /// <summary>
     /// Linux operating system.
     /// </summary>
-    Linux
+    Linux,
+    /// <summary>
+    /// Android operating system.
+    /// </summary>
+    Android,
+    /// <summary>
+    /// iOS operating system.
+    /// </summary>
+    iOS
 }
