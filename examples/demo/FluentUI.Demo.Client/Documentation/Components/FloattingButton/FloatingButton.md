@@ -1,6 +1,7 @@
 ---
 title: FloatingButton
 route: /FloatingButton
+icon: Button
 ---
 
 # FloatingButton
