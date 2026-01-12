@@ -1,0 +1,20 @@
+﻿@inherits FluentUITestContext
+
+@code {
+    public DeviceDetectorTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddFluentUIComponents();
+        Services.AddFluentCxUIComponents();
+    }
+
+    [Fact]
+    public void DeviceDetector_Default()
+    {
+        // Act
+        var cut = Render(@<FluentCxDeviceDetector />);
+
+        // Assert
+        cut.Verify();
+    }
+}

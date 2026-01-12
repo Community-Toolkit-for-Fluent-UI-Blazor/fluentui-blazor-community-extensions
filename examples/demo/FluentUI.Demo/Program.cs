@@ -1,4 +1,4 @@
-using FluentUI.Blazor.Community;
+using FluentUI.Blazor.Community.Components;
 using FluentUI.Demo.Components;
 using FluentUI.Demo.Client;
 using Microsoft.FluentUI.AspNetCore.Components;
