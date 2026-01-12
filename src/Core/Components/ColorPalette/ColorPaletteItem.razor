@@ -1,0 +1,30 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<button id="@Id"
+        @ref=Element
+        @key=Id
+        class="palette-item @(IsFocused ? "focused" : "") @(IsSelected ? "selected" : "") @(IsAnimated ? "selected-flash" : "")"
+        role="gridcell"
+        aria-label="@Color"
+        aria-selected="@(IsSelected ? "true" : "false")"
+        style="@($"width:{Size}px;height:{Size}px")"
+        @onclick="OnClick"
+        tabindex="@(IsFocused ? 0 : -1)">
+    <svg width="@Size" height="@Size" viewBox="0 0 @Size @Size" aria-hidden="true">
+        <rect x="0" y="0" width="@Size" height="@Size" fill="@Color" />
+    </svg>
+</button>
+
+<FluentTooltip @key=@($"tooltip-{Id}") Anchor="@Id">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <svg width="@Size" height="@Size" viewBox="0 0 @Size @Size" aria-hidden="true">
+            <rect x="0" y="0" width="@Size" height="@Size" fill="@Color" />
+        </svg>
+
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentLabel>@($"{Color}")</FluentLabel>
+            <FluentLabel>RGB @($"{ColorUtils.HexToRgbString(Color)}")</FluentLabel>
+        </FluentStack>
+    </FluentStack>
+</FluentTooltip>
