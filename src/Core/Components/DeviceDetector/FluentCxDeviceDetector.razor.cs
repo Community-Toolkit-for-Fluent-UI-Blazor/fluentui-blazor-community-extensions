@@ -12,6 +12,7 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
 {
     private const string JAVASCRIPT_FILE = FluentCxConstants.JAVASCRIPT_ROOT + "DeviceDetector/FluentCxDeviceDetector.razor.js";
     private readonly DotNetObjectReference<FluentCxDeviceDetector> _dotNetHelper;
+    private IJSObjectReference? _jsInstance;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="FluentCxDeviceDetector"/> class.
@@ -52,9 +53,8 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
         if (firstRender)
         {
             var module = await JSModule.ImportJavaScriptModuleAsync(JAVASCRIPT_FILE);
+            _jsInstance = await JSModule.ObjectReference.InvokeAsync<IJSObjectReference>("FluentUI.Blazor.Community.DeviceDetector.Initialize", _dotNetHelper);
             State.DeviceInfo = await module.InvokeAsync<DeviceInfo>("FluentUI.Blazor.Community.DeviceDetector.GetDeviceInfo");
-
-            //await _module.InvokeVoidAsync("getDeviceOrientation", _deviceDetectorReference);
 
             if (DeviceInfoUpdated.HasDelegate)
             {
@@ -68,7 +68,7 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
     /// </summary>
     /// <param name="orientation">Value indicating the orientation of the device.</param>
     [JSInvokable]
-    public async Task ChangeOrientation(string orientation)
+    public async Task OrientationChanged(string orientation)
     {
         if (State.DeviceInfo is not null)
         {
@@ -79,5 +79,19 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
                 await DeviceInfoUpdated.InvokeAsync(State.DeviceInfo);
             }
         }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask DisposeAsync(IJSObjectReference jsModule)
+    {
+        if (_jsInstance is not null)
+        {
+            await _jsInstance.InvokeVoidAsync("dispose");
+            await _jsInstance.DisposeAsync().ConfigureAwait(false);
+        }
+
+        _dotNetHelper?.Dispose();
+
+        await base.DisposeAsync(jsModule);
     }
 }

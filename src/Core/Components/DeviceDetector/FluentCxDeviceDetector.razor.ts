@@ -6,8 +6,24 @@ export namespace FluentUI.Blazor.Community.DeviceDetector {
     browser: string,
     operatingsystem: string,
     isMobile: boolean,
-    hasTouch: boolean
+    hasTouch: boolean,
+    orientation: string
   }
+  export function Initialize(dotNetHelper: DotNet.DotNetObject) {
+    function OrientationChanged(e: Event): void {
+      const orientation: string = getOrientation();
+      dotNetHelper.invokeMethodAsync("OrientationChanged", orientation);
+    }
+
+    window.screen.orientation.addEventListener('change', OrientationChanged);
+
+    return {
+      dispose: () => {
+        window.screen.orientation.removeEventListener('change', OrientationChanged);
+      }
+    }
+  }
+
   export function GetDeviceInfo(): DeviceInfo {
     const userAgent: string = navigator.userAgent;
     const operatingSystem: string = getOperatingSystem(userAgent);
@@ -17,25 +33,11 @@ export namespace FluentUI.Blazor.Community.DeviceDetector {
       browser: getBrowser(userAgent),
       operatingsystem: operatingSystem,
       isMobile: operatingSystem === "iOS" || operatingSystem === "Android",
-      hasTouch: 'ontouchstart' in document.documentElement
+      hasTouch: 'ontouchstart' in document.documentElement,
+      orientation: getOrientation()
     };
 
     return deviceInfo;
-  }
-
-  export function getDeviceOrientation(dotNetHelper: DotNet.DotNetObject) {
-    //function updateOrientation(e) {
-    //  const orientation = e === undefined ? window.screen.orientation.type : e.target.type;
-    //  const value = orientation === 'portrait-primary' ? 'Portrait' :
-    //    orientation === 'portrait-secondary' ? 'PortraitReversed' :
-    //      orientation === 'landscape-primary' ? 'Landscape' :
-    //        'LandscapeReversed'
-
-    //  dotNetHelper.invokeMethodAsync("ChangeOrientation", value);
-    //}
-
-    //window.screen.orientation.addEventListener('change', (e) => updateOrientation(e));
-    //updateOrientation();
   }
 
   function getBrowser(userAgent: string): string {
@@ -69,5 +71,20 @@ export namespace FluentUI.Blazor.Community.DeviceDetector {
     if (/Linux|X11|CrOS/.test(userAgent)) return "Linux";
 
     return "Undefined";
+  }
+  function getOrientation(): string {
+    const orientation: string = window.screen.orientation.type;
+
+    if (orientation === "portrait-primary") {
+      return "Portrait";
+    } else if (orientation === "portrait-secondary") {
+      return "PortraitReversed";
+    } else if (orientation === "landscape-primary") {
+      return "Landscape";
+    } else if (orientation === "landscape-secondary") {
+      return "LandscapeReversed";
+    }
+
+    return "Unknown";
   }
 }

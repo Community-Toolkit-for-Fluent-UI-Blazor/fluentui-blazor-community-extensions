@@ -8,8 +8,6 @@ namespace FluentUI.Blazor.Community.Components;
 /// </summary>
 public record DeviceInfo
 {
-    private DeviceOrientation _deviceOrientation;
-
     /// <summary>
     /// Gets the user agent.
     /// </summary>
@@ -38,20 +36,7 @@ public record DeviceInfo
     /// <summary>
     /// Gets the orientation of the device.
     /// </summary>
-    public DeviceOrientation Orientation
-    {
-        get => _deviceOrientation;
-        internal set
-        {
-            _deviceOrientation = value;
-            OrientationChanged?.Invoke(this, value);
-        }
-    }
-
-    /// <summary>
-    /// Events occured when the orientation of the device has changed.
-    /// </summary>
-    public event EventHandler<DeviceOrientation>? OrientationChanged;
+    public DeviceOrientation Orientation { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
