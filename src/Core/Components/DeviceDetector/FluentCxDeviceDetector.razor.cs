@@ -82,7 +82,10 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// <inheritdoc cref="IAsyncDisposable.DisposeAsync" />
+    /// </summary>
+    /// <returns></returns>
     [ExcludeFromCodeCoverage]
     protected override async ValueTask DisposeAsync(IJSObjectReference jsModule)
     {
