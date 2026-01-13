@@ -8,16 +8,13 @@
         <div class="left-tools">
             @if (ShowHarmonyPicker)
             {
-                <FluentSelect TOption="string"
-                              @bind-Value="HarmonyModeString"
+                <FluentSelect TOption="ColorPaletteMode"
+                              @bind-Value="Mode"
+                              @bind-Value:after="GenerateColorsAsync"
                               Label="@HarmonyLabel"
                               AriaLabel="@HarmonyLabel"
-                              Class="harmony-select">
-                    @foreach (var value in HarmonyModes)
-                    {
-                        <FluentOption Value="@value">@value</FluentOption>
-                    }
-                </FluentSelect>
+                              Items="Enum.GetValues<ColorPaletteMode>()"
+                              Class="harmony-select" />
             }
 
             @if (Presets?.Count > 0)
@@ -36,7 +33,7 @@
         </div>
 
         <div class="right-tools">
-            <FluentBadge>@_colors.Count</FluentBadge>
+            <FluentBadge Content="@_colors.Count.ToString()" />
             <span class="grid-info">@Columns × @ComputedRows</span>
         </div>
     </div>

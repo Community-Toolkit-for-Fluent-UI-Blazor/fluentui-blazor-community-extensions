@@ -1,6 +1,4 @@
-using System.Collections.ObjectModel;
 using FluentUI.Blazor.Community.Components.Components;
-using FluentUI.Blazor.Community.Components.Components.Base;
 using FluentUI.Blazor.Community.Components.Components.ColorPalette.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -18,7 +16,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// preset configurations.</remarks>
 public partial class FluentCxColorPalette : FluentComponentBase
 {
-    private const string JAVASCRIPT_FILE = FluentCxConstants.JAVASCRIPT_ROOT + "ColorPalette/FluentCxColorPalette.razor.js";
+    //private const string JAVASCRIPT_FILE = FluentCxConstants.JAVASCRIPT_ROOT + "ColorPalette/FluentCxColorPalette.razor.js";
 
     /// <summary>
     /// Represents the default set of colors provided by the palette when no custom colors are specified.
@@ -34,19 +32,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// Represents a unique identifier for the color palette instance.
     /// </summary>
     private ElementReference[] _buttonsRef = [];
-
-    /// <summary>
-    /// Represents the list of harmony modes available for color generation.
-    /// </summary>
-    private static readonly IReadOnlyList<string> HarmonyModes = new ReadOnlyCollection<string>(
-    [
-        nameof(ColorPaletteMode.Complementary),
-        nameof(ColorPaletteMode.Analogous),
-        nameof(ColorPaletteMode.Triadic),
-        nameof(ColorPaletteMode.Tetradic),
-        nameof(ColorPaletteMode.SplitComplementary),
-        nameof(ColorPaletteMode.Monochrome),
-    ]);
 
     /// <summary>
     /// Represents the list of colors currently generated and displayed in the palette.
@@ -237,22 +222,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// </summary>
     private HashSet<string> SelectedColorsSet => new(SelectedColors, StringComparer.OrdinalIgnoreCase);
 
-    /// <summary>
-    /// Gets or sets the harmony mode as a string for binding purposes.
-    /// </summary>
-    private string HarmonyModeString
-    {
-        get => Mode.ToString();
-        set
-        {
-            if (Enum.TryParse<ColorPaletteMode>(value, out var mode))
-            {
-                Mode = mode;
-                _ = GenerateColorsAsync();
-            }
-        }
-    }
-
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -260,7 +229,7 @@ public partial class FluentCxColorPalette : FluentComponentBase
 
         if (firstRender)
         {
-            await JSModule.ImportJavaScriptModuleAsync(JAVASCRIPT_FILE);
+            //await JSModule.ImportJavaScriptModuleAsync(JAVASCRIPT_FILE);
         }
     }
 
@@ -284,158 +253,96 @@ public partial class FluentCxColorPalette : FluentComponentBase
                 switch (Mode)
                 {
                     case ColorPaletteMode.Provided:
-                        {
-                            generated = [.. ProvidedColors ?? DefaultProvided];
-                        }
-
+                        generated = [.. ProvidedColors ?? DefaultProvided];
                         break;
-
                     case ColorPaletteMode.Random:
-                        {
-                            generated = ColorUtils.GenerateRandomHex(Math.Min(MaxColors, GradientSteps));
-                        }
-
+                        generated = ColorUtils.GenerateRandomHex(Math.Min(MaxColors, GradientSteps));
                         break;
-
                     case ColorPaletteMode.Gradient:
-                        {
-                            generated = ColorUtils.GenerateGradient(BaseColor, Math.Min(MaxColors, GradientSteps), GradientStrategy, GenerationOptions);
-                        }
-
+                        generated = ColorUtils.GenerateGradient(BaseColor, Math.Min(MaxColors, GradientSteps), GradientStrategy, GenerationOptions);
                         break;
-
                     case ColorPaletteMode.CustomGradient:
+                        if (!string.IsNullOrWhiteSpace(GradientStart) && !string.IsNullOrWhiteSpace(GradientEnd))
                         {
-                            if (!string.IsNullOrWhiteSpace(GradientStart) && !string.IsNullOrWhiteSpace(GradientEnd))
-                            {
-                                generated = ColorUtils.GenerateCustomGradient(GradientStart, GradientEnd, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                            }
-                            else
-                            {
-                                throw new InvalidOperationException("GradientStart et GradientEnd sont requis en mode CustomGradient.");
-                            }
+                            generated = ColorUtils.GenerateCustomGradient(GradientStart, GradientEnd, Math.Min(MaxColors, GradientSteps), GenerationOptions);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("GradientStart et GradientEnd sont requis en mode CustomGradient.");
                         }
 
                         break;
-
                     case ColorPaletteMode.FromImage:
+                        if (ImageDataProvider is not null)
                         {
-                            if (ImageDataProvider is not null)
-                            {
-                                var data = await ImageDataProvider();
-                                using var stream = new MemoryStream(data);
-                                generated = ImagePalette.ExtractColorsFromImage(stream, Math.Min(MaxColors, GradientSteps));
-                            }
-                            else
-                            {
-                                throw new InvalidOperationException("ImageDataProvider was not provided for FromImage mode.");
-                            }
+                            var data = await ImageDataProvider();
+                            using var stream = new MemoryStream(data);
+                            generated = ImagePalette.ExtractColorsFromImage(stream, Math.Min(MaxColors, GradientSteps));
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("ImageDataProvider was not provided for FromImage mode.");
                         }
 
                         break;
-
                     case ColorPaletteMode.Complementary:
-                        {
-                            generated = new ComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new ComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.Analogous:
-                        {
-                            generated = new AnalogousPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new AnalogousPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.Triadic:
-                        {
-                            generated = new TriadicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new TriadicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.Tetradic:
-                        {
-                            generated = new TetradicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new TetradicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.SplitComplementary:
-                        {
-                            generated = new SplitComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new SplitComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.Monochrome:
-                        {
-                            generated = new MonochromaticPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new MonochromaticPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.Warm:
-                        {
-                            generated = new WarmPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new WarmPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.Cool:
-                        {
-                            generated = new CoolPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new CoolPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.Pastel:
-                        {
-                            generated = new PastelPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new PastelPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.Neon:
-                        {
-                            generated = new NeonPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new NeonPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.Greyscale:
-                        {
-                            generated = new GrayscalePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new GrayscalePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.AccessibilitySafe:
-                        {
-                            generated = new AccessibilitySafePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new AccessibilitySafePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     case ColorPaletteMode.None:
-                        {
-                            generated = [];
-                        }
+                        generated = [];
 
                         break;
-
                     case ColorPaletteMode.Desaturate:
-                        {
-                            generated = new DesaturatePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = new DesaturatePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
-
                     default:
-                        {
-                            generated = ColorUtils.GenerateScheme(BaseColor, Mode, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-                        }
+                        generated = ColorUtils.GenerateScheme(BaseColor, Mode, Math.Min(MaxColors, GradientSteps), GenerationOptions);
 
                         break;
                 }
