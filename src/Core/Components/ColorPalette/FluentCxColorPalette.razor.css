@@ -1,4 +1,4 @@
-.color-palette {
+.fluentcx-color-palette {
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -6,12 +6,12 @@
   touch-action: none;
 }
 
-.palette-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
+  .fluentcx-color-palette .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
 
 .left-tools, .right-tools {
   display: flex;
@@ -21,10 +21,6 @@
 
 .preset-select, .harmony-select {
   min-width: 160px;
-}
-
-.messagebox-error {
-  margin-top: 4px;
 }
 
 .grid-info {
@@ -78,4 +74,3 @@
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
   background: var(--preview-item-color);
 }
-

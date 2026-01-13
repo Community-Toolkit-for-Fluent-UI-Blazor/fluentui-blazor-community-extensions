@@ -57,6 +57,19 @@ public partial class FluentCxColorPalette : FluentComponentBase
     }
 
     /// <summary>
+    /// Gets the internal class the component use.
+    /// </summary>
+    private string? InternalClass => DefaultClassBuilder
+        .AddClass("fluentcx-color-palette")
+        .Build();
+
+    /// <summary>
+    /// Gets the internal style the component use.
+    /// </summary>
+    private string? InternalStyle => DefaultStyleBuilder
+        .Build();
+
+    /// <summary>
     /// Gets or sets the label for the harmony mode picker. Default is "Harmony".
     /// </summary>
     [Parameter]
