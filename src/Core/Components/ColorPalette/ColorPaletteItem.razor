@@ -22,9 +22,9 @@
             <rect x="0" y="0" width="@Size" height="@Size" fill="@Color" />
         </svg>
 
-        <FluentStack Orientation="Orientation.Vertical">
-            <FluentLabel>@($"{Color}")</FluentLabel>
-            <FluentLabel>RGB @($"{ColorUtils.HexToRgbString(Color)}")</FluentLabel>
+        <FluentStack Orientation="Orientation.Vertical" Padding="12px">
+            <FluentText>@($"{Color}")</FluentText>
+            <FluentText>RGB @($"{ColorUtils.HexToRgbString(Color)}")</FluentText>
         </FluentStack>
     </FluentStack>
 </FluentTooltip>
