@@ -1,7 +1,7 @@
 ---
 title: Color Palette
 order: 0000
-category: 10|Components
+category: 30|Components
 icon: Resize
 route: /ColorPalette
 ---
