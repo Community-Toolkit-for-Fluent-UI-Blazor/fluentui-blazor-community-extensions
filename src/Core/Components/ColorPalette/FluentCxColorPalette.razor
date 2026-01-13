@@ -33,7 +33,7 @@
         </div>
 
         <div class="right-tools">
-            <FluentCounterBadge Count="@((ushort)_colors.Count)" ShowZero="true" />
+            <FluentBadge Content="@_colors.Count.ToString()" />
             <span class="grid-info">@Columns × @ComputedRows</span>
         </div>
     </div>

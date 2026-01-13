@@ -74,10 +74,6 @@ public enum ColorPaletteMode
     /// </summary>
     AccessibilitySafe,
     /// <summary>
-    /// Represents a palette mode where colors are generated based on an image.
-    /// </summary>
-    FromImage,
-    /// <summary>
     /// Represents a palette mode where colors are generated in a desaturated scheme.
     /// </summary>
     Desaturate
