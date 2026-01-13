@@ -1,5 +1,5 @@
 using System.Globalization;
-using FluentUI.Blazor.Community.Helpers;
+//using FluentUI.Blazor.Community.Helpers;
 
 namespace FluentUI.Blazor.Community.Components.Components.ColorPalette.Infrastructure;
 
@@ -231,7 +231,7 @@ public static class ColorUtils
         var bd = b / 255.0;
         var max = Math.Max(rd, Math.Max(gd, bd));
         var min = Math.Min(rd, Math.Min(gd, bd));
-        var h = 0d;
+        double h;
         var s = 0d;
         var l = (max + min) / 2.0;
 

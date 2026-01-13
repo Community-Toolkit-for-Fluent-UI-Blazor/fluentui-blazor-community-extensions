@@ -521,27 +521,27 @@ public partial class FluentCxColorPalette : FluentComponentBase
         await InvokeAsync(StateHasChanged);
     }
 
-    /// <summary>
-    /// Sets focus to the button at the specified index.
-    /// </summary>
-    /// <param name="index">Index of the button to focus.</param>
-    /// <returns>Returns a task which focus the button at the specified index when completed.</returns>
-    private async Task SetFocusAsync(int index)
-    {
-        _focusIndex = index;
-        await InvokeAsync(StateHasChanged);
+    ///// <summary>
+    ///// Sets focus to the button at the specified index.
+    ///// </summary>
+    ///// <param name="index">Index of the button to focus.</param>
+    ///// <returns>Returns a task which focus the button at the specified index when completed.</returns>
+    //private async Task SetFocusAsync(int index)
+    //{
+    //    _focusIndex = index;
+    //    await InvokeAsync(StateHasChanged);
 
-        //if (_jsModule is not null)
-        //{
-        //    await _jsModule.InvokeVoidAsync("blurAll", Id);
-        //}
+    //    //if (_jsModule is not null)
+    //    //{
+    //    //    await _jsModule.InvokeVoidAsync("blurAll", Id);
+    //    //}
 
-        if (index >= 0 &&
-            index < _buttonsRef.Length)
-        {
-            await _buttonsRef[index].FocusAsync();
-        }
-    }
+    //    if (index >= 0 &&
+    //        index < _buttonsRef.Length)
+    //    {
+    //        await _buttonsRef[index].FocusAsync();
+    //    }
+    //}
 
     ///// <summary>
     ///// Manages keyboard navigation within the color grid.
