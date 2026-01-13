@@ -1,5 +1,3 @@
-using FluentUI.Blazor.Community.Components.Components;
-
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>

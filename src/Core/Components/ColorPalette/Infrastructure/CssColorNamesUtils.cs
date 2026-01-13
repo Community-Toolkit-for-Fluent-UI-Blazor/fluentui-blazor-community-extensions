@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-namespace FluentUI.Blazor.Community.Components.Components.ColorPalette.Infrastructure;
+namespace FluentUI.Blazor.Community.Components.ColorPalette.Infrastructure;
 
 /// <summary>
 /// Retrieves hex values for standard CSS color names.

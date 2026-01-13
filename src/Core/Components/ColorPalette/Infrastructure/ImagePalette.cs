@@ -1,6 +1,6 @@
 //using SkiaSharp;
 
-namespace FluentUI.Blazor.Community.Components.Components.ColorPalette.Infrastructure;
+namespace FluentUI.Blazor.Community.Components.ColorPalette.Infrastructure;
 
 /// <summary>
 /// Retrieves the dominant colors from an image using SkiaSharp.

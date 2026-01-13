@@ -1,7 +1,7 @@
 using System.Globalization;
 //using FluentUI.Blazor.Community.Helpers;
 
-namespace FluentUI.Blazor.Community.Components.Components.ColorPalette.Infrastructure;
+namespace FluentUI.Blazor.Community.Components.ColorPalette.Infrastructure;
 
 /// <summary>
 /// Provides utility methods for working with colors, including conversions between color formats, validation of color

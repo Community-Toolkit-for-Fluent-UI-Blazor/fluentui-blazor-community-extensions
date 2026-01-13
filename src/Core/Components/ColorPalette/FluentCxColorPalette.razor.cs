@@ -1,5 +1,4 @@
-using FluentUI.Blazor.Community.Components.Components;
-using FluentUI.Blazor.Community.Components.Components.ColorPalette.Infrastructure;
+using FluentUI.Blazor.Community.Components.ColorPalette.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
