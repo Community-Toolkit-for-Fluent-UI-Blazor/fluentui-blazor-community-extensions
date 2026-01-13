@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Components;
+namespace FluentUI.Blazor.Community.Components.Components;
 
 /// <summary>
 /// Represents a plugin for generating color palettes based on a base color and specified options.

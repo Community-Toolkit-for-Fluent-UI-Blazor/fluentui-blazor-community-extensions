@@ -1,4 +1,5 @@
-using FluentUI.Blazor.Community.Helpers;
+using FluentUI.Blazor.Community.Components.Components;
+using FluentUI.Blazor.Community.Components.Components.ColorPalette.Infrastructure;
 
 namespace FluentUI.Blazor.Community.Components;
 

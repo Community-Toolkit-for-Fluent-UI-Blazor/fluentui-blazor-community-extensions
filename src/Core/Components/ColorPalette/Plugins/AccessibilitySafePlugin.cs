@@ -1,10 +1,11 @@
+using FluentUI.Blazor.Community.Components.Components;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
 /// Returns a predefined set of colors that are designed to be accessible and distinguishable.
 /// </summary>
-public sealed class AccessibilitySafePlugin
-    : IColorPlugin
+public sealed class AccessibilitySafePlugin : IColorPlugin
 {
     /// <summary>
     /// Represents a set of colors that are designed to be accessible and distinguishable.
@@ -18,10 +19,7 @@ public sealed class AccessibilitySafePlugin
     public string Name => "AccessibilitySafe";
 
     /// <inheritdoc />
-    public List<string> Generate(
-        string baseColor,
-        int steps,
-        GenerationOptions options)
+    public List<string> Generate(string baseColor, int steps, GenerationOptions options)
     {
         return [.. _safeColors.Take(Math.Min(steps, _safeColors.Count))];
     }

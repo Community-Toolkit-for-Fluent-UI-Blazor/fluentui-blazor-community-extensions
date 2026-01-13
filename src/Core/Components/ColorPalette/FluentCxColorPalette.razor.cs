@@ -1,9 +1,10 @@
 using System.Collections.ObjectModel;
+using FluentUI.Blazor.Community.Components.Components;
 using FluentUI.Blazor.Community.Components.Components.Base;
+using FluentUI.Blazor.Community.Components.Components.ColorPalette.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
-using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -22,7 +23,8 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// <summary>
     /// Represents the default set of colors provided by the palette when no custom colors are specified.
     /// </summary>
-    private static readonly List<string> DefaultProvided = [
+    private static readonly List<string> DefaultProvided =
+    [
         "#000000","#ffffff","#ef4444","#f97316","#f59e0b","#eab308","#84cc16","#22c55e",
         "#10b981","#06b6d4","#3b82f6","#6366f1","#8b5cf6","#a855f7","#ec4899","#f43f5e",
         "#6b7280","#94a3b8","#64748b","#374151","#111827"
@@ -273,9 +275,7 @@ public partial class FluentCxColorPalette : FluentComponentBase
 
         try
         {
-            if (!string.IsNullOrWhiteSpace(SelectedPreset) &&
-                Presets is not null &&
-                Presets.TryGetValue(SelectedPreset, out var presetList))
+            if (!string.IsNullOrWhiteSpace(SelectedPreset) && Presets is not null && Presets.TryGetValue(SelectedPreset, out var presetList))
             {
                 generated = [.. presetList];
             }
@@ -440,8 +440,7 @@ public partial class FluentCxColorPalette : FluentComponentBase
                         break;
                 }
 
-                if (Plugins is not null &&
-                    Plugins.Count > 0)
+                if (Plugins is not null && Plugins.Count > 0)
                 {
                     foreach (var gen in Plugins)
                     {

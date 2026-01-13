@@ -1,4 +1,5 @@
-using FluentUI.Blazor.Community.Helpers;
+using FluentUI.Blazor.Community.Components.Components;
+using FluentUI.Blazor.Community.Components.Components.ColorPalette.Infrastructure;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -7,8 +8,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// </summary>
 /// <remarks>This plugin generates a gradient transitioning from red to gold. It can be used to create warm color
 /// palettes for various applications, such as UI design or data visualization.</remarks>
-public sealed class WarmPlugin
-    : IColorPlugin
+public sealed class WarmPlugin : IColorPlugin
 {
     /// <inheritdoc />
     public string Name => "Warm";

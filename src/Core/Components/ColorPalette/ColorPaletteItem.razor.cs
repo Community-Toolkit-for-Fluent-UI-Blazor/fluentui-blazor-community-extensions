@@ -1,21 +1,42 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
 /// Represents an individual color option in a color palette.
 /// </summary>
-public partial class ColorPaletteItem
-    : FluentComponentBase
+public partial class ColorPaletteItem : FluentComponentBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorPaletteItem"/> class.
     /// </summary>
-    public ColorPaletteItem()
+    public ColorPaletteItem(LibraryConfiguration configuration) : base(configuration)
     {
         Id = Identifier.NewId();
     }
+
+    /// <summary>
+    /// Gets the internal class the component use.
+    /// </summary>
+    private string? InternalClass => DefaultClassBuilder
+        .AddClass("palette-item")
+        .AddClass("focused", when: IsFocused)
+        .AddClass("selected", when: IsSelected)
+        .AddClass("selected-flash", when: IsAnimated)
+        .Build();
+
+    /// <summary>
+    /// Gets the internal style the component use.
+    /// </summary>
+    private string? InternalStyle => DefaultStyleBuilder
+        .AddStyle("width", $"{Size}px")
+        .AddStyle("height", $"{Size}px")
+        .Build();
+
+    /// <summary />
+    public ElementReference Element { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the color value for this palette item.
@@ -64,8 +85,7 @@ public partial class ColorPaletteItem
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (firstRender &&
-            OnReady.HasDelegate)
+        if (firstRender && OnReady.HasDelegate)
         {
             await OnReady.InvokeAsync(this);
         }

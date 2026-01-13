@@ -1,9 +1,9 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-<FluentKeyCode Anchor="@($"palette-grid-{Id}")" StopPropagation PreventDefault OnKeyDown="@OnGridKeyDownAsync" />
+@* <FluentKeyCode Anchor="@($"palette-grid-{Id}")" StopPropagation PreventDefault OnKeyDown="@OnGridKeyDownAsync" /> *@
 
-<div id="@Id" class="color-palette"@attributes="AdditionalAttributes">
+<div id="@Id" class="color-palette" @attributes="AdditionalAttributes">
     <div class="palette-header">
         <div class="left-tools">
             @if (ShowHarmonyPicker)
@@ -36,23 +36,22 @@
         </div>
 
         <div class="right-tools">
-            <FluentBadge Appearance="Appearance.Accent">@_colors.Count</FluentBadge>
+            <FluentBadge>@_colors.Count</FluentBadge>
             <span class="grid-info">@Columns × @ComputedRows</span>
         </div>
     </div>
 
     @if (!string.IsNullOrEmpty(_errorMessage))
     {
-        <FluentMessageBar Intent="MessageIntent.Error" Class="messagebox-error">
+        <FluentMessageBar Intent="MessageBarIntent.Error" Class="messagebox-error">
             @_errorMessage
         </FluentMessageBar>
     }
-
+    
     <div class="palette-grid"
-         dir="@(GlobalState.Dir.ToAttributeValue())"
          role="grid"
          id="palette-grid-@(Id)"
-         aria-multiselectable="@(MultiSelect ? "true" : "false")"
+         aria-multiselectable="@MultiSelect"
          aria-activedescendant="@($"palette-item-{Id}-{_focusIndex}")"
          style="@($"grid-template-columns: repeat({Columns}, {ItemSize}px); max-height:{MaxHeight}px;")">
 
