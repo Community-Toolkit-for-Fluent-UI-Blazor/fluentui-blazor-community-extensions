@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components.ColorPalette.Infrastructure;
+using FluentUI.Blazor.Community.Components.Localization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
@@ -237,7 +238,7 @@ public partial class FluentCxColorPalette : FluentComponentBase
 
         if (Mode is ColorPaletteMode.CustomGradient && (string.IsNullOrWhiteSpace(GradientStart) || string.IsNullOrWhiteSpace(GradientEnd)))
         {
-            _errorMessage = "GradientStart et GradientEnd sont requis en mode CustomGradient.";
+            _errorMessage = Localizer[LanguageResource.CX_ColorPalette_CustomGradient_Error];
             _colors = [];
             return;
         }
