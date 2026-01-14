@@ -13,11 +13,7 @@
     gap: 8px;
   }
 
-.left-tools, .right-tools {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+
 
 .preset-select, .harmony-select {
   min-width: 160px;
@@ -33,8 +29,6 @@
   gap: 6px;
   outline: none;
   overflow: auto;
-  margin: 4px;
-  padding: 8px;
 }
 
 .preview {

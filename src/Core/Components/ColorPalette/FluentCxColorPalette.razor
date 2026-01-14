@@ -4,12 +4,12 @@
 @* <FluentKeyCode Anchor="@($"palette-grid-{Id}")" StopPropagation PreventDefault OnKeyDown="@OnGridKeyDownAsync" /> *@
 
 <div id="@Id"
-    class="@InternalClass"
-    style="@InternalStyle"
-    @attributes="AdditionalAttributes">
+     class="@InternalClass"
+     style="@InternalStyle"
+     @attributes="AdditionalAttributes">
 
     <div class="header">
-        <div class="left-tools">
+        <FluentStack>
             @if (ShowHarmonyPicker)
             {
                 <FluentSelect TOption="ColorPaletteMode"
@@ -34,12 +34,7 @@
                     }
                 </FluentSelect>
             }
-        </div>
-
-        <div class="right-tools">
-            <FluentBadge Content="@_colors.Count.ToString()" />
-            <span class="grid-info">@Columns × @ComputedRows</span>
-        </div>
+        </FluentStack>
     </div>
 
     @if (!string.IsNullOrEmpty(_errorMessage))
@@ -49,12 +44,13 @@
         </FluentMessageBar>
     }
 
+
     <div class="palette-grid"
          role="grid"
          id="palette-grid-@(Id)"
          aria-multiselectable="@MultiSelect"
          aria-activedescendant="@($"palette-item-{Id}-{_focusIndex}")"
-         style="@($"grid-template-columns: repeat({Columns}, {ItemSize}px); max-height:{MaxHeight}px;")">
+         style="@($"grid-template-columns: repeat(auto-fill, {ItemSize}px); max-height:{MaxHeight}px;")">
 
         @foreach (var color in _colors)
         {
@@ -72,8 +68,9 @@
                               OnClick="() => ToggleSelectAsync(currentColor, index)"
                               OnReady="@(c => _buttonsRef[index] = c.Element)" />
         }
-    </div>
 
+
+    </div>
     @if (ShowPreview)
     {
         <div class="preview">

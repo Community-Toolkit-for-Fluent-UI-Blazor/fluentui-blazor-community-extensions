@@ -82,12 +82,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
     public string PresetLabel { get; set; } = "Presets";
 
     /// <summary>
-    /// Gets or sets the number of columns in the color grid layout. Default is 10.
-    /// </summary>
-    [Parameter]
-    public int Columns { get; set; } = 10;
-
-    /// <summary>
     /// Gets or sets the size of each color item in the grid, in pixels. Default is 28.
     /// </summary>
     [Parameter]
@@ -218,11 +212,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// </summary>
     [Parameter]
     public int MaxColors { get; set; } = 120;
-
-    /// <summary>
-    /// Gets the computed number of rows in the color grid based on the number of colors and columns.
-    /// </summary>
-    private int ComputedRows => Math.Max(1, (int)Math.Ceiling((double)_colors.Count / Columns));
 
     /// <summary>
     /// Gets a set of selected colors for efficient lookup.
@@ -367,138 +356,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
 
         await InvokeAsync(StateHasChanged);
     }
-
-    ///// <summary>
-    ///// Sets focus to the button at the specified index.
-    ///// </summary>
-    ///// <param name="index">Index of the button to focus.</param>
-    ///// <returns>Returns a task which focus the button at the specified index when completed.</returns>
-    //private async Task SetFocusAsync(int index)
-    //{
-    //    _focusIndex = index;
-    //    await InvokeAsync(StateHasChanged);
-
-    //    //if (_jsModule is not null)
-    //    //{
-    //    //    await _jsModule.InvokeVoidAsync("blurAll", Id);
-    //    //}
-
-    //    if (index >= 0 &&
-    //        index < _buttonsRef.Length)
-    //    {
-    //        await _buttonsRef[index].FocusAsync();
-    //    }
-    //}
-
-    ///// <summary>
-    ///// Manages keyboard navigation within the color grid.
-    ///// </summary>
-    ///// <param name="e">Event args associated to this instance.</param>
-    ///// <returns>Returns a task which navigates withing the color grid when completed.</returns>
-    //private async Task OnGridKeyDownAsync(FluentKeyCodeEventArgs e)
-    //{
-    //    if (_colors.Count == 0)
-    //    {
-    //        return;
-    //    }
-
-    //    var next = _focusIndex;
-
-    //    switch (e.Key)
-    //    {
-    //        case KeyCode.Left:
-    //            next = GlobalState.Dir == LocalizationDirection.RightToLeft ? MoveRight(_focusIndex) : MoveLeft(_focusIndex);
-    //            break;
-
-    //        case KeyCode.Right:
-    //            next = GlobalState.Dir == LocalizationDirection.RightToLeft ? MoveLeft(_focusIndex) : MoveRight(_focusIndex);
-    //            break;
-
-    //        case KeyCode.Up:
-    //            next = MoveUp(_focusIndex);
-    //            break;
-
-    //        case KeyCode.Down:
-    //            next = MoveDown(_focusIndex);
-    //            break;
-
-    //        case KeyCode.Home:
-    //            next = (_focusIndex / Columns) * Columns;
-    //            break;
-
-    //        case KeyCode.End:
-    //            next = Math.Min((_focusIndex / Columns) * Columns + (Columns - 1), _colors.Count - 1);
-    //            break;
-
-    //        case KeyCode.PageUp:
-    //            next = 0;
-    //            break;
-
-    //        case KeyCode.PageDown:
-    //            next = _colors.Count - 1;
-    //            break;
-
-    //        case KeyCode.Enter:
-    //        case KeyCode.Space:
-    //            await ToggleSelectAsync(_colors[_focusIndex], _focusIndex);
-    //            return;
-
-    //        default:
-    //            return;
-    //    }
-
-    //    next = (_focusIndex + _colors.Count) % _colors.Count;
-
-    //    await SetFocusAsync(_focusIndex);
-    //}
-
-    ///// <summary>
-    ///// Moves the focus to the left in the color grid, wrapping around if necessary.
-    ///// </summary>
-    ///// <param name="index">Current index of the focus.</param>
-    ///// <returns>Returns the new index of the focus.</returns>
-    //private int MoveLeft(int index)
-    //{
-    //    return index % Columns == 0
-    //        ? Math.Min(index + (Columns - 1), _colors.Count - 1)
-    //        : index - 1;
-    //}
-
-    ///// <summary>
-    ///// Moves the focus to the right in the color grid, wrapping around if necessary.
-    ///// </summary>
-    ///// <param name="index">Current index of the focus.</param>
-    ///// <returns>Returns the new index of the focus.</returns>
-    //private int MoveRight(int index)
-    //{
-    //    return (index % Columns == Columns - 1 || index + 1 >= _colors.Count)
-    //                ? index - (Columns - 1)
-    //                : index + 1;
-    //}
-
-    ///// <summary>
-    ///// Moves the focus up in the color grid, wrapping around if necessary.
-    ///// </summary>
-    ///// <param name="index">Current index of the focus.</param>
-    ///// <returns>Returns the new index of the focus.</returns>
-    //private int MoveUp(int index)
-    //{
-    //    return index - Columns < 0
-    //                ? Math.Min((ComputedRows - 1) * Columns + (index % Columns), _colors.Count - 1)
-    //                : index - Columns;
-    //}
-
-    ///// <summary>
-    ///// Moves the focus down in the color grid, wrapping around if necessary.
-    ///// </summary>
-    ///// <param name="index">Current index of the focus.</param>
-    ///// <returns>Returns the new index of the focus.</returns>
-    //private int MoveDown(int index)
-    //{
-    //    return index + Columns >= _colors.Count
-    //       ? index % Columns
-    //       : index + Columns;
-    //}
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
