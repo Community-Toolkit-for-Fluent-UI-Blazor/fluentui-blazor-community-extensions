@@ -1,31 +1,6 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-<FluentStack>
-    @if (ShowHarmonyPicker)
-    {
-        <FluentSelect @bind-Value="Mode"
-                      @bind-Value:after="GenerateColorsAsync"
-                      Label="@HarmonyLabel"
-                      AriaLabel="@HarmonyLabel"
-                      Items="Enum.GetValues<ColorPaletteMode>()" />
-    }
-
-    @if (Presets?.Count > 0)
-    {
-        <FluentSelect TValue="string"
-                      TOption="string"
-                      @bind-Value="SelectedPreset"
-                      AriaLabel="@PresetLabel"
-                      Label="@PresetLabel">
-            @foreach (var kv in Presets)
-            {
-                <FluentOption Value="@kv.Key">@kv.Key</FluentOption>
-            }
-        </FluentSelect>
-    }
-</FluentStack>
-
 @if (!string.IsNullOrEmpty(_errorMessage))
 {
     <FluentMessageBar Intent="MessageBarIntent.Error">

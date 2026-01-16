@@ -1,8 +1,20 @@
-﻿<FluentCxColorPalette ItemSize="32"
+﻿
+<FluentSelect Label="Harmony"
+              @bind-Value="mode"
+              Items="Enum.GetValues<ColorPaletteMode>()" />
+
+<FluentTextInput Label="Base color" @bind-Value="@baseColor" TextInputType="TextInputType.Color" Width="50px" />
+
+<FluentCxColorPalette ItemSize="32"
                       MaxColors="12"
-                      Mode="ColorPaletteMode.Gradient"
-                      BaseColor="#3B82F6"
+                      Mode="@mode"
+                      BaseColor="@baseColor"
                       GradientSteps="12"
                       ShowHarmonyPicker="true"
                       MultiSelect="true"
                       ShowPreview="true" />
+
+@code {
+    ColorPaletteMode mode = ColorPaletteMode.Gradient;
+    string baseColor = "#3B82F6";
+}
