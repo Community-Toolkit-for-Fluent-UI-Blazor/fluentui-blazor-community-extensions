@@ -115,18 +115,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
     public List<string>? ProvidedColors { get; set; }
 
     /// <summary>
-    /// Gets or sets a dictionary of preset color lists that can be selected by the user.
-    /// </summary>
-    [Parameter]
-    public Dictionary<string, List<string>>? Presets { get; set; }
-
-    /// <summary>
-    /// Gets or sets the key of the currently selected preset from the <see cref="Presets"/> dictionary.
-    /// </summary>
-    [Parameter]
-    public string? SelectedPreset { get; set; }
-
-    /// <summary>
     /// Gets or sets the base color used for generating gradients and color schemes. Default is "#3B82F6".
     /// </summary>
     [Parameter]
@@ -250,48 +238,43 @@ public partial class FluentCxColorPalette : FluentComponentBase
 
         try
         {
-            if (!string.IsNullOrWhiteSpace(SelectedPreset) && Presets is not null && Presets.TryGetValue(SelectedPreset, out var presetList))
-            {
-                generated = [.. presetList];
-            }
-            else
-            {
-                generated = Mode switch
-                {
-                    ColorPaletteMode.Provided => [.. ProvidedColors ?? DefaultProvided],
-                    ColorPaletteMode.Random => ColorUtils.GenerateRandomHex(Math.Min(MaxColors, GradientSteps)),
-                    ColorPaletteMode.Gradient => ColorUtils.GenerateGradient(BaseColor, Math.Min(MaxColors, GradientSteps), GradientStrategy, GenerationOptions),
-                    ColorPaletteMode.CustomGradient => ColorUtils.GenerateCustomGradient(GradientStart!, GradientEnd!, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Complementary => new ComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Analogous => new AnalogousPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Triadic => new TriadicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Tetradic => new TetradicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.SplitComplementary => new SplitComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Monochrome => new MonochromaticPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Warm => new WarmPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Cool => new CoolPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Pastel => new PastelPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Neon => new NeonPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.Greyscale => new GrayscalePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.AccessibilitySafe => new AccessibilitySafePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    ColorPaletteMode.None => [],
-                    ColorPaletteMode.Desaturate => new DesaturatePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                    _ => ColorUtils.GenerateScheme(BaseColor, Mode, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                };
 
-                if (Plugins is not null && Plugins.Count > 0)
+            generated = Mode switch
+            {
+                ColorPaletteMode.Provided => [.. ProvidedColors ?? DefaultProvided],
+                ColorPaletteMode.Random => ColorUtils.GenerateRandomHex(Math.Min(MaxColors, GradientSteps)),
+                ColorPaletteMode.Gradient => ColorUtils.GenerateGradient(BaseColor, Math.Min(MaxColors, GradientSteps), GradientStrategy, GenerationOptions),
+                ColorPaletteMode.CustomGradient => ColorUtils.GenerateCustomGradient(GradientStart!, GradientEnd!, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Complementary => new ComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Analogous => new AnalogousPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Triadic => new TriadicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Tetradic => new TetradicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.SplitComplementary => new SplitComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Monochrome => new MonochromaticPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Warm => new WarmPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Cool => new CoolPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Pastel => new PastelPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Neon => new NeonPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Greyscale => new GrayscalePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.AccessibilitySafe => new AccessibilitySafePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.None => [],
+                ColorPaletteMode.Desaturate => new DesaturatePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                _ => ColorUtils.GenerateScheme(BaseColor, Mode, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+            };
+
+            if (Plugins is not null && Plugins.Count > 0)
+            {
+                foreach (var gen in Plugins)
                 {
-                    foreach (var gen in Plugins)
+                    var pluginColors = gen.Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
+
+                    if (pluginColors?.Count > 0)
                     {
-                        var pluginColors = gen.Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
-
-                        if (pluginColors?.Count > 0)
-                        {
-                            generated = [.. generated, .. pluginColors];
-                        }
+                        generated = [.. generated, .. pluginColors];
                     }
                 }
             }
+
 
             // Validates and normalize the colors.
             generated = [.. generated
