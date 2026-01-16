@@ -73,18 +73,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
         .Build();
 
     /// <summary>
-    /// Gets or sets the label for the harmony mode picker. Default is "Harmony".
-    /// </summary>
-    [Parameter]
-    public string HarmonyLabel { get; set; } = "Harmony";
-
-    /// <summary>
-    /// Gets or sets the label for the preset picker. Default is "Presets".
-    /// </summary>
-    [Parameter]
-    public string PresetLabel { get; set; } = "Presets";
-
-    /// <summary>
     /// Gets or sets the size of each color item in the grid, in pixels. Default is 28.
     /// </summary>
     [Parameter]
