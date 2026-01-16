@@ -22,7 +22,6 @@ public partial class ColorPaletteItem : FluentComponentBase
     /// </summary>
     private string? InternalClass => DefaultClassBuilder
         .AddClass("palette-item")
-        .AddClass("focused", when: IsFocused)
         .AddClass("selected", when: IsSelected)
         .AddClass("selected-flash", when: IsAnimated)
         .Build();
@@ -49,12 +48,6 @@ public partial class ColorPaletteItem : FluentComponentBase
     /// </summary>
     [Parameter]
     public int Size { get; set; } = 32;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this item is focused.
-    /// </summary>
-    [Parameter]
-    public bool IsFocused { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether this item is selected.

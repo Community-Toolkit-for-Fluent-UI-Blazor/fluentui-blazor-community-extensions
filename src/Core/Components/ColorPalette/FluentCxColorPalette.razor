@@ -1,96 +1,85 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-@* <FluentKeyCode Anchor="@($"palette-grid-{Id}")" StopPropagation PreventDefault OnKeyDown="@OnGridKeyDownAsync" /> *@
+<FluentStack>
+    @if (ShowHarmonyPicker)
+    {
+        <FluentSelect TOption="ColorPaletteMode"
+                      @bind-Value="Mode"
+                      @bind-Value:after="GenerateColorsAsync"
+                      Label="@HarmonyLabel"
+                      AriaLabel="@HarmonyLabel"
+                      Items="Enum.GetValues<ColorPaletteMode>()"
+                      Class="harmony-select" />
+    }
 
-<div id="@Id"
-     class="@InternalClass"
+    @if (Presets?.Count > 0)
+    {
+        <FluentSelect TOption="string"
+                      @bind-Value="SelectedPreset"
+                      Class="preset-select"
+                      AriaLabel="@PresetLabel"
+                      Label="@PresetLabel">
+            @foreach (var kv in Presets)
+            {
+                <FluentOption Value="@kv.Key">@kv.Key</FluentOption>
+            }
+        </FluentSelect>
+    }
+</FluentStack>
+
+@if (!string.IsNullOrEmpty(_errorMessage))
+{
+    <FluentMessageBar Intent="MessageBarIntent.Error">
+        @_errorMessage
+    </FluentMessageBar>
+}
+
+
+<div class="@InternalClass"
      style="@InternalStyle"
-     @attributes="AdditionalAttributes">
+     role="grid"
+     id="@Id"
+     aria-multiselectable="@MultiSelect"
+     @attributes="AdditionalAttributes"
+     aria-activedescendant="@($"palette-item-{Id}-{_focusIndex}")">
 
-    <div class="header">
-        <FluentStack>
-            @if (ShowHarmonyPicker)
-            {
-                <FluentSelect TOption="ColorPaletteMode"
-                              @bind-Value="Mode"
-                              @bind-Value:after="GenerateColorsAsync"
-                              Label="@HarmonyLabel"
-                              AriaLabel="@HarmonyLabel"
-                              Items="Enum.GetValues<ColorPaletteMode>()"
-                              Class="harmony-select" />
-            }
-
-            @if (Presets?.Count > 0)
-            {
-                <FluentSelect TOption="string"
-                              @bind-Value="SelectedPreset"
-                              Class="preset-select"
-                              AriaLabel="@PresetLabel"
-                              Label="@PresetLabel">
-                    @foreach (var kv in Presets)
-                    {
-                        <FluentOption Value="@kv.Key">@kv.Key</FluentOption>
-                    }
-                </FluentSelect>
-            }
-        </FluentStack>
-    </div>
-
-    @if (!string.IsNullOrEmpty(_errorMessage))
+    @foreach (var color in _colors)
     {
-        <FluentMessageBar Intent="MessageBarIntent.Error">
-            @_errorMessage
-        </FluentMessageBar>
+        var currentColor = color;
+        var index = _colors.IndexOf(color);
+        var isFocused = index == _focusIndex;
+        var isSelected = MultiSelect ? SelectedColorsSet.Contains(color) : string.Equals(SelectedColor, color, StringComparison.OrdinalIgnoreCase);
+        var isAnimated = index == _focusIndex;
+
+        <ColorPaletteItem Color="@color"
+                          Size="@ItemSize"
+                          IsSelected="@isSelected"
+                          IsAnimated=@isAnimated
+                          OnClick="() => ToggleSelectAsync(currentColor, index)"
+                          OnReady="@(c => _buttonsRef[index] = c.Element)" />
     }
 
 
-    <div class="palette-grid"
-         role="grid"
-         id="palette-grid-@(Id)"
-         aria-multiselectable="@MultiSelect"
-         aria-activedescendant="@($"palette-item-{Id}-{_focusIndex}")"
-         style="@($"grid-template-columns: repeat(auto-fill, {ItemSize}px); max-height:{MaxHeight}px;")">
-
-        @foreach (var color in _colors)
-        {
-            var currentColor = color;
-            var index = _colors.IndexOf(color);
-            var isFocused = index == _focusIndex;
-            var isSelected = MultiSelect ? SelectedColorsSet.Contains(color) : string.Equals(SelectedColor, color, StringComparison.OrdinalIgnoreCase);
-            var isAnimated = index == _focusIndex;
-
-            <ColorPaletteItem Color="@color"
-                              Size="@ItemSize"
-                              IsFocused="@isFocused"
-                              IsSelected="@isSelected"
-                              IsAnimated=@isAnimated
-                              OnClick="() => ToggleSelectAsync(currentColor, index)"
-                              OnReady="@(c => _buttonsRef[index] = c.Element)" />
-        }
-
-
-    </div>
-    @if (ShowPreview)
-    {
-        <div class="preview">
-            @if (MultiSelect)
-            {
-                <div class="preview-list">
-                    @foreach (var selectedColor in SelectedColors)
-                    {
-                        <div class="preview-item" style="--preview-item-color: @selectedColor">
-                            <span>@selectedColor</span>
-                        </div>
-                    }
-                </div>
-            }
-            else if (!string.IsNullOrEmpty(SelectedColor))
-            {
-                <div class="preview-single" style="--preview-item-color: @SelectedColor">
-                    <span>@SelectedColor</span>
-                </div>
-            }
-        </div>
-    }
 </div>
+@if (ShowPreview)
+{
+    <div class="fluentcx-color-palette-previews">
+        @if (MultiSelect)
+        {
+            @foreach (var selectedColor in SelectedColors)
+            {
+                <div class="preview-item" style="--preview-item-color: @selectedColor">
+                    <span>@selectedColor</span>
+                </div>
+            }
+        }
+        else if (!string.IsNullOrEmpty(SelectedColor))
+        {
+            <div class="preview-item" style="--preview-item-color: @SelectedColor">
+                <span>@SelectedColor</span>
+            </div>
+        }
+    </div>
+}
+

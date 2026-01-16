@@ -1,70 +1,23 @@
 .fluentcx-color-palette {
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  touch-action: none;
-}
-
-  .fluentcx-color-palette .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-
-
-.preset-select, .harmony-select {
-  min-width: 160px;
-}
-
-.grid-info {
-  opacity: 0.7;
-  font-size: 12px;
-}
-
-.palette-grid {
   display: grid;
-  gap: 6px;
   outline: none;
   overflow: auto;
 }
 
-.preview {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.preview-list {
+.fluentcx-color-palette-previews {
+  margin-top: var(--spacingVerticalXS);
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: var(--spacingHorizontalXS);
 }
 
-.preview-item {
-  width: 72px;
-  height: 32px;
-  border-radius: 6px;
-  color: #000;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
-  font-size: 12px;
-  background-clip: padding-box;
-  background: var(--preview-item-color);
-}
-
-.preview-single {
-  height: 56px;
-  border-radius: 8px;
-  padding: 8px;
-  color: #000;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
-  background: var(--preview-item-color);
-}
+  .fluentcx-color-palette-previews .preview-item {
+    height: 56px;
+    flex: 1;
+    border-radius: var(--borderRadiusMedium);
+    padding: 8px;
+    display: flex;
+    align-items:center;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+    background: var(--preview-item-color);
+  }

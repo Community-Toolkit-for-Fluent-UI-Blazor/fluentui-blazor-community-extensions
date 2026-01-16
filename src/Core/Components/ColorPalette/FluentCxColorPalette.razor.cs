@@ -67,6 +67,9 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// Gets the internal style the component use.
     /// </summary>
     private string? InternalStyle => DefaultStyleBuilder
+        .AddStyle("grid-template-columns", $"repeat(auto-fill, {ItemSize}px)")
+        .AddStyle("max-height", $"{MaxHeight}px", when: MaxHeight > 0)
+        .AddStyle("gap", GridGap, when: !string.IsNullOrWhiteSpace(GridGap))
         .Build();
 
     /// <summary>
@@ -91,7 +94,7 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// Gets or sets the gap between grid items, in pixels. Default is 6.
     /// </summary>
     [Parameter]
-    public int GridGap { get; set; } = 6;
+    public string GridGap { get; set; } = "6px";
 
     /// <summary>
     /// Gets or sets the maximum height of the color palette container, in pixels. Default is 300.
