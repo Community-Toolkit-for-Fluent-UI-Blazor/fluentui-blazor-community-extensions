@@ -139,12 +139,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
     public GenerationOptions GenerationOptions { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets a value indicating whether to display the harmony mode picker when applicable.
-    /// </summary>
-    [Parameter]
-    public bool ShowHarmonyPicker { get; set; } = true;
-
-    /// <summary>
     /// Gets or sets a value indicating whether multiple colors can be selected simultaneously.
     /// </summary>
     [Parameter]

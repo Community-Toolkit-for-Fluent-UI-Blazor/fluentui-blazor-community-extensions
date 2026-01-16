@@ -22,7 +22,4 @@ If you use plugins, it could be very useful to use the `PaletteMode.None` mode.
 
 {{ ColorPaletteDefault }}
 
-### Presets
-
-{{ ColorPalettePresets }}
 
