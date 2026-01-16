@@ -263,7 +263,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
                 }
             }
 
-
             // Validates and normalize the colors.
             generated = [.. generated
                 .Where(ColorUtils.IsValidHexOrCssName)
