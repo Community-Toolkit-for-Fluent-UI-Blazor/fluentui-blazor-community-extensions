@@ -4,8 +4,7 @@
 <FluentStack>
     @if (ShowHarmonyPicker)
     {
-        <FluentSelect TOption="ColorPaletteMode"
-                      @bind-Value="Mode"
+        <FluentSelect @bind-Value="Mode"
                       @bind-Value:after="GenerateColorsAsync"
                       Label="@HarmonyLabel"
                       AriaLabel="@HarmonyLabel"
@@ -14,7 +13,8 @@
 
     @if (Presets?.Count > 0)
     {
-        <FluentSelect TOption="string"
+        <FluentSelect TValue="string"
+                      TOption="string"
                       @bind-Value="SelectedPreset"
                       AriaLabel="@PresetLabel"
                       Label="@PresetLabel">
