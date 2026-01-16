@@ -9,15 +9,13 @@
                       @bind-Value:after="GenerateColorsAsync"
                       Label="@HarmonyLabel"
                       AriaLabel="@HarmonyLabel"
-                      Items="Enum.GetValues<ColorPaletteMode>()"
-                      Class="harmony-select" />
+                      Items="Enum.GetValues<ColorPaletteMode>()" />
     }
 
     @if (Presets?.Count > 0)
     {
         <FluentSelect TOption="string"
                       @bind-Value="SelectedPreset"
-                      Class="preset-select"
                       AriaLabel="@PresetLabel"
                       Label="@PresetLabel">
             @foreach (var kv in Presets)
@@ -34,7 +32,6 @@
         @_errorMessage
     </FluentMessageBar>
 }
-
 
 <div class="@InternalClass"
      style="@InternalStyle"
