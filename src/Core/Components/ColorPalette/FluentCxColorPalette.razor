@@ -1,4 +1,5 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Infrastructure
 @inherits FluentComponentBase
 
 @if (!string.IsNullOrEmpty(_errorMessage))
@@ -21,7 +22,7 @@
         var currentColor = color;
         var index = _colors.IndexOf(color);
         var isFocused = index == _focusIndex;
-        var isSelected = MultiSelect ? SelectedColorsSet.Contains(color) : string.Equals(SelectedColor, color, StringComparison.OrdinalIgnoreCase);
+        var isSelected = MultiSelect ? _generatedColorsSet.Contains(color) : string.Equals(SelectedColor, color, StringComparison.OrdinalIgnoreCase);
         var isAnimated = index == _focusIndex;
 
         <ColorPaletteItem Color="@color"
@@ -42,14 +43,14 @@
             @foreach (var selectedColor in SelectedColors)
             {
                 <div class="preview-item" style="--preview-item-color: @selectedColor">
-                    <span>@selectedColor</span>
+                    <span style="color: @(ColorLuminance.IsDarkColor(selectedColor) ? "#FFFFFF" : "#000000")">@selectedColor</span>
                 </div>
             }
         }
         else if (!string.IsNullOrEmpty(SelectedColor))
         {
             <div class="preview-item" style="--preview-item-color: @SelectedColor">
-                <span>@SelectedColor</span>
+                <span style="color: @(ColorLuminance.IsDarkColor(SelectedColor) ? "#FFFFFF" : "#000000")">@SelectedColor</span>
             </div>
         }
     </div>

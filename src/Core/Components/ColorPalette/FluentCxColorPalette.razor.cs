@@ -50,6 +50,45 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// </summary>
     private string? _errorMessage;
 
+    /// <summary>
+    /// Represents the number of colors to generate in the palette.
+    /// </summary>
+    private int _colorCount;
+
+    /// <summary>
+    /// Represents a flag indicating whether the number of colors has changed.
+    /// </summary>
+    private bool _numberOfColorsChanged;
+
+    /// <summary>
+    /// Represents a flag indicating whether any other property has changed.
+    /// </summary>
+    private bool _anyOtherPropertyChanged;
+
+    /// <summary>
+    /// Represents a set of generated colors for efficient lookup.
+    /// </summary>
+    private readonly HashSet<string> _generatedColorsSet = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Represents all built-in color plugins available for generating color schemes.
+    /// </summary>
+    private static readonly IColorPlugin[] _plugins = [
+        new ComplementaryPlugin(),
+        new AnalogousPlugin(),
+        new TriadicPlugin(),
+        new TetradicPlugin(),
+        new SplitComplementaryPlugin(),
+        new MonochromaticPlugin(),
+        new WarmPlugin(),
+        new CoolPlugin(),
+        new PastelPlugin(),
+        new NeonPlugin(),
+        new GrayscalePlugin(),
+        new AccessibilitySafePlugin(),
+        new DesaturatePlugin()
+    ];
+
     /// <summary />
     public FluentCxColorPalette(LibraryConfiguration configuration) : base(configuration)
     {
@@ -186,11 +225,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
     [Parameter]
     public int MaxColors { get; set; } = 120;
 
-    /// <summary>
-    /// Gets a set of selected colors for efficient lookup.
-    /// </summary>
-    private HashSet<string> SelectedColorsSet => new(SelectedColors, StringComparer.OrdinalIgnoreCase);
-
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -224,31 +258,31 @@ public partial class FluentCxColorPalette : FluentComponentBase
             generated = Mode switch
             {
                 ColorPaletteMode.Provided => [.. ProvidedColors ?? DefaultProvided],
-                ColorPaletteMode.Random => ColorUtils.GenerateRandomHex(Math.Min(MaxColors, GradientSteps)),
-                ColorPaletteMode.Gradient => ColorUtils.GenerateGradient(BaseColor, Math.Min(MaxColors, GradientSteps), GradientStrategy, GenerationOptions),
-                ColorPaletteMode.CustomGradient => ColorUtils.GenerateCustomGradient(GradientStart!, GradientEnd!, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Complementary => new ComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Analogous => new AnalogousPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Triadic => new TriadicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Tetradic => new TetradicPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.SplitComplementary => new SplitComplementaryPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Monochrome => new MonochromaticPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Warm => new WarmPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Cool => new CoolPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Pastel => new PastelPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Neon => new NeonPlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.Greyscale => new GrayscalePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                ColorPaletteMode.AccessibilitySafe => new AccessibilitySafePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Random => ColorUtils.GenerateRandomHex(_colorCount),
+                ColorPaletteMode.Gradient => ColorUtils.GenerateGradient(BaseColor, _colorCount, GradientStrategy, GenerationOptions),
+                ColorPaletteMode.CustomGradient => ColorUtils.GenerateCustomGradient(GradientStart!, GradientEnd!, _colorCount, GenerationOptions),
+                ColorPaletteMode.Complementary => _plugins[0].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.Analogous => _plugins[1].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.Triadic => _plugins[2].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.Tetradic => _plugins[3].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.SplitComplementary => _plugins[4].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.Monochrome => _plugins[5].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.Warm => _plugins[6].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.Cool => _plugins[7].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.Pastel => _plugins[8].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.Neon => _plugins[9].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.Greyscale => _plugins[10].Generate(BaseColor, _colorCount, GenerationOptions),
+                ColorPaletteMode.AccessibilitySafe => _plugins[11].Generate(BaseColor, _colorCount, GenerationOptions),
                 ColorPaletteMode.None => [],
-                ColorPaletteMode.Desaturate => new DesaturatePlugin().Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions),
-                _ => ColorUtils.GenerateScheme(BaseColor, Mode, Math.Min(MaxColors, GradientSteps), GenerationOptions),
+                ColorPaletteMode.Desaturate => _plugins[12].Generate(BaseColor, _colorCount, GenerationOptions),
+                _ => ColorUtils.GenerateScheme(BaseColor, Mode, _colorCount, GenerationOptions),
             };
 
             if (Plugins is not null && Plugins.Count > 0)
             {
                 foreach (var gen in Plugins)
                 {
-                    var pluginColors = gen.Generate(BaseColor, Math.Min(MaxColors, GradientSteps), GenerationOptions);
+                    var pluginColors = gen.Generate(BaseColor, _colorCount, GenerationOptions);
 
                     if (pluginColors?.Count > 0)
                     {
@@ -297,12 +331,13 @@ public partial class FluentCxColorPalette : FluentComponentBase
 
         if (MultiSelect)
         {
-            if (SelectedColorsSet.Contains(hex))
+            if (_generatedColorsSet.Remove(hex))
             {
                 SelectedColors.Remove(hex);
             }
             else
             {
+                _generatedColorsSet.Add(hex);
                 SelectedColors.Add(hex);
             }
 
@@ -327,7 +362,47 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
+        if (_numberOfColorsChanged)
+        {
+            _numberOfColorsChanged = false;
+            _colorCount = Math.Min(MaxColors, GradientSteps);
+        }
+
         await base.OnParametersSetAsync();
-        await GenerateColorsAsync();
+
+        if (_anyOtherPropertyChanged)
+        {
+            _anyOtherPropertyChanged = false;
+            await GenerateColorsAsync();
+        }
+    }
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _numberOfColorsChanged = parameters.TryGetValue<int>(nameof(GradientSteps), out _) ||
+                                 parameters.TryGetValue<int>(nameof(MaxColors), out _);
+
+        _anyOtherPropertyChanged = parameters.TryGetValue<ColorPaletteMode>(nameof(Mode), out _) ||
+                                   parameters.TryGetValue<List<string>?>(nameof(ProvidedColors), out _) ||
+                                   parameters.TryGetValue<string>(nameof(BaseColor), out _) ||
+                                   parameters.TryGetValue<GradientStrategy>(nameof(GradientStrategy), out _) ||
+                                   parameters.TryGetValue<string?>(nameof(GradientStart), out _) ||
+                                   parameters.TryGetValue<string?>(nameof(GradientEnd), out _) ||
+                                   parameters.TryGetValue<GenerationOptions>(nameof(GenerationOptions), out _) ||
+                                   parameters.TryGetValue<List<IColorPlugin>>(nameof(Plugins), out _) ||
+                                   _numberOfColorsChanged;
+
+        if (parameters.TryGetValue<List<string>>(nameof(SelectedColors), out var newList))
+        {
+            _generatedColorsSet.Clear();
+
+            foreach (var c in newList)
+            {
+                _generatedColorsSet.Add(c);
+            }
+        }
+
+        return base.SetParametersAsync(parameters);
     }
 }
