@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
             throw new NotSupportedException("Transient lifetime is not supported for Fluent UI Community services.");
         }
 
-        return services.AddScoped<DeviceInfoState>();
+        return services.AddScoped<DeviceInfoState>()
+                       .AddScoped<LottieState>();
     }
 }
