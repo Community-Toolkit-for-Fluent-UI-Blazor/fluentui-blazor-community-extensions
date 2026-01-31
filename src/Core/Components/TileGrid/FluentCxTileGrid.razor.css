@@ -1,0 +1,112 @@
+@keyframes ghostPulse {
+  from {
+    opacity: 0.4;
+  }
+
+  to {
+    opacity: 0.7;
+  }
+}
+
+@keyframes ghost-resize-pulse {
+  from {
+    box-shadow: 0 0 0 0 rgba(0,0,0,0.15);
+  }
+
+  to {
+    box-shadow: 0 0 12px 4px rgba(0,0,0,0.25);
+  }
+}
+
+.fluentcx-tile-grid {
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(var(--columns), minmax(var(--minimum-column-width), var(--column-width)));
+}
+
+.ghost-tile {
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px dashed var(--colorNeutralBackground1);
+  border-radius: 6px;
+  opacity: 0.6;
+  pointer-events: none;
+  transition: all 120ms ease-out;
+  animation: ghostPulse 0.4s ease-in-out infinite alternate;
+}
+
+.ghost-resize-tile {
+  position: relative;
+  background: color-mix(in srgb, var(--colorBrandForeground1) 10%, transparent);
+  border: 2px solid var(--colorBrandForeground1);
+  border-radius: 6px;
+  opacity: 0.8;
+  animation: ghost-resize-pulse 600ms ease-in-out infinite alternate;
+  z-index: 10;
+}
+
+.resize-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 9998;
+}
+
+.ghost-resize-handle-right.active, .ghost-resize-handle-bottom.active, .ghost-resize-handle-corner.active {
+  background: var(--colorBrandForeground1);
+  opacity: 1;
+}
+
+.ghost-resize-handle-bottom, .ghost-resize-handle-right, .ghost-resize-handle-corner {
+  position: absolute;
+  background: var(--colorNeutralForeground2);
+  opacity: 0.55;
+  border-radius: 3px;
+  transition: opacity 120ms ease, background 120ms ease;
+}
+
+.ghost-resize-handle-bottom {
+  left: 50%;
+  bottom: 2px;
+  height: 6px;
+  transform: translateX(-50%);
+  cursor: s-resize;
+}
+
+.ghost-resize-handle-right {
+  right: 2px;
+  top: 50%;
+  width: 6px;
+  transform: translateY(-50%);
+  cursor: e-resize;
+}
+
+.ghost-resize-handle-corner {
+  right: 2px;
+  bottom: 2px;
+  width: 12px;
+  height: 12px;
+  cursor: se-resize;
+}
+
+.debug-grid-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  pointer-events: none;
+  z-index: 1;
+  padding: 4px;
+}
+
+.debug-cell {
+  border: 1px dashed rgba(0, 0, 255, 0.3);
+  background: rgba(0, 0, 255, 0.05);
+}
+
+.debug-label {
+  font-size: 10px;
+  color: rgba(0,0,255,0.6);
+  position: relative;
+  top: 2px;
+  left: 2px;
+}
+

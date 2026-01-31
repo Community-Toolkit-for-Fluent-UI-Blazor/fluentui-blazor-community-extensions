@@ -1,0 +1,37 @@
+﻿<FluentCxPathBar Root="@root" Path="@path" />
+
+@code {
+    private const string path = "Home\\Images\\Travels\\2025\\Paris";
+    private readonly IPathBarItem root = CreatePathBar(path);
+    private static int _count;
+
+    private static IPathBarItem CreatePathBar(string path)
+    {
+        string[] p = path.Split("\\", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        PathBarItem item = new()
+            {
+                Label = p[0],
+                Id = Identifier.NewId(),
+                Items = Get(p.Skip(1))
+            };
+
+        return item;
+
+        IEnumerable<IPathBarItem> Get(IEnumerable<string> values)
+        {
+            if (values is null || !values.Any())
+            {
+                return [];
+            }
+
+            var item = new PathBarItem()
+                {
+                    Label = values.ElementAt(0),
+                    Id = Identifier.NewId(),
+                    Items = Get(values.Skip(1))
+                };
+
+            return [item];
+        }
+    }
+}

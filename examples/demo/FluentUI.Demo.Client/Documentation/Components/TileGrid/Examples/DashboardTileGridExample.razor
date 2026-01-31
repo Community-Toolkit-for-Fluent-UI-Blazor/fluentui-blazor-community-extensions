@@ -1,0 +1,49 @@
+﻿@using FluentUI.Demo.Client.Documentation.Components.TileGrid.Models
+<p>
+    A dashboard style tile grid with resizable and reorderable tiles.
+    The dashboard is persisted in local storage, so the layout is maintained across page reloads.
+    Each tile displays its current column span (CS) and row span (RS).
+</p>﻿
+
+<FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
+                  Columns="5"
+                  TItem="DashboardItem"
+                  ColumnGap="2px"
+                  RowGap="2px"
+                  RowHeight="150px"
+                  CanResize
+                  StorageKey="DashboardExample"
+                  StorageProvider="@_storageProvider"
+                  CanReorder
+                  Items="@_items">
+    <ItemContent>
+        <FluentCard Height="100%">
+            CS : @context.ColumnSpan | RS : @context.RowSpan
+        </FluentCard>
+    </ItemContent>
+</FluentCxTileGrid>
+
+@code {
+    private ITileGridStorage<DashboardItem>? _storageProvider;
+
+    [Inject]
+    private IJSRuntime Runtime { get; set; } = default!;
+
+    private List<DashboardItem> _items = [
+        new DashboardItem(1, 1, 1),
+        new DashboardItem(2, 3, 1),
+        new DashboardItem(3, 1, 1),
+        new DashboardItem(4, 2, 2),
+        new DashboardItem(5, 1, 2),
+        new DashboardItem(6, 2, 2),
+        new DashboardItem(7, 5, 1),
+        new DashboardItem(8, 4, 1),
+        new DashboardItem(9, 1, 1),
+    ];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _storageProvider = new TileGridLocalStorage<DashboardItem>(Runtime);
+    }
+}

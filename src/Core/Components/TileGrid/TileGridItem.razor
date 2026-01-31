@@ -1,0 +1,28 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<FluentDropZone TItem="TItem"
+                Class="@Css"
+                Style="@InternalStyle"
+                Draggable="@CanReorder"
+                Droppable="@CanReorder"
+                Item="@Item">
+    <div class="tile-grid-item @InternalClass">
+        @ChildContent
+
+        @if (CanResize)
+        {
+            <div class="resize-handle-bottom"
+                 style="width: @GetHandleSize()"
+                 @onmousedown="OnResizeHandleBottomMouseDown" />
+
+            <div class="resize-handle-right"
+                 style="height: @GetHandleSize()"
+                 @onmousedown="OnResizeHandleRightMouseDown" />
+
+            <div class="resize-handle-corner"
+                 @onmousedown="OnResizeHandleCornerMouseDown" />
+        }
+    </div>
+</FluentDropZone>

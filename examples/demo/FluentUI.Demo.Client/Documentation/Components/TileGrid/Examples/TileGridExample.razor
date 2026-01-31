@@ -1,0 +1,56 @@
+﻿<p>
+    By default, the <code>FluentCxTileGrid</code> creates a grid layout with equal-sized tiles.
+    You can customize the size of individual tiles using the <code>ColumnSpan</code> and <code>RowSpan</code> properties on the <code>TileGridItem</code> component.
+    If you don't use <code>CanReorder</code> or <code>CanResize</code> properties, the tiles will be static in their positions, but you can use <code>ChildContent</code> property.
+</p>
+
+<FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
+                  Columns="5"
+                  TItem="string"
+                  ColumnGap="2px"
+                  RowGap="2px"
+                  RowHeight="150px">
+    <TileGridItem>
+        <FluentCard Height="100%">
+            CS : 1 | RS : 1
+        </FluentCard>
+    </TileGridItem>
+
+    <TileGridItem ColumnSpan="3">
+        <FluentCard Height="100%">
+            CS : 3 | RS : 1
+       </FluentCard>
+    </TileGridItem>
+
+    <TileGridItem>
+        <FluentCard Height="100%">
+            CS : 1 | RS : 1
+        </FluentCard>
+    </TileGridItem>
+
+    <TileGridItem ColumnSpan="5" RowSpan="2">
+        <FluentCard Height="100%">
+            CS : 5 | RS : 2
+        </FluentCard>
+    </TileGridItem>
+
+    <TileGridItem ColumnSpan="2" RowSpan="3">
+        <FluentCard Height="100%">
+            CS : 2 | RS : 3
+        </FluentCard>
+    </TileGridItem>
+
+    <TileGridItem RowSpan="2">
+        <FluentCard Height="100%">
+            CS : 1 | RS : 2
+        </FluentCard>
+    </TileGridItem>
+
+    <TileGridItem ColumnSpan="2" RowSpan="3">
+        <FluentCard Height="100%">
+            CS : 2 | RS : 3
+        </FluentCard>
+    </TileGridItem>
+</FluentCxTileGrid>
+
+

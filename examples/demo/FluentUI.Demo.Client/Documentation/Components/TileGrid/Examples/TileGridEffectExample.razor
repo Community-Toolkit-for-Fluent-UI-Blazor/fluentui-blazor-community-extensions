@@ -1,0 +1,46 @@
+﻿@using FluentUI.Demo.Client.Documentation.Components.TileGrid.Models
+<p>
+    When using the <code>CanReorder</code> property, the effect of dragging and dropping tiles to reorder them within the grid is enabled.
+    There is 4 effects available : "Glow", "SideBar", "FocusRing" and "AnimatedGlow"
+</p>﻿
+
+<FluentStack Orientation="Orientation.Vertical">
+    <FluentRadioGroup @bind-Value="@Effect" Label="Highlight style" Wrap="true">
+        <FluentRadio Label="Glow" />
+        <FluentRadio Label="SideBar" />
+        <FluentRadio Label="FocusRing" />
+        <FluentRadio Label="AnimatedGlow" />
+    </FluentRadioGroup>
+
+    <FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
+                      Columns="5"
+                      TItem="DashboardItem"
+                      ColumnGap="2px"
+                      RowGap="2px"
+                      RowHeight="150px"
+                      CanReorder
+                      Items="@_items"
+                      HighlightStyle="@(Enum.Parse<TileDragOverHighlightStyle>(Effect))">
+        <ItemContent>
+            <FluentCard Height="100%">
+                CS : @context.ColumnSpan | RS : @context.RowSpan
+            </FluentCard>
+        </ItemContent>
+    </FluentCxTileGrid>
+</FluentStack>
+
+@code {
+    private List<DashboardItem> _items = [
+        new DashboardItem(1, 1, 1),
+        new DashboardItem(2, 3, 1),
+        new DashboardItem(3, 1, 1),
+        new DashboardItem(4, 2, 2),
+        new DashboardItem(5, 1, 2),
+        new DashboardItem(6, 2, 2),
+        new DashboardItem(7, 5, 1),
+        new DashboardItem(8, 4, 1),
+        new DashboardItem(9, 1, 1),
+    ];
+
+    private string Effect { get; set; } = "Glow";
+}
