@@ -1,0 +1,52 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Components.Base
+@inherits FluentComponentBase
+
+@if (Item is not null)
+{
+    if(Template is not null)
+    {
+        @Template(Item)
+    }
+    else
+    {
+        <FluentCard Shadow="CardShadow.Default">
+            <FluentStack VerticalGap="4px" Orientation="Orientation.Vertical" Width="100%">
+                <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                    <FluentText Size="TextSize.Size400" Weight="TextWeight.Semibold">
+                        @Item.Title
+                    </FluentText>
+
+                    <FluentSpacer />
+
+                    <FluentSwitch @bind-Value="Item.IsActive"
+                                  Disabled="@Item.Disabled"
+                                  @bind-Value:after="OnActivationChangedAsync" />
+
+                    <FluentSpacer Width="20px" />
+
+                    <FluentButton Appearance="ButtonAppearance.Subtle"
+                                  IconOnly="true"
+                                  IconStart="@(IsExpanded ? new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ChevronRight() : new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.ChevronDown())"
+                                  OnClick="@Toggle" />
+                </FluentStack>
+
+                @if (IsExpanded && !string.IsNullOrEmpty(Item.Description))
+                {
+                    <div class="cookie-description">
+                        <FluentText Size="TextSize.Size300">
+                           @if (HtmlDetector.ContainsHtml(Item.Description))
+                            {
+                                @((MarkupString)Item.Description)
+                            }
+                            else
+                            {
+                                @Item.Description
+                            }
+                        </FluentText>
+                    </div>
+                }
+            </FluentStack>
+        </FluentCard>
+    }
+}
