@@ -1,0 +1,190 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Components.Base
+@using Microsoft.FluentUI.AspNetCore.Components.Utilities
+@inherits FluentComponentBase
+
+<div class="cookie-container">
+    @if ((OpenConsentVisibility == OpenCookieVisibility.WhenFirstHidden && _cookiePolicyEntries != null) ||
+        OpenConsentVisibility == OpenCookieVisibility.Always &&
+        !_manageCookieVisible)
+    {
+        <FluentCxFloatingButton Position="OpenButtonPosition"
+                                IconStart="@(_showCookieDialog ? CloseButtonIcon : OpenButtonIcon)"
+                                OnClick="@(() => _showCookieDialog = !_showCookieDialog)"
+                                Title="@(_showCookieDialog ? Labels.HideCookieDialogTitle : Labels.ShowCookieDialogTitle)"
+                                Style="min-width: 52px; min-height: 52px;" />
+    }
+
+    @if (_showCookieDialog)
+    {
+        @if (Modal)
+        {
+            <div class="cookie-backdrop"></div>
+        }
+
+        <div id="@Id" class="@InternalCss" style="@InternalStyle">
+            <FluentCard>
+                @if (View == CookieView.Default)
+                {
+                    if (DefaultViewContent is not null)
+                    {
+                        @DefaultViewContent
+                    }
+                    else
+                    {
+                        bool hasPrivacy = !string.IsNullOrEmpty(PrivacyStatementUrl);
+                        bool hasThirdParty = !string.IsNullOrEmpty(ThirdPartyCookiesUrl);
+
+                        <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+                            <FluentStack Style="height: 100%; margin-bottom: 30px"
+                                         HorizontalAlignment="HorizontalAlignment.Center"
+                                         Orientation="Orientation.Vertical">
+                                <FluentStack HorizontalAlignment=HorizontalAlignment.Center
+                                             Style="margin-bottom: 20px"
+                                             Orientation="Orientation.Vertical">
+                                    <FluentEmoji Value="@(CookieEmoji)" Width="150px" />
+
+                                    <FluentText Size="TextSize.Size900" Weight="TextWeight.Bold">@Labels.Title</FluentText>
+                                </FluentStack>
+
+                                @if (!HtmlDetector.ContainsHtml(Labels.Description))
+                                {
+                                    <FluentLabel>@Labels.Description</FluentLabel>
+                                }
+                                else
+                                {
+                                    <FluentLabel>@((MarkupString)Labels.Description)</FluentLabel>
+                                }
+                            </FluentStack>
+
+                            @_renderActionButtons
+
+                            @if (hasPrivacy || hasThirdParty)
+                            {
+                                <FluentStack HorizontalGap="2px" HorizontalAlignment="HorizontalAlignment.Center">
+                                    @if (hasPrivacy)
+                                    {
+                                        <FluentLink Href="@PrivacyStatementUrl">
+                                            @Labels.PrivacyStatement
+                                        </FluentLink>
+
+                                    }
+
+                                    @if (hasPrivacy && hasThirdParty)
+                                    {
+                                        <FluentSpacer Width="20px" />
+                                    }
+
+                                    @if (hasThirdParty)
+                                    {
+                                        <FluentLink Href="@ThirdPartyCookiesUrl">
+                                            @Labels.ThirdPartyCookies
+                                        </FluentLink>
+                                    }
+                                </FluentStack>
+                            }
+                        </FluentStack>
+                    }
+                }
+                else if (View == CookieView.Small)
+                {
+                    @if (SmallViewContent is not null)
+                    {
+                        @SmallViewContent
+                    }
+                    else
+                    {
+                        bool hasPrivacy = !string.IsNullOrEmpty(PrivacyStatementUrl);
+                        bool hasThirdParty = !string.IsNullOrEmpty(ThirdPartyCookiesUrl);
+
+                        <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+                            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                                <FluentEmoji Value="@(CookieEmoji)" Width="36px" />
+                                <FluentText Size="TextSize.Size400" Weight="TextWeight.Bold">@Labels.Title</FluentText>
+                            </FluentStack>
+
+                            <FluentLabel Style="height: 100%">
+                                @if (!HtmlDetector.ContainsHtml(Labels.Description))
+                                {
+                                    <FluentLabel>@Labels.Description</FluentLabel>
+                                }
+                                else
+                                {
+                                    <FluentLabel>@((MarkupString)Labels.Description)</FluentLabel>
+                                }
+                            </FluentLabel>
+
+                            @_renderActionButtons
+
+                            @if (hasPrivacy || hasThirdParty)
+                            {
+                                <FluentStack HorizontalAlignment="HorizontalAlignment.Center">
+                                    @if (hasPrivacy)
+                                    {
+                                        <FluentLink Href="@PrivacyStatementUrl">
+                                            @Labels.PrivacyStatement
+                                        </FluentLink>
+
+                                    }
+
+                                    @if (hasPrivacy && hasThirdParty)
+                                    {
+                                        <FluentSpacer Width="20px" />
+                                    }
+
+                                    @if (hasThirdParty)
+                                    {
+                                        <FluentLink Href="@ThirdPartyCookiesUrl">
+                                            @Labels.ThirdPartyCookies
+                                        </FluentLink>
+
+                                    }
+                                </FluentStack>
+                            }
+                        </FluentStack>
+                    }
+                }
+            </FluentCard>
+        </div>
+    }
+</div>
+
+
+@code {
+    public FluentCxCookie(LibraryConfiguration libraryConfiguration)
+        : base(libraryConfiguration)
+    {
+        Id = Identifier.NewId();
+
+        _renderActionButtons = __builder =>
+        {
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Right"
+                         VerticalAlignment="VerticalAlignment.Bottom"
+                         Width="100%">
+                @if (ConsentMode == CookieConsentMode.AcceptDenyManage && Items.Any())
+                {
+                    <FluentButton OnClick=@OnManageCookiesAsync>
+                        @Labels.ManageCookies
+                    </FluentButton>
+
+                    <FluentSpacer Width="20px" />
+                }
+
+                @if (ConsentMode == CookieConsentMode.AcceptDeny ||
+                     ConsentMode == CookieConsentMode.AcceptDenyManage)
+                {
+                    <FluentButton OnClick=@OnDeclineAsync>
+                        @Labels.Decline
+                    </FluentButton>
+
+                    <FluentSpacer Width="20px" />
+                }
+
+                    <FluentButton OnClick=@OnAcceptAsync
+                                  Appearance="ButtonAppearance.Primary">
+                        @Labels.Accept
+                    </FluentButton>
+            </FluentStack>
+        };
+    }
+}

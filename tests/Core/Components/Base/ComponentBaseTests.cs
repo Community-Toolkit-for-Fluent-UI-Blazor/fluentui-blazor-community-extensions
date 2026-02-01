@@ -21,6 +21,9 @@ public class ComponentBaseTests : BunitContext
     [
         typeof(FluentUI.Blazor.Community.Components._Imports),
         typeof(FluentUI.Blazor.Community.Components.FluentCxDeviceDetector), // Renders no HTML output
+        typeof(CookiePolicyEntryView),               // Renders no HTML output
+        typeof(ManageCookie),                        // Renders no HTML output,
+        typeof(FluentCxCookie),                             // Renders no HTML output,
     ];
 
     /// <summary>
