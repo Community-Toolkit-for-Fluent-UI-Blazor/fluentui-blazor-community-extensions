@@ -1,7 +1,7 @@
 .fluentcx-trail-menu {
   height: 40px;
   width: 100%;
-  background: var(--neutral-fill-stealth-rest);
+  background: var(--colorNeutralBackground4);
   column-gap: 2px;
   display: flex;
   flex-direction: row;
