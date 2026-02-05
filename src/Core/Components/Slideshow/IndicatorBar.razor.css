@@ -1,0 +1,37 @@
+.slideshow-indicators {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background-color: var(--colorNeutralBackground2);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.slideshow-indicators-horizontal {
+  left: 0;
+  right: 0;
+  height: calc(18px + var(--spacingHorizontalXL));
+}
+
+.slideshow-indicators-vertical {
+  top: 0;
+  bottom: 0;
+  width: calc(18px + var(--spacingHorizontalXL));
+}
+
+.slideshow-indicators-top {
+  top: 0;
+}
+
+.slideshow-indicators-bottom {
+  bottom: 0;
+}
+
+.slideshow-indicators-left {
+  left: 0;
+}
+
+.slideshow-indicators-right {
+  right: 0;
+}

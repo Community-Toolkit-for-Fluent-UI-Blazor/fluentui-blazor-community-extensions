@@ -1,0 +1,26 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<div style="@Style" class="slideshow-indicators @InternalCss">
+    <FluentStack Style="height: 100%;"
+                 Orientation="@Orientation"
+                 HorizontalAlignment="HorizontalAlignment.Center"
+                 VerticalAlignment="VerticalAlignment.Center">
+        @for(var index = 0; index < Count; index++)
+        {
+            @if(ItemContent is not null)
+            {
+                @ItemContent(index)
+            }
+            else
+            {
+                <DotIndicator TItem="TItem"
+                              Index="@index"
+                              Orientation="@Orientation"
+                              CurrentSlideshowIndex="@SlideIndex" />
+            }
+        }
+    </FluentStack>
+</div>
+

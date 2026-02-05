@@ -1,0 +1,91 @@
+﻿<p>
+    This example demonstrates how to implement a slideshow component using Fluent UI in a Blazor application.
+    By default, we will use the <code>ChildContent</code> property.
+
+    If <code>LoopMode</code> is set to <code>Infinite</code>, the indicators will not be rendered, as they are not applicable in this mode.
+    The <code>Orientation</code> property works only when <code>ShowIndicators</code> is set to false. In other modes, the orientation will be set by the <code>IndicatorPosition</code> property.
+</p>
+
+<FluentStack VerticalGap="4px" Orientation="Orientation.Vertical">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalGap="4px" Wrap>
+        <FluentSelect Items=@s_ratioModes
+                      Label="Select ratio mode"
+                      TOption="SlideshowRatioMode"
+                      @bind-Value="_selectedRatioMode" />
+
+        <FluentSelect Items=@s_ratios
+                      Label="Select aspect ratio"
+                      TOption="SlideshowContentRatio"
+                      @bind-Value="_selectedRatio" />
+
+        @if (_showIndicators || _selectedLoop != SlideshowLoopingMode.Infinite)
+        {
+            <FluentSelect Items=@s_indicator_positions
+                          Label="Position of the indicator"
+                          TOption="SlideshowIndicatorPosition"
+                          @bind-Value="_selectedPosition" />
+        }
+
+        @if(!_showControls || _selectedLoop == SlideshowLoopingMode.Infinite)
+        {
+            <FluentSelect Items=@s_orientations
+                          Label="Orientation of the slides"
+                          TOption="Orientation"
+                          @bind-Value="_selectedOrientation" />
+        }
+
+        <FluentSelect Items=@s_loops
+                      Label="Loop mode"
+                      TOption="SlideshowLoopingMode"
+                      @bind-Value="_selectedLoop" />
+
+        <FluentSwitch Label="Autoplay" @bind-Value="_isAutoplay" />
+
+        <FluentSwitch Label="Show controls" @bind-Value="_showControls" />
+        
+        @if (_selectedLoop != SlideshowLoopingMode.Infinite)
+        {
+            <FluentSwitch Label="Show indicators" @bind-Value="_showIndicators" />
+        }
+
+        <FluentSwitch Label="Touch enabled" @bind-Value="_touchEnabled" />
+    </FluentStack>
+
+    <div style="width: 100%; height: 600px">
+        <FluentCxSlideshow ShowControls="@_showControls"
+                           ShowIndicators="@_showIndicators"
+                           ContentRatio="@_selectedRatio"
+                           RatioMode="@_selectedRatioMode"
+                           IsTouchEnabled="@_touchEnabled"
+                           IndicatorPosition="@_selectedPosition"
+                           LoopMode="@_selectedLoop"
+                           Autoplay="@_isAutoplay"
+                           Orientation="@_selectedOrientation"
+                           TItem="string">
+            <SlideshowItem>
+                <SlideshowImage Source="images/ship-1.png" />
+            </SlideshowItem>
+            <SlideshowItem>
+                <SlideshowImage Source="images/ship-2.png" />
+            </SlideshowItem>
+        </FluentCxSlideshow>
+    </div>
+</FluentStack>
+
+@code {
+    private static readonly SlideshowContentRatio[] s_ratios = Enum.GetValues<SlideshowContentRatio>();
+    private static readonly SlideshowRatioMode[] s_ratioModes = Enum.GetValues<SlideshowRatioMode>();
+    private static readonly SlideshowIndicatorPosition[] s_indicator_positions = Enum.GetValues<SlideshowIndicatorPosition>();
+    private static readonly Orientation[] s_orientations = Enum.GetValues<Orientation>();
+    private static readonly SlideshowLoopingMode[] s_loops = Enum.GetValues<SlideshowLoopingMode>();
+
+    private SlideshowContentRatio _selectedRatio = SlideshowContentRatio.Original;
+    private SlideshowRatioMode _selectedRatioMode = SlideshowRatioMode.Image;
+    private SlideshowIndicatorPosition _selectedPosition = SlideshowIndicatorPosition.Bottom;
+    private Orientation _selectedOrientation = Orientation.Horizontal;
+    private SlideshowLoopingMode _selectedLoop = SlideshowLoopingMode.None;
+    private bool _showControls = true;
+    private bool _showIndicators = true;
+    private bool _touchEnabled = true;
+    private bool _isAutoplay = false;
+}

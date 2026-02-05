@@ -1,0 +1,18 @@
+.fuicx-slideshow-caption {
+  position: absolute;
+  color: var(--colorNeutralForeground1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.fuicx-slideshow-caption-fixed {
+  right: 15%;
+  bottom: 5.25rem;
+  left: 15%;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}

@@ -1,0 +1,43 @@
+﻿<p>
+    This example demonstrates how to implement a slideshow component using Fluent UI in a Blazor application.
+    Here, we will ehance the item with a caption using the <code>SlideshowCaption</code> component.
+    The caption will be fixed at the bottom of the slide and will have a semi-transparent background to ensure readability of the text over the image.
+</p>
+
+<div style="width: 100%; height: 600px">
+    <FluentCxSlideshow ShowControls
+                       ShowIndicators
+                       ContentRatio="SlideshowContentRatio.Square"
+                       RatioMode="SlideshowRatioMode.Container"
+                       IsTouchEnabled
+                       IndicatorPosition="SlideshowIndicatorPosition.Bottom"
+                       TItem="string"
+                       Items="@s_items"
+                       ItemFunc="@(x => x.GetHashCode())">
+        <ItemTemplate>
+            <SlideshowImage Source="@context" />
+            <SlideshowCaption BackgroundColor="rgba(0, 0, 0, 0.5)" Fixed>
+                <SlideshowCaptionText Align="TextAlign.Center"
+                                      Size="TextSize.Size400"
+                                      Weight="TextWeight.Bold"
+                                      Color="white"
+                                      As="TextTag.H1">
+                    This is a sample caption for the image
+                </SlideshowCaptionText>
+                <SlideshowCaptionText Weight="TextWeight.Semibold"
+                                      Align="TextAlign.Center"
+                                      Color="white"
+                                      As="TextTag.Paragraph">
+                    @context
+                </SlideshowCaptionText>
+            </SlideshowCaption>
+        </ItemTemplate>
+    </FluentCxSlideshow>
+</div>
+
+@code {
+    private static readonly string[] s_items = [
+        "images/ship-1.png",
+        "images/ship-2.png"
+    ];
+}
