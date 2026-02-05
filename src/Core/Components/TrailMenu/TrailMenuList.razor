@@ -1,0 +1,26 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.TrailMenu
+@inherits FluentComponentBase
+
+@if (Items.Any())
+{
+    <FluentButton IconOnly
+                  Id="@Id"
+                  Size="ButtonSize.Large">
+        <FluentIcon Value="@TrailMenuIcons.ChevronRight" />
+    </FluentButton>
+
+    <FluentMenu Trigger="@Id">
+        <FluentMenuList>
+            @foreach (var item in Items)
+            {
+                <FluentMenuItem Id="@($"fui-menu-item-{item.Id}")"
+                                Role="MenuItemRole.MenuItem"
+                                OnClick="@(() => OnItemTappedAsync(item))">
+                    @item.Label
+                </FluentMenuItem>
+            }
+        </FluentMenuList>
+    </FluentMenu>
+}
+

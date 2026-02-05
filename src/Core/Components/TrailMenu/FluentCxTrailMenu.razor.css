@@ -1,0 +1,16 @@
+.fluentcx-trail-menu {
+  height: 40px;
+  width: 100%;
+  background: var(--neutral-fill-stealth-rest);
+  column-gap: 2px;
+  display: flex;
+  flex-direction: row;
+}
+
+.fluentcx-trail-menu-container {
+  width: calc(100% - 64px);
+  height: 100%;
+  column-gap: 2px;
+  display: flex;
+  flex-direction: row;
+}
