@@ -1,0 +1,31 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div id="@Id" class="@InternalCss" style="@Style">
+        @if (Root is not null)
+        {
+            <TrailMenuButton Id="@Root.Id"
+                             Icon="@(GetHomeIcon())"
+                             IconOnly
+                             OnClick="@(() => UpdateTrailAsync(Root))"
+                             Items=@Root.Items.ToList() />
+ 
+            <div id="@($"fluentcx-trail-menu-container-{Id}")" class="fluentcx-trail-menu-container">
+                    @if (_overflowItems.Count > 0)
+                    {
+                        <TrailOverflowButton Items=@_overflowItems />
+                    }
+
+                    @foreach (var item in _visibleItems)
+                    {
+                         <TrailMenuButton Id="@item.Id"
+                                         Label="@item.Label"
+                                         Icon="@item.Icon"
+                                         Items="@item.Items"
+                                         OnClick=@(() => UpdateTrailAsync(item)) />              
+                    }
+            </div>      
+        }
+    </div>
+</CascadingValue>

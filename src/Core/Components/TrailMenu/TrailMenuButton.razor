@@ -1,0 +1,25 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using Microsoft.FluentUI.AspNetCore.Components.Utilities
+@inherits FluentComponentBase
+
+<div id="@($"trail-menu-button-{Id}")" class="@Class" style="@Style; display: flex; flex-direction: row">
+    <FluentButton Id="@($"fui-button-{Id}")"
+                  IconOnly="@IconOnly"
+                  Size="ButtonSize.Large"
+                  Appearance="ButtonAppearance.Subtle"
+                  IconStart="@(IconOnly ? null : Icon)"
+                  OnClick="@OnClick">
+        @if (IconOnly)
+        {
+            <FluentIcon Value="@Icon" />
+        }
+        else
+        {
+            @Label
+        }
+    </FluentButton>
+
+    <TrailMenuList Items="@Items" />
+</div>
+
+
