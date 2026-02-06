@@ -2,7 +2,7 @@ namespace FluentUI.Blazor.Community.Components.TrailMenu;
 
 internal static class TrailMenuLayoutEngine
 {
-    private const int OverflowButtonWidth = 32;
+    private const int OverflowButtonWidth = 40;
 
     /// <summary>
     /// Calculates which menu items should be displayed directly and which should be placed in an overflow menu, based
@@ -20,38 +20,43 @@ internal static class TrailMenuLayoutEngine
     /// <param name="overflow">A list that will be populated with the menu items that do not fit within the container width and are placed in
     /// the overflow menu. The list is cleared before being populated.</param>
     public static void Compute(
-        IReadOnlyList<ITrailMenuItem> allItems,
-        TrailMenuCache cache,
-        double containerWidth,
-        List<ITrailMenuItem> visible,
-        List<ITrailMenuItem> overflow)
+    IReadOnlyList<ITrailMenuItem> allItems,
+    TrailMenuCache cache,
+    double containerWidth,
+    List<ITrailMenuItem> visible,
+    List<ITrailMenuItem> overflow)
     {
         visible.Clear();
         overflow.Clear();
 
-        var total = cache.TotalSize;
-        var overflowNeeded = total + OverflowButtonWidth > containerWidth;
-
-        var used = 0.0;
-        var reserve = overflowNeeded ? OverflowButtonWidth : 0;
-
-        for (var i = allItems.Count - 1; i >= 0; i--)
+        if (allItems.Count == 0)
         {
-            var item = allItems[i];
-            var size = cache.TryGet(item.Id!, out var s) ? s : 0;
-
-            if (used + size + reserve <= containerWidth)
-            {
-                visible.Add(item);
-                used += size;
-            }
-            else
-            {
-                overflow.Add(item);
-            }
+            return;
         }
 
-        visible.Reverse();
-        overflow.Reverse();
+        var last = allItems[^1];
+        cache.TryGet(last.Id!, out var lastSize);
+
+        var remaining = containerWidth - lastSize - OverflowButtonWidth;
+
+        double used = 0;
+
+        for (var i = 0; i < allItems.Count - 1; i++)
+        {
+            var item = allItems[i];
+            cache.TryGet(item.Id!, out var size);
+
+            if (used + size > remaining)
+            {
+                overflow.AddRange(allItems.Take(allItems.Count - 1));
+                visible.Add(last);
+
+                return;
+            }
+
+            used += size;
+        }
+
+        visible.AddRange(allItems);
     }
 }

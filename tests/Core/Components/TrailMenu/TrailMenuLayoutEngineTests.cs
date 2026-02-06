@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Components.TrailMenu;
 using Xunit;
@@ -8,44 +9,67 @@ namespace Components.Tests.Components.TrailMenu;
 public class TrailMenuLayoutEngineTests
 {
     [Fact]
-    public void Compute_AllItemsVisibleWhenSpaceAllows()
+    public void Compute_NoItems_ClearsLists()
     {
-        var (items, cache) = CreateItemsWithSizes(("a", 10), ("b", 20), ("c", 30));
+        var cache = new TrailMenuCache();
+        var visible = new List<ITrailMenuItem> { CreateItem("visible") };
+        var overflow = new List<ITrailMenuItem> { CreateItem("overflow") };
+
+        TrailMenuLayoutEngine.Compute([], cache, 100, visible, overflow);
+
+        Assert.Empty(visible);
+        Assert.Empty(overflow);
+    }
+
+    [Fact]
+    public void Compute_AllItemsFit_LeavesOverflowEmpty()
+    {
+        var items = new List<ITrailMenuItem>
+        {
+            CreateItem("item1"),
+            CreateItem("item2"),
+            CreateItem("item3")
+        };
+        var cache = new TrailMenuCache();
+        cache.Set(items[0].Id!, 50);
+        cache.Set(items[1].Id!, 60);
+        cache.Set(items[2].Id!, 70);
+
         var visible = new List<ITrailMenuItem>();
         var overflow = new List<ITrailMenuItem>();
 
-        TrailMenuLayoutEngine.Compute(items, cache, containerWidth: 100, visible, overflow);
+        TrailMenuLayoutEngine.Compute(items, cache, 220, visible, overflow);
 
         Assert.Equal(items, visible);
         Assert.Empty(overflow);
     }
 
     [Fact]
-    public void Compute_PlacesItemsInOverflowWhenNeeded()
+    public void Compute_WhenItemsOverflow_PutsAllButLastInOverflow()
     {
-        var (items, cache) = CreateItemsWithSizes(("a", 10), ("b", 20), ("c", 30));
+        var items = new List<ITrailMenuItem>
+        {
+            CreateItem("item1"),
+            CreateItem("item2"),
+            CreateItem("item3")
+        };
+        var cache = new TrailMenuCache();
+        cache.Set(items[0].Id!, 50);
+        cache.Set(items[1].Id!, 60);
+        cache.Set(items[2].Id!, 70);
+
         var visible = new List<ITrailMenuItem>();
         var overflow = new List<ITrailMenuItem>();
 
-        TrailMenuLayoutEngine.Compute(items, cache, containerWidth: 50, visible, overflow);
+        TrailMenuLayoutEngine.Compute(items, cache, 200, visible, overflow);
 
-        Assert.Single(visible);
-        Assert.Equal(items[0], visible[0]);
-        Assert.Equal([items[1], items[2]], overflow);
+        Assert.Equal([items[2]], visible);
+        Assert.Equal(items.Take(2).ToList(), overflow);
     }
 
-    private static (IReadOnlyList<ITrailMenuItem> Items, TrailMenuCache Cache) CreateItemsWithSizes(params (string id, double size)[] values)
+    private static InternalTrailMenuItem CreateItem(string id) => new()
     {
-        var cache = new TrailMenuCache();
-        var items = new List<ITrailMenuItem>();
-
-        foreach (var (id, size) in values)
-        {
-            var item = new InternalTrailMenuItem { Id = id, Label = id };
-            items.Add(item);
-            cache.Set(item.Id!, size);
-        }
-
-        return (items, cache);
-    }
+        Id = id,
+        Label = id
+    };
 }

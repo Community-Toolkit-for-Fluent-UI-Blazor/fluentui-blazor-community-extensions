@@ -1,5 +1,49 @@
-﻿<FluentCxResizer>
-    <FluentCard Style="min-width: 100px; min-height: 100px;">
-        Fluent Card inside a Resizer Component
-    </FluentCard>
-</FluentCxResizer>
+﻿@using FluentUI.Blazor.Community.Components.TrailMenu
+<p>
+    The TrailMenu component can only be used with a list of items and a start path.
+    This list can be build with the <code>TrailMenuFactory</code> class in a fluent way.
+</p>
+
+
+<FluentCxTrailMenu Root="@_root" Path="@_path"/>
+
+@code {
+    private readonly ITrailMenuItem _root;
+    private string _path = "root/games/yakuza/yakuza-kiwami";
+
+    public RootAndPathExample()
+    {
+        _root = TrailMenuFactory.Create("root", "Root")
+            .AddRoot("books", "Books")
+                .Add("blue-morpho", "Blue Morpho")
+                .AddSibling("stone-worm", "Stone Worm")
+            .AddRoot("movies", "Movies")
+                .Add("matrix", "Matrix")
+                .AddSibling("matrix-reloaded", "Matrix Reloaded")
+                .AddSibling("matrix-revolution", "Matrix Revolution")
+            .AddRoot("music", "Music")
+                .Add("pink-floyd", "Pink Floyd")
+                .AddSibling("led-zeppelin", "Led Zeppelin")
+                .AddSibling("the-beatles", "The Beatles")
+            .AddRoot("games", "Games")
+                .Add("yakuza", "Yakuza")
+                .Add("yakuza-kiwami", "Yakuza Kiwami")
+                .AddSibling("yakuza-kiwami-2", "Yakuza Kiwami 2")
+                .AddSibling("yakuza-3", "Yakuza 3")
+                .AddSibling("yakuza-0", "Yakuza 0")
+             .UpToParent("games")
+                .Add("the-witcher", "The Witcher")
+                .Add("the-witcher-1", "The Witcher 1")
+                .AddSibling("the-witcher-2", "The Witcher 2")
+                .AddSibling("the-witcher-3", "The Witcher 3")
+             .UpToParent("games")
+                .Add("fuga", "Fuga, Melodies of Steel")
+                .Add("fuga-1", "Fuga 1")
+                .AddSibling("fuga-2", "Fuga 2")
+                .AddSibling("fuga-3", "Fuga 3")
+             .UpToParent("games")
+             .Add("cyberpunk", "Cyberpunk 2077")
+             .AddSibling("elden-ring", "Elden Ring")
+             .Build();
+    }
+}
