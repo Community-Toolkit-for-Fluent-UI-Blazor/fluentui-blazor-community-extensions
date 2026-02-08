@@ -33,4 +33,8 @@
     <ProjectReference Include="..\..\src\Core\FluentUI.Blazor.Community.Components.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\TrailMenu\" />
+  </ItemGroup>
+
 </Project>

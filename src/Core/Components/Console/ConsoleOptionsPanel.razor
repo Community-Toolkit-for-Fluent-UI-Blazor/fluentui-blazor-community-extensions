@@ -1,0 +1,59 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical" VerticalAlignment="VerticalAlignment.Center">
+
+        <FluentText Weight="TextWeight.Bold">Console settings</FluentText>
+
+        <FluentField Label="Nombre maximum de messages">
+            <FluentTextInput @bind-Value="MaxMessages"
+                             Placeholder="ex: 10000"
+                             Immediate
+                             MessageCondition="@(i => i
+                                                  .When(() => !int.TryParse(MaxMessages, out _))
+                                                      .Display("Please, enter only digit", MessageState.Error)
+                                                                               .When(() => int.TryParse(MaxMessages, out var v) && (v < int.MinValue || v > int.MaxValue))
+                                                      .Display($"The number must be between {int.MinValue} and {int.MaxValue}", MessageState.Error)
+                                                  .Build(options => options.BreakOnFirst = false))" />
+        </FluentField>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3"
+                     VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Auto scroll</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.AutoScroll" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3"
+                     VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Enable batching</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.EnableBatching" />
+        </FluentStack>
+
+        <FluentField Label="Batch interval (ms)">
+            <FluentTextInput @bind-Value="BatchIntervalMs"
+                             Immediate
+                             MessageCondition="@(i => i
+                                                      .When(() => !TimeSpan.TryParse(BatchIntervalMs, out _))
+                                                      .Display("Please, enter only digit", MessageState.Error)
+                                                      .Build())"
+                               Placeholder="100" />
+        </FluentField>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3"
+                     VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Activate the persistance of the exceptions</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.StockExceptions" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3"
+                     VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Enable thread safety</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.EnableThreadSafety" />
+        </FluentStack>
+    </FluentStack>
+</FluentDialogBody>

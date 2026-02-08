@@ -1,0 +1,29 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentCard>
+    <FluentStack HorizontalAlignment="HorizontalAlignment.Right"
+                 Id="@Id"
+                 HorizontalGap="2px">
+        <FluentToggleButton OnClick="@(OnTogglePauseAsync)"
+                            IconStart="@(GetIcon())"       
+                            Title="@GetLabel()" />
+
+        <FluentButton OnClick="@OnExport"
+                      IconStart="@(new Size24.ArrowDownload())"
+                      Title="@Parent!.Labels.Export" />
+
+        <FluentButton OnClick="@OnFilter"
+                      IconStart="@(new Size24.Filter())"
+                      Title="@Parent!.Labels.Filter" />
+
+        <FluentButton OnClick="@OnClear"
+                      IconStart="@(new Size24.Dismiss())"
+                      Title="@Parent!.Labels.Clear" />
+
+        <FluentButton OnClick="@OnSettings"
+                      IconStart="@(new Size24.Settings())"
+                      Title="@Parent!.Labels.Settings" />
+    </FluentStack>
+</FluentCard>
+
