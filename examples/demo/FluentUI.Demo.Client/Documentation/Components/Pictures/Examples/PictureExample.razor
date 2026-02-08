@@ -1,0 +1,15 @@
+﻿<p>
+    The <c>FluentCxPicture</c> component displays an image with the specified source.
+    WARNING : For now, the HTML picture element cannot query the container size, only the screen size.
+    That's why the responsive images don't change when resizing the container, but only when resizing the screen.
+</p>
+
+﻿<div class="height: 500px">
+    <FluentCxPicture Source="images/chopper.png">
+        <ResponsiveContent>
+            <ResponsiveImage Source="images/motorbike.png" ContentType="image/png" Media="(max-width: 600px)" />
+            <ResponsiveImage Source="images/car.png" ContentType="image/png" Media="(max-width: 800px)" />
+            <ResponsiveImage Source="images/airplane.png" ContentType="image/png" Media="(min-width: 801px) and (max-width: 1100px)" />
+        </ResponsiveContent>
+    </FluentCxPicture>
+</div>
