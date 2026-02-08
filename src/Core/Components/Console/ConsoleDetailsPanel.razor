@@ -1,0 +1,196 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="12px">
+        <FluentCard>
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="6px">
+                <FluentText Weight="TextWeight.Bold">Main information</FluentText>
+
+                <FluentField>
+                    <LabelTemplate>
+                        <FluentText Weight="TextWeight.Bold">Timestamp</FluentText>
+                    </LabelTemplate>
+                    <ChildContent>
+                        <FluentText>@Message.Timestamp.ToLocalTime()</FluentText>
+                    </ChildContent>
+                </FluentField>
+
+                <FluentField>
+                    <LabelTemplate>
+                        <FluentText Weight="TextWeight.Bold">Level</FluentText>
+                    </LabelTemplate>
+                    <ChildContent>
+                        <FluentBadge Appearance="BadgeAppearance.Tint" Size="BadgeSize.Medium" Content="@Message.Level.ToString()" />
+                    </ChildContent>
+                </FluentField>
+
+                <FluentField>
+                    <LabelTemplate>
+                        <FluentText Weight="TextWeight.Bold">Category</FluentText>
+                    </LabelTemplate>
+                    <ChildContent>
+                        <FluentText>@Message.Category</FluentText>
+                    </ChildContent>
+                </FluentField>
+
+                <FluentField>
+                    <LabelTemplate>
+                        <FluentText Weight="TextWeight.Bold">Source</FluentText>
+                    </LabelTemplate>
+                    <ChildContent>
+                        <FluentText>@Message.Source</FluentText>
+                    </ChildContent>
+                </FluentField>
+
+                <FluentField>
+                    <LabelTemplate>
+                        <FluentText Weight="TextWeight.Bold">Message</FluentText>
+                    </LabelTemplate>
+                    <ChildContent>
+                        <FluentText>@Message.Message</FluentText>
+                    </ChildContent>
+                </FluentField>
+
+                @if (!string.IsNullOrWhiteSpace(Message.FormattedMessage))
+                {
+                    <FluentField>
+                        <LabelTemplate>
+                            <FluentText Weight="TextWeight.Bold">Formatted message</FluentText>
+                        </LabelTemplate>
+                        <ChildContent>
+                            <FluentText>@Message.FormattedMessage</FluentText>
+                        </ChildContent>
+                    </FluentField>
+                }
+            </FluentStack>
+        </FluentCard>
+
+        <FluentAccordion>
+            <FluentAccordionItem Header="Identifiers & Context">
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentField>
+                        <LabelTemplate>
+                            <FluentText Weight="TextWeight.Bold">Id</FluentText>
+                        </LabelTemplate>
+                        <ChildContent>
+                            <FluentText>@Message.Id</FluentText>
+                        </ChildContent>
+                    </FluentField>
+
+                    <FluentField>
+                        <LabelTemplate>
+                            <FluentText Weight="TextWeight.Bold">CorrelationId</FluentText>
+                        </LabelTemplate>
+                        <ChildContent>
+                            <FluentText>@Message.CorrelationId</FluentText>
+                        </ChildContent>
+                    </FluentField>
+
+                    <FluentField>
+                        <LabelTemplate>
+                            <FluentText Weight="TextWeight.Bold">ActivityId</FluentText>
+                        </LabelTemplate>
+                        <ChildContent>
+                            <FluentText>@Message.ActivityId</FluentText>
+                        </ChildContent>
+                    </FluentField>
+
+                    <FluentField>
+                        <LabelTemplate>
+                            <FluentText Weight="TextWeight.Bold">ThreadId</FluentText>
+                        </LabelTemplate>
+                        <ChildContent>
+                            <FluentText>@Message.ThreadId</FluentText>
+                        </ChildContent>
+                    </FluentField>
+
+                    <FluentField>
+                        <LabelTemplate>
+                            <FluentText Weight="TextWeight.Bold">Machine</FluentText>
+                        </LabelTemplate>
+                        <ChildContent>
+                            <FluentText>@Message.MachineName</FluentText>
+                        </ChildContent>
+                    </FluentField>
+                </FluentStack>
+            </FluentAccordionItem>
+
+            @if (Message.Tags?.Any() == true)
+            {
+                <FluentAccordionItem Header="Tags">
+                    <FluentStack Orientation="Orientation.Horizontal" Wrap="true" HorizontalGap="6px">
+                        @foreach (var tag in Message.Tags)
+                        {
+                            <FluentBadge Appearance="BadgeAppearance.Outline" Content="@tag" />
+                        }
+                    </FluentStack>
+                </FluentAccordionItem>
+            }
+
+            @if (Message.Properties?.Any() == true)
+            {
+                <FluentAccordionItem Header="Properties">
+                    <FluentStack Orientation="Orientation.Vertical">
+                        @foreach (var kvp in Message.Properties)
+                        {
+                            <FluentField>
+                                <LabelTemplate>
+                                    <FluentText Weight="TextWeight.Bold">@kvp.Key</FluentText>
+                                </LabelTemplate>
+                                <ChildContent>
+                                    <FluentText>@(kvp.Value?.ToString() ?? "(null)")</FluentText>
+                                </ChildContent>
+                            </FluentField>
+                        }
+                    </FluentStack>
+                </FluentAccordionItem>
+            }
+
+            @if (Message.Exception is not null)
+            {
+                <FluentAccordionItem Header="Exception">
+                    <FluentStack Orientation="Orientation.Vertical">
+                        <FluentField>
+                            <LabelTemplate>
+                                <FluentText Weight="TextWeight.Bold">Type</FluentText>
+                            </LabelTemplate>
+                            <ChildContent>
+                                <FluentText>@Message.Exception.GetType().FullName</FluentText>
+                            </ChildContent>
+                        </FluentField>
+
+                        <FluentField>
+                            <LabelTemplate>
+                                <FluentText Weight="TextWeight.Bold">Message</FluentText>
+                            </LabelTemplate>
+                            <ChildContent>
+                                <FluentText>@Message.Exception.Message</FluentText>
+                            </ChildContent>
+                        </FluentField>
+
+                        <FluentField>
+                            <LabelTemplate>
+                                <FluentText Weight="TextWeight.Bold">StackTrace</FluentText>
+                            </LabelTemplate>
+                            <ChildContent>
+                                <FluentText>
+                                    <pre>@Message.Exception.StackTrace</pre>
+                                </FluentText>
+                            </ChildContent>
+                        </FluentField>
+                    </FluentStack>
+                </FluentAccordionItem>
+            }
+
+            @if (Message.Payload is not null)
+            {
+                <FluentAccordionItem Header="Payload">
+                    <FluentText>
+                        @System.Text.Json.JsonSerializer.Serialize(Message.Payload, s_json)
+                    </FluentText>
+                </FluentAccordionItem>
+            }
+        </FluentAccordion>
+    </FluentStack>
+</FluentDialogBody>

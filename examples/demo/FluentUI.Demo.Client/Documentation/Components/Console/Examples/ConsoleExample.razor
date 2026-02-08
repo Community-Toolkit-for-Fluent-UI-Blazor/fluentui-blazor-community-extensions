@@ -1,0 +1,44 @@
+﻿<FluentStack Orientation="Orientation.Vertical" VerticalGap="20px">
+    <FluentCxConsole />
+    <FluentStack>
+        <FluentButton OnClick="@(() => AddMessageAsync(ConsoleLevel.Information))">
+            Add Information Message
+        </FluentButton>
+
+        <FluentButton OnClick="@(() => AddMessageAsync(ConsoleLevel.Debug))">
+            Add Debug Message
+        </FluentButton>
+
+        <FluentButton OnClick="@(() => AddMessageAsync(ConsoleLevel.Warning))">
+            Add Warning Message
+        </FluentButton>
+
+        <FluentButton OnClick="@(() => AddMessageAsync(ConsoleLevel.Error))">
+            Add Error Message
+        </FluentButton>
+
+        <FluentButton OnClick="@(() => AddMessageAsync(ConsoleLevel.Critical))">
+            Add Critical Message
+        </FluentButton>
+
+        <FluentButton OnClick="@(() => AddMessageAsync(ConsoleLevel.Trace))">
+            Add Trace Message
+        </FluentButton>
+    </FluentStack>
+</FluentStack>
+
+@code {
+    [Inject]
+    private IConsoleState ConsoleState { get; set; } = default!;
+
+    private async Task AddMessageAsync(ConsoleLevel level)
+    {
+        await ConsoleState.AddAsync(new ConsoleMessage
+        {
+            Message = $"Message added at {DateTime.Now:T}",
+            Timestamp = DateTime.Now,
+            Level = level
+        });
+    }
+}
+

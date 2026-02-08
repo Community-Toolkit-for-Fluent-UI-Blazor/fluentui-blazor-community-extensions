@@ -1,0 +1,87 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentDialogBody>
+    <FluentStack VerticalAlignment="VerticalAlignment.Center" Orientation="Orientation.Vertical">
+        <FluentField LabelPosition="LabelPosition.Before" Label="Exporter uniquement les messages filtrés">
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.ExportFilteredMessagesOnly" />
+        </FluentField>
+
+        <FluentField Label="Date de début (From)">
+            <FluentDatePicker @bind-Value="Options.FromDateTime" Placeholder="Aucune date" />
+        </FluentField>
+
+        <FluentField Label="Date de fin (To)">
+            <FluentDatePicker @bind-Value="Options.ToDateTime" Placeholder="Aucune date" />
+        </FluentField>
+
+        <FluentField Label="Préfixe du nom de fichier">
+            <FluentTextInput @bind-Value="Options.FileNamePrefix" Placeholder="ex: logs_" />
+        </FluentField>
+
+        <FluentText Weight="TextWeight.Bold">Champs à inclure</FluentText>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Inclure le timestamp</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.IncludeTimestamp" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Inclure le niveau (Level)</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.IncludeTimestamp" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Inclure la catégorie</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.IncludeTimestamp" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Inclure les propriétés</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.IncludeTimestamp" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Inclure les exceptions</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.IncludeTimestamp" />
+        </FluentStack>
+
+        <FluentText Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" Weight="TextWeight.Bold">Type de fichiers à exporter</FluentText>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Exporter en Csv</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="FileOptions.ExportCsv" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Exporter en Json</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="FileOptions.ExportJson" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Exporter en XML</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="FileOptions.ExportXml" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Exporter en texte</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="FileOptions.ExportTxt" />
+        </FluentStack>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Exporter en markdown</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="FileOptions.ExportMarkdown" />
+        </FluentStack>
+    </FluentStack>
+</FluentDialogBody>

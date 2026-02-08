@@ -1,0 +1,16 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="2px">
+        <ConsoleToolbar OnClear="@ConsoleState.ClearAsync"
+                        IsPausedChanged="@TogglePause"
+                        OnFilter="@OnFilterAsync"
+                        OnExport="@OnExportAsync"
+                        OnSettings="@OnSettingsAsync"/>
+
+        <ConsoleList Loading="@_isLoading"
+                     OnMessageClick="@OnMessageSelectedAsync"/>
+    </FluentStack>
+</CascadingValue>
+

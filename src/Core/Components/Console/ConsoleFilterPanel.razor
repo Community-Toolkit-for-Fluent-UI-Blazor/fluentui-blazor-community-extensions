@@ -1,0 +1,37 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="2px" VerticalAlignment="VerticalAlignment.Center">
+            <FluentTextInput Width="100%" Style="width: 100%" Label="Text contains" @bind-Value="Filter.TextContains" Placeholder="ex: error, warning..." />
+            <FluentTextInput  Width="100%" Style="width: 100%" Label="Category" @bind-Value="Filter.Category" Placeholder="ex: Microsoft.Hosting" />
+
+        <FluentText Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" Weight="TextWeight.Bold">Levels</FluentText>
+
+            <FluentStack Orientation="Orientation.Vertical">
+                @foreach (var level in s_allLevels)
+                {
+                    <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+                        <FluentText>@level.ToString()</FluentText>
+                        <FluentSpacer />
+                        <FluentSwitch Value="@Filter.Levels.Contains(level)"
+                                      ValueChanged="@(v => ToggleLevel(level, v))" />
+                    </FluentStack>
+                }
+            </FluentStack>
+
+        <FluentText Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" Weight="TextWeight.Bold">Dates</FluentText>
+
+        <FluentDatePicker Style="width: 100%" Label="Start date" Width="100%" @bind-Value="Filter.FromDateTime" Placeholder="Aucune date" />
+
+        <FluentDatePicker Style="width: 100%" Label="End date" Width="100%" @bind-Value="Filter.ToDateTime" Placeholder="Aucune date" />
+
+        <FluentText Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" Weight="TextWeight.Bold">Exceptions</FluentText>
+
+        <FluentStack Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical3" VerticalAlignment="VerticalAlignment.Center">
+            <FluentText>Includes exceptions only</FluentText>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Filter.IncludeExceptionsOnly" />
+        </FluentStack>
+    </FluentStack>
+</FluentDialogBody>
