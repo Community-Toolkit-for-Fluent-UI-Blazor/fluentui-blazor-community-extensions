@@ -24,5 +24,7 @@ If you use plugins, it could be very useful to use the `PaletteMode.None` mode.
 
 ### Plugins
 
+The component can be extended with custom plugins to provide additional color generation strategies. You can create your own plugin by implementing the `IColorPlugin` interface and provide an instance to your implementation via the `Plugins` parameter. Make sure to set the `Mode` parameter to `ColorPaletteMode.None` to prevent the default palette from being generated.
+
 {{ ColorPalettePlugins }}
 
