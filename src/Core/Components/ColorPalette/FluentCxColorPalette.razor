@@ -48,7 +48,7 @@
         }
         else if (!string.IsNullOrEmpty(SelectedColor))
         {
-            <div class="preview-item" style="--preview-item-color: @SelectedColor">
+            <div class="preview-item" style="--preview-item-color: @SelectedColor; --preview-item-text-color: @(ColorUtils.IsDarkColor(SelectedColor) ? "var(--colorNeutralForeground1)" : "var(--colorNeutralBackground2)");">
                 <span>@SelectedColor</span>
             </div>
         }

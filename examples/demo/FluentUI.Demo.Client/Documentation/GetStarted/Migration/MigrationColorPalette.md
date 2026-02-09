@@ -10,6 +10,7 @@ The component has gone through some significant changes in v5.
 
 - The component now features all new properties from `Microsoft.FluentUI.AspNetCore.Components` v5
 - Localization support has been added to the component. You can now provide translations for all text in the component via the `IFluentLocalizer` interface.
+- The component now supports text colors based on the background color to ensure sufficient contrast.
 
 ### Removed features 💥
 
