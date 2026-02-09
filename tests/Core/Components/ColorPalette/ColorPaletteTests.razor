@@ -14,24 +14,24 @@
         Services.AddFluentCxUIComponents();
     }
 
-    //     [Fact]
-    //     public void ColorPalette_Default()
-    //     {
-    //         // Act
-    //         var cut = Render(@<div>
-    //     <FluentCxColorPalette ItemSize="32"
-    //                           MaxColors="12"
-    //                           Mode="@ColorPaletteMode.Gradient"
-    //                           BaseColor="#3B82F6"
-    //                           GradientSteps="12"
-    //                           MultiSelect="true"
-    //                           ShowPreview="true" />
-    // </div>
-    //         );
+    [Fact]
+    public void ColorPalette_Default()
+    {
+        // Act
+        var cut = Render(@<div>
+    <FluentCxColorPalette ItemSize="32"
+                          MaxColors="12"
+                          Mode="@ColorPaletteMode.Gradient"
+                          BaseColor="#3B82F6"
+                          GradientSteps="12"
+                          MultiSelect="true"
+                          ShowPreview="true" />
+</div>
+        );
 
-    //         // Assert
-    //         cut.Verify();
-    //     }
+        // Assert
+        cut.Verify();
+    }
 
     [Theory]
     [InlineData(ColorPaletteMode.Cool, "#0000FF", "#007FFF", "#00FFFF")]
@@ -47,9 +47,9 @@
                       BaseColor="#3B82F6"
                       GradientSteps="3"
                       MultiSelect="true"
-                      @ref="@reference"
+@ref="@reference"
                       ShowPreview="true" />
-    );
+        );
 
         // Assert
         Assert.Equal(expectedColors.Length, reference._colors.Count);
