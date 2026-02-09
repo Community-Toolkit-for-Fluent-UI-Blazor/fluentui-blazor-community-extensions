@@ -40,32 +40,6 @@ public static class ColorUtils
     }
 
     /// <summary>
-    /// Determines whether the specified string represents a valid hexadecimal color code  or a recognized CSS color
-    /// name.
-    /// </summary>
-    /// <remarks>A valid hexadecimal color code must start with a '#' character followed by 3 or 6 
-    /// hexadecimal digits. Recognized CSS color names are determined by the  <c>CssColorNamesUtils</c>
-    /// utility.</remarks>
-    /// <param name="value">The string to validate. This can be a hexadecimal color code  (e.g., "#FFFFFF") or a CSS color name (e.g.,
-    /// "red").</param>
-    /// <returns><see langword="true"/> if the string is a valid hexadecimal color code or a recognized  CSS color name;
-    /// otherwise, <see langword="false"/>.</returns>
-    public static bool IsValidHexOrCssName(string? value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            return false;
-        }
-
-        if (IsValidHex(value))
-        {
-            return true;
-        }
-
-        return CssColorNamesUtils.TryGetHex(value, out _);
-    }
-
-    /// <summary>
     /// Normalizes a color value to its hexadecimal representation.
     /// </summary>
     /// <remarks>This method trims whitespace from the input and attempts to interpret it as a valid
@@ -83,11 +57,6 @@ public static class ColorUtils
         }
 
         value = value.Trim();
-
-        if (CssColorNamesUtils.TryGetHex(value, out var hexFromName))
-        {
-            return NormalizeHex(hexFromName);
-        }
 
         if (IsValidHex(value))
         {
@@ -157,11 +126,6 @@ public static class ColorUtils
     /// <returns>A string representing the RGB values in the format "R,G,B", where R, G, and B are integers between 0 and 255.</returns>
     public static string HexToRgbString(string hex)
     {
-        if (CssColorNamesUtils.TryGetHex(hex, out var hexFromName))
-        {
-            hex = hexFromName!;
-        }
-
         var (r, g, b) = HexToRgb(hex);
 
         return $"{r},{g},{b}";
@@ -519,106 +483,62 @@ public static class ColorUtils
         switch (mode)
         {
             case ColorPaletteMode.Complementary:
-                {
-                    list.AddRange(GenerateGradient(baseHex, steps / 2, GradientStrategy.Shades, opts));
-                    list.AddRange(GenerateGradient(HslToHex(h + 180, s, l), steps - steps / 2, GradientStrategy.Shades, opts));
-                }
-
+                list.AddRange(GenerateGradient(baseHex, steps / 2, GradientStrategy.Shades, opts));
+                list.AddRange(GenerateGradient(HslToHex(h + 180, s, l), steps - steps / 2, GradientStrategy.Shades, opts));
                 break;
-
             case ColorPaletteMode.Analogous:
-                {
-                    list.AddRange(GenerateGradient(HslToHex(h - 30, s, l), steps / 3, GradientStrategy.Shades, opts));
-                    list.AddRange(GenerateGradient(baseHex, steps / 3, GradientStrategy.Shades, opts));
-                    list.AddRange(GenerateGradient(HslToHex(h + 30, s, l), steps - 2 * (steps / 3), GradientStrategy.Shades, opts));
-                }
-
+                list.AddRange(GenerateGradient(HslToHex(h - 30, s, l), steps / 3, GradientStrategy.Shades, opts));
+                list.AddRange(GenerateGradient(baseHex, steps / 3, GradientStrategy.Shades, opts));
+                list.AddRange(GenerateGradient(HslToHex(h + 30, s, l), steps - 2 * (steps / 3), GradientStrategy.Shades, opts));
                 break;
-
             case ColorPaletteMode.Triadic:
-                {
-                    list.AddRange(GenerateGradient(baseHex, steps / 3, GradientStrategy.Shades, opts));
-                    list.AddRange(GenerateGradient(HslToHex(h + 120, s, l), steps / 3, GradientStrategy.Shades, opts));
-                    list.AddRange(GenerateGradient(HslToHex(h + 240, s, l), steps - 2 * (steps / 3), GradientStrategy.Shades, opts));
-                }
-
+                list.AddRange(GenerateGradient(baseHex, steps / 3, GradientStrategy.Shades, opts));
+                list.AddRange(GenerateGradient(HslToHex(h + 120, s, l), steps / 3, GradientStrategy.Shades, opts));
+                list.AddRange(GenerateGradient(HslToHex(h + 240, s, l), steps - 2 * (steps / 3), GradientStrategy.Shades, opts));
                 break;
-
             case ColorPaletteMode.SplitComplementary:
-                {
-                    list.AddRange(GenerateGradient(baseHex, steps / 3, GradientStrategy.Shades, opts));
-                    list.AddRange(GenerateGradient(HslToHex(h + 150, s, l), steps / 3, GradientStrategy.Shades, opts));
-                    list.AddRange(GenerateGradient(HslToHex(h + 210, s, l), steps - 2 * (steps / 3), GradientStrategy.Shades, opts));
-                }
-
+                list.AddRange(GenerateGradient(baseHex, steps / 3, GradientStrategy.Shades, opts));
+                list.AddRange(GenerateGradient(HslToHex(h + 150, s, l), steps / 3, GradientStrategy.Shades, opts));
+                list.AddRange(GenerateGradient(HslToHex(h + 210, s, l), steps - 2 * (steps / 3), GradientStrategy.Shades, opts));
                 break;
-
             case ColorPaletteMode.Monochrome:
-                {
-                    list = GenerateGradient(baseHex, steps, GradientStrategy.Shades, opts);
-                }
-
+                list = GenerateGradient(baseHex, steps, GradientStrategy.Shades, opts);
                 break;
-
             case ColorPaletteMode.Warm:
-                {
-                    list = GenerateCustomGradient("#FF0000", "#FFD700", steps, opts);
-                }
-
+                list = GenerateCustomGradient("#FF0000", "#FFD700", steps, opts);
                 break;
-
             case ColorPaletteMode.Cool:
-                {
-                    list = GenerateCustomGradient("#0000FF", "#00FFFF", steps, opts);
-                }
-
+                list = GenerateCustomGradient("#0000FF", "#00FFFF", steps, opts);
                 break;
-
             case ColorPaletteMode.Pastel:
+                for (var i = 0; i < steps; i++)
                 {
-                    for (var i = 0; i < steps; i++)
-                    {
-                        var t = i / (double)(steps - 1);
-                        list.Add(HslToHex(h + t * 360, Clamp01(Lerp(0.35, 0.55, t)), Clamp01(Lerp(0.7, 0.9, t))));
-                    }
+                    var t = i / (double)(steps - 1);
+                    list.Add(HslToHex(h + t * 360, Clamp01(Lerp(0.35, 0.55, t)), Clamp01(Lerp(0.7, 0.9, t))));
                 }
 
                 break;
-
             case ColorPaletteMode.Neon:
+                for (var i = 0; i < steps; i++)
                 {
-                    for (var i = 0; i < steps; i++)
-                    {
-                        var t = i / (double)(steps - 1);
-                        list.Add(HslToHex(h + t * 360, 1.0, 0.5));
-                    }
+                    var t = i / (double)(steps - 1);
+                    list.Add(HslToHex(h + t * 360, 1.0, 0.5));
                 }
 
                 break;
-
             case ColorPaletteMode.Greyscale:
+                for (var i = 0; i < steps; i++)
                 {
-                    for (var i = 0; i < steps; i++)
-                    {
-                        var l2 = i / (double)(steps - 1);
-                        list.Add(HslToHex(0, 0, l2));
-                    }
+                    var l2 = i / (double)(steps - 1);
+                    list.Add(HslToHex(0, 0, l2));
                 }
 
                 break;
-
             case ColorPaletteMode.AccessibilitySafe:
-                {
-                    list = ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"];
-                }
-
+                list = ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"];
                 break;
-
             default:
-                {
-                    list = GenerateGradient(baseHex, steps, GradientStrategy.Shades, opts);
-                }
-
+                list = GenerateGradient(baseHex, steps, GradientStrategy.Shades, opts);
                 break;
         }
 

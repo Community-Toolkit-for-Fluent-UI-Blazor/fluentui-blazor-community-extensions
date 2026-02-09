@@ -16,7 +16,7 @@ public sealed class SplitComplementaryPlugin : IColorPlugin
     /// <inheritdoc />
     public List<string> Generate(string baseColor, int steps, GenerationOptions options)
     {
-        if (!ColorUtils.IsValidHexOrCssName(baseColor))
+        if (!ColorUtils.IsValidHex(baseColor))
         {
             throw new ArgumentException("Base color must be a valid hex color code.", nameof(baseColor));
         }
