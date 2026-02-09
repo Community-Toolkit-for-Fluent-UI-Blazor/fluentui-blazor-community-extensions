@@ -6,7 +6,7 @@
               AriaLabel="Plugins"
               Multiple="true"
               OptionText="@(i => i.Name)"
-              @bind-SelectedOptions="@selectedPlugins" />
+              @bind-SelectedItems="@selectedPlugins" />
 
 
 <FluentCxColorPalette ItemSize="32"
@@ -15,12 +15,6 @@
                       GradientSteps="48"
                       MaxColors="256"
                       ShowPreview="true" />
-
-<p>@selectedPlugins.Count()</p>
-@foreach (var item in selectedPlugins)
-{
-    <p>@item.Name</p>
-}
 
 @code {
     IEnumerable<IColorPlugin> selectedPlugins = [];
