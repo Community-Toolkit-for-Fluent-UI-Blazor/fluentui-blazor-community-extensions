@@ -120,4 +120,7 @@
   <data name="CX_ColorPalette_CustomGradient_Error" xml:space="preserve">
     <value>GradientStart and GradientEnd are required in CustomGradient mode.</value>
   </data>
+  <data name="CX_ColorPalette_NoColorGenerated" xml:space="preserve">
+    <value>No valid color was generated.</value>
+  </data>
 </root>

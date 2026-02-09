@@ -262,7 +262,7 @@ public partial class FluentCxColorPalette : FluentComponentBase
 
         if (generated.Count == 0)
         {
-            _errorMessage = Localizer[LanguageResource.CX_ColorPalette_CustomGradient_Error];
+            _errorMessage = Localizer[LanguageResource.CX_ColorPalette_NoColorGenerated];
             _colors = [];
             return;
         }

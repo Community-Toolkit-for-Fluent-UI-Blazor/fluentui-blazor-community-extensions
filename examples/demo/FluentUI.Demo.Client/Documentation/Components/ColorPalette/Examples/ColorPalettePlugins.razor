@@ -36,5 +36,10 @@
        new TriadicPlugin(),
        new WarmPlugin()
     };
+
+    protected override void OnInitialized()
+    {
+        selectedPlugins = [plugins.First()];
+    }
 }
 
