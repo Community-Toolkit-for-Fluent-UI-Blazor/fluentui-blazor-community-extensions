@@ -178,7 +178,7 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// Gets or sets a list of custom color plugins that can be used to generate additional color schemes.
     /// </summary>
     [Parameter]
-    public List<IColorPlugin> Plugins { get; set; } = [];
+    public IEnumerable<IColorPlugin> Plugins { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the maximum number of colors to generate in the palette. Default is 120.
@@ -240,7 +240,7 @@ public partial class FluentCxColorPalette : FluentComponentBase
             _ => ColorUtils.GenerateScheme(BaseColor, Mode, Math.Min(MaxColors, GradientSteps), GenerationOptions),
         };
 
-        if (Plugins is not null && Plugins.Count > 0)
+        if (Plugins is not null && Plugins.Any())
         {
             foreach (var gen in Plugins)
             {
