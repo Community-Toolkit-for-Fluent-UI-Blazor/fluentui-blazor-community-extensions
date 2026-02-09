@@ -1,0 +1,110 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentDialogBody>
+    <FluentStack Id=@Id Orientation="Orientation.Vertical">
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.TitleLabel</FluentText>
+                <FluentLabel>@Content?.Descriptive.Title</FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.AlbumArtistsLabel</FluentText>
+                <FluentLabel>
+                    @if (Content?.Descriptive.AlbumArtists is not null)
+                    {
+                        @string.Join(", ", Content.Descriptive.AlbumArtists)
+                    }
+                </FluentLabel>k
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.AlbumLabel</FluentText>
+                <FluentLabel>@Content?.Descriptive.Album</FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.AlbumArtistLabel</FluentText>
+                <FluentLabel>@Content?.Descriptive.Performers.FirstOrDefault()</FluentLabel>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.TrackNumberLabel</FluentText>
+                <FluentLabel>@Content?.Extended.TrackNumber</FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.DurationLabel</FluentText>
+                <FluentLabel>@Content?.Technical.Duration</FluentLabel>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.GenreLabel</FluentText>
+                <FluentLabel>
+                    @if (Content?.Descriptive.Genres is not null)
+                    {
+                        @string.Join(", ", Content.Descriptive.Genres)
+                    }
+                </FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.YearLabel</FluentText>
+                <FluentLabel>@Content?.Descriptive.Year</FluentLabel>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.BitrateLabel</FluentText>
+                <FluentLabel>@(Content?.Technical.AudioBitrate) Kbits/s</FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.MimeLabel</FluentText>
+                <FluentLabel>@Content?.Technical.FileType</FluentLabel>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary" Weight="TextWeight.Semibold">@Labels.PublisherLabel</FluentText>
+                <FluentLabel>@Content?.Legal.Publisher</FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentLabel>@Labels.CoverLabel</FluentLabel>
+
+                @if (!string.IsNullOrEmpty(Content?.Visual.CoverUrl))
+                {
+                    <div style="width: 120px; height: 120px; border-radius: 8px; background-color: white">
+                        <img width="120"
+                             height="120"
+                             src="@Content.Visual.CoverUrl"
+                             title="@Content.Descriptive.Title"
+                             aria-label="@Content.Descriptive.Title" />
+                    </div>
+                }
+            </FluentStack>
+        </FluentStack>
+    </FluentStack>
+</FluentDialogBody>

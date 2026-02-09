@@ -1,0 +1,130 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">@Labels.TitleLabel</FluentText>
+                <FluentLabel>@Content?.Descriptive.Title</FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">@Labels.SubtitlesLabel</FluentText>
+                <FluentLabel>
+                    @if (Content?.Extended.Subtitles is not null)
+                    {
+                        @string.Join(", ", Content.Extended.Subtitles)
+                    }
+                </FluentLabel>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">
+                    @Labels.DirectorsLabel
+                </FluentText>
+                <FluentLabel>
+                    @if (Content?.Descriptive.Directors is not null)
+                    {
+                        @string.Join(", ", Content.Descriptive.Directors)
+                    }
+                </FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">@Labels.DurationLabel</FluentText>
+                <FluentLabel>@Content?.Technical.Duration</FluentLabel>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">
+                    @Labels.GenreLabel
+                </FluentText>
+                <FluentLabel>
+                    @if (Content?.Descriptive.Genres is not null)
+                    {
+                        @string.Join(", ", Content.Descriptive.Genres)
+                    }
+                </FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">
+                    @Labels.YearLabel
+                </FluentText>
+                <FluentLabel>@Content?.Descriptive.Year</FluentLabel>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">
+                    @Labels.ResolutionLabel
+                </FluentText>
+                <FluentLabel>
+                    @if (Content?.Visual.Width.HasValue == true &&
+                                        Content?.Visual.Height.HasValue == true)
+                    {
+                        @($"{Content.Visual.Width} x {Content.Visual.Height}")
+                    }
+                    else
+                    {
+                        <em>n/a</em>
+                    }
+                </FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">
+                    @Labels.FramerateLabel
+                </FluentText>
+                <FluentLabel>@Content?.Technical.FrameRate</FluentLabel>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">
+                    @Labels.AudioChannelsLabel
+                </FluentText>
+                <FluentLabel>
+                    @if (Content?.Technical.AudioChannels is null)
+                    {
+                        <em>n/a</em>
+                    }
+                    else
+                    {
+                        @(Content?.Technical.AudioChannels)
+                    }
+                </FluentLabel>
+            </FluentStack>
+
+            <FluentSpacer Width="30" />
+
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">@Labels.MimeLabel</FluentText>
+                <FluentLabel>@Content?.Technical.FileType</FluentLabel>
+            </FluentStack>
+        </FluentStack>
+
+        <FluentStack Style="margin-bottom: 20px">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1">
+                <FluentText Color="Color.Primary">@Labels.PublisherLabel</FluentText>
+                <FluentLabel>@Content?.Legal.Publisher</FluentLabel>
+            </FluentStack>
+        </FluentStack>
+    </FluentStack>
+</FluentDialogBody>
+

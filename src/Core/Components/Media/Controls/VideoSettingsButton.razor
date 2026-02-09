@@ -1,0 +1,16 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentButton Appearance="ButtonAppearance.Subtle"
+              Id="@Id"
+              IconStart="@(Icon)"
+              Title="@Label"
+              aria-label="@Label"
+              Disabled="@IsDisabled"
+              OnClick="@(() => _isSettingsPopoverOpen = !_isSettingsPopoverOpen)" />
+
+<FluentPopover AnchorId="@Id"
+               Style="width: 180px"
+               @bind-Open="_isSettingsPopoverOpen">
+    @ChildContent
+</FluentPopover>

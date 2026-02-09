@@ -1,0 +1,6 @@
+.audio-playlist-item {
+  height: 70px;
+  margin-left: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+}
