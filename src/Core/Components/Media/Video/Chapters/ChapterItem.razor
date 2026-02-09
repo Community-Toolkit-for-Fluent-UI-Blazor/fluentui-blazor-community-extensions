@@ -1,0 +1,52 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using Microsoft.FluentUI.AspNetCore.Components.Utilities
+@inherits FluentComponentBase
+
+<div id="@Id"
+     class="chapter-item @Orientation.ToString().ToLower() @Class"
+     style="@Style"
+     @onclick="@(() => OnClickAsync())">
+    @if (Chapter is not null)
+    {
+        <FluentStack Orientation="@Orientation">
+            <div class="chapter-thumbnail">
+                @if (!string.IsNullOrEmpty(Chapter.Title) &&
+                     !string.IsNullOrEmpty(Chapter.ThumbnailUrl))
+                {
+                    <img src="@Chapter.ThumbnailUrl"
+                         alt="@Chapter.Title"
+                         title="@Chapter.Title"
+                         width="192"
+                         height="144" />
+                }
+            </div>
+
+
+            <FluentStack Style="@ChapterDetailsStyle" Orientation="Orientation.Vertical">
+                <div class="chapter-details">
+                    @if (!string.IsNullOrEmpty(Chapter.Title))
+                    {
+                        <FluentText Weight="TextWeight.Bold"
+                                    Color="Color.Primary"
+                                    Class="chapter-title">
+                            @Chapter.Title
+                        </FluentText>
+                    }
+                </div>
+
+                <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                             Style="height: 32px;">
+                    <div class="chapter-timestamp-label">
+                        <FluentLabel>@Chapter.StartTime.ToString(@"hh\:mm\:ss")</FluentLabel>
+                    </div>
+
+                    <FluentSpacer />
+
+                    <div class="chapter-timestamp-label">
+                        <FluentLabel>@Chapter.EndTime.ToString(@"hh\:mm\:ss")</FluentLabel>
+                    </div>
+                </FluentStack>
+            </FluentStack>
+        </FluentStack>
+    }
+</div>

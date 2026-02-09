@@ -48,7 +48,6 @@ else
 }
 
 app.UseHttpsRedirection();
-app.MapStaticAssets();
 
 app.UseAntiforgery();
 

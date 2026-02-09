@@ -1,0 +1,25 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     class="compact-video-player @(IsFloating ? "floating" : "") @Class"
+     style="@InternalStyle"
+     @onpointerenter=OnPointerEnter
+     @onpointerleave="OnPointerLeave">
+
+    <Video IsVisible IsCompact @ref=_videoReference />
+
+     <div class="compact-video-player-controls">
+         <FluentSpacer />
+         <PreviousButton IsDisabled=@IsPreviousDisabled OnPrevious="@OnPrevious" Label="@PreviousLabel" />
+         <FluentSpacer Width="30" />
+         <PlayOrPauseButton OnPlayChanged="@OnPlayPauseChanged" PlayLabel="@PlayLabel" PauseLabel="@PauseLabel" />
+         <FluentSpacer Width="30" />
+         <NextButton IsDisabled=@IsNextDisabled OnNext="@OnNext" Label="@NextLabel" />
+         <FluentSpacer />
+     </div>
+
+    <div class="compact-video-seek-bar">
+        <CompactSeekBar  CurrentTime="@CurrentTime" Duration="@Duration" />
+    </div>
+</div>
