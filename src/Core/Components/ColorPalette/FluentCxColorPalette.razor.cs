@@ -191,17 +191,6 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// </summary>
     private HashSet<string> SelectedColorsSet => new(SelectedColors, StringComparer.OrdinalIgnoreCase);
 
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (firstRender)
-        {
-            //await JSModule.ImportJavaScriptModuleAsync(JAVASCRIPT_FILE);
-        }
-    }
-
     /// <summary>
     /// Generates the color palette based on the current settings and parameters.
     /// </summary>

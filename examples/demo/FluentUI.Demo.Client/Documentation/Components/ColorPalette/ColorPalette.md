@@ -28,3 +28,11 @@ The component can be extended with custom plugins to provide additional color ge
 
 {{ ColorPalettePlugins }}
 
+## API ColorPalette
+
+{{ API Type=ColorPalette }}
+
+## Migrating to v5
+
+{{ INCLUDE File=MigrationColorPalette }}
+
