@@ -36,7 +36,7 @@ public partial class FluentCxColorPalette : FluentComponentBase
     /// <summary>
     /// Represents the list of colors currently generated and displayed in the palette.
     /// </summary>
-    private List<string> _colors = [];
+    internal List<string> _colors = [];
 
     /// <summary>
     /// Represents the index of the currently focused item.
