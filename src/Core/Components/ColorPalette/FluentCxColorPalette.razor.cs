@@ -109,6 +109,12 @@ public partial class FluentCxColorPalette : FluentComponentBase
     public string BaseColor { get; set; } = "#3B82F6";
 
     /// <summary>
+    /// Gets or sets if the tooltip should be displayed by using the TooltipService
+    /// </summary>
+    [Parameter]
+    public bool UseTooltipService { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets the strategy used for generating gradients. Default is <see cref="GradientStrategy.Shades"/>.
     /// </summary>
     [Parameter]

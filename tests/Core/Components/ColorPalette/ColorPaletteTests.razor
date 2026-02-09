@@ -1,0 +1,29 @@
+﻿@inherits FluentUITestContext
+@using Microsoft.FluentUI.AspNetCore.Components
+@code {
+    public ColorPaletteTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddFluentUIComponents();
+        Services.AddFluentCxUIComponents();
+    }
+
+    [Fact]
+    public void ColorPalette_Default()
+    {
+        // Act
+        var cut = Render(@<div>
+    <FluentCxColorPalette ItemSize="32"
+                          MaxColors="12"
+                          Mode="@ColorPaletteMode.Gradient"
+                          BaseColor="#3B82F6"
+                          GradientSteps="12"
+                          MultiSelect="true"
+                          ShowPreview="true" />
+</div>
+        );
+
+        // Assert
+        cut.Verify();
+    }
+}

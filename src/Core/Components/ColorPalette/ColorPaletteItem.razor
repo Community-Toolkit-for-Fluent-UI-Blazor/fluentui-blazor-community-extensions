@@ -16,7 +16,7 @@
     </svg>
 </button>
 
-<FluentTooltip @key=@($"tooltip-{Id}") Anchor="@Id">
+<FluentTooltip UseTooltipService="@UseTooltipService" @key=@($"tooltip-{Id}") Anchor="@Id">
     <FluentStack VerticalAlignment="VerticalAlignment.Center">
         <svg width="@Size" height="@Size" viewBox="0 0 @Size @Size" aria-hidden="true">
             <rect x="0" y="0" width="@Size" height="@Size" fill="@Color" />

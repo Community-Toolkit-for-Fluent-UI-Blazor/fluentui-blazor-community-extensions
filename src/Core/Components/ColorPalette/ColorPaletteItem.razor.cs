@@ -73,6 +73,12 @@ public partial class ColorPaletteItem : FluentComponentBase
     [Parameter]
     public EventCallback<ColorPaletteItem> OnReady { get; set; }
 
+    /// <summary>
+    /// Gets or sets if the tooltip should be displayed by using the TooltipService
+    /// </summary>
+    [Parameter]
+    public bool UseTooltipService { get; set; } = false;
+
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

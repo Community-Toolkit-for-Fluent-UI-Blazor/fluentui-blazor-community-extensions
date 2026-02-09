@@ -29,6 +29,7 @@
                           IsSelected="@isSelected"
                           IsAnimated=@isAnimated
                           OnClick="() => ToggleSelectAsync(currentColor, index)"
+                          UseTooltipService="@UseTooltipService"
                           OnReady="@(c => _buttonsRef[index] = c.Element)" />
     }
 
