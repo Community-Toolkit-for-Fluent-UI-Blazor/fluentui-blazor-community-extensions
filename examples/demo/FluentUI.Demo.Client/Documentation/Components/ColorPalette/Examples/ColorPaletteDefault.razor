@@ -1,9 +1,10 @@
 ﻿
+
 <FluentSelect Label="Harmony"
               @bind-Value="mode"
               Items="Enum.GetValues<ColorPaletteMode>()" />
 
-<FluentTextInput Label="Base color" @bind-Value="@baseColor" TextInputType="TextInputType.Color" Width="50px" />
+<FluentTextInput Label="Base color" @bind-Value="@baseColor" TextInputType="TextInputType.Color" Width="100px" />
 
 <FluentCxColorPalette ItemSize="32"
                       MaxColors="12"
