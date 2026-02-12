@@ -1,0 +1,95 @@
+﻿<p>
+    You can position the button using the <code>Position</code> property.
+</p>
+
+<FluentStack HorizontalGap="2">
+    <FluentSelect Items="@s_modes"
+                  @bind-Value=_mode
+                  Label="Mode" />
+
+    <FluentSelect Items="@s_positions"
+                  @bind-Value=_position
+                  Label="Position" />
+
+    @if (_mode == SleekDialMode.Linear)
+    {
+        <FluentSelect Items="@s_directions"
+                      @bind-Value=_direction
+                      Label="Direction" />
+
+        <FluentSlider @bind-Value=_gap
+                      @bind-Value:after="OnGap"
+                      Min="0"
+                      Max="30"
+                      Step="1"
+                      Label="Gap" />
+
+        <FluentSlider @bind-Value=_itemOffset
+                      @bind-Value:after="OnItemOffset"
+                      Min="0"
+                      Max="30"
+                      Step="1"
+                      Label="Item offset" />
+
+        <FluentSwitch @bind-Value="_restrictedArea"
+                      LabelPosition="LabelPosition.Above"
+                      Label="Restricted area" />
+    }
+    else if (_mode == SleekDialMode.Radial)
+    {
+    }
+</FluentStack>
+
+
+<div style="height: 400px; position: relative;">
+    <FluentCxSleekDial Position="@_position"
+                       Direction="@_direction"
+                       LinearSettings="@_linearSettings"
+                       RadialSettings="@_radialSettings"
+                       Mode="@_mode"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())"
+                       RestrictedArea="@_restrictedArea">
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+        <SleekDialItem Title="Delete" Icon="@(new Icons.Regular.Size24.Delete())" />
+    </FluentCxSleekDial>
+</div>
+
+    @code {
+    private FloatingPosition _position = FloatingPosition.BottomRight;
+    private static readonly FloatingPosition[] s_positions = Enum.GetValues<FloatingPosition>();
+
+    private SleekDialLinearDirection _direction = SleekDialLinearDirection.Default;
+    private static readonly SleekDialLinearDirection[] s_directions = Enum.GetValues<SleekDialLinearDirection>();
+
+    private SleekDialMode _mode = SleekDialMode.Linear;
+    private static readonly SleekDialMode[] s_modes = Enum.GetValues<SleekDialMode>();
+    private int _gap = 9;
+    private int _itemOffset = 10;
+
+    private SleekDialLinearSettings _linearSettings = new()
+    {
+        ItemOffset = "9px",
+        Gap = "10px"
+    };
+
+    private SleekDialRadialSettings _radialSettings = new()
+    {
+        Offset = "120px",
+        Direction = SleekDialRadialDirection.Clockwise
+    };
+
+    private bool _restrictedArea = false;
+
+    private void OnGap()
+    {
+        _linearSettings.Gap = $"{_gap}px";
+    }
+
+    private void OnItemOffset()
+    {
+        _linearSettings.ItemOffset = $"{_itemOffset}px";
+    }
+}

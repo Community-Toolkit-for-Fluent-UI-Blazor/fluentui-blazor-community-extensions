@@ -1,0 +1,21 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Parent is not null && Layouts.Count > 0)
+{
+    <div id="@Id" class="sleekdial-view-container">
+        @for (int i = 0; i < Parent.InternalItems.Count; i++)
+        {
+            var item = Parent.InternalItems[i];
+            var layoutItem = Layouts[i];
+
+            <SleekDialItemView Item="@item"
+                               Layout="@layoutItem"
+                               IsFocused="@(i == Parent.FocusedIndex)"
+                               IsActive="@(Parent.IsOpen)"
+                               Index="@i" />
+        }
+    </div>
+
+    <FluentKeyCode Anchor="@Id" OnKeyDown="@OnKeyDownHandlerAsync" />
+}
