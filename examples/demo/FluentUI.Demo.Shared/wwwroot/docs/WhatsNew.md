@@ -1,3 +1,16 @@
+## V1.1.0
+
+### New components
+* \[Video\] Add `FluentCxVideo` component ([#101](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/101))
+* \[Picture\] Add `FluentCxPicture` component ([#88](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/88))
+* \[Audio\] Add `FluentCxAudio` component ([#91](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/91))
+
+### Components
+* \[SlideShow\] Enhance the slideshow to have floating caption or fixed caption.([#98](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/98))
+* \[SlideShow\] Adds a new aspect ratio ([#102](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/102))
+* \[TileGrid\] Enhance the tilegrid ([#106](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/106))
+* \[Observers\] Fix javascript import ([#108](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/108))
+
 ## V1.0.0
 
 ### New components
@@ -6,7 +19,7 @@
 * \[ColorPalette\] Add FluentCxColorPalette component ([#87](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/87))
 * \[Animation\] Adds FluentCxAnimation to provide some animation for UI elements ([#74](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/89))
 
-## Components
+### Components
 * \[PathBar\] Enhance path bar ([#74](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/74))
 * \[SlideShow\] Correct issue with dispose slideshow ([#82](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/82))
 * \[TileGrid\] Fix the issue where the tilegrid cannot be reordered anymore ([#90](https://github.com/Community-Toolkit-for-Fluent-UI-Blazor/fluentui-blazor-community-extensions/pull/90))
