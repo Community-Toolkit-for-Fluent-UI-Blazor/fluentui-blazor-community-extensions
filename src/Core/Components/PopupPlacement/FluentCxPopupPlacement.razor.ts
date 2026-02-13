@@ -344,7 +344,7 @@ export namespace FluentUI.Blazor.Community.PopupPlacement {
     return PopupPlacement.BottomCenter;
   }
 
-  function computeRadialPosition(
+  /*function computeRadialPosition(
     anchor: Rect,
     popupWidth: number,
     popupHeight: number
@@ -357,7 +357,21 @@ export namespace FluentUI.Blazor.Community.PopupPlacement {
       x: Math.round(centerX - popupWidth / 2),
       y: Math.round(centerY - popupHeight / 2)
     };
+  }*/
+
+  function computeRadialPosition(
+    anchor: Rect
+  ): Point {
+
+    const centerX = anchor.x + anchor.width / 2;
+    const centerY = anchor.y + anchor.height / 2;
+
+    return {
+      x: Math.round(centerX),
+      y: Math.round(centerY)
+    };
   }
+
 
   function getOppositePlacement(p: PopupPlacement): PopupPlacement {
     switch (p) {
@@ -559,7 +573,7 @@ export namespace FluentUI.Blazor.Community.PopupPlacement {
     const boundary = instance.boundaryRect ?? undefined;
 
     if (instance.isRadial) {
-      const pos = computeRadialPosition(anchor, w, h);
+      const pos = computeRadialPosition(anchor);
 
       return {
         position: pos,

@@ -114,12 +114,14 @@ public partial class FluentCxPopupPlacement : FluentComponentBase
     /// Gets or sets an event callback that is invoked when the open state of the popup changes,
     ///  allowing parent components to respond to visibility changes and update their state accordingly.
     /// </summary>
-    [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the popup.
     /// </summary>
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
     /// Gets or sets the animation style to be applied when the popup is shown or hidden.
@@ -136,7 +138,8 @@ public partial class FluentCxPopupPlacement : FluentComponentBase
     /// <summary>
     /// Gets or sets a custom CSS class to be applied for animation when the <see cref="Animation"/> property is set to <see cref="PopupAnimation.Custom"/>.
     /// </summary>
-    [Parameter] public string? CustomAnimationClass { get; set; }
+    [Parameter]
+    public string? CustomAnimationClass { get; set; }
 
     /// <summary>
     /// Gets or sets an event callback that is invoked when the position of the popup is updated, providing the new placement result to allow parent components to react to changes in the popup's position and adjust their state or layout accordingly.
@@ -241,18 +244,61 @@ public partial class FluentCxPopupPlacement : FluentComponentBase
             .AddClass(DirectionClass, !string.IsNullOrEmpty(DirectionClass))
         .Build();
 
+    private double AnchorX => AnchorLogicalPosition switch
+    {
+        AnchorLogicalPosition.TopLeft => 0,
+        AnchorLogicalPosition.TopCenter => Width / 2.0,
+        AnchorLogicalPosition.TopRight => Width,
+        AnchorLogicalPosition.MiddleLeft => 0,
+        AnchorLogicalPosition.MiddleCenter => Width / 2.0,
+        AnchorLogicalPosition.MiddleRight => Width,
+        AnchorLogicalPosition.BottomLeft => 0,
+        AnchorLogicalPosition.BottomCenter => Width / 2.0,
+        AnchorLogicalPosition.BottomRight => Width,
+        _ => Width / 2.0
+    };
+
+    private double AnchorY => AnchorLogicalPosition switch
+    {
+        AnchorLogicalPosition.TopLeft => 0,
+        AnchorLogicalPosition.TopCenter => 0,
+        AnchorLogicalPosition.TopRight => 0,
+        AnchorLogicalPosition.MiddleLeft => Height / 2.0,
+        AnchorLogicalPosition.MiddleCenter => Height / 2.0,
+        AnchorLogicalPosition.MiddleRight => Height / 2.0,
+        AnchorLogicalPosition.BottomLeft => Height,
+        AnchorLogicalPosition.BottomCenter => Height,
+        AnchorLogicalPosition.BottomRight => Height,
+        _ => Height / 2.0
+    };
+
     /// <summary>
     /// Gets the computed inline CSS style string representing the element's position and size.
     /// </summary>
     /// <remarks>The returned style includes the 'left' and 'top' positions, and conditionally includes
     /// 'width' and 'height' if their values are greater than zero. The values are formatted using invariant culture to
     /// ensure consistent number formatting.</remarks>
-    private string? InternalStyle => DefaultStyleBuilder
-            .AddStyle("left", $"{_left.ToString(CultureInfo.InvariantCulture)}px")
-            .AddStyle("top", $"{_top.ToString(CultureInfo.InvariantCulture)}px")
-            .AddStyle("width", $"{Width.ToString(CultureInfo.InvariantCulture)}px", Width > 0)
-            .AddStyle("height", $"{Height.ToString(CultureInfo.InvariantCulture)}px", Height > 0)
-            .Build();
+    private string? InternalStyle
+    {
+        get
+        {
+            var left = _left;
+            var top = _top;
+
+            if (IsRadial)
+            {
+                left = (int)Math.Round(_left - AnchorX);
+                top = (int)Math.Round(_top - AnchorY);
+            }
+
+            return DefaultStyleBuilder
+                .AddStyle("left", $"{left.ToString(CultureInfo.InvariantCulture)}px")
+                .AddStyle("top", $"{top.ToString(CultureInfo.InvariantCulture)}px")
+                .AddStyle("width", $"{Width.ToString(CultureInfo.InvariantCulture)}px", Width > 0)
+                .AddStyle("height", $"{Height.ToString(CultureInfo.InvariantCulture)}px", Height > 0)
+                .Build();
+        }
+    }
 
     /// <summary>
     /// Updates the position of the element by setting its left and top coordinates in pixels.

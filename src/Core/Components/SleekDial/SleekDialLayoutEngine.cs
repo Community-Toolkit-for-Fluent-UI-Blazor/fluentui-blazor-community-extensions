@@ -1,9 +1,14 @@
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Provides static methods for calculating and configuring the layout of items within a sleek dial control, supporting
-/// both linear and radial arrangements with customizable spacing, visibility, and animation settings.
+/// Provides layout calculation logic for arranging items in a SleekDial component using linear, radial, or spiral
+/// patterns.
 /// </summary>
+/// <remarks>This internal engine supports multiple layout modes and applies animation and positioning settings to
+/// generate item layouts for the SleekDial UI component. It is not intended to be used directly by consumers of the
+/// public API. Layout calculations consider item size, container dimensions, animation settings, and the floating
+/// position of the dial. The engine ensures that items are positioned and animated according to the specified
+/// configuration, supporting both static and animated presentations.</remarks>
 internal class SleekDialLayoutEngine
 {
     /// <summary>
@@ -35,10 +40,10 @@ internal class SleekDialLayoutEngine
     }
 
     /// <summary>
-    /// Determines the linear direction for a dial based on the specified floating position.
+    /// Determines the linear direction for the dial based on the specified floating position.
     /// </summary>
-    /// <param name="position">The floating position for which to determine the corresponding dial direction.</param>
-    /// <returns>A value of type SleekDialLinearDirection that represents the direction associated with the given floating
+    /// <param name="position">The floating position for which to determine the dial direction.</param>
+    /// <returns>A value of type SleekDialLinearDirection that represents the direction corresponding to the given floating
     /// position.</returns>
     private static SleekDialLinearDirection GetDirection(FloatingPosition position)
     {
@@ -49,7 +54,6 @@ internal class SleekDialLayoutEngine
             FloatingPosition.MiddleCenter => SleekDialLinearDirection.Up,
             FloatingPosition.MiddleRight => SleekDialLinearDirection.Left,
             FloatingPosition.BottomLeft or FloatingPosition.BottomCenter or FloatingPosition.BottomRight => SleekDialLinearDirection.Up,
-
             _ => SleekDialLinearDirection.Up
         };
     }
@@ -150,114 +154,124 @@ internal class SleekDialLayoutEngine
     }
 
     /// <summary>
-    /// Calculates the layout for a set of items arranged radially around a center point, based on the specified
-    /// settings and position.
+    /// Normalizes an angle to the range of 0 to 360 degrees.
     /// </summary>
-    /// <remarks>The method supports both full-circle and partial-arc arrangements, and accounts for clockwise
-    /// or counterclockwise direction as specified in the settings. The returned layout ensures items are evenly
-    /// distributed along the defined arc.</remarks>
-    /// <param name="itemCount">The number of items to arrange in the radial layout. Must be zero or greater.</param>
-    /// <param name="itemSize">The size, in pixels, of each item to be positioned in the layout.</param>
-    /// <param name="settings">The radial layout settings that define angles, direction, and offset for item arrangement.</param>
+    /// <param name="value">Value to normalize.</param>
+    /// <returns>Returns the normalized angle.</returns>
+    private static double Norm(double value) => (value % 360 + 360) % 360;
+
+    /// <summary>
+    /// Calculates the bounding box dimensions and center coordinates for a radial layout based on the specified floating position.
+    /// </summary>
+    /// <param name="position">The position of the FAB.</param>
+    /// <param name="radius">Radius of the circle.</param>
+    /// <param name="itemSize">Size of the items to be arranged in the radial layout.</param>
+    /// <returns></returns>
+    private static (int Width, int Height, double Cx, double Cy) GetRadialBoundingBox(
+        FloatingPosition position,
+        int radius,
+        int itemSize)
+    {
+        var outer = radius + itemSize / 2.0;
+        var full = (int)Math.Ceiling(2 * outer);
+        var half = (int)Math.Ceiling(outer);
+
+        return position switch
+        {
+            FloatingPosition.TopLeft => (half, half, 0, 0),
+            FloatingPosition.TopRight => (half, half, half, 0),
+            FloatingPosition.BottomLeft => (half, half, 0, half),
+            FloatingPosition.BottomRight => (half, half, half, half),
+            FloatingPosition.TopCenter => (full, half, outer, 0),
+            FloatingPosition.BottomCenter => (full, half, outer, half),
+            FloatingPosition.MiddleLeft => (half, full, 0, outer),
+            FloatingPosition.MiddleRight => (half, full, half, outer),
+            FloatingPosition.MiddleCenter => (full, full, outer, outer),
+            _ => (full, full, outer, outer)
+        };
+    }
+
+    /// <summary>
+    /// Calculates the layout for a set of items arranged in a radial or spiral pattern based on the specified settings
+    /// and position.
+    /// </summary>
+    /// <remarks>The method supports various spiral modes and directions, allowing for flexible arrangement of
+    /// items in circular or spiral patterns. The resulting layout ensures that all items are positioned according to
+    /// the specified angles and spacing. The popup dimensions are calculated to encompass the maximum radius used by
+    /// any item.</remarks>
+    /// <param name="itemCount">The number of items to arrange in the radial layout. Must be greater than zero.</param>
+    /// <param name="itemSize">The size, in pixels, of each item to be positioned within the layout.</param>
+    /// <param name="settings">The radial layout settings that define angles, spiral mode, direction, and other layout parameters.</param>
     /// <param name="position">The reference position that determines the default start and end angles for the layout.</param>
-    /// <returns>A <see cref="SleekDialLayoutResult" /> containing the calculated positions and dimensions for the radial layout.</returns>
+    /// <returns>A SleekDialLayoutResult containing the calculated positions and dimensions for all items in the radial layout.</returns>
     private static SleekDialLayoutResult ComputeRadialLayout(
         int itemCount,
         int itemSize,
         SleekDialRadialSettings settings,
         FloatingPosition position)
     {
-        var list = new List<SleekDialItemLayout>(itemCount);
-
         var (defaultStart, defaultEnd) = GetDefaultAngles(position);
         var start = settings.StartAngle >= 0 ? settings.StartAngle : defaultStart;
         var end = settings.EndAngle >= 0 ? settings.EndAngle : defaultEnd;
+
         var radius = ParseOffset(settings.Offset);
+        var innerRadius = radius;
 
         start = Norm(start);
         end = Norm(end);
 
-        double sweep;
+        var sweep = settings.Direction == SleekDialRadialDirection.Clockwise
+            ? (end - start + 360) % 360
+            : (start - end + 360) % 360;
 
-        if (settings.Direction == SleekDialRadialDirection.Clockwise)
-        {
-            sweep = (end - start + 360) % 360;
-        }
-        else
-        {
-            sweep = (start - end + 360) % 360;
-        }
-
-        var isFullCircle = Math.Abs(sweep) < 0.0001 || Math.Abs(sweep - 360) < 0.0001;
-
-        if (isFullCircle)
+        if (Math.Abs(sweep) < 0.001 || Math.Abs(sweep - 360) < 0.001)
         {
             sweep = 360;
         }
 
-        double step = 0;
+        var angleStep = sweep / (itemCount > 1 ? itemCount - 1 : 1);
 
-        if (itemCount > 0)
-        {
-            if (isFullCircle)
-            {
-                step = sweep / itemCount;
-            }
-            else
-            {
-                step = itemCount > 1 ? sweep / (itemCount - 1) : 0;
-            }
-        }
+        var (popupWidth, popupHeight, cx, cy) = GetRadialBoundingBox(position, radius, itemSize);
+
+        var list = new List<SleekDialItemLayout>(itemCount);
 
         for (var i = 0; i < itemCount; i++)
         {
-            double angle;
-
-            if (settings.Direction == SleekDialRadialDirection.Clockwise)
-            {
-                angle = isFullCircle
-                    ? start + i * step
-                    : start + i * step;
-            }
-            else
-            {
-                angle = isFullCircle
-                    ? end - i * step
-                    : end - i * step;
-            }
+            var angle = settings.Direction == SleekDialRadialDirection.Clockwise
+                ? start + i * angleStep
+                : start - i * angleStep;
 
             angle = Norm(angle);
-            var rad = angle * Math.PI / 180.0;
 
-            var layout = new SleekDialItemLayout
+            var rad = angle * Math.PI / 180.0;
+            var px = cx + Math.Cos(rad) * innerRadius;
+            var py = cy + Math.Sin(rad) * innerRadius;
+
+            list.Add(new SleekDialItemLayout
             {
                 Angle = angle,
-                Radius = radius,
-                X = Math.Floor(radius + Math.Cos(rad) * radius - itemSize / 2),
-                Y = Math.Floor(radius + Math.Sin(rad) * radius - itemSize / 2)
-            };
-
-            list.Add(layout);
+                Radius = innerRadius,
+                X = Math.Round(px - itemSize / 2.0),
+                Y = Math.Round(py - itemSize / 2.0)
+            });
         }
 
-        return new()
+        return new SleekDialLayoutResult
         {
             Layouts = list,
-            PopupWidth = radius * 2,
-            PopupHeight = radius * 2
+            PopupWidth = popupWidth,
+            PopupHeight = popupHeight
         };
-
-        static double Norm(double a) => (a % 360 + 360) % 360;
     }
 
     /// <summary>
-    /// Parses a CSS-like offset string and returns its value as an integer number of pixels.
+    /// Parses a CSS-like offset string and returns its value in pixels as an integer.
     /// </summary>
-    /// <remarks>Supported units include 'px', 'rem', 'em', 'cm', 'mm', 'in', 'pt', 'pc', and '%'. The
-    /// conversion uses standard CSS unit-to-pixel ratios (e.g., 1rem = 16px, 1in = 96px). If the unit is unrecognized
-    /// or omitted, the numeric value is interpreted as pixels.</remarks>
-    /// <param name="offset">A string representing the offset, which may include a numeric value and an optional unit such as 'px', 'rem',
-    /// 'em', 'cm', 'mm', 'in', 'pt', 'pc', or '%'. If the unit is omitted, pixels are assumed.</param>
+    /// <remarks>Supported units include px, rem, em, cm, mm, in, pt, pc, and %. If no unit is specified, the
+    /// value is interpreted as pixels. For rem and em, a base of 16 pixels is used. For unrecognized units or invalid
+    /// input, the method returns 0.</remarks>
+    /// <param name="offset">A string representing the offset, which may include a numeric value and an optional unit (such as px, rem, em,
+    /// cm, mm, in, pt, pc, or %).</param>
     /// <returns>The offset value converted to pixels as an integer. Returns 0 if the input is null, empty, or cannot be parsed.</returns>
     private static int ParseOffset(string offset)
     {
@@ -267,7 +281,6 @@ internal class SleekDialLayoutEngine
         }
 
         offset = offset.Trim().ToLowerInvariant();
-
         var numberPart = new string([.. offset.TakeWhile(c => char.IsDigit(c) || c == '.' || c == '-')]);
 
         if (!double.TryParse(numberPart, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var value))
@@ -299,13 +312,11 @@ internal class SleekDialLayoutEngine
     /// Applies a staggered animation delay to each item in the specified layout based on the provided animation
     /// settings.
     /// </summary>
-    /// <remarks>If the stagger option in the animation settings is disabled, no changes are made to the
-    /// layout items. When enabled, each item's animation delay is incremented by 40 milliseconds times its index in the
-    /// list, starting from the base delay.</remarks>
-    /// <param name="layout">The list of layout items to which staggered animation delays will be applied. Each item's animation delay is
-    /// updated if staggering is enabled.</param>
-    /// <param name="anim">The animation settings that determine whether staggering is applied and specify the base delay for the
-    /// animation.</param>
+    /// <remarks>Staggering is only applied if the <paramref name="anim"/> parameter has its Stagger property
+    /// set to <see langword="true"/>. Each item's animation delay is incremented by 40 milliseconds per item
+    /// index.</remarks>
+    /// <param name="layout">The list of layout items to which staggered animation delays will be applied. Cannot be null.</param>
+    /// <param name="anim">The animation settings that determine whether staggering is enabled and specify the base delay. Cannot be null.</param>
     private static void ApplyStagger(List<SleekDialItemLayout> layout, SleekDialAnimationSettings anim)
     {
         if (!anim.Stagger)
@@ -343,17 +354,17 @@ internal class SleekDialLayoutEngine
     /// Applies the specified animation settings to each item in the provided layout, configuring their initial and
     /// final visual states based on the animation type and dial mode.
     /// </summary>
-    /// <remarks>This method updates the transformation and opacity properties of each layout item to reflect
-    /// the chosen animation. The resulting visual transitions depend on both the animation type and the current dial
-    /// mode.</remarks>
+    /// <remarks>This method updates the properties of each layout item to reflect the desired animation
+    /// effect, including transforms, opacity, and transition timing. The behavior of some animations depends on the
+    /// current dial mode and direction.</remarks>
     /// <param name="layout">The collection of layout items to which the animation settings will be applied. Each item's visual state is
     /// updated according to the animation parameters.</param>
-    /// <param name="anim">The animation settings that define the type, duration, easing, and other properties to use when animating the
-    /// layout items.</param>
-    /// <param name="mode">The dial mode that determines how certain animations, such as slide or radial effects, are applied to the layout
-    /// items.</param>
-    /// <param name="linearDirection">The direction to use for linear animations, specifying the axis and orientation for slide effects when the dial
-    /// is in linear mode.</param>
+    /// <param name="anim">The animation settings that define the type, duration, easing, and other parameters for the animation to be
+    /// applied.</param>
+    /// <param name="mode">The dial mode that determines how certain animations, such as slide or radial effects, are interpreted and
+    /// applied to the layout items.</param>
+    /// <param name="linearDirection">The direction used for linear animations, specifying the orientation of slide effects when the dial is in linear
+    /// mode.</param>
     private static void ApplyAnimation(
         List<SleekDialItemLayout> layout,
         SleekDialAnimationSettings anim,
@@ -424,7 +435,6 @@ internal class SleekDialLayoutEngine
             item.FinalTransform = string.Join(" ", finalTransforms);
 
             var easing = ToCssEasing(anim.Easing);
-
             item.Transition = $"all {anim.Duration.TotalMilliseconds}ms {easing} {item.AnimationDelay.TotalMilliseconds}ms";
         }
     }

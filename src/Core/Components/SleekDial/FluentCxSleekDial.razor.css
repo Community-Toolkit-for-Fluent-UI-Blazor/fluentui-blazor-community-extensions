@@ -1,8 +1,8 @@
 .sleekdial-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 997;
+  z-index: 996;
   opacity: 0;
   pointer-events: none;
   transition: opacity 200ms ease-out;
@@ -11,6 +11,10 @@
 .sleekdial-overlay-active {
   opacity: 1;
   pointer-events: auto;
+}
+
+.sleekdial-overlay-fullscreen {
+  position: fixed;
 }
 
 .sleekdial-container {

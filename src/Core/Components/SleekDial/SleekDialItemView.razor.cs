@@ -25,14 +25,6 @@ public partial class SleekDialItemView(LibraryConfiguration configuration)
     public bool IsFocused { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent FluentCxSleekDial component associated with this instance.
-    /// </summary>
-    /// <remarks>This property is used to establish a cascading relationship between components, allowing
-    /// child components to access parameters from their parent components.</remarks>
-    [CascadingParameter]
-    private FluentCxSleekDial? Parent { get; set; }
-
-    /// <summary>
     /// Gets or sets the item associated with the sleek dial.
     /// </summary>
     /// <remarks>This property can be null, indicating that no item is currently set. Ensure to check for null
@@ -126,7 +118,6 @@ public partial class SleekDialItemView(LibraryConfiguration configuration)
     {
         if (Item is not null)
         {
-            Parent!.FocusedIndex = Index;
             await Item.OnClickAsync();
         }
     }

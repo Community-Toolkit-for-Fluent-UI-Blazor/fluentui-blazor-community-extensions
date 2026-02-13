@@ -33,6 +33,7 @@ public class SleekDialLayoutEngineTests
         Assert.Equal(58, GetPopupHeight(result));
         Assert.Equal(0, layouts[0].X);
         Assert.Equal(0, layouts[0].Y);
+        Assert.Equal(22, layouts[1].Y);
     }
 
     [Fact]
@@ -55,10 +56,43 @@ public class SleekDialLayoutEngineTests
         var layouts = GetLayouts(result);
 
         Assert.Equal(3, layouts.Count);
-        Assert.Equal(220, GetPopupWidth(result));
-        Assert.Equal(220, GetPopupHeight(result));
+        Assert.Equal(115, GetPopupWidth(result));
+        Assert.Equal(115, GetPopupHeight(result));
         Assert.Equal(0, layouts[0].Angle);
         Assert.Equal(90, layouts[2].Angle);
+        Assert.Equal(105, layouts[0].X);
+        Assert.Equal(-5, layouts[0].Y);
+    }
+
+    [Fact]
+    public void ComputeLayout_AppliesStaggerAndFadeAnimation()
+    {
+        var result = InvokeComputeLayout(
+            new List<SleekDialItem> { null!, null! },
+            itemSize: 10,
+            mode: SleekDialMode.Linear,
+            linearSettings: new SleekDialLinearSettings(),
+            linearDirection: SleekDialLinearDirection.Default,
+            radialSettings: new SleekDialRadialSettings(),
+            animation: new SleekDialAnimationSettings
+            {
+                Animation = SleekDialAnimationType.Fade,
+                Delay = TimeSpan.FromMilliseconds(100),
+                Stagger = true
+            },
+            position: FloatingPosition.TopLeft,
+            width: 0,
+            height: 0,
+            fabWidth: 0,
+            fabHeight: 0);
+
+        var layouts = GetLayouts(result);
+
+        Assert.Equal(TimeSpan.FromMilliseconds(100), layouts[0].AnimationDelay);
+        Assert.Equal(TimeSpan.FromMilliseconds(140), layouts[1].AnimationDelay);
+        Assert.Equal(0, layouts[0].InitialOpacity);
+        Assert.Equal(1, layouts[0].FinalOpacity);
+        Assert.Contains("ease-out", layouts[0].Transition, StringComparison.OrdinalIgnoreCase);
     }
 
     private static object InvokeComputeLayout(
