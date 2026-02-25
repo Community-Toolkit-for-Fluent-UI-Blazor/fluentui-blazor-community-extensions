@@ -1,0 +1,60 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using System.Globalization
+@inherits FluentComponentBase
+@typeparam TItem
+
+<div id="@Id"
+     class="scheduler-container @Class"
+     style="@InternalStyle"
+     @ref="Element">
+    @if (ChildContent != null)
+    {
+        @ChildContent
+    }
+
+    @if (Parent!.View != SchedulerView.Agenda &&
+         Parent!.View != SchedulerView.Year &&
+         _layout is not null)
+    {
+        @if (_layout.Overlay.Width > 0 &&
+             _layout.Overlay.Height > 0)
+        {
+            var overlay = _layout.Overlay;
+
+            <div class="scheduler-items-overlay @(_isDragging ? "active" : "inactive")"
+                 @ondragover:preventDefault="true"
+                 @ondrop="OnDropAsync"
+                 style="@($"left:{overlay.Left.ToString(CultureInfo.InvariantCulture)}px; top:{overlay.Top.ToString(CultureInfo.InvariantCulture)}px; width:{overlay.Width.ToString(CultureInfo.InvariantCulture)}px; height:{overlay.Height.ToString(CultureInfo.InvariantCulture)}px;")">
+
+                 @foreach (var item in Items)
+                {
+                    var maps = _mapper?.Map(SlotsArray, item, new ElementDimensions(overlay.Width, overlay.Height), Parent!.GetDate());
+
+                    @if (maps is null || !maps.Any())
+                    {
+                        continue;
+                    }
+
+                    foreach (var map in maps)
+                    {
+                        <SchedulerItemView TItem="TItem"
+                                           Item="@item"
+                                           ItemTemplate="@ItemTemplate"
+                                           Position="@map.Rect"
+                                           OnDoubleClick="@(t => OnDoubleClickItemAsync(t.Item1, t.Item2))"
+                                           OnDragStarted="@((e) => OnDragStartAsync(e, item, map.Rect))"
+                                           OnDragEnded="@OnDragEndedAsync"
+                                           OnResizeEnded="@OnResizeEndedAsync"
+                                           IsResizing="@_isResizing"
+                                           OnResizeStarted="@OnResizeStartedAsync"
+                                           ShowBottomAnchor="@map.ShowBottomAnchor"
+                                           ShowLeftAnchor="@map.ShowLeftAnchor"
+                                           ShowRightAnchor="@map.ShowRightAnchor"
+                                           ShowTopAnchor="@map.ShowTopAnchor" />
+                    }
+                }
+            </div>
+        }
+    }
+</div>
+

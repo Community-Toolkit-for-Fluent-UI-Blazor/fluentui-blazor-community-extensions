@@ -1,0 +1,41 @@
+.scheduler-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #222;
+}
+
+.scheduler-items-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+}
+
+.scheduler-items-overlay.active{
+    pointer-events: auto;
+}
+
+.scheduler-items-overlay.inactive {
+  pointer-events: none;
+}
+
+  .scheduler-hidden {
+    display: none !important;
+  }
+
+  .scheduler-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .scheduler-drag-placeholder {
+    position: absolute;
+    background: rgba(0,120,212,0.06);
+    border: 1px dashed rgba(0,120,212,0.22);
+    border-radius: 6px;
+    pointer-events: none;
+    z-index: 20;
+  }

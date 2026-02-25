@@ -1,0 +1,65 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using System.Globalization
+@inherits FluentComponentBase
+@typeparam TItem
+
+<div class="scheduler-item"
+     id="@Id"
+     style="@($"position:absolute; left:{Math.Round(Position.Left, 2).ToString(CultureInfo.InvariantCulture)}px; top:{Math.Round(Position.Top, 2).ToString(CultureInfo.InvariantCulture)}px; width:{Math.Round(Position.Width, 2).ToString(CultureInfo.InvariantCulture)}px; height:{Math.Round(Position.Height, 2).ToString(CultureInfo.InvariantCulture)}px; pointer-events:auto;")"
+     @ondblclick="@(OnDoubleClickAsync)"
+     draggable="@(IsResizing ? "false" : "true")"
+     @ondragstart="@(OnDragStartAsync)"
+     @ondragend="@(OnDragEndedAsync)"
+     data-itemid="@Item.Id">
+    <FluentStack>
+        @if (ItemTemplate != null)
+        {
+            @ItemTemplate(Item)
+        }
+        else
+        {
+            <div class="scheduler-item-default">
+                <div class="scheduler-item-content">
+                    @if (Item.Recurrence is not null)
+                    {
+                        <FluentIcon Value="@(new Regular.Size20.CalendarArrowRepeatAll())" />
+                    }
+
+                    @Item.Title
+                </div>
+            </div>
+        }
+
+        @if (CanClose)
+        {
+            <button class="scheduler-item-close"
+                    @onclick="OnDeleteAsync">
+                <FluentIcon Value="@(new Regular.Size20.Dismiss())" />
+            </button>
+        }
+    </FluentStack>
+
+    @if (ShowTopAnchor)
+    {
+        <div class="scheduler-resize-anchor top"
+             @onmousedown="e => StartResizeAsync(e, ResizeDirection.Top)" />
+    }
+
+    @if (ShowBottomAnchor)
+    {
+        <div class="scheduler-resize-anchor bottom"
+             @onmousedown="e => StartResizeAsync(e, ResizeDirection.Bottom)" />
+    }
+
+    @if (ShowLeftAnchor)
+    {
+        <div class="scheduler-resize-anchor left"
+             @onmousedown="e => StartResizeAsync(e, ResizeDirection.Left)" />
+    }
+
+    @if (ShowRightAnchor)
+    {
+        <div class="scheduler-resize-anchor right"
+             @onmousedown="e => StartResizeAsync(e, ResizeDirection.Right)" />
+    }
+</div>

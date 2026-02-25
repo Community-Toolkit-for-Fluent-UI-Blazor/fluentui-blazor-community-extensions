@@ -1,0 +1,196 @@
+.scheduler-item {
+  pointer-events: auto;
+  transition: box-shadow 120ms ease, transform 120ms ease;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  padding: 6px 8px;
+  min-height: 22px;
+  font-size: 13px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent-fill-rest, #0078d4) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-fill-rest, #0078d4) 45%, transparent);
+  color: var(--accent-fill-rest, #333);
+  cursor: grab;
+}
+
+.scheduler-item-content {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+  .scheduler-item:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+  }
+
+  .scheduler-item.dragging {
+    z-index: 30 !important;
+    opacity: 0.95;
+    cursor: grabbing;
+    transform: scale(1.02);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+  }
+
+.scheduler-item-default {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--accent-fill-rest);
+}
+
+.scheduler-item.small {
+  padding: 4px 6px;
+  font-size: 12px;
+  min-height: 18px;
+}
+
+.scheduler-item .resize-handle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  pointer-events: auto;
+  cursor: ns-resize;
+  z-index: 5;
+}
+
+  .scheduler-item .resize-handle.top {
+    top: -5px;
+  }
+
+  .scheduler-item .resize-handle.bottom {
+    bottom: -5px;
+  }
+
+.scheduler-item.selected {
+  outline: 2px solid rgba(0, 120, 212, 0.18);
+  box-shadow: 0 8px 20px rgba(0, 120, 212, 0.06);
+}
+
+.scheduler-item:focus {
+  outline: 2px solid rgba(0,0,0,0.12);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .scheduler-item {
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  .scheduler-item-default {
+    font-size: 12px;
+  }
+}
+
+.scheduler-item-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.scheduler-item:hover .scheduler-item-close {
+  opacity: 1;
+}
+
+
+.scheduler-resize-anchor {
+  position: absolute;
+  background: transparent;
+}
+
+.scheduler-resize-anchor.top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  cursor: ns-resize;
+}
+
+.scheduler-resize-anchor.top::before {
+  content: "";
+  position: absolute;
+  left: 25%;
+  width: 50%;
+  height: 2px;
+  bottom: 0;
+  background: var(--accent-fill-rest);
+}
+
+.scheduler-resize-anchor.bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  cursor: ns-resize;
+}
+
+.scheduler-resize-anchor.bottom::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 25%;
+  width: 50%;
+  height: 2px;
+  background: var(--accent-fill-rest);
+}
+
+.scheduler-resize-anchor.left {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 12px;
+  cursor: ew-resize;
+}
+
+.scheduler-resize-anchor.left::before {
+  content: "";
+  position: absolute;
+  top: 25%;
+  height: 50%;
+  right: 0;
+  width: 2px;
+  background: var(--accent-fill-rest);
+}
+
+.scheduler-resize-anchor.right {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  cursor: ew-resize;
+}
+
+.scheduler-resize-anchor.right::before {
+  content: "";
+  position: absolute;
+  top: 25%;
+  height: 50%;
+  left: 0;
+  width: 2px;
+  background: var(--accent-fill-rest);
+}

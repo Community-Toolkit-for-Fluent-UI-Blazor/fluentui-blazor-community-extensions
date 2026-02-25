@@ -1,0 +1,38 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem
+@inherits FluentComponentBase
+
+@if (Parent?.View == SchedulerView.Agenda && Parent?.ShowAgendaSettings == true)
+{
+    <FluentButton IconStart="@(new Regular.Size24.CalendarSettings())"
+                  Appearance="Appearance.Neutral"
+                  Id="@($"agenda-{Id}")"
+                  OnClick="@(() => _openAgendaSettings = !_openAgendaSettings)">
+        @Parent!.Labels.AgendaSettings
+    </FluentButton>
+
+    <FluentPopover @bind-Open="_openAgendaSettings"
+                   AnchorId="@($"agenda-{Id}")">
+        <Header>
+            @Parent!.Labels.AgendaSettings
+        </Header>
+        <Body>
+            <FluentStack Orientation="Orientation.Vertical"
+                         VerticalGap="0">
+                <FluentNumberField AriaLabel="@Parent!.Labels.NumberOfDays"
+                                   Label="@Parent!.Labels.NumberOfDays"
+                                   Max="14"
+                                   Min="1"
+                                   Step="1"
+                                   @bind-Value=_numberOfDays
+                                   @bind-Value:after=OnValueChanged
+                                   Style="margin-bottom: 10px"/>
+
+                <FluentSwitch AriaLabel="@Parent!.Labels.HideEmptyDays"
+                              Label="@Parent!.Labels.HideEmptyDays"
+                              @bind-Value=_hideEmptyDays
+                              @bind-Value:after=OnValueChanged />
+            </FluentStack>
+        </Body>
+    </FluentPopover>
+}

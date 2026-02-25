@@ -1,0 +1,42 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem
+@inherits FluentComponentBase
+
+@if (Parent?.View == SchedulerView.Day &&
+    Parent?.ShowDaySettings == true)
+{
+    <FluentButton IconStart="@(new Regular.Size24.CalendarSettings())"
+                  Appearance="Appearance.Neutral"
+                  Id="@($"day-{Id}")"
+                  OnClick="@(() => _openDaySettings = !_openDaySettings)">
+        @Parent!.Labels.DaySettings
+    </FluentButton>
+
+    <FluentPopover @bind-Open="_openDaySettings"
+                   AnchorId="@($"day-{Id}")">
+        <Header>
+            @Parent!.Labels.DaySettings
+        </Header>
+        <Body>
+            <FluentStack Orientation="Orientation.Vertical"
+                         VerticalGap="0">
+                <FluentNumberField AriaLabel="@Parent!.Labels.NumberOfSubdivisions"
+                                   Label="@Parent!.Labels.NumberOfSubdivisions"
+                                   Max="60"
+                                   Min="1"
+                                   Step="1"
+                                   @bind-Value=_subdivisions
+                                   @bind-Value:after=OnValueChanged
+                                   Style="margin-bottom: 10px" />
+
+                <FluentNumberField AriaLabel="@Parent!.Labels.DaySlotHeight"
+                                   Label="@Parent!.Labels.DaySlotHeight"
+                                   Max="120"
+                                   Min="40"
+                                   Step="1"
+                                   @bind-Value=_slotHeight
+                                   @bind-Value:after=OnValueChanged />
+            </FluentStack>
+        </Body>
+    </FluentPopover>
+}

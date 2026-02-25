@@ -1,0 +1,65 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     @ref="Element"
+     class="scheduler-timeline @Class"
+     style="@InternalStyle">
+    <div class="scheduler-timeline-full-header">
+        <div class="scheduler-timeline-day-header" style="width:@(GridWidth)px;">
+            <div class="scheduler-timeline-number">@CurrentDate.Day</div>
+            <div class="scheduler-timeline-info">
+                <div class="scheduler-timeline-name">@CurrentDate.ToString("dddd")</div>
+                <div class="scheduler-timeline-month">@CurrentDate.ToString("MMMM yyyy")</div>
+            </div>
+        </div>
+
+        <div class="scheduler-timeline-header"
+             style="grid-template-columns: repeat(@TotalSubdivisions, @(CellWidth)px);
+            width:@(GridWidth)px;">
+            @for (int hour = StartHour; hour < EndHour; hour++)
+            {
+                <div class="scheduler-timeline-hour" style="grid-column: span @SubdivisionCount;">
+                    @($"{hour:00}:00")
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="scheduler-timeline-body"
+         style="grid-template-columns: repeat(@TotalSubdivisions, @(CellWidth)px); width:@(GridWidth)px;">
+        @for (int i = 0; i < Slots.Count; i++)
+        {
+            var itm = Slots[i];
+            var effectiveStart = ShowNonWorkingHours ? TimeSpan.Zero : TimelineStart;
+            var effectiveEnd   = ShowNonWorkingHours ? TimeSpan.FromHours(24) : TimelineEnd;
+            var startMinutes = (itm.Start - CurrentDate.Date).TotalMinutes - effectiveStart.TotalMinutes;
+            var endMinutes   = (itm.End   - CurrentDate.Date).TotalMinutes - effectiveStart.TotalMinutes;
+
+            if (endMinutes <= 0 || startMinutes >= (effectiveEnd - effectiveStart).TotalMinutes)
+            {
+                continue;
+            }
+
+            startMinutes = Math.Max(0, startMinutes);
+            endMinutes   = Math.Min((effectiveEnd - effectiveStart).TotalMinutes, endMinutes);
+
+            var minutesPerSubdivision = 60.0 / SubdivisionCount;
+            var startSub = (int)Math.Floor(startMinutes / minutesPerSubdivision);
+            var endSub   = (int)Math.Ceiling(endMinutes / minutesPerSubdivision);
+
+            <div class="scheduler-timeline-cell @(DisabledCells ? "disabled" : "")"
+                 style="grid-row:1; grid-column:@(startSub + 1)/@(endSub + 1);"
+                 @ondblclick="() => OnSlotDoubleClickAsync(itm)">
+                @if (SlotTemplate != null)
+                {
+                    @SlotTemplate(itm)
+                }
+                else
+                {
+                    @itm.Label
+                }
+            </div>
+        }
+    </div>
+</div>

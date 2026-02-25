@@ -1,0 +1,21 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem
+
+<FluentStack Width="auto" HorizontalGap="1">
+    <FluentButton IconStart="@(new Regular.Size24.CaretLeft())"
+                  Appearance="Appearance.Neutral"
+                  OnClick="@OnPreviousAsync"
+                  Title="@Parent!.Labels.Previous" />
+
+    <FluentButton IconStart="@(new Regular.Size24.CalendarToday())"
+                  Appearance="Appearance.Neutral"
+                  OnClick="@OnTodayAsync"
+                  Title="@Parent!.Labels.Today">
+        @Parent!.Labels.Today
+    </FluentButton>
+
+    <FluentButton IconStart="@(new Regular.Size24.CaretRight())"
+                  Appearance="Appearance.Neutral"
+                  OnClick="@OnNextAsync"
+                  Title="@Parent!.Labels.Next" />
+</FluentStack>

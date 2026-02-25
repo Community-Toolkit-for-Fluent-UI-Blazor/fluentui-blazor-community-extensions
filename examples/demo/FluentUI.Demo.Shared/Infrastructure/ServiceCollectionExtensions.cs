@@ -19,6 +19,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
         services.AddSingleton<DemoNavProvider>();
         services.AddScoped<DownloadFile>();
+        services.AddScoped<SchedulerStorage>();
 
         return services;
     }
@@ -35,6 +36,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IFileManagerItemsProvider<NoFileEntryData>, FileManagerItemsProvider>();
         services.AddSingleton<DemoNavProvider>();
         services.AddScoped<DownloadFile>();
+        services.AddScoped<SchedulerStorage>();
 
         return services;
     }

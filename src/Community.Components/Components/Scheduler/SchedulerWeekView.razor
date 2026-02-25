@@ -1,0 +1,73 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     @ref="Element"
+     class="scheduler-week @Class"
+     style="@InternalStyle">
+    <div class="scheduler-week-header">
+        <div class="scheduler-week-day-header scheduler-week-label"></div>
+        <div class="scheduler-week-day-header scheduler-week-label"></div>
+
+        @foreach (var date in WeekDays)
+        {
+            <div class="scheduler-week-day-header scheduler-week-header-cell">
+                <div class="day-name">@Culture.TextInfo.ToTitleCase(date.ToString("dddd", Culture))</div>
+                <div class="day-date">@date.ToString("dd/MM", Culture)</div>
+            </div>
+        }
+    </div>
+
+    <div class="scheduler-week-grid @(DisabledCells ? "cells-disabled" : "")">
+        @for (int hour = StartHour; hour < EndHour; hour++)
+        {
+            var rStart = (hour - StartHour) * SubdivisionCount + 1;
+
+            <div class="scheduler-week-day scheduler-week-label"
+                 style="grid-column:1; grid-row: @rStart / span @SubdivisionCount; height: @(SubdivisionCount* SlotHeight)px; display:flex; align-items:center; justify-content:center;">
+                <div class="scheduler-week-day-label">
+                    @($"{hour:00}")
+                </div>
+            </div>
+
+            @for (int sub = 0; sub < SubdivisionCount; sub++)
+            {
+                var minutes = sub * (60 / SubdivisionCount);
+                var row = rStart + sub;
+
+                <div class="scheduler-week-day scheduler-week-subdivision"
+                     style="grid-column:2; grid-row:@row;">
+                    <div class="scheduler-week-subdivision-label">@($"{minutes:00}")</div>
+                </div>
+
+                @for (int day = 0; day < 7; day++)
+                {
+                    var rowIndex = hour * SubdivisionCount + sub;
+                    var slot = Slots.FirstOrDefault(s => s.Row == rowIndex && s.Column == day);
+                    var isOutsideWorkingHours = IsOutsideWorkingHours(slot);
+                    var isWeekend = IsWeekend(slot);
+
+                    <div class="scheduler-week-day"
+                         style="grid-column:@(3 + day); grid-row:@row;"
+                         @ondblclick="() => OnSlotDoubleClickAsync(slot)">
+                        @if (isOutsideWorkingHours || isWeekend)
+                        {
+                            <div class="outside-working-hours-fill"></div>
+                        }
+
+                        @if (SlotTemplate != null && slot != null)
+                        {
+                            @SlotTemplate(slot)
+                        }
+                        else if (slot != null)
+                        {
+                            <div class="scheduler-week-day-label">
+                                @slot.Label
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>

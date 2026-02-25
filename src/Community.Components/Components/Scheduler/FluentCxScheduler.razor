@@ -1,0 +1,128 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+@attribute [CascadingTypeParameter(nameof(TItem))]
+
+<CascadingValue Value="this" IsFixed>
+    <div class="scheduler-host">
+        <div class="scheduler-toolbar">
+            @if(Toolbar is not null)
+            {
+                @Toolbar
+            }
+            else
+            {
+                <FluentToolbar Style="width: 100%">
+                    <SchedulerNavigation TItem="TItem"/>
+                    <SchedulerBusinessHours TItem="TItem" />
+                    <SchedulerDayViewSettings TItem="TItem" />
+                    <SchedulerWeekViewSettings TItem="TItem" />
+                    <SchedulerAgendaMenu TItem="TItem" />
+                    <FluentSpacer />
+                    <SchedulerViewMenu TItem="TItem" />
+                </FluentToolbar>
+            }
+        </div>
+
+        <div class="scheduler-body">
+            <SchedulerCanvas TItem="TItem"
+                             Items="@GetItems()"
+                             Slots="@_schedulerSlots"
+                             ItemTemplate="@ItemTemplate"
+                             MaxItemsCount="@MaxItemsPerSlot"
+                             DisabledCells="@(e => _disabledCells = e)"
+                             @ref="_schedulerCanvas">
+                @switch (_currentView)
+                {
+                    case SchedulerView.Day:
+                        <SchedulerDayView SlotTemplate="@SlotTemplate"
+                                          Slots="@_schedulerSlots"
+                                          SlotHeight="@DaySlotHeight"
+                                          ShowHourContent="@ShowHourContent"
+                                          ShowHourLabels="@ShowHourLabels"
+                                          ShowNonWorkingHours="@ShowNonWorkingHours"
+                                          ShowWeekEnd="@ShowWeekEndInGray"
+                                          WorkDayEnd="@WorkDayEnd"
+                                          WorkDayStart="@WorkDayStart"
+                                          CurrentDate="@CurrentDate"
+                                          OnSlotDoubleClick="@OnSlotDoubleClickAsync"
+                                          SubdivisionCount="@DaySubdivisions"
+                                          DisabledCells="@_disabledCells" />
+                        break;
+
+                    case SchedulerView.Week:
+                        <SchedulerWeekView SlotTemplate="@SlotTemplate"
+                                           Slots="@_schedulerSlots"
+                                           ShowNonWorkingHours="@ShowNonWorkingHours"
+                                           ShowWeekEndInGray="@ShowWeekEndInGray"
+                                           SlotHeight="@WeekSlotHeight"
+                                           WorkDayEnd="@WorkDayEnd"
+                                           WorkDayStart="@WorkDayStart"
+                                           Culture="@Culture"
+                                           WeekDays="@GetWeekDays()"
+                                           SubdivisionCount="@WeekSubdivisions"
+                                           OnSlotDoubleClick="@OnSlotDoubleClickAsync"
+                                           DisabledCells="@_disabledCells"/>
+                        break;
+
+                    case SchedulerView.Month:
+                        <SchedulerMonthView SlotTemplate="@SlotTemplate"                            
+                                            Slots="@_schedulerSlots"
+                                            OverflowByDay="@_overflowByDay"
+                                            OnDaySelected="@HandleDaySelectedAsync"
+                                            Culture="@Culture"
+                                            Date=@CurrentDate
+                                            SlotHeight="@MonthSlotHeight"
+                                            OnSlotDoubleClick="@OnSlotDoubleClickAsync"
+                                            DisabledCells="@_disabledCells"/>
+                        break;
+
+                    case SchedulerView.Year:
+                        <SchedulerYearView TItem="TItem"
+                                           Items="@GetItems()"
+                                           CurrentDate="@CurrentDate"
+                                           OnDateClick="@HandleDaySelectedAsync" />
+                        break;
+
+                    case SchedulerView.Agenda:
+                        <SchedulerAgendaView TItem="TItem"
+                                             Items="@GetItems()"
+                                             CurrentDate="@CurrentDate"
+                                             CellHeight="@AgendaDaySlotHeight"
+                                             Culture="@Culture"
+                                             NumberOfDays="@NumberOfDays"
+                                             HideEmptyDays="@HideEmptyDays"/>
+                        break;
+
+                    case SchedulerView.Timeline:
+                        <SchedulerTimelineView SlotTemplate="@SlotTemplate"
+                                               Slots="@_schedulerSlots"
+                                               CurrentDate="@CurrentDate"
+                                               OnSlotDoubleClick="@OnSlotDoubleClickAsync"
+                                               SubdivisionCount="@TimelineSubdivisions"
+                                               ShowNonWorkingHours="@ShowNonWorkingHours"
+                                               TimelineEnd="@WorkDayEnd"
+                                               TimelineStart="@WorkDayStart"
+                                               CellHeight="@GetCellHeight()"
+                                               DisabledCells="@_disabledCells" />
+                        break;
+                }
+            </SchedulerCanvas>
+        </div>
+
+        <FluentOverlay @bind-Visible=_isLoading>
+            @if (LoadingContent is not null)
+            {
+                @LoadingContent
+            }
+            else
+            {
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentProgress Width="340px" />
+                    <FluentLabel>@Labels.Loading</FluentLabel>
+                </FluentStack>
+            }
+        </FluentOverlay>
+
+    </div>
+</CascadingValue>

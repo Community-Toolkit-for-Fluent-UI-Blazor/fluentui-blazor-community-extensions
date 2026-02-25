@@ -1,0 +1,72 @@
+﻿<div class="height: 600px">
+    <FluentCxScheduler TItem="string"
+                       OnItemCreate="@OnItemCreated"
+                       OnItemUpdate="@OnItemUpdated"
+                       OnItemDelete="@OnItemDeleted"
+                       ItemsProvider="@GetItemsProviderAsync"
+                       OnDeleteOccurence="@OnDeleteOccurrence">
+    </FluentCxScheduler>
+</div>
+
+@code {
+    private long _nextId = 1;
+    private readonly List<SchedulerItem<string>> _items = [];
+
+    [Inject]
+    private SchedulerStorage SchedulerStorage { get; set; } = null!;
+
+
+    private async Task OnItemDeleted(SchedulerItem<string> item)
+    {
+        _items.RemoveAll(x => x.Id == item.Id);
+        await SchedulerStorage.StoreAsync(_items);
+    }
+
+    private async Task OnDeleteOccurrence(DeleteOccurrenceRequest e)
+    {
+        var existingItem = _items.Find(i => i.Id == e.Id);
+
+        if (existingItem != null)
+        {
+            existingItem.Exceptions.Add(e.OccurrenceDate);
+        }
+
+        await SchedulerStorage.StoreAsync(_items);
+    }
+
+    private async Task OnItemCreated(SchedulerItem<string> item)
+    {
+        item.Id = _nextId++;
+        _items.Add(item);
+
+        await SchedulerStorage.StoreAsync(_items);
+    }
+
+    private async Task OnItemUpdated(SchedulerItem<string> item)
+    {
+        var existingItem = _items.FindIndex(i => i.Id == item.Id);
+
+        if (existingItem > -1)
+        {
+            _items[existingItem] = item;
+        }
+
+        await SchedulerStorage.StoreAsync(_items);
+    }
+
+    private async ValueTask<IEnumerable<SchedulerItem<string>>> GetItemsProviderAsync(SchedulerFetchRequest request)
+    {
+        _items.Clear();
+        _items.AddRange(await SchedulerStorage.RetrieveAsync() ?? []);
+
+        var from = request.StartDate;
+        var to = request.EndDate;
+
+        var result = _items.Where(item => (item.Recurrence == null && item.Start <= to && item.End >= from) ||
+                                          (item.Recurrence != null && item.Start <= to && (!item.Recurrence.Until.HasValue || item.Recurrence.Until.Value >= from))
+);
+
+        _nextId = _items.Count > 0 ? _items.Max(i => i.Id) + 1 : 1;
+        return result;
+    }
+}

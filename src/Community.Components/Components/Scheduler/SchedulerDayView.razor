@@ -1,0 +1,62 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id"
+     @ref="Element"
+     class="scheduler-day @Class @(DisabledCells ? "cells-disabled" : "")"
+     style="@InternalStyle">
+
+    <div class="scheduler-day-header">
+        <div class="scheduler-day-number">@CurrentDate.Day</div>
+        <div class="scheduler-day-info">
+            <div class="scheduler-day-name">@CurrentDate.ToString("dddd")</div>
+            <div class="scheduler-day-month">@CurrentDate.ToString("MMMM yyyy")</div>
+        </div>
+    </div>
+
+    <div class="scheduler-day-container">
+        <div class="scheduler-content">
+            <div class="scheduler-grid">
+                <div class="scheduler-hours-column">
+                    @for (var hour = StartHour; hour < EndHour; hour++)
+                    {
+                        <div class="scheduler-hour"
+                             style="height:@(SlotHeight* SubdivisionCount)px">
+                           <div class="scheduler-hour-label">
+                                @($"{hour:00}")
+                           </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="scheduler-slots-columns">
+                    @foreach (var slot in Slots)
+                    {
+                        var isOutsideWorkingHours = IsOutsideWorkingHours(slot);
+                        var isWeekend = IsWeekend(slot);
+
+                        if (isOutsideWorkingHours && !ShowNonWorkingHours)
+                        {
+                            continue;
+                        }
+
+                        <div class="scheduler-slot @(isOutsideWorkingHours ? "has-outside" : "")"
+                             style="height: @(SlotHeight)px"
+                             @ondblclick="() => OnSlotDoubleClickAsync(slot)">
+                            @if (SlotTemplate != null)
+                            {
+                                @SlotTemplate(slot)
+                            }
+                            else
+                            {
+                                <div class="scheduler-slot-content">
+                                    @slot.Start.ToString("mm")
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<div id="@Id"
+     @ref="Element"
+     class="scheduler-year @Class"
+     style="@Style">
+    <div class="scheduler-year-grid">
+        @for(int i = 0; i < 12; i++)
+        {
+            <SchedulerCalendar Culture="@Culture"
+                               Month="@(GetMonthDate(i))"
+                               DisabledDateFunc="@DisabledDateFunc"
+                               HasSlotFunc="@HasSlot"
+                               OnDateSelected="@OnDateClick">
+                <DayTemplate>
+                    @foreach (var slot in GetSlotsForDate(context))
+                    {
+                        <div class="scheduler-item">
+                            @if (SlotTemplate != null)
+                            {
+                                @SlotTemplate(slot)
+                            }
+                            else
+                            {
+                                @slot.Label
+                            }
+                        </div>
+                    }
+                </DayTemplate>
+            </SchedulerCalendar>
+        }
+    </div>
+</div>

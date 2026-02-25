@@ -39,4 +39,44 @@ public static class ParameterViewExtensions
     {
         return parameterView.TryGetValue(parameterName, out string? newValue) && !string.Equals(value, newValue, stringComparison);
     }
+
+    /// <summary>
+    /// Determines whether the value of a specified enumerable parameter in the given ParameterView has changed compared
+    /// to a provided enumerable value.
+    /// </summary>
+    /// <remarks>Comparison is performed by checking for null values, count differences, and sequence
+    /// equality. This method is useful for detecting changes in enumerable parameters when implementing component
+    /// parameter change logic.</remarks>
+    /// <typeparam name="T">The type of elements contained in the enumerable parameter.</typeparam>
+    /// <param name="parameterView">The ParameterView instance containing the parameters to compare.</param>
+    /// <param name="parameterName">The name of the enumerable parameter to check for changes.</param>
+    /// <param name="value">The previous value of the enumerable parameter to compare against. Can be null.</param>
+    /// <returns>true if the enumerable parameter value in the ParameterView differs from the provided value; otherwise, false.</returns>
+    public static bool HasEnumerableValueChanged<T>(
+        this ParameterView parameterView,
+        string parameterName,
+        IEnumerable<T>? value)
+    {
+        if (parameterView.TryGetValue(parameterName, out IEnumerable<T>? newValue))
+        {
+            if (value is null && newValue is null)
+            {
+                return false;
+            }
+
+            if (value is null || newValue is null)
+            {
+                return true;
+            }
+
+            if (value.Count() != newValue.Count())
+            {
+                return true;
+            }
+
+            return !value.SequenceEqual(newValue);
+        }
+
+        return false;
+    }
 }

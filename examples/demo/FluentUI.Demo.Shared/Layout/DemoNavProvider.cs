@@ -151,6 +151,11 @@ public class DemoNavProvider
                             )
                     ]),
                     new NavLink(
+                        href: "scheduler",
+                        icon: new Icons.Regular.Size20.CalendarAgenda(),
+                        title: "Scheduler"
+                    ),
+                    new NavLink(
                         href: "signature",
                         icon: new Icons.Regular.Size20.Signature(),
                         title: "Signature"
