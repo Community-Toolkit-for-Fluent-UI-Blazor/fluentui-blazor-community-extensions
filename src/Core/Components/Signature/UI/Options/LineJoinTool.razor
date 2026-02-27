@@ -1,0 +1,14 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentButton Tooltip="Line join" IconOnly Id="@Id">
+    <FluentIcon Value="@(new Regular.Size24.DataLine())" />
+</FluentButton>
+
+<FluentMenu OnCheckedChanged="@(OnMenuItemClickAsync)" Trigger="@Id">
+    <FluentMenuList>
+        <FluentMenuItem Checked="@(LineJoin == LineJoin.Bevel)" Id="@($"Bevel-{Id}")" Role="MenuItemRole.Radio">Bevel</FluentMenuItem>
+        <FluentMenuItem Checked="@(LineJoin == LineJoin.Round)" Id="@($"Round-{Id}")" Role="MenuItemRole.Radio">Round</FluentMenuItem>
+        <FluentMenuItem Checked="@(LineJoin == LineJoin.Miter)" Id="@($"Miter-{Id}")" Role="MenuItemRole.Radio">Miter</FluentMenuItem>
+    </FluentMenuList>
+</FluentMenu>

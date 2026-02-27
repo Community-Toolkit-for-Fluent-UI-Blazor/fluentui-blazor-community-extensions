@@ -1,0 +1,14 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentButton Tooltip="Line cap" IconOnly Id="@Id">
+    <FluentIcon Value="@(new Regular.Size24.LineFlowDiagonalUpRight())" />
+</FluentButton>
+
+<FluentMenu OnCheckedChanged="@(OnMenuItemClickAsync)" Trigger="@Id">
+    <FluentMenuList>
+        <FluentMenuItem Checked="@(LineCap == LineCap.Butt)" Id="Butt" Role="MenuItemRole.Radio">Butt</FluentMenuItem>
+        <FluentMenuItem Checked="@(LineCap == LineCap.Round)" Id="Round" Role="MenuItemRole.Radio">Round</FluentMenuItem>
+        <FluentMenuItem Checked="@(LineCap == LineCap.Square)" Id="Square" Role="MenuItemRole.Radio">Square</FluentMenuItem>
+    </FluentMenuList>
+</FluentMenu>

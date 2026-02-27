@@ -1,0 +1,37 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+ 
+<FluentButton Size="ButtonSize.Large"
+              IconOnly
+              Tooltip="tt"
+              Appearance="@(IsActive ? ButtonAppearance.Primary : ButtonAppearance.Default)"
+              OnClick="@(Activate)">
+    <FluentIcon Value="@(new Regular.Size24.Pen())" />
+</FluentButton>
+
+@code {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PenTool"/> class with the specified library configuration.
+    /// </summary>
+    /// <param name="configuration">The library configuration to use for this component. Cannot be null.</param>
+    public PenTool(LibraryConfiguration configuration) : base(configuration)
+    {
+        Id = Identifier.NewId();
+        DefaultOptions = @<PenToolOptions Color="@Color"
+                                          ColorChanged="@ColorChanged"
+                                          Opacity="Opacity"
+                                          OpacityChanged="@OpacityChanged"
+                                          LineCap="@LineCap"
+                                          LineCapChanged="@LineCapChanged"
+                                          LineJoin="@LineJoin"
+                                          LineJoinChanged="@LineJoinChanged"
+                                          LineDash="@LineDash"
+                                          LineDashChanged="@LineDashChanged"
+                                          OnSettingsClick="@OnPenSettingsClicked"
+                                          Width="@Width"
+                                          WidthChanged="@WidthChanged"
+                                          StrokeWidthMode="@StrokeWidthMode"
+                                          StrokeWidthModeChanged="@StrokeWidthModeChanged"
+                                          />;
+    }
+}

@@ -1,0 +1,14 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentStack HorizontalGap="6" VerticalAlignment="VerticalAlignment.Center" Height="60px">
+    <ColorTool Color="Color" ColorChanged="@ColorChanged" />
+    <OpacityTool Opacity="@Opacity" OpacityChanged="@OpacityChanged" />
+    <PenWidthTool Width="@Width" WidthChanged="@WidthChanged" />
+    <LineCapTool LineCap="@LineCap" LineCapChanged="@LineCapChanged" />
+    <LineJoinTool LineJoin="@LineJoin" LineJoinChanged="@LineJoinChanged" />
+    <LineDashTool LineDash="@LineDash" LineDashChanged="@LineDashChanged" />
+    <StrokeWidthModeTool Mode="@StrokeWidthMode" ModeChanged="@StrokeWidthModeChanged" />
+    <FluentSpacer />
+    <PanelSettings OnClick="@OnSettingsClick" />
+</FluentStack>

@@ -1,0 +1,59 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div id="@Id" class="fluentcx-signature @Class" style="@Style">
+        <FluentStack Style="height: 100%" HorizontalGap="4">
+            <FluentStack Width="50px"
+                         HorizontalAlignment="HorizontalAlignment.Center"
+                         Orientation="Orientation.Vertical">
+                @if (Tools is not null)
+                {
+                    @Tools
+                }
+                else
+                {
+                    <PenTool @bind-Color="RenderingOptions.Pen.Color"
+                             @bind-Opacity="RenderingOptions.Pen.Opacity"
+                             @bind-LineCap="RenderingOptions.Pen.LineCap"
+                             @bind-LineJoin="RenderingOptions.Pen.LineJoin"
+                             @bind-LineDash="RenderingOptions.Pen.LineDash"
+                             @bind-Width="EngineOptions.Pen.BaseWidth"
+                             @bind-StrokeWidthMode="EngineOptions.Pen.WidthMode"
+                             OnPenSettingsClicked="@OnShowPenSettingsPanelAsync"
+                             IsActive="@(SelectedTool is PenTool)"/>
+                }
+            </FluentStack>
+
+            <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalGap="4"
+                         Orientation="Orientation.Vertical">
+                <div style="height: 60px; width: 100%">
+                    @_render(SelectedTool)
+                </div>
+                <SignatureSurface EngineOptions="@EngineOptions"
+                                  RenderingOptions="@RenderingOptions"
+                                  Theme="@Theme"
+                                  @ref="_signatureSurface" />
+            </FluentStack>
+        
+        </FluentStack>
+    </div>
+</CascadingValue>
+
+@code {
+    private readonly RenderFragment<ISignatureTool?> _render = tool => builder =>
+    {
+        if (tool is not null)
+        {
+            if (tool.CustomOptions is not null)
+            {
+                builder.AddContent(0, tool.CustomOptions);
+            }
+            else
+            {
+                builder.AddContent(0, tool.DefaultOptions);
+            }
+        }
+    };
+}

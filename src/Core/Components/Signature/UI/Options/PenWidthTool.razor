@@ -1,0 +1,11 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentSlider Id=@Id
+              TValue="double"
+              Label="Width"
+              Value=@Width
+              Min="@Min"
+              Max="@Max"
+              Step="@Step"
+              ValueChanged="@OnValueChangedAsync"/>

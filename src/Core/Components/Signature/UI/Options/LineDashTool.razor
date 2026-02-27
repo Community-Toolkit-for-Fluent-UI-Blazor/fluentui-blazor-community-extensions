@@ -1,0 +1,50 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentButton Tooltip="Line dash" IconOnly Id="@Id">
+    <FluentIcon Value="@(new Regular.Size24.LineDashes())" />
+</FluentButton>
+
+<FluentMenu OnCheckedChanged="@OnMenuItemClickAsync" Trigger="@Id">
+    <FluentMenuList>
+        <FluentMenuItem Checked="@(LineDash == LineDash.Solid)"
+                        Id="@($"Solid-{Id}")"
+                        Role="MenuItemRole.Radio">
+            <ChildContent>
+                Solid
+                <span slot="@FluentSlot.Start">
+                    <FluentIcon Value="@(new Regular.Size20.LineHorizontal1())" />
+                </span>
+            </ChildContent>
+        </FluentMenuItem>
+
+        <FluentMenuItem Checked="@(LineDash == LineDash.DashDot)"
+                        Id="@($"DashDot-{Id}")"
+                        Role="MenuItemRole.Radio">
+            <ChildContent>
+                Dash dot
+                <span slot="@FluentSlot.Start">
+                    <FluentIcon Value="@(new Regular.Size20.LineHorizontal1DashDot())" />
+                </span>
+            </ChildContent>
+        </FluentMenuItem>
+        <FluentMenuItem Checked="@(LineDash == LineDash.Dashes)"
+                        Id="@($"Dashes-{Id}")"
+                        Role="MenuItemRole.Radio">
+            <ChildContent>
+                Dashes
+                <span slot="@FluentSlot.Start">
+                    <FluentIcon Value="@(new Regular.Size20.LineHorizontal1Dashes())" />
+                </span>
+            </ChildContent>
+        </FluentMenuItem>
+        <FluentMenuItem Checked="@(LineDash == LineDash.Dots)"
+                        Id="@($"Dots-{Id}")"
+                        Role="MenuItemRole.Radio">
+            Dots
+            <span slot="@FluentSlot.Start">
+                <FluentIcon Value="@(new Regular.Size20.LineHorizontal1Dot())" />
+            </span>
+        </FluentMenuItem>
+    </FluentMenuList>
+</FluentMenu>

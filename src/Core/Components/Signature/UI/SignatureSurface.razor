@@ -1,0 +1,15 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<canvas id="@Id"
+        width="@_surfaceWidth"
+        height="@_surfaceHeight"
+        class="signature-surface @Class"
+        style="@Style"
+        @onpointerdown="HandlePointerDown"
+        @onpointermove="HandlePointerMove"
+        @onpointerup="HandlePointerUp"
+        @onpointercancel="HandlePointerUp"
+        @onpointerleave="HandlePointerUp">
+</canvas>
+

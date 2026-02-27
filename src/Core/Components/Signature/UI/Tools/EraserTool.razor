@@ -1,0 +1,23 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+ 
+<FluentButton Size="ButtonSize.Large"
+              IconOnly
+              Tooltip="tt"
+              Appearance="@(IsActive ? ButtonAppearance.Primary : ButtonAppearance.Default)"
+              OnClick="@(Activate)">
+    <FluentIcon Value="@(new Regular.Size24.Eraser())" />
+</FluentButton>
+
+@code {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EraserTool"/> class with the specified library configuration.
+    /// </summary>
+    /// <param name="configuration">The library configuration to use for this component. Cannot be null.</param>
+    public EraserTool(LibraryConfiguration configuration)
+        : base(configuration)
+    {
+        Id = Identifier.NewId();
+        DefaultOptions = @<EraserToolOptions />;
+        }
+}
