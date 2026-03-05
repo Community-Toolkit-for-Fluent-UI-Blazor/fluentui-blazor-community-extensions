@@ -2,6 +2,7 @@ using FluentUI.Blazor.Community.Components;
 using FluentUI.Demo.Components;
 using FluentUI.Demo.Client;
 using Microsoft.FluentUI.AspNetCore.Components;
+using FluentUI.Blazor.Community.Components.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ builder.Services.AddFluentUIComponents(config =>
     // config.DefaultValues.For<FluentButton>().Set(p => p.Shape, ButtonShape.Circular);
 
     // Use a custom localizer
-    // config.Localizer = new FluentUI.Demo.MyLocalizer();
+    config.Localizer = new FluentCxLocalizer();
 });
 
 // Add FluentUI community extension services

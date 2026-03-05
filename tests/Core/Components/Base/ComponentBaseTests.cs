@@ -21,6 +21,7 @@ public class ComponentBaseTests : BunitContext
     [
         typeof(FluentUI.Blazor.Community.Components._Imports),
         typeof(FluentUI.Blazor.Community.Components.FluentCxDeviceDetector), // Renders no HTML output
+        typeof(FluentUI.Blazor.Community.Components.ColorPaletteItem), // Excluded because it is being rendered within the FluentCxColorPalette
     ];
 
     /// <summary>
@@ -37,6 +38,7 @@ public class ComponentBaseTests : BunitContext
     {
         Output = testOutputHelper;
         Services.AddFluentUIComponents();
+        Services.AddFluentCxUIComponents();
     }
 
     /// <summary>
