@@ -77,7 +77,7 @@
             }
 
             @if ((ShowSortButton || ShowViewButton || ShowUploadButton || ShowCreateFolderButton) &&
-                                                                                                                                                                                                                                                                                                                                                                                                                             ShowPropertiesButton)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                     ShowPropertiesButton)
             {
                 <FluentDivider Vertical="true" Style="min-height: 30px" />
             }
@@ -276,79 +276,67 @@
         _renderSortMenu = __builder =>
         {
             <FluentMenuList OnClick="@OnSortMenuChechedChanged" OnCheckedChanged="OnSortMenuChechedChanged">
-                <FluentMenuItem Disabled="@_isDisabled" Label="Sort">
-                    <MenuItems>
-                        <FluentMenuItem Id="@($"Name-{Id}")"
-                                        Checked="@(State.SortBy == FileSortBy.Name)"
-                                        Role="MenuItemRole.Radio">
-                            By name
-                        </FluentMenuItem>
+                <FluentMenuItem Id="@($"Name-{Id}")"
+                                Checked="@(State.SortBy == FileSortBy.Name)"
+                                Role="MenuItemRole.Checkbox">
+                    By name
+                </FluentMenuItem>
 
-                        <FluentMenuItem Id="@($"Extension-{Id}")"
-                                        Checked="@(State.SortBy == FileSortBy.Extension)"
-                                        Role="MenuItemRole.Radio">
-                            By extension
-                        </FluentMenuItem>
+                <FluentMenuItem Id="@($"Extension-{Id}")"
+                                Checked="@(State.SortBy == FileSortBy.Extension)"
+                                Role="MenuItemRole.Checkbox">
+                    By extension
+                </FluentMenuItem>
 
-                        <FluentMenuItem Id="@($"Size-{Id}")"
-                                        Checked="@(State.SortBy == FileSortBy.Size)"
-                                        Role="MenuItemRole.Radio">
-                            By size
-                        </FluentMenuItem>
+                <FluentMenuItem Id="@($"Size-{Id}")"
+                                Checked="@(State.SortBy == FileSortBy.Size)"
+                                Role="MenuItemRole.Checkbox">
+                    By size
+                </FluentMenuItem>
 
-                        <FluentMenuItem Role="MenuItemRole.Radio"
-                                        Id="@($"CreatedDate-{Id}")"
-                                        Checked="@(State.SortBy == FileSortBy.CreatedDate)">
-                            By creation date
-                        </FluentMenuItem>
+                <FluentMenuItem Role="MenuItemRole.Checkbox"
+                                Id="@($"CreatedDate-{Id}")"
+                                Checked="@(State.SortBy == FileSortBy.CreatedDate)">
+                    By creation date
+                </FluentMenuItem>
 
-                        <FluentMenuItem Id="@($"ModifiedDate-{Id}")"
-                                        Checked="@(State.SortBy == FileSortBy.ModifiedDate)"
-                                        Role="MenuItemRole.Radio">
-                            By modified date
-                        </FluentMenuItem>
-                    </MenuItems>
+                <FluentMenuItem Id="@($"ModifiedDate-{Id}")"
+                                Checked="@(State.SortBy == FileSortBy.ModifiedDate)"
+                                Role="MenuItemRole.Checkbox">
+                    By modified date
                 </FluentMenuItem>
 
                 <FluentDivider />
 
-                <FluentMenuItem Label="Order">
-                    <MenuItems>
-                        <FluentMenuItem Id="@($"Ascending-{Id}")"
-                                        Checked="@(State.SortMode == FileSortMode.Ascending)"
-                                        Role="MenuItemRole.Radio">
-                            Ascending
-                        </FluentMenuItem>
+                <FluentMenuItem Id="@($"Ascending-{Id}")"
+                                Checked="@(State.SortMode == FileSortMode.Ascending)"
+                                Role="MenuItemRole.Checkbox">
+                    Ascending
+                </FluentMenuItem>
 
-                        <FluentMenuItem Id="@($"Descending-{Id}")"
-                                        Checked="@(State.SortMode == FileSortMode.Descending)"
-                                        Role="MenuItemRole.Radio">
-                            Descending
-                        </FluentMenuItem>
-                    </MenuItems>
+                <FluentMenuItem Id="@($"Descending-{Id}")"
+                                Checked="@(State.SortMode == FileSortMode.Descending)"
+                                Role="MenuItemRole.Checkbox">
+                    Descending
                 </FluentMenuItem>
 
                 <FluentDivider />
 
-                <FluentMenuItem Label="Layout">
-                    <MenuItems>
-                        <FluentMenuItem Role="MenuItemRole.Radio"
-                                        Id="@($"None-{Id}")"
-                                        Checked="@(State.SortLayout == FileSortLayout.None)">
-                            Default
-                        </FluentMenuItem>
+                <FluentMenuItem Role="MenuItemRole.Checkbox"
+                                Id="@($"None-{Id}")"
+                                Checked="@(State.SortLayout == FileSortLayout.None)">
+                    Default
+                </FluentMenuItem>
 
-                        <FluentMenuItem Role="MenuItemRole.Radio"
-                                        Id="@($"Folders-{Id}")"
-                                        Checked="@(State.SortLayout == FileSortLayout.Folders)">
-                            Folders
-                        </FluentMenuItem>
-                        <FluentMenuItem Role="MenuItemRole.Radio"
-                                        Id="@($"Files-{Id}")"
-                                        Checked="@(State.SortLayout == FileSortLayout.Files)">
-                            Files
-                        </FluentMenuItem>
-                    </MenuItems>
+                <FluentMenuItem Role="MenuItemRole.Checkbox"
+                                Id="@($"Folders-{Id}")"
+                                Checked="@(State.SortLayout == FileSortLayout.Folders)">
+                    Folders
+                </FluentMenuItem>
+                <FluentMenuItem Role="MenuItemRole.Checkbox"
+                                Id="@($"Files-{Id}")"
+                                Checked="@(State.SortLayout == FileSortLayout.Files)">
+                    Files
                 </FluentMenuItem>
             </FluentMenuList>
         };
@@ -356,95 +344,87 @@
         _renderViewMenu = __builder =>
         {
             <FluentMenuList OnClick="@OnViewMenuChechedChanged" OnCheckedChanged="@OnViewMenuChechedChanged">
-                <FluentMenuItem Disabled="@_isDisabled" Label="Views">
-                    <MenuItems>
-                        <FluentMenuItem Role="MenuItemRole.Radio"
-                                        Checked="@(State.View == FileView.List)"
-                                        Id="@($"List-{Id}")">
-                            <span slot="@FluentSlot.Start">
-                                <FluentIcon Value="@(new Size20.TextAlignJustify())" />
-                            </span>
-                            List
-                        </FluentMenuItem>
-
-                        <FluentMenuItem Role="MenuItemRole.Radio"
-                                        Checked="@(State.View == FileView.Details)"
-                                        Id="@($"Details-{Id}")">
-                            <span slot="@FluentSlot.Start">
-                                <FluentIcon Value="@(new Size20.TextAlignJustify())" />
-                            </span>
-                            List with details
-                        </FluentMenuItem>
-
-                        <FluentMenuItem Id="@($"Mosaic-{Id}")"
-                                        Checked="@(State.View == FileView.Mosaic)"
-                                        Role="MenuItemRole.Radio">
-                            <span slot="@FluentSlot.Start">
-                                <FluentIcon Value="@(new Size20.AppsListDetail())" />
-                            </span>
-                            Mosaic
-                        </FluentMenuItem>
-
-                        <FluentMenuItem Id="@($"SmallIcons-{Id}")"
-                                        Checked="@(State.View == FileView.SmallIcons)"
-                                        Role="MenuItemRole.Radio">
-                            <span slot="@FluentSlot.Start">
-                                <FluentIcon Value="@(new Size20.Grid())" />
-                            </span>
-                            Small icons
-                        </FluentMenuItem>
-
-                        <FluentMenuItem Id="@($"MediumIcons-{Id}")"
-                                        Checked="@(State.View == FileView.MediumIcons)"
-                                        Role="MenuItemRole.Radio">
-                            <span slot="@FluentSlot.Start">
-                                <FluentIcon Value="@(new Size20.AppTitle())" />
-                            </span>
-                            Medium icons
-                        </FluentMenuItem>
-
-                        <FluentMenuItem Id="@($"LargeIcons-{Id}")"
-                                        Checked="@(State.View == FileView.LargeIcons)"
-                                        Role="MenuItemRole.Radio">
-                            <span slot="@FluentSlot.Start">
-                                <FluentIcon Value="@(new Size24.AppTitle())" />
-                            </span>
-                            Large icons
-                        </FluentMenuItem>
-
-                        <FluentMenuItem Id="@($"VeryLargeIcons-{Id}")"
-                                        Checked="@(State.View == FileView.VeryLargeIcons)"
-                                        Role="MenuItemRole.Radio">
-                            <span slot="@FluentSlot.Start">
-                                <FluentIcon Value="@(new Size24.AppTitle())" />
-                            </span>
-                            Very large icons
-                        </FluentMenuItem>
-                    </MenuItems>
+                <FluentMenuItem Role="MenuItemRole.Checkbox"
+                                Checked="@(State.View == FileView.List)"
+                                Id="@($"List-{Id}")">
+                    <span slot="@FluentSlot.Start">
+                        <FluentIcon Value="@(new Size20.TextAlignJustify())" />
+                    </span>
+                    List
                 </FluentMenuItem>
 
+                <FluentMenuItem Role="MenuItemRole.Checkbox"
+                                Checked="@(State.View == FileView.Details)"
+                                Id="@($"Details-{Id}")">
+                    <span slot="@FluentSlot.Start">
+                        <FluentIcon Value="@(new Size20.TextAlignJustify())" />
+                    </span>
+                    List with details
+                </FluentMenuItem>
+
+                <FluentMenuItem Id="@($"Mosaic-{Id}")"
+                                Checked="@(State.View == FileView.Mosaic)"
+                                Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Start">
+                        <FluentIcon Value="@(new Size20.AppsListDetail())" />
+                    </span>
+                    Mosaic
+                </FluentMenuItem>
+
+                <FluentMenuItem Id="@($"SmallIcons-{Id}")"
+                                Checked="@(State.View == FileView.SmallIcons)"
+                                Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Start">
+                        <FluentIcon Value="@(new Size20.Grid())" />
+                    </span>
+                    Small icons
+                </FluentMenuItem>
+
+                <FluentMenuItem Id="@($"MediumIcons-{Id}")"
+                                Checked="@(State.View == FileView.MediumIcons)"
+                                Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Start">
+                        <FluentIcon Value="@(new Size20.AppTitle())" />
+                    </span>
+                    Medium icons
+                </FluentMenuItem>
+
+                <FluentMenuItem Id="@($"LargeIcons-{Id}")"
+                                Checked="@(State.View == FileView.LargeIcons)"
+                                Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Start">
+                        <FluentIcon Value="@(new Size24.AppTitle())" />
+                    </span>
+                    Large icons
+                </FluentMenuItem>
+
+                <FluentMenuItem Id="@($"VeryLargeIcons-{Id}")"
+                                Checked="@(State.View == FileView.VeryLargeIcons)"
+                                Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Start">
+                        <FluentIcon Value="@(new Size24.AppTitle())" />
+                    </span>
+                    Very large icons
+                </FluentMenuItem>
+                       
                 <FluentDivider />
 
-                <FluentMenuItem Label="Structure" Disabled="@_isDisabled">
-                    <MenuItems>
-                        <FluentMenuItem Id="@($"Hierarchical-{Id}")"
-                                        Role="MenuItemRole.Checkbox"
-                                        Checked="@(FileStructureView == FileStructureView.Hierarchical)">
-                            <span slot="@FluentSlot.Start">
-                                <FluentIcon Value="@(new Size24.Organization())" />
-                            </span>
-                            Hierarchical
-                        </FluentMenuItem>
+                <FluentMenuItem Id="@($"Hierarchical-{Id}")"
+                                Role="MenuItemRole.Checkbox"
+                                Checked="@(FileStructureView == FileStructureView.Hierarchical)">
+                    <span slot="@FluentSlot.Start">
+                        <FluentIcon Value="@(new Size24.Organization())" />
+                    </span>
+                    Hierarchical
+                </FluentMenuItem>
 
-                        <FluentMenuItem Id="@($"Flat-{Id}")"
-                                        Role="MenuItemRole.Radio"
-                                        Checked="@(FileStructureView == FileStructureView.Flat)">
-                            <span slot="@FluentSlot.Start">
-                                <FluentIcon Value="@(new Size24.List())" />
-                            </span>
-                            Flat
-                        </FluentMenuItem>
-                    </MenuItems>
+                <FluentMenuItem Id="@($"Flat-{Id}")"
+                                Role="MenuItemRole.Checkbox"
+                                Checked="@(FileStructureView == FileStructureView.Flat)">
+                    <span slot="@FluentSlot.Start">
+                        <FluentIcon Value="@(new Size24.List())" />
+                    </span>
+                    Flat
                 </FluentMenuItem>
             </FluentMenuList>
         };

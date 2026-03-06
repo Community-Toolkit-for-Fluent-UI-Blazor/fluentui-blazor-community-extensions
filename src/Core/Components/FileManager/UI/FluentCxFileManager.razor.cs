@@ -1655,6 +1655,7 @@ public partial class FluentCxFileManager<TItem>
     {
         if (e.Checked == false)
         {
+            await InvokeAsync(StateHasChanged);
             return;
         }
 
