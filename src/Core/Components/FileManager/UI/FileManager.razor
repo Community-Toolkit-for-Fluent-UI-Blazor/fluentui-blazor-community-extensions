@@ -1,0 +1,43 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem where TItem : class, new()
+
+<FluentStack Id="@Id" Orientation="Orientation.Vertical" Style="height: 100%" VerticalGap="1">
+
+    @if (ShowTrailMenu)
+    {
+        <FluentCxTrailMenu Root="@RootPath"
+                           Path="@Path"
+                           PathChanged="@OnPathChangedAsync"
+                           @ref="_pathBar" />
+    }
+
+    @switch (State.View)
+    {
+        case FileView.List:
+        case FileView.Details:
+            <FileManagerList TItem="TItem"
+                             Entry="@Entry"
+                             @bind-SelectedItems="@SelectedItems"
+                             @bind-SelectedItems:after="OnSelectedItemsChangedAsync"
+                             OnItemDoubleTapped="@OnItemDoubleTappedAsync"
+                             IsBusy="@IsBusy"
+                             IsIndeterminateProgress="@IsIndeterminateProgress"
+                             ProgressPercent="@ProgressPercent"
+                             ProgressLabel="@ProgressLabel" />
+            break;
+
+        default:
+            <FileManagerGrid TItem="TItem"
+                             Entry="@Entry"
+                             ItemTemplate="@ItemTemplate"
+                             @bind-SelectedItems="@SelectedItems"
+                             @bind-SelectedItems:after="OnSelectedItemsChangedAsync"
+                             OnItemDoubleTapped="@OnItemDoubleTappedAsync"
+                             IsBusy="@IsBusy"
+                             IsIndeterminateProgress="@IsIndeterminateProgress"
+                             ProgressPercent="@ProgressPercent"
+                             ProgressLabel="@ProgressLabel" />
+            break;
+    }
+</FluentStack>

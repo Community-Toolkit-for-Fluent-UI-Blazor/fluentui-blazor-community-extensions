@@ -23,6 +23,7 @@ public partial class TileGridItem<TItem>
     public TileGridItem(LibraryConfiguration configuration)
         : base(configuration)
     {
+        Id = Identifier.NewId();
     }
 
     /// <summary>
@@ -108,6 +109,26 @@ public partial class TileGridItem<TItem>
     [CascadingParameter]
     private FluentCxTileGrid<TItem>? Parent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback that is invoked when the component is clicked.
+    /// </summary>
+    /// <remarks>Assign an event handler to this property to respond to click events on the component. The
+    /// callback is triggered when the user interacts with the component using a mouse or keyboard, depending on the
+    /// component's accessibility features.</remarks>
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback that is invoked when the component is double-clicked.
+    /// </summary>
+    /// <remarks>Use this property to handle double-click events on the component. The event is triggered when
+    /// the user double-clicks within the component's interactive area.</remarks>
+    [Parameter]
+    public EventCallback OnDoubleClick { get; set; }
+
+    /// <summary>
+    /// Gets the CSS class string that defines the styling for the tile grid item container.
+    /// </summary>
     private string? Css => DefaultClassBuilder.AddClass("tile-grid-item-container").Build();
 
     /// <summary>

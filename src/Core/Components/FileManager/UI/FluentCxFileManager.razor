@@ -1,0 +1,452 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem where TItem : class, new()
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed="true">
+    <FluentStack Style="height: calc(100% - 50px);"
+                 VerticalAlignment="VerticalAlignment.Center"
+                 Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="4px" Wrap>
+            @if (ShowCreateFolderButton)
+            {
+                <FluentButton IconStart="@(new Size20.FolderAdd())"
+                              Appearance="ButtonAppearance.Default"
+                              Disabled="@_isDisabled"
+                              Title="New folder"
+                              OnClick="@OnCreateFolderAsync"
+                              ChildContent="@(_renderLabel("New folder"))"
+                              hidden-when="xs sm" />
+
+                <FluentButton IconStart="@(new Size20.FolderAdd())"
+                              Appearance="ButtonAppearance.Default"
+                              Disabled="@_isDisabled"
+                              Title="New folder"
+                              OnClick="@OnCreateFolderAsync"
+                              hidden-when="md lg xl xxl" />
+            }
+
+            @if (ShowUploadButton)
+            {
+                <FluentButton Id="@($"FileLoader{Id}")"
+                              Disabled="@IsUploadButtonDisabled"
+                              Title="Upload"
+                              IconStart="@(new Size20.ArrowUpload())"
+                              Appearance="ButtonAppearance.Default"
+                              ChildContent="@(_renderLabel("Upload"))"
+                              hidden-when="xs sm" />
+
+                <FluentButton Id="@($"FileLoader{Id}")"
+                              Disabled="@IsUploadedButtonDisabled"
+                              Title="Upload"
+                              IconStart="@(new Size20.ArrowUpload())"
+                              Appearance="ButtonAppearance.Default"
+                              hidden-when="md lg xl xxl" />
+            }
+
+            @if (ShowViewButton)
+            {
+                <FluentMenu @ref="_viewMenu" hidden-when="xs sm">
+                    <FluentMenuButton IconStart="@(new Size20.AppsSettings())"
+                                      Appearance="ButtonAppearance.Default"
+                                      Label="View" />
+                    @_renderViewMenu
+                </FluentMenu>
+                
+                <FluentMenu @ref="_mobileViewMenu" hidden-when="md lg xl xxl">
+                    <FluentMenuButton IconStart="@(new Size20.AppsSettings())"
+                                      Appearance="ButtonAppearance.Default" />
+                    @_renderViewMenu
+                </FluentMenu>
+                
+            }
+
+            @if (ShowSortButton)
+            {
+                <FluentMenu @ref="_sortMenu" hidden-when="xs sm">
+                    <FluentMenuButton IconStart="@(new Size20.ArrowSort())"
+                                      Appearance="ButtonAppearance.Default"
+                                      Label="Sort" />
+                    @_renderSortMenu
+                </FluentMenu>
+
+                <FluentMenu @ref="_mobileSortMenu" hidden-when="md lg xl xxl">
+                    <FluentMenuButton IconStart="@(new Size20.ArrowSort())"
+                                      Appearance="ButtonAppearance.Default" />
+                    @_renderSortMenu
+                </FluentMenu>
+            }
+
+            @if ((ShowSortButton || ShowViewButton || ShowUploadButton || ShowCreateFolderButton) &&
+                                                                                                                                                                                                                                                                                                                                                                                                                             ShowPropertiesButton)
+            {
+                <FluentDivider Vertical="true" Style="min-height: 30px" />
+            }
+
+            @if (ShowPropertiesButton)
+            {
+                <FluentButton Title="Rename"
+                              IconStart="@(new Size20.Rename())"
+                              Disabled="@IsRenameButtonDisabled"
+                              Appearance="ButtonAppearance.Default"
+                              OnClick="@(() => OnRenameAsync(_currentSelectedItems?.ElementAtOrDefault(0)))" />
+
+                <FluentButton Title="Download"
+                              IconStart="@(new Size20.ArrowDownload())"
+                              Disabled="@IsDownloadButtonDisabled"
+                              Appearance="ButtonAppearance.Default"
+                              OnClick="@OnDownloadAsync" />
+
+                <FluentButton Title="Delete"
+                              IconStart="@(new Size20.Delete())"
+                              Disabled="@IsDeleteButtonDisabled"
+                              Appearance="ButtonAppearance.Default"
+                              OnClick="@OnDeleteAsync" />
+
+                <FluentButton Title="Move"
+                              IconStart="@(new Size20.FolderSwap())"
+                              Disabled="@IsMoveToButtonDisabled"
+                              Appearance="ButtonAppearance.Default"
+                              OnClick="@OnMoveAsync" />
+            }
+
+            @if (ToolbarItems is not null)
+            {
+                <FluentDivider Vertical="true" Style="min-height: 30px" />
+                @ToolbarItems
+            }
+
+            @if (ShowDetailsButton)
+            {
+                <FluentButton Title="Show details"
+                              IconStart="@(new Size20.DocumentSettings())"
+                              Disabled="@(_currentSelectedItems is null || !_currentSelectedItems.Any() || _isDisabled)"
+                              Appearance="ButtonAppearance.Default"
+                              OnClick="@OnShowDetailsAsync"
+                              hidden-when="md lg xl xxl" />
+
+                <FluentSwitch Label="Show details"
+                              @bind-Value="_showDetails"
+                              Disabled="@_isDisabled"
+                              LabelPosition="LabelPosition.Before"
+                              hidden-when="xs sm" />
+            }
+
+            <FluentTextInput Placeholder="Search..."
+                             AutoComplete="off"
+                             Spellcheck="false"
+                             Immediate
+                             ReadOnly="@(_progressState == FileManagerProgressState.Searching)"
+                             Disabled="@_isDisabled"
+                             Width="240px"
+                             @bind-Value="_searchValue"
+                             ChangeAfterKeyPress="@([KeyPress.For(KeyCode.Enter)])"
+                             OnChangeAfterKeyPress="@OnSearchFileEntryAsync">
+                <StartTemplate>
+                    <FluentIcon Value="@(new Size16.Search())" Color="Color.Primary" />
+                </StartTemplate>
+            </FluentTextInput>
+
+            @if (ShowSearchOptions)
+            {
+                <FluentButton IconOnly
+                              OnClick="@OnShowSearchOptionsAsync">
+                    <FluentIcon Value="@(new Size20.SearchSettings())" />
+                </FluentButton>
+            }
+        </FluentStack>
+
+        <!-- Desktop layout: treeview + filemanager + details -->
+        <div hidden-when="xs sm" style="height: 100%; width: 100%">
+            <FluentMultiSplitter Width="@(!string.IsNullOrEmpty(Width) ? Width : "100%")"
+                                 Height="@(!string.IsNullOrEmpty(Height) ? Height : "100%")">
+                @if (FileStructureView == FileStructureView.Hierarchical)
+                {
+                    <FluentMultiSplitterPane Collapsible="false"
+                                             Resizable="true"
+                                             Size="30%"
+                                             Min="20%"
+                                             Max="35%">
+                        <FluentTreeView Items="@(_treeRoot is null ? Array.Empty<ITreeViewItem>() : new[] { _treeRoot })"
+                                        SelectedItem="@_selectedNode"
+                                        SelectedItemChanged="@OnSelectedItemChangedAsync"
+                                        LazyLoadItems />
+                    </FluentMultiSplitterPane>
+                }
+
+                <FluentMultiSplitterPane Style="height: 100%"
+                                         Size="@(_showDetails ? "45%" : "70%")">
+                    <FileManager TItem="TItem"
+                                 @ref="_fileManagerView"
+                                 Entry="@GetEntry()"
+                                 ShowTrailMenu="@(FileStructureView == FileStructureView.Hierarchical)"
+                                 RootPath="@_rootTrail"
+                                 Path="@_path"
+                                 OnPathChanged="@OnPathChangedAsync"
+                                 SelectedItems="_currentSelectedItems"
+                                 SelectedItemsChanged="@OnSelectedItemsChanged"
+                                 IsIndeterminateProgress="@(!ProgressPercent.HasValue)"
+                                 ProgressLabel="@GetProgressLabelFromState()"
+                                 ProgressPercent="@ProgressPercent"
+                                 OnItemDoubleTapped="@OnUpdateEntryAsync" />
+                </FluentMultiSplitterPane>
+
+                @if (_showDetails)
+                {
+                    <FluentMultiSplitterPane Resizable="false"
+                                             Size="25%">
+                        <FileEntryDetails TItem="TItem"
+                                          Entries="@(_currentSelectedItems is null || !_currentSelectedItems.Any() ? _currentEntry is null ? [] : new[] { _currentEntry } : _currentSelectedItems)" />
+                    </FluentMultiSplitterPane>
+                }
+            </FluentMultiSplitter>
+
+            <FluentOverlay Visible="@(_progressState != FileManagerProgressState.None)"
+                           CloseMode="OverlayCloseMode.Manual"
+                           Opacity="60">
+                <FluentStack Orientation="Orientation.Vertical"
+                             HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalGap="6px">
+                    <FluentProgressBar Value="@ProgressPercent"
+                                       Width="340px" />
+
+                    <FluentText Color="Color.Info"
+                                Size="TextSize.Size100">
+                        @GetProgressLabelFromState()
+                    </FluentText>
+                </FluentStack>
+            </FluentOverlay>
+        </div>
+
+        <div hidden-when="md lg xl xxl" style="height: 100%;">
+            <FileManager TItem="TItem"
+                         @ref="_fileManagerView"
+                         Entry="@GetEntry()"
+                         ShowTrailMenu="@(FileStructureView == FileStructureView.Hierarchical)"
+                         RootPath="@_rootTrail"
+                         Path="@_path"
+                         OnPathChanged="@OnPathChangedAsync"
+                         SelectedItems="_currentSelectedItems"
+                         SelectedItemsChanged="@OnSelectedItemsChanged"
+                         IsIndeterminateProgress="@(!ProgressPercent.HasValue)"
+                         ProgressLabel="@GetProgressLabelFromState()"
+                         ProgressPercent="@ProgressPercent"
+                         OnItemDoubleTapped="@OnUpdateEntryAsync" />
+
+            <FluentOverlay Visible="@(_progressState != FileManagerProgressState.None)"
+                           CloseMode="OverlayCloseMode.Manual"
+                           Opacity="60">
+                <FluentStack Orientation="Orientation.Vertical"
+                             HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalGap="6px">
+                    <FluentProgressBar Value="@ProgressPercent"
+                                       Width="340px" />
+
+                    <FluentText Color="Color.Info"
+                                Size="TextSize.Size100">
+                        @GetProgressLabelFromState()
+                    </FluentText>
+                </FluentStack>
+            </FluentOverlay>
+        </div>
+    </FluentStack>
+</CascadingValue>
+
+<FluentInputFile DragDropZoneVisible="false"
+                 Mode="InputFileMode.Buffer"
+                 MaximumFileCount="@MaximumFileCount"
+                 MaximumFileSize="@MaximumFileSize"
+                 BufferSize="@BufferSize"
+                 Multiple="true"
+                 AnchorId="@($"FileLoader{Id}")"
+                 OnCompleted="@OnCompletedAsync"
+                 OnFileUploaded="@OnFileUploadedAsync"
+                 OnProgressChange="@OnProgressChange"
+                 Accept="@AcceptFilter" />
+
+@code {
+    public FluentCxFileManager(LibraryConfiguration configuration)
+        : base(configuration)
+    {
+        Id = Identifier.NewId();
+        _renderLabel = label => __builder =>
+        {
+            <FluentLabel>@label</FluentLabel>
+        };
+
+        _renderSortMenu = __builder =>
+        {
+            <FluentMenuList OnClick="@OnSortMenuChechedChanged" OnCheckedChanged="OnSortMenuChechedChanged">
+                <FluentMenuItem Disabled="@_isDisabled" Label="Sort">
+                    <MenuItems>
+                        <FluentMenuItem Id="@($"Name-{Id}")"
+                                        Checked="@(State.SortBy == FileSortBy.Name)"
+                                        Role="MenuItemRole.Radio">
+                            By name
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"Extension-{Id}")"
+                                        Checked="@(State.SortBy == FileSortBy.Extension)"
+                                        Role="MenuItemRole.Radio">
+                            By extension
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"Size-{Id}")"
+                                        Checked="@(State.SortBy == FileSortBy.Size)"
+                                        Role="MenuItemRole.Radio">
+                            By size
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Role="MenuItemRole.Radio"
+                                        Id="@($"CreatedDate-{Id}")"
+                                        Checked="@(State.SortBy == FileSortBy.CreatedDate)">
+                            By creation date
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"ModifiedDate-{Id}")"
+                                        Checked="@(State.SortBy == FileSortBy.ModifiedDate)"
+                                        Role="MenuItemRole.Radio">
+                            By modified date
+                        </FluentMenuItem>
+                    </MenuItems>
+                </FluentMenuItem>
+
+                <FluentDivider />
+
+                <FluentMenuItem Label="Order">
+                    <MenuItems>
+                        <FluentMenuItem Id="@($"Ascending-{Id}")"
+                                        Checked="@(State.SortMode == FileSortMode.Ascending)"
+                                        Role="MenuItemRole.Radio">
+                            Ascending
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"Descending-{Id}")"
+                                        Checked="@(State.SortMode == FileSortMode.Descending)"
+                                        Role="MenuItemRole.Radio">
+                            Descending
+                        </FluentMenuItem>
+                    </MenuItems>
+                </FluentMenuItem>
+
+                <FluentDivider />
+
+                <FluentMenuItem Label="Layout">
+                    <MenuItems>
+                        <FluentMenuItem Role="MenuItemRole.Radio"
+                                        Id="@($"None-{Id}")"
+                                        Checked="@(State.SortLayout == FileSortLayout.None)">
+                            Default
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Role="MenuItemRole.Radio"
+                                        Id="@($"Folders-{Id}")"
+                                        Checked="@(State.SortLayout == FileSortLayout.Folders)">
+                            Folders
+                        </FluentMenuItem>
+                        <FluentMenuItem Role="MenuItemRole.Radio"
+                                        Id="@($"Files-{Id}")"
+                                        Checked="@(State.SortLayout == FileSortLayout.Files)">
+                            Files
+                        </FluentMenuItem>
+                    </MenuItems>
+                </FluentMenuItem>
+            </FluentMenuList>
+        };
+
+        _renderViewMenu = __builder =>
+        {
+            <FluentMenuList OnClick="@OnViewMenuChechedChanged" OnCheckedChanged="@OnViewMenuChechedChanged">
+                <FluentMenuItem Disabled="@_isDisabled" Label="Views">
+                    <MenuItems>
+                        <FluentMenuItem Role="MenuItemRole.Radio"
+                                        Checked="@(State.View == FileView.List)"
+                                        Id="@($"List-{Id}")">
+                            <span slot="@FluentSlot.Start">
+                                <FluentIcon Value="@(new Size20.TextAlignJustify())" />
+                            </span>
+                            List
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Role="MenuItemRole.Radio"
+                                        Checked="@(State.View == FileView.Details)"
+                                        Id="@($"Details-{Id}")">
+                            <span slot="@FluentSlot.Start">
+                                <FluentIcon Value="@(new Size20.TextAlignJustify())" />
+                            </span>
+                            List with details
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"Mosaic-{Id}")"
+                                        Checked="@(State.View == FileView.Mosaic)"
+                                        Role="MenuItemRole.Radio">
+                            <span slot="@FluentSlot.Start">
+                                <FluentIcon Value="@(new Size20.AppsListDetail())" />
+                            </span>
+                            Mosaic
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"SmallIcons-{Id}")"
+                                        Checked="@(State.View == FileView.SmallIcons)"
+                                        Role="MenuItemRole.Radio">
+                            <span slot="@FluentSlot.Start">
+                                <FluentIcon Value="@(new Size20.Grid())" />
+                            </span>
+                            Small icons
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"MediumIcons-{Id}")"
+                                        Checked="@(State.View == FileView.MediumIcons)"
+                                        Role="MenuItemRole.Radio">
+                            <span slot="@FluentSlot.Start">
+                                <FluentIcon Value="@(new Size20.AppTitle())" />
+                            </span>
+                            Medium icons
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"LargeIcons-{Id}")"
+                                        Checked="@(State.View == FileView.LargeIcons)"
+                                        Role="MenuItemRole.Radio">
+                            <span slot="@FluentSlot.Start">
+                                <FluentIcon Value="@(new Size24.AppTitle())" />
+                            </span>
+                            Large icons
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"VeryLargeIcons-{Id}")"
+                                        Checked="@(State.View == FileView.VeryLargeIcons)"
+                                        Role="MenuItemRole.Radio">
+                            <span slot="@FluentSlot.Start">
+                                <FluentIcon Value="@(new Size24.AppTitle())" />
+                            </span>
+                            Very large icons
+                        </FluentMenuItem>
+                    </MenuItems>
+                </FluentMenuItem>
+
+                <FluentDivider />
+
+                <FluentMenuItem Label="Structure" Disabled="@_isDisabled">
+                    <MenuItems>
+                        <FluentMenuItem Id="@($"Hierarchical-{Id}")"
+                                        Role="MenuItemRole.Checkbox"
+                                        Checked="@(FileStructureView == FileStructureView.Hierarchical)">
+                            <span slot="@FluentSlot.Start">
+                                <FluentIcon Value="@(new Size24.Organization())" />
+                            </span>
+                            Hierarchical
+                        </FluentMenuItem>
+
+                        <FluentMenuItem Id="@($"Flat-{Id}")"
+                                        Role="MenuItemRole.Radio"
+                                        Checked="@(FileStructureView == FileStructureView.Flat)">
+                            <span slot="@FluentSlot.Start">
+                                <FluentIcon Value="@(new Size24.List())" />
+                            </span>
+                            Flat
+                        </FluentMenuItem>
+                    </MenuItems>
+                </FluentMenuItem>
+            </FluentMenuList>
+        };
+    }
+}

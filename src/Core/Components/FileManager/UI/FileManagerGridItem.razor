@@ -1,0 +1,49 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem where TItem : class, new()
+
+@if (IsSmall)
+{
+    <FluentStack Id="@Id" HorizontalGap="6px" VerticalAlignment="VerticalAlignment.Center">
+        <FluentCheckbox @bind-Value="@IsChecked" />
+
+        <FluentIcon Value="@GetIcon(Entry)" />
+
+        <FluentStack VerticalGap="4px" Orientation="Orientation.Vertical">
+            <FluentLabel Style="width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                @Entry.Name
+            </FluentLabel>
+            <FluentText Size="TextSize.Size100" Color="Color.Custom" CustomColor="var(--colorNeutralForeground4)">
+                @ByteSize.FromBytes(Entry.Size)
+            </FluentText>
+        </FluentStack>
+    </FluentStack>
+}
+else
+{
+    <FluentStack Id="@Id" HorizontalGap="4px" Orientation="Orientation.Vertical">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentCheckbox @bind-Value="IsChecked" />
+            <FluentSpacer />
+            <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                @ByteSize.FromBytes(Entry.Size)
+            </FluentLabel>
+        </FluentStack>
+
+        <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
+                     VerticalAlignment="VerticalAlignment.Center"
+                     Style="height: 100%">
+            @GetIcon(Entry).ToMarkup(IconSize)
+        </FluentStack>
+
+        <FluentSpacer Orientation="Orientation.Vertical" />
+
+        <FluentStack HorizontalAlignment="HorizontalAlignment.Center">
+            <FluentText Truncate Nowrap Style="@($"max-width: {MaxLabelWidth}px;")">
+                @Entry.Name
+            </FluentText>
+        </FluentStack>
+
+    </FluentStack>
+}
+

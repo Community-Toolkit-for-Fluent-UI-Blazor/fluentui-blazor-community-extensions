@@ -6,8 +6,28 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents the information of the device where the app is running.
 /// </summary>
-public record DeviceInfo
+public sealed record DeviceInfo
 {
+    /// <summary>
+    /// Represents the orientation of the device.
+    /// </summary>
+    private DeviceOrientation _orientation;
+
+    /// <summary>
+    /// Represents the device breakpoint that determines the current responsive layout state.
+    /// </summary>
+    private DeviceBreakpoint _breakpoint;
+
+    /// <summary>
+    /// Occurs when the orientation of the component changes.
+    /// </summary>
+    public event EventHandler<DeviceOrientation>? OnOrientationChanged;
+
+    /// <summary>
+    /// Occurs when the breakpoint state changes.
+    /// </summary>
+    public event EventHandler<DeviceBreakpoint>? OnBreakpointChanged;
+
     /// <summary>
     /// Gets the user agent.
     /// </summary>
@@ -24,6 +44,19 @@ public record DeviceInfo
     public OperatingSystem OperatingSystem { get; init; }
 
     /// <summary>
+    /// Gets the device breakpoint that determines the current responsive layout state.
+    /// </summary>
+    public DeviceBreakpoint Breakpoint
+    {
+        get => _breakpoint;
+        set
+        {
+            _breakpoint = value;
+            OnBreakpointChanged?.Invoke(this, value);
+        }
+    }
+
+    /// <summary>
     /// Gets if touch is enabled.
     /// </summary>
     public bool HasTouch { get; init; }
@@ -36,7 +69,15 @@ public record DeviceInfo
     /// <summary>
     /// Gets the orientation of the device.
     /// </summary>
-    public DeviceOrientation Orientation { get; set; }
+    public DeviceOrientation Orientation
+    {
+        get => _orientation;
+        set
+        {
+            _orientation = value;
+            OnOrientationChanged?.Invoke(this, _orientation);
+        }
+    }
 
     /// <inheritdoc />
     public override string ToString()
@@ -57,6 +98,10 @@ public record DeviceInfo
 
         handler.AppendLiteral("Orientation: ");
         handler.AppendFormatted(Orientation);
+        handler.AppendLiteral(Environment.NewLine);
+
+        handler.AppendLiteral("Breakpoint: ");
+        handler.AppendFormatted(Breakpoint);
         handler.AppendLiteral(Environment.NewLine);
 
         return handler.ToString();
@@ -84,6 +129,10 @@ public record DeviceInfo
 
         handler.AppendLiteral("<strong>Orientation: </strong>");
         handler.AppendFormatted(Orientation);
+        handler.AppendLiteral("<br />");
+
+        handler.AppendLiteral("<strong>Breakpoint: </strong>");
+        handler.AppendFormatted(Breakpoint);
         handler.AppendLiteral("<br />");
 
         return new(handler.ToString());

@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using FluentUI.Blazor.Community.Components.Components.FileManager.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -26,6 +27,9 @@ public static class ServiceCollectionExtensions
             throw new NotSupportedException("Transient lifetime is not supported for Fluent UI Community services.");
         }
 
-        return services.AddScoped<DeviceInfoState>();
+        return services.AddScoped<DeviceInfoState>()
+                       .AddScoped<FileManagerState>()
+                       .AddScoped<IFileDownloader, FileDownloader>()
+                       .AddScoped(typeof(IFileEntryZipService<>), typeof(DefaultFileEntryZipService<>));
     }
 }

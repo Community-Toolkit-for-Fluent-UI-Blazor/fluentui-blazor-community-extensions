@@ -1,0 +1,19 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentDialogInstance
+
+<FluentDialogBody>
+    <FluentTextInput Style="width: 100%"
+                     Width="100%"
+                     @bind-Value="_folderName"
+                     @bind-Value:after="OnValidateInput"
+                     Label="Name of the folder"
+                     Placeholder="Enter the name of the folder"
+                     Immediate="true"
+                     MessageCondition="@(i => i.When(() => string.IsNullOrEmpty(_folderName)).Display("A folder must have at least one character", MessageState.Error)
+                                                                            .When(() => _folderName?.Length > 50).Display("At most 50 characters", MessageState.Error)
+                                                                            .Build())">
+        <StartTemplate>
+            <FluentIcon Value="@(new Size16.Folder())" Color="Color.Primary" />
+        </StartTemplate>
+    </FluentTextInput>
+</FluentDialogBody>

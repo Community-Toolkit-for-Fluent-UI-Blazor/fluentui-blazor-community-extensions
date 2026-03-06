@@ -4,25 +4,30 @@
 
 <FluentDropZone TItem="TItem"
                 Class="@Css"
+                Id="@Id"
                 Style="@InternalStyle"
                 Draggable="@CanReorder"
                 Droppable="@CanReorder"
-                Item="@Item">
-    <div class="tile-grid-item @InternalClass">
-        @ChildContent
+                Item="@Item"
+                AdditionalAttributes="@AdditionalAttributes">
+        <div class="tile-grid-item @InternalClass"
+             id="@($"tile-grid-item-{Id}")"
+             @onclick="OnClick"
+             @ondblclick="OnDoubleClick">
+            @ChildContent
 
-        @if (CanResize)
-        {
-            <div class="resize-handle-bottom"
-                 style="width: @GetHandleSize()"
-                 @onmousedown="OnResizeHandleBottomMouseDown" />
+            @if (CanResize)
+            {
+                <div class="resize-handle-bottom"
+                     style="width: @GetHandleSize()"
+                     @onmousedown="OnResizeHandleBottomMouseDown" />
 
-            <div class="resize-handle-right"
-                 style="height: @GetHandleSize()"
-                 @onmousedown="OnResizeHandleRightMouseDown" />
+                <div class="resize-handle-right"
+                     style="height: @GetHandleSize()"
+                     @onmousedown="OnResizeHandleRightMouseDown" />
 
-            <div class="resize-handle-corner"
-                 @onmousedown="OnResizeHandleCornerMouseDown" />
-        }
-    </div>
+                <div class="resize-handle-corner"
+                     @onmousedown="OnResizeHandleCornerMouseDown" />
+            }
+        </div>   
 </FluentDropZone>

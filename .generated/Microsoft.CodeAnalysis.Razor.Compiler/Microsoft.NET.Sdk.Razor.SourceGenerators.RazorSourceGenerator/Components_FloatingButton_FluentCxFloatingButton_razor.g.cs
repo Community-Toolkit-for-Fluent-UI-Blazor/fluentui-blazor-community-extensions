@@ -28,6 +28,12 @@ using Microsoft.FluentUI.AspNetCore.Components
 
 #nullable disable
     ;
+#nullable restore
+#line (3,2)-(3,62) "D:\TFS\Personnels\Microsoft\src\Core\_Imports.razor"
+using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+
+#nullable disable
+    ;
     #line default
     #line hidden
     #nullable restore

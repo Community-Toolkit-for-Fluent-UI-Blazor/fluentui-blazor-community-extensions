@@ -83,6 +83,25 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
     }
 
     /// <summary>
+    /// Occurs when the orientation of the device changed.
+    /// </summary>
+    /// <param name="value">Value indicating the breakpoint of the device.</param>
+    [JSInvokable]
+    public async Task BreakpointChanged(string value)
+    {
+        if (State.DeviceInfo is not null &&
+            Enum.TryParse(value, true, out DeviceBreakpoint db))
+        {
+            State.DeviceInfo.Breakpoint = db;
+
+            if (DeviceInfoUpdated.HasDelegate)
+            {
+                await DeviceInfoUpdated.InvokeAsync(State.DeviceInfo);
+            }
+        }
+    }
+
+    /// <summary>
     /// <inheritdoc cref="IAsyncDisposable.DisposeAsync" />
     /// </summary>
     /// <returns></returns>

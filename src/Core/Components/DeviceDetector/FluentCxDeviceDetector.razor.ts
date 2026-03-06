@@ -7,7 +7,8 @@ export namespace FluentUI.Blazor.Community.DeviceDetector {
     operatingsystem: string,
     isMobile: boolean,
     hasTouch: boolean,
-    orientation: string
+    orientation: string,
+    breakpoint: string
   }
   export function Initialize(dotNetHelper: DotNet.DotNetObject) {
     function OrientationChanged(e: Event): void {
@@ -15,11 +16,18 @@ export namespace FluentUI.Blazor.Community.DeviceDetector {
       dotNetHelper.invokeMethodAsync("OrientationChanged", orientation);
     }
 
+    function BreakpointChanged(e: any): void {
+      const bp = e.detail?.media ?? getBreakpoint();
+      dotNetHelper.invokeMethodAsync("BreakpointChanged", bp);
+    }
+
     window.screen.orientation.addEventListener('change', OrientationChanged);
+    document.body.addEventListener("mediaChanged", BreakpointChanged);
 
     return {
       dispose: () => {
         window.screen.orientation.removeEventListener('change', OrientationChanged);
+        document.body.removeEventListener("mediaChanged", BreakpointChanged);
       }
     }
   }
@@ -34,10 +42,15 @@ export namespace FluentUI.Blazor.Community.DeviceDetector {
       operatingsystem: operatingSystem,
       isMobile: operatingSystem === "iOS" || operatingSystem === "Android",
       hasTouch: 'ontouchstart' in document.documentElement,
-      orientation: getOrientation()
+      orientation: getOrientation(),
+      breakpoint: getBreakpoint()
     };
 
     return deviceInfo;
+  }
+
+  function getBreakpoint(): string {
+    return document.body.dataset.media ?? "unknown";
   }
 
   function getBrowser(userAgent: string): string {
