@@ -279,30 +279,45 @@
                 <FluentMenuItem Id="@($"Name-{Id}")"
                                 Checked="@(State.SortBy == FileSortBy.Name)"
                                 Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     By name
                 </FluentMenuItem>
 
                 <FluentMenuItem Id="@($"Extension-{Id}")"
                                 Checked="@(State.SortBy == FileSortBy.Extension)"
                                 Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     By extension
                 </FluentMenuItem>
 
                 <FluentMenuItem Id="@($"Size-{Id}")"
                                 Checked="@(State.SortBy == FileSortBy.Size)"
                                 Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     By size
                 </FluentMenuItem>
 
                 <FluentMenuItem Role="MenuItemRole.Checkbox"
                                 Id="@($"CreatedDate-{Id}")"
                                 Checked="@(State.SortBy == FileSortBy.CreatedDate)">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     By creation date
                 </FluentMenuItem>
 
                 <FluentMenuItem Id="@($"ModifiedDate-{Id}")"
                                 Checked="@(State.SortBy == FileSortBy.ModifiedDate)"
                                 Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     By modified date
                 </FluentMenuItem>
 
@@ -311,12 +326,18 @@
                 <FluentMenuItem Id="@($"Ascending-{Id}")"
                                 Checked="@(State.SortMode == FileSortMode.Ascending)"
                                 Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     Ascending
                 </FluentMenuItem>
 
                 <FluentMenuItem Id="@($"Descending-{Id}")"
                                 Checked="@(State.SortMode == FileSortMode.Descending)"
                                 Role="MenuItemRole.Checkbox">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     Descending
                 </FluentMenuItem>
 
@@ -325,17 +346,26 @@
                 <FluentMenuItem Role="MenuItemRole.Checkbox"
                                 Id="@($"None-{Id}")"
                                 Checked="@(State.SortLayout == FileSortLayout.None)">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     Default
                 </FluentMenuItem>
 
                 <FluentMenuItem Role="MenuItemRole.Checkbox"
                                 Id="@($"Folders-{Id}")"
                                 Checked="@(State.SortLayout == FileSortLayout.Folders)">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     Folders
                 </FluentMenuItem>
                 <FluentMenuItem Role="MenuItemRole.Checkbox"
                                 Id="@($"Files-{Id}")"
                                 Checked="@(State.SortLayout == FileSortLayout.Files)">
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     Files
                 </FluentMenuItem>
             </FluentMenuList>
@@ -350,6 +380,9 @@
                     <span slot="@FluentSlot.Start">
                         <FluentIcon Value="@(new Size20.TextAlignJustify())" />
                     </span>
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     List
                 </FluentMenuItem>
 
@@ -358,6 +391,9 @@
                                 Id="@($"Details-{Id}")">
                     <span slot="@FluentSlot.Start">
                         <FluentIcon Value="@(new Size20.TextAlignJustify())" />
+                    </span>
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
                     </span>
                     List with details
                 </FluentMenuItem>
@@ -368,6 +404,9 @@
                     <span slot="@FluentSlot.Start">
                         <FluentIcon Value="@(new Size20.AppsListDetail())" />
                     </span>
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     Mosaic
                 </FluentMenuItem>
 
@@ -376,6 +415,9 @@
                                 Role="MenuItemRole.Checkbox">
                     <span slot="@FluentSlot.Start">
                         <FluentIcon Value="@(new Size20.Grid())" />
+                    </span>
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
                     </span>
                     Small icons
                 </FluentMenuItem>
@@ -386,6 +428,9 @@
                     <span slot="@FluentSlot.Start">
                         <FluentIcon Value="@(new Size20.AppTitle())" />
                     </span>
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     Medium icons
                 </FluentMenuItem>
 
@@ -395,6 +440,9 @@
                     <span slot="@FluentSlot.Start">
                         <FluentIcon Value="@(new Size24.AppTitle())" />
                     </span>
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     Large icons
                 </FluentMenuItem>
 
@@ -403,6 +451,9 @@
                                 Role="MenuItemRole.Checkbox">
                     <span slot="@FluentSlot.Start">
                         <FluentIcon Value="@(new Size24.AppTitle())" />
+                    </span>
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
                     </span>
                     Very large icons
                 </FluentMenuItem>
@@ -415,6 +466,9 @@
                     <span slot="@FluentSlot.Start">
                         <FluentIcon Value="@(new Size24.Organization())" />
                     </span>
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
+                    </span>
                     Hierarchical
                 </FluentMenuItem>
 
@@ -423,6 +477,9 @@
                                 Checked="@(FileStructureView == FileStructureView.Flat)">
                     <span slot="@FluentSlot.Start">
                         <FluentIcon Value="@(new Size24.List())" />
+                    </span>
+                    <span slot="@FluentSlot.Indicator">
+                        <FluentIcon Value="@(new Filled.Size12.Circle())" />
                     </span>
                     Flat
                 </FluentMenuItem>
