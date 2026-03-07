@@ -281,7 +281,7 @@ public partial class SchedulerCanvas<TItem> : FluentComponentBase, IAsyncDisposa
         var parent = Parent!;
         _lastItemsHash = newHash;
         await MeasureLayoutAsync(View);
-        Console.WriteLine("View : " + View);
+
         _mapper = View switch
         {
             SchedulerView.Day => GetDayViewColumns(),
