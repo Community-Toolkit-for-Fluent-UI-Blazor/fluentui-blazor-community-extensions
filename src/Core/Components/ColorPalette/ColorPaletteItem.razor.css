@@ -19,12 +19,12 @@
   }
 
   .palette-item.focused {
-    outline: 2px solid var(--accent-fill-rest, #2563EB);
+    outline: 2px solid var(--colorBrandForeground1, #2563EB);
     outline-offset: 2px;
   }
 
   .palette-item.selected {
-    outline: 2px solid var(--accent-fill-rest, #2563EB);
+    outline: 2px solid var(--colorBrandForeground1, #2563EB);
     outline-offset: -2px;
   }
 
@@ -33,7 +33,7 @@
 }
 
   .palette-item.focused {
-    outline: 2px solid var(--accent-fill-rest, #2563EB);
+    outline: 2px solid var(--colorBrandForeground1, #2563EB);
     box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
     z-index: 1;
   }

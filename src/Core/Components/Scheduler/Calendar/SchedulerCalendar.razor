@@ -1,0 +1,65 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div class="scheduler-month-calendar">
+    <div class="month-header">@Month.ToString("MMMM yyyy", Culture)</div>
+
+    <div class="week-days">
+        @foreach (var dayName in CalendarExtended.GetDayNames(Culture))
+        {
+            <div class="week-day">@dayName.Shorted</div>
+        }
+    </div>
+
+    @for (int week = 0; week < 6; week++)
+    {
+        <div class="week">
+            @foreach (var day in CalendarExtended.GetDaysOfWeek(week, Month, Culture))
+            {
+                var isSelected = SelectedDate == day;
+                var isToday = day.Date == DateTime.Today.Date;
+                var isDisabled = IsDisabled(day);
+                var isInactive = IsInactive(day);
+
+                <div class="day-cell @(isInactive ? "inactive" : "") @(isSelected ? "selected" : "") @(isToday ? "today" : "")"
+                     tabindex="0"
+                     role="@(isDisabled || isInactive ? null : "button")"
+                     disabled="@isDisabled"
+                     aria-disabled="@isDisabled.ToString(Culture)"
+                     aria-selected="@isSelected.ToString(Culture)"
+                     aria-label="@GetAriaLabel(day)"
+                     id="@($"{(isInactive ? "inactive-" : "")}scheduler-calendar-{day.Year}-{day.Month}-{day.Day}")"
+                     @onclick="@(() => OnSelectedCellAsync(day))">
+                    <div class="day-number">
+                        @day.Day
+                    </div>
+
+                    @if (!isInactive && HasItems(day))
+                    {
+                        <div class="day-indicator"></div>
+                    }
+                </div>
+
+                <FluentPopover AnchorId="@($"scheduler-calendar-{day.Year}-{day.Month}-{day.Day}")"
+                               Opened="@(_openedDay.TryGetValue(day, out var x) ? x : false)"
+                               OpenedChanged="@(() => _openedDay[day] = false)"
+                               Style="width: 300px; max-height: 420px;">
+                    <FluentStack Orientation="Orientation.Vertical"
+                                 HorizontalAlignment="HorizontalAlignment.Center"
+                                 Style="cursor: pointer;"
+                                 VerticalGap="2"
+                                 @onclick="() => OnDateSelectedAsync(day)">
+                        <FluentText Color="Color.Primary" Size="TextSize.Size600">@day.Day</FluentText>
+                        <FluentText Size="TextSize.Size300">@Culture.DateTimeFormat.MonthNames[day.Month - 1]</FluentText>
+                    </FluentStack>
+     
+                    <FluentStack Orientation="Orientation.Vertical"
+                                 VerticalGap="2"
+                                 Style="overflow-y: auto; max-height: 350px;">
+                        @DayTemplate(day)
+                    </FluentStack>
+                </FluentPopover>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,34 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem
+@inherits FluentComponentBase
+
+@if (Parent?.View == SchedulerView.Week &&
+    Parent?.ShowWeekSettings == true)
+{
+    <FluentButton IconStart="@(new Size24.CalendarSettings())"
+                  Id="@($"week-{Id}")"
+                  OnClick="@(() => _openWeekSettings = !_openWeekSettings)">
+        @Localizer[LanguageResource.CX_Scheduler_WeekSettings]
+    </FluentButton>
+
+    <FluentPopover @bind-Opened="_openWeekSettings"
+                   AnchorId="@($"week-{Id}")">
+        <FluentText Size="TextSize.Size400" Weight="TextWeight.Bold">
+            @Localizer[LanguageResource.CX_Scheduler_WeekSettings]
+        </FluentText>
+    
+        <FluentStack Orientation="Orientation.Vertical"
+                     VerticalGap="0">
+            <FluentTextInput AriaLabel="@Localizer[LanguageResource.CX_Scheduler_NumberOfSubdivisions]"
+                             Label="@Localizer[LanguageResource.CX_Scheduler_NumberOfSubdivisions]"
+                             @bind-Value=_weekSubdivisions
+                             @bind-Value:after=OnSubdivisionsValueChanged
+                             Margin="@MarginUtils.Bottom3" />
+
+            <FluentTextInput AriaLabel="@Localizer[LanguageResource.CX_Scheduler_WeekSlotHeight]"
+                             Label="@Localizer[LanguageResource.CX_Scheduler_WeekSlotHeight]"
+                             @bind-Value=_weekSlotHeight
+                             @bind-Value:after=OnWeekSlotHeightValueChanged />
+        </FluentStack>
+    </FluentPopover>
+}

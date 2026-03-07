@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using FluentUI.Demo.DocViewer;
+using FluentUI.Demo.Shared.Infrastructure;
 
 namespace FluentUI.Demo.Client;
 
@@ -27,7 +28,7 @@ public static class ServiceCollectionExtensions
         public IServiceCollection ForClient()
         {
             _services.AddHttpClient<IStaticAssetService, HttpBasedStaticAssetService>();
-
+            _services.AddScoped<SchedulerStorage>();
             // _services.AddSingleton<CacheStorageAccessor>();
             // _services.AddSingleton<DemoNavProvider>();
 
@@ -40,7 +41,7 @@ public static class ServiceCollectionExtensions
         public IServiceCollection ForServer()
         {
             _services.AddHttpClient<IStaticAssetService, ServerStaticAssetService>();
-
+            _services.AddScoped<SchedulerStorage>();
             // _services.AddSingleton<DemoNavProvider>();
             // _services.AddScoped<CacheStorageAccessor>();
 

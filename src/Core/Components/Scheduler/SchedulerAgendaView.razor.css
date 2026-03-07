@@ -1,0 +1,121 @@
+.agenda-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: var(--body-font, Arial, sans-serif);
+  font-size: 14px;
+  color: var(--colorNeutralForeground1, #333);
+}
+
+.agenda-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--body-font, Arial, sans-serif);
+  font-size: 14px;
+  color: var(--colorNeutralForeground1, #333);
+}
+
+  .agenda-table thead th {
+    font-weight: 600;
+    text-align: left;
+    background: var(    --colorNeutralBackground1, #f4f4f4);
+    border-bottom: 2px solid var(--colorNeutralStroke4Pressed, #ccc);
+    padding: 8px 12px;
+  }
+
+.agenda-header-date {
+  width: 240px;
+}
+
+.agenda-header-time {
+  width: 140px;
+}
+
+.agenda-header-event {
+  width: auto;
+}
+
+.agenda-row td {
+  border-bottom: 1px solid var(--neutral-fill-strong-rest, #eee);
+  vertical-align: middle;
+
+}
+
+.agenda-date {
+  background: red;
+  padding: 10px;
+  background: var(--colorNeutralBackground4Hover, #fafafa);
+}
+
+.agenda-date-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.agenda-day-number {
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--colorBrandForeground1, #0078d4);
+}
+
+.agenda-day-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.agenda-day-name {
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.agenda-day-month {
+  font-size: 12px;
+  color: var(--colorNeutralForeground4, #666);
+}
+
+.agenda-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--agenda-cell-height);
+  min-height: var(--agenda-cell-height);
+  padding: 10px 12px;
+  box-sizing: border-box;
+}
+
+.agenda-row.agenda-single td .agenda-cell {
+  height: 80px;
+  min-height: 80px;
+}
+
+.agenda-row.agenda-multi td .agenda-cell {
+  height: var(--agenda-cell-height);
+  min-height: var(--agenda-cell-height);
+}
+
+.agenda-hour,
+.agenda-event {
+  background: var(     --colorNeutralBackground1);
+}
+
+.agenda-hour .agenda-cell {
+  font-weight: 500;
+  color: var(--colorNeutralForeground4, #555);
+  white-space: nowrap;
+}
+
+.agenda-event .agenda-cell {
+  color: inherit;
+}
+
+.agenda-icon {
+  font-size: 0.9rem;
+  color: var(--colorBrandForeground1, #0078d4);
+}
+
+.agenda-row:hover td {
+  background-color: var(--colorSubtleBackgroundHover, #f8f8f8);
+}

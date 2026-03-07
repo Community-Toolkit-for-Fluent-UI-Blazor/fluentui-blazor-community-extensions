@@ -1,0 +1,19 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem
+@inherits FluentComponentBase
+
+<FluentStack Width="auto" HorizontalGap="1">
+    <FluentButton IconStart="@(new Size24.CaretLeft())"
+                  OnClick="@OnPreviousAsync"
+                  Title="@Localizer[LanguageResource.CX_Scheduler_Previous]" />
+
+    <FluentButton IconStart="@(new Size24.CalendarToday())"
+                  OnClick="@OnTodayAsync"
+                  Title="@Localizer[LanguageResource.CX_Scheduler_Today]">
+        @Localizer[LanguageResource.CX_Scheduler_Today]
+    </FluentButton>
+
+    <FluentButton IconStart="@(new Size24.CaretRight())"
+                  OnClick="@OnNextAsync"
+                  Title="@Localizer[LanguageResource.CX_Scheduler_Next]" />
+</FluentStack>

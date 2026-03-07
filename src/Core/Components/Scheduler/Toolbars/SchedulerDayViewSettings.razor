@@ -1,0 +1,36 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem
+@inherits FluentComponentBase
+
+@if (Parent is not null &&
+    Parent.View == SchedulerView.Day &&
+    Parent.ShowDaySettings)
+{
+    <FluentButton IconStart="@(new Size24.CalendarSettings())"
+                  Id="@($"day-{Id}")"
+                  OnClick="@(() => _openDaySettings = !_openDaySettings)">
+        @Localizer[LanguageResource.CX_Scheduler_DaySettings]
+    </FluentButton>
+
+    <FluentPopover @bind-Opened="_openDaySettings"
+                   AnchorId="@($"day-{Id}")">
+        <FluentText Size="TextSize.Size400" Weight="TextWeight.Bold">
+            @Localizer[LanguageResource.CX_Scheduler_DaySettings]
+        </FluentText>
+        <FluentStack Orientation="Orientation.Vertical"
+                     VerticalGap="0">
+            <FluentTextInput AriaLabel="@Localizer[LanguageResource.CX_Scheduler_NumberOfSubdivisions]"
+                             Label="@Localizer[LanguageResource.CX_Scheduler_NumberOfSubdivisions]"
+                             @bind-Value=_subdivisions
+                             @bind-Value:after=OnSubdivisionsValueChanged
+                             TextInputType="TextInputType.Number"
+                             Margin="@MarginUtils.Bottom3" />
+
+            <FluentTextInput AriaLabel="@Localizer[LanguageResource.CX_Scheduler_DaySlotHeight]"
+                             Label="@Localizer[LanguageResource.CX_Scheduler_DaySlotHeight]"
+                             @bind-Value=_slotHeight
+                             @bind-Value:after=OnSlotHeightValueChanged
+                             TextInputType="TextInputType.Number" />
+        </FluentStack>
+    </FluentPopover>
+}

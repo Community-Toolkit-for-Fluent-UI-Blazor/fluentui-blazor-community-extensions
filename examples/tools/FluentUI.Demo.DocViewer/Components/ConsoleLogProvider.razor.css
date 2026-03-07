@@ -5,7 +5,6 @@
   position: relative;
   background-color: var(--scrollbar-console-bg);
   color: #c5c8c6;
-  font-family: 'Courier New', Courier, monospace;
   margin: 0;
   padding: 0;
 }
