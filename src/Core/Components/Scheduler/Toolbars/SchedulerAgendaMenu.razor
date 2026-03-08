@@ -1,0 +1,43 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem
+@inherits FluentComponentBase
+
+@if (Parent?.View == SchedulerView.Agenda && Parent?.ShowAgendaSettings == true)
+{
+    <FluentButton IconStart="@(new Size24.CalendarSettings())"
+                  Id="@($"agenda-{Id}")"
+                  OnClick="@(() => _openAgendaSettings = !_openAgendaSettings)">
+        @Localizer[LanguageResource.CX_Scheduler_AgendaSettings]
+    </FluentButton>
+
+    <FluentPopover @bind-Opened="_openAgendaSettings"
+                   AnchorId="@($"agenda-{Id}")">
+        <FluentText Size="TextSize.Size400" Weight="TextWeight.Bold">
+            @Localizer[LanguageResource.CX_Scheduler_AgendaSettings]
+        </FluentText>
+
+        <FluentStack Orientation="Orientation.Vertical"
+                     VerticalGap="0">
+            @* <FluentNumberField AriaLabel="@Parent!.Labels.NumberOfDays"
+                               Label="@Parent!.Labels.NumberOfDays"
+                               Max="14"
+                               Min="1"
+                               Step="1"
+                               @bind-Value=_numberOfDays
+                               @bind-Value:after=OnValueChanged
+                               Style="margin-bottom: 10px" /> *@
+
+            <FluentTextInput AriaLabel="@Localizer[LanguageResource.CX_Scheduler_NumberOfDays]"
+                             Label="@Localizer[LanguageResource.CX_Scheduler_NumberOfDays]"
+                             TextInputType="TextInputType.Number"
+                             @bind-Value=_numberOfDays
+                             @bind-Value:after=OnValueChanged
+                             Margin="@MarginUtils.Bottom3" />
+
+            <FluentSwitch AriaLabel="@Localizer[LanguageResource.CX_Scheduler_HideEmptyDays]"
+                          Label="@Localizer[LanguageResource.CX_Scheduler_HideEmptyDays]"
+                          @bind-Value=_hideEmptyDays
+                          @bind-Value:after=OnValueChanged />
+        </FluentStack>
+    </FluentPopover>
+}

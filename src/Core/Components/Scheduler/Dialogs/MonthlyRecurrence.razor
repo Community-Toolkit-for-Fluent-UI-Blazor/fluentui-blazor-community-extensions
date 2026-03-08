@@ -1,0 +1,85 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+
+@if (Recurrence is not null)
+{
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+        <FluentStack>
+             <!-- Interval -->
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="1" Style="margin-bottom: 12px">
+                <FluentText Weight="TextWeight.Bold">
+                    @string.Format(Culture, Localizer[LanguageResource.CX_Scheduler_RepeatEveryXMonths], Recurrence.Interval)
+                </FluentText>
+                <FluentTextInput TextInputType="TextInputType.Number"
+                                 AriaLabel="@string.Format(Culture, Localizer[LanguageResource.CX_Scheduler_RepeatEveryXMonths], Recurrence.Interval)"
+                                 @bind-Value="_interval"
+                                 @bind-Value:after="SetToRecurrenceInterval" />
+            </FluentStack>
+
+            <!-- Day of month -->
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="4" Style="margin-bottom: 12px">
+                <FluentText Weight="TextWeight.Bold">@Localizer[LanguageResource.CX_Scheduler_DayOfMonth]</FluentText>
+                <FluentTextInput TextInputType="TextInputType.Number"
+                                 AriaLabel="@string.Format(Culture, Localizer[LanguageResource.CX_Scheduler_DayOfMonth], Recurrence.DayOfMonth)"
+                                 @bind-Value="_dayOfMonth"
+                                 @bind-Value:after="SetToRecurrenceDayOfMonth" />
+            </FluentStack>
+        </FluentStack>
+      
+        <!-- End of the récurrence -->
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="4" Style="margin-bottom: 12px">
+            <FluentText Weight="TextWeight.Bold">@Localizer[LanguageResource.CX_Scheduler_EndOfRecurrence]</FluentText>
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Stretch" HorizontalGap="2" Style="margin-bottom: 5px">
+                <FluentButton Style="flex: 1; min-width: 120px;"
+                              OnClick="@(() => _endMode = 0)"
+                              Appearance="@(GetAppearance(_endMode == 0))">
+                    @Localizer[LanguageResource.CX_Scheduler_Never]
+                </FluentButton>
+                <FluentButton Style="flex: 1; min-width: 120px;"
+                              OnClick="@(() => _endMode = 1)"
+                              Appearance="@(GetAppearance(_endMode == 1))">
+                    @Localizer[LanguageResource.CX_Scheduler_Until]
+                </FluentButton>
+                <FluentButton Style="flex: 1; min-width: 120px;"
+                              OnClick="@(() => _endMode = 2)"
+                              Appearance="@(GetAppearance(_endMode == 2))">
+                    @string.Format(CultureInfo.CurrentCulture, Localizer[LanguageResource.CX_Scheduler_AfterXOccurrences], Recurrence.Count ?? 0)
+                </FluentButton>
+            </FluentStack>
+
+            @if (_endMode == 1)
+            {
+                <FluentDatePicker @bind-Value="Recurrence.Until" />
+            }
+            else if (_endMode == 2)
+            {
+                <FluentTextInput TextInputType="TextInputType.Number"
+                                 AriaLabel="@string.Format(Culture, Localizer[LanguageResource.CX_Scheduler_AfterXOccurrences], Recurrence.DayOfMonth)"
+                                 @bind-Value="_recurrenceCount"
+                                 @bind-Value:after="SetToRecurrenceCount" />
+                @* <FluentNumberField @bind-Value="Recurrence.Count" Min="1" Step="1" /> *@
+            }
+        </FluentStack>
+
+        <!-- Exceptions -->
+        <FluentText Weight="TextWeight.Bold">
+            @Localizer[LanguageResource.CX_Scheduler_DateExceptions]
+        </FluentText>
+        <FluentStack Style="margin-bottom: 12px">
+            <FluentDatePicker @bind-Value="_exceptionDate" />
+            <FluentButton OnClick="@AddException">@Localizer[LanguageResource.CX_Scheduler_Add]</FluentButton>
+        </FluentStack>
+
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="4">
+            @foreach (var ex in Exceptions)
+            {
+                <FluentStack>
+                    <FluentLabel>@ex.ToShortDateString()</FluentLabel>
+                    <FluentButton Appearance="ButtonAppearance.Subtle"
+                                  IconStart="@(new Size24.Dismiss())"
+                                  Title="@Localizer[LanguageResource.CX_Scheduler_RemoveDateExceptions]"
+                                  OnClick="@(() => RemoveException(ex))" />
+                </FluentStack>
+            }
+        </FluentStack>
+    </FluentStack>
+}

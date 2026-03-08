@@ -1,0 +1,15 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem
+
+@if (Parent is not null)
+{
+    <FluentStack Width="Auto" HorizontalGap="2px">
+        @foreach(var item in Parent.AvailableViews)
+        {
+            <FluentButton Appearance="@(item == Parent.View ? ButtonAppearance.Primary : ButtonAppearance.Default)"
+                          OnClick="@(() => OnViewSelectedAsync(item))">
+                @Parent.GetViewName(item)
+            </FluentButton>
+        }
+    </FluentStack>
+}

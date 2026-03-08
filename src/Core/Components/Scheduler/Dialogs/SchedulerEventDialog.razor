@@ -1,0 +1,128 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using Microsoft.AspNetCore.Components.Forms
+@inherits FluentDialogInstance
+@typeparam TItem
+
+<FluentDialogBody>
+    @if (_item is not null)
+    {
+        <FluentStack Orientation="Orientation.Vertical"
+                     VerticalGap=0
+                     Style="height: 100%">
+            <FluentStack Orientation="Orientation.Vertical"
+                         Style="margin-bottom: 10px">
+                <FluentTextInput Label="@Localizer[LanguageResource.CX_Scheduler_EventTitle]"
+                                 @bind-Value="_item.Title"
+                                 @bind-Value:after="ValidatePrimaryAction"
+                                 Required="true"
+                                 Immediate
+                                 AriaLabel="@Localizer[LanguageResource.CX_Scheduler_EventTitle]"
+                                 InputMode="TextInputMode.Text"
+                                 Style="width: 100%;"
+                                 MessageCondition="@(i => i.When(() => string.IsNullOrEmpty(_item.Title))
+                                                           .Display(@Localizer[LanguageResource.CX_Scheduler_TitleCannotBeNullOrEmpty], MessageState.Error, new Size16.DismissCircle())
+                                                           .Build())" />
+            </FluentStack>
+
+            <FluentStack Orientation="Orientation.Vertical"
+                         Margin="@MarginUtils.Bottom3">
+                @Localizer[LanguageResource.CX_Scheduler_Start]"
+                <FluentStack HorizontalGap="12px">
+                    <FluentDatePicker @bind-Value="_item.Start" />
+                    <FluentTimePicker @bind-Value=_item.StartTime />
+                </FluentStack>
+            </FluentStack>
+
+            <FluentStack Orientation="Orientation.Vertical"
+                         VerticalGap="1"
+                         Margin="@MarginUtils.Bottom3">
+                @Localizer[LanguageResource.CX_Scheduler_End]
+                <FluentStack HorizontalGap="12px">
+                    <FluentDatePicker @bind-Value="_item.End" />
+                    <FluentTimePicker @bind-Value=_item.EndTime />
+                </FluentStack>
+            </FluentStack>
+
+            <!-- Recurrence -->
+            <FluentStack Orientation="Orientation.Vertical"
+                         VerticalGap="1"
+                         Margin="@MarginUtils.Bottom3">
+                @Localizer[LanguageResource.CX_Scheduler_Recurrence]
+
+                <FluentStack HorizontalAlignment="HorizontalAlignment.Stretch" HorizontalGap="1">
+                    <FluentButton Style="flex: 1; min-width: 120px;"
+                                  OnClick="@(() => OnSetRecurrence())"
+                                  Appearance="@GetAppearanceFromRecurrence()">
+                        @Localizer[LanguageResource.CX_Scheduler_NoRecurrence]
+                    </FluentButton>
+
+                    <FluentButton OnClick="@(() => OnSetRecurrence(RecurrenceFrequency.Daily))"
+                                  Appearance="@GetAppearanceFromRecurrence(RecurrenceFrequency.Daily)"
+                                  Style="flex: 1; min-width: 120px;">
+                        @Localizer[LanguageResource.CX_Scheduler_Daily]
+                    </FluentButton>
+
+                    <FluentButton OnClick="@(() => OnSetRecurrence(RecurrenceFrequency.Weekly))"
+                                  Appearance="@GetAppearanceFromRecurrence(RecurrenceFrequency.Weekly)"
+                                  Style="flex: 1; min-width: 120px;">
+                        @Localizer[LanguageResource.CX_Scheduler_Weekly]
+                    </FluentButton>
+
+                    <FluentButton OnClick="@(() => OnSetRecurrence(RecurrenceFrequency.Monthly))"
+                                  Appearance="@GetAppearanceFromRecurrence(RecurrenceFrequency.Monthly)"
+                                  Style="flex: 1; min-width: 120px;">
+                        @Localizer[LanguageResource.CX_Scheduler_Monthly]
+                    </FluentButton>
+
+                    <FluentButton OnClick="@(() => OnSetRecurrence(RecurrenceFrequency.Yearly))"
+                                  Appearance="@GetAppearanceFromRecurrence(RecurrenceFrequency.Yearly)"
+                                  Style="flex: 1; min-width: 120px;">
+                        @Localizer[LanguageResource.CX_Scheduler_Yearly]
+                    </FluentButton>
+                </FluentStack>
+            </FluentStack>
+
+            @if (_item.Recurrence is not null)
+            {
+                switch (_item.Recurrence.Frequency)
+                {
+                    case RecurrenceFrequency.Daily:
+                        <DailyRecurrence Recurrence="@_item.Recurrence"
+                                         Exceptions="@_item.Exceptions"
+                                         Culture="@Content.Culture" />
+                        break;
+
+                    case RecurrenceFrequency.Weekly:
+                        <WeeklyRecurrence Recurrence="@_item.Recurrence"
+                                          Exceptions="@_item.Exceptions"
+                                          Culture="@Content.Culture" />
+                        break;
+
+                    case RecurrenceFrequency.Monthly:
+                        <MonthlyRecurrence Recurrence="@_item.Recurrence"
+                                           Exceptions="@_item.Exceptions"
+                                           Culture="@Content.Culture" />
+                        break;
+
+                    case RecurrenceFrequency.Yearly:
+                        <YearlyRecurrence Recurrence="@_item.Recurrence"
+                                          Exceptions="@_item.Exceptions"
+                                          Culture="@Content.Culture" />
+                        break;
+                }
+            }
+
+            @if (_item.Data is not null &&
+                 Content.Template is not null)
+            {
+                @Content.Template(_item.Data)
+            }
+
+            <FluentTextArea Label="Description"
+                            Style="width: 100%;"
+                            AriaLabel="@_item.Description"
+                            @bind-Value="_item.Description"
+                            Rows="3" />
+        </FluentStack>
+    }
+</FluentDialogBody>
