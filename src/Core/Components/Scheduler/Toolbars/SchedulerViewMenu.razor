@@ -3,7 +3,7 @@
 
 @if (Parent is not null)
 {
-    <FluentStack Width="Auto" HorizontalGap="1">
+    <FluentStack Width="Auto" HorizontalGap="2px">
         @foreach(var item in Parent.AvailableViews)
         {
             <FluentButton Appearance="@(item == Parent.View ? ButtonAppearance.Primary : ButtonAppearance.Default)"
