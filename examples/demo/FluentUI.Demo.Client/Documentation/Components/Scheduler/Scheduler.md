@@ -15,4 +15,4 @@ The Scheduler component provides a way to display and manage events in a calenda
 
 ## API Scheduler
 
-{{ API Type=Scheduler<> }}
+{{ API Type=Scheduler }}

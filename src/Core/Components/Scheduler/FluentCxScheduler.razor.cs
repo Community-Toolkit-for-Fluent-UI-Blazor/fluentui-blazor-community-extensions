@@ -813,7 +813,7 @@ public partial class FluentCxScheduler<TItem>
     /// <remarks>This method reloads the component's items and triggers a state update. It should be called
     /// when the underlying data changes and the UI needs to reflect the latest state.</remarks>
     /// <returns>A task that represents the asynchronous refresh operation.</returns>
-    internal async Task RefreshAsync()
+    public async Task RefreshAsync()
     {
         await LoadItemsAsync();
         await InvokeAsync(StateHasChanged);

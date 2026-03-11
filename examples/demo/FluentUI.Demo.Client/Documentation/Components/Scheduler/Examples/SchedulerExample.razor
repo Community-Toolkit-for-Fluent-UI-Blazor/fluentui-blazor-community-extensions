@@ -1,21 +1,68 @@
 ﻿@using FluentUI.Demo.Shared.Infrastructure
 
-<div class="height: 600px">
-    <FluentCxScheduler TItem="string"
+<FluentStack Orientation="Orientation.Vertical" Height="660px">
+    <FluentStack HorizontalGap="4px" Margin="@Margin.Bottom3">
+        <FluentButton OnClick="@OnAddEventsAsync">Add Events</FluentButton>
+        <FluentButton OnClick="@OnClearEventsAsync">Clear Events</FluentButton>
+    </FluentStack>
+
+    <FluentCxScheduler @ref="_scheduler"
+                       TItem="string"
                        OnItemCreate="@OnItemCreated"
                        OnItemUpdate="@OnItemUpdated"
                        OnItemDelete="@OnItemDeleted"
                        ItemsProvider="@GetItemsProviderAsync"
                        OnDeleteOccurence="@OnDeleteOccurrence">
     </FluentCxScheduler>
-</div>
+</FluentStack>
 
 @code {
     private long _nextId = 1;
+    private FluentCxScheduler<string>? _scheduler;      
     private readonly List<SchedulerItem<string>> _items = [];
+    private readonly Random _random = new();
 
     [Inject]
     private SchedulerStorage SchedulerStorage { get; set; } = null!;
+
+    private async Task OnClearEventsAsync()
+    {
+        await SchedulerStorage.ClearAsync();
+        _items.Clear();
+
+        if (_scheduler != null)
+        {
+            await _scheduler.RefreshAsync();
+        }
+    }
+
+    private async Task OnAddEventsAsync()
+    {
+        _items.Clear();
+
+        var startDate = new DateTime(2026, 1, 1);
+        var endDate = new DateTime(2026, 12, 31);
+
+        for(var i = 0; i < 10; i++)
+        {
+            var step = _random.Next(1, 365);
+
+            _items.Add(new SchedulerItem<string>()
+                {
+                    Id = i + 1,
+                    Title = "Event " + (i + 1),
+                    Start = startDate.AddDays(step),
+                    End = startDate.AddDays(step + 1).AddHours(-1)
+                });
+        }
+
+        await SchedulerStorage.StoreAsync(_items);
+
+        if (_scheduler != null)
+        {
+            await _scheduler.RefreshAsync();
+        }
+    }
 
     private async Task OnItemDeleted(SchedulerItem<string> item)
     {

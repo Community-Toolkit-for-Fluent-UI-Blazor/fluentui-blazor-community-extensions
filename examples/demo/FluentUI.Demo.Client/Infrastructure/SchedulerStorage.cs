@@ -23,4 +23,9 @@ internal sealed class SchedulerStorage(IJSRuntime js)
         return JsonSerializer.Deserialize<List<SchedulerItem<string>>>(json)
                ?? [];
     }
+
+    public async ValueTask ClearAsync()
+    {
+        await js.InvokeVoidAsync("localStorage.removeItem", "FluentCxScheduler");
+    }
 }
