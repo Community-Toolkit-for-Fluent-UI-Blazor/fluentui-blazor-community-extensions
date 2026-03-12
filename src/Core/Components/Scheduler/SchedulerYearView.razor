@@ -16,16 +16,18 @@
                 <DayTemplate>
                     @foreach (var slot in GetSlotsForDate(context))
                     {
-                        <div class="scheduler-item">
-                            @if (SlotTemplate != null)
-                            {
-                                @SlotTemplate(slot)
-                            }
-                            else
-                            {
-                                @slot.Label
-                            }
-                        </div>
+                            <div class="scheduler-item">
+                                @if (SlotTemplate != null)
+                                {
+                                    @SlotTemplate(slot)
+                                }
+                                else
+                                {
+                                    <FluentText Truncate Nowrap>
+                                        @slot.Label
+                                    </FluentText>
+                                }
+                            </div>                        
                     }
                 </DayTemplate>
             </SchedulerCalendar>

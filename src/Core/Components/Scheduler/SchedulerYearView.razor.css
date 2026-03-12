@@ -29,11 +29,9 @@
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
-  width: 100%;
-  max-width: 272px;
-  overflow: hidden; 
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  width: calc(100% - var(--spacingHorizontalM) - var(--spacingHorizontalM));
+  margin-right: var(--spacingHorizontalM) !important;
+  margin-left: var(--spacingHorizontalM) !important;
 }
 
   .scheduler-item:hover {

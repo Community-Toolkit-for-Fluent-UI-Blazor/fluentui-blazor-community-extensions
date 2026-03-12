@@ -1,6 +1,6 @@
 ﻿@using FluentUI.Demo.Shared.Infrastructure
 
-<FluentStack Orientation="Orientation.Vertical" Height="660px">
+<FluentStack Orientation="Orientation.Vertical">
     <FluentStack HorizontalGap="4px" Margin="@Margin.Bottom3">
         <FluentButton OnClick="@OnAddEventsAsync">Add Events</FluentButton>
         <FluentButton OnClick="@OnClearEventsAsync">Clear Events</FluentButton>
@@ -21,6 +21,7 @@
     private FluentCxScheduler<string>? _scheduler;      
     private readonly List<SchedulerItem<string>> _items = [];
     private readonly Random _random = new();
+    private readonly string _path = Path.GetTempFileName();
 
     [Inject]
     private SchedulerStorage SchedulerStorage { get; set; } = null!;
@@ -43,16 +44,14 @@
         var startDate = new DateTime(2026, 1, 1);
         var endDate = new DateTime(2026, 12, 31);
 
-        for(var i = 0; i < 10; i++)
+        for(var i = 0; i < 365; i++)
         {
-            var step = _random.Next(1, 365);
-
             _items.Add(new SchedulerItem<string>()
                 {
                     Id = i + 1,
                     Title = "Event " + (i + 1),
-                    Start = startDate.AddDays(step),
-                    End = startDate.AddDays(step + 1).AddHours(-1)
+                    Start = startDate.AddDays(i),
+                    End = startDate.AddDays(i + 1).AddHours(-1)
                 });
         }
 
@@ -115,6 +114,17 @@
 );
 
         _nextId = _items.Count > 0 ? _items.Max(i => i.Id) + 1 : 1;
+
         return result;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await SchedulerStorage.InitializeAsync(_path);
+        }
     }
 }

@@ -37,28 +37,31 @@
                     @if (!isInactive && HasItems(day))
                     {
                         <div class="day-indicator"></div>
-                    }
-                </div>
 
-                <FluentPopover AnchorId="@($"scheduler-calendar-{day.Year}-{day.Month}-{day.Day}")"
-                               Opened="@(_openedDay.TryGetValue(day, out var x) ? x : false)"
-                               OpenedChanged="@(() => _openedDay[day] = false)"
-                               Style="width: 300px; max-height: 420px;">
-                    <FluentStack Orientation="Orientation.Vertical"
-                                 HorizontalAlignment="HorizontalAlignment.Center"
-                                 Style="cursor: pointer;"
-                                 VerticalGap="2"
-                                 @onclick="() => OnDateSelectedAsync(day)">
-                        <FluentText Color="Color.Primary" Size="TextSize.Size600">@day.Day</FluentText>
-                        <FluentText Size="TextSize.Size300">@Culture.DateTimeFormat.MonthNames[day.Month - 1]</FluentText>
-                    </FluentStack>
+                        <FluentPopover AnchorId="@($"scheduler-calendar-{day.Year}-{day.Month}-{day.Day}")"
+                                       Opened="@(_openedDay.TryGetValue(day, out var x) ? x : false)"
+                                       OpenedChanged="@(() => _openedDay[day] = false)"
+                                       OffsetHorizontal="-150"
+                                       Style="width: 300px; max-height: 420px;">
+                            <FluentStack Orientation="Orientation.Vertical"
+                                         HorizontalAlignment="HorizontalAlignment.Center"
+                                         Style="cursor: pointer;"
+                                         VerticalGap="2"
+                                         Margin="@MarginUtils.Bottom3"
+                                         @onclick="() => OnDateSelectedAsync(day)">
+                                <FluentText Color="Color.Primary" Size="TextSize.Size600">@day.Day</FluentText>
+                                <FluentText Size="TextSize.Size300">@Culture.DateTimeFormat.MonthNames[day.Month - 1]</FluentText>
+                            </FluentStack>
      
-                    <FluentStack Orientation="Orientation.Vertical"
-                                 VerticalGap="2"
-                                 Style="overflow-y: auto; max-height: 350px;">
-                        @DayTemplate(day)
-                    </FluentStack>
-                </FluentPopover>
+                            <FluentStack Orientation="Orientation.Vertical"
+                                         VerticalGap="2"
+                                         Margin="@MarginUtils.Bottom2"
+                                         Style="overflow-y: auto; max-height: 350px;">
+                                @DayTemplate(day)
+                            </FluentStack>
+                        </FluentPopover>
+                    }
+                </div>  
             }
         </div>
     }
