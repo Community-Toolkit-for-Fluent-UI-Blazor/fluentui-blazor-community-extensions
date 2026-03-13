@@ -1,0 +1,14 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits MotionNode
+
+<div id="@Id"
+     class="motion-item @Class"
+     style="@Style; @BuildStyle()"
+     @onmouseover="HandleHoverIn"
+     @onmouseout="HandleHoverOut"
+     @onmousedown="HandlePressIn"
+     @onmouseup="HandlePressOut"
+     @ontouchstart="HandleTap"
+     @onpointermove="HandleDrag">
+    @ChildContent
+</div>

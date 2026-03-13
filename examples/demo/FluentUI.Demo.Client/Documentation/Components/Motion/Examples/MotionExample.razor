@@ -1,0 +1,177 @@
+﻿<div style="height: 800px">
+    <FluentStack Orientation="Orientation.Vertical" Height="100%">
+        <FluentSelect Items="@_layouts"
+                      @bind-Value="_selectedLayout" />
+
+        <FluentCxMotion>
+            <MotionGroup Transition="@(new MotionTransition()
+                                     {
+                                         Duration = TimeSpan.FromSeconds(1),
+                                         Function = EasingFunction.Linear
+                                     })">
+                <ChildContent>
+                    <MotionItem>
+                        <div style="width: 100px; height: 100px; background: red;" />
+                    </MotionItem>
+
+                    <MotionItem>
+                        <div style="width: 100px; height: 100px; background: green;" />
+                    </MotionItem>
+
+                    <MotionItem>
+                        <div style="width: 100px; height: 100px; background: blue;" />
+                    </MotionItem>
+
+                    <MotionItem>
+                        <div style="width: 100px; height: 100px; background: orange;" />
+                    </MotionItem>
+
+                    <MotionItem>
+                        <div style="width: 100px; height: 100px; background: yellow;" />
+                    </MotionItem>
+
+                    <MotionItem>
+                        <div style="width: 100px; height: 100px; background: violet;" />
+                    </MotionItem>
+
+                    <MotionItem>
+                        <div style="width: 100px; height: 100px; background: purple;" />
+                    </MotionItem>
+
+                    <MotionItem>
+                        <div style="width: 100px; height: 100px; background: aqua;" />
+                    </MotionItem>
+
+                    <MotionItem>
+                        <div style="width: 100px; height: 100px; background: orangered;" />
+                    </MotionItem>
+                </ChildContent>
+                <Layout>
+                    @if (_selectedLayout == "Bind Stack")
+                    {
+                        <BindStackLayout SpacingX="50" SpacingY="50" />
+                    }
+                    else if (_selectedLayout == "Cascade")
+                    {
+                        <CascadeLayout />
+                    }
+                    else if (_selectedLayout == "Chaos")
+                    {
+                        <ChaosLayout />
+                    }
+                    else if (_selectedLayout == "Float")
+                    {
+                        <FloatLayout />
+                    }
+                    else if (_selectedLayout == "Grid")
+                    {
+                        <GridLayout CellHeight="100" CellWidth="100" />
+                    }
+                    else if (_selectedLayout == "Magnet")
+                    {
+                        <MagnetLayout />
+                    }
+                    else if (_selectedLayout == "Pin")
+                    {
+                        <PinLayout />
+                    }
+                    else if (_selectedLayout == "Snake")
+                    {
+                        <SnakeLayout CellHeight="100" CellWidth="100" />
+                    }
+                    else if (_selectedLayout == "Stack")
+                    {
+                        <StackLayout Spacing="50" />
+                    }
+                    else if (_selectedLayout == "Stack Rotating")
+                    {
+                        <StackedRotatingLayout />
+                    }
+                    else if (_selectedLayout == "Fan")
+                    {
+                        <FanLayout />
+                    }
+                    else if (_selectedLayout == "Flower")
+                    {
+                        <FlowerLayout />
+                    }
+                    else if (_selectedLayout == "Galaxy")
+                    {
+                        <GalaxyLayout />
+                    }
+                    else if (_selectedLayout == "Golden Spiral")
+                    {
+                        <GoldenSpiralLayout />
+                    }
+                    else if (_selectedLayout == "Heart")
+                    {
+                        <HeartLayout />
+                    }
+                    else if (_selectedLayout == "Helix")
+                    {
+                        <HelixLayout />
+                    }
+                    else if (_selectedLayout == "Orbit")
+                    {
+                        <OrbitLayout />
+                    }
+                    else if (_selectedLayout == "Helix Animated")
+                    {
+                        <HelixAnimatedLayout />
+                    }
+                    else if (_selectedLayout == "Orbit Animated")
+                    {
+                        <OrbitAnimatedLayout />
+                    }
+                    else if (_selectedLayout == "Rotating")
+                    {
+                        <RotatingLayout />
+                    }
+                    else if (_selectedLayout == "Spiral Animated")
+                    {
+                        <SpiralAnimatedLayout />
+                    }
+                    else if (_selectedLayout == "Sunburst Animated")
+                    {
+                        <SunburstAnimatedLayout />
+                    }
+                    else if (_selectedLayout == "Wave Animated")
+                    {
+                        <WaveAnimatedLayout />
+                    }
+                </Layout>
+            </MotionGroup>
+        </FluentCxMotion>
+    </FluentStack>
+</div>
+
+@code {
+    private string[] _layouts = [
+        "Bind Stack",
+        "Cascade",
+        "Chaos",
+        "Float",
+        "Grid",
+        "Magnet",
+        "Pin",
+        "Snake",
+        "Stack",
+        "Stack Rotating",
+        "Fan",
+        "Flower",
+        "Galaxy",
+        "Golden Spiral",
+        "Heart",
+        "Helix",
+        "Orbit",
+        "Helix Animated",
+        "Orbit Animated",
+        "Rotating",
+        "Spiral Animated",
+        "Sunburst Animated",
+        "Wave Animated"
+        ];
+
+    private string _selectedLayout = "Bind Stack";
+}
+

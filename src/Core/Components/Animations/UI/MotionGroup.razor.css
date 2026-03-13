@@ -1,0 +1,14 @@
+.motion-group {
+  display: block;
+  position: relative;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  width: 100%;
+  height: 100%;
+}
+
+.motion-group-content {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
