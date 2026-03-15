@@ -3,7 +3,8 @@
 
 <FluentStack HorizontalGap="6" VerticalAlignment="VerticalAlignment.Center" Height="60px">
     <SizeTool Size="@Size" SizeChanged="@SizeChanged" />
-    <EraserShapeTool />
+    <EraserShapeTool Shape="@Shape" ShapeChanged="@ShapeChanged" />
+    <EraserModeTool Mode="@Mode" ModeChanged="@ModeChanged" />
     <FluentSpacer />
     <PanelSettings OnClick="@OnSettingsClick" />
 </FluentStack>

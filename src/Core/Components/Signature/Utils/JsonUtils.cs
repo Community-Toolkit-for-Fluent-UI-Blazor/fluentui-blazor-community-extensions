@@ -31,7 +31,7 @@ internal static class JsonUtils
     /// JSON data.</returns>
     internal static async ValueTask<byte[]> WriteAsync<TPayload>(
         SurfacePayload<TPayload> payload,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
         var jsonObject = new Dictionary<string, object?>();
 

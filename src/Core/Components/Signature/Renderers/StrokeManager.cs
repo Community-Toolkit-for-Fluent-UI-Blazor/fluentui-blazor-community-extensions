@@ -69,11 +69,10 @@ public sealed class StrokeManager
 
         if (completed.Points.Count > 0)
         {
-            _strokes.Add(completed);
-            OnChanged?.Invoke(this, EventArgs.Empty);
+            return completed;
         }
 
-        return completed;
+        return null;
     }
 
     /// <summary>
@@ -93,14 +92,14 @@ public sealed class StrokeManager
     /// <returns>Returns true if the stroke was successfully removed; otherwise, false.</returns>
     public bool RemoveStroke(SignatureStroke stroke)
     {
-        var removed =  _strokes.Remove(stroke);
+        var removed =  _strokes.RemoveAll(x => x.Id == stroke.Id);
 
-        if (removed)
+        if (removed > 0)
         {
             OnChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        return removed;
+        return removed > 0;
     }
 
     /// <summary>

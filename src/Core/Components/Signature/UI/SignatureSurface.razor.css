@@ -3,3 +3,7 @@
   width: 100%;
   height: 100%;
 }
+
+  .signature-surface.eraser-mode {
+    cursor: none !important;
+  }

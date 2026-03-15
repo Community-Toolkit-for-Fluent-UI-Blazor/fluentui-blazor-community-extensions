@@ -75,6 +75,11 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
     private bool _hasEngineOptionsChanged;
 
     /// <summary>
+    /// Value indicating whether the render target has changed.
+    /// </summary>
+    private bool _hasTargetChanged;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="SignatureSurface"/> component with the specified library configuration.
     /// </summary>
     /// <param name="configuration">Configuration settings for the Fluent UI Blazor library, used to initialize the component's base class.</param>
@@ -129,6 +134,28 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
     [Parameter]
     public bool IsAsyncRender { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback that is invoked when the history changes.
+    /// </summary>
+    /// <remarks>Use this callback to respond to changes in the component's history, such as navigation or
+    /// undo/redo actions. The callback is triggered whenever the history state is updated.</remarks>
+    [Parameter]
+    public EventCallback OnHistoryChanged { get; set; }
+
+    /// <summary>
+    /// Gets the CSS class string that indicates whether the eraser mode is active for the current tool.
+    /// </summary>
+    private string? InternalClass => DefaultClassBuilder.
+        AddClass("eraser-mode", _engine?.CurrentTool == SignatureStrokeTool.Eraser)
+        .Build();
+
+    /// <summary>
+    /// Gets the JavaScript module reference associated with this component.
+    /// </summary>
+    /// <remarks>The returned reference can be used to invoke JavaScript functions defined in the module. The
+    /// value may be null if the module has not been loaded or initialized.</remarks>
+    internal IJSObjectReference? Module => _module;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -137,6 +164,26 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
         _engine = new SignatureEngine(EngineOptions, RenderingOptions);
         _engine.OnChanged += HandleEngineChanged;
         _engine.OnStrokeSegmentAdded += HandleStrokeSegment;
+        _engine.OnHistoryChanged += HandleHistoryChanged;
+        _engine.EraserHover += HandleEraserHover;
+    }
+
+    /// <summary>
+    /// Handles the event triggered when the navigation history changes.
+    /// </summary>
+    /// <remarks>This method invokes the OnHistoryChanged callback if it has been assigned. It is intended to
+    /// be used as an event handler for navigation or history change events in Blazor applications.</remarks>
+    /// <param name="sender">The source of the event. This parameter is typically null for history change events.</param>
+    /// <param name="e">An object that contains the event data.</param>
+    private void HandleHistoryChanged(object? sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            if (OnHistoryChanged.HasDelegate)
+            {
+                await OnHistoryChanged.InvokeAsync();
+            }
+        });
     }
 
     /// <summary>
@@ -147,6 +194,46 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
     private void OnOptionsChanged(object? sender, EventArgs e)
     {
         InvokeAsync(RenderAsync);
+    }
+
+    /// <summary>
+    /// Handles the pointer hover event for the eraser tool, updating the eraser preview based on the current pointer
+    /// position and eraser settings.
+    /// </summary>
+    /// <remarks>This method is typically called when the user moves the pointer over the drawing surface with
+    /// the eraser tool selected. It updates the eraser's visual feedback to reflect the current eraser configuration
+    /// and pointer location.</remarks>
+    /// <param name="sender">The source of the event. This parameter is not used.</param>
+    /// <param name="sample">The pointer sample containing the current position and input data for the hover event.</param>
+    private void HandleEraserHover(object? sender, PointerSample sample)
+    {
+        var eraser = EngineOptions.Eraser;
+
+        var payload = new EraserPayload
+        {
+            X = sample.X,
+            Y = sample.Y,
+            Size = eraser.Size,
+            Radius = eraser.Radius,
+            Shape = (int)eraser.Shape,
+            SoftEdges = eraser.SoftEdges,
+            SoftEdgeRadius = eraser.SoftEdgeRadius,
+            Mode = (int)eraser.Mode,
+            Tolerance = eraser.Tolerance
+        };
+
+        InvokeAsync(async () =>
+        {
+            if (_module is not null)
+            {
+                await _module!.InvokeVoidAsync(
+                    "FluentUI.Blazor.Community.Signature.DrawEraserHover",
+                    Id!,
+                    payload,
+                    Target!.View
+                );
+            }
+        });
     }
 
     /// <summary>
@@ -337,6 +424,19 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
     /// pointer's position, pressure, modifier key states, and a timestamp.</returns>
     private async Task<PointerSample> ToPointerSampleAsync(PointerEventArgs e)
     {
+        if (_module is null || Target is null)
+        {
+            return new PointerSample(
+                X: e.ClientX,
+                Y: e.ClientY,
+                Pressure: e.Pressure <= 0 ? 0.5 : e.Pressure,
+                CtrlKey: e.CtrlKey,
+                ShiftKey: e.ShiftKey,
+                AltKey: e.AltKey,
+                Timestamp: DateTimeOffset.UtcNow.Ticks
+            );
+        }
+
         var pos = await _module!.InvokeAsync<PointF>("FluentUI.Blazor.Community.Signature.GetPointerPosition", Id!, e.ClientX, e.ClientY, Target!.View);
 
         return new PointerSample(
@@ -368,6 +468,7 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
         {
             _engine.OnChanged -= HandleEngineChanged;
             _engine.OnStrokeSegmentAdded -= HandleStrokeSegment;
+            _engine.EraserHover -= HandleEraserHover;
             _engine.Dispose();
         }
 
@@ -428,6 +529,7 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
         _hasThemeChanged = parameters.TryGetValue(nameof(Theme), out SignatureTheme newTheme) && newTheme != Theme;
         _hasRenderingOptionsChanged = parameters.TryGetValue<SignatureRenderingOptions>(nameof(RenderingOptions), out var newOptions) && newOptions != RenderingOptions;
         _hasEngineOptionsChanged = parameters.TryGetValue<SignatureEngineOptions>(nameof(EngineOptions), out var newEngineOptions) && newEngineOptions != EngineOptions;
+        _hasTargetChanged = parameters.TryGetValue<ISurfaceRenderTarget?>(nameof(Target), out var newTarget) && newTarget != Target;
 
         if (_hasRenderingOptionsChanged)
         {
@@ -455,6 +557,87 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
             SignatureThemeApplier.Apply(SignatureThemeFactory.Create(Theme), RenderingOptions);
             await RenderAsync();
         }
+
+        if (_hasTargetChanged &&
+            Target is null)
+        {
+            Target = new HtmlCanvasRenderTarget(Id!, _module!);
+            await RenderAsync();
+        }
+    }
+
+    /// <summary>
+    /// Activates the pen for subsequent drawing operations in the underlying engine.
+    /// </summary>
+    /// <remarks>Call this method before performing drawing actions that require the pen to be engaged. The
+    /// effect of this method depends on the implementation of the underlying engine.</remarks>
+    internal void UsePen()
+    {
+        _engine?.UsePen();
+    }
+
+    /// <summary>
+    /// Activates the eraser tool in the underlying engine, if available.
+    /// </summary>
+    internal void UseEraser()
+    {
+        _engine?.UseEraser();
+    }
+
+    /// <summary>
+    /// Asynchronously clears the drawing history and all current strokes from the engine, and updates the rendered
+    /// output.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous clear operation.</returns>
+    internal async Task ClearAsync()
+    {
+        _engine?.ClearHistory();
+        _engine?.StrokeManager.Clear();
+
+        await RenderAsync();
+    }
+
+    /// <summary>
+    /// Creates a new surface payload containing rendering options and content for the current drawing surface.
+    /// </summary>
+    /// <remarks>The returned payload aggregates multiple rendering components, including axes, background,
+    /// grid, view, watermark, and stroke content. If the drawing engine is not available, the content will be
+    /// null.</remarks>
+    /// <returns>A <see cref="SurfacePayload{StrokeLayerPayload}"/> instance populated with axes, background, grid, view,
+    /// watermark, and content data based on the current rendering options and engine state.</returns>
+    internal SurfacePayload<StrokeLayerPayload> CreateSurfacePayload()
+    {
+        return new SurfacePayload<StrokeLayerPayload>()
+        {
+            Axes = PayloadFactory.Create(RenderingOptions.Axes),
+            Background = PayloadFactory.Create(RenderingOptions.Background),
+            Grid = PayloadFactory.Create(RenderingOptions.Grid),
+            View = BuildViewPayload(),
+            Watermark = PayloadFactory.Create(RenderingOptions.Watermark),
+            Content = _engine is not null ? PayloadFactory.CreateStrokeLayer("main", _engine.Strokes) : null
+        };
+    }
+
+    internal async Task Undo()
+    {
+        _engine?.Undo();
+        await RenderAsync();
+    }
+
+    internal async Task Redo()
+    {
+        _engine?.Redo();
+        await RenderAsync();
+    }
+
+    internal bool CanUndo()
+    {
+        return _engine?.CanUndo ?? false;
+    }
+
+    internal bool CanRedo()
+    {
+        return _engine?.CanRedo ?? false;
     }
 }
 

@@ -36,7 +36,8 @@ public partial class PenTool
     public RenderFragment DefaultOptions { get; set; }
 
     /// <inheritdoc />
-    public bool IsActive => Parent?.SelectedTool == this;
+    [Parameter]
+    public bool IsActive { get; set; }
 
     /// <summary>
     /// Gets or sets the color value for the component, specified as a CSS color string.
@@ -118,7 +119,7 @@ public partial class PenTool
     /// Gets or sets the callback that is invoked when the pen settings are clicked.
     /// </summary>
     [Parameter]
-    public EventCallback OnPenSettingsClicked { get; set; }
+    public EventCallback OnSettingsClicked { get; set; }
 
     /// <summary>
     /// Gets or sets the width of the component, in device-independent units (DIPs).
@@ -154,7 +155,6 @@ public partial class PenTool
     public void Activate()
     {
         Parent?.Active(this);
-        StateHasChanged();
     }
 
     /// <inheritdoc />

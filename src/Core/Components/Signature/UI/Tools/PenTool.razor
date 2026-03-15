@@ -4,6 +4,7 @@
 <FluentButton Size="ButtonSize.Large"
               IconOnly
               Tooltip="tt"
+              Id="@Id"
               Appearance="@(IsActive ? ButtonAppearance.Primary : ButtonAppearance.Default)"
               OnClick="@(Activate)">
     <FluentIcon Value="@(new Regular.Size24.Pen())" />
@@ -27,7 +28,7 @@
                                           LineJoinChanged="@LineJoinChanged"
                                           LineDash="@LineDash"
                                           LineDashChanged="@LineDashChanged"
-                                          OnSettingsClick="@OnPenSettingsClicked"
+                                          OnSettingsClick="@OnSettingsClicked"
                                           Width="@Width"
                                           WidthChanged="@WidthChanged"
                                           StrokeWidthMode="@StrokeWidthMode"

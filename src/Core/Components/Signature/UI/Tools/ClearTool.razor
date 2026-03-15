@@ -1,0 +1,10 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+ 
+<FluentButton Size="ButtonSize.Large"
+              IconOnly
+              Id="@Id"
+              Tooltip="tt"
+              OnClick="@(OnClick)">
+    <FluentIcon Value="@(new Regular.Size24.Dismiss())" />
+</FluentButton>

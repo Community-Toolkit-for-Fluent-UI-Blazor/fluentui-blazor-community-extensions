@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -11,19 +10,8 @@ namespace FluentUI.Blazor.Community.Components;
 /// applications that leverage the Fluent UI Blazor library. The panel is initialized with a library configuration,
 /// ensuring consistency with the application's overall Fluent UI setup.</remarks>
 public partial class PenSettingsPanel
-    : FluentComponentBase
+    : FluentDialogInstance
 {
-    /// <summary>
-    /// Initialise une nouvelle instance de la classe PenSettingsPanel avec la configuration de bibliothèque spécifiée.
-    /// </summary>
-    /// <param name="configuration">La configuration de bibliothèque utilisée pour initialiser le panneau des paramètres du stylo. Ne peut pas être
-    /// null.</param>
-    public PenSettingsPanel(LibraryConfiguration configuration)
-        : base(configuration)
-    {
-        Id = Identifier.NewId();
-    }
-
     /// <summary>
     /// Gets or sets the options used to configure the pen engine for signature input.
     /// </summary>
@@ -40,4 +28,21 @@ public partial class PenSettingsPanel
     /// signatures. Changing these options affects how strokes are displayed within the component.</remarks>
     [Parameter]
     public SignatureRenderingOptions PenRenderingOptions { get; set; } = new();
+
+    /// <inheritdoc />
+    protected override async Task OnActionClickedAsync(bool primary)
+    {
+        if (primary)
+        {
+            await DialogInstance.CloseAsync(new object[]
+            {
+                PenEngineOptions,
+                PenRenderingOptions
+            });
+        }
+        else
+        {
+            await DialogInstance.CancelAsync();
+        }
+    }
 }

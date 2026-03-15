@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
@@ -7,7 +9,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// by each registered exporter in sequence. Use the Add method to register one or more ISignatureExporter instances
 /// before calling ExportAllAsync. The order in which exporters are added determines the order in which they are
 /// invoked.</remarks>
-public sealed class CompositeSurfaceExporter<TPayload>
+public sealed class CompositeSurfaceExporter<TPayload>(ILogger logger)
 {
     /// <summary>
     /// Contains the collection of signature exporters used to process or export signatures.
@@ -39,15 +41,25 @@ public sealed class CompositeSurfaceExporter<TPayload>
     public async ValueTask<IReadOnlyList<ExportResult>> ExportAllAsync(
         string? fileName,
         SurfacePayload<TPayload> payload,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
         var results = new List<ExportResult>();
 
         foreach (var exporter in _exporters)
         {
-            var result = await exporter.ExportAsync(fileName, payload, options);
-
-            results.Add(result);
+            try
+            {
+                var result = await exporter.ExportAsync(fileName, payload, options);
+                results.Add(result);
+            }
+            catch (NotSupportedException nsex)
+            {
+                logger.LogError(nsex, "Exporter {ExporterType} does not support the requested export format or options.", exporter.GetType().FullName);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while exporting with {ExporterType}.", exporter.GetType().FullName);
+            }
         }
 
         return results;

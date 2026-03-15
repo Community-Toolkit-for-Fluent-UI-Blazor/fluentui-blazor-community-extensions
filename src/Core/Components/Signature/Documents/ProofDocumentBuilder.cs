@@ -1,4 +1,3 @@
-using System.Runtime.Versioning;
 using System.Security.Cryptography;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -23,10 +22,9 @@ public sealed class ProofDocumentBuilder<TPayload, TUserData>
     /// <remarks>This property provides a preconfigured builder using the default proof document signer and
     /// AES-based encrypter. It is intended for typical usage scenarios where custom signing or encryption is not
     /// required. Not supported on browser platforms.</remarks>
-    [UnsupportedOSPlatform("browser")]
     public static ProofDocumentBuilder<TPayload, TUserData> Default { get; } = new(
         new DefaultProofDocumentSigner(),
-        new AesProofDocumentEncrypter());
+        new DefaultProofDocumentEncrypter());
 
     /// <summary>
     /// Provides access to the proof document signer used for signing operations.
@@ -165,7 +163,7 @@ public sealed class ProofDocumentBuilder<TPayload, TUserData>
                 throw new PlatformNotSupportedException("Default signer is not supported in browser.");
             }
 
-            if (_encrypter is AesProofDocumentEncrypter)
+            if (_encrypter is DefaultProofDocumentEncrypter)
             {
                 throw new PlatformNotSupportedException("AES encryption is not supported in browser.");
             }
@@ -173,7 +171,7 @@ public sealed class ProofDocumentBuilder<TPayload, TUserData>
 
         if (conformity == SignatureConformity.QES)
         {
-            if (_encrypter is AesProofDocumentEncrypter)
+            if (_encrypter is DefaultProofDocumentEncrypter)
             {
                 throw new InvalidOperationException("AES encryption cannot be used in QES mode.");
             }

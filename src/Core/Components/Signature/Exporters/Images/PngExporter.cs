@@ -28,7 +28,7 @@ public sealed class PngExporter<TPayload> : SurfaceImageExporterBase<TPayload>
     protected override async ValueTask<byte[]> ExportAsync(
         ISurfaceImageExporter<TPayload> exporter,
         ISurfaceRenderTarget target,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
         return await exporter.ToPngAsync(target);
     }

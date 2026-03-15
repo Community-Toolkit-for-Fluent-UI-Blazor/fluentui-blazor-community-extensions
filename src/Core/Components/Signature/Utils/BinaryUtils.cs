@@ -32,7 +32,7 @@ internal static class BinaryUtils
     /// binary data and appended CRC32 checksum.</returns>
     public static async ValueTask<byte[]> WriteAsync<TPayload>(
         SurfacePayload<TPayload> payload,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
         using var ms = new MemoryStream();
         using var writer = new BinaryWriter(ms, Encoding.UTF8, leaveOpen: true);

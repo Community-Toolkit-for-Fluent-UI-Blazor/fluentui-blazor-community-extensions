@@ -1,3 +1,4 @@
+ using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -10,6 +11,11 @@ namespace FluentUI.Blazor.Community.Components;
 public sealed class HtmlSurfaceExporter<TPayload>(IJSObjectReference module)
     : ISurfaceImageExporter<TPayload>
 {
+    /// <summary>
+    /// Gets the set of all supported surface export formats.
+    /// </summary>
+    public SurfaceExportFormat Formats => SurfaceExportFormat.All;
+
     /// <summary>
     /// Asynchronously encodes the specified render target to an image in the given MIME format.
     /// </summary>
@@ -27,11 +33,17 @@ public sealed class HtmlSurfaceExporter<TPayload>(IJSObjectReference module)
 
         try
         {
-            return await module.InvokeAsync<byte[]>(
-                "",
+            var content = await module.InvokeAsync<string>(
+                "EncodeToImage",
                 canvasId,
                 mime,
                 quality);
+
+            return Convert.FromBase64String(content);
+        }
+        catch(TaskCanceledException)
+        {
+            throw;
         }
         catch
         {
@@ -46,7 +58,7 @@ public sealed class HtmlSurfaceExporter<TPayload>(IJSObjectReference module)
     }
 
     /// <inheritdoc />
-    public ValueTask<byte[]> ToBinAsync(SurfacePayload<TPayload> payload, ExportOptions options)
+    public ValueTask<byte[]> ToBinAsync(SurfacePayload<TPayload> payload, SurfaceExportOptions options)
     {
         return BinaryUtils.WriteAsync(payload, options);
     }
@@ -66,7 +78,7 @@ public sealed class HtmlSurfaceExporter<TPayload>(IJSObjectReference module)
     /// <inheritdoc />
     public ValueTask<byte[]> ToJpegAsync(ISurfaceRenderTarget target, int quality)
     {
-        return EncodeToImageAsync(target, "image/jpg", quality / 100.0);
+        return EncodeToImageAsync(target, "image/jpeg", quality / 100.0);
     }
 
     /// <inheritdoc />

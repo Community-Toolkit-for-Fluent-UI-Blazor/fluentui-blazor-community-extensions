@@ -16,14 +16,23 @@ public abstract class SurfaceImageExporterBase<TPayload>(
     public async ValueTask<ExportResult> ExportAsync(
         string? fileName,
         SurfacePayload<TPayload> payload,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
-        builder.Build(target, payload, options);
+        try
+        {
+            await builder.BuildAsync(target, payload, options);
+            var bytes = await ExportAsync(exporter, target, options);
 
-        await target.FlushAsync();
-        var bytes = await ExportAsync(exporter, target, options);
-
-        return ExportResult.Create(fileName, GetFormatExtension(), bytes);
+            return ExportResult.Create(fileName, GetFormatExtension(), bytes);
+        }
+        catch(NotSupportedException)
+        {
+            throw;
+        }
+        catch(Exception)
+        {
+            throw;
+        }
     }
 
     /// <summary>
@@ -36,7 +45,7 @@ public abstract class SurfaceImageExporterBase<TPayload>(
     protected abstract ValueTask<byte[]> ExportAsync(
         ISurfaceImageExporter<TPayload> exporter,
         ISurfaceRenderTarget target,
-        ExportOptions options);
+        SurfaceExportOptions options);
 
     /// <summary>
     /// Retrieves the file extension associated with the format supported by the implementation.

@@ -6,7 +6,8 @@
         <FluentStack Style="height: 100%" HorizontalGap="4">
             <FluentStack Width="50px"
                          HorizontalAlignment="HorizontalAlignment.Center"
-                         Orientation="Orientation.Vertical">
+                         Orientation="Orientation.Vertical"
+                         VerticalGap="2px">
                 @if (Tools is not null)
                 {
                     @Tools
@@ -20,8 +21,22 @@
                              @bind-LineDash="RenderingOptions.Pen.LineDash"
                              @bind-Width="EngineOptions.Pen.BaseWidth"
                              @bind-StrokeWidthMode="EngineOptions.Pen.WidthMode"
-                             OnPenSettingsClicked="@OnShowPenSettingsPanelAsync"
-                             IsActive="@(SelectedTool is PenTool)"/>
+                             OnSettingsClicked="@OnShowPenSettingsPanelAsync"
+                             IsActive="@(SelectedTool is PenTool)" />
+
+                    <EraserTool @bind-Size="EngineOptions.Eraser.Size"
+                                @bind-Shape="EngineOptions.Eraser.Shape"
+                                @bind-Mode="EngineOptions.Eraser.Mode"
+                                OnSettingsClick="@OnShowEraserSettingsPanelAsync"
+                                IsActive="@(SelectedTool is EraserTool)" />
+
+                    <UndoRedoTool OnClick="@(() => Undo())" Disabled="@(!CanUndo())" />
+
+                    <UndoRedoTool IsRedoButton OnClick="@(() => Redo())" Disabled="@(!CanRedo())" />
+
+                    <ExportTool OnClick="@ExportAsync" />
+
+                    <ClearTool OnClick=@ClearAsync />
                 }
             </FluentStack>
 
@@ -34,11 +49,20 @@
                 <SignatureSurface EngineOptions="@EngineOptions"
                                   RenderingOptions="@RenderingOptions"
                                   Theme="@Theme"
-                                  @ref="_signatureSurface" />
+                                  Target="@Target"
+                                  @ref="_signatureSurface"
+                                  OnHistoryChanged="@(OnHistoryChanged)"/>
             </FluentStack>
         
         </FluentStack>
     </div>
+
+    <FluentOverlay Interactive="false" CloseMode="OverlayCloseMode.Manual" @bind-Visible="_isExporting">
+        <FluentProgressBar Width="340px" />
+        <FluentText Size="TextSize.Size200" CustomColor="@SystemColors.Neutral.Foreground3" Color="Color.Custom">
+            Exporting the signature... Please wait.
+        </FluentText>
+    </FluentOverlay>
 </CascadingValue>
 
 @code {

@@ -34,7 +34,7 @@ public sealed class FcxSurfaceBinaryExporter<TUserData, TPayload>(
     public async ValueTask<ExportResult> ExportAsync(
         string? fileName,
         SurfacePayload<TPayload> payload,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
         var image = await imageExporter.ExportAsync(fileName, payload, options);
         var document = await documentExporter.ExportAsync(fileName, payload, options);

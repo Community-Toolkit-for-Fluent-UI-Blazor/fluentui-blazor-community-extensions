@@ -23,5 +23,45 @@ public partial class EraserToolOptions
         Id = Identifier.NewId();
     }
 
-   
+    /// <summary>
+    /// Gets or sets the size of the eraiser.
+    /// </summary>
+    [Parameter]
+    public int Size { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback that is invoked when the size changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<int> SizeChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the shape of the eraiser.
+    /// </summary>
+    [Parameter]
+    public EraserShape Shape { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback that is invoked when the shape changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<EraserShape> ShapeChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the mode of the eraiser.
+    /// </summary>
+    [Parameter]
+    public EraserMode Mode { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback that is invoked when the mode changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<EraserMode> ModeChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback that is invoked when the settings button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnSettingsClick { get; set; }
 }

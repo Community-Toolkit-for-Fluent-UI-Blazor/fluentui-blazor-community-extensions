@@ -1,3 +1,45 @@
+// Note : this asynchronous function must be outside the namespace, otherwise Blazor will raise a TaskCanceledException
+// when trying to call it from C#. The reason is not entirely clear, but it seems to be related to how Blazor handles async
+// interop calls and the fact that functions inside namespaces may not be properly recognized as async by Blazor's interop
+// mechanism. By placing the function outside the namespace, we ensure that Blazor can correctly identify it as an async
+// function and handle it accordingly, allowing us to return a Promise that resolves to the base64 string of the image
+export async function EncodeToImage(canvasId: string, mime: string, quality: number) {
+  const canvas = document.getElementById(canvasId) as HTMLCanvasElement | null;
+
+  if (!canvas) {
+    throw new Error(`Canvas '${canvasId}' not found.`);
+  }
+
+  const blob: Blob = await new Promise((resolve, reject) => {
+    canvas.toBlob(b => {
+      if (!b) {
+        reject(new Error("Canvas toBlob() returned null."));
+        return;
+      }
+
+      if (b.type && mime && b.type !== mime) {
+        reject(new Error(`Requested ${mime} but got ${b.type}`));
+        return;
+      }
+
+      resolve(b);
+    }, mime, quality);
+  });
+
+  const buffer = await blob.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+
+  let binary = "";
+
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+
+  const base64 = btoa(binary);
+
+  return base64;
+}
+
 export namespace FluentUI.Blazor.Community.Signature {
 
   interface SurfaceCanvases {
@@ -123,6 +165,29 @@ export namespace FluentUI.Blazor.Community.Signature {
     Top,
     Center,
     Bottom
+  }
+
+  enum EraserShape {
+    Circle,
+    Square
+  }
+
+  enum EraserMode {
+    Pixel,
+    Stroke,
+    Hybrid
+  }
+
+  export interface EraserHoverPayload {
+    x: number;
+    y: number;
+    size: number;
+    radius: number;
+    shape: EraserShape;
+    softEdges: boolean;
+    softEdgeRadius: number;
+    mode: EraserMode;
+    tolerance: number;
   }
 
   interface WatermarkPayload {
@@ -271,6 +336,14 @@ export namespace FluentUI.Blazor.Community.Signature {
     return { width: canvas.width, height: canvas.height };
   }
 
+  export function ResizeCanvas(id: string, w: number, h: number) {
+    const surfaces = surfacesCache.get(id);
+    if (!surfaces) return;
+
+    surfaces.target.canvas.width = w;
+    surfaces.target.canvas.height = h;
+  }
+
   export function ResizeOffscreens(id: string, w: number, h: number) {
     const surfaces = surfacesCache.get(id);
     if (!surfaces) return;
@@ -283,14 +356,25 @@ export namespace FluentUI.Blazor.Community.Signature {
     setOffscreenSize(surfaces.hover, w, h);
   }
 
-  export function RegisterCanvas(canvasId: string, isOffscreen: boolean) {
+  export function RegisterCanvas(canvasId: string, isOffscreen: boolean, w: number | null, h: number | null) {
     let canvas: HTMLCanvasElement;
 
     if (isOffscreen) {
       canvas = document.createElement("canvas");
+      canvas.id = canvasId;
+      canvas.style.display = "none";
+      canvas.width = w!;
+      canvas.height = h!;
+      document.body.appendChild(canvas);
     }
     else {
       canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+
+      if (canvas) {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+      }
     }
 
     if (!canvas) {
@@ -298,19 +382,21 @@ export namespace FluentUI.Blazor.Community.Signature {
       return;
     }
 
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
+    const targetCtx = canvas.getContext("2d", { alpha: !isOffscreen })!;
+    targetCtx.fillStyle = isOffscreen ? "#fff" : "transparent";
 
-    const targetCtx = canvas.getContext("2d")!;
-    targetCtx.transform(1, 0, 0, 1, 0, 0);
+    if (isOffscreen) {
+      targetCtx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    targetCtx.setTransform(1, 0, 0, 1, 0, 0);
 
     const makeOffscreen = () => {
       const off = document.createElement("canvas");
       off.width = canvas.width;
       off.height = canvas.height;
       const ctx = off.getContext("2d")!;
-      targetCtx.transform(1, 0, 0, 1, 0, 0);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       return ctx;
     };
 
@@ -323,6 +409,55 @@ export namespace FluentUI.Blazor.Community.Signature {
       watermark: makeOffscreen(),
       hover: makeOffscreen()
     });
+  }
+
+  export function DrawEraserHover(
+    canvasId: string,
+    payload: EraserHoverPayload | null,
+    view: ViewPayload
+  ) {
+    const surfaces = surfacesCache.get(canvasId);
+
+    if (!surfaces) {
+      return;
+    }
+
+    const ctx = surfaces.hover;
+    const scale = view.scale;
+
+    ctx.save();
+    ctx.translate(view.offsetX, view.offsetY);
+
+    ctx.clearRect(-view.offsetX, -view.offsetY, view.renderWidth, view.renderHeight);
+
+    if (!payload) {
+      ctx.restore();
+      return;
+    }
+
+    const x = payload.x * scale;
+    const y = payload.y * scale;
+    const r = payload.radius * scale;
+
+    ctx.lineWidth = 1 * scale;
+    ctx.strokeStyle = "rgba(0,0,0,0.6)";
+    ctx.fillStyle = "rgba(0,0,0,0.1)";
+
+    if (payload.softEdges) {
+      ctx.shadowColor = "rgba(0,0,0,0.4)";
+      ctx.shadowBlur = payload.softEdgeRadius * scale;
+    }
+
+    ctx.beginPath();
+
+    if (payload.shape === EraserShape.Circle) {
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+    } else {
+      ctx.rect(x - r, y - r, r * 2, r * 2);
+    }
+
+    ctx.stroke();
+    ctx.restore();
   }
   function drawHover(canvasId: string, payload: HoverPayload | null, view: ViewPayload) {
     const surfaces = surfacesCache.get(canvasId);

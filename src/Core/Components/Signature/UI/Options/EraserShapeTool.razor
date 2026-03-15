@@ -1,4 +1,20 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
 
-
+<FluentMenu OnCheckedChanged="OnItemSelectedAsync">
+    <FluentMenuButton Title="Select eraser shape"
+                      Id="@Id"
+                      Label="Shape" />
+    <FluentMenuList>
+        <FluentMenuItem Checked="@(Shape == EraserShape.Circle)"
+                        IconStart="@(new Size16.Circle())"
+                        Role="MenuItemRole.Radio">
+            Circle
+        </FluentMenuItem>
+        <FluentMenuItem Checked="@(Shape == EraserShape.Square)"
+                        IconStart="@(new Size16.Square())"
+                        Role="MenuItemRole.Radio">
+            Square
+        </FluentMenuItem>
+    </FluentMenuList>
+</FluentMenu>

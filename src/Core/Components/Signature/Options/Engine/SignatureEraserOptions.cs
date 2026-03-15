@@ -13,7 +13,7 @@ public class SignatureEraserOptions
     /// <summary>
     /// Gets or sets the size value used by the component.
     /// </summary>
-    public double Size { get; set; } = 10.0;
+    public int Size { get; set; } = 10;
 
     /// <summary>
     /// Gets or sets the shape used by the eraser tool.
@@ -65,7 +65,7 @@ public class SignatureEraserOptions
     /// mode, eraser mode, and stroke deletion threshold.</remarks>
     public void Reset()
     {
-        Size = 10.0;
+        Size = 10;
         Shape = EraserShape.Circle;
         SoftEdges = false;
         SoftEdgeRadius = 4.0;

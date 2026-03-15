@@ -14,7 +14,7 @@ public sealed class SignatureSvgPayloadBuilder : SvgDocumentPayloadBuilderBase<S
     protected override void WriteContent(
         StringBuilder sb,
         StrokeLayerPayload payload,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
         if (payload.Strokes is null || payload.Strokes.Count == 0)
         {

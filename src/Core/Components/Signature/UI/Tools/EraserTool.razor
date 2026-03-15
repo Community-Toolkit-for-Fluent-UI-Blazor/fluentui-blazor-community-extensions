@@ -3,6 +3,7 @@
  
 <FluentButton Size="ButtonSize.Large"
               IconOnly
+              Id="@Id"
               Tooltip="tt"
               Appearance="@(IsActive ? ButtonAppearance.Primary : ButtonAppearance.Default)"
               OnClick="@(Activate)">
@@ -18,6 +19,13 @@
         : base(configuration)
     {
         Id = Identifier.NewId();
-        DefaultOptions = @<EraserToolOptions />;
-        }
+        DefaultOptions = @<EraserToolOptions Size="@Size"
+                                             SizeChanged="@SizeChanged"
+                                             Mode="@Mode"
+                                             ModeChanged="@ModeChanged"
+                                             Shape="@Shape"
+                                             ShapeChanged="@ShapeChanged"
+                                             OnSettingsClick="@OnSettingsClick"/>
+        ;
+    }
 }

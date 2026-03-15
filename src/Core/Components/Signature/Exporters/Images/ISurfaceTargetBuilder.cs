@@ -16,8 +16,8 @@ public interface ISurfaceTargetBuilder<TPayload>
     /// <param name="target">The render target where the payload will be drawn. Cannot be null.</param>
     /// <param name="payload">The payload containing the data to be rendered. Cannot be null.</param>
     /// <param name="options">The export options that control how the signature is rendered and exported. Cannot be null.</param>
-    void Build(
+    ValueTask BuildAsync(
         ISurfaceRenderTarget target,
         SurfacePayload<TPayload> payload,
-        ExportOptions options);
+        SurfaceExportOptions options);
 }

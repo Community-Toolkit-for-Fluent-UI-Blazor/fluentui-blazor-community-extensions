@@ -13,7 +13,7 @@ internal sealed class JsonDocumentPayloadBuilder<TPayload>
     /// <inheritdoc />
     public ValueTask<byte[]> BuildAsync(
         SurfacePayload<TPayload> payload,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
         return JsonUtils.WriteAsync(payload, options);
     }

@@ -7,6 +7,11 @@ namespace FluentUI.Blazor.Community.Components;
 public sealed class SignatureEngine : IDisposable
 {
     /// <summary>
+    /// Represents whether the eraser is currently active and in the process of erasing strokes.
+    /// </summary>
+    private bool _isErasing;
+
+    /// <summary>
     /// Provides access to the collection of strokes managed by the current instance.
     /// </summary>
     private readonly StrokeManager _strokes;
@@ -113,7 +118,7 @@ public sealed class SignatureEngine : IDisposable
         _strokes = new StrokeManager();
         _history = new HistoryManager(_engineOptions.UndoRedo);
 
-        _history.OnChanged += NotifyChanged;
+        _history.OnChanged += NotifyHistoryChanged;
         _strokes.OnChanged += NotifyChanged;
 
         InitializePipelines();
@@ -191,9 +196,24 @@ public sealed class SignatureEngine : IDisposable
     public event EventHandler? OnChanged;
 
     /// <summary>
+    /// Occurs when the navigation history changes.
+    /// </summary>
+    /// <remarks>Subscribe to this event to be notified when the application's navigation history is modified,
+    /// such as when the user navigates to a new page or uses the browser's back or forward buttons.</remarks>
+    public event EventHandler? OnHistoryChanged;
+
+    /// <summary>
     /// Occurs when a new stroke segment is added to the current stroke, providing the points and style of the segment.
     /// </summary>
     public event EventHandler<StrokeSegmentEventArgs>? OnStrokeSegmentAdded;
+
+    /// <summary>
+    /// Occurs when the eraser moves.
+    /// </summary>
+    /// <remarks>Subscribe to this event to handle scenarios where an eraser input device is detected
+    /// hovering, such as for custom UI feedback or gesture recognition. The event provides a <see
+    /// cref="PointerSample"/> instance containing details about the pointer state.</remarks>
+    public event EventHandler<PointerSample>? EraserHover;
 
     /// <summary>
     /// Gets the signature stroke that is currently being hovered by the pointer, if any.
@@ -251,6 +271,24 @@ public sealed class SignatureEngine : IDisposable
     /// <param name="sender">The source of the event. This parameter is not used.</param>
     /// <param name="e">An object that contains the event data. This parameter is not used.</param>
     private void NotifyChanged(object? sender, EventArgs e) => NotifyChanged();
+
+    /// <summary>
+    /// Handles the event when the navigation history changes and triggers the associated notification logic.
+    /// </summary>
+    /// <param name="sender">The source of the event. This parameter is typically not used.</param>
+    /// <param name="e">An object that contains the event data.</param>
+    private void NotifyHistoryChanged(object? sender, EventArgs e) => NotifyHistoryChanged();
+
+    /// <summary>
+    /// Raises the HistoryChanged event to notify subscribers that the history state has changed.
+    /// </summary>
+    /// <remarks>This method should be called whenever the history state is updated to ensure that all
+    /// registered event handlers are notified. If no handlers are attached, this method has no effect.</remarks>
+    private void NotifyHistoryChanged()
+    {
+        OnHistoryChanged?.Invoke(this, EventArgs.Empty);
+        NotifyChanged();
+    }
 
     /// <summary>
     /// Raises the change notification event.
@@ -418,8 +456,6 @@ public sealed class SignatureEngine : IDisposable
         _selectionStart = null;
         _selectionEnd = null;
         SelectedStrokes = [];
-
-        NotifyChanged();
     }
 
     /// <summary>
@@ -642,6 +678,7 @@ public sealed class SignatureEngine : IDisposable
     /// <param name="sample">The pointer sample that provides the input data for initiating the erasing operation.</param>
     private void BeginErasingStroke(PointerSample sample)
     {
+        _isErasing = true;
         GetEraser().Begin(sample);
     }
 
@@ -651,7 +688,13 @@ public sealed class SignatureEngine : IDisposable
     /// <param name="sample">The pointer sample containing the latest input data used to update the erasing stroke.</param>
     private void UpdateErasingStroke(PointerSample sample)
     {
-        GetEraser().Update(sample);
+        EraserHover?.Invoke(this, sample);
+
+        if (_isErasing)
+        {
+            GetEraser().Update(sample);
+        }
+
         NotifyChanged();
     }
 
@@ -661,6 +704,12 @@ public sealed class SignatureEngine : IDisposable
     /// <param name="sample">The pointer sample that provides the final input data for the erasing operation.</param>
     private void EndErasingStroke(PointerSample sample)
     {
+        if (!_isErasing)
+        {
+            return;
+        }
+
+        _isErasing = false;
         GetEraser().End(sample);
         NotifyChanged();
     }
@@ -707,6 +756,14 @@ public sealed class SignatureEngine : IDisposable
         NotifyChanged();
     }
 
+    /// <summary>
+    /// Completes the current selection operation based on the provided pointer sample, finalizing either a single
+    /// stroke or a rectangular selection.
+    /// </summary>
+    /// <remarks>If the pointer movement is within a small threshold, a single stroke is selected at the
+    /// specified coordinates. Otherwise, all strokes within the defined rectangular area are selected. The selection
+    /// can be additive if the control key is pressed during the operation.</remarks>
+    /// <param name="sample">The pointer sample representing the end point of the selection gesture. Must not be null.</param>
     private void EndSelectionStroke(PointerSample sample)
     {
         if (!_isSelecting)
@@ -757,5 +814,14 @@ public sealed class SignatureEngine : IDisposable
     {
         _history.OnChanged -= NotifyChanged;
         _strokes.OnChanged -= NotifyChanged;
+    }
+
+    /// <summary>
+    /// Raises the eraser hover event using the specified pointer sample.
+    /// </summary>
+    /// <param name="sample">The pointer sample data associated with the eraser hover event.</param>
+    internal void OnEraserHover(PointerSample sample)
+    {
+        EraserHover?.Invoke(this, sample);
     }
 }

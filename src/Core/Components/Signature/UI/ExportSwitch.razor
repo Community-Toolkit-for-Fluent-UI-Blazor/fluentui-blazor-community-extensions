@@ -1,0 +1,26 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+
+<FluentStack Margin="@Margin.Vertical2">
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentText Weight="TextWeight.Semibold">@Label</FluentText>
+        <FluentText Size="TextSize.Size200" Color="@Color.Custom" CustomColor="@SystemColors.Neutral.Foreground3">@Description</FluentText>
+    </FluentStack>
+
+    <FluentSpacer />
+
+    <FluentSwitch Value="@IsChecked" ValueChanged="@IsCheckedChanged" />
+</FluentStack>
+
+@code {
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Description { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool IsChecked { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsCheckedChanged { get; set; }
+}

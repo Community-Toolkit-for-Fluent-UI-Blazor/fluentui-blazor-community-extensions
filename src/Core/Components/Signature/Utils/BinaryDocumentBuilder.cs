@@ -8,7 +8,7 @@ internal sealed class BinaryDocumentBuilder<TPayload>
     : IDocumentPayloadBuilder<TPayload>
 {
     /// <inheritdoc />
-    public async ValueTask<byte[]> BuildAsync(SurfacePayload<TPayload> payload, ExportOptions options)
+    public async ValueTask<byte[]> BuildAsync(SurfacePayload<TPayload> payload, SurfaceExportOptions options)
     {
         return await BinaryUtils.WriteAsync(payload, options);
     }

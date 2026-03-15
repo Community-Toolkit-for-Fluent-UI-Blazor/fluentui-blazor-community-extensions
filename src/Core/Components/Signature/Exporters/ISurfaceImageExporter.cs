@@ -1,3 +1,5 @@
+using FluentUI.Blazor.Community.Components.Enums;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
@@ -8,6 +10,11 @@ namespace FluentUI.Blazor.Community.Components;
 /// </remarks>
 public interface ISurfaceImageExporter<TPayload>
 {
+    /// <summary>
+    /// Gets the supported export formats.
+    /// </summary>
+    SurfaceExportFormat Formats { get; }
+
     /// <summary>
     /// Converts the specified render target to an AVIF-encoded image asynchronously with the given quality setting.
     /// </summary>

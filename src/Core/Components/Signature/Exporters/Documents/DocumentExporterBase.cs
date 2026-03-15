@@ -17,7 +17,7 @@ public abstract class DocumentExporterBase<TPayload>(
     public async ValueTask<ExportResult> ExportAsync(
         string? fileName,
         SurfacePayload<TPayload> payload,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
         var bytes = await builder.BuildAsync(payload, options);
 

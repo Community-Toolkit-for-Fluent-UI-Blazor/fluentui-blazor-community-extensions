@@ -1,5 +1,5 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
-@inherits FluentComponentBase
+@inherits FluentDialogInstance
 
 <FluentDialogBody>
     <ChildContent>
@@ -76,11 +76,5 @@
                           TValue="double"
                           Step="0.1" />
         </FluentStack>
-
     </ChildContent>
-
-    <ActionTemplate>
-        @* <FluentButton OnClick="btnCancel_Click">Cancel</FluentButton>
-        <FluentButton OnClick="btnOK_Click" Appearance="ButtonAppearance.Primary">OK</FluentButton> *@
-    </ActionTemplate>
 </FluentDialogBody>

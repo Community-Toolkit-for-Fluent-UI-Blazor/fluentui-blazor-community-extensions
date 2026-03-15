@@ -20,6 +20,6 @@ public interface ISurfaceExporter<TPayload>
     ValueTask<ExportResult> ExportAsync(
         string? fileName,
         SurfacePayload<TPayload> payload,
-        ExportOptions options);
+        SurfaceExportOptions options);
 }
 

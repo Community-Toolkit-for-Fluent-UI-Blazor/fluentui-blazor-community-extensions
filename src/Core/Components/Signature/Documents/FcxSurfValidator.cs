@@ -92,7 +92,6 @@ public sealed class FcxSurfValidator<TUserData>
             }
         }
 
-        // 5. QES validation
         if (content.IsQes && _qesValidator is not null)
         {
             var ok = await _qesValidator(proof);

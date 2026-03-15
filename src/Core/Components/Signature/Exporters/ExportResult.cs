@@ -33,18 +33,18 @@ public sealed record ExportResult(string FileName, string MimeType, byte[] Data)
             extension = $".{extension}";
         }
 
-        if (_provider.TryGetContentType(extension, out var ct))
-        {
-            return new ExportResult(
-             $"{ct}",
-             !string.IsNullOrEmpty(fileName) ? Path.ChangeExtension(fileName, extension) : $"signature{extension}",
-             bytes);
-        }
+        var finalFileName = !string.IsNullOrEmpty(fileName)
+            ? Path.ChangeExtension(fileName, extension)
+            : $"signature{extension}";
+
+        var mime = _provider.TryGetContentType(extension, out var ct)
+            ? ct
+            : "application/octet-stream";
 
         return new ExportResult(
-             $"application/octet-stream",
-             !string.IsNullOrEmpty(fileName) ? Path.ChangeExtension(fileName, extension) : $"signature{extension}",
-             bytes);
+            finalFileName,
+            mime,
+            bytes);
     }
 }
 

@@ -13,5 +13,5 @@ public interface IDocumentPayloadBuilder<TPayload>
     /// <param name="options">The export options that determine the format and settings for the generated binary data. Cannot be null.</param>
     /// <returns>A byte array containing the exported binary data. The array will be empty if the payload contains no exportable
     /// content.</returns>
-    ValueTask<byte[]> BuildAsync(SurfacePayload<TPayload> payload, ExportOptions options);
+    ValueTask<byte[]> BuildAsync(SurfacePayload<TPayload> payload, SurfaceExportOptions options);
 }

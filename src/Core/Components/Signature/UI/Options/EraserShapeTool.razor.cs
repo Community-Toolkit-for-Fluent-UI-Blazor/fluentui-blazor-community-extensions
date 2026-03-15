@@ -54,4 +54,25 @@ public partial class EraserShapeTool
             await ShapeChanged.InvokeAsync(value);
         }
     }
+
+    /// <summary>
+    /// Handles the selection event for a menu item asynchronously.
+    /// </summary>
+    /// <param name="e">The event data associated with the selected menu item. Contains information such as the checked state and the
+    /// text of the item.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task OnItemSelectedAsync(MenuItemEventArgs e)
+    {
+        if (e.Checked == true)
+        {
+            if (e.Text == "Circle")
+            {
+                await OnShapeChangedAsync(EraserShape.Circle);
+            }
+            else if (e.Text == "Square")
+            {
+                await OnShapeChangedAsync(EraserShape.Square);
+            }
+        }
+    }
 }

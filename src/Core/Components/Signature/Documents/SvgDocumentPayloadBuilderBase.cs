@@ -23,8 +23,8 @@ public abstract class SvgDocumentPayloadBuilderBase<TPayload>
 
     /// <inheritdoc />
     public ValueTask<byte[]> BuildAsync(
-               SurfacePayload<TPayload> payload,
-               ExportOptions options)
+        SurfacePayload<TPayload> payload,
+        SurfaceExportOptions options)
     {
         var sb = new StringBuilder();
 
@@ -407,5 +407,5 @@ public abstract class SvgDocumentPayloadBuilderBase<TPayload>
     protected abstract void WriteContent(
         StringBuilder sb,
         TPayload payload,
-        ExportOptions options);
+        SurfaceExportOptions options);
 }

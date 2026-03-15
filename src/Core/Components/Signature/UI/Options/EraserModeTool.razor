@@ -1,0 +1,22 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentMenu OnCheckedChanged="OnItemSelectedAsync">
+    <FluentMenuButton Title="Select eraser mode"
+                      Id="@Id"
+                      Label="Mode" />
+    <FluentMenuList>
+        <FluentMenuItem Checked="@(Mode == EraserMode.Pixel)"
+                        Role="MenuItemRole.Radio">
+            Pixel
+        </FluentMenuItem>
+        <FluentMenuItem Checked="@(Mode == EraserMode.Stroke)"
+                        Role="MenuItemRole.Radio">
+            Stroke
+        </FluentMenuItem>
+        <FluentMenuItem Checked="@(Mode == EraserMode.Hybrid)"
+                        Role="MenuItemRole.Radio">
+            Hybrid
+        </FluentMenuItem>
+    </FluentMenuList>
+</FluentMenu>

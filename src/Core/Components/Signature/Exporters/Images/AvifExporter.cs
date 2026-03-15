@@ -28,9 +28,20 @@ public sealed class AvifExporter<TPayload>
     protected override async ValueTask<byte[]> ExportAsync(
         ISurfaceImageExporter<TPayload> exporter,
         ISurfaceRenderTarget target,
-        ExportOptions options)
+        SurfaceExportOptions options)
     {
-        return await exporter.ToAvifAsync(target, options.Quality);
+        try
+        {
+            return await exporter.ToAvifAsync(target, options.Quality);
+        }
+        catch (NotSupportedException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
     /// <inheritdoc />
