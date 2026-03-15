@@ -1,0 +1,58 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (!string.IsNullOrEmpty(_errorMessage))
+{
+    <FluentMessageBar Intent="MessageBarIntent.Error">
+        @_errorMessage
+    </FluentMessageBar>
+}
+
+<div class="@InternalClass"
+     style="@InternalStyle"
+     role="grid"
+     id="@Id"
+     aria-multiselectable="@MultiSelect"
+     @attributes="AdditionalAttributes"
+     aria-activedescendant="@($"palette-item-{Id}-{_focusIndex}")">
+
+    @foreach (var color in _colors)
+    {
+        var currentColor = color;
+        var index = _colors.IndexOf(color);
+        var isFocused = index == _focusIndex;
+        var isSelected = MultiSelect ? SelectedColorsSet.Contains(color) : string.Equals(SelectedColor, color, StringComparison.OrdinalIgnoreCase);
+        var isAnimated = index == _focusIndex;
+
+        <ColorPaletteItem Color="@color"
+                          Size="@ItemSize"
+                          IsSelected="@isSelected"
+                          IsAnimated=@isAnimated
+                          OnClick="() => ToggleSelectAsync(currentColor, index)"
+                          UseTooltipService="@UseTooltipService"
+                          OnReady="@(c => _buttonsRef[index] = c.Element)" />
+    }
+
+
+</div>
+@if (ShowPreview)
+{
+    <div class="fluentcx-color-palette-previews">
+        @if (MultiSelect)
+        {
+            @foreach (var selectedColor in SelectedColors)
+            {
+                <div class="preview-item" style="--preview-item-color: @selectedColor">
+                    <span>@selectedColor</span>
+                </div>
+            }
+        }
+        else if (!string.IsNullOrEmpty(SelectedColor))
+        {
+            <div class="preview-item" style="--preview-item-color: @SelectedColor; --preview-item-text-color: @(ColorUtils.IsDarkColor(SelectedColor) ? "var(--colorNeutralForeground1)" : "var(--colorNeutralBackground2)");">
+                <span>@SelectedColor</span>
+            </div>
+        }
+    </div>
+}
+

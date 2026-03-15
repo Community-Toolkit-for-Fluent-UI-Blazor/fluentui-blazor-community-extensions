@@ -56,15 +56,19 @@
     </AssemblyAttribute>
   </ItemGroup>
 
+  <!-- Resources Localization  -->
   <ItemGroup>
-    <Compile Include="Components\Signature\Importers\FcxSurfBinaryFileImporter.cs" />
-    <Compile Include="Components\Signature\Importers\CompositeSurfaceImporter.cs" />
-    <Compile Include="Components\Signature\Importers\ImportSurfaceResult.cs" />
-    <Compile Include="Components\Signature\Importers\ISurfaceImporter.cs" />
-    <Compile Include="Components\Signature\Importers\JsonSurfaceImporter.cs" />
-    <Compile Include="Components\Signature\Importers\SurfaceImporter.cs" />
-    <Compile Include="Components\Signature\Importers\SvgSignatureImporter.cs" />
-    <Compile Include="Components\Signature\Importers\SvgSurfaceImporterBase.cs" />
+    <PackageReference Include="Microsoft.CodeAnalysis.ResxSourceGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <EmbeddedResource Update="Localization\LanguageResource.resx">
+      <Public>true</Public>
+      <OmitGetResourceString>true</OmitGetResourceString>
+      <AsConstants>true</AsConstants>
+      <NoWarn>CS1591</NoWarn>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

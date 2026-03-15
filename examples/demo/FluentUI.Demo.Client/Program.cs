@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Components.Localization;
 using FluentUI.Demo.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -10,7 +11,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 // Add FluentUI services
-builder.Services.AddFluentUIComponents();
+builder.Services.AddFluentUIComponents(config =>
+{
+    config.Localizer = new FluentCxLocalizer();
+});
 
 // Add FluentUI community extension services
 builder.Services.AddFluentCxUIComponents();

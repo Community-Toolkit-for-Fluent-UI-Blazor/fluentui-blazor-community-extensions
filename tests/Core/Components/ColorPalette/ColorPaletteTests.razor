@@ -1,0 +1,58 @@
+﻿@inherits FluentUITestContext
+@using FluentUI.Blazor.Community.Components.Localization
+@using Microsoft.FluentUI.AspNetCore.Components
+@using System.Diagnostics
+@code {
+    public ColorPaletteTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddFluentUIComponents(config =>
+        {
+            config.Localizer = new FluentCxLocalizer();
+        });
+
+        Services.AddFluentCxUIComponents();
+    }
+
+    [Fact]
+    public void ColorPalette_Default()
+    {
+        // Act
+        var cut = Render(@<div>
+    <FluentCxColorPalette ItemSize="32"
+                          MaxColors="12"
+                          Mode="@ColorPaletteMode.Gradient"
+                          BaseColor="#3B82F6"
+                          GradientSteps="12"
+                          MultiSelect="true"
+                          ShowPreview="true" />
+</div>
+        );
+
+        // Assert
+        cut.Verify();
+    }
+
+    [Theory]
+    [InlineData(ColorPaletteMode.Cool, "#0000FF", "#007FFF", "#00FFFF")]
+    [InlineData(ColorPaletteMode.None)]
+    public void ColorPalette_ModeAttribute(ColorPaletteMode mode, params string[] expectedColors)
+    {
+        // Arrange && Act
+        FluentCxColorPalette reference = default!;
+
+        var cut = Render(@<FluentCxColorPalette ItemSize="32"
+                      MaxColors="12"
+                      Mode="@mode"
+                      BaseColor="#3B82F6"
+                      GradientSteps="3"
+                      MultiSelect="true"
+@ref="@reference"
+                      ShowPreview="true" />
+        );
+
+        // Assert
+        Assert.Equal(expectedColors.Length, reference._colors.Count);
+        Assert.Equal(expectedColors, reference._colors);
+    }
+}
