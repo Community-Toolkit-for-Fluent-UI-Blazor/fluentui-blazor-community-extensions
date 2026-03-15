@@ -8,7 +8,7 @@ public class SignatureBackgroundOptions
     /// <summary>
     /// Gets or sets the color of the background.
     /// </summary>
-    public string Color { get; set; } = "green";
+    public string Color { get; set; } = "transparent";
 
     /// <summary>
     /// Gets or sets the opacity level of the component.
