@@ -1,9 +1,10 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
 @inherits FluentComponentBase
  
 <FluentButton Size="ButtonSize.Large"
               IconOnly
-              Tooltip="tt"
+              Tooltip="@Localizer[LanguageResource.CX_Signature_Tools_Pen_Tooltip]"
               Id="@Id"
               Appearance="@(IsActive ? ButtonAppearance.Primary : ButtonAppearance.Default)"
               OnClick="@(Activate)">

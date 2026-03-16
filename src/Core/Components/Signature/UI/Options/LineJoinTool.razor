@@ -1,14 +1,21 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
 @inherits FluentComponentBase
 
-<FluentButton Tooltip="Line join" IconOnly Id="@Id">
+<FluentButton Tooltip="@Localizer[LanguageResource.CX_Signature_Tools_LineJoin_Tooltip]" IconOnly Id="@Id">
     <FluentIcon Value="@(new Regular.Size24.DataLine())" />
 </FluentButton>
 
 <FluentMenu OnCheckedChanged="@(OnMenuItemClickAsync)" Trigger="@Id">
     <FluentMenuList>
-        <FluentMenuItem Checked="@(LineJoin == LineJoin.Bevel)" Id="@($"Bevel-{Id}")" Role="MenuItemRole.Radio">Bevel</FluentMenuItem>
-        <FluentMenuItem Checked="@(LineJoin == LineJoin.Round)" Id="@($"Round-{Id}")" Role="MenuItemRole.Radio">Round</FluentMenuItem>
-        <FluentMenuItem Checked="@(LineJoin == LineJoin.Miter)" Id="@($"Miter-{Id}")" Role="MenuItemRole.Radio">Miter</FluentMenuItem>
+        <FluentMenuItem Checked="@(LineJoin == LineJoin.Bevel)" Id="@($"Bevel-{Id}")" Role="MenuItemRole.Radio">
+            @Localizer[LanguageResource.CX_Signature_Tools_LineJoin_Bevel]
+        </FluentMenuItem>
+        <FluentMenuItem Checked="@(LineJoin == LineJoin.Round)" Id="@($"Round-{Id}")" Role="MenuItemRole.Radio">
+            @Localizer[LanguageResource.CX_Signature_Tools_LineJoin_Round]
+        </FluentMenuItem>
+        <FluentMenuItem Checked="@(LineJoin == LineJoin.Miter)" Id="@($"Miter-{Id}")" Role="MenuItemRole.Radio">
+            @Localizer[LanguageResource.CX_Signature_Tools_LineJoin_Miter]
+        </FluentMenuItem>
     </FluentMenuList>
 </FluentMenu>

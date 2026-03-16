@@ -1,22 +1,23 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
 @inherits FluentComponentBase
 
 <FluentMenu OnCheckedChanged="OnItemSelectedAsync">
-    <FluentMenuButton Title="Select eraser mode"
+    <FluentMenuButton Title="@Localizer[LanguageResource.CX_Signature_Tools_Eraser_Button_Title]"
                       Id="@Id"
-                      Label="Mode" />
+                      Label="@Localizer[LanguageResource.CX_Signature_Tools_Eraser_Button_Label]" />
     <FluentMenuList>
         <FluentMenuItem Checked="@(Mode == EraserMode.Pixel)"
                         Role="MenuItemRole.Radio">
-            Pixel
+            @Localizer[LanguageResource.CX_Signature_Tools_Eraser_Menu_Item_Pixel]
         </FluentMenuItem>
         <FluentMenuItem Checked="@(Mode == EraserMode.Stroke)"
                         Role="MenuItemRole.Radio">
-            Stroke
+            @Localizer[LanguageResource.CX_Signature_Tools_Eraser_Menu_Item_Stroke]
         </FluentMenuItem>
         <FluentMenuItem Checked="@(Mode == EraserMode.Hybrid)"
                         Role="MenuItemRole.Radio">
-            Hybrid
+            @Localizer[LanguageResource.CX_Signature_Tools_Eraser_Menu_Item_Hybrid]
         </FluentMenuItem>
     </FluentMenuList>
 </FluentMenu>

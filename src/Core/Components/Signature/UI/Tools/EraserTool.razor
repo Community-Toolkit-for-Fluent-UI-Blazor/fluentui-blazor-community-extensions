@@ -1,10 +1,11 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
 @inherits FluentComponentBase
  
 <FluentButton Size="ButtonSize.Large"
               IconOnly
               Id="@Id"
-              Tooltip="tt"
+              Tooltip="@Localizer[LanguageResource.CX_Signature_Tools_Eraser_Tooltip]"
               Appearance="@(IsActive ? ButtonAppearance.Primary : ButtonAppearance.Default)"
               OnClick="@(Activate)">
     <FluentIcon Value="@(new Regular.Size24.Eraser())" />

@@ -1,7 +1,8 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
 @inherits FluentComponentBase
 
-<FluentButton Tooltip="Line dash" IconOnly Id="@Id">
+<FluentButton Tooltip="@Localizer[LanguageResource.CX_Signature_Tools_LineDash_Tooltip]" IconOnly Id="@Id">
     <FluentIcon Value="@(new Regular.Size24.LineDashes())" />
 </FluentButton>
 
@@ -11,7 +12,7 @@
                         Id="@($"Solid-{Id}")"
                         Role="MenuItemRole.Radio">
             <ChildContent>
-                Solid
+                @Localizer[LanguageResource.CX_Signature_Tools_LineDash_Solid]
                 <span slot="@FluentSlot.Start">
                     <FluentIcon Value="@(new Regular.Size20.LineHorizontal1())" />
                 </span>
@@ -22,7 +23,7 @@
                         Id="@($"DashDot-{Id}")"
                         Role="MenuItemRole.Radio">
             <ChildContent>
-                Dash dot
+                @Localizer[LanguageResource.CX_Signature_Tools_LineDash_DashDot]
                 <span slot="@FluentSlot.Start">
                     <FluentIcon Value="@(new Regular.Size20.LineHorizontal1DashDot())" />
                 </span>
@@ -32,7 +33,7 @@
                         Id="@($"Dashes-{Id}")"
                         Role="MenuItemRole.Radio">
             <ChildContent>
-                Dashes
+                @Localizer[LanguageResource.CX_Signature_Tools_LineDash_Dashes]
                 <span slot="@FluentSlot.Start">
                     <FluentIcon Value="@(new Regular.Size20.LineHorizontal1Dashes())" />
                 </span>
@@ -41,7 +42,7 @@
         <FluentMenuItem Checked="@(LineDash == LineDash.Dots)"
                         Id="@($"Dots-{Id}")"
                         Role="MenuItemRole.Radio">
-            Dots
+            @Localizer[LanguageResource.CX_Signature_Tools_LineDash_Dots]
             <span slot="@FluentSlot.Start">
                 <FluentIcon Value="@(new Regular.Size20.LineHorizontal1Dot())" />
             </span>

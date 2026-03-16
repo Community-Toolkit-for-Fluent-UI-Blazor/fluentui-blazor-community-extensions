@@ -1,91 +1,92 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
 @inherits FluentDialogInstance
 
 <FluentDialogBody>
-    <FluentText Weight="TextWeight.Bold" Size="TextSize.Size400">Options Export</FluentText>
+    <FluentText Weight="TextWeight.Bold" Size="TextSize.Size400">@Localizer[LanguageResource.CX_Signature_Drawer_Export_Options_Label]</FluentText>
 
-    <ExportSwitch Label="Include Background"
-                  Description="Include the background in the exported image."
+    <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Label_Include_Background]"
+                  Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Description_Include_Background]"
                   @bind-IsChecked="Options.IncludeBackground" />
 
-    <ExportSwitch Label="Include Grid"
-                  Description="Include the grid in the exported image."
+    <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Label_Include_Grid]"
+                  Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Description_Include_Grid]"
                   @bind-IsChecked="Options.IncludeGrid" />
 
-    <ExportSwitch Label="Include Axes"
-                  Description="Include the axes in the exported image."
+    <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Label_Include_Axes]"
+                  Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Description_Include_Axes]"
                   @bind-IsChecked="Options.IncludeAxes" />
 
-    <ExportSwitch Label="Include View"
-                  Description="Include the view in the exported image."
+    <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Label_Include_View]"
+                  Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Description_Include_View]"
                   @bind-IsChecked="Options.IncludeView" />
 
-    <ExportSwitch Label="Include Watermark"
-                  Description="Include the watermark in the exported image."
+    <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Label_Include_Watermark]"
+                  Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_Description_Include_Watermark]"
                   @bind-IsChecked="Options.IncludeWatermark" />
 
-    <FluentText Weight="TextWeight.Bold" Size="TextSize.Size400">Image Export</FluentText>
+    <FluentText Weight="TextWeight.Bold" Size="TextSize.Size400">@Localizer[LanguageResource.CX_Signature_Drawer_Export_Options_Image_Label]</FluentText>
 
     @if (SurfaceExportFormat.HasFlag(Enums.SurfaceExportFormat.Avif))
     {
-        <ExportSwitch Label="Export as AVIF"
-                      Description="Export the image in AVIF format."
+        <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsAvif_Label]"
+                      Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsAvif_Description]"
                       @bind-IsChecked="Options.ExportAvif" />
     }
 
     @if (SurfaceExportFormat.HasFlag(Enums.SurfaceExportFormat.Bmp))
     {
-        <ExportSwitch Label="Export as BMP"
-                      Description="Export the image in BMP format."
+        <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsBmp_Label]"
+                      Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsBmp_Description]"
                       @bind-IsChecked="Options.ExportBmp" />
     }
 
     @if (SurfaceExportFormat.HasFlag(Enums.SurfaceExportFormat.Heif))
     {
-        <ExportSwitch Label="Export as HEIF"
-                      Description="Export the image in HEIF format."
+        <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsHeif_Label]"
+                      Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsHeif_Description]"
                       @bind-IsChecked="Options.ExportHeif" />
     }
 
     @if (SurfaceExportFormat.HasFlag(Enums.SurfaceExportFormat.Jpeg))
     {
-        <ExportSwitch Label="Export as JPEG"
-                      Description="Export the image in JPEG format."
+        <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsJpeg_Label]"
+                      Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsJpeg_Description]"
                       @bind-IsChecked="Options.ExportJpeg" />
     }
 
     @if (SurfaceExportFormat.HasFlag(Enums.SurfaceExportFormat.Png))
     {
-        <ExportSwitch Label="Export as PNG"
-                      Description="Export the image in PNG format."
+        <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsPng_Label]"
+                      Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsPng_Description]"
                       @bind-IsChecked="Options.ExportPng" />
     }
 
     @if (SurfaceExportFormat.HasFlag(Enums.SurfaceExportFormat.Tiff))
     {
-        <ExportSwitch Label="Export as TIFF"
-                      Description="Export the image in TIFF format."
+        <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsTiff_Label]"
+                      Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsTiff_Description]"
                       @bind-IsChecked="Options.ExportTiff" />
     }
 
     @if (SurfaceExportFormat.HasFlag(Enums.SurfaceExportFormat.Webp))
     {
-        <ExportSwitch Label="Export as WEBP"
-                      Description="Export the image in WEBP format."
+        <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsWebp_Label]"
+                      Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_AsWebp_Description]"
                       @bind-IsChecked="Options.ExportWebp" />
     }
 
     <FluentText Weight="TextWeight.Bold" Size="TextSize.Size400">Document Export</FluentText>
 
-    <ExportSwitch Label="Export to JSON"
-                  Description="Export the document in JSON format."
+    <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_ToJson_Label]"
+                  Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_ToJson_Description]"
                   @bind-IsChecked="Options.ExportToJson" />
 
-    <ExportSwitch Label="Export to Binary"
-                  Description="Export the document in Binary format."
+    <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_ToBinary_Label]"
+                  Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_ToBinary_Description]"
                   @bind-IsChecked="Options.ExportBinary" />
 
-    <ExportSwitch Label="Export to SVG"
-                  Description="Export the document in SVG format."
+    <ExportSwitch Label="@Localizer[LanguageResource.CX_Signature_Drawer_Export_ToSvg_Label]"
+                  Description="@Localizer[LanguageResource.CX_Signature_Drawer_Export_ToBinary_Description]"
                   @bind-IsChecked="Options.ExportSvg" />
 </FluentDialogBody>

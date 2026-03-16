@@ -1,6 +1,7 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
 @inherits FluentComponentBase
 
-<FluentButton IconOnly OnClick="@(OnClick)">
+<FluentButton Tooltip="@Localizer[LanguageResource.CX_Signature_Tools_Drawer_Settings_Tooltip]" IconOnly OnClick="@(OnClick)">
     <FluentIcon Value="@(new Regular.Size24.Settings())" />
 </FluentButton>

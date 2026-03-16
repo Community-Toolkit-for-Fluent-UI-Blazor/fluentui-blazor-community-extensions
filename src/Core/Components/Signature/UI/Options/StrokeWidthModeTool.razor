@@ -1,14 +1,21 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
 @inherits FluentComponentBase
 
-<FluentButton Tooltip="Stroke width mode" IconOnly Id="@Id">
+<FluentButton Tooltip="@Localizer[LanguageResource.CX_Signature_Tools_StrokeWidth_Tooltip]" IconOnly Id="@Id">
     <FluentIcon Value="@(new Regular.Size24.InkStroke())" />
 </FluentButton>
 
 <FluentMenu OnCheckedChanged="@(OnMenuItemClickAsync)" Trigger="@Id">
     <FluentMenuList>
-        <FluentMenuItem Id=@($"Default-StrokeMode-{Id}") Role="MenuItemRole.Radio">Default</FluentMenuItem>
-        <FluentMenuItem Id=@($"Linear-StrokeMode-{Id}") Role="MenuItemRole.Radio">Linear</FluentMenuItem>
-        <FluentMenuItem Id=@($"Power-StrokeMode-{Id}") Role="MenuItemRole.Radio">Power</FluentMenuItem>
+        <FluentMenuItem Id=@($"Default-StrokeMode-{Id}") Role="MenuItemRole.Radio">
+            @Localizer[LanguageResource.CX_Signature_Tools_StrokeWidth_Default]
+        </FluentMenuItem>
+        <FluentMenuItem Id=@($"Linear-StrokeMode-{Id}") Role="MenuItemRole.Radio">
+            @Localizer[LanguageResource.CX_Signature_Tools_StrokeWidth_Linear]
+        </FluentMenuItem>
+        <FluentMenuItem Id=@($"Power-StrokeMode-{Id}") Role="MenuItemRole.Radio">
+            @Localizer[LanguageResource.CX_Signature_Tools_StrokeWidth_Power]
+        </FluentMenuItem>
     </FluentMenuList>
 </FluentMenu>
