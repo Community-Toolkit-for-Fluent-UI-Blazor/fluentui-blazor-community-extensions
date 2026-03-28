@@ -44,7 +44,7 @@ internal sealed class DynamicStrokeRenderer : ISignatureStrokeRenderer
 
         var payload = PayloadFactory.CreateDynamicStroke(current, [], null);
 
-        target.DynamicLayer.SetDynamicStroke(payload);
+        target.AddLayer(new DynamicStrokeLayer(payload));
     }
 }
 

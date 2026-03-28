@@ -43,8 +43,8 @@ public sealed class StabilizerInputProcessor : IInputProcessor
             }
 
             var f = options.Factor;
-            var x = SignatureMathUtils.Lerp(_lastOutput.X, p.X, f);
-            var y = SignatureMathUtils.Lerp(_lastOutput.Y, p.Y, f);
+            var x = SurfaceMathUtils.Lerp(_lastOutput.X, p.X, f);
+            var y = SurfaceMathUtils.Lerp(_lastOutput.Y, p.Y, f);
 
             var stabilized = new SignaturePoint(
                 x, y,

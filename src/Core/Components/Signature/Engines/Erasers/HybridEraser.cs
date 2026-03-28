@@ -75,7 +75,7 @@ public sealed class HybridEraser : IEraser
         {
             foreach (var p in stroke.Points)
             {
-                if (SignatureMathUtils.DistanceSquared(p.X, p.Y, sample.X, sample.Y) <= radiusSq * _options.Tolerance * stroke.Style.Engine.Pen.MaxWidth)
+                if (SurfaceMathUtils.DistanceSquared(p.X, p.Y, sample.X, sample.Y) <= radiusSq * _options.Tolerance * stroke.Style.Engine.Pen.MaxWidth)
                 {
                     _stroke.Update(sample);
                     return;

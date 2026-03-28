@@ -1,0 +1,127 @@
+namespace FluentUI.Blazor.Community.Components;
+
+/// <summary>
+/// Provides the lookup table of Code 128 barcode symbols and their corresponding encoding patterns.
+/// </summary>
+/// <remarks>This class contains a static array of all Code 128 symbols, including start and stop codes, used for
+/// encoding and decoding Code 128 barcodes. The table maps symbol values to their respective bar and space patterns as
+/// defined by the Code 128 specification.</remarks>
+internal static class Code128Table
+{
+    /// <summary>
+    /// Provides the complete set of Code 128 barcode symbols, each represented by its corresponding pattern and value.
+    /// </summary>
+    /// <remarks>This array includes all standard Code 128 symbols, including start and stop codes, as defined
+    /// by the Code 128 barcode specification. The symbols can be used for encoding and decoding Code 128 barcodes in
+    /// applications that require barcode generation or interpretation.</remarks>
+    public static readonly Code128Symbol[] Symbols = new[]
+    {
+        new Code128Symbol(0, "212222"),
+        new Code128Symbol(1, "222122"),
+        new Code128Symbol(2, "222221"),
+        new Code128Symbol(3, "121223"),
+        new Code128Symbol(4, "121322"),
+        new Code128Symbol(5, "131222"),
+        new Code128Symbol(6, "122213"),
+        new Code128Symbol(7, "122312"),
+        new Code128Symbol(8, "132212"),
+        new Code128Symbol(9, "221213"),
+        new Code128Symbol(10, "221312"),
+        new Code128Symbol(11, "231212"),
+        new Code128Symbol(12, "112232"),
+        new Code128Symbol(13, "122132"),
+        new Code128Symbol(14, "122231"),
+        new Code128Symbol(15, "113222"),
+        new Code128Symbol(16, "123122"),
+        new Code128Symbol(17, "123221"),
+        new Code128Symbol(18, "223211"),
+        new Code128Symbol(19, "221132"),
+        new Code128Symbol(20, "221231"),
+        new Code128Symbol(21, "213212"),
+        new Code128Symbol(22, "223112"),
+        new Code128Symbol(23, "312131"),
+        new Code128Symbol(24, "311222"),
+        new Code128Symbol(25, "321122"),
+        new Code128Symbol(26, "321221"),
+        new Code128Symbol(27, "312212"),
+        new Code128Symbol(28, "322112"),
+        new Code128Symbol(29, "322211"),
+        new Code128Symbol(30, "212123"),
+        new Code128Symbol(31, "212321"),
+        new Code128Symbol(32, "232121"),
+        new Code128Symbol(33, "111323"),
+        new Code128Symbol(34, "131123"),
+        new Code128Symbol(35, "131321"),
+        new Code128Symbol(36, "112313"),
+        new Code128Symbol(37, "132113"),
+        new Code128Symbol(38, "132311"),
+        new Code128Symbol(39, "211313"),
+        new Code128Symbol(40, "231113"),
+        new Code128Symbol(41, "231311"),
+        new Code128Symbol(42, "112133"),
+        new Code128Symbol(43, "112331"),
+        new Code128Symbol(44, "132131"),
+        new Code128Symbol(45, "113123"),
+        new Code128Symbol(46, "113321"),
+        new Code128Symbol(47, "133121"),
+        new Code128Symbol(48, "313121"),
+        new Code128Symbol(49, "211331"),
+        new Code128Symbol(50, "231131"),
+        new Code128Symbol(51, "213113"),
+        new Code128Symbol(52, "213311"),
+        new Code128Symbol(53, "213131"),
+        new Code128Symbol(54, "311123"),
+        new Code128Symbol(55, "311321"),
+        new Code128Symbol(56, "331121"),
+        new Code128Symbol(57, "312113"),
+        new Code128Symbol(58, "312311"),
+        new Code128Symbol(59, "332111"),
+        new Code128Symbol(60, "314111"),
+        new Code128Symbol(61, "221411"),
+        new Code128Symbol(62, "431111"),
+        new Code128Symbol(63, "111224"),
+        new Code128Symbol(64, "111422"),
+        new Code128Symbol(65, "121124"),
+        new Code128Symbol(66, "121421"),
+        new Code128Symbol(67, "141122"),
+        new Code128Symbol(68, "141221"),
+        new Code128Symbol(69, "112214"),
+        new Code128Symbol(70, "112412"),
+        new Code128Symbol(71, "122114"),
+        new Code128Symbol(72, "122411"),
+        new Code128Symbol(73, "142112"),
+        new Code128Symbol(74, "142211"),
+        new Code128Symbol(75, "241211"),
+        new Code128Symbol(76, "221114"),
+        new Code128Symbol(77, "413111"),
+        new Code128Symbol(78, "241112"),
+        new Code128Symbol(79, "134111"),
+        new Code128Symbol(80, "111242"),
+        new Code128Symbol(81, "121142"),
+        new Code128Symbol(82, "121241"),
+        new Code128Symbol(83, "114212"),
+        new Code128Symbol(84, "124112"),
+        new Code128Symbol(85, "124211"),
+        new Code128Symbol(86, "411212"),
+        new Code128Symbol(87, "421112"),
+        new Code128Symbol(88, "421211"),
+        new Code128Symbol(89, "212141"),
+        new Code128Symbol(90, "214121"),
+        new Code128Symbol(91, "412121"),
+        new Code128Symbol(92, "111143"),
+        new Code128Symbol(93, "111341"),
+        new Code128Symbol(94, "131141"),
+        new Code128Symbol(95, "114113"),
+        new Code128Symbol(96, "114311"),
+        new Code128Symbol(97, "411113"),
+        new Code128Symbol(98, "411311"),
+        new Code128Symbol(99, "113141"),
+        new Code128Symbol(100, "114131"),
+        new Code128Symbol(101, "311141"),
+        new Code128Symbol(102, "411131"),
+        new Code128Symbol(103, "211412"), // Start A
+        new Code128Symbol(104, "211214"), // Start B
+        new Code128Symbol(105, "211232"), // Start C
+        new Code128Symbol(106, "2331112") // Stop
+    };
+}

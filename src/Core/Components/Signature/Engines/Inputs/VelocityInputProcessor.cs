@@ -23,7 +23,7 @@ public sealed class VelocityInputProcessor : IInputProcessor
     {
         foreach (var point in points)
         {
-            point.Velocity = _lastPoint is null ? 0 : SignatureMathUtils.Velocity(_lastPoint, point);
+            point.Velocity = _lastPoint is null ? 0 : SurfaceMathUtils.Velocity(_lastPoint, point);
 
             _lastPoint = point;
 

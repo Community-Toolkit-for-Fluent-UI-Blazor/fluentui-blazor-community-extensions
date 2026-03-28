@@ -1,0 +1,29 @@
+﻿<p>
+    The GS1-128 barcode is a variant of the Code 128 symbology that is used to encode data in a specific format defined by the GS1 organization.
+    It is commonly used in supply chain management and logistics to encode information such as product identifiers, batch numbers, and expiration dates.
+
+    It contains 4 parameters :
+
+    <ul>
+        <li><code>ModuleHeight</code> : Height of the bars</li>
+        <li><code>ModuleWidth</code> : Width of a bar</li>
+        <li><code>ShowText</code> : Show the raw encoded text.</li>
+        <li><code>ValidationMode</code> : Specifies the validation mode of a GS1-128 barcode.</li>
+    </ul>
+</p>
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentTextInput Immediate
+                         Label="Value to encode as barcode"
+                         @bind-Value="Value" />
+        
+        <FluentCxBarcode Value="@Value">
+            <GS1_128Symbology ValidationMode="Blazor.Community.Components.Enums.Gs1ValidationMode.Permissive" />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+}

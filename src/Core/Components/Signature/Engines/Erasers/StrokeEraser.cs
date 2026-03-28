@@ -68,7 +68,7 @@ public sealed class StrokeEraser : IEraser
 
             for (var i = 0; i < pts.Count - 1; i++)
             {
-                if (SignatureMathUtils.SegmentIntersectsCircle(pts[i], pts[i + 1], sample.X, sample.Y, radiusSq))
+                if (SurfaceMathUtils.SegmentIntersectsCircle(pts[i], pts[i + 1], sample.X, sample.Y, radiusSq))
                 {
                     toRemove.Add(stroke);
                     break;

@@ -80,6 +80,11 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
     private bool _hasTargetChanged;
 
     /// <summary>
+    /// Stores the most recent pointer sample recorded when using the eraser tool.
+    /// </summary>
+    private PointerSample? _lastEraserSample;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="SignatureSurface"/> component with the specified library configuration.
     /// </summary>
     /// <param name="configuration">Configuration settings for the Fluent UI Blazor library, used to initialize the component's base class.</param>
@@ -117,7 +122,7 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
     /// Gets or sets the surface render target used for rendering operations.
     /// </summary>
     [Parameter]
-    public ISurfaceRenderTarget? Target { get; set; }
+    public ISignatureSurfaceRenderTarget? Target { get; set; }
 
     /// <summary>
     /// Gets or sets the surface margin.
@@ -207,33 +212,8 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
     /// <param name="sample">The pointer sample containing the current position and input data for the hover event.</param>
     private void HandleEraserHover(object? sender, PointerSample sample)
     {
-        var eraser = EngineOptions.Eraser;
-
-        var payload = new EraserPayload
-        {
-            X = sample.X,
-            Y = sample.Y,
-            Size = eraser.Size,
-            Radius = eraser.Radius,
-            Shape = (int)eraser.Shape,
-            SoftEdges = eraser.SoftEdges,
-            SoftEdgeRadius = eraser.SoftEdgeRadius,
-            Mode = (int)eraser.Mode,
-            Tolerance = eraser.Tolerance
-        };
-
-        InvokeAsync(async () =>
-        {
-            if (_module is not null)
-            {
-                await _module!.InvokeVoidAsync(
-                    "FluentUI.Blazor.Community.Signature.DrawEraserHover",
-                    Id!,
-                    payload,
-                    Target!.View
-                );
-            }
-        });
+        _lastEraserSample = sample;
+        InvokeAsync(RenderAsync);
     }
 
     /// <summary>
@@ -288,21 +268,29 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
 
         _renderer = new CompositeSignatureRenderer(
             surfaceRenderers: [
-                new BackgroundRenderer(),
-                new GridRenderer(),
-                new AxesRenderer(),
-                new WatermarkRenderer(),
-                 new SelectionStrokeRenderer(
+                new BackgroundAdapter(new BackgroundRenderer()),
+                new GridAdapter(new GridRenderer()),
+                new AxesAdapter(new AxesRenderer()),
+                new WatermarkAdapter(new WatermarkRenderer()),
+                new SelectionStrokeAdapter( new SelectionStrokeRenderer(
                     () => _engine!.CurrentTool,
-                    () => _engine!.SelectionManager.SelectedStrokes),
-                 new HoverStrokeRenderer( () => _engine!.HoverStroke)
+                    () => _engine!.SelectionManager.SelectedStrokes)),
+                new HoverStrokeAdapter(new HoverStrokeRenderer( () => _engine!.HoverStroke)),
              ],
 
             strokeRenderers: [
                 new StrokeLayerRenderer(),
                 new DynamicStrokeRenderer(_engine!.StrokeManager),
                 new DebugRenderer()
-            ]);
+            ],
+
+            surfaceEngineRenderers: [
+                new EraserAdapter(new EraserRenderer(
+                    () => _engine!.CurrentTool == SignatureStrokeTool.Eraser,
+                    () => _lastEraserSample
+                ))
+            ]
+        );
 
         await RenderAsync();
     }
@@ -352,11 +340,11 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
 
         if (!IsAsyncRender)
         {
-            _renderer.Render(Target, _engine.Strokes, RenderingOptions);
+            _renderer.Render(Target, _engine.Strokes, RenderingOptions, EngineOptions);
         }
         else
         {
-            await _renderer.RenderAsync(Target, _engine.Strokes, RenderingOptions);
+            await _renderer.RenderAsync(Target, _engine.Strokes, RenderingOptions, EngineOptions);
         }
 
         await Target.FlushAsync();
@@ -501,7 +489,7 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
                 opacity = e.Style.Rendering.Opacity,
                 lineCap = e.Style.Rendering.LineCap,
                 lineJoin = e.Style.Rendering.LineJoin,
-                dashArray = SignatureMathUtils.ToDashArray(e.Style.Rendering.DashArray),
+                dashArray = SurfaceMathUtils.ToDashArray(e.Style.Rendering.DashArray),
                 shadow = new
                 {
                     enabled = e.Style.Rendering.Shadow.Enabled,

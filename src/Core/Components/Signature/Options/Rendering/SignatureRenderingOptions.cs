@@ -18,27 +18,27 @@ public sealed class SignatureRenderingOptions : IDisposable
     /// <summary>
     /// Gets or sets the options used to configure the background of the signature component.
     /// </summary>
-    public SignatureBackgroundOptions Background { get; set; } = new();
+    public SurfaceBackgroundOptions Background { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the configuration options for the signature grid component.
     /// </summary>
-    public SignatureGridOptions Grid { get; set; } = new();
+    public SurfaceGridOptions Grid { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the options for configuring the axes of the signature component.
     /// </summary>
-    public SignatureAxesOptions Axes { get; set; } = new();
+    public SurfaceAxesOptions Axes { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the options used to configure the watermark applied to the signature.
     /// </summary>
-    public SignatureWatermarkOptions Watermark { get; set; } = new();
+    public SurfaceWatermarkOptions Watermark { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the options that defines the pan and zoom behavior for the signature component.
     /// </summary>
-    public SignatureViewOptions View { get; set; } = new();
+    public SurfaceViewOptions View { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the options that define the current signature selection behavior.
@@ -61,7 +61,7 @@ public sealed class SignatureRenderingOptions : IDisposable
     /// <summary>
     /// Gets or sets the debug options for signature processing.
     /// </summary>
-    public SignatureDebugOptions Debug { get; set; } = new();
+    public SurfaceDebugOptions Debug { get; set; } = new();
 
     /// <summary>
     /// Gets the rendering options for the hover state of the signature component.

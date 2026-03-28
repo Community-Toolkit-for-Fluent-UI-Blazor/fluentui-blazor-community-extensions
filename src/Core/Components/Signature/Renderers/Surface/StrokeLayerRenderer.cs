@@ -23,7 +23,7 @@ internal sealed class StrokeLayerRenderer
 
         var payload = PayloadFactory.CreateStrokeLayer(options.StrokeLayer.LayerId, strokes);
 
-        target.DynamicLayer.SetStrokeLayer(payload);
+        target.AddLayer(new StrokeLayer(payload));
     }
 
     /// <inheritdoc />

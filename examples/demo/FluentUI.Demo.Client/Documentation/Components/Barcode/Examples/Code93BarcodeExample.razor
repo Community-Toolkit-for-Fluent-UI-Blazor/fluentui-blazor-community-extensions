@@ -1,0 +1,27 @@
+﻿<p>
+   The Code 93 barcode is a high-density linear barcode symbology that can encode a wide range of characters, including uppercase letters (A-Z), numbers (0-9), and a variety of special characters. It is commonly used in applications where space is limited, such as on small labels or packaging.
+   It is an enhanced version of the Code 39 barcode, offering improved data density and error correction capabilities. The Code 93 symbology includes a checksum character that helps ensure data integrity during scanning, making it more reliable for applications that require accurate data capture.
+   You can use the extended code93 to encode all the ASCII characters by setting the <code>IsExtended</code> parameter to true.
+   You can change the height and width of the bars by setting the <code>ModuleHeight</code> and <code>ModuleWidth</code> parameters respectively.
+   You can show the text below the barcode by setting the <code>ShowText</code> parameter to true.
+   You can use the <code>Code93Symbology</code> component to generate Code 93 barcodes in your application.
+</p>
+
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="8px">
+            <FluentTextInput Immediate
+                             Label="Value to encode as barcode"
+                             @bind-Value="Value" />
+        </FluentStack>
+        
+        <FluentCxBarcode Value="@Value">
+            <Code93Symbology />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+}

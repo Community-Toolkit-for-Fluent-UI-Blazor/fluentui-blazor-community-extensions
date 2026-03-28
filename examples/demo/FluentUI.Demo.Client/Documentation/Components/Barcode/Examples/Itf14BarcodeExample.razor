@@ -1,0 +1,28 @@
+﻿<p>
+    The ITF-14 barcode is a type of barcode that is used to encode information in a specific format defined by the International Article Numbering Association (EAN).
+    It is commonly used for encoding Global Trade Item Numbers (GTINs) and is often found on packaging and shipping labels.
+
+    It contains 3 parameters :
+
+    <ul>
+        <li><code>ModuleHeight</code> : Height of the bars</li>
+        <li><code>ModuleWidth</code> : Width of a bar</li>
+        <li><code>ShowText</code> : Show the raw encoded text.</li>
+    </ul>
+</p>
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentTextInput Immediate
+                         Label="Value to encode as barcode"
+                         @bind-Value="Value" />
+        
+        <FluentCxBarcode Value="@Value">
+            <Itf14Symbology />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+}

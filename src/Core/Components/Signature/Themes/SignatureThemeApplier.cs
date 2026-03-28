@@ -28,7 +28,7 @@ public static class SignatureThemeApplier
     /// <param name="theme">The theme definition containing the background color and opacity to apply.</param>
     /// <param name="options">The background options to which the theme's background settings will be applied. This object is modified
     /// by the method.</param>
-    private static void ApplyBackground(SignatureThemeDefinition theme, SignatureBackgroundOptions options)
+    private static void ApplyBackground(SignatureThemeDefinition theme, SurfaceBackgroundOptions options)
     {
         options.Color = theme.Background.Color;
         options.Opacity = theme.Background.Opacity;
@@ -39,7 +39,7 @@ public static class SignatureThemeApplier
     /// </summary>
     /// <param name="theme">The theme definition containing the grid settings to apply. Cannot be null.</param>
     /// <param name="options">The grid options to which the theme's grid settings will be applied. Cannot be null.</param>
-    private static void ApplyGrid(SignatureThemeDefinition theme, SignatureGridOptions options)
+    private static void ApplyGrid(SignatureThemeDefinition theme, SurfaceGridOptions options)
     {
         var t = theme.Grid;
         options.DisplayMode = t.DisplayMode;
@@ -57,7 +57,7 @@ public static class SignatureThemeApplier
     /// </summary>
     /// <param name="theme">The theme definition containing axis visual properties to apply. Cannot be null.</param>
     /// <param name="options">The axes options to which the theme's axis properties will be applied. Cannot be null.</param>
-    private static void ApplyAxes(SignatureThemeDefinition theme, SignatureAxesOptions options)
+    private static void ApplyAxes(SignatureThemeDefinition theme, SurfaceAxesOptions options)
     {
         var t = theme.Axes;
         options.Color = t.Color;
@@ -74,7 +74,7 @@ public static class SignatureThemeApplier
     /// overwritten.</remarks>
     /// <param name="theme">The signature theme definition containing the watermark settings to apply. Cannot be null.</param>
     /// <param name="opt">The watermark options to which the theme's watermark settings will be applied. Cannot be null.</param>
-    private static void ApplyWatermark(SignatureThemeDefinition theme, SignatureWatermarkOptions opt)
+    private static void ApplyWatermark(SignatureThemeDefinition theme, SurfaceWatermarkOptions opt)
     {
         var t = theme.Watermark;
         opt.Color = t.Color;

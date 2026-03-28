@@ -1,0 +1,49 @@
+﻿@using FluentUI.Blazor.Community.Components.Enums
+<p>
+    The PDF417 barcode is a stacked linear barcode symbology that can encode large amounts of data,
+    including text, numbers, and binary data. It is commonly used in applications such as identification cards,
+    inventory management, and transportation.
+    The PDF417 barcode consists of multiple rows of linear bars and spaces, with each row containing a specific number of modules.
+    The number of columns and error correction level can be customized to optimize the barcode for different use cases.
+    The error correction level determines the amount of error correction applied to the barcode, allowing it to be read even if it is partially damaged or obscured.
+    By using the <code>Pdf417Symbology</code> component within the <code>FluentCxBarcode</code>, you can easily generate PDF417 barcodes in your Blazor applications, and customize the appearance and error correction level to suit your needs.
+    The symbology offers the following parameters :
+    <ul>
+        <li><code>Mode</code> : choose between Normal, Compact or Micro mode.</li>
+        <li><code>ErrorLevel</code> : choose between 8 levels of error correction.</li>
+        <li><code>Columns</code> : Specifies the number of columns</li>
+        <li><code>Rows</code> : Specifies the number of rows</li>
+        <li><code>ModuleWidth</code> : Width of a module</li>
+        <li><code>ModuleHeight</code> : Height of a module</li>
+    </ul>
+</p>
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="8px">
+            <FluentTextInput Label="Value to encode as barcode"
+                             @bind-Value="Value"
+                             Immediate />
+
+            <FluentSelect Items="@_errors"
+                          @bind-Value="@_error"
+                          Label="Error correction level"/>
+        </FluentStack>
+        
+        <FluentCxBarcode Width="600" Value="@Value" BackgroundOptions=@(new SurfaceBackgroundOptions()
+                                                    {
+                                                        Color = "white"
+                                                    }) ForegroundOptions="@(new SurfaceForegroundOptions()
+                           {
+                               Color = "black"
+                           })">
+            <Pdf417Symbology Columns="8" ErrorLevel="@_error"  />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+    private static readonly PDF417ErrorCorrectionLevel[] _errors = Enum.GetValues<PDF417ErrorCorrectionLevel>();
+    private PDF417ErrorCorrectionLevel _error = PDF417ErrorCorrectionLevel.Level2;
+}

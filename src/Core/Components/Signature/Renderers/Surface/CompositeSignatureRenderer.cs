@@ -12,7 +12,12 @@ internal sealed class CompositeSignatureRenderer
     /// <summary>
     /// Represents the collection of surface renderers used for signature rendering operations.
     /// </summary>
-    private readonly IReadOnlyList<ISignatureSurfaceRenderer> _surfaceRenderers;
+    private readonly IReadOnlyList<ISurfaceRenderer<SignatureRenderingOptions>> _surfaceRenderers;
+
+    /// <summary>
+    /// Represents the collection of surface renderers used for signature engine operations.
+    /// </summary>
+    private readonly IReadOnlyList<ISurfaceRenderer<SignatureEngineOptions>> _surfaceEngineRenderers;
 
     /// <summary>
     /// Represents the collection of stroke renderers used to render signature strokes.
@@ -24,12 +29,15 @@ internal sealed class CompositeSignatureRenderer
     /// </summary>
     /// <param name="surfaceRenderers">Represents the collection of surface renderers.</param>
     /// <param name="strokeRenderers">Represents the collection of stroke renderers.</param>
+    /// <param name="surfaceEngineRenderers">Represents the collection of surface engine renderers</param>
     public CompositeSignatureRenderer(
-        IEnumerable<ISignatureSurfaceRenderer> surfaceRenderers,
+        IEnumerable<ISurfaceRenderer<SignatureRenderingOptions>> surfaceRenderers,
+        IEnumerable<ISurfaceRenderer<SignatureEngineOptions>> surfaceEngineRenderers,
         IEnumerable<ISignatureStrokeRenderer> strokeRenderers)
     {
         _surfaceRenderers = [.. surfaceRenderers];
         _strokeRenderers = [.. strokeRenderers];
+        _surfaceEngineRenderers = [.. surfaceEngineRenderers];
     }
 
     /// <summary>
@@ -40,10 +48,12 @@ internal sealed class CompositeSignatureRenderer
     /// <param name="target">The render target on which to draw the surface and strokes.</param>
     /// <param name="strokes">The collection of signature strokes to be rendered on the surface.</param>
     /// <param name="options">The rendering options that control the appearance and behavior of the rendering process.</param>
+    /// <param name="engineOptions">The engine options that control the appearance and behavior of the rendering process.</param>
     public void Render(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
-        SignatureRenderingOptions options)
+        SignatureRenderingOptions options,
+        SignatureEngineOptions engineOptions)
     {
         foreach (var renderer in _surfaceRenderers)
         {
@@ -54,6 +64,11 @@ internal sealed class CompositeSignatureRenderer
         {
             renderer.Render(target, strokes, options);
         }
+
+        foreach(var renderer in _surfaceEngineRenderers)
+        {
+            renderer.Render(target, engineOptions);
+        }
     }
 
     /// <summary>
@@ -62,11 +77,13 @@ internal sealed class CompositeSignatureRenderer
     /// <param name="target">The surface render target on which the signature will be drawn.</param>
     /// <param name="strokes">A read-only list of signature strokes to render onto the target surface.</param>
     /// <param name="options">The rendering options that control how the signature strokes are displayed.</param>
+    /// <param name="engineOptions">The engine options that control the appearance and behavior of the rendering process.</param>
     /// <returns>A task that represents the asynchronous rendering operation.</returns>
     public async ValueTask RenderAsync(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
-        SignatureRenderingOptions options)
+        SignatureRenderingOptions options,
+        SignatureEngineOptions engineOptions)
     {
         foreach (var renderer in _surfaceRenderers)
         {
@@ -76,6 +93,11 @@ internal sealed class CompositeSignatureRenderer
         foreach (var renderer in _strokeRenderers)
         {
             await renderer.RenderAsync(target, strokes, options);
+        }
+
+        foreach (var renderer in _surfaceEngineRenderers)
+        {
+            await renderer.RenderAsync(target, engineOptions);
         }
     }
 }

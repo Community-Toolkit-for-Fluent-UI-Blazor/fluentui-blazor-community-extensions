@@ -1,0 +1,15 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this">
+    <div id="@Id" style="@Style" class="barcode @Class">
+        @ChildContent
+        @if (!string.IsNullOrEmpty(Value))
+        {
+            <div style="@InternalStyle">
+                @SvgBarcode
+            </div>
+        }
+    </div>
+</CascadingValue>
+

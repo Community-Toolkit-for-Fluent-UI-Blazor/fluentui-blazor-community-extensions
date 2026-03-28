@@ -1,0 +1,31 @@
+﻿<p>
+    The Code 39 barcode is a widely used linear barcode symbology that can encode alphanumeric characters and a limited set of special characters.
+    It is commonly used in various industries for inventory management, asset tracking, and identification purposes.
+    You can use the <code>Code39Symbology</code> component to generate Code 39 barcodes in your application. It does not have any specific parameters to configure, but it supports encoding of uppercase letters (A-Z), numbers (0-9), and a few special characters (-, ., $, /, +, %).
+    In this symbology, you can enable the checksum, which is an optional feature that adds an additional character to the end of the barcode to help ensure data integrity during scanning.
+    The checksum is calculated based on the values of the characters in the barcode and can help detect errors that may occur during scanning, such as misreads or damaged barcodes.
+    When enabled, the checksum character is typically represented as an asterisk (*) at the start and the end of the barcode.
+
+    You can enable the checksum by setting the <code>Checksum</code> parameter to true in the <code>Code39Symbology</code> component.
+    You can use the extended code39 to encode all the ASCII characters by setting the <code>IsExtended</code> parameter to true.
+    You can change the height and width of the bars by setting the <code>ModuleHeight</code> and <code>ModuleWidth</code> parameters respectively.
+</p>
+
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="8px">
+            <FluentTextInput Immediate
+                             Label="Value to encode as barcode"
+                             @bind-Value="Value" />
+        </FluentStack>
+        
+        <FluentCxBarcode Value="@Value">
+            <Code39Symbology />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+}

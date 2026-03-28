@@ -165,7 +165,7 @@ public partial class FluentCxSignature
     /// Gets or sets the surface render target used for rendering operations.
     /// </summary>
     [Parameter]
-    public ISurfaceRenderTarget? Target { get; set; }
+    public ISignatureSurfaceRenderTarget? Target { get; set; }
 
     /// <summary>
     /// Gets or sets the offscreen surface render target used for exporting operations.

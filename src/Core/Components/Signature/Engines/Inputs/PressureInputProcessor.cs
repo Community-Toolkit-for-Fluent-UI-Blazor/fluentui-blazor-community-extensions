@@ -36,14 +36,14 @@ public sealed class PressureInputProcessor : IInputProcessor
             {
                 PressureCurveMode.Linear => p,
                 PressureCurveMode.Power => Math.Pow(p, options.PowerExponent),
-                PressureCurveMode.Sigmoid => SignatureMathUtils.Sigmoid(p, options.SigmoidSteepness),
-                PressureCurveMode.Bezier => SignatureMathUtils.Bezier(p, options.BezierControl),
+                PressureCurveMode.Sigmoid => SurfaceMathUtils.Sigmoid(p, options.SigmoidSteepness),
+                PressureCurveMode.Bezier => SurfaceMathUtils.Bezier(p, options.BezierControl),
                 PressureCurveMode.Velocity => SimulateFromVelocity(point.Velocity, options),
                 PressureCurveMode.Hybrid => (pressureValue * SimulateFromVelocity(point.Velocity, options)) * 0.5,
                 _ => p
             };
 
-            p = SignatureMathUtils.Clamp(p, options.MinPressure, options.MaxPressure);
+            p = SurfaceMathUtils.Clamp(p, options.MinPressure, options.MaxPressure);
 
             point.Pressure = p;
 
@@ -61,7 +61,7 @@ public sealed class PressureInputProcessor : IInputProcessor
         double velocity,
         SignaturePressureOptions options)
     {
-        var t = SignatureMathUtils.Clamp(velocity / options.MaxVelocity, 0.0, 1.0);
+        var t = SurfaceMathUtils.Clamp(velocity / options.MaxVelocity, 0.0, 1.0);
 
         return 1.0 - t;
     }

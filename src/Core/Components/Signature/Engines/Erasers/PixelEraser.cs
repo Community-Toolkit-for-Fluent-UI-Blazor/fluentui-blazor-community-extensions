@@ -87,7 +87,7 @@ public sealed class PixelEraser : IEraser
                 var p1 = pts[i];
                 var p2 = pts[i + 1];
 
-                var intersects = SignatureMathUtils.SegmentIntersectsCircle(p1, p2, sample.X, sample.Y, radiusSq);
+                var intersects = SurfaceMathUtils.SegmentIntersectsCircle(p1, p2, sample.X, sample.Y, radiusSq);
 
                 if (!intersects)
                 {

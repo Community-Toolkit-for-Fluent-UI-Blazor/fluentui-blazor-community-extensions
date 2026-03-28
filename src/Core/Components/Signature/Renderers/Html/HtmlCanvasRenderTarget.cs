@@ -5,18 +5,13 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents a rendering target for an HTML canvas element, providing methods to set various visual elements such as the view, background, grid, axes, stroke layers, dynamic strokes, watermark, selection, and debug information. This class implements the ISurfaceRenderTarget interface and serves as a concrete implementation for rendering signature or drawing surfaces onto an HTML canvas using JavaScript interop. The constructor takes a canvas ID and a reference to a JavaScript module, which are used to interact with the canvas element in the browser for rendering operations.
 /// </summary>
-public sealed class HtmlCanvasRenderTarget : ISurfaceRenderTarget
+public sealed class HtmlCanvasRenderTarget : ISignatureSurfaceRenderTarget
 {
     private readonly IJSObjectReference _module;
     private readonly string _canvasId;
-    private readonly StaticCanvasLayer _staticBackLayer = new();
-    private readonly DynamicCanvasLayer _dynamicLayer = new();
-    private readonly StaticCanvasLayer _staticFrontLayer = new();
-    private readonly DynamicCanvasLayer _debugLayer = new();
-    private readonly StaticCanvasLayer _watermarkLayer = new();
-    private readonly StaticCanvasLayer _hoverLayer = new();
-
     private ViewPayload _view = new();
+    private readonly FrameBuilder _frameBuilder = new();
+    private readonly List<ILayer> _layers = new();
 
     /// <summary>
     /// Initializes a new instance of the HtmlCanvasRenderTarget class for rendering to a specified HTML canvas element
@@ -31,25 +26,18 @@ public sealed class HtmlCanvasRenderTarget : ISurfaceRenderTarget
     }
 
     /// <inheritdoc />
-    public IStaticSurfaceRender StaticBackLayer => _staticBackLayer;
-
-    /// <inheritdoc />
-    public IDynamicSurfaceRender DynamicLayer => _dynamicLayer;
-
-    /// <inheritdoc />
-    public IStaticSurfaceRender StaticFrontLayer => _staticFrontLayer;
-
-    /// <inheritdoc />
-    public IDynamicSurfaceRender DebugLayer => _debugLayer;
-
-    /// <inheritdoc />
-    public IStaticSurfaceRender WaterMark => _watermarkLayer;
-
-    /// <inheritdoc />
-    public IStaticSurfaceRender Hover => _hoverLayer;
-
-    /// <inheritdoc />
     public ViewPayload View => _view;
+
+    /// <inheritdoc />
+    public void SetView(ViewPayload view) => _view = view;
+
+    /// <inheritdoc />
+    public ISurfaceRenderTarget AddLayer(ILayer layer)
+    {
+        _layers.Add(layer);
+
+        return this;
+    }
 
     /// <inheritdoc />
     public async ValueTask DrawStrokeSegmentAsync(object payload, ViewPayload view)
@@ -64,61 +52,46 @@ public sealed class HtmlCanvasRenderTarget : ISurfaceRenderTarget
     /// <inheritdoc />
     public async ValueTask FlushAsync()
     {
-        var staticBackDirty = _staticBackLayer.Frame.Dirty.Any;
-        var staticFrontDirty = _staticFrontLayer.Frame.Dirty.Any;
-        var dynamicDirty = _dynamicLayer.Frame.Dirty.Any;
-        var debugDirty = _debugLayer.Frame.Dirty.Any;
-        var watermarkDirty = _watermarkLayer.Frame.Dirty.Any;
-        var hoverDirty = _hoverLayer.Frame.Dirty.Any;
-
-        if (!staticBackDirty &&
-            !staticFrontDirty &&
-            !dynamicDirty &&
-            !debugDirty &&
-            !hoverDirty &&
-            !watermarkDirty)
+        if (_layers.Count == 0)
         {
             return;
         }
 
-        var payload = new FramePayload
+        _layers.Sort((a, b) =>
         {
-            StaticBack = _staticBackLayer.Frame,
-            StaticFront = _staticFrontLayer.Frame,
-            Dynamic = _dynamicLayer.Frame,
-            Debug = _debugLayer.Frame,
-            Watermark = _watermarkLayer.Frame,
-            Hover = _hoverLayer.Frame
+            var order = a.Order.CompareTo(b.Order);
+
+            if (order != 0)
+            {
+                return order;
+            }
+
+            return a.Priority.CompareTo(b.Priority);
+        });
+
+        foreach (var layer in _layers)
+        {
+            _frameBuilder.Set(layer.Key, layer.LayerPayload);
+        }
+
+        var frame = new CanvasFramePayload
+        {
+            View = _view,
+            Layers = _frameBuilder.Payloads
         };
 
         await _module.InvokeVoidAsync(
-            "FluentUI.Blazor.Community.Signature.RenderFrame",
+            "FluentUI.Blazor.Community.Signature.RenderCanvasFrame",
             _canvasId,
-            payload);
+            frame);
 
-        _staticBackLayer.Frame.Dirty.Reset();
-        _staticFrontLayer.Frame.Dirty.Reset();
-        _dynamicLayer.Frame.Dirty.Reset();
-        _debugLayer.Frame.Dirty.Reset();
-        _watermarkLayer.Frame.Dirty.Reset();
-        _hoverLayer.Frame.Dirty.Reset();
+        _layers.Clear();
+        _frameBuilder.Clear();
     }
 
     /// <inheritdoc />
     public object? GetNativeHandle()
     {
         return _canvasId;
-    }
-
-    /// <inheritdoc />
-    public void SetView(ViewPayload view)
-    {
-        _view = view;
-        _staticBackLayer.SetView(view);
-        _dynamicLayer.SetView(view);
-        _staticFrontLayer.SetView(view);
-        _debugLayer.SetView(view);
-        _hoverLayer.SetView(view);
-        _watermarkLayer.SetView(view);
     }
 }

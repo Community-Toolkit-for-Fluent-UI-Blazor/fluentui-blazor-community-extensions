@@ -42,16 +42,6 @@ export async function EncodeToImage(canvasId: string, mime: string, quality: num
 
 export namespace FluentUI.Blazor.Community.Signature {
 
-  interface SurfaceCanvases {
-    staticBack: CanvasRenderingContext2D;
-    dynamic: CanvasRenderingContext2D;
-    staticFront: CanvasRenderingContext2D;
-    debug: CanvasRenderingContext2D;
-    watermark: CanvasRenderingContext2D;
-    hover: CanvasRenderingContext2D;
-    target: CanvasRenderingContext2D;
-  }
-
   interface StrokePointPayload {
     x: number;
     y: number;
@@ -133,7 +123,7 @@ export namespace FluentUI.Blazor.Community.Signature {
     strokeWidth: number;
     color: string;
     opacity: number;
-    dashArray: number[];
+    dashArray: number[] | null;
     layer: GridLayer;
   }
 
@@ -145,7 +135,7 @@ export namespace FluentUI.Blazor.Community.Signature {
   interface DynamicStrokePayload {
     pen: PenPayload;
     strokes: StrokePayload[];
-    selected: string[]; 
+    selected: string[];
     selectionRect?: RectPayload | null;
   }
 
@@ -178,7 +168,7 @@ export namespace FluentUI.Blazor.Community.Signature {
     Hybrid
   }
 
-  export interface EraserHoverPayload {
+  interface EraserHoverPayload {
     x: number;
     y: number;
     size: number;
@@ -225,7 +215,7 @@ export namespace FluentUI.Blazor.Community.Signature {
   interface DebugTextPayload {
     color: string;
     fontSize: number;
-    fontFamily: string; 
+    fontFamily: string;
   }
 
   interface DebugPayload {
@@ -244,51 +234,17 @@ export namespace FluentUI.Blazor.Community.Signature {
     points: StrokePointPayload[];
   }
 
-  interface StaticDirtyFlags {
-    background: boolean;
-    grid: boolean;
-    axes: boolean;
-    watermark: boolean;
-    hover: boolean;
-  }
-
-  interface DynamicDirtyFlags {
-    strokeLayer: boolean;
-    dynamicStroke: boolean;
-    selection: boolean;
-    debug: boolean;
-  }
-
-  interface StaticFramePayload {
+  interface CanvasFramePayload {
     view: ViewPayload;
-    background?: BackgroundPayload | null;
-    grid?: GridPayload | null;
-    axes?: AxesPayload | null;
-    watermark?: WatermarkPayload | null;
-    hover?: HoverPayload | null;
-    dirty: StaticDirtyFlags;
+    layers: Record<string, any>;
   }
 
-  interface DynamicFramePayload {
-    view: ViewPayload;
-    strokeLayer?: StrokeLayerPayload | null;
-    dynamicStroke?: DynamicStrokePayload | null;
-    selection?: SelectionPayload | null;
-    debug?: DebugPayload | null;
-    dirty: DynamicDirtyFlags;
+  interface SurfaceContext {
+    target: CanvasRenderingContext2D;
+    eraser: CanvasRenderingContext2D;
   }
 
-  interface FramePayload {
-    staticBack: StaticFramePayload;
-    staticFront: StaticFramePayload;
-    dynamic: DynamicFramePayload;
-    debug: DynamicFramePayload;
-    watermark: StaticFramePayload;
-    hover: StaticFramePayload;
-  }
-
-
-  const surfacesCache = new Map<string, SurfaceCanvases>();
+  const surfacesCache = new Map<string, SurfaceContext>();
   const imageCache = new Map<string, HTMLImageElement>();
   const strokeLayerCache = new Map<string, HTMLCanvasElement>();
   const backgroundCache = new Map<string, HTMLCanvasElement>();
@@ -296,27 +252,36 @@ export namespace FluentUI.Blazor.Community.Signature {
   const axesCache = new Map<string, HTMLCanvasElement>();
   const watermarkCache = new Map<string, HTMLCanvasElement>();
 
-  export function GetPointerPosition(
-    id: string,
-    clientX: number,
-    clientY: number,
-    view: ViewPayload) {
+  export function GetPointerPosition(id: string, clientX: number, clientY: number, view: ViewPayload) {
     const surfaces = surfacesCache.get(id);
 
-    if (!surfaces || !surfaces.target) {
+    if (!surfaces || !surfaces.target || !view) {
       return { x: clientX, y: clientY };
     }
 
     const rect = surfaces.target.canvas.getBoundingClientRect();
+
+    if (!rect || isNaN(rect.left) || isNaN(rect.top)) {
+      return { x: clientX, y: clientY };
+    }
+
     const xCanvas = clientX - rect.left;
     const yCanvas = clientY - rect.top;
 
-    const xSurface = (xCanvas - view.offsetX) / view.scale;
-    const ySurface = (yCanvas - view.offsetY) / view.scale;
+    const scale = view.scale || 1;
+    const offsetX = view.offsetX || 0;
+    const offsetY = view.offsetY || 0;
+
+    if (!scale || scale === 0) {
+      return { x: clientX, y: clientY };
+    }
+
+    const xSurface = (xCanvas - offsetX) / scale;
+    const ySurface = (yCanvas - offsetY) / scale;
 
     return {
-      x: xSurface,
-      y: ySurface
+      x: Number.isFinite(xSurface) ? xSurface : clientX,
+      y: Number.isFinite(ySurface) ? ySurface : clientY
     };
   }
 
@@ -344,18 +309,6 @@ export namespace FluentUI.Blazor.Community.Signature {
     surfaces.target.canvas.height = h;
   }
 
-  export function ResizeOffscreens(id: string, w: number, h: number) {
-    const surfaces = surfacesCache.get(id);
-    if (!surfaces) return;
-
-    setOffscreenSize(surfaces.staticBack, w, h);
-    setOffscreenSize(surfaces.staticFront, w, h);
-    setOffscreenSize(surfaces.dynamic, w, h);
-    setOffscreenSize(surfaces.debug, w, h);
-    setOffscreenSize(surfaces.watermark, w, h);
-    setOffscreenSize(surfaces.hover, w, h);
-  }
-
   export function RegisterCanvas(canvasId: string, isOffscreen: boolean, w: number | null, h: number | null) {
     let canvas: HTMLCanvasElement;
 
@@ -366,8 +319,7 @@ export namespace FluentUI.Blazor.Community.Signature {
       canvas.width = w!;
       canvas.height = h!;
       document.body.appendChild(canvas);
-    }
-    else {
+    } else {
       canvas = document.getElementById(canvasId) as HTMLCanvasElement;
 
       if (canvas) {
@@ -391,120 +343,55 @@ export namespace FluentUI.Blazor.Community.Signature {
 
     targetCtx.setTransform(1, 0, 0, 1, 0, 0);
 
-    const makeOffscreen = () => {
-      const off = document.createElement("canvas");
-      off.width = canvas.width;
-      off.height = canvas.height;
-      const ctx = off.getContext("2d")!;
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      return ctx;
-    };
+    const eraserCanvas = document.createElement("canvas");
+    eraserCanvas.id = canvasId + "_eraser";
+    eraserCanvas.width = canvas.width;
+    eraserCanvas.height = canvas.height;
+    eraserCanvas.style.display = "none";
+    document.body.appendChild(eraserCanvas);
+
+    const eraserCtx = eraserCanvas.getContext("2d")!;
 
     surfacesCache.set(canvasId, {
       target: targetCtx,
-      staticBack: makeOffscreen(),
-      staticFront: makeOffscreen(),
-      dynamic: makeOffscreen(),
-      debug: makeOffscreen(),
-      watermark: makeOffscreen(),
-      hover: makeOffscreen()
+      eraser: eraserCtx
     });
   }
 
-  export function DrawEraserHover(
-    canvasId: string,
-    payload: EraserHoverPayload | null,
-    view: ViewPayload
-  ) {
-    const surfaces = surfacesCache.get(canvasId);
-
-    if (!surfaces) {
-      return;
-    }
-
-    const ctx = surfaces.hover;
-    const scale = view.scale;
-
-    ctx.save();
-    ctx.translate(view.offsetX, view.offsetY);
-
-    ctx.clearRect(-view.offsetX, -view.offsetY, view.renderWidth, view.renderHeight);
-
-    if (!payload) {
-      ctx.restore();
-      return;
-    }
-
-    const x = payload.x * scale;
-    const y = payload.y * scale;
-    const r = payload.radius * scale;
-
-    ctx.lineWidth = 1 * scale;
-    ctx.strokeStyle = "rgba(0,0,0,0.6)";
-    ctx.fillStyle = "rgba(0,0,0,0.1)";
-
-    if (payload.softEdges) {
-      ctx.shadowColor = "rgba(0,0,0,0.4)";
-      ctx.shadowBlur = payload.softEdgeRadius * scale;
-    }
-
-    ctx.beginPath();
-
-    if (payload.shape === EraserShape.Circle) {
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-    } else {
-      ctx.rect(x - r, y - r, r * 2, r * 2);
-    }
-
-    ctx.stroke();
-    ctx.restore();
-  }
-  function drawHover(canvasId: string, payload: HoverPayload | null, view: ViewPayload) {
-    const surfaces = surfacesCache.get(canvasId);
+  export function ResizeOffscreens(id: string, w: number, h: number) {
+    const surfaces = surfacesCache.get(id);
     if (!surfaces) return;
 
-    const ctx = surfaces.hover;
+    surfaces.target.canvas.width = w;
+    surfaces.target.canvas.height = h;
 
-    ctx.save();
-    ctx.translate(view.offsetX, view.offsetY);
-    ctx.beginPath();
-    ctx.rect(0, 0, view.renderWidth, view.renderHeight);
-    ctx.clip();
+    const clearCacheForCanvas = (cache: Map<string, HTMLCanvasElement>) => {
+      for (const key of cache.keys()) {
+        if (key.startsWith(id + "§") || key.startsWith(id + "|")) {
+          cache.delete(key);
+        }
+      }
+    };
 
-    ctx.clearRect(0, 0, view.renderWidth, view.renderHeight);
-
-    if (!payload) {
-      ctx.restore();
-      return;
-    }
-
-    const scale = view.scale;
-
-    ctx.strokeStyle = payload.color;
-    ctx.globalAlpha = payload.opacity;
-    ctx.lineWidth = payload.width * scale;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-
-    const pts = payload.points;
-
-    ctx.beginPath();
-    ctx.moveTo(pts[0].x * scale, pts[0].y * scale);
-
-    for (let i = 1; i < pts.length; i++) {
-      ctx.lineTo(pts[i].x * scale, pts[i].y * scale);
-    }
-
-    ctx.stroke();
-    ctx.restore();
+    clearCacheForCanvas(backgroundCache);
+    clearCacheForCanvas(gridCache);
+    clearCacheForCanvas(axesCache);
+    clearCacheForCanvas(strokeLayerCache);
+    clearCacheForCanvas(watermarkCache);
   }
 
+  function getSurfaceSize(ctx: CanvasRenderingContext2D) {
+    return {
+      width: ctx.canvas.width,
+      height: ctx.canvas.height
+    };
+  }
 
   export function DrawStrokeSegment(
     canvasId: string,
     payload: {
-      p1: { x: number; y: number, width: number };
-      p2: { x: number; y: number, width: number };
+      p1: { x: number; y: number; width: number };
+      p2: { x: number; y: number; width: number };
       pen: PenPayload;
       blendMode: GlobalCompositeOperation;
     },
@@ -513,7 +400,7 @@ export namespace FluentUI.Blazor.Community.Signature {
     const surfaces = surfacesCache.get(canvasId);
     if (!surfaces) return;
 
-    const ctx = surfaces.dynamic;
+    const ctx = surfaces.target;
     const scaleTotal = view.scale;
 
     ctx.save();
@@ -555,20 +442,6 @@ export namespace FluentUI.Blazor.Community.Signature {
     ctx.stroke();
 
     ctx.restore();
-
-    composeFinal(canvasId);
-  }
-
-  function setOffscreenSize(ctx: CanvasRenderingContext2D, w: number, h: number) {
-    ctx.canvas.width = w;
-    ctx.canvas.height = h;
-  }
-
-  function getSurfaceSize(ctx: CanvasRenderingContext2D) {
-    return {
-      width: ctx.canvas.width,
-      height: ctx.canvas.height
-    };
   }
 
   function computeAlignedPosition(
@@ -594,7 +467,6 @@ export namespace FluentUI.Blazor.Community.Signature {
     return { x, y };
   }
 
-
   function loadImage(url: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       if (imageCache.has(url)) {
@@ -615,8 +487,7 @@ export namespace FluentUI.Blazor.Community.Signature {
   function makeStrokeLayerKey(
     canvasId: string,
     view: ViewPayload,
-    layer: StrokeLayerPayload
-  ): string {
+    layer: StrokeLayerPayload): string {
     const scale = view.scale;
 
     const w = Math.round(view.renderWidth * scale);
@@ -624,7 +495,9 @@ export namespace FluentUI.Blazor.Community.Signature {
 
     if (w <= 0 || h <= 0) return "__invalid__";
 
-    const hashParts = layer.strokes.map(s =>
+    const strokes = Array.isArray(layer?.strokes) ? layer.strokes : [];
+
+    const hashParts = strokes.map(s =>
       `${s.id}:${s.points.length}:${s.pen.width}:${s.pen.color}:${s.blendMode}`
     );
 
@@ -723,22 +596,25 @@ export namespace FluentUI.Blazor.Community.Signature {
 
     if (w <= 0 || h <= 0) return "__invalid__";
 
+    const dash = payload.dashArray?.join(",") ?? "";
+
     return [
       canvasId,
       payload.color,
       payload.opacity,
       payload.strokeWidth,
-      payload.dashArray.join(","),
+      dash,
       w,
       h
     ].join("|");
   }
 
-  function drawBackground(canvasId: string, view: ViewPayload, payload: BackgroundPayload) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
-
-    const ctx = surfaces.staticBack;
+  function renderBackgroundLayer(
+    canvasId: string,
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: BackgroundPayload
+  ) {
     const { width, height } = getSurfaceSize(ctx);
 
     const key = makeBackgroundKey(canvasId, view, payload);
@@ -762,18 +638,18 @@ export namespace FluentUI.Blazor.Community.Signature {
       backgroundCache.set(key, offscreen);
     }
 
-    ctx.drawImage(offscreen, view.offsetX, view.offsetY);
+    ctx.save();
+    ctx.translate(view.offsetX, view.offsetY);
+    ctx.drawImage(offscreen, 0, 0);
+    ctx.restore();
   }
 
-  function drawGrid(canvasId: string, view: ViewPayload, payload: GridPayload) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
-
-    const ctx =
-      payload.layer === GridLayer.Background
-        ? surfaces.staticBack
-        : surfaces.staticFront;
-
+  function renderGridLayer(
+    canvasId: string,
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: GridPayload
+  ) {
     const { width, height } = getSurfaceSize(ctx);
 
     const key = makeGridKey(canvasId, view, payload);
@@ -827,23 +703,23 @@ export namespace FluentUI.Blazor.Community.Signature {
       gridCache.set(key, offscreen);
     }
 
-    ctx.drawImage(offscreen, view.offsetX, view.offsetY);
+    ctx.save();
+    ctx.translate(view.offsetX, view.offsetY);
+    ctx.drawImage(offscreen, 0, 0);
+    ctx.restore();
   }
 
-  function drawAxes(canvasId: string, view: ViewPayload, payload: AxesPayload) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
-
+  function renderAxesLayer(
+    canvasId: string,
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: AxesPayload
+  ) {
     const key = makeAxesKey(canvasId, view, payload);
     if (key === "__invalid__") return;
 
-    const ctx =
-      payload.layer === GridLayer.Background
-        ? surfaces.staticBack
-        : surfaces.staticFront;
-
     const { width, height } = getSurfaceSize(ctx);
-    
+
     let offscreen = axesCache.get(key);
 
     if (!offscreen) {
@@ -860,7 +736,7 @@ export namespace FluentUI.Blazor.Community.Signature {
       axctx.globalAlpha = payload.opacity;
       axctx.lineWidth = payload.strokeWidth;
 
-      if (payload.dashArray.length > 0) {
+      if (payload.dashArray && payload.dashArray.length > 0) {
         axctx.setLineDash(payload.dashArray);
       }
 
@@ -881,42 +757,265 @@ export namespace FluentUI.Blazor.Community.Signature {
       axesCache.set(key, offscreen);
     }
 
-    ctx.drawImage(offscreen, view.offsetX, view.offsetY);
+    ctx.save();
+    ctx.translate(view.offsetX, view.offsetY);
+    ctx.drawImage(offscreen, 0, 0);
+    ctx.restore();
   }
 
-  async function drawWatermark(canvasId: string, view: ViewPayload, payload: WatermarkPayload) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
-
-    const ctx = surfaces.watermark;
-    const { width, height } = getSurfaceSize(ctx);
-
-    const key = makeWatermarkKey(canvasId, view, payload, width, height);
-    if (key === "__invalid__") return;
-
-    let offscreen = watermarkCache.get(key);
-
-    if (!offscreen) {
-      offscreen = createWatermarkOffscreen(width, height, payload, view, ctx);
-      watermarkCache.set(key, offscreen);
-    }
-
-    ctx.drawImage(offscreen, view.offsetX, view.offsetY);
-  }
-
-  function createWatermarkOffscreen(width: number, height: number, payload: WatermarkPayload, view: ViewPayload, frontCtx: CanvasRenderingContext2D) {
-    const offscreen = document.createElement("canvas");
-    offscreen.width = width;
-    offscreen.height = height;
-
-    const ctx = offscreen.getContext("2d")!;
+  function renderDynamicStroke(
+    ctx: CanvasRenderingContext2D,
+    stroke: StrokePayload,
+    scaleTotal: number
+  ) {
     ctx.save();
 
-    renderWatermarkToContext(ctx, payload, view, frontCtx, width, height);
+    ctx.globalCompositeOperation = stroke.blendMode;
+
+    ctx.strokeStyle = stroke.pen.color;
+    ctx.globalAlpha = stroke.pen.opacity;
+    ctx.lineWidth = stroke.pen.width * scaleTotal;
+    ctx.lineCap = stroke.pen.lineCap;
+    ctx.lineJoin = stroke.pen.lineJoin;
+
+    if (stroke.pen.dashArray) {
+      ctx.setLineDash(stroke.pen.dashArray.map(v => v * scaleTotal));
+    } else {
+      ctx.setLineDash([]);
+    }
+
+    if (stroke.pen.shadow.enabled) {
+      ctx.shadowColor = stroke.pen.shadow.color;
+      ctx.shadowBlur = stroke.pen.shadow.blur * scaleTotal;
+      ctx.shadowOffsetX = stroke.pen.shadow.offsetX * scaleTotal;
+      ctx.shadowOffsetY = stroke.pen.shadow.offsetY * scaleTotal;
+    } else {
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+    }
+
+    ctx.beginPath();
+    const pts = stroke.points;
+
+    if (pts.length > 0) {
+      ctx.moveTo(pts[0].x * scaleTotal, pts[0].y * scaleTotal);
+
+      for (let i = 1; i < pts.length; i++) {
+        ctx.lineTo(pts[i].x * scaleTotal, pts[i].y * scaleTotal);
+      }
+    }
+
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function renderStrokeLayerCached(
+    canvasId: string,
+    view: ViewPayload,
+    layer: StrokeLayerPayload,
+    ctx: CanvasRenderingContext2D
+  ) {
+    const key = makeStrokeLayerKey(canvasId, view, layer);
+
+    if (key === "__invalid__") {
+      return;
+    }
+
+    let offscreen = strokeLayerCache.get(key);
+
+    if (!offscreen) {
+      const scale = view.scale;
+      const w = Math.round(view.renderWidth * scale);
+      const h = Math.round(view.renderHeight * scale);
+
+      offscreen = document.createElement("canvas");
+      offscreen.width = w;
+      offscreen.height = h;
+
+      const offctx = offscreen.getContext("2d");
+      if (!offctx) return;
+
+      offctx.save();
+
+      const strokes = Array.isArray(layer?.strokes) ? layer.strokes : [];
+
+      for (const stroke of strokes) {
+        renderDynamicStroke(offctx, stroke, scale);
+      }
+
+      offctx.restore();
+
+      strokeLayerCache.set(key, offscreen);
+    }
+
+    ctx.save();
+    ctx.translate(view.offsetX, view.offsetY);
+    ctx.drawImage(offscreen, 0, 0);
+    ctx.restore();
+  }
+
+  function renderStrokeLayer(
+    canvasId: string,
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: StrokeLayerPayload
+  ) {
+    renderStrokeLayerCached(canvasId, view, payload, ctx);
+  }
+
+  function renderSelectedStrokeHighlight(
+    ctx: CanvasRenderingContext2D,
+    stroke: StrokePayload,
+    scaleTotal: number,
+    selection: SelectionPayload
+  ) {
+    if (!selection.highlight) return;
+
+    ctx.save();
+
+    ctx.strokeStyle = selection.color;
+    ctx.globalAlpha = selection.opacity;
+    ctx.lineWidth = (stroke.pen.width + selection.width) * scaleTotal;
+    ctx.lineCap = stroke.pen.lineCap;
+    ctx.lineJoin = stroke.pen.lineJoin;
+    ctx.setLineDash([]);
+
+    ctx.beginPath();
+    const pts = stroke.points;
+
+    if (pts.length > 0) {
+      ctx.moveTo(pts[0].x * scaleTotal, pts[0].y * scaleTotal);
+
+      for (let i = 1; i < pts.length; i++) {
+        ctx.lineTo(pts[i].x * scaleTotal, pts[i].y * scaleTotal);
+      }
+    }
+
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function renderSelectionRect(
+    ctx: CanvasRenderingContext2D,
+    rect: RectPayload,
+    scaleTotal: number,
+    selection: SelectionPayload
+  ) {
+    ctx.save();
+
+    ctx.strokeStyle = selection.color;
+    ctx.globalAlpha = selection.opacity;
+    ctx.lineWidth = selection.width * scaleTotal;
+    ctx.setLineDash([4 * scaleTotal, 4 * scaleTotal]);
+
+    ctx.strokeRect(
+      rect.x * scaleTotal,
+      rect.y * scaleTotal,
+      rect.width * scaleTotal,
+      rect.height * scaleTotal
+    );
 
     ctx.restore();
+  }
 
-    return offscreen;
+  function renderSelectionLayer(
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: {
+      selection: SelectionPayload;
+      strokeLayer?: StrokeLayerPayload | null;
+      dynamicStroke?: DynamicStrokePayload | null;
+    }) {
+    const { selection, strokeLayer, dynamicStroke } = payload;
+    const scale = view.scale;
+
+    ctx.save();
+    ctx.translate(view.offsetX, view.offsetY);
+    ctx.beginPath();
+    ctx.rect(0, 0, view.renderWidth, view.renderHeight);
+    ctx.clip();
+
+    if (strokeLayer && selection) {
+      const strokes = Array.isArray(strokeLayer?.strokes) ? strokeLayer.strokes : [];
+
+      for (const stroke of strokes) {
+        if (selection.strokeIds.includes(stroke.id)) {
+          renderSelectedStrokeHighlight(ctx, stroke, scale, selection);
+        }
+      }
+    }
+
+    if (selection && dynamicStroke?.selectionRect) {
+      renderSelectionRect(ctx, dynamicStroke.selectionRect, scale, selection);
+    }
+
+    ctx.restore();
+  }
+
+  function renderDynamicStrokeLayer(
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: DynamicStrokePayload
+  ) {
+    const scale = view.scale;
+
+    ctx.save();
+    ctx.translate(view.offsetX, view.offsetY);
+    ctx.beginPath();
+    ctx.rect(0, 0, view.renderWidth, view.renderHeight);
+    ctx.clip();
+
+    for (const stroke of payload.strokes) {
+      renderDynamicStroke(ctx, stroke, scale);
+    }
+
+    ctx.restore();
+  }
+
+  function drawHover(
+    ctx: CanvasRenderingContext2D,
+    payload: HoverPayload | null,
+    view: ViewPayload
+  ) {
+    ctx.save();
+    ctx.translate(view.offsetX, view.offsetY);
+    ctx.beginPath();
+    ctx.rect(0, 0, view.renderWidth, view.renderHeight);
+    ctx.clip();
+
+    if (!payload) {
+      ctx.restore();
+      return;
+    }
+
+    const scale = view.scale;
+
+    ctx.strokeStyle = payload.color;
+    ctx.globalAlpha = payload.opacity;
+    ctx.lineWidth = payload.width * scale;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    const pts = payload.points;
+
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x * scale, pts[0].y * scale);
+
+    for (let i = 1; i < pts.length; i++) {
+      ctx.lineTo(pts[i].x * scale, pts[i].y * scale);
+    }
+
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function renderHoverLayer(
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: HoverPayload | null
+  ) {
+    drawHover(ctx, payload, view);
   }
 
   async function renderWatermarkToContext(
@@ -1051,7 +1150,6 @@ export namespace FluentUI.Blazor.Community.Signature {
     ctx.restore();
   }
 
-
   async function renderImageSingle(
     ctx: CanvasRenderingContext2D,
     payload: WatermarkPayload,
@@ -1118,218 +1216,51 @@ export namespace FluentUI.Blazor.Community.Signature {
     }
   }
 
-  function renderGridFrame(canvasId: string, frame: StaticFramePayload) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) {
-      return;
-    }
-
-    if (frame.grid) {
-      drawGrid(canvasId, frame.view, frame.grid);
-    }
-  }
-
-  function renderAxesFrame(canvasId: string, frame: StaticFramePayload) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) {
-      return;
-    }
-
-    if (frame.axes) {
-      drawAxes(canvasId, frame.view, frame.axes);
-    }
-  }
-
-  function renderStrokeLayerCached(
-    canvasId: string,
+  function createWatermarkOffscreen(
+    width: number,
+    height: number,
+    payload: WatermarkPayload,
     view: ViewPayload,
-    layer: StrokeLayerPayload,
-    ctx: CanvasRenderingContext2D
+    frontCtx: CanvasRenderingContext2D
   ) {
-    const key = makeStrokeLayerKey(canvasId, view, layer);
+    const offscreen = document.createElement("canvas");
+    offscreen.width = width;
+    offscreen.height = height;
+
+    const ctx = offscreen.getContext("2d")!;
+    ctx.save();
+
+    renderWatermarkToContext(ctx, payload, view, frontCtx, width, height);
+
+    ctx.restore();
+
+    return offscreen;
+  }
+
+  async function renderWatermarkLayer(
+    canvasId: string,
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: WatermarkPayload
+  ) {
+    const { width, height } = getSurfaceSize(ctx);
+
+    const key = makeWatermarkKey(canvasId, view, payload, width, height);
     if (key === "__invalid__") return;
 
-    let offscreen = strokeLayerCache.get(key);
+    let offscreen = watermarkCache.get(key);
 
     if (!offscreen) {
-      const scale = view.scale;
-      const w = Math.round(view.renderWidth * scale);
-      const h = Math.round(view.renderHeight * scale);
-
-      offscreen = document.createElement("canvas");
-      offscreen.width = w;
-      offscreen.height = h;
-
-      const offctx = offscreen.getContext("2d");
-      if (!offctx) return;
-
-      offctx.save();
-
-      for (const stroke of layer.strokes) {
-        renderDynamicStroke(offctx, stroke, scale);
-      }
-
-      offctx.restore();
-
-      strokeLayerCache.set(key, offscreen);
+      // On utilise ctx comme frontCtx pour measureText
+      offscreen = createWatermarkOffscreen(width, height, payload, view, ctx);
+      watermarkCache.set(key, offscreen);
     }
-
-    ctx.drawImage(offscreen, 0, 0);
-  }
-
-
-  function renderDynamicStroke(
-    ctx: CanvasRenderingContext2D,
-    stroke: StrokePayload,
-    scaleTotal: number
-  ) {
-    ctx.save();
-
-    ctx.globalCompositeOperation = stroke.blendMode;
-
-    ctx.strokeStyle = stroke.pen.color;
-    ctx.globalAlpha = stroke.pen.opacity;
-    ctx.lineWidth = stroke.pen.width * scaleTotal;
-    ctx.lineCap = stroke.pen.lineCap;
-    ctx.lineJoin = stroke.pen.lineJoin;
-
-    if (stroke.pen.dashArray) {
-      ctx.setLineDash(stroke.pen.dashArray.map(v => v * scaleTotal));
-    } else {
-      ctx.setLineDash([]);
-    }
-
-    if (stroke.pen.shadow.enabled) {
-      ctx.shadowColor = stroke.pen.shadow.color;
-      ctx.shadowBlur = stroke.pen.shadow.blur * scaleTotal;
-      ctx.shadowOffsetX = stroke.pen.shadow.offsetX * scaleTotal;
-      ctx.shadowOffsetY = stroke.pen.shadow.offsetY * scaleTotal;
-    } else {
-      ctx.shadowBlur = 0;
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
-    }
-
-    ctx.beginPath();
-    const pts = stroke.points;
-
-    if (pts.length > 0) {
-      ctx.moveTo(pts[0].x * scaleTotal, pts[0].y * scaleTotal);
-
-      for (let i = 1; i < pts.length; i++) {
-        ctx.lineTo(pts[i].x * scaleTotal, pts[i].y * scaleTotal);
-      }
-    }
-
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function renderSelectedStrokeHighlight(
-    ctx: CanvasRenderingContext2D,
-    stroke: StrokePayload,
-    scaleTotal: number,
-    selection: SelectionPayload
-  ) {
-    if (!selection.highlight) return;
-
-    ctx.save();
-
-    ctx.strokeStyle = selection.color;
-    ctx.globalAlpha = selection.opacity;
-    ctx.lineWidth = (stroke.pen.width + selection.width) * scaleTotal;
-    ctx.lineCap = stroke.pen.lineCap;
-    ctx.lineJoin = stroke.pen.lineJoin;
-    ctx.setLineDash([]);
-
-    ctx.beginPath();
-    const pts = stroke.points;
-
-    if (pts.length > 0) {
-      ctx.moveTo(pts[0].x * scaleTotal, pts[0].y * scaleTotal);
-
-      for (let i = 1; i < pts.length; i++) {
-        ctx.lineTo(pts[i].x * scaleTotal, pts[i].y * scaleTotal);
-      }
-    }
-
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function renderSelectionRect(
-    ctx: CanvasRenderingContext2D,
-    rect: RectPayload,
-    scaleTotal: number,
-    selection: SelectionPayload
-  ) {
-    ctx.save();
-
-    ctx.strokeStyle = selection.color;
-    ctx.globalAlpha = selection.opacity;
-    ctx.lineWidth = selection.width * scaleTotal;
-    ctx.setLineDash([4 * scaleTotal, 4 * scaleTotal]);
-
-    ctx.strokeRect(
-      rect.x * scaleTotal,
-      rect.y * scaleTotal,
-      rect.width * scaleTotal,
-      rect.height * scaleTotal
-    );
-
-    ctx.restore();
-  }
-  function renderDynamicFrame(
-    canvasId: string,
-    frame: DynamicFramePayload
-  ) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
-
-    const ctx = surfaces.dynamic;
-
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-    const view = frame.view;
-    const scale = view.scale;
 
     ctx.save();
     ctx.translate(view.offsetX, view.offsetY);
-
-    ctx.beginPath();
-    ctx.rect(0, 0, view.renderWidth, view.renderHeight);
-    ctx.clip();
-
-    if (frame.strokeLayer) {
-      renderStrokeLayerCached(canvasId, view, frame.strokeLayer, ctx);
-    }
-
-    if (frame.selection) {
-      for (const stroke of frame.strokeLayer?.strokes ?? []) {
-        if (frame.selection.strokeIds.includes(stroke.id)) {
-          renderSelectedStrokeHighlight(ctx, stroke, scale, frame.selection);
-        }
-      }
-    }
-    
-    if (frame.dynamicStroke) {
-      for (const stroke of frame.dynamicStroke.strokes) {
-        renderDynamicStroke(ctx, stroke, scale);
-      }
-    }
-
-    if (frame.selection && frame.dynamicStroke?.selectionRect) {
-      renderSelectionRect(
-        ctx,
-        frame.dynamicStroke.selectionRect,
-        scale,
-        frame.selection
-      );
-    }
-
+    ctx.drawImage(offscreen, 0, 0);
     ctx.restore();
   }
-
 
   function renderDebugOverlay(
     ctx: CanvasRenderingContext2D,
@@ -1391,140 +1322,99 @@ export namespace FluentUI.Blazor.Community.Signature {
     ctx.restore();
   }
 
-
-  function renderStaticBackFrame(
-    canvasId: string,
-    frame: StaticFramePayload
+  function renderDebugLayer(
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: DebugPayload
   ) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
-
-    const ctx = surfaces.staticBack;
-
-    const mustRedraw =
-      (frame.dirty.background && frame.background) ||
-      (frame.dirty.grid && frame.grid && frame.grid.layer === GridLayer.Background) ||
-      (frame.dirty.axes && frame.axes && frame.axes.layer === GridLayer.Background);
-
-    if (mustRedraw) {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    }
-
-    const view = frame.view;
-
-    if (frame.dirty.background && frame.background) {
-      drawBackground(canvasId, view, frame.background);
-    }
-
-    if (frame.dirty.grid && frame.grid && frame.grid.layer === GridLayer.Background) {
-      renderGridFrame(canvasId, frame);
-    }
-
-    if (frame.dirty.axes && frame.axes && frame.axes.layer === GridLayer.Background) {
-      renderAxesFrame(canvasId, frame);
-    }
+    renderDebugOverlay(ctx, view, payload, view.scale);
   }
 
-  function renderStaticFrontFrame(
+  function renderEraserLayer(
     canvasId: string,
-    frame: StaticFramePayload
+    ctx: CanvasRenderingContext2D,
+    view: ViewPayload,
+    payload: EraserHoverPayload | null
   ) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
+    if (!payload) return;
 
-    const ctx = surfaces.staticFront;
+    const scale = view.scale;
 
-    const mustRedraw =
-      (frame.dirty.grid && frame.grid && frame.grid.layer === GridLayer.Foreground) ||
-      (frame.dirty.axes && frame.axes && frame.axes.layer === GridLayer.Foreground) ||
-      (frame.dirty.watermark && frame.watermark);
+    ctx.save();
+    ctx.translate(view.offsetX, view.offsetY);
 
-    if (mustRedraw) {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    const x = payload.x * scale;
+    const y = payload.y * scale;
+    const r = payload.radius * scale;
+
+    ctx.lineWidth = 1 * scale;
+    ctx.strokeStyle = "rgba(0,0,0,0.6)";
+    ctx.fillStyle = "rgba(0,0,0,0.1)";
+
+    if (payload.softEdges) {
+      ctx.shadowColor = "rgba(0,0,0,0.4)";
+      ctx.shadowBlur = payload.softEdgeRadius * scale;
     }
 
-
-    const view = frame.view;
-
-    if (frame.dirty.grid && frame.grid && frame.grid.layer === GridLayer.Foreground) {
-      drawGrid(canvasId, view, frame.grid);
+    ctx.beginPath();
+    if (payload.shape === EraserShape.Circle) {
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+    } else {
+      ctx.rect(x - r, y - r, r * 2, r * 2);
     }
 
-    if (frame.dirty.axes && frame.axes && frame.axes.layer === GridLayer.Foreground) {
-      renderAxesFrame(canvasId, frame);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function renderLayer(
+    canvasId: string,
+    ctx: CanvasRenderingContext2D,
+    key: string,
+    payload: any,
+    view: ViewPayload
+  ) {
+    switch (key) {
+      case "background":
+        return renderBackgroundLayer(canvasId, ctx, view, payload as BackgroundPayload);
+      case "grid":
+        return renderGridLayer(canvasId, ctx, view, payload as GridPayload);
+      case "axes":
+        return renderAxesLayer(canvasId, ctx, view, payload as AxesPayload);
+      case "strokes":
+        return renderStrokeLayer(canvasId, ctx, view, payload as StrokeLayerPayload);
+      case "dynamic-stroke":
+        return renderDynamicStrokeLayer(ctx, view, payload as DynamicStrokePayload);
+      case "hover":
+        return renderHoverLayer(ctx, view, payload as HoverPayload | null);
+      case "selection":
+        return renderSelectionLayer(ctx, view, payload as {
+          selection: SelectionPayload;
+          strokeLayer?: StrokeLayerPayload | null;
+          dynamicStroke?: DynamicStrokePayload | null;
+        });
+      case "watermark":
+        return renderWatermarkLayer(canvasId, ctx, view, payload as WatermarkPayload);
+      case "debug":
+        return renderDebugLayer(ctx, view, payload as DebugPayload);
+      case "eraser":
+        return renderEraserLayer(canvasId, ctx, view, payload as EraserHoverPayload);
     }
   }
 
-  function renderDebugFrame(canvasId: string, frame: DynamicFramePayload) {
+  export function RenderCanvasFrame(canvasId: string, frame: CanvasFramePayload) {
     const surfaces = surfacesCache.get(canvasId);
     if (!surfaces) return;
 
-    const ctx = surfaces.debug;
-    if (!ctx) return;
-
-    const { width, height } = getSurfaceSize(ctx);
-    ctx.clearRect(0, 0, width, height);
-
-    if (frame.debug) {
-      renderDebugOverlay(ctx, frame.view, frame.debug, frame.view.scale);
-    }
-  }
-
-  function renderHoverFrame(canvasId: string, frame: StaticFramePayload) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
-
-    const ctx = surfaces.watermark;
-
-    const mustRedraw = frame.dirty.hover;
-
-    if (mustRedraw) {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    }
-
-    const view = frame.view;
-
-    if (frame.dirty.hover) {
-      drawHover(canvasId, frame.hover ?? null, view);
-    }
-  }
-
-  function renderWatermarkFrame(canvasId: string, frame: StaticFramePayload) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
-
-    const ctx = surfaces.watermark;
+    const ctx = surfaces.target;
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    if (frame.watermark) {
-      drawWatermark(canvasId, frame.view, frame.watermark);
+    const view = frame.view;
+
+    for (const key in frame.layers) {
+      const payload = frame.layers[key];
+      renderLayer(canvasId, ctx, key, payload, view);
     }
-  }
-
-  function composeFinal(canvasId: string) {
-    const surfaces = surfacesCache.get(canvasId);
-    if (!surfaces) return;
-
-    const target = surfaces.target;
-    const ctx = target;
-
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.drawImage(surfaces.staticBack.canvas, 0, 0);
-    ctx.drawImage(surfaces.dynamic.canvas, 0, 0);
-    ctx.drawImage(surfaces.staticFront.canvas, 0, 0);
-    ctx.drawImage(surfaces.hover.canvas, 0, 0);
-    ctx.drawImage(surfaces.watermark.canvas, 0, 0);
-    ctx.drawImage(surfaces.debug.canvas, 0, 0);
-  }
-
-  export function RenderFrame(canvasId: string, frame: FramePayload) {
-    renderStaticBackFrame(canvasId, frame.staticBack);
-    renderDynamicFrame(canvasId, frame.dynamic);
-    renderStaticFrontFrame(canvasId, frame.staticFront);
-    renderHoverFrame(canvasId, frame.hover);
-    renderWatermarkFrame(canvasId, frame.watermark);
-    renderDebugFrame(canvasId, frame.debug);
-    composeFinal(canvasId);
   }
 }

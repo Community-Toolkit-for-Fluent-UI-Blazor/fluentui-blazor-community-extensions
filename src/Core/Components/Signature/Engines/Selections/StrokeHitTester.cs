@@ -51,7 +51,7 @@ public sealed class StrokeHitTester
             {
                 var p = pts[0];
 
-                if (SignatureMathUtils.DistanceSquared(p.X, p.Y, x, y) <= tolSq)
+                if (SurfaceMathUtils.DistanceSquared(p.X, p.Y, x, y) <= tolSq)
                 {
                     return stroke;
                 }
@@ -105,7 +105,7 @@ public sealed class StrokeHitTester
             {
                 var p = pts[0];
 
-                if (SignatureMathUtils.DistanceSquared(p.X, p.Y, x, y) <= tolSq)
+                if (SurfaceMathUtils.DistanceSquared(p.X, p.Y, x, y) <= tolSq)
                 {
                     return stroke;
                 }
@@ -151,15 +151,15 @@ public sealed class StrokeHitTester
 
         if (dx == 0 && dy == 0)
         {
-            return SignatureMathUtils.DistanceSquared(px, py, x1, y1);
+            return SurfaceMathUtils.DistanceSquared(px, py, x1, y1);
         }
 
-        var t = SignatureMathUtils.ProjectPointOnSegment(px, py, x1, y1, x2, y2);
-        t = SignatureMathUtils.Clamp(t, 0.0, 1.0);
+        var t = SurfaceMathUtils.ProjectPointOnSegment(px, py, x1, y1, x2, y2);
+        t = SurfaceMathUtils.Clamp(t, 0.0, 1.0);
 
         var projX = x1 + t * dx;
         var projY = y1 + t * dy;
 
-        return SignatureMathUtils.DistanceSquared(px, py, projX, projY);
+        return SurfaceMathUtils.DistanceSquared(px, py, projX, projY);
     }
 }

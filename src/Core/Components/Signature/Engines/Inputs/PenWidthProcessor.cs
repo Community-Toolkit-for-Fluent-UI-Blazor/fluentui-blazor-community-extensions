@@ -43,12 +43,12 @@ public sealed class PenWidthProcessor
         switch (pen.WidthMode)
         {
             case StrokeWidthMode.Linear:
-                w = SignatureMathUtils.Lerp(pen.MinWidth, pen.BaseWidth, p.Pressure);
+                w = SurfaceMathUtils.Lerp(pen.MinWidth, pen.BaseWidth, p.Pressure);
                 break;
 
             case StrokeWidthMode.Power:
                 var t = Math.Pow(p.Pressure, pen.WidthPower);
-                w = SignatureMathUtils.Lerp(pen.MinWidth, pen.BaseWidth, t);
+                w = SurfaceMathUtils.Lerp(pen.MinWidth, pen.BaseWidth, t);
                 break;
 
             default:
@@ -58,14 +58,14 @@ public sealed class PenWidthProcessor
 
         if (p.Velocity > pen.MaxVelocityForWidth)
         {
-            var factor = SignatureMathUtils.Clamp(
+            var factor = SurfaceMathUtils.Clamp(
                 1.0 - (p.Velocity - pen.MaxVelocityForWidth) / pen.MaxVelocityForWidth,
                 0.0, 1.0);
 
             w *= factor;
         }
 
-        w = SignatureMathUtils.Clamp(w, pen.MinWidth, pen.MaxWidth);
+        w = SurfaceMathUtils.Clamp(w, pen.MinWidth, pen.MaxWidth);
 
         return w;
     }

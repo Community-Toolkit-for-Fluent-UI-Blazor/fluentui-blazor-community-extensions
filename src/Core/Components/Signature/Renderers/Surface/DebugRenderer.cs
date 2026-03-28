@@ -17,7 +17,7 @@ internal sealed class DebugRenderer : ISignatureStrokeRenderer
     {
         var payload = PayloadFactory.CreateDebug(target.View.Dpi, strokes.Count, strokes.Sum(s => s.Points.Count), options.Debug);
 
-        target.DebugLayer.SetDebug(payload);
+        target.AddLayer(new DebugLayer(payload));
     }
 
     /// <inheritdoc />
