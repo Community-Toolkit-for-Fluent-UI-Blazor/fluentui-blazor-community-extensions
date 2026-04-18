@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using FluentUI.Blazor.Community.Components.Surface.Payloads;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -113,7 +114,7 @@ internal static class BinaryUtils
         var view = ReadSection<ViewPayload>(reader);
         var background = ReadSection<BackgroundPayload>(reader);
         var grid = ReadSection<GridPayload>(reader);
-        var axes = ReadSection<AxesPayload>(reader);
+        var axes = ReadSection<AxisPayload>(reader);
         var content = ReadSection<TPayload>(reader);
         var watermark = ReadSection<WatermarkPayload>(reader);
 

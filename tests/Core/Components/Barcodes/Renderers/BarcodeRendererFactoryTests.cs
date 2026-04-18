@@ -18,7 +18,7 @@ public class BarcodeRendererFactoryTests
 
         var renderer = factory.Get(symbology, () => "1234");
 
-        var typed = Assert.IsType<Barcode1DRenderer<Code128Options>>(renderer);
+        var typed = Assert.IsType<Barcode1DComposer<Code128Options>>(renderer);
         Assert.Equal(2, typed.Options.ModuleWidth);
         Assert.Equal(7, typed.Options.ModuleHeight);
         Assert.False(typed.Options.ShowText);
@@ -43,7 +43,7 @@ public class BarcodeRendererFactoryTests
         var renderer2 = factory.Get(symbology, () => "1234");
 
         Assert.Same(renderer1, renderer2);
-        var typed = Assert.IsType<Barcode1DRenderer<Code128Options>>(renderer2);
+        var typed = Assert.IsType<Barcode1DComposer<Code128Options>>(renderer2);
         Assert.Equal(4, typed.Options.ModuleWidth);
         Assert.Equal(9, typed.Options.ModuleHeight);
         Assert.False(typed.Options.ShowText);

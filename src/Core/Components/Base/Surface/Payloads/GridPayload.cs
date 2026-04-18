@@ -1,10 +1,25 @@
-namespace FluentUI.Blazor.Community.Components;
+namespace FluentUI.Blazor.Community.Components.Surface.Payloads;
 
 /// <summary>
 /// Represents an immutable payload for grid-related operations or data transfers.
 /// </summary>
 public sealed class GridPayload : ILayerPayload, IEquatable<GridPayload>
 {
+    /// <summary>
+    /// Gets the collection of horizontal grid lines to be rendered in the grid layout.
+    /// </summary>
+    public required IReadOnlyList<GridLinePayload> HorizontalLines { get; init; } = [];
+
+    /// <summary>
+    /// Gets the collection of vertical grid lines to be rendered.
+    /// </summary>
+    public required IReadOnlyList<GridLinePayload> VerticalLines { get; init; } = [];
+
+    /// <summary>
+    /// Gets the collection of points that define the grid dots payload.
+    /// </summary>
+    public required IReadOnlyList<GridPointPayload> Points { get; init; } = [];
+
     /// <summary>
     /// Gets or sets the display mode of the grid.
     /// </summary>

@@ -1,0 +1,91 @@
+﻿@using FluentUI.Blazor.Community.Components.ColorSpace.Icc
+@using FluentUI.Blazor.Community.Components.ColorSpace.Spaces
+@using FluentUI.Blazor.Community.Components.ColorSpace.Vision
+@using SkiaSharp
+<div style="width: 100%; height: 600px">
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentStack>
+            <FluentButton Appearance="ButtonAppearance.Default" Id="btn-image">Select Image</FluentButton>
+            <FluentSelect Label="Select an icc profile"
+                          Items="@_iccProfileNames"
+                          @bind-Value="_selectedIccProfileName"
+                          @bind-Value:after="OnAfterChanged">
+
+            </FluentSelect>
+
+            <FluentSelect Items="@_visionTypes"
+                          @bind-Value="_selectedVisionType"
+                          Label="Select a vision"
+                          @bind-Value:after="OnAfterChanged">
+
+            </FluentSelect>
+        </FluentStack>
+
+        <img src="@_convertedImage" width="700" height="600" style="object-fit: contain" />
+    </FluentStack>
+
+    <FluentInputFile Accept="image/*"
+                     Multiple="false"
+                     MaximumFileCount="1"
+                     MaximumFileSize="100 * 1024 * 1024"
+                     DragDropZoneVisible="false"
+                     AnchorId="btn-image"
+                     Mode="InputFileMode.Buffer"
+                     OnProgressChange="@OnProgressChange"
+                     OnCompleted="@(OnCompleted)" />
+
+    <FluentOverlay @bind-Visible="_isLoading" CloseMode="OverlayCloseMode.Manual">
+        <FluentProgressBar Width="340px" />
+    </FluentOverlay>
+</div>
+
+@code {
+    private MemoryStream _mem = new();
+    private bool _isLoading = false;
+    private static readonly ColorVisionType[] _visionTypes = Enum.GetValues<ColorVisionType>();
+    private ColorVisionType _selectedVisionType = ColorVisionType.Normal;
+    private static readonly IccProfileName[] _iccProfileNames = Enum.GetValues<IccProfileName>();
+    private IccProfileName _selectedIccProfileName = IccProfileName.Srgb;
+    private byte[] _imageData = [];
+    private string _convertedImage = string.Empty;
+
+    private void OnProgressChange(FluentInputFileEventArgs e)
+    {
+        _isLoading = true;
+        _mem.Write(e.Buffer.Data, 0, e.Buffer.BytesRead);
+    }
+
+    private async Task OnCompleted(IEnumerable<FluentInputFileEventArgs> e)
+    {
+        _isLoading = false;
+        _imageData = _mem.ToArray();
+        _mem.Dispose();
+        _mem = new MemoryStream();
+        await OnAfterChanged();
+    }
+
+    private async Task OnAfterChanged()
+    {
+        if (_imageData.Length == 0)
+            return;
+
+        _isLoading = true;
+        await InvokeAsync(StateHasChanged);
+
+        var bmp = SKBitmap.Decode(_imageData);
+        var originalPixels = new byte[bmp.ByteCount];
+        System.Runtime.InteropServices.Marshal.Copy(bmp.GetPixels(), originalPixels, 0, originalPixels.Length);
+
+        var converted = ColorImageTransform.TransformImage(originalPixels, _selectedVisionType, RgbWorkingSpace.Create(_selectedIccProfileName));
+        var ptr = bmp.GetPixels();
+        System.Runtime.InteropServices.Marshal.Copy(converted, 0, ptr, converted.Length);
+
+        using var image = SKImage.FromBitmap(bmp);
+        using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        var base64 = Convert.ToBase64String(data.ToArray());
+        _convertedImage = $"data:image/png;base64,{base64}";
+
+        _isLoading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+}

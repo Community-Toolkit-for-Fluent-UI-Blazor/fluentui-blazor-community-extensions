@@ -1,3 +1,5 @@
+using FluentUI.Blazor.Community.Components.Surface.Payloads;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
@@ -25,7 +27,7 @@ public sealed class SurfacePayload<TPayload>
     /// <summary>
     /// Gets or sets the axes payload.
     /// </summary>
-    public AxesPayload? Axes { get; set; }
+    public AxisPayload? Axes { get; set; }
 
     /// <summary>
     /// Gets or sets the watermark payload.

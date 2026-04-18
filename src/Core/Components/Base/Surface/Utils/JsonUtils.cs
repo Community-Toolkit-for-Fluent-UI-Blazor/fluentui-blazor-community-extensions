@@ -1,4 +1,5 @@
 using System.Text.Json;
+using FluentUI.Blazor.Community.Components.Surface.Payloads;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -117,7 +118,7 @@ internal static class JsonUtils
 
         if (root.TryGetProperty("axes", out var axesProp))
         {
-            payload.Axes = axesProp.Deserialize<AxesPayload>(s_jsonOptions);
+            payload.Axes = axesProp.Deserialize<AxisPayload>(s_jsonOptions);
         }
 
         if (root.TryGetProperty("content", out var contentProp))

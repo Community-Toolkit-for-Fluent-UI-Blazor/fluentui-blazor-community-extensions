@@ -11,7 +11,7 @@ internal sealed class StrokeLayerRenderer
     : ISignatureStrokeRenderer
 {
     /// <inheritdoc />
-    public void Render(
+    public void Compose(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)
@@ -27,12 +27,12 @@ internal sealed class StrokeLayerRenderer
     }
 
     /// <inheritdoc />
-    public ValueTask RenderAsync(
+    public ValueTask ComposeAsync(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)
     {
-        Render(target, strokes, options);
+        Compose(target, strokes, options);
 
         return ValueTask.CompletedTask;
     }

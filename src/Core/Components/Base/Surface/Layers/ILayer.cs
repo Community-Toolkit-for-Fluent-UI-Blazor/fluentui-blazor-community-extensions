@@ -23,7 +23,7 @@ public interface ILayer
     /// <summary>
     /// Gets the priority level assigned to the layer.
     /// </summary>
-    LayerPriority Priority { get; }
+    int Priority { get; }
 
     /// <summary>
     /// Gets the payload associated with the layer.

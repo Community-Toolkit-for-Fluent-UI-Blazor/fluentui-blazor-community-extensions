@@ -56,7 +56,7 @@ public class Barcode1DComposerTests
     {
     }
 
-    private sealed class TestBarcode1DComposer : Barcode1DComposer<TestBarcodeOptions>
+    private sealed class TestBarcode1DComposer : Barcode1DLayerComposer<TestBarcodeOptions>
     {
         protected override void AfterCompose(
             BarcodePayload<Barcode1DPayload> payload,

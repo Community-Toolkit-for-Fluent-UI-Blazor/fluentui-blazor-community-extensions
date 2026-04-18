@@ -1,0 +1,86 @@
+﻿@using FluentUI.Blazor.Community.Components.Charts.Series
+@using FluentUI.Blazor.Community.Components.Charts.Themes
+@using FluentUI.Blazor.Community.Components.Enums
+<p>
+    This example demonstrates how to use some category charts with sample data.
+    You can select the chart palette style and the chart category to see how the chart changes.
+</p>
+
+<div style="width: 100%; height: 500px">
+    <FluentStack Height="100%" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="4px">
+            <FluentSelect Items="@s_chartPaletteStyles"
+                          @bind-Value="_selectedChartPaletteStyle" />
+
+            <FluentSelect Items="@s_chartCategory"
+                          @bind-Value="_selectedChartCategory"
+                          @bind-Value:after="OnCategoryChanged"/>
+        </FluentStack>
+
+        <FluentCxChart @ref="_ref" PaletteStyle="@_selectedChartPaletteStyle">
+            @if (_selectedChartCategory == ChartType.CategoryArea)
+            {
+                <AreaSerie Name="Area" Items="@(_items)" />
+                <AreaSerie Name="Area 2" Items="@(_items2)" />
+            }
+            else if (_selectedChartCategory == ChartType.CategoryLine)
+            {
+                <LineSerie Name="Line" Items="@(_items)" />
+                <LineSerie Name="Line 2" Items="@(_items2)" />
+            }
+            else if (_selectedChartCategory == ChartType.Column)
+            {
+                <ColumnSerie Name="Columns" Items="@(_items)" />
+                <ColumnSerie Name="Columns 2" Items="@(_items2)" />
+            }
+            else if (_selectedChartCategory == ChartType.Bar)
+            {
+                <BarSerie Name="Bars" Items="@(_items)" />
+                <BarSerie Name="Bars 2" Items="@(_items2)" />
+            }
+        </FluentCxChart>
+    </FluentStack>
+</div>
+
+
+@code {
+    private FluentCxChart? _ref;
+    private static ChartPaletteStyle[] s_chartPaletteStyles = Enum.GetValues<ChartPaletteStyle>().ToArray();
+    private ChartPaletteStyle _selectedChartPaletteStyle = ChartPaletteStyle.Autumn;
+    private ChartType _selectedChartCategory = ChartType.Bar;
+
+    private static ChartType[] s_chartCategory = [
+        ChartType.CategoryArea,
+        ChartType.CategoryLine,
+   //     ChartType.CategoryStep,
+        ChartType.Column,
+        ChartType.Bar,
+     /*   ChartType.StackedBar,
+        ChartType.StackedColumn,
+        ChartType.FullStackedBar,
+        ChartType.FullStackedColumn,
+        ChartType.StackedArea,
+        ChartType.FullStackedArea*/
+    ];
+
+    private static CategoryItem[] _items = new[]
+    {
+        new CategoryItem { Category = "Category 1", Value = 10 },
+        new CategoryItem { Category = "Category 2", Value = 20 },
+        new CategoryItem { Category = "Category 3", Value = 30 },
+        new CategoryItem { Category = "Category 4", Value = 40 }
+    };
+
+    private static CategoryItem[] _items2 = new[]
+    {
+        new CategoryItem { Category = "Category 1", Value = 50 },
+        new CategoryItem { Category = "Category 2", Value = 10 },
+        new CategoryItem { Category = "Category 3", Value = 80 },
+        new CategoryItem { Category = "Category 4", Value = 25 }
+    };
+
+    private void OnCategoryChanged()
+    {
+        _ref?.Reset();
+    }
+}

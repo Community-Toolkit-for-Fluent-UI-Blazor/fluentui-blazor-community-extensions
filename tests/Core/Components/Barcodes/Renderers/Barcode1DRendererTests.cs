@@ -10,10 +10,10 @@ public class Barcode1DRendererTests
     {
         var encoder = new Test1DEncoder();
         var composer = new Test1DComposer();
-        var renderer = new Barcode1DRenderer<TestOptions>(encoder, () => "DATA", new TestOptions(), composer);
+        var renderer = new Barcode1DComposer<TestOptions>(encoder, () => "DATA", new TestOptions(), composer);
         var target = new TestSurfaceRenderTarget();
 
-        renderer.Render(target, new BarcodeRenderingOptions());
+        renderer.Compose(target, new BarcodeRenderingOptions());
 
         Assert.Single(target.Layers);
         Assert.IsType<BarcodeLayer<Barcode1DPayload>>(target.Layers[0]);
@@ -23,18 +23,18 @@ public class Barcode1DRendererTests
     [Fact]
     public void Render_NullTarget_Throws()
     {
-        var renderer = new Barcode1DRenderer<TestOptions>(new Test1DEncoder(), () => "DATA", new TestOptions());
+        var renderer = new Barcode1DComposer<TestOptions>(new Test1DEncoder(), () => "DATA", new TestOptions());
 
-        Assert.Throws<ArgumentNullException>(() => renderer.Render(null!, new BarcodeRenderingOptions()));
+        Assert.Throws<ArgumentNullException>(() => renderer.Compose(null!, new BarcodeRenderingOptions()));
     }
 
     [Fact]
     public void RenderAsync_Completes()
     {
-        var renderer = new Barcode1DRenderer<TestOptions>(new Test1DEncoder(), () => "DATA", new TestOptions());
+        var renderer = new Barcode1DComposer<TestOptions>(new Test1DEncoder(), () => "DATA", new TestOptions());
         var target = new TestSurfaceRenderTarget();
 
-        var task = renderer.RenderAsync(target, new BarcodeRenderingOptions());
+        var task = renderer.ComposeAsync(target, new BarcodeRenderingOptions());
 
         Assert.True(task.IsCompleted);
         Assert.Single(target.Layers);
@@ -56,7 +56,7 @@ public class Barcode1DRendererTests
         }
     }
 
-    private sealed class Test1DComposer : Barcode1DComposer<TestOptions>
+    private sealed class Test1DComposer : Barcode1DLayerComposer<TestOptions>
     {
         public bool WasCalled { get; private set; }
 

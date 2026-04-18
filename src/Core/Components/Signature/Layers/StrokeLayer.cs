@@ -26,7 +26,7 @@ public sealed class StrokeLayer : ILayer
     public LayerOrder Order => LayerOrder.Content;
 
     /// <inheritdoc />
-    public LayerPriority Priority => LayerPriority.Normal;
+    public int Priority => (int)LayerPriority.Normal;
 
     /// <inheritdoc />
     public ILayerPayload LayerPayload { get; }

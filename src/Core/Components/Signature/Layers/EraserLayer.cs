@@ -26,7 +26,7 @@ public sealed class EraserLayer : ILayer
     public LayerOrder Order => LayerOrder.Overlay;
 
     /// <inheritdoc />
-    public LayerPriority Priority => LayerPriority.Lowest;
+    public int Priority => (int)LayerPriority.Lowest;
 
     /// <inheritdoc />
     public ILayerPayload LayerPayload { get; }

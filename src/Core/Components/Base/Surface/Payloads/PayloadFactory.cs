@@ -1,3 +1,5 @@
+using FluentUI.Blazor.Community.Components.Surface.Payloads;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
@@ -84,7 +86,10 @@ internal static class PayloadFactory
             StrokeWidth = opt.StrokeWidth,
             DashArray = SurfaceMathUtils.ToDashArray(opt.DashArray),
             PointRadius = opt.PointRadius,
-            Layer = opt.Layer
+            Layer = opt.Layer,
+            HorizontalLines = [],
+            VerticalLines = [],
+            Points = []
         };
     }
 
@@ -94,14 +99,14 @@ internal static class PayloadFactory
     /// <param name="opt">The options used to configure the axes payload. If null or if the Show property is false, no payload is created.</param>
     /// <returns>An AxesPayload instance configured according to the provided options, or null if the options are null or not set
     /// to show the axes.</returns>
-    public static AxesPayload? Create(SurfaceAxesOptions? opt)
+    public static AxisPayload? Create(SurfaceAxesOptions? opt)
     {
         if (opt is null || !opt.Show)
         {
             return null;
         }
 
-        return new AxesPayload
+        return new AxisPayload
         {
             Color = opt.Color,
             Opacity = opt.Opacity,

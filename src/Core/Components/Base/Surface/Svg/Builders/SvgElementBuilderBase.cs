@@ -9,7 +9,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// fluent configuration and construction of SVG elements within a parent SvgBuilder context.</remarks>
 /// <typeparam name="TBuilder">The type of the concrete builder class implementing the fluent API.</typeparam>
 /// <typeparam name="TElement">The type of the SVG element being constructed. Must derive from SvgElement.</typeparam>
-public abstract class SvgElementBuilderBase<TBuilder, TElement>
+public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable<TBuilder>
     where TBuilder : class
     where TElement : SvgElement
 {
@@ -42,7 +42,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement>
     /// <summary>
     /// Gets the underlying element associated with the component.
     /// </summary>
-    protected TElement Element => _element;
+    protected internal TElement Element => _element;
 
     /// <summary>
     /// Sets the fill color attribute for the underlying element.
@@ -53,9 +53,12 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement>
     /// <param name="color">The fill color to apply. This value is typically a CSS color string such as a color name, hex code, or RGB
     /// value.</param>
     /// <returns>The current builder instance with the updated fill color attribute.</returns>
-    public TBuilder WithFill(string color)
+    public TBuilder WithFill(string? color)
     {
-        _element.Attributes["fill"] = color;
+        if (!string.IsNullOrEmpty(color))
+        {
+            _element.Attributes["fill"] = color;
+        }
 
         return (TBuilder)(object)this;
     }
@@ -75,13 +78,32 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement>
     }
 
     /// <summary>
+    /// Sets the 'clip-path' attribute for the underlying element being built, referencing a clip path defined elsewhere in the SVG document.
+    /// </summary>
+    /// <param name="clipPathId">The identifier of the clip path to reference, without the 'url(#...)' syntax.
+    ///  This should correspond to the 'id' attribute of a &lt;clipPath&gt; element defined in the SVG document.</param>    
+    /// <returns>The builder instance with the updated 'clip-path' attribute, enabling method chaining.</returns>
+    public TBuilder WithClipPath(string? clipPathId)
+    {
+        if (!string.IsNullOrEmpty(clipPathId))
+        {
+            _element.Attributes["clip-path"] = $"url(#{clipPathId})";
+        }
+
+        return (TBuilder)(object)this;
+    }
+
+    /// <summary>
     /// Sets the stroke color attribute for the element being built.
     /// </summary>
     /// <param name="color">The color value to apply to the stroke attribute. This can be any valid CSS color string.</param>
     /// <returns>The current builder instance with the updated stroke color.</returns>
-    public TBuilder WithStroke(string color)
+    public TBuilder WithStroke(string? color)
     {
-        _element.Attributes["stroke"] = color;
+        if (!string.IsNullOrEmpty(color))
+        {
+            _element.Attributes["stroke"] = color;
+        }
 
         return (TBuilder)(object)this;
     }
@@ -91,9 +113,29 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement>
     /// </summary>
     /// <param name="width">The width of the stroke to apply, in user units. Must be a non-negative value.</param>
     /// <returns>The builder instance with the updated stroke width, enabling method chaining.</returns>
-    public TBuilder WithStrokeWidth(double width)
+    public TBuilder WithStrokeWidth(double? width)
     {
-        _element.Attributes["stroke-width"] = width.ToSvg();
+        var stringWidth = width?.ToSvg();
+
+        if (!string.IsNullOrEmpty(stringWidth))
+        {
+            _element.Attributes["stroke-width"] = stringWidth;
+        }
+
+        return (TBuilder)(object)this;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="array"></param>
+    /// <returns></returns>
+    public TBuilder WithStrokeDashArray(double[]? array)
+    {
+        if (array?.Length > 0)
+        {
+            _element.Attributes["stroke-dasharray"] = string.Join(' ', array);
+        }
 
         return (TBuilder)(object)this;
     }
@@ -103,11 +145,11 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement>
     /// </summary>
     /// <remarks>Use this method to control the transparency of the SVG element. Values outside the range of
     /// 0.0 to 1.0 may result in unexpected rendering behavior.</remarks>
-    /// <param name="opacity">The opacity value to apply. Must be between 0.0 (fully transparent) and 1.0 (fully opaque).</param>
+    /// <param name="value">The opacity value to apply. Must be between 0.0 (fully transparent) and 1.0 (fully opaque).</param>
     /// <returns>The current builder instance with the updated opacity value.</returns>
-    public TBuilder WithOpacity(double opacity)
+    public TBuilder WithOpacity(double value)
     {
-        _element.Attributes["opacity"] = opacity.ToSvg();
+        _element.Attributes["opacity"] = value.ToSvg();
 
         return (TBuilder)(object)this;
     }
@@ -142,6 +184,34 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement>
     }
 
     /// <summary>
+    /// Sets the value of the 'transform-box' attribute for the SVG group element.
+    /// </summary>
+    /// <remarks>The 'transform-box' attribute affects how transformations are applied to the SVG element.
+    /// Refer to the SVG specification for valid values and their effects.</remarks>
+    /// <param name="value">The value to assign to the 'transform-box' attribute. This determines how the SVG element's bounding box is
+    /// calculated for transformations. Common values include 'fill-box', 'stroke-box', and 'view-box'.</param>
+    /// <returns>The current instance to allow method chaining.</returns>
+    public TBuilder WithTransformBox(string value)
+    {
+        Element.Attributes["transform-box"] = value;
+
+        return (TBuilder)(object)this;
+    }
+
+    /// <summary>
+    /// Sets the CSS 'transform-origin' attribute for the SVG group element.
+    /// </summary>
+    /// <param name="value">The value to assign to the 'transform-origin' attribute. This defines the point around which transformations are
+    /// applied. Cannot be null.</param>
+    /// <returns>The current instance to allow method chaining.</returns>
+    public TBuilder WithTransformOrigin(string value)
+    {
+        Element.Attributes["transform-origin"] = value;
+
+        return (TBuilder)(object)this;
+    }
+
+    /// <summary>
     /// Adds or updates an attribute with the specified name and value on the underlying element and returns the builder
     /// instance for method chaining.
     /// </summary>
@@ -150,49 +220,120 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement>
     /// <param name="name">The name of the attribute to add or update. Cannot be null.</param>
     /// <param name="value">The value to assign to the attribute. Can be null or empty.</param>
     /// <returns>The current builder instance with the updated attribute, enabling fluent configuration.</returns>
-    protected TBuilder WithAttribute(string name, string value)
+    public TBuilder WithAttribute(string name, string? value)
     {
-        _element.Attributes[name] = value;
+        if (!string.IsNullOrEmpty(value))
+        {
+            _element.Attributes[name] = value;
+        }
 
         return (TBuilder)(object)this;
     }
 
     /// <summary>
-    /// Adds an SVG animate element to the current SVG element and configures it using the specified builder action.
+    /// Adds or updates the 'pointer-events' attribute for the underlying element.
     /// </summary>
-    /// <remarks>Use this method to add animation to a specific attribute of an SVG element. The configuration
-    /// action allows you to set additional properties of the animate element as needed.</remarks>
-    /// <param name="attributeName">The name of the SVG attribute to animate. This value is assigned to the 'attributeName' attribute of the animate
-    /// element.</param>
-    /// <param name="configure">An action that configures the animate element using an instance of <see cref="SvgAnimateBuilder"/>.</param>
-    /// <returns>The current builder instance for method chaining.</returns>
+    /// <param name="value">The value to assign to the attribute. Can be null or empty.</param>
+    /// <returns>The current builder instance with the updated attribute, enabling fluent configuration.</returns>
+    protected internal TBuilder WithPointerEvents(string value)
+    {
+        return WithAttribute("pointer-events", value);
+    }
+
+    /// <summary>
+    /// Adds or updates an attribute with the specified name and double-precision value for the current builder
+    /// instance.
+    /// </summary>
+    /// <remarks>If the value is not null, it is converted to a string representation suitable for SVG
+    /// attributes before being applied.</remarks>
+    /// <param name="name">The name of the attribute to add or update. Cannot be null.</param>
+    /// <param name="value">The value to assign to the attribute, or null to remove the attribute if it exists.</param>
+    /// <returns>The current builder instance with the specified attribute set.</returns>
+    protected internal TBuilder WithAttribute(string name, double? value)
+    {
+        return WithAttribute(name, value?.ToSvg());
+    }
+
+    /// <summary>
+    /// Adds or updates an attribute with the specified name and double-precision value for the current builder
+    /// instance.
+    /// </summary>
+    /// <remarks>If the value is not null, it is converted to a string representation suitable for SVG
+    /// attributes before being applied.</remarks>
+    /// <param name="name">The name of the attribute to add or update. Cannot be null.</param>
+    /// <param name="value">The value to assign to the attribute, or null to remove the attribute if it exists.</param>
+    /// <returns>The current builder instance with the specified attribute set.</returns>
+    protected internal TBuilder WithAttribute(string name, int value)
+    {
+        return WithAttribute(name, value.ToSvg());
+    }
+
+    /// <summary>
+    /// Adds or updates an attribute with the specified name and double-precision value for the current builder
+    /// instance.
+    /// </summary>
+    /// <remarks>If the value is not null, it is converted to a string representation suitable for SVG
+    /// attributes before being applied.</remarks>
+    /// <param name="name">The name of the attribute to add or update. Cannot be null.</param>
+    /// <param name="value">The value to assign to the attribute, or null to remove the attribute if it exists.</param>
+    /// <returns>The current builder instance with the specified attribute set.</returns>
+    protected internal TBuilder WithAttribute(string name, double value)
+    {
+        return WithAttribute(name, value.ToSvg());
+    }
+
+    /// <summary>
+    /// Adds or updates an attribute with the specified name and double-precision value for the current builder
+    /// instance.
+    /// </summary>
+    /// <remarks>If the value is not null, it is converted to a string representation suitable for SVG
+    /// attributes before being applied.</remarks>
+    /// <param name="name">The name of the attribute to add or update. Cannot be null.</param>
+    /// <param name="value">The value to assign to the attribute, or null to remove the attribute if it exists.</param>
+    /// <returns>The current builder instance with the specified attribute set.</returns>
+    protected internal TBuilder WithAttribute(string name, int? value)
+    {
+        return WithAttribute(name, value?.ToSvg());
+    }
+
+    /// <summary>
+    /// Adds or updates an attribute with the specified name and value on the underlying element and returns the builder
+    /// instance for method chaining.
+    /// </summary>
+    /// <remarks>If an attribute with the specified name already exists, its value is overwritten. This method
+    /// supports fluent API usage by returning the builder instance.</remarks>
+    /// <param name="name">The name of the attribute to add or update. Cannot be null.</param>
+    /// <param name="value">The value to assign to the attribute. Can be null or empty.</param>
+    /// <returns>The current builder instance with the updated attribute, enabling fluent configuration.</returns>
+    protected internal TBuilder WithAttribute<T>(string name, T value)
+    {
+        var attrValue = value?.ToString();
+
+        if (!string.IsNullOrEmpty(attrValue))
+        {
+            _element.Attributes[name] = attrValue;
+        }
+
+        return (TBuilder)(object)this;
+    }
+
+    /// <inheritdoc />
     public TBuilder AddAnimate(
-        string attributeName,
-        Action<SvgAnimateBuilder> configure)
+        string attribute,
+        Action<SvgAnimateBuilder> config)
     {
         var anim = new SvgAnimate();
-        anim.Attributes["attributeName"] = attributeName;
+        anim.Attributes["attributeName"] = attribute;
 
         Element.Children.Add(anim);
 
         var builder = new SvgAnimateBuilder(Parent, anim);
-        configure(builder);
+        config(builder);
 
         return (TBuilder)(object)this;
     }
 
-    /// <summary>
-    /// Adds an SVG animateTransform element to the current SVG element and configures it using the specified builder
-    /// action.
-    /// </summary>
-    /// <remarks>The animateTransform element is added as a child of the current SVG element. The
-    /// 'attributeName' is set to "transform" by default. This method supports a fluent API style for building SVG
-    /// animations.</remarks>
-    /// <param name="type">The type of transformation to animate, such as "rotate", "scale", "translate", or "skewX"/"skewY". This value is
-    /// assigned to the SVG animateTransform element's 'type' attribute.</param>
-    /// <param name="configure">An action that receives a builder for configuring the animateTransform element. Use this to set additional
-    /// attributes or animation parameters.</param>
-    /// <returns>The current builder instance, enabling method chaining.</returns>
+    /// <inheritdoc />
     public TBuilder AddAnimateTransform(
         string type,
         Action<SvgAnimateTransformBuilder> configure)
@@ -209,14 +350,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement>
         return (TBuilder)(object)this;
     }
 
-    /// <summary>
-    /// Adds an &lt;animateMotion&gt; SVG animation element to the current element and configures it using the specified
-    /// builder action.
-    /// </summary>
-    /// <remarks>Use this method to add motion animation to an SVG element by specifying animation parameters
-    /// through the provided builder.</remarks>
-    /// <param name="configure">An action that receives an <see cref="SvgAnimateMotionBuilder"/> to configure the &lt;animateMotion&gt; element.</param>
-    /// <returns>The current builder instance for method chaining.</returns>
+    /// <inheritdoc />
     public TBuilder AddAnimateMotion(
         Action<SvgAnimateMotionBuilder> configure)
     {

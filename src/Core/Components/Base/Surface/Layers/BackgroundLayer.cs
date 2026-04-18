@@ -29,7 +29,7 @@ public sealed class BackgroundLayer : ILayer<BackgroundPayload>
     public LayerOrder Order => LayerOrder.Background;
 
     /// <inheritdoc />
-    public LayerPriority Priority => LayerPriority.Lowest;
+    public int Priority => (int)LayerPriority.Lowest;
 
     /// <inheritdoc />
     public ILayerPayload LayerPayload { get; private set; }

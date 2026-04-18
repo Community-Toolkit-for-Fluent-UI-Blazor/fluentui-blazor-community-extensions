@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components.Enums;
+using FluentUI.Blazor.Community.Components.Surface.Payloads;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -10,14 +11,14 @@ namespace FluentUI.Blazor.Community.Components;
 /// specific visual elements to the final output. The AxesLayer is initialized with a frame builder and a background
 /// payload, which provide the necessary configuration and data for rendering. Instances of this class are immutable
 /// after construction.</remarks>
-public sealed class AxesLayer : ILayer<AxesPayload>
+public sealed class AxesLayer : ILayer<AxisPayload>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AxesLayer" /> class with the specified frame builder and axes payload.
     /// </summary>
     /// <param name="payload">The axes payload containing the necessary data and configuration for rendering the axes.</param>
     public AxesLayer(
-        AxesPayload payload)
+        AxisPayload payload)
     {
         ArgumentNullException.ThrowIfNull(payload, nameof(payload));
 
@@ -28,10 +29,10 @@ public sealed class AxesLayer : ILayer<AxesPayload>
     public string Key => "axes";
 
     /// <inheritdoc />
-    public LayerOrder Order => ((AxesPayload)LayerPayload).Layer == AxesLayerOrder.Background ? LayerOrder.Background : LayerOrder.Front;
+    public LayerOrder Order => ((AxisPayload)LayerPayload).Layer == AxesLayerOrder.Background ? LayerOrder.Background : LayerOrder.Front;
 
     /// <inheritdoc />
-    public LayerPriority Priority => LayerPriority.Low;
+    public int Priority => (int)LayerPriority.Low;
 
     /// <inheritdoc />
     public ILayerPayload LayerPayload { get; private set; }

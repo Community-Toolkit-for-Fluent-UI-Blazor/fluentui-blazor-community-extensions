@@ -1,18 +1,30 @@
 namespace FluentUI.Blazor.Community.Components;
 
-internal class HoverStrokeAdapter : ISurfaceRenderer<SignatureRenderingOptions>
+/// <summary>
+/// Represents an adapter that allows a surface composer designed for signature hover rendering options to be used in contexts where signature rendering options are expected.
+/// </summary>
+internal class HoverStrokeAdapter : ISurfaceComposer<SignatureRenderingOptions>
 {
-    private readonly ISurfaceRenderer<SignatureHoverRenderingOptions> _inner;
+    /// <summary>
+    /// Represents the inner surface composer that this adapter wraps.
+    /// </summary>
+    private readonly ISurfaceComposer<SignatureHoverRenderingOptions> _inner;
 
-    public HoverStrokeAdapter(ISurfaceRenderer<SignatureHoverRenderingOptions> inner)
+    /// <summary>
+    /// initializes a new instance of the <see cref="HoverStrokeAdapter"/> class.
+    /// </summary>
+    /// <param name="inner">The inner surface composer to adapt.</param>
+    public HoverStrokeAdapter(ISurfaceComposer<SignatureHoverRenderingOptions> inner)
     {
         _inner = inner;
     }
 
-    public void Render(ISurfaceRenderTarget target, SignatureRenderingOptions options)
-        => _inner.Render(target, options.Hover);
+    /// <inheritdoc />
+    public void Compose(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+        => _inner.Compose(target, options.Hover);
 
-    public ValueTask RenderAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
-        => _inner.RenderAsync(target, options.Hover);
+    /// <inheritdoc />
+    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+        => _inner.ComposeAsync(target, options.Hover);
 }
 

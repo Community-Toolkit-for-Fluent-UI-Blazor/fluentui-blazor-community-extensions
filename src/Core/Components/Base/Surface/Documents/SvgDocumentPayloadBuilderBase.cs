@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text;
 using FluentUI.Blazor.Community.Components.Enums;
+using FluentUI.Blazor.Community.Components.Surface.Payloads;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -224,7 +225,7 @@ public abstract class SvgDocumentPayloadBuilderBase<TPayload>
     /// <param name="height">The height of the grid area, used to determine the position of the horizontal axis line.</param>
     protected virtual void WriteAxes(
         StringBuilder sb,
-        AxesPayload? axes,
+        AxisPayload? axes,
         AxesLayerOrder layer,
         double width,
         double height)

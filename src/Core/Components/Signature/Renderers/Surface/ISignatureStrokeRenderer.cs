@@ -19,7 +19,7 @@ public interface ISignatureStrokeRenderer
     /// null.</param>
     /// <returns>A ValueTask representing the asynchronous rendering operation. The task completes when the grid has been fully
     /// rendered.</returns>
-    ValueTask RenderAsync(
+    ValueTask ComposeAsync(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options);
@@ -31,7 +31,7 @@ public interface ISignatureStrokeRenderer
     /// <param name="strokes">The collection of signature strokes to be rendered on the grid.</param>
     /// <param name="options">The configuration options for rendering the signature. Determines appearance and behavior. Must not be
     /// null.</param>
-    void Render(
+    void Compose(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options);

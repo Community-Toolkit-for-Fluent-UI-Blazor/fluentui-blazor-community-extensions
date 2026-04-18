@@ -10,10 +10,10 @@ public class Barcode1DStackedRendererTests
     {
         var encoder = new TestStackedEncoder();
         var composer = new TestStackedComposer();
-        var renderer = new Barcode1DStackedRenderer<TestStackedOptions>(encoder, () => "DATA", new TestStackedOptions(), composer);
+        var renderer = new Barcode1DStackedComposer<TestStackedOptions>(encoder, () => "DATA", new TestStackedOptions(), composer);
         var target = new TestSurfaceRenderTarget();
 
-        renderer.Render(target, new BarcodeRenderingOptions());
+        renderer.Compose(target, new BarcodeRenderingOptions());
 
         Assert.Single(target.Layers);
         Assert.IsType<BarcodeLayer<Barcode1DStackedPayload>>(target.Layers[0]);
@@ -23,10 +23,10 @@ public class Barcode1DStackedRendererTests
     [Fact]
     public void RenderAsync_Completes()
     {
-        var renderer = new Barcode1DStackedRenderer<TestStackedOptions>(new TestStackedEncoder(), () => "DATA", new TestStackedOptions());
+        var renderer = new Barcode1DStackedComposer<TestStackedOptions>(new TestStackedEncoder(), () => "DATA", new TestStackedOptions());
         var target = new TestSurfaceRenderTarget();
 
-        var task = renderer.RenderAsync(target, new BarcodeRenderingOptions());
+        var task = renderer.ComposeAsync(target, new BarcodeRenderingOptions());
 
         Assert.True(task.IsCompleted);
         Assert.Single(target.Layers);
@@ -52,7 +52,7 @@ public class Barcode1DStackedRendererTests
         }
     }
 
-    private sealed class TestStackedComposer : Barcode1DStackedComposer<TestStackedOptions>
+    private sealed class TestStackedComposer : Barcode1DStackedLayerComposer<TestStackedOptions>
     {
         public bool WasCalled { get; private set; }
 

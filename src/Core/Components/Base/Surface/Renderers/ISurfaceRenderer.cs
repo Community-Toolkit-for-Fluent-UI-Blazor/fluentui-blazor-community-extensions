@@ -7,14 +7,14 @@ namespace FluentUI.Blazor.Community.Components;
 /// rendering options and canvas context. The rendering operation is performed asynchronously to support non-blocking UI
 /// updates. Implementers should ensure that rendering respects the specified dimensions and DPI for accurate
 /// display.</remarks>
-public interface ISurfaceRenderer<T>
+public interface ISurfaceComposer<T>
 {
     /// <summary>
     /// Renders a signature onto the specified render target using the provided rendering options.
     /// </summary>
     /// <param name="target">The rendering target that provides methods to set various visual elements for the signature surface. Cannot be null.</param>
     /// <param name="options">The rendering options that control the appearance and behavior of the signature rendering. Cannot be null.</param>
-    void Render(
+    void Compose(
         ISurfaceRenderTarget target,
         T options);
 
@@ -24,7 +24,7 @@ public interface ISurfaceRenderer<T>
     /// <param name="target">The rendering target that provides methods to set various visual elements for the signature surface. Cannot be null.</param>
     /// <param name="options">The rendering options that control the appearance and behavior of the signature rendering. Cannot be null.</param>
     /// <returns>A ValueTask that represents the asynchronous rendering operation.</returns>
-    ValueTask RenderAsync(
+    ValueTask ComposeAsync(
         ISurfaceRenderTarget target,
         T options);
 }

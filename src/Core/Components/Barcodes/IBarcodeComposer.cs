@@ -8,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// formats and rendering strategies.</remarks>
 /// <typeparam name="TPayload">The type of the data used to generate the barcode payload.</typeparam>
 /// <typeparam name="TBarcodeOptions">The type of the options used to configure the barcode generation process.</typeparam>
-public interface IBarcodeComposer<TPayload, TBarcodeOptions>
+public interface IBarcodeLayerComposer<TPayload, TBarcodeOptions>
 {
     /// <summary>
     /// Generates a barcode payload from the specified data using the provided rendering and barcode options.

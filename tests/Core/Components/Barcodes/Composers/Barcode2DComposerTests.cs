@@ -33,7 +33,7 @@ public class Barcode2DComposerTests
             }
         };
 
-        var composer = new Barcode2DComposer<Test2DOptions>();
+        var composer = new Barcode2DLayerComposer<Test2DOptions>();
 
         var payload = composer.Compose(data, options, new Test2DOptions());
 

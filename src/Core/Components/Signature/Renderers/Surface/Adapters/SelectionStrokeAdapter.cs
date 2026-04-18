@@ -1,18 +1,30 @@
 namespace FluentUI.Blazor.Community.Components;
 
-internal class SelectionStrokeAdapter : ISurfaceRenderer<SignatureRenderingOptions>
+/// <summary>
+/// Represents an adapter that allows a surface composer for signature selection rendering options to be used as a surface composer for signature rendering options.
+/// </summary>
+internal class SelectionStrokeAdapter : ISurfaceComposer<SignatureRenderingOptions>
 {
-    private readonly ISurfaceRenderer<SignatureSelectionRenderingOptions> _inner;
+    /// <summary>
+    /// Represents the inner surface composer that handles selection rendering options.
+    /// </summary>
+    private readonly ISurfaceComposer<SignatureSelectionRenderingOptions> _inner;
 
-    public SelectionStrokeAdapter(ISurfaceRenderer<SignatureSelectionRenderingOptions> inner)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SelectionStrokeAdapter"/> class.
+    /// </summary>
+    /// <param name="inner">The inner surface composer that handles selection rendering options.</param>
+    public SelectionStrokeAdapter(ISurfaceComposer<SignatureSelectionRenderingOptions> inner)
     {
         _inner = inner;
     }
 
-    public void Render(ISurfaceRenderTarget target, SignatureRenderingOptions options)
-        => _inner.Render(target, options.Selection);
+    /// <inheritdoc />
+    public void Compose(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+        => _inner.Compose(target, options.Selection);
 
-    public ValueTask RenderAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
-        => _inner.RenderAsync(target, options.Selection);
+    /// <inheritdoc />
+    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+        => _inner.ComposeAsync(target, options.Selection);
 }
 

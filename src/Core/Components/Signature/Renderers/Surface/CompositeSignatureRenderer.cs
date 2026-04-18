@@ -12,12 +12,12 @@ internal sealed class CompositeSignatureRenderer
     /// <summary>
     /// Represents the collection of surface renderers used for signature rendering operations.
     /// </summary>
-    private readonly IReadOnlyList<ISurfaceRenderer<SignatureRenderingOptions>> _surfaceRenderers;
+    private readonly IReadOnlyList<ISurfaceComposer<SignatureRenderingOptions>> _surfaceRenderers;
 
     /// <summary>
     /// Represents the collection of surface renderers used for signature engine operations.
     /// </summary>
-    private readonly IReadOnlyList<ISurfaceRenderer<SignatureEngineOptions>> _surfaceEngineRenderers;
+    private readonly IReadOnlyList<ISurfaceComposer<SignatureEngineOptions>> _surfaceEngineRenderers;
 
     /// <summary>
     /// Represents the collection of stroke renderers used to render signature strokes.
@@ -31,8 +31,8 @@ internal sealed class CompositeSignatureRenderer
     /// <param name="strokeRenderers">Represents the collection of stroke renderers.</param>
     /// <param name="surfaceEngineRenderers">Represents the collection of surface engine renderers</param>
     public CompositeSignatureRenderer(
-        IEnumerable<ISurfaceRenderer<SignatureRenderingOptions>> surfaceRenderers,
-        IEnumerable<ISurfaceRenderer<SignatureEngineOptions>> surfaceEngineRenderers,
+        IEnumerable<ISurfaceComposer<SignatureRenderingOptions>> surfaceRenderers,
+        IEnumerable<ISurfaceComposer<SignatureEngineOptions>> surfaceEngineRenderers,
         IEnumerable<ISignatureStrokeRenderer> strokeRenderers)
     {
         _surfaceRenderers = [.. surfaceRenderers];
@@ -49,7 +49,7 @@ internal sealed class CompositeSignatureRenderer
     /// <param name="strokes">The collection of signature strokes to be rendered on the surface.</param>
     /// <param name="options">The rendering options that control the appearance and behavior of the rendering process.</param>
     /// <param name="engineOptions">The engine options that control the appearance and behavior of the rendering process.</param>
-    public void Render(
+    public void Compose(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options,
@@ -57,17 +57,17 @@ internal sealed class CompositeSignatureRenderer
     {
         foreach (var renderer in _surfaceRenderers)
         {
-            renderer.Render(target, options);
+            renderer.Compose(target, options);
         }
 
         foreach (var renderer in _strokeRenderers)
         {
-            renderer.Render(target, strokes, options);
+            renderer.Compose(target, strokes, options);
         }
 
-        foreach(var renderer in _surfaceEngineRenderers)
+        foreach (var renderer in _surfaceEngineRenderers)
         {
-            renderer.Render(target, engineOptions);
+            renderer.Compose(target, engineOptions);
         }
     }
 
@@ -87,17 +87,17 @@ internal sealed class CompositeSignatureRenderer
     {
         foreach (var renderer in _surfaceRenderers)
         {
-            await renderer.RenderAsync(target, options);
+            await renderer.ComposeAsync(target, options);
         }
 
         foreach (var renderer in _strokeRenderers)
         {
-            await renderer.RenderAsync(target, strokes, options);
+            await renderer.ComposeAsync(target, strokes, options);
         }
 
         foreach (var renderer in _surfaceEngineRenderers)
         {
-            await renderer.RenderAsync(target, engineOptions);
+            await renderer.ComposeAsync(target, engineOptions);
         }
     }
 }

@@ -8,8 +8,11 @@ namespace FluentUI.Blazor.Community.Components;
 /// required, such as interactive signature surfaces. The delegate supplied to the constructor should return the stroke
 /// to be rendered as hovered, or null if no stroke is currently hovered. Rendering occurs only when hover effects are
 /// enabled in the provided rendering options.</remarks>
-internal sealed class HoverStrokeRenderer : ISurfaceRenderer<SignatureHoverRenderingOptions>
+internal sealed class HoverStrokeRenderer : ISurfaceComposer<SignatureHoverRenderingOptions>
 {
+    /// <summary>
+    /// Represents a delegate that retrieves the current hover stroke, or null if no stroke is being hovered.
+    /// </summary>
     private readonly Func<SignatureStroke?> _getHoverStroke;
 
     /// <summary>
@@ -24,7 +27,7 @@ internal sealed class HoverStrokeRenderer : ISurfaceRenderer<SignatureHoverRende
     }
 
     /// <inheritdoc />
-    public void Render(ISurfaceRenderTarget target, SignatureHoverRenderingOptions options)
+    public void Compose(ISurfaceRenderTarget target, SignatureHoverRenderingOptions options)
     {
         if (!options.Enabled)
         {
@@ -43,9 +46,9 @@ internal sealed class HoverStrokeRenderer : ISurfaceRenderer<SignatureHoverRende
     }
 
     /// <inheritdoc />
-    public ValueTask RenderAsync(ISurfaceRenderTarget target, SignatureHoverRenderingOptions options)
+    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureHoverRenderingOptions options)
     {
-        Render(target, options);
+        Compose(target, options);
 
         return ValueTask.CompletedTask;
     }

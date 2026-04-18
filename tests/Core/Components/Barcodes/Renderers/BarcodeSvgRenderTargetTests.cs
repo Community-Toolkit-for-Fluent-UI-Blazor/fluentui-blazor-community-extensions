@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Components;
 using FluentUI.Blazor.Community.Components.Enums;
+using Microsoft.AspNetCore.Components;
 using Xunit;
 
 namespace Components.Tests.Components.Barcodes.Renderers;
@@ -34,8 +35,8 @@ public class BarcodeSvgRenderTargetTests
         target.AddLayer(new BarcodeLayer<Barcode1DPayload>(payload));
 
         await target.FlushAsync();
-
-        Assert.Contains("viewBox=\"0 0 10 4\"", target.Svg.Value);
+        var svg = new MarkupString(target.GetNativeHandle()?.ToString() ?? "");
+        Assert.Contains("viewBox=\"0 0 10 4\"", svg.Value);
     }
 
     [Fact]
@@ -58,7 +59,8 @@ public class BarcodeSvgRenderTargetTests
 
         await target.FlushAsync();
 
-        Assert.Contains("viewBox=\"0 0 10 10\"", target.Svg.Value);
+        var svg = new MarkupString(target.GetNativeHandle()?.ToString() ?? "");
+        Assert.Contains("viewBox=\"0 0 10 10\"", svg.Value);
     }
 
     private static BarcodePayload<Barcode1DPayload> Build1DPayload()
@@ -80,7 +82,7 @@ public class BarcodeSvgRenderTargetTests
 
         public LayerOrder Order => LayerOrder.Content;
 
-        public LayerPriority Priority => LayerPriority.Normal;
+        public int Priority => (int)LayerPriority.Normal;
 
         public ILayerPayload LayerPayload { get; } = new FakePayload();
     }

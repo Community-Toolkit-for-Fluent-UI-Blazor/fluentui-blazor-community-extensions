@@ -28,7 +28,7 @@ public sealed class WatermarkLayer : ILayer<WatermarkPayload>
     public LayerOrder Order => LayerOrder.Front;
 
     /// <inheritdoc />
-    public LayerPriority Priority => LayerPriority.Lowest;
+    public int Priority => (int)LayerPriority.Lowest;
 
     /// <inheritdoc />
     public ILayerPayload LayerPayload { get; }

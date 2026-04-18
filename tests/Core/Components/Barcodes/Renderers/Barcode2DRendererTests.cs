@@ -10,10 +10,10 @@ public class Barcode2DRendererTests
     {
         var encoder = new Test2DEncoder();
         var composer = new Test2DComposer();
-        var renderer = new Barcode2DRenderer<Test2DOptions>(encoder, () => "DATA", new Test2DOptions(), composer);
+        var renderer = new Barcode2DComposer<Test2DOptions>(encoder, () => "DATA", new Test2DOptions(), composer);
         var target = new TestSurfaceRenderTarget();
 
-        renderer.Render(target, new BarcodeRenderingOptions());
+        renderer.Compose(target, new BarcodeRenderingOptions());
 
         Assert.Single(target.Layers);
         Assert.IsType<BarcodeLayer<Barcode2DPayload>>(target.Layers[0]);
@@ -23,10 +23,10 @@ public class Barcode2DRendererTests
     [Fact]
     public void RenderAsync_Completes()
     {
-        var renderer = new Barcode2DRenderer<Test2DOptions>(new Test2DEncoder(), () => "DATA", new Test2DOptions());
+        var renderer = new Barcode2DComposer<Test2DOptions>(new Test2DEncoder(), () => "DATA", new Test2DOptions());
         var target = new TestSurfaceRenderTarget();
 
-        var task = renderer.RenderAsync(target, new BarcodeRenderingOptions());
+        var task = renderer.ComposeAsync(target, new BarcodeRenderingOptions());
 
         Assert.True(task.IsCompleted);
         Assert.Single(target.Layers);
@@ -51,7 +51,7 @@ public class Barcode2DRendererTests
         }
     }
 
-    private sealed class Test2DComposer : Barcode2DComposer<Test2DOptions>
+    private sealed class Test2DComposer : Barcode2DLayerComposer<Test2DOptions>
     {
         public bool WasCalled { get; private set; }
 

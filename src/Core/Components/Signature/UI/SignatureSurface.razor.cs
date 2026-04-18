@@ -268,10 +268,10 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
 
         _renderer = new CompositeSignatureRenderer(
             surfaceRenderers: [
-                new BackgroundAdapter(new BackgroundRenderer()),
-                new GridAdapter(new GridRenderer()),
-                new AxesAdapter(new AxesRenderer()),
-                new WatermarkAdapter(new WatermarkRenderer()),
+                new BackgroundAdapter(new BackgroundComposer()),
+                new GridAdapter(new GridComposer()),
+                new AxesAdapter(new AxesComposer()),
+                new WatermarkAdapter(new WatermarkComposer()),
                 new SelectionStrokeAdapter( new SelectionStrokeRenderer(
                     () => _engine!.CurrentTool,
                     () => _engine!.SelectionManager.SelectedStrokes)),
@@ -285,7 +285,7 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
             ],
 
             surfaceEngineRenderers: [
-                new EraserAdapter(new EraserRenderer(
+                new EraserAdapter(new EraserComposer(
                     () => _engine!.CurrentTool == SignatureStrokeTool.Eraser,
                     () => _lastEraserSample
                 ))
@@ -340,7 +340,7 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
 
         if (!IsAsyncRender)
         {
-            _renderer.Render(Target, _engine.Strokes, RenderingOptions, EngineOptions);
+            _renderer.Compose(Target, _engine.Strokes, RenderingOptions, EngineOptions);
         }
         else
         {

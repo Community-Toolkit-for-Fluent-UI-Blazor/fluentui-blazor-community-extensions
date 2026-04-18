@@ -19,18 +19,18 @@ internal sealed class DynamicStrokeRenderer : ISignatureStrokeRenderer
     }
 
     /// <inheritdoc />
-    public ValueTask RenderAsync(
+    public ValueTask ComposeAsync(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)
     {
-        Render(target, strokes, options);
+        Compose(target, strokes, options);
 
         return ValueTask.CompletedTask;
     }
 
     /// <inheritdoc />
-    public void Render(
+    public void Compose(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)

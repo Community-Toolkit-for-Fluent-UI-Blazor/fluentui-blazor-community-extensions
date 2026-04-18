@@ -38,7 +38,7 @@ public class Barcode1DStackedComposerTests
             }
         };
 
-        var composer = new Barcode1DStackedComposer<TestStackedOptions>();
+        var composer = new Barcode1DStackedLayerComposer<TestStackedOptions>();
 
         var payload = composer.Compose(data, options, new TestStackedOptions());
 

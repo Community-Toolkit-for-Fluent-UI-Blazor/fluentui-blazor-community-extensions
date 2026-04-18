@@ -10,7 +10,7 @@ namespace FluentUI.Blazor.Community.Components;
 internal sealed class DebugRenderer : ISignatureStrokeRenderer
 {
     /// <inheritdoc />
-    public void Render(
+    public void Compose(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)
@@ -21,12 +21,12 @@ internal sealed class DebugRenderer : ISignatureStrokeRenderer
     }
 
     /// <inheritdoc />
-    public ValueTask RenderAsync(
+    public ValueTask ComposeAsync(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)
     {
-        Render(target, strokes, options);
+        Compose(target, strokes, options);
 
         return ValueTask.CompletedTask;
     }

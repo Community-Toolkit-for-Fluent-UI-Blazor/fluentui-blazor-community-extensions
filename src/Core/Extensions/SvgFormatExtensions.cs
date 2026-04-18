@@ -25,4 +25,14 @@ internal static class SvgFormatExtensions
     /// <param name="value">The double-precision floating-point value to convert to an SVG-compatible string.</param>
     /// <returns>A string representation of the value formatted with up to three decimal places, suitable for use in SVG markup.</returns>
     public static string ToSvg(this double value) => value.ToString("0.###", s_culture);
+
+    /// <summary>
+    /// Converts the specified integer value to its string representation using SVG-compatible formatting.
+    /// </summary>
+    /// <remarks>This method uses a culture-specific format to ensure the resulting string is suitable for SVG
+    /// usage, which may require a period as the decimal separator. Use this method when generating SVG markup that
+    /// requires numeric values as strings.</remarks>
+    /// <param name="value">The integer value to convert to a string.</param>
+    /// <returns>A string representation of the integer value formatted for use in SVG attributes or content.</returns>
+    public static string ToSvg(this int value) => value.ToString(s_culture);
 }

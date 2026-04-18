@@ -28,7 +28,7 @@ public sealed class DebugLayer : ILayer<DebugPayload>
     public LayerOrder Order => LayerOrder.Overlay;
 
     /// <inheritdoc />
-    public LayerPriority Priority => LayerPriority.Highest;
+    public int Priority => (int)LayerPriority.Highest;
 
     /// <inheritdoc />
     public ILayerPayload LayerPayload { get; }

@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components.Enums;
+using FluentUI.Blazor.Community.Components.Surface.Payloads;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -29,7 +30,7 @@ public sealed class GridLayer: ILayer<GridPayload>
     public LayerOrder Order => ((GridPayload)LayerPayload).Layer == GridLayerOrder.Background ? LayerOrder.Background : LayerOrder.Front;
 
     /// <inheritdoc />
-    public LayerPriority Priority => LayerPriority.Lowest;
+    public int Priority => (int)LayerPriority.Lowest;
 
     /// <inheritdoc />
     public ILayerPayload LayerPayload { get; private set; }

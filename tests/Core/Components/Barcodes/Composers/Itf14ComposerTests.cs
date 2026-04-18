@@ -23,7 +23,7 @@ public class Itf14ComposerTests
             QuietZone = new BarcodeQuietZoneOptions { Enabled = false }
         };
 
-        var composer = new Itf14Composer();
+        var composer = new Itf14Barcode1DLayerComposer();
 
         var payload = composer.Compose(data, options, new Itf14Options());
 

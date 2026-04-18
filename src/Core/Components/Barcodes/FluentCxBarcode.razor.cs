@@ -52,7 +52,7 @@ public partial class FluentCxBarcode
     /// </summary>
     /// <remarks>This field holds a reference to an implementation of the ISurfaceRenderer interface for
     /// barcode rendering. It may be null if no renderer has been assigned.</remarks>
-    private ISurfaceRenderer<BarcodeRenderingOptions>? surfaceRenderer;
+    private ISurfaceComposer<BarcodeRenderingOptions>? _surfaceComposer;
 
     /// <summary>
     /// Provides the default configuration options for the surface view component.
@@ -227,26 +227,31 @@ public partial class FluentCxBarcode
         };
 
         _renderTarget.SetView(BuildViewPayload());
-        surfaceRenderer = _barcodeRendererFactory.Get(_symbology, () => Value);
+        _surfaceComposer = _barcodeRendererFactory.Get(_symbology, () => Value);
 
-        if (surfaceRenderer is null)
+        if (_surfaceComposer is null)
         {
             return;
         }
 
         if (IsAsync)
         {
-            await surfaceRenderer.RenderAsync(_renderTarget, options);
+            await _surfaceComposer.ComposeAsync(_renderTarget, options);
 
         }
         else
         {
-            surfaceRenderer.Render(_renderTarget, options);
+            _surfaceComposer.Compose(_renderTarget, options);
         }
 
         await _renderTarget.FlushAsync();
 
-        SvgBarcode = _renderTarget.Svg;
+        var data = _renderTarget.GetNativeHandle();
+
+        if (data is MarkupString ms)
+        {
+            SvgBarcode = ms;
+        }
 
         await InvokeAsync(StateHasChanged);
     }

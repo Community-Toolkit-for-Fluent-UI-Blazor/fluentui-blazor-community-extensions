@@ -1,0 +1,16 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div id="@Id" style="@Style" class="chart @Class">
+        @Options
+        @ChildContent
+
+        @if (_isVisible)
+        {
+            <div>
+                @GetRenderTargetMarkup()
+            </div>
+        }
+    </div>
+</CascadingValue>

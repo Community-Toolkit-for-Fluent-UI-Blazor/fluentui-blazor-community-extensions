@@ -26,8 +26,10 @@ public sealed class BarcodeSvgRenderTarget : SvgRenderTarget
     }
 
     /// <inheritdoc />
-    protected override (double width, double height) ComputeViewBox(ILayer layer)
+    protected override (double width, double height) ComputeViewBox(IEnumerable<ILayer> layers)
     {
+        var layer = layers.FirstOrDefault() ?? throw new InvalidOperationException("No layers to compute view box for.");
+
         return layer.LayerPayload switch
         {
             BarcodePayload<Barcode1DPayload> p => (p.Width, p.Height),

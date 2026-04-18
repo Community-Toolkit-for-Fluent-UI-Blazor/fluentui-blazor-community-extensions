@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Components.Enums;
 using FluentUI.Blazor.Community.Components.Extensions;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -46,6 +47,24 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     }
 
     /// <summary>
+    /// Sets the font size attribute for the SVG text element.
+    /// </summary>
+    /// <param name="size">The font size to apply to the SVG text element. This value can be any valid CSS font-size string, such as
+    /// "16px", "1.5em", or "large". If null or empty, the font size is not modified.</param>
+    /// <returns>The current instance of <see cref="SvgTextBuilder"/>, enabling method chaining.</returns>
+    public SvgTextBuilder WithFontSize(string? size)
+    {
+        if (string.IsNullOrEmpty(size))
+        {
+            return this;
+        }
+
+        Element.Attributes["font-size"] = size;
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the SVG 'text-anchor' attribute for the text element.
     /// </summary>
     /// <remarks>The 'text-anchor' attribute determines how the text is aligned relative to a given point.
@@ -70,6 +89,40 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     public SvgTextBuilder WithDominantBaseline(string baseline)
     {
         Element.Attributes["dominant-baseline"] = baseline;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets a rotation transformation for the SVG text element around a specified point (x, y) by a given angle in degrees.
+    /// </summary>
+    /// <param name="x">The x-coordinate of the point around which to rotate the text. This value is used in the 'transform' attribute of the SVG element.</param>
+    /// <param name="y">The y-coordinate of the point around which to rotate the text. This value is used in the 'transform' attribute of the SVG element.</param>
+    /// <param name="angle">The angle in degrees to rotate the text around the specified point. This value is used in the 'transform' attribute of the SVG element.</param>
+    /// <returns>The current instance of <see cref="SvgTextBuilder"/>, enabling method chaining.</returns>
+    public SvgTextBuilder WithRotation(double angle, double x, double y)
+    {
+        Element.Attributes["transform"] = $"rotate({angle.ToSvg()} {x.ToSvg()} {y.ToSvg()})";
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the font weight for the text element being built.
+    /// </summary>
+    /// <param name="fontWeight">The font weight to apply to the text element. Specifies the thickness of the characters, such as normal or bold.</param>
+    /// <returns>The current instance of <see cref="SvgTextBuilder"/> with the specified font weight applied.</returns>
+    /// <exception cref="NotImplementedException">The method is not implemented.</exception>
+    public SvgTextBuilder WithFontWeight(TextWeight fontWeight)
+    {
+        Element.Attributes["font-weight"] = fontWeight switch
+        {
+            TextWeight.Regular => "400",
+            TextWeight.Semibold => "600",
+            TextWeight.Medium => "500",
+            TextWeight.Bold => "700",
+            _ => throw new NotImplementedException($"Font weight '{fontWeight}' is not implemented.")
+        };
 
         return this;
     }

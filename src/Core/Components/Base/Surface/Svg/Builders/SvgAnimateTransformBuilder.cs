@@ -1,3 +1,6 @@
+using FluentUI.Blazor.Community.Components.Enums;
+using FluentUI.Blazor.Community.Components.Extensions;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
@@ -41,6 +44,18 @@ public sealed class SvgAnimateTransformBuilder
     }
 
     /// <summary>
+    /// Sets the starting value for the SVG transform animation.
+    /// </summary>
+    /// <param name="value">The initial value of the transform animation. Specifies the value from which the animation will begin.</param>
+    /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
+    public SvgAnimateTransformBuilder From(double value)
+    {
+        _animate.Attributes["from"] = value.ToSvg();
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the target value for the SVG animation transformation.
     /// </summary>
     /// <param name="value">The value to which the animation will transition. This should be a valid SVG transform value.</param>
@@ -48,6 +63,18 @@ public sealed class SvgAnimateTransformBuilder
     public SvgAnimateTransformBuilder To(string value)
     {
         _animate.Attributes["to"] = value;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the target value for the SVG animation transformation.
+    /// </summary>
+    /// <param name="value">The value to which the animation will transition. This should be a valid SVG transform value.</param>
+    /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
+    public SvgAnimateTransformBuilder To(double value)
+    {
+        _animate.Attributes["to"] = value.ToSvg();
 
         return this;
     }
@@ -84,16 +111,46 @@ public sealed class SvgAnimateTransformBuilder
     }
 
     /// <summary>
+    /// Sets the duration of the SVG animation transform.
+    /// </summary>
+    /// <remarks>The duration determines how long the animation runs for each cycle. Ensure the value provided
+    /// is compatible with SVG's 'dur' attribute requirements.</remarks>
+    /// <param name="duration">The duration value to assign to the animation, specified as a string in a valid SVG time format (e.g., "2s" for
+    /// two seconds or "500ms" for five hundred milliseconds).</param>
+    /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
+    public SvgAnimateTransformBuilder Duration(TimeSpan duration)
+    {
+        _animate.Attributes["dur"] = $"{duration.TotalMilliseconds}ms";
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the value of the 'begin' attribute for the SVG animateTransform element.
     /// </summary>
     /// <remarks>The 'begin' attribute determines the start time of the animation. Refer to the SVG
     /// specification for valid formats and usage scenarios.</remarks>
-    /// <param name="begin">The value to assign to the 'begin' attribute, specifying when the animation should start. This can be a time
+    /// <param name="value">The value to assign to the 'begin' attribute, specifying when the animation should start. This can be a time
     /// value, an event, or a list of such values as defined by the SVG specification.</param>
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
-    public SvgAnimateTransformBuilder Begin(string begin)
+    public SvgAnimateTransformBuilder Begin(string value)
     {
-        _animate.Attributes["begin"] = begin;
+        _animate.Attributes["begin"] = value;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the value of the 'begin' attribute for the SVG animateTransform element.
+    /// </summary>
+    /// <remarks>The 'begin' attribute determines the start time of the animation. Refer to the SVG
+    /// specification for valid formats and usage scenarios.</remarks>
+    /// <param name="value">The value to assign to the 'begin' attribute, specifying when the animation should start. This can be a time
+    /// value, an event, or a list of such values as defined by the SVG specification.</param>
+    /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
+    public SvgAnimateTransformBuilder Begin(TimeSpan value)
+    {
+        _animate.Attributes["begin"] = $"{value.TotalMilliseconds}ms";
 
         return this;
     }
@@ -119,7 +176,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <param name="count">A string specifying the repeat count for the animation. This can be a numeric value or the keyword 'indefinite'
     /// to repeat the animation indefinitely.</param>
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
-    public SvgAnimateTransformBuilder RepeatCount(string count)
+    public SvgAnimateTransformBuilder RepeatCount(string count = "indefinite")
     {
         _animate.Attributes["repeatCount"] = count;
 
@@ -127,14 +184,40 @@ public sealed class SvgAnimateTransformBuilder
     }
 
     /// <summary>
+    /// Sets the number of times the animation will repeat during its duration.
+    /// </summary>
+    /// <remarks>The value of <paramref name="count"/> should conform to the SVG specification for the
+    /// 'repeatCount' attribute. Using 'indefinite' causes the animation to repeat continuously.</remarks>
+    /// <param name="count">A string specifying the repeat count for the animation. This can be a numeric value or the keyword 'indefinite'
+    /// to repeat the animation indefinitely.</param>
+    /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
+    public SvgAnimateTransformBuilder RepeatCount(double count)
+    {
+        _animate.Attributes["repeatCount"] = count.ToSvg();
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the fill color for the SVG animate transform element.
     /// </summary>
-    /// <param name="fill">The fill color to apply. This can be any valid CSS color value, such as a color name, hexadecimal, RGB, or RGBA
-    /// value.</param>
+    /// <param name="fill">The fill to apply.</param>
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder Fill(string fill)
     {
         _animate.Attributes["fill"] = fill;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the fill color for the SVG animate transform element.
+    /// </summary>
+    /// <param name="value">The fill to apply.</param>
+    /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
+    public SvgAnimateTransformBuilder Fill(SvgAnimationFillMode value = SvgAnimationFillMode.Freeze)
+    {
+        _animate.Attributes["fill"] = value.ToString().ToLowerInvariant();
 
         return this;
     }
@@ -178,4 +261,20 @@ public sealed class SvgAnimateTransformBuilder
     /// the parent element. This enables fluent construction of nested SVG structures.</remarks>
     /// <returns>The parent <see cref="SvgBuilder"/> instance, allowing for method chaining or further SVG construction.</returns>
     public SvgBuilder Close() => _parent;
+
+    /// <summary>
+    /// Adds a custom attribute to the SVG animate transform element with the specified name and value.
+    /// </summary>
+    /// <param name="attribute">The name of the attribute to add. This should be a valid SVG attribute name.</param>
+    /// <param name="value">The value of the attribute to add. This should be a valid SVG attribute value.</param>
+    /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
+    internal SvgAnimateTransformBuilder WithAttribute(string attribute, string? value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            _animate.Attributes[attribute] = value;
+        }
+
+        return this;
+    }
 }

@@ -1,4 +1,5 @@
 using System.Text;
+using FluentUI.Blazor.Community.Components.Enums;
 using FluentUI.Blazor.Community.Components.Extensions;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -28,6 +29,36 @@ public sealed class SvgBuilder
     }
 
     /// <summary>
+    /// Sets the value of the 'id' attribute for the root SVG element.
+    /// </summary>
+    /// <param name="id">The identifier to assign to the root SVG element. Cannot be null.</param>
+    /// <returns>The current instance of <see cref="SvgBuilder"/>, enabling method chaining.</returns>
+    public SvgBuilder WithId(string? id)
+    {
+        if (!string.IsNullOrEmpty(id))
+        {
+            _root.Attributes["id"] = id!;
+        }
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets a custom data attribute 'data-svg-id' on the root SVG element.
+    /// </summary>
+    /// <param name="id">The value to assign to the 'data-svg-id' attribute. Cannot be null.</param>
+    /// <returns>The current instance of <see cref="SvgBuilder"/>, enabling method chaining.</returns>
+    public SvgBuilder WithDataId(string? id)
+    {
+        if (!string.IsNullOrEmpty(id))
+        {
+            _root.Attributes["data-svg-id"] = id!;
+        }
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the rendered width of the SVG element in user units.
     /// </summary>
     /// <remarks>This method updates the "width" attribute of the root SVG element. If called multiple times,
@@ -44,11 +75,38 @@ public sealed class SvgBuilder
     /// <summary>
     /// Sets the shape rendering.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">Value for the 'shape-rendering' attribute.</param>
     /// <returns></returns>
     public SvgBuilder ShapeRendering(string value)
     {
         _root.Attributes["shape-rendering"] = value;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the shape rendering.
+    /// </summary>
+    /// <param name="value">The <see cref="SvgShapeRendering"/> value to assign to the 'shape-rendering' attribute. If the value is <see cref="SvgShapeRendering.None"/>, the attribute will not be set.</param>
+    /// <returns>Returns the current instance of <see cref="SvgBuilder"/>, enabling method chaining.</returns>
+    public SvgBuilder ShapeRendering(SvgShapeRendering value)
+    {
+        if (value == SvgShapeRendering.None)
+        {
+            return this;
+        }
+
+        var attributeValue = value switch
+        {
+            SvgShapeRendering.Auto => "auto",
+            SvgShapeRendering.OptimizeSpeed => "optimizeSpeed",
+            SvgShapeRendering.CrispEdges => "crispEdges",
+            SvgShapeRendering.GeometricPrecision => "geometricPrecision",
+            SvgShapeRendering.OptimizeQuality => "optimizeQuality",
+            _ => throw new ArgumentOutOfRangeException(nameof(value), $"Unsupported shape rendering value: {value}")
+        };
+
+        _root.Attributes["shape-rendering"] = attributeValue;
 
         return this;
     }
@@ -284,6 +342,30 @@ public sealed class SvgBuilder
         _root.Children.Add(t);
 
         return new SvgTextBuilder(this, t);
+    }
+
+    /// <summary>
+    /// Adds a new clipPath element to the SVG document and returns a builder for configuring the clip path.
+    /// </summary>
+    /// <returns></returns>
+    public SvgClipPathBuilder AddClipPath()
+    {
+        var clipPath = new SvgClipPath();
+        _root.Children.Add(clipPath);
+
+        return new SvgClipPathBuilder(this, clipPath);
+    }
+
+    /// <summary>
+    /// Adds a new polygon element to the SVG document and returns a builder for configuring the polygon.
+    /// </summary>
+    /// <returns>A <see cref="SvgPolygonBuilder"/> instance for configuring the newly added &lt;polygon&gt; element.</returns>
+    public SvgPolygonBuilder AddPolygon()
+    {
+        var polygon = new SvgPolygon();
+        _root.Children.Add(polygon);
+
+        return new SvgPolygonBuilder(this, polygon);
     }
 
     /// <summary>

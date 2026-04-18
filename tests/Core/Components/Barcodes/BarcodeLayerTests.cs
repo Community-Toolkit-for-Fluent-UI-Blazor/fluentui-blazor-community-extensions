@@ -18,7 +18,7 @@ public class BarcodeLayerTests
 
         Assert.Equal("barcode", layer.Key);
         Assert.Equal(LayerOrder.Content, layer.Order);
-        Assert.Equal(LayerPriority.Normal, layer.Priority);
+        Assert.Equal((int)LayerPriority.Normal, layer.Priority);
         Assert.Same(payload, layer.LayerPayload);
     }
 }

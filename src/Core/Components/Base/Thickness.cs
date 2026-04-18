@@ -74,6 +74,11 @@ public struct Thickness
     public readonly double Vertical => Top + Bottom;
 
     /// <summary>
+    /// Gets an empty thickness.
+    /// </summary>
+    public static Thickness Empty { get; } = new Thickness();
+
+    /// <summary>
     /// Resets all boundary values to zero.
     /// </summary>
     /// <remarks>Use this method to clear the current boundary settings and restore them to their default

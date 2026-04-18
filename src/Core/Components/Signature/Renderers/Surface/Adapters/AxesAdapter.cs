@@ -1,18 +1,32 @@
 namespace FluentUI.Blazor.Community.Components;
 
-internal class AxesAdapter : ISurfaceRenderer<SignatureRenderingOptions>
+/// <summary>
+/// Represents an adapter that allows a surface composer designed for <see cref="SurfaceAxesOptions"/> to be
+///  used in the context of <see cref="SignatureRenderingOptions"/> by extracting the relevant axes
+///  options from the signature rendering options and delegating the composition to the inner composer.
+/// </summary>
+internal class AxesAdapter : ISurfaceComposer<SignatureRenderingOptions>
 {
-    private readonly ISurfaceRenderer<SurfaceAxesOptions> _inner;
+    /// <summary>
+    /// Represents the inner surface composer.
+    /// </summary>
+    private readonly ISurfaceComposer<SurfaceAxesOptions> _inner;
 
-    public AxesAdapter(ISurfaceRenderer<SurfaceAxesOptions> inner)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AxesAdapter"/> class with the specified inner surface composer.
+    /// </summary>
+    /// <param name="inner">The inner surface composer.</param>
+    public AxesAdapter(ISurfaceComposer<SurfaceAxesOptions> inner)
     {
         _inner = inner;
     }
 
-    public void Render(ISurfaceRenderTarget target, SignatureRenderingOptions options)
-        => _inner.Render(target, options.Axes);
+    /// <inheritdoc />
+    public void Compose(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+        => _inner.Compose(target, options.Axes);
 
-    public ValueTask RenderAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
-        => _inner.RenderAsync(target, options.Axes);
+    /// <inheritdoc />
+    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+        => _inner.ComposeAsync(target, options.Axes);
 }
 

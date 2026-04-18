@@ -26,7 +26,7 @@ public sealed class DynamicStrokeLayer : ILayer
     public LayerOrder Order => LayerOrder.Content;
 
     /// <inheritdoc />
-    public LayerPriority Priority => LayerPriority.High;
+    public int Priority => (int)LayerPriority.High;
 
     /// <inheritdoc />
     public ILayerPayload LayerPayload { get; }

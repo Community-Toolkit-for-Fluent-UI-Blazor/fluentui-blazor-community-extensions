@@ -9,10 +9,10 @@ namespace FluentUI.Blazor.Community.Components;
 /// implements the ISignatureSurfaceRenderer interface to enable custom rendering of selection overlays.</remarks>
 internal sealed class SelectionStrokeRenderer(
     Func<SignatureStrokeTool> getTool,
-    Func<IReadOnlyList<SignatureStroke>> getSelectedStrokes) : ISurfaceRenderer<SignatureSelectionRenderingOptions>
+    Func<IReadOnlyList<SignatureStroke>> getSelectedStrokes) : ISurfaceComposer<SignatureSelectionRenderingOptions>
 {
     /// <inheritdoc />
-    public void Render(
+    public void Compose(
         ISurfaceRenderTarget target,
         SignatureSelectionRenderingOptions options)
     {
@@ -41,11 +41,11 @@ internal sealed class SelectionStrokeRenderer(
     }
 
     /// <inheritdoc />
-    public ValueTask RenderAsync(
+    public ValueTask ComposeAsync(
         ISurfaceRenderTarget target,
         SignatureSelectionRenderingOptions options)
     {
-        Render(target, options);
+        Compose(target, options);
 
         return ValueTask.CompletedTask;
     }

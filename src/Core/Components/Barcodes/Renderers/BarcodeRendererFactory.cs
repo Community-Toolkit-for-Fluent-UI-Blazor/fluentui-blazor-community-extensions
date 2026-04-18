@@ -15,7 +15,7 @@ internal sealed class BarcodeRendererFactory
     /// </summary>
     /// <remarks>The renderer determines how barcodes are visually rendered. Assign an implementation that
     /// supports the desired output format, such as SVG or bitmap.</remarks>
-    private ISurfaceRenderer<BarcodeRenderingOptions>? _renderer;
+    private ISurfaceComposer<BarcodeRenderingOptions>? _renderer;
 
     /// <summary>
     /// Represents the symbology definition associated with the current renderer.
@@ -29,7 +29,7 @@ internal sealed class BarcodeRendererFactory
     /// <remarks>Each entry associates a specific symbology with a function that returns an appropriate
     /// surface renderer instance configured for that symbology. This dictionary enables dynamic selection and
     /// instantiation of barcode renderers based on the requested symbology.</remarks>
-    private static readonly Dictionary<Symbology, Func<ISymbology, Func<string>, ISurfaceRenderer<BarcodeRenderingOptions>>> _factories
+    private static readonly Dictionary<Symbology, Func<ISymbology, Func<string>, ISurfaceComposer<BarcodeRenderingOptions>>> _factories
         = new(EqualityComparer<Symbology>.Default)
         {
             [Symbology.Code128] = CreateCode128,
@@ -52,21 +52,21 @@ internal sealed class BarcodeRendererFactory
     /// <remarks>Each entry associates a specific Symbology value with an action that updates the rendering
     /// options for that symbology. This dictionary enables dynamic configuration of barcode rendering based on the
     /// selected symbology.</remarks>
-    private static readonly Dictionary<Symbology, Action<ISurfaceRenderer<BarcodeRenderingOptions>, ISymbology>> _updates
+    private static readonly Dictionary<Symbology, Action<ISurfaceComposer<BarcodeRenderingOptions>, ISymbology>> _updates
         = new(EqualityComparer<Symbology>.Default)
         {
-            [Symbology.Code128] = (r, s) => UpdateCode128Options(((Barcode1DRenderer<Code128Options>)r).Options, (Code128Symbology)s),
-            [Symbology.Code39] = (r, s) => UpdateCode39Options(((Barcode1DRenderer<Code39Options>)r).Options, (Code39Symbology)s),
-            [Symbology.UpcA] = (r, s) => UpdateUpcAOptions(((Barcode1DRenderer<UpcAOptions>)r).Options, (UpcASymbology)s),
-            [Symbology.UpcE] = (r, s) => UpdateUpcEOptions(((Barcode1DRenderer<UpcEOptions>)r).Options, (UpcESymbology)s),
-            [Symbology.Code93] = (r, s) => UpdateCode93Options(((Barcode1DRenderer<Code93Options>)r).Options, (Code93Symbology)s),
-            [Symbology.Ean13] = (r, s) => UpdateEan13Options(((Barcode1DRenderer<Ean13Options>)r).Options, (Ean13Symbology)s),
-            [Symbology.Ean8] = (r, s) => UpdateEan8Options(((Barcode1DRenderer<Ean8Options>)r).Options, (Ean8Symbology)s),
-            [Symbology.GS1_128] = (r, s) => UpdateGs1_128Options(((Barcode1DRenderer<Gs1_128Options>)r).Options, (GS1_128Symbology)s),
-            [Symbology.Itf14] = (r, s) => UpdateItf14Options(((Barcode1DRenderer<Itf14Options>)r).Options, (Itf14Symbology)s),
-            [Symbology.Codabar] = (r, s) => UpdateCodabarOptions(((Barcode1DRenderer<CodabarOptions>)r).Options, (CodabarSymbology)s),
-            [Symbology.QRCode] = (r, s) => UpdateQRCodeOptions(((Barcode2DRenderer<QRCodeOptions>)r).Options, (QRCodeSymbology)s),
-            [Symbology.Pdf417] = (r, s) => UpdatePdf417Options(((Barcode1DStackedRenderer<Pdf417Options>)r).Options, (Pdf417Symbology)s)
+            [Symbology.Code128] = (r, s) => UpdateCode128Options(((Barcode1DComposer<Code128Options>)r).Options, (Code128Symbology)s),
+            [Symbology.Code39] = (r, s) => UpdateCode39Options(((Barcode1DComposer<Code39Options>)r).Options, (Code39Symbology)s),
+            [Symbology.UpcA] = (r, s) => UpdateUpcAOptions(((Barcode1DComposer<UpcAOptions>)r).Options, (UpcASymbology)s),
+            [Symbology.UpcE] = (r, s) => UpdateUpcEOptions(((Barcode1DComposer<UpcEOptions>)r).Options, (UpcESymbology)s),
+            [Symbology.Code93] = (r, s) => UpdateCode93Options(((Barcode1DComposer<Code93Options>)r).Options, (Code93Symbology)s),
+            [Symbology.Ean13] = (r, s) => UpdateEan13Options(((Barcode1DComposer<Ean13Options>)r).Options, (Ean13Symbology)s),
+            [Symbology.Ean8] = (r, s) => UpdateEan8Options(((Barcode1DComposer<Ean8Options>)r).Options, (Ean8Symbology)s),
+            [Symbology.GS1_128] = (r, s) => UpdateGs1_128Options(((Barcode1DComposer<Gs1_128Options>)r).Options, (GS1_128Symbology)s),
+            [Symbology.Itf14] = (r, s) => UpdateItf14Options(((Barcode1DComposer<Itf14Options>)r).Options, (Itf14Symbology)s),
+            [Symbology.Codabar] = (r, s) => UpdateCodabarOptions(((Barcode1DComposer<CodabarOptions>)r).Options, (CodabarSymbology)s),
+            [Symbology.QRCode] = (r, s) => UpdateQRCodeOptions(((Barcode2DComposer<QRCodeOptions>)r).Options, (QRCodeSymbology)s),
+            [Symbology.Pdf417] = (r, s) => UpdatePdf417Options(((Barcode1DStackedComposer<Pdf417Options>)r).Options, (Pdf417Symbology)s)
         };
 
     /// <summary>
@@ -78,7 +78,7 @@ internal sealed class BarcodeRendererFactory
     /// <param name="getValue">A delegate that provides the value to be rendered by the barcode renderer. Cannot be null.</param>
     /// <returns>An ISurfaceRenderer instance configured for the given symbology and value provider, or null if no suitable
     /// renderer is available.</returns>
-    internal ISurfaceRenderer<BarcodeRenderingOptions>? Get(
+    internal ISurfaceComposer<BarcodeRenderingOptions>? Get(
         ISymbology symbology,
         Func<string> getValue)
     {
@@ -109,11 +109,11 @@ internal sealed class BarcodeRendererFactory
     /// <param name="getValue">A delegate that returns the string value to encode in the barcode. The returned value determines the barcode
     /// content.</param>
     /// <returns>An ISurfaceRenderer instance configured to render a Code 128 barcode with the specified options and value.</returns>
-    private static Barcode1DRenderer<Code128Options> CreateCode128(ISymbology s, Func<string> getValue)
+    private static Barcode1DComposer<Code128Options> CreateCode128(ISymbology s, Func<string> getValue)
     {
         var sym = (Code128Symbology)s;
 
-        return new Barcode1DRenderer<Code128Options>(
+        return new Barcode1DComposer<Code128Options>(
             Code128Encoder.Instance,
             getValue,
             BuildCode128Options(sym));
@@ -125,11 +125,11 @@ internal sealed class BarcodeRendererFactory
     /// <param name="s">The symbology configuration to use for rendering the Code 39 barcode. Must be an instance of Code39Symbology.</param>
     /// <param name="getValue">A delegate that returns the string value to encode in the barcode.</param>
     /// <returns>A Barcode1DRenderer configured for the Code 39 symbology and the provided value source.</returns>
-    private static Barcode1DRenderer<Code39Options> CreateCode39(ISymbology s, Func<string> getValue)
+    private static Barcode1DComposer<Code39Options> CreateCode39(ISymbology s, Func<string> getValue)
     {
         var sym = (Code39Symbology)s;
 
-        return new Barcode1DRenderer<Code39Options>(
+        return new Barcode1DComposer<Code39Options>(
             Code39Encoder.Instance,
             getValue,
             BuildCode39Options(sym));
@@ -141,11 +141,11 @@ internal sealed class BarcodeRendererFactory
     /// <param name="s">The symbology configuration to use for the UPC-A barcode. Must be of type UpcASymbology.</param>
     /// <param name="getValue">A delegate that provides the string value to encode in the UPC-A barcode.</param>
     /// <returns>An ISurfaceRenderer instance configured to render a UPC-A barcode with the specified options and value.</returns>
-    private static Barcode1DRenderer<UpcAOptions> CreateUpcA(ISymbology s, Func<string> getValue)
+    private static Barcode1DComposer<UpcAOptions> CreateUpcA(ISymbology s, Func<string> getValue)
     {
         var sym = (UpcASymbology)s;
 
-        return new Barcode1DRenderer<UpcAOptions>(
+        return new Barcode1DComposer<UpcAOptions>(
             UpcAEncoder.Instance,
             getValue,
             BuildUpcAOptions(sym));
@@ -157,11 +157,11 @@ internal sealed class BarcodeRendererFactory
     /// <param name="s">The symbology configuration to use for rendering the UPC-E barcode. Must be of type UpcESymbology.</param>
     /// <param name="getValue">A delegate that returns the string value to encode in the UPC-E barcode.</param>
     /// <returns>An ISurfaceRenderer instance configured to render a UPC-E barcode with the specified options and value.</returns>
-    private static Barcode1DRenderer<UpcEOptions> CreateUpcE(ISymbology s, Func<string> getValue)
+    private static Barcode1DComposer<UpcEOptions> CreateUpcE(ISymbology s, Func<string> getValue)
     {
         var sym = (UpcESymbology)s;
 
-        return new Barcode1DRenderer<UpcEOptions>(
+        return new Barcode1DComposer<UpcEOptions>(
             UpcEEncoder.Instance,
             getValue,
             BuildUpcEOptions(sym));
@@ -173,11 +173,11 @@ internal sealed class BarcodeRendererFactory
     /// <param name="s">La symbologie à utiliser pour configurer le générateur Code 93. Doit être de type Code93Symbology.</param>
     /// <param name="getValue">Fonction qui fournit la valeur de données à encoder dans le code-barres.</param>
     /// <returns>Un générateur de surface configuré pour le rendu de codes-barres Code 93 avec les options spécifiées.</returns>
-    private static Barcode1DRenderer<Code93Options> CreateCode93(ISymbology s, Func<string> getValue)
+    private static Barcode1DComposer<Code93Options> CreateCode93(ISymbology s, Func<string> getValue)
     {
         var sym = (Code93Symbology)s;
 
-        return new Barcode1DRenderer<Code93Options>(
+        return new Barcode1DComposer<Code93Options>(
             Code93Encoder.Instance,
             getValue,
             BuildCode93Options(sym));
@@ -188,12 +188,12 @@ internal sealed class BarcodeRendererFactory
     /// </summary>
     /// <param name="s">The symbology configuration to use for EAN-13 barcode rendering. Must be an instance of Ean13Symbology.</param>
     /// <param name="getValue">A delegate that returns the string value to encode in the EAN-13 barcode.</param>
-    /// <returns>Returns a <see cref="Barcode1DRenderer{Ean13Options}"/> instance configured for EAN-13 barcode generation.</returns>
-    private static Barcode1DRenderer<Ean13Options> CreateEan13(ISymbology s, Func<string> getValue)
+    /// <returns>Returns a <see cref="Barcode1DComposer{Ean13Options}"/> instance configured for EAN-13 barcode generation.</returns>
+    private static Barcode1DComposer<Ean13Options> CreateEan13(ISymbology s, Func<string> getValue)
     {
         var sym = (Ean13Symbology)s;
 
-        return new Barcode1DRenderer<Ean13Options>(
+        return new Barcode1DComposer<Ean13Options>(
             Ean13Encoder.Instance,
             getValue,
             BuildEan13Options(sym));
@@ -204,12 +204,12 @@ internal sealed class BarcodeRendererFactory
     /// </summary>
     /// <param name="s">The symbology configuration to use for the EAN-8 barcode. Must be of type Ean8Symbology.</param>
     /// <param name="getValue">A delegate that provides the string value to encode in the barcode.</param>
-    /// <returns>Returns a <see cref="Barcode1DRenderer{Ean8Options}"/> instance configured for EAN-8 barcode generation.</returns>
-    private static Barcode1DRenderer<Ean8Options> CreateEan8(ISymbology s, Func<string> getValue)
+    /// <returns>Returns a <see cref="Barcode1DComposer{Ean8Options}"/> instance configured for EAN-8 barcode generation.</returns>
+    private static Barcode1DComposer<Ean8Options> CreateEan8(ISymbology s, Func<string> getValue)
     {
         var sym = (Ean8Symbology)s;
 
-        return new Barcode1DRenderer<Ean8Options>(
+        return new Barcode1DComposer<Ean8Options>(
             Ean8Encoder.Instance,
             getValue,
             BuildEan8Options(sym));
@@ -220,12 +220,12 @@ internal sealed class BarcodeRendererFactory
     /// </summary>
     /// <param name="s">The symbology definition to use for configuring the GS1-128 barcode renderer. Must be compatible with GS1-128.</param>
     /// <param name="getValue">A delegate that returns the string value to encode in the barcode when invoked.</param>
-    /// <returns>Returns a <see cref="Barcode1DRenderer{Gs1_128Options}"/> instance configured for GS1-128 barcode generation.</returns>
-    private static Barcode1DRenderer<Gs1_128Options> CreateGs1_128(ISymbology s, Func<string> getValue)
+    /// <returns>Returns a <see cref="Barcode1DComposer{Gs1_128Options}"/> instance configured for GS1-128 barcode generation.</returns>
+    private static Barcode1DComposer<Gs1_128Options> CreateGs1_128(ISymbology s, Func<string> getValue)
     {
         var sym = (GS1_128Symbology)s;
 
-        return new Barcode1DRenderer<Gs1_128Options>(
+        return new Barcode1DComposer<Gs1_128Options>(
             Gs1_128Encoder.Instance,
             getValue,
             BuildGs1_128Options(sym));
@@ -238,16 +238,16 @@ internal sealed class BarcodeRendererFactory
     /// dynamic values are required.</remarks>
     /// <param name="s">The symbology configuration to use for the ITF-14 barcode. Must be an instance of Itf14Symbology.</param>
     /// <param name="getValue">A delegate that returns the string value to encode in the barcode.</param>
-    /// <returns>Returns a <see cref="Barcode1DRenderer{Itf14Options}"/> instance configured for ITF-14 barcode generation.</returns>
-    private static Barcode1DRenderer<Itf14Options> CreateItf14(ISymbology s, Func<string> getValue)
+    /// <returns>Returns a <see cref="Barcode1DComposer{Itf14Options}"/> instance configured for ITF-14 barcode generation.</returns>
+    private static Barcode1DComposer<Itf14Options> CreateItf14(ISymbology s, Func<string> getValue)
     {
         var sym = (Itf14Symbology)s;
 
-        return new Barcode1DRenderer<Itf14Options>(
+        return new Barcode1DComposer<Itf14Options>(
             Itf14Encoder.Instance,
             getValue,
             BuildItf14Options(sym),
-            new Itf14Composer());
+            new Itf14Barcode1DLayerComposer());
     }
 
     /// <summary>
@@ -259,11 +259,11 @@ internal sealed class BarcodeRendererFactory
     /// format requirements.</param>
     /// <returns>A barcode renderer instance configured for Codabar symbology and ready to generate barcodes using the provided
     /// value.</returns>
-    private static Barcode1DRenderer<CodabarOptions> CreateCodabar(ISymbology s, Func<string> getValue)
+    private static Barcode1DComposer<CodabarOptions> CreateCodabar(ISymbology s, Func<string> getValue)
     {
         var sym = (CodabarSymbology)s;
 
-        return new Barcode1DRenderer<CodabarOptions>(
+        return new Barcode1DComposer<CodabarOptions>(
             CodabarEncoder.Instance,
             getValue,
             BuildCodabarOptions(sym));
@@ -275,11 +275,11 @@ internal sealed class BarcodeRendererFactory
     /// <param name="s">The symbology to use for QR code generation. Must be a QR code-compatible symbology.</param>
     /// <param name="getValue">A delegate that returns the string value to encode in the QR code.</param>
     /// <returns>A Barcode2DRenderer instance configured for QR code generation with the provided options and value provider.</returns>
-    private static Barcode2DRenderer<QRCodeOptions> CreateQRCode(ISymbology s, Func<string> getValue)
+    private static Barcode2DComposer<QRCodeOptions> CreateQRCode(ISymbology s, Func<string> getValue)
     {
         var sym = (QRCodeSymbology)s;
 
-        return new Barcode2DRenderer<QRCodeOptions>(
+        return new Barcode2DComposer<QRCodeOptions>(
             QRCodeEncoder.Instance,
             getValue,
             BuildQRCodeOptions(sym));
@@ -293,10 +293,10 @@ internal sealed class BarcodeRendererFactory
     /// <param name="s">The symbology configuration to use for the PDF417 barcode. Must be an instance of Pdf417Symbology.</param>
     /// <param name="getValue">A delegate that returns the string value to encode in the barcode.</param>
     /// <returns>A Barcode2DRenderer configured for PDF417 barcodes with the specified options and value provider.</returns>
-    private static Barcode1DStackedRenderer<Pdf417Options> CreatePdf417(ISymbology s, Func<string> getValue)
+    private static Barcode1DStackedComposer<Pdf417Options> CreatePdf417(ISymbology s, Func<string> getValue)
     {
         var sym = (Pdf417Symbology)s;
-        return new Barcode1DStackedRenderer<Pdf417Options>(
+        return new Barcode1DStackedComposer<Pdf417Options>(
             Pdf417Encoder.Instance,
             getValue,
             BuildPdf417Options(sym));
