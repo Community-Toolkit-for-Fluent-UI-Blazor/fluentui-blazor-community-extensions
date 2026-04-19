@@ -53,7 +53,7 @@ internal static class CategoryAxisEngine
     {
         var centers = new double[categoryCount];
 
-        var step = (axis.Maximum - axis.Minimum) / categoryCount;
+        var step = (axis.DataMaximum - axis.DataMinimum) / categoryCount;
 
         for (var i = 0; i < categoryCount; i++)
         {

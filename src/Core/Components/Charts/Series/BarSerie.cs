@@ -10,7 +10,12 @@ public sealed class BarSerie
     : ChartSerie<CategoryItem, BarSerieOptions>
 {
     /// <inheritdoc />
-    public override ChartType ChartType => ChartType.Bar;
+    public override ChartType ChartType => IsStacked ? ChartType.StackedBar : ChartType.Bar;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the bar series is stacked.
+    /// </summary>
+    public bool IsStacked { get; internal set; }
 
     /// <inheritdoc />
     protected internal override IEnumerable<double> Values => Items.Select(x => x.Value);

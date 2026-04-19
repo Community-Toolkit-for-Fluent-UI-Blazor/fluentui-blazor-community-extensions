@@ -8,7 +8,7 @@ public class NumericTickGeneratorTests
     [Fact]
     public void Generate_ReturnsEmptyForInvalidRange()
     {
-        var ticks = NumericTickGenerator.Generate(double.NaN, 10);
+        var ticks = NumericTickGenerator.GenerateNice(double.NaN, 10);
 
         Assert.Empty(ticks);
     }
@@ -16,7 +16,7 @@ public class NumericTickGeneratorTests
     [Fact]
     public void Generate_SwapsMinMaxWhenReversed()
     {
-        var ticks = NumericTickGenerator.Generate(10, 0, 3);
+        var ticks = NumericTickGenerator.GenerateNice(10, 0, 3);
 
         Assert.NotEmpty(ticks);
         Assert.True(ticks.First() <= ticks.Last());
@@ -25,7 +25,7 @@ public class NumericTickGeneratorTests
     [Fact]
     public void Generate_ExpandsDegenerateRange()
     {
-        var ticks = NumericTickGenerator.Generate(5, 5, 3);
+        var ticks = NumericTickGenerator.GenerateNice(5, 5, 3);
 
         Assert.NotEmpty(ticks);
         Assert.Contains(5, ticks);

@@ -22,6 +22,29 @@ internal sealed class ChartLayoutComposer(
     Func<IEnumerable<ChartSerie>> series)
      : ISurfaceComposer<Options.ChartOptions>
 {
+    /// <summary>
+    /// Represents the set of chart types that are considered to have category-based legends.
+    /// </summary>
+    private static readonly HashSet<ChartType> s_CategoryLegendTypes =
+    [
+        ChartType.Bar,
+        ChartType.Column,
+        ChartType.CategoryLine,
+        ChartType.CategoryArea,
+        ChartType.StackedBar,
+        ChartType.StackedColumn
+    ];
+
+    /// <summary>
+    /// Represents the set of chart types that are considered to have circular legends, such as pie and donut charts.
+    /// </summary>
+    private static readonly HashSet<ChartType> s_CircularLegendTypes =
+    [
+        ChartType.Pie,
+        ChartType.Donut,
+        ChartType.SemiDonut,
+    ];
+
     /// <inheritdoc />
     public void Compose(ISurfaceRenderTarget target, Options.ChartOptions options)
     {
@@ -149,85 +172,59 @@ internal sealed class ChartLayoutComposer(
                 continue;
             }
 
-            switch (serie.ChartType)
+            if (s_CategoryLegendTypes.Contains(serie.ChartType))
             {
-                case ChartType.Bar:
-                case ChartType.Column:
-                case ChartType.CategoryLine:
-                case ChartType.CategoryArea:
-                    {
-                        items.Add(new LegendItem(serie.Name, colorIndex++));
-                    }
+                items.Add(new LegendItem(serie.Name, colorIndex++));
+            }
+            else if (s_CircularLegendTypes.Contains(serie.ChartType))
+            {
+                foreach (var item in serie.RawItems)
+                {
+                    items.Add(new LegendItem(item.Name, colorIndex++));
+                }
+            }
+            else if (serie.ChartType == ChartType.MultiDonut)
+            {
+                var multi = (Series.MultiDonutSerie)serie;
 
-                    break;
-
-                case ChartType.Pie:
-                case ChartType.Donut:
-                case ChartType.SemiDonut:
-                    {
-                        foreach (var item in serie.RawItems)
+                switch (multi.PaletteMode)
+                {
+                    case DonutPaletteMode.ByCategory:
                         {
-                            items.Add(new LegendItem(item.Name, colorIndex++));
+                            foreach (var label in multi.Series
+                                .SelectMany(d => d.Items)
+                                .Select(i => i.Name)
+                                .Distinct())
+                            {
+                                items.Add(new LegendItem(label, colorIndex++));
+                            }
                         }
-                    }
 
-                    break;
+                        break;
 
-                case ChartType.MultiDonut:
-                    {
-                        var multi = (Series.MultiDonutSerie)serie;
-
-                        switch (multi.PaletteMode)
+                    case DonutPaletteMode.ByDonut:
                         {
-                            case DonutPaletteMode.ByCategory:
-                                {
-                                    foreach (var label in multi.Series
-                                        .SelectMany(d => d.Items)
-                                        .Select(i => i.Name)
-                                        .Distinct())
-                                    {
-                                        items.Add(new LegendItem(label, colorIndex++));
-                                    }
-                                }
-
-                                break;
-
-                            case DonutPaletteMode.ByDonut:
-                                {
-                                    foreach (var donut in multi.Series)
-                                    {
-                                        items.Add(new LegendItem(donut.Name, colorIndex++));
-                                    }
-                                }
-
-                                break;
-
-                            case DonutPaletteMode.BySlice:
-                                {
-                                    foreach (var donut in multi.Series)
-                                    {
-                                        foreach (var item in donut.Items)
-                                        {
-                                            items.Add(new LegendItem(item.Name, colorIndex++));
-                                        }
-                                    }
-                                }
-
-                                break;
+                            foreach (var donut in multi.Series)
+                            {
+                                items.Add(new LegendItem(donut.Name, colorIndex++));
+                            }
                         }
-                    }
 
-                    break;
+                        break;
 
-               /* case ChartType.Radar:
-                    {
-                        foreach (var axis in serie.Values)
+                    case DonutPaletteMode.BySlice:
                         {
-                            items.Add(new LegendItem(axis.Label, colorIndex++));
+                            foreach (var donut in multi.Series)
+                            {
+                                foreach (var item in donut.Items)
+                                {
+                                    items.Add(new LegendItem(item.Name, colorIndex++));
+                                }
+                            }
                         }
-                    }
 
-                    break;*/
+                        break;
+                }
             }
         }
 

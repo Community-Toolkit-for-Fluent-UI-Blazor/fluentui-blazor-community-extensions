@@ -17,7 +17,7 @@
                           @bind-Value:after="OnChanged" />
         </FluentStack>
 
-        <FluentCxChart @ref="_ref" PaletteStyle="@_selectedChartPaletteStyle">
+        <FluentCxChart IntersectionThreshold="1" @ref="_ref" PaletteStyle="@_selectedChartPaletteStyle">
             @if (_selectedChart == ChartType.SemiDonut)
             {
                 <SemiDonutSerie Name="Donuts Chart"

@@ -23,6 +23,16 @@ internal class ChartAxis
     public double Maximum { get; set; }
 
     /// <summary>
+    /// Gets or sets the minimum data value represented on the axis.
+    /// </summary>
+    public double DataMinimum { get; set; }
+
+    /// <summary>
+    /// Gets or sets the maximum data value represented on the axis.
+    /// </summary>
+    public double DataMaximum { get; set; }
+
+    /// <summary>
     /// Gets a value indicating whether the axis is inverted.
     /// </summary>
     public bool IsInverted { get; set; }

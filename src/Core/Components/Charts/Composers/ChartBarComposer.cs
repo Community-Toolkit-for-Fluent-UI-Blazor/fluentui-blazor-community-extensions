@@ -40,15 +40,57 @@ internal sealed class ChartBarComposer(
         }
 
         var defaults = chartOptions.DefaultBarStyle;
-        var minValue = filtered.SelectMany(s => s.Items.Select(i => i.Value)).Min();
-        var maxValue = filtered.SelectMany(s => s.Items.Select(i => i.Value)).Max();
         var ctx = context();
         var payloads = new List<BarPayload>();
+        var minValue = 0.0;
+        var maxValue = 0.0;
+
+        if (filtered.Any(s => s.IsStacked))
+        {
+            var seriesCount = filtered.Count;
+            var maxCategoryCount = 0;
+
+            for (var s = 0; s < seriesCount; s++)
+            {
+                var count = filtered[s].Items.Count;
+
+                if (count > maxCategoryCount)
+                {
+                    maxCategoryCount = count;
+                }
+            }
+
+            for (var cat = 0; cat < maxCategoryCount; cat++)
+            {
+                var sum = 0.0;
+
+                for (var s = 0; s < seriesCount; s++)
+                {
+                    var serie = filtered[s];
+
+                    if (cat < serie.Items.Count)
+                    {
+                        sum += serie.Items[cat].Value;
+                    }
+                }
+
+                if (sum > maxValue)
+                {
+                    maxValue = sum;
+                }
+            }
+        }
+        else
+        {
+            minValue = filtered.SelectMany(s => s.Items.Select(i => i.Value)).Min();
+            maxValue = filtered.SelectMany(s => s.Items.Select(i => i.Value)).Max();
+        }
 
         for (var serieIndex = 0; serieIndex < filtered.Count; serieIndex++)
         {
             var serie = filtered[serieIndex];
-            var bars = BarLayoutEngine.Layout(serie, filtered, minValue, maxValue, serieIndex, context());
+            var bars = serie.IsStacked ? StackedBarLayoutEngine.Layout(serie, filtered, serieIndex, context()) :
+                                         BarLayoutEngine.Layout(serie, filtered, minValue, maxValue, serieIndex, context());
 
             for (var i = 0; i < bars.Count; i++)
             {
@@ -84,12 +126,15 @@ internal sealed class ChartBarComposer(
             }
         }
 
-        payloads.Sort((a, b) =>
+        if (payloads.Count > 0)
         {
-            return a.CategoryIndex.CompareTo(b.CategoryIndex);
-        });
+            payloads.Sort((a, b) =>
+            {
+                return a.CategoryIndex.CompareTo(b.CategoryIndex);
+            });
 
-        target.AddLayer(new BarLayer(new BarPayloadCollection($"chart-bars-group", payloads)));
+            target.AddLayer(new BarLayer(new BarPayloadCollection($"chart-bars-group", payloads)));
+        }
     }
 
     private static ChartTooltipPayload GetTooltipPayload(CategoryItem item)

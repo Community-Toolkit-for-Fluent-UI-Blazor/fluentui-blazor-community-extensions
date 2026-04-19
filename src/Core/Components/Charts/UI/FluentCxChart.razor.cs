@@ -625,6 +625,8 @@ public partial class FluentCxChart : FluentComponentBase
                 case ChartType.Column:
                 case ChartType.CategoryLine:
                 case ChartType.CategoryArea:
+                case ChartType.StackedBar:
+                case ChartType.StackedColumn:
                     {
                         count++;
                     }

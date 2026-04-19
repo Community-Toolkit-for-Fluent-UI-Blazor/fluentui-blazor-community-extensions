@@ -2,8 +2,10 @@ using System.Globalization;
 using FluentUI.Blazor.Community.Components.Charts.Builders;
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Charts.Engines;
+using FluentUI.Blazor.Community.Components.Charts.Helpers;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Charts.Themes;
+using FluentUI.Blazor.Community.Components.Charts.Utils;
 using FluentUI.Blazor.Community.Components.Enums;
 using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 
@@ -14,44 +16,47 @@ namespace FluentUI.Blazor.Community.Components.Charts;
 /// </summary>
 internal static class ChartAxisResolver
 {
-    /// <summary>
-    /// Represents the cosine of a 45-degree angle.
-    /// </summary>
-    private const double Cos45 = 0.70710678;
-
-    /// <summary>
-    /// Represents the sine of a 45-degree angle.
-    /// </summary>
-    private const double Sin45 = 0.70710678;
-
     public static void Resolve(
-        CO options,
-        ChartContext context,
-        ChartThemeContext theme,
-        IReadOnlyList<ChartSerie> series)
+       CO options,
+       ChartContext context,
+       ChartThemeContext theme,
+       IReadOnlyList<ChartSerie> series)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(series);
 
-        var axisArea = context.RemainingSpaceArea;
         var layout = theme.Theme.Layout;
         var typo = theme.Theme.Typography;
+        var axisArea = context.RemainingSpaceArea;
 
         ResolveAxes(options, context, series, axisArea);
         GenerateNumericLabels(context);
+        ComputeAxisLabelGeometry(context, typo, axisArea);
+        ComputeAxisMargins(context, layout);
+        ComputePlotArea(context, axisArea, layout);
+        FixMaps(context);
+    }
 
-        if (context.YAxis is not null && context.YAxis.Labels is { Count: > 0 })
+    private static void ComputeAxisLabelGeometry(
+        ChartContext context,
+        ChartTypography typo,
+        ChartRect axisArea)
+    {
+        if (context.YAxis is { Labels.Count: > 0 })
         {
             ComputeYAxisLabelGeometry(context.YAxis, typo.Axis.FontSize);
         }
 
-        if (context.XAxis is not null && context.XAxis.Labels is { Count: > 0 })
+        if (context.XAxis is { Labels.Count: > 0 })
         {
             var labelCount = context.XAxis.Labels.Count;
-            var availableWidthPerCategory = axisArea.Width / Math.Max(1, labelCount);
-            ComputeXAxisLabelGeometry(context.XAxis, typo.Axis.FontSize, availableWidthPerCategory);
+            var availableWidth = axisArea.Width / Math.Max(1, labelCount);
+            ComputeXAxisLabelGeometry(context.XAxis, typo.Axis.FontSize, availableWidth);
         }
+    }
 
+    private static void ComputeAxisMargins(ChartContext context, ChartLayout layout)
+    {
         var marginLeft =
             (context.YAxis?.LabelWidth ?? 0) +
             layout.TickLength +
@@ -69,18 +74,22 @@ internal static class ChartAxisResolver
             0,
             0,
             marginBottom);
-
-        context.PlotArea = new ChartRect(
-            axisArea.X + marginLeft + layout.PlotPaddingLeft,
-            axisArea.Y + layout.PlotPaddingTop,
-            Math.Max(0, axisArea.Width - marginLeft - layout.PlotPaddingLeft - layout.PlotPaddingRight),
-            Math.Max(0, axisArea.Height - marginBottom - layout.PlotPaddingTop - layout.PlotPaddingBottom),
-            axisArea);
-
-        FixAxisMaps(context);
     }
 
-    private static void FixAxisMaps(ChartContext ctx)
+    private static void ComputePlotArea(
+    ChartContext context,
+    ChartRect axisArea,
+    ChartLayout layout)
+    {
+        context.PlotArea = new ChartRect(
+            axisArea.X + context.AxesMargins.Left + layout.PlotPaddingLeft,
+            axisArea.Y + layout.PlotPaddingTop,
+            Math.Max(0, axisArea.Width - context.AxesMargins.Left - layout.PlotPaddingLeft - layout.PlotPaddingRight),
+            Math.Max(0, axisArea.Height - context.AxesMargins.Bottom - layout.PlotPaddingTop - layout.PlotPaddingBottom),
+            axisArea);
+    }
+
+    private static void FixMaps(ChartContext ctx)
     {
         var plot = ctx.PlotArea;
 
@@ -92,6 +101,7 @@ internal static class ChartAxisResolver
             xcat.Map = i =>
             {
                 var t = (i - min) / (double)(max - min);
+
                 return plot.X + t * plot.Width;
             };
         }
@@ -159,6 +169,13 @@ internal static class ChartAxisResolver
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
+        else  if (types.TrueForAll(x => x == ChartType.StackedBar))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.StackedBar.CreateAxes(
+                options.DefaultBarOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
         else if (types.TrueForAll(x => x == ChartType.Column))
         {
             var (xAxis, yAxis) = ChartAxesFactory.Column.CreateAxes(
@@ -166,7 +183,21 @@ internal static class ChartAxisResolver
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
+        else if (types.TrueForAll(x => x == ChartType.StackedColumn))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.StackedColumn.CreateAxes(
+                options.DefaultColumnOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
         else if (types.TrueForAll(x => x == ChartType.CategoryLine))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.CategoryLine.CreateAxes(
+                options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.CategoryArea))
         {
             var (xAxis, yAxis) = ChartAxesFactory.CategoryLine.CreateAxes(
                 options.DefaultCategoryLineOptions.Sort, series, axisArea);
@@ -202,50 +233,35 @@ internal static class ChartAxisResolver
     /// <param name="context">The chart context containing axis information for which numeric labels will be generated and assigned.</param>
     private static void GenerateNumericLabels(ChartContext context)
     {
-        if (context.XAxis is { AxisType: ChartAxisType.Numeric })
+        if (context.XAxis is { AxisType: ChartAxisType.Numeric } xnum)
         {
-            context.XAxis.Labels ??= GenerateTicks(context.XAxis.Minimum, context.XAxis.Maximum);
+            if (xnum.Labels is null)
+            {
+                var ticks = NumericTickGenerator.GenerateNice(xnum.DataMinimum, xnum.DataMaximum, maxTicks: 6);
+
+                if (ticks.Count > 0)
+                {
+                    xnum.Minimum = ticks[0];
+                    xnum.Maximum = ticks[^1];
+                    xnum.Labels = [.. ticks.Select(v => v.ToString("G3", CultureInfo.InvariantCulture))];
+                }
+            }
         }
 
-        if (context.YAxis is { AxisType: ChartAxisType.Numeric })
+        if (context.YAxis is { AxisType: ChartAxisType.Numeric } ynum)
         {
-            context.YAxis.Labels ??= GenerateTicks(context.YAxis.Minimum, context.YAxis.Maximum);
+            if (ynum.Labels is null)
+            {
+                var ticks = NumericTickGenerator.GenerateNice(ynum.DataMinimum, ynum.DataMaximum, maxTicks: 6);
+
+                if (ticks.Count > 0)
+                {
+                    ynum.Minimum = ticks[0];
+                    ynum.Maximum = ticks[^1];
+                    ynum.Labels = [.. ticks.Select(v => v.ToString("G3", CultureInfo.InvariantCulture))];
+                }
+            }
         }
-    }
-
-    /// <summary>
-    /// Generates a sequence of evenly spaced tick label strings between the specified minimum and maximum values.
-    /// </summary>
-    /// <remarks>The method always generates five tick labels unless the range is invalid or degenerate. The
-    /// labels are formatted using the invariant culture and up to three significant digits.</remarks>
-    /// <param name="min">The minimum value of the range for which to generate tick labels.</param>
-    /// <param name="max">The maximum value of the range for which to generate tick labels.</param>
-    /// <returns>A read-only list of strings representing evenly spaced tick labels formatted with up to three significant
-    /// digits. If the range is invalid or the minimum and maximum are equal, the list contains only the minimum value.</returns>
-    private static List<string> GenerateTicks(double min, double max)
-    {
-        const int tickCount = 5;
-        var list = new List<string>();
-
-        if (tickCount <= 1 ||
-            double.IsNaN(min) ||
-            double.IsNaN(max) ||
-            min == max)
-        {
-            list.Add(min.ToString("G3", CultureInfo.InvariantCulture));
-
-            return list;
-        }
-
-        for (var i = 0; i < tickCount; i++)
-        {
-            var t = (double)i / (tickCount - 1);
-            var v = min + t * (max - min);
-
-            list.Add(v.ToString("G3", CultureInfo.InvariantCulture));
-        }
-
-        return list;
     }
 
     /// <summary>
@@ -259,9 +275,9 @@ internal static class ChartAxisResolver
     /// <param name="availableWidthPerCategory">The maximum width available for each category label on the X-axis, in device-independent units. Must be greater
     /// than zero.</param>
     private static void ComputeXAxisLabelGeometry(
-        ChartAxis axis,
-        double fontSize,
-        double availableWidthPerCategory)
+    ChartAxis axis,
+    double fontSize,
+    double availableWidthPerCategory)
     {
         if (axis.Labels is null || axis.Labels.Count == 0)
         {
@@ -271,35 +287,46 @@ internal static class ChartAxisResolver
             return;
         }
 
-        var (w0, h0) = MeasureMaxLabel(fontSize, axis.Labels, 0);
+        var m0 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, 0);
+        var m45 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, -45);
+        var m90 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, -90);
 
-        var candidates = new List<(double angle, double width, double height)>
+        var candidates = new (double angle, double w, double h)[]
         {
-            (0, w0, h0),
-            (-45, MeasureMaxLabel(fontSize, axis.Labels, -45).width,
-                  MeasureMaxLabel(fontSize, axis.Labels, -45).height),
-            (-90, MeasureMaxLabel(fontSize, axis.Labels, -90).width,
-                   MeasureMaxLabel(fontSize, axis.Labels, -90).height)
+            (  0, m0.width,  m0.height),
+            (-45, m45.width, m45.height),
+            (-90, m90.width, m90.height)
         };
 
-        var valid = candidates
-            .Where(c => c.width <= availableWidthPerCategory)
-            .ToList();
+        (double angle, double w, double h)? best = null;
 
-        (double angle, double width, double height) chosen;
-
-        if (valid.Count > 0)
+        foreach (var c in candidates)
         {
-            chosen = valid.OrderBy(c => c.height).First();
-        }
-        else
-        {
-            chosen = candidates.OrderBy(c => c.height).First();
+            if (c.w <= availableWidthPerCategory)
+            {
+                if (best == null || c.h < best.Value.h)
+                {
+                    best = c;
+                }
+            }
         }
 
-        axis.LabelRotation = chosen.angle;
-        axis.LabelWidth = chosen.width;
-        axis.LabelHeight = chosen.height;
+        if (best == null)
+        {
+            best = candidates[0];
+
+            foreach (var c in candidates)
+            {
+                if (c.h < best.Value.h)
+                {
+                    best = c;
+                }
+            }
+        }
+
+        axis.LabelRotation = best.Value.angle;
+        axis.LabelWidth = best.Value.w;
+        axis.LabelHeight = best.Value.h;
     }
 
     /// <summary>
@@ -313,8 +340,8 @@ internal static class ChartAxisResolver
     /// collection of labels.</param>
     /// <param name="fontSize">The font size, in device-independent units, to use when measuring the axis labels. Must be greater than zero.</param>
     private static void ComputeYAxisLabelGeometry(
-        ChartAxis axis,
-        double fontSize)
+    ChartAxis axis,
+    double fontSize)
     {
         if (axis.Labels is null || axis.Labels.Count == 0)
         {
@@ -324,95 +351,29 @@ internal static class ChartAxisResolver
             return;
         }
 
-        var candidates = new List<(double angle, double width, double height)>
+        var m0 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, 0);
+        var m45 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, -45);
+        var m90 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, -90);
+
+        var candidates = new (double angle, double w, double h)[]
         {
-            (0,   MeasureMaxLabel(fontSize, axis.Labels, 0).width,
-                  MeasureMaxLabel(fontSize, axis.Labels, 0).height),
-            (-45, MeasureMaxLabel(fontSize, axis.Labels, -45).width,
-                  MeasureMaxLabel(fontSize, axis.Labels, -45).height),
-            (-90, MeasureMaxLabel(fontSize, axis.Labels, -90).width,
-                  MeasureMaxLabel(fontSize, axis.Labels, -90).height)
+            (  0, m0.width,  m0.height),
+            (-45, m45.width, m45.height),
+            (-90, m90.width, m90.height)
         };
 
-        var (angle, width, height) = candidates.OrderBy(c => c.width).First();
+        var best = candidates[0];
 
-        axis.LabelRotation = angle;
-        axis.LabelWidth = width;
-        axis.LabelHeight = height;
-    }
-
-    /// <summary>
-    /// Calculates the maximum width and height required to display a set of text labels using a specified font size and
-    /// rotation angle.
-    /// </summary>
-    /// <remarks>This method uses a typographical approximation to estimate label dimensions and accounts for
-    /// rotation at 0, -45, and -90 degrees. The result can be used to determine layout constraints for rendering text
-    /// labels in graphical components.</remarks>
-    /// <param name="fontSize">The font size, in device-independent units (DIPs), to use when measuring the labels. Must be greater than zero.</param>
-    /// <param name="labels">A read-only list of strings representing the labels to measure. Cannot be null or empty.</param>
-    /// <param name="angle">The rotation angle, in degrees, to apply to each label when measuring. Supported values are 0, -45, and -90.</param>
-    /// <returns>A tuple containing the maximum width and height, in device-independent units, required to display the labels
-    /// with the specified font size and rotation angle. Returns (0, 0) if the labels list is empty.</returns>
-    private static (double width, double height) MeasureMaxLabel(
-        double fontSize,
-        IReadOnlyList<string> labels,
-        double angle)
-    {
-        if (labels.Count == 0)
+        foreach (var c in candidates)
         {
-            return (0, 0);
-        }
-
-        var maxW = 0.0;
-        var maxH = 0.0;
-
-        foreach (var label in labels)
-        {
-            var w = fontSize * 0.6 * label.Length;
-            var h = fontSize * 1.2;
-
-            (var rw, var rh) = angle switch
+            if (c.w < best.w)
             {
-                0 => (w, h),
-                -45 => Rotate(w, h, Cos45, Sin45),
-                -90 => (h, w),
-                _ => (w, h)
-            };
-
-            if (rw > maxW)
-            {
-                maxW = rw;
-            }
-
-            if (rh > maxH)
-            {
-                maxH = rh;
+                best = c;
             }
         }
 
-        return (maxW, maxH);
-    }
-
-    /// <summary>
-    /// Calculates the width and height of a rectangle after rotation by a specified angle, using the provided cosine
-    /// and sine values.
-    /// </summary>
-    /// <remarks>This method assumes the rotation is performed around the origin and that the provided cosine
-    /// and sine values correspond to the same angle.</remarks>
-    /// <param name="w">The original width of the rectangle.</param>
-    /// <param name="h">The original height of the rectangle.</param>
-    /// <param name="cos">The cosine of the rotation angle.</param>
-    /// <param name="sin">The sine of the rotation angle.</param>
-    /// <returns>A tuple containing the width and height of the rectangle after rotation.</returns>
-    private static (double width, double height) Rotate(
-        double w,
-        double h,
-        double cos,
-        double sin)
-    {
-        var rw = w * cos + h * sin;
-        var rh = w * sin + h * cos;
-
-        return (rw, rh);
+        axis.LabelRotation = best.angle;
+        axis.LabelWidth = best.w;
+        axis.LabelHeight = best.h;
     }
 }

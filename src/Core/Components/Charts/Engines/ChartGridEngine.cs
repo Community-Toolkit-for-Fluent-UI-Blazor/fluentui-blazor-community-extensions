@@ -126,7 +126,7 @@ internal sealed class ChartGridEngine
             return lines;
         }
 
-        var values = NumericTickGenerator.Generate(
+        var values = NumericTickGenerator.GenerateNice(
             yAxis.Minimum,
             yAxis.Maximum,
             options.BoldEvery > 0 ? options.BoldEvery : 6);
@@ -232,7 +232,7 @@ internal sealed class ChartGridEngine
         var values = xAxis.AxisType switch
         {
             ChartAxisType.Category => Enumerable.Range(0, (int)(xAxis.Maximum - xAxis.Minimum + 1)).Select(i => (double)i),
-            ChartAxisType.Numeric => NumericTickGenerator.Generate(
+            ChartAxisType.Numeric => NumericTickGenerator.GenerateNice(
                 xAxis.Minimum,
                 xAxis.Maximum,
                 options.BoldEvery > 0 ? options.BoldEvery : 6),

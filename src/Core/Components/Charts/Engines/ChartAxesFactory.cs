@@ -21,4 +21,14 @@ internal static class ChartAxesFactory
     /// <remarks>Use this property to access methods and configuration options for generating category line
     /// axes in charts or visualizations.</remarks>
     public static CategoryLineAxisFactory CategoryLine { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating stacked bar axis components.
+    /// </summary>
+    public static StackedBarAxisFactory StackedBar { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating stacked column axis components.
+    /// </summary>
+    public static StackedColumnAxisFactory StackedColumn { get; } = new();
 }

@@ -30,7 +30,7 @@ internal sealed class BarAxisFactory : IAxisFactory<BarSerieOptions>
         if (barSeries.Count == 0)
         {
             return (
-                XAxis: CreateEmptyNumericAxis(plotArea),
+                XAxis: CreateEmptyNumericAxis(),
                 YAxis: CreateEmptyCategoryAxis(plotArea)
             );
         }
@@ -72,7 +72,7 @@ internal sealed class BarAxisFactory : IAxisFactory<BarSerieOptions>
             max += 1;
         }
 
-        var xAxis = CreateNumericAxis(min, max, plotArea);
+        var xAxis = CreateNumericAxis(min, max);
         var yAxis = CreateCategoryAxis(categories, plotArea);
 
         return (xAxis, yAxis);
@@ -113,29 +113,16 @@ internal sealed class BarAxisFactory : IAxisFactory<BarSerieOptions>
     /// </summary>
     /// <remarks>The returned axis maps numeric values linearly between the specified minimum and maximum
     /// values to the horizontal range of the plot area.</remarks>
-    /// <param name="min">The minimum value represented by the axis.</param>
-    /// <param name="max">The maximum value represented by the axis.</param>
-    /// <param name="plot">The plot area that defines the axis's position and width.</param>
     /// <returns>A ChartAxis instance configured as a numeric axis mapped to the specified plot area.</returns>
     private static ChartAxis CreateNumericAxis(
         double min,
-        double max,
-        ChartRect plot)
+        double max)
     {
-        var left = plot.X;
-        var right = plot.X + plot.Width;
-
         return new ChartAxis
         {
             AxisType = ChartAxisType.Numeric,
-            Minimum = min,
-            Maximum = max,
-            Map = value =>
-            {
-                var t = (value - min) / (max - min);
-
-                return left + t * (right - left);
-            }
+            DataMinimum = min,
+            DataMaximum = max
         };
     }
 
@@ -149,7 +136,6 @@ internal sealed class BarAxisFactory : IAxisFactory<BarSerieOptions>
     /// <summary>
     /// Creates a numeric axis with a default range from 0 to 1 for the specified plot area.
     /// </summary>
-    /// <param name="plot">The plot area to which the numeric axis will be associated.</param>
     /// <returns>A new ChartAxis instance representing a numeric axis with a range from 0 to 1.</returns>
-    private static ChartAxis CreateEmptyNumericAxis(ChartRect plot) => CreateNumericAxis(0, 1, plot);
+    private static ChartAxis CreateEmptyNumericAxis() => CreateNumericAxis(0, 1);
 }

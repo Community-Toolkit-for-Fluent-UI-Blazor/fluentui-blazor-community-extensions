@@ -22,7 +22,7 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
         ChartRect plotArea)
     {
         var lineSeries = series
-            .Where(s => s.IsVisible && s.ChartType == ChartType.CategoryLine)
+            .Where(s => s.IsVisible && (s.ChartType == ChartType.CategoryLine || s.ChartType == ChartType.CategoryArea))
             .OfType<CategoryLineSerie>()
             .ToList();
 
@@ -112,8 +112,8 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
         return new ChartAxis
         {
             AxisType = ChartAxisType.Numeric,
-            Minimum = min,
-            Maximum = max,
+            DataMinimum = min,
+            DataMaximum = max,
             Map = value =>
             {
                 var t = (value - min) / (max - min);

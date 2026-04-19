@@ -28,7 +28,7 @@ public class CategoryValueEngineTests
     }
 
     [Fact]
-    public void CategoryValueEngine_MapValue_UsesAxisMap()
+    public void CategoryValueEngine_MapValue_UsesMap()
     {
         var axis = new ChartAxis { AxisType = ChartAxisType.Numeric, Minimum = 0, Maximum = 1, Map = v => v * 2 };
 

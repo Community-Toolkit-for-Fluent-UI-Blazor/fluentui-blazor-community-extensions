@@ -12,7 +12,7 @@ internal static class NumericTickGenerator
     /// <param name="max">The maximum data value.</param>
     /// <param name="maxTicks">The approximate maximum number of ticks to generate.</param>
     /// <returns>A read-only list of tick values.</returns>
-    public static IReadOnlyList<double> Generate(double min, double max, int maxTicks = 6)
+    public static IReadOnlyList<double> GenerateNice(double min, double max, int maxTicks = 6)
     {
         var ticks = new List<double>();
 
@@ -52,6 +52,32 @@ internal static class NumericTickGenerator
         }
 
         return ticks;
+    }
+
+    /// <summary>
+    /// Generates a sequence of evenly spaced numeric tick values between the specified minimum and maximum.
+    /// </summary>
+    /// <param name="min">The minimum value of the range.</param>
+    /// <param name="max">The maximum value of the range.</param>
+    /// <param name="count">The number of tick values to generate.</param>
+    /// <returns>A read-only list of evenly spaced tick values.</returns>
+    public static IReadOnlyList<double> GenerateExactTicks(double min, double max, int count)
+    {
+        var list = new List<double>();
+
+        if (count < 2)
+        {
+            count = 2;
+        }
+
+        var step = (max - min) / (count - 1);
+
+        for (var i = 0; i < count; i++)
+        {
+            list.Add(min + i * step);
+        }
+
+        return list;
     }
 
     /// <summary>

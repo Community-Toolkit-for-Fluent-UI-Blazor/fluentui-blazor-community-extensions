@@ -6,10 +6,10 @@ using FluentUI.Blazor.Community.Components.Enums;
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
 /// <summary>
-/// Represents a factory responsible for creating the X and Y axes for
-///  a column chart based on the provided chart options, data series, and plot area configuration.
+/// Creates chart axes for stacked column charts by extracting categories and calculating numeric ranges from aggregated
+/// stack values.
 /// </summary>
-internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
+internal sealed class StackedColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
 {
     /// <inheritdoc />
     public (ChartAxis XAxis, ChartAxis YAxis) CreateAxes(
@@ -17,12 +17,12 @@ internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
         IEnumerable<ChartSerie> series,
         ChartRect plotArea)
     {
-        var columnSeries = series
-            .Where(s => s.IsVisible && s.ChartType == ChartType.Column)
+        var stacked = series
+            .Where(s => s.IsVisible && s.ChartType == ChartType.StackedColumn)
             .OfType<Series.ColumnSerie>()
             .ToList();
 
-        if (columnSeries.Count == 0)
+        if (stacked.Count == 0)
         {
             return (
                 XAxis: CreateEmptyCategoryAxis(plotArea),
@@ -30,45 +30,57 @@ internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
             );
         }
 
-        var categories = columnSeries
-            .SelectMany(s => s.Items)
-            .Where(i => i.IsVisible)
-            .Select(i => i.Category)
-            .Distinct()
-            .ToList();
+        var sums = new Dictionary<string, double>(StringComparer.Ordinal);
+        var max = 0.0;
+
+        foreach (var serie in stacked)
+        {
+            foreach (var item in serie.Items)
+            {
+                if (!item.IsVisible)
+                {
+                    continue;
+                }
+
+                var category = item.Category;
+                var value = item.Value;
+
+                if (sums.TryGetValue(category, out var current))
+                {
+                    current += value;
+                    sums[category] = current;
+
+                    if (current > max)
+                    {
+                        max = current;
+                    }
+                }
+                else
+                {
+                    sums[category] = value;
+
+                    if (value > max)
+                    {
+                        max = value;
+                    }
+                }
+            }
+        }
+
+        var categories = sums.Keys.ToList();
 
         if (sort)
         {
             categories.Sort(StringComparer.Ordinal);
         }
 
-        var values = columnSeries
-            .SelectMany(s => s.Items)
-            .Where(i => i.IsVisible)
-            .Select(i => i.Value)
-            .ToList();
-
-        var min = values.Min();
-        var max = values.Max();
-
-        if (min > 0)
+        if (max == 0)
         {
-            min = 0;
-        }
-
-        if (max < 0)
-        {
-            max = 0;
-        }
-
-        if (min == max)
-        {
-            min -= 1;
-            max += 1;
+            max = 1;
         }
 
         var xAxis = CreateCategoryAxis(categories, plotArea);
-        var yAxis = CreateNumericAxis(min, max, plotArea);
+        var yAxis = CreateNumericAxis(0, max, plotArea);
 
         return (xAxis, yAxis);
     }
@@ -83,15 +95,11 @@ internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
     /// <param name="plot">The plot area that defines the horizontal position and width for the axis mapping.</param>
     /// <returns>A ChartAxis configured as a category axis, with positions mapped according to the plot area and the number of
     /// categories.</returns>
-    private static ChartAxis CreateCategoryAxis(
-        List<string> labels,
-        ChartRect plot)
+    private static ChartAxis CreateCategoryAxis(List<string> labels, ChartRect plot)
     {
         var start = plot.X;
         var end = plot.X + plot.Width;
-        var step = labels.Count > 1
-            ? (end - start) / (labels.Count - 1)
-            : 0;
+        var step = labels.Count > 1 ? (end - start) / (labels.Count - 1) : 0;
 
         return new ChartAxis
         {
@@ -99,7 +107,7 @@ internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
             Minimum = 0,
             Maximum = labels.Count - 1,
             Map = index => start + index * step,
-            Labels = labels,
+            Labels = labels
         };
     }
 
@@ -110,10 +118,7 @@ internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
     /// <param name="max">The maximum value of the numeric axis.</param>
     /// <param name="plot">The plot area that defines the vertical position and height for the axis mapping.</param>
     /// <returns>Returns a new ChartAxis instance representing a numeric axis with the specified range and plot area.</returns>
-    private static ChartAxis CreateNumericAxis(
-        double min,
-        double max,
-        ChartRect plot)
+    private static ChartAxis CreateNumericAxis(double min, double max, ChartRect plot)
     {
         var top = plot.Y;
         var bottom = plot.Y + plot.Height;
@@ -145,4 +150,3 @@ internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
     /// <returns>A new ChartAxis instance representing a numeric axis with a range from 0 to 1.</returns>
     private static ChartAxis CreateEmptyNumericAxis(ChartRect plot) => CreateNumericAxis(0, 1, plot);
 }
-

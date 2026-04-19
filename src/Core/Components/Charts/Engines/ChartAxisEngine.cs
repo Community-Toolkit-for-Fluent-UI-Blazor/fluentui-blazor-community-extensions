@@ -182,7 +182,7 @@ internal sealed class ChartAxisEngine
         int maxTicks)
     {
         var list = new List<ChartPoint>();
-        var values = NumericTickGenerator.Generate(axis.Minimum, axis.Maximum, maxTicks);
+        var values = NumericTickGenerator.GenerateNice(axis.Minimum, axis.Maximum, maxTicks);
 
         foreach (var v in values)
         {

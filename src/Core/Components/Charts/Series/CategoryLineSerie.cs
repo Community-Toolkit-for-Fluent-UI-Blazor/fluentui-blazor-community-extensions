@@ -13,7 +13,7 @@ public sealed class CategoryLineSerie
     : ChartSerie<CategoryItem, CategoryLineOptions>
 {
     /// <inheritdoc />
-    public override ChartType ChartType => ChartType.CategoryLine;
+    public override ChartType ChartType => IsArea ? ChartType.CategoryArea : ChartType.CategoryLine;
 
     /// <summary>
     /// Gets or sets if the category line is an area.

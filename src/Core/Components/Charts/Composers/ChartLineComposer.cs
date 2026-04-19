@@ -37,7 +37,7 @@ internal sealed class ChartLineComposer(
         for (var i = 0; i < filtered.Count; i++)
         {
             var serie = filtered[i];
-            var (path, points) = CategoryLineLayoutEngine.Layout(serie, context());
+            var (path, points) = CategoryLineLayoutEngine.Layout(serie, ctx);
 
             var payloadPoints = points
                 .Select(p =>

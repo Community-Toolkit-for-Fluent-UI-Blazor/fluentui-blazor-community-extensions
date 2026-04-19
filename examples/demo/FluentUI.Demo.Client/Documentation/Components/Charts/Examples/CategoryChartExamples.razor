@@ -38,6 +38,16 @@
                 <BarSerie Name="Bars" Items="@(_items)" />
                 <BarSerie Name="Bars 2" Items="@(_items2)" />
             }
+            else if (_selectedChartCategory == ChartType.StackedBar)
+            {
+                <StackedBarSerie Name="Bars" Items="@(_items)" />
+                <StackedBarSerie Name="Bars 2" Items="@(_items2)" />
+            }
+            else if (_selectedChartCategory == ChartType.StackedColumn)
+            {
+                <StackedColumnSerie Name="Columns" Items="@(_items)" />
+                <StackedColumnSerie Name="Columns 2" Items="@(_items2)" />
+            }
         </FluentCxChart>
     </FluentStack>
 </div>
@@ -55,9 +65,9 @@
    //     ChartType.CategoryStep,
         ChartType.Column,
         ChartType.Bar,
-     /*   ChartType.StackedBar,
+        ChartType.StackedBar,
         ChartType.StackedColumn,
-        ChartType.FullStackedBar,
+       /* ChartType.FullStackedBar,
         ChartType.FullStackedColumn,
         ChartType.StackedArea,
         ChartType.FullStackedArea*/
