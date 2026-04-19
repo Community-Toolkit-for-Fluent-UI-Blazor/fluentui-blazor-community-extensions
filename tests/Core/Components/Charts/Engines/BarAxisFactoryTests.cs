@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Charts.Engines;
+using FluentUI.Blazor.Community.Components.Charts.Factories;
 using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;

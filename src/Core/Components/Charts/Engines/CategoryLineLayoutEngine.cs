@@ -1,7 +1,7 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 
-namespace FluentUI.Blazor.Community.Components.Charts;
+namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
 /// <summary>
 /// Represents the layout engine responsible for calculating the positions of points and the path for a category line series in a chart.

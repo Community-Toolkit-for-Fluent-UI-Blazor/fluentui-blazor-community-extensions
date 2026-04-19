@@ -22,8 +22,10 @@ internal static class ChartTypeInfo
         { ChartType.CategoryStep, ChartCategory.Category },
         { ChartType.StackedColumn, ChartCategory.Category },
         { ChartType.StackedBar, ChartCategory.Category },
-        { ChartType.FullStackedColumn, ChartCategory.Category },
-        { ChartType.FullStackedBar, ChartCategory.Category },
+        { ChartType.Stacked100Column, ChartCategory.Category },
+        { ChartType.Stacked100Bar, ChartCategory.Category },
+        { ChartType.StackedArea, ChartCategory.Category  },
+        { ChartType.Stacked100Area, ChartCategory.Category },
 
         { ChartType.XYLine, ChartCategory.XY },
         { ChartType.XYArea, ChartCategory.XY },

@@ -32,7 +32,11 @@ internal sealed class ChartLayoutComposer(
         ChartType.CategoryLine,
         ChartType.CategoryArea,
         ChartType.StackedBar,
-        ChartType.StackedColumn
+        ChartType.StackedColumn,
+        ChartType.StackedArea,
+        ChartType.Stacked100Area,
+        ChartType.Stacked100Column,
+        ChartType.Stacked100Bar
     ];
 
     /// <summary>

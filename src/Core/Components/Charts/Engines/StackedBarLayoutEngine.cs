@@ -29,19 +29,19 @@ internal static class StackedBarLayoutEngine
         var rawBarHeight = bandHeight;
         var barHeight = rawBarHeight * (serie.Options?.BarHeight ?? 1.0);
         var barOffset = (rawBarHeight - barHeight) / 2.0;
-        var axis = context.XAxis;
-        var minValue = axis?.Minimum ?? 0;
-        var maxValue = axis?.Maximum ?? 1;
+
+        var axis = context.XAxis!;
+        var axisMin = axis.Minimum;
+        var axisMax = axis.Maximum;
 
         double MapX(double value)
         {
-            if (minValue == maxValue)
+            if (axisMin == axisMax)
             {
                 return plot.X;
             }
 
-            var t = (value - minValue) / (maxValue - minValue);
-
+            var t = (value - axisMin) / (axisMax - axisMin);
             return plot.X + t * plot.Width;
         }
 
@@ -49,31 +49,46 @@ internal static class StackedBarLayoutEngine
 
         for (var categoryIndex = 0; categoryIndex < categoryCount; categoryIndex++)
         {
-            var item = serie.Items[categoryIndex];
+            var value = serie.Items[categoryIndex].Value;
+            var total = 0.0;
+
+            if (serie.IsFull)
+            {
+                for (var s = 0; s < allSeries.Count; s++)
+                {
+                    total += allSeries[s].Items[categoryIndex].Value;
+                }
+
+                value = total == 0 ? 0 : value / total;
+            }
+
             var stackedValue = 0.0;
 
             for (var s = 0; s < serieIndex; s++)
             {
-                stackedValue += allSeries[s].Items[categoryIndex].Value;
+                var prev = allSeries[s].Items[categoryIndex].Value;
+
+                if (serie.IsFull)
+                {
+                    prev = total == 0 ? 0 : prev / total;
+                }
+
+                stackedValue += prev;
             }
 
+            var x0 = MapX(stackedValue);
+            var x1 = MapX(stackedValue + value);
             var bandTop = plot.Y + categoryIndex * bandHeight + barOffset;
             var y = bandTop + barHeight / 2.0;
 
-            var x0 = MapX(stackedValue);
-            var x1 = MapX(stackedValue + item.Value);
-
-            var x = Math.Min(x0, x1);
-            var width = Math.Abs(x1 - x0);
-
             bars.Add(new ChartBar
             {
-                Id = item.Id ?? $"bar-{serie.Name}-{categoryIndex}",
-                X = x,
+                Id = serie.Items[categoryIndex].Id ?? $"bar-{serie.Name}-{categoryIndex}",
+                X = Math.Min(x0, x1),
                 Y = y,
-                Width = width,
+                Width = Math.Abs(x1 - x0),
                 Height = barHeight,
-                Value = item.Value,
+                Value = value,
                 CategoryIndex = categoryIndex
             });
         }

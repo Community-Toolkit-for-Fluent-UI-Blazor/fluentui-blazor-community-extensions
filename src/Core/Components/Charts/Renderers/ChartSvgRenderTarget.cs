@@ -19,6 +19,21 @@ internal sealed class ChartSvgRenderTarget
     private readonly Func<CO> _options;
     private readonly Func<ChartThemeContext> _themeContext;
     private ChartThemeContext? _resolvedThemeContext;
+    private static readonly Dictionary<string, Action<SvgBuilder, ILayerPayload, ChartContext, ChartThemeContext, Options.ChartAxisOptions>> _layerRenderes = new()
+    {
+        ["line"] = (builder, payload, context, themeContext, axisOptions) => ChartLineSvgBuilder.Build(builder, (LinePayload)payload, themeContext),
+        ["bar"] = (builder, payload, context, themeContext, axisOptions) => ChartBarSvgBuilder.Build(builder, (BarPayloadCollection)payload, themeContext, context),
+        ["column"] = (builder, payload, context, themeContext, axisOptions) => ChartColumnSvgBuilder.Build(builder, (ColumnPayloadCollection)payload, context, themeContext),
+        ["axes"] = (builder, payload, context, themeContext, axisOptions) => ChartAxesSvgBuilder.Build(builder, (AxisPayload)payload, axisOptions, themeContext),
+        ["grid"] = (builder, payload, context, themeContext, axisOptions) => ChartGridSvgBuilder.Build(builder, (GridPayload)payload, themeContext),
+        ["pie"] = (builder, payload, context, themeContext, axisOptions) => ChartPieSvgBuilder.Build(builder, (PiePayloadCollection)payload, themeContext),
+        ["donut"] = (builder, payload, context, themeContext, axisOptions) => ChartDonutSvgBuilder.Build(builder, (DonutPayloadCollection)payload, themeContext),
+        ["multi-donut"] = (builder, payload, context, themeContext, axisOptions) => ChartMultiDonutSvgBuilder.Build(builder, (MultiDonutPayloadCollection)payload, themeContext),
+        ["clip-path"] = (builder, payload, context, themeContext, axisOptions) => ChartClipPathSvgBuilder.Build(builder, (ClipPathPayload)payload!),
+        ["chart-layout"] = (builder, payload, context, themeContext, axisOptions) => ChartLayoutSvgBuilder.Build(builder, (ChartLayoutPayload)payload!, themeContext),
+        ["area"] = (builder, payload, context, themeContext, axisOptions) => ChartAreaSvgBuilder.Build(builder, (AreaPayload)payload!, themeContext),
+        ["stacked-area"] = (builder, payload, context, themeContext, axisOptions) => ChartStackedAreaSvgBuilder.Build(builder, (StackedAreaPayload)payload!, themeContext),
+    };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChartSvgRenderTarget"/> class with the specified parameters.
@@ -61,84 +76,11 @@ internal sealed class ChartSvgRenderTarget
     /// <inheritdoc />
     protected override void RenderLayer(SvgBuilder builder, ILayer layer)
     {
-        switch (layer)
+        ArgumentNullException.ThrowIfNull(layer);
+
+        if (_layerRenderes.TryGetValue(layer.Key, out var renderer))
         {
-            case LineLayer line:
-                {
-                    ChartLineSvgBuilder.Build(builder, (LinePayload)line.LayerPayload, _resolvedThemeContext!);
-                }
-
-                break;
-
-            case BarLayer bar:
-                {
-                    ChartBarSvgBuilder.Build(builder, (BarPayloadCollection)bar.LayerPayload, _resolvedThemeContext!, _context());
-                }
-
-                break;
-
-            case ColumnLayer column:
-                {
-                    ChartColumnSvgBuilder.Build(builder, (ColumnPayloadCollection)column.LayerPayload, _context(), _resolvedThemeContext!);
-                }
-
-                break;
-
-            case AxesLayer axis:
-                {
-                    ChartAxesSvgBuilder.Build(builder, (AxisPayload)axis.LayerPayload, _options().DefaultAxisOptions, _resolvedThemeContext!);
-                }
-
-                break;
-
-            case GridLayer grid:
-                {
-                    ChartGridSvgBuilder.Build(builder, (GridPayload)grid.LayerPayload, _resolvedThemeContext!);
-                }
-
-                break;
-
-            case PieLayer pie:
-                {
-                    ChartPieSvgBuilder.Build(builder, (PiePayloadCollection)pie.LayerPayload, _resolvedThemeContext!);
-                }
-
-                break;
-
-            case MultiDonutLayer multiDonut:
-                {
-                    ChartMultiDonutSvgBuilder.Build(builder, (MultiDonutPayloadCollection)multiDonut.LayerPayload, _resolvedThemeContext!);
-                }
-
-                break;
-
-            case DonutLayer donut:
-                {
-                    ChartDonutSvgBuilder.Build(builder, (DonutPayloadCollection)donut.LayerPayload, _resolvedThemeContext!);
-                }
-
-                break;
-
-            case ClipPathLayer clipPath:
-                {
-                    ChartClipPathSvgBuilder.Build(builder, (ClipPathPayload)clipPath.LayerPayload!);
-                }
-
-                break;
-
-            case ChartLayoutLayer layout:
-                {
-                    ChartLayoutSvgBuilder.Build(builder, (ChartLayoutPayload)layout.LayerPayload!, _resolvedThemeContext!);
-                }
-
-                break;
-
-            case AreaLayer area:
-                {
-                    ChartAreaSvgBuilder.Build(builder, (AreaPayload)area.LayerPayload, _resolvedThemeContext!);
-                }
-
-                break;
+            renderer(builder, layer.LayerPayload, _context(), _resolvedThemeContext!, _options().DefaultAxisOptions);
         }
     }
 
@@ -155,7 +97,9 @@ internal sealed class ChartSvgRenderTarget
             layer is not MultiDonutLayer &&
             layer is not ClipPathLayer &&
             layer is not ChartLayoutLayer &&
-            layer is not AreaLayer)
+            layer is not AreaLayer &&
+            layer is not StackedAreaLayer
+        )
         {
             throw new InvalidOperationException($"Unsupported layer type: {layer.GetType().Name}");
         }

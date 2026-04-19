@@ -10,12 +10,19 @@ public sealed class ColumnSerie
     : ChartSerie<CategoryItem, ColumnSerieOptions>
 {
     /// <inheritdoc />
-    public override ChartType ChartType => IsStacked ? ChartType.StackedColumn : ChartType.Column;
+    public override ChartType ChartType => IsFull ? ChartType.Stacked100Column : (IsStacked ? ChartType.StackedColumn : ChartType.Column);
 
     /// <summary>
     /// Gets or sets a value indicating whether the column series is stacked.
     /// </summary>
     public bool IsStacked { get; internal set; }
+
+    /// <summary>
+    /// Gets a value indicating whether this serie is represented as a percentage of the total value of all series in the chart.
+    /// When set to true, the values of this serie will be normalized to represent their percentage contribution to the total
+    /// value of all series.
+    /// </summary>
+    public bool IsFull { get; internal set; }
 
     /// <inheritdoc />
     protected internal override IEnumerable<double> Values => Items.Select(x => x.Value);

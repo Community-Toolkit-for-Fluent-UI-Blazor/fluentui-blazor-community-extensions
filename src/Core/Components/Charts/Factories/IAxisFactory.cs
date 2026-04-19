@@ -1,7 +1,7 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 
-namespace FluentUI.Blazor.Community.Components.Charts.Engines;
+namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 
 /// <summary>
 /// Represents a factory for creating chart axes based on the provided chart options, series data, and plot area configuration.

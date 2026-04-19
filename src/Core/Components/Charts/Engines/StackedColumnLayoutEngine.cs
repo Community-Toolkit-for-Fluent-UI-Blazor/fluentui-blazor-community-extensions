@@ -38,9 +38,10 @@ internal static class StackedColumnLayoutEngine
         var rawColumnWidth = bandWidth;
         var columnWidth = rawColumnWidth * (serie.Options?.ColumnWidth ?? 1.0);
         var columnOffset = (rawColumnWidth - columnWidth) / 2.0;
-        var axis = context.YAxis;
-        var axisMin = Math.Min(0, axis?.Minimum ?? 0);
-        var axisMax = Math.Max(0, axis?.Maximum ?? 1);
+
+        var axis = context.YAxis!;
+        var axisMin = axis.Minimum;
+        var axisMax = axis.Maximum;
 
         double MapY(double value)
         {
@@ -50,7 +51,6 @@ internal static class StackedColumnLayoutEngine
             }
 
             var t = (value - axisMin) / (axisMax - axisMin);
-
             return plot.Y + plot.Height - t * plot.Height;
         }
 
@@ -58,12 +58,31 @@ internal static class StackedColumnLayoutEngine
 
         for (var categoryIndex = 0; categoryIndex < categoryCount; categoryIndex++)
         {
-            var item = serie.Items[categoryIndex];
+            var value = serie.Items[categoryIndex].Value;
+            var total = 0.0;
+
+            if (serie.IsFull)
+            {
+                for (var s = 0; s < allSeries.Count; s++)
+                {
+                    total += allSeries[s].Items[categoryIndex].Value;
+                }
+
+                value = total == 0 ? 0 : value / total;
+            }
+
             var stackedValue = 0.0;
 
             for (var s = 0; s < serieIndex; s++)
             {
-                stackedValue += allSeries[s].Items[categoryIndex].Value;
+                var prev = allSeries[s].Items[categoryIndex].Value;
+
+                if (serie.IsFull)
+                {
+                    prev = total == 0 ? 0 : prev / total;
+                }
+
+                stackedValue += prev;
             }
 
             var x = plot.X +
@@ -72,18 +91,19 @@ internal static class StackedColumnLayoutEngine
                     columnWidth / 2.0;
 
             var y0 = MapY(stackedValue);
-            var y1 = MapY(stackedValue + item.Value);
+            var y1 = MapY(stackedValue + value);
+
             var y = Math.Min(y0, y1);
             var height = Math.Abs(y1 - y0);
 
             columns.Add(new ChartColumn
             {
-                Id = item.Id ?? $"col-{serie.Name}-{categoryIndex}",
+                Id = serie.Items[categoryIndex].Id ?? $"col-{serie.Name}-{categoryIndex}",
                 X = x,
                 Y = y,
                 Width = columnWidth,
                 Height = height,
-                Value = item.Value,
+                Value = value,
                 CategoryIndex = categoryIndex
             });
         }

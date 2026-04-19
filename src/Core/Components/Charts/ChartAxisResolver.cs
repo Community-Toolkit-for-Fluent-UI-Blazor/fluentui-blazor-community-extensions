@@ -1,7 +1,7 @@
 using System.Globalization;
 using FluentUI.Blazor.Community.Components.Charts.Builders;
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Engines;
+using FluentUI.Blazor.Community.Components.Charts.Factories;
 using FluentUI.Blazor.Community.Components.Charts.Helpers;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Charts.Themes;
@@ -16,6 +16,13 @@ namespace FluentUI.Blazor.Community.Components.Charts;
 /// </summary>
 internal static class ChartAxisResolver
 {
+    /// <summary>
+    /// Resolves the chart axes for the specified chart context based on the provided chart options, theme, and series.
+    /// </summary>
+    /// <param name="options">The chart options containing configuration settings for the chart.</param>
+    /// <param name="context">The chart context that holds the state and layout information for the chart.</param>
+    /// <param name="theme">The chart theme context providing styling and layout information.</param>
+    /// <param name="series">The collection of chart series to be rendered.</param>
     public static void Resolve(
        CO options,
        ChartContext context,
@@ -37,6 +44,12 @@ internal static class ChartAxisResolver
         FixMaps(context);
     }
 
+    /// <summary>
+    /// Computes the geometry for X and Y axis labels based on typography settings and available space.
+    /// </summary>
+    /// <param name="context">The chart context containing the axis data.</param>
+    /// <param name="typo">The typography settings containing font size information for axis labels.</param>
+    /// <param name="axisArea">The rectangular area available for rendering the axis.</param>
     private static void ComputeAxisLabelGeometry(
         ChartContext context,
         ChartTypography typo,
@@ -55,6 +68,11 @@ internal static class ChartAxisResolver
         }
     }
 
+    /// <summary>
+    /// Computes and sets the axis margins based on label dimensions and layout properties.
+    /// </summary>
+    /// <param name="context">The chart context containing axis information and where the computed margins will be stored.</param>
+    /// <param name="layout">The chart layout configuration containing tick length, axis thickness, and spacing values.</param>
     private static void ComputeAxisMargins(ChartContext context, ChartLayout layout)
     {
         var marginLeft =
@@ -76,10 +94,16 @@ internal static class ChartAxisResolver
             marginBottom);
     }
 
+    /// <summary>
+    /// Computes and sets the plot area rectangle by applying axis margins and layout padding to the provided axis area.
+    /// </summary>
+    /// <param name="context">The chart context to update with the computed plot area.</param>
+    /// <param name="axisArea">The axis area rectangle used as the basis for the plot area calculation.</param>
+    /// <param name="layout">The layout configuration containing padding values for the plot area.</param>
     private static void ComputePlotArea(
-    ChartContext context,
-    ChartRect axisArea,
-    ChartLayout layout)
+        ChartContext context,
+        ChartRect axisArea,
+        ChartLayout layout)
     {
         context.PlotArea = new ChartRect(
             axisArea.X + context.AxesMargins.Left + layout.PlotPaddingLeft,
@@ -89,6 +113,11 @@ internal static class ChartAxisResolver
             axisArea);
     }
 
+    /// <summary>
+    /// Configures coordinate mapping functions for chart axes to transform data values or category indices into plot
+    /// area pixel coordinates.
+    /// </summary>
+    /// <param name="ctx">The chart context containing the axes and plot area to configure.</param>
     private static void FixMaps(ChartContext ctx)
     {
         var plot = ctx.PlotArea;
@@ -100,7 +129,7 @@ internal static class ChartAxisResolver
 
             xcat.Map = i =>
             {
-                var t = (i - min) / (double)(max - min);
+                var t = (i - min) / (max - min);
 
                 return plot.X + t * plot.Width;
             };
@@ -125,7 +154,7 @@ internal static class ChartAxisResolver
 
             ycat.Map = i =>
             {
-                var t = (i - min) / (double)(max - min);
+                var t = (i - min) / (max - min);
                 return plot.Y + t * plot.Height;
             };
         }
@@ -164,29 +193,37 @@ internal static class ChartAxisResolver
 
         if (types.TrueForAll(x => x == ChartType.Bar))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.Bar.CreateAxes(
-                options.DefaultBarOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.Bar.CreateAxes(options.DefaultBarOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
-        else  if (types.TrueForAll(x => x == ChartType.StackedBar))
+        else if (types.TrueForAll(x => x == ChartType.StackedBar))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.StackedBar.CreateAxes(
-                options.DefaultBarOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.StackedBar.CreateAxes(options.DefaultBarOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.Stacked100Bar))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Bar.CreateAxes(options.DefaultBarOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.Column))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.Column.CreateAxes(
-                options.DefaultColumnOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.Column.CreateAxes(options.DefaultColumnOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.StackedColumn))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.StackedColumn.CreateAxes(
-                options.DefaultColumnOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.StackedColumn.CreateAxes(options.DefaultColumnOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.Stacked100Column))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Column.CreateAxes(options.DefaultBarOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
@@ -201,6 +238,18 @@ internal static class ChartAxisResolver
         {
             var (xAxis, yAxis) = ChartAxesFactory.CategoryLine.CreateAxes(
                 options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.StackedArea))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.StackedArea.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.Stacked100Area))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Area.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }

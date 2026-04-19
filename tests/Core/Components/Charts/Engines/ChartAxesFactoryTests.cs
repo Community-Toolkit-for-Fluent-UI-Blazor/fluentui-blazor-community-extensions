@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components.Charts.Engines;
+using FluentUI.Blazor.Community.Components.Charts.Factories;
 using Xunit;
 
 namespace Components.Tests.Components.Charts.Engines;

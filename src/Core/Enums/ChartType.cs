@@ -50,17 +50,17 @@ public enum ChartType
     /// <summary>
     /// 100% stacked Column chart.
     /// </summary>
-    FullStackedColumn,
+    Stacked100Column,
 
     /// <summary>
     /// 100% stacked Bar chart.
     /// </summary>
-    FullStackedBar,
+    Stacked100Bar,
 
     /// <summary>
     /// 100% stacked Area chart.
     /// </summary>
-    FullStackedArea,
+    Stacked100Area,
 
     /// <summary>
     /// Standard XY line chart.
@@ -166,4 +166,22 @@ public enum ChartType
     /// Density plot.
     /// </summary>
     Density
+
+/*
+Waterfall,
+StackedWaterfall,
+Stacked100Waterfall,
+
+Heatmap,
+CalendarHeatmap,
+
+Sankey,
+Chord,
+
+Streamgraph,
+Marimekko,
+Bullet,
+Gantt,
+ParallelCoordinates,
+Boxen,*/
 }

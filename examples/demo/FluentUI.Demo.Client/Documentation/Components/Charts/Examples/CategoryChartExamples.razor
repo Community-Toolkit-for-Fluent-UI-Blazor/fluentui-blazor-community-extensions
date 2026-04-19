@@ -22,31 +22,61 @@
             {
                 <AreaSerie Name="Area" Items="@(_items)" />
                 <AreaSerie Name="Area 2" Items="@(_items2)" />
+                <AreaSerie Name="Area 2" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.CategoryLine)
             {
                 <LineSerie Name="Line" Items="@(_items)" />
                 <LineSerie Name="Line 2" Items="@(_items2)" />
+                <LineSerie Name="Line 2" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.Column)
             {
                 <ColumnSerie Name="Columns" Items="@(_items)" />
                 <ColumnSerie Name="Columns 2" Items="@(_items2)" />
+                <ColumnSerie Name="Columns 2" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.Bar)
             {
                 <BarSerie Name="Bars" Items="@(_items)" />
                 <BarSerie Name="Bars 2" Items="@(_items2)" />
+                <BarSerie Name="Bars 2" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.StackedBar)
             {
                 <StackedBarSerie Name="Bars" Items="@(_items)" />
                 <StackedBarSerie Name="Bars 2" Items="@(_items2)" />
+                <StackedBarSerie Name="Bars 2" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.StackedColumn)
             {
                 <StackedColumnSerie Name="Columns" Items="@(_items)" />
                 <StackedColumnSerie Name="Columns 2" Items="@(_items2)" />
+                <StackedColumnSerie Name="Columns 2" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.StackedArea)
+            {
+                <StackedAreaSerie Name="Area" Items="@(_items)" />
+                <StackedAreaSerie Name="Area 2" Items="@(_items2)" />
+                <StackedAreaSerie Name="Area 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.Stacked100Bar)
+            {
+                <Stacked100BarSerie Name="Bars" Items="@(_items)" />
+                <Stacked100BarSerie Name="Bars 2" Items="@(_items2)" />
+                <Stacked100BarSerie Name="Bars 2" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.Stacked100Column)
+            {
+                <Stacked100ColumnSerie Name="Columns" Items="@(_items)" />
+                <Stacked100ColumnSerie Name="Columns 2" Items="@(_items2)" />
+                <Stacked100ColumnSerie Name="Columns 2" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.Stacked100Area)
+            {
+                <Stacked100AreaSerie Name="Area" Items="@(_items)" />
+                <Stacked100AreaSerie Name="Area 2" Items="@(_items2)" />
+                <Stacked100AreaSerie Name="Area 3" Items="@(_items3)" />
             }
         </FluentCxChart>
     </FluentStack>
@@ -67,27 +97,37 @@
         ChartType.Bar,
         ChartType.StackedBar,
         ChartType.StackedColumn,
-       /* ChartType.FullStackedBar,
-        ChartType.FullStackedColumn,
         ChartType.StackedArea,
-        ChartType.FullStackedArea*/
+        ChartType.Stacked100Bar,
+        ChartType.Stacked100Column,
+        ChartType.Stacked100Area
     ];
 
     private static CategoryItem[] _items = new[]
     {
-        new CategoryItem { Category = "Category 1", Value = 10 },
-        new CategoryItem { Category = "Category 2", Value = 20 },
-        new CategoryItem { Category = "Category 3", Value = 30 },
-        new CategoryItem { Category = "Category 4", Value = 40 }
+        new CategoryItem { Category = "Category 1", Value = 15 },
+        new CategoryItem { Category = "Category 2", Value = 25 },
+        new CategoryItem { Category = "Category 3", Value = 20 },
+        new CategoryItem { Category = "Category 4", Value = 30 }
     };
 
     private static CategoryItem[] _items2 = new[]
     {
-        new CategoryItem { Category = "Category 1", Value = 50 },
-        new CategoryItem { Category = "Category 2", Value = 10 },
-        new CategoryItem { Category = "Category 3", Value = 80 },
+        new CategoryItem { Category = "Category 1", Value = 35 },
+        new CategoryItem { Category = "Category 2", Value = 20 },
+        new CategoryItem { Category = "Category 3", Value = 45 },
         new CategoryItem { Category = "Category 4", Value = 25 }
     };
+
+
+    private static CategoryItem[] _items3 = new[]
+    {
+        new CategoryItem { Category = "Category 1", Value = 25 },
+        new CategoryItem { Category = "Category 2", Value = 30 },
+        new CategoryItem { Category = "Category 3", Value = 35 },
+        new CategoryItem { Category = "Category 4", Value = 40 }
+    };
+
 
     private void OnCategoryChanged()
     {

@@ -11,7 +11,7 @@ internal sealed record ChartLayoutLayer(ChartLayoutPayload payload)
     : ILayer<ChartLayoutPayload>
 {
     /// <inheritdoc />
-    public string Key => "chartlayout";
+    public string Key => "chart-layout";
 
     /// <inheritdoc />
     public LayerOrder Order => LayerOrder.Front;

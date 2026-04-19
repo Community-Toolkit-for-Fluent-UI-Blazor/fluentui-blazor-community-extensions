@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Components.Charts.Engines;
+namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 
 /// <summary>
 /// Represents a factory for creating chart axes based on the types of series present in the chart.
@@ -31,4 +31,24 @@ internal static class ChartAxesFactory
     /// Gets the factory for creating stacked column axis components.
     /// </summary>
     public static StackedColumnAxisFactory StackedColumn { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating stacked 100% column chart axes.
+    /// </summary>
+    public static Stacked100ColumnAxisFactory Stacked100Column { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating stacked area axis components.
+    /// </summary>
+    public static StackedCategoryLineAxisFactory StackedArea { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating stacked 100% area chart axes.
+    /// </summary>
+    public static Stacked100CategoryLineAxisFactory Stacked100Area { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating stacked 100% bar chart axes.
+    /// </summary>
+    public static Stacked100BarAxisFactory Stacked100Bar { get; } = new();
 }

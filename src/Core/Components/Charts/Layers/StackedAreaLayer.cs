@@ -4,19 +4,19 @@ using FluentUI.Blazor.Community.Components.Enums;
 namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 
 /// <summary>
-/// Represents a chart layer that renders area series using the specified payload.
+/// Represents a layer implementation for stacked area charts.
 /// </summary>
-/// <param name="payload">The payload containing the data and configuration for the area layer. Cannot be null.</param>
-internal sealed class AreaLayer(AreaPayload payload) : ILayer<AreaPayload>
+/// <param name="payload">The payload for the stacked area layer.</param>
+internal sealed class StackedAreaLayer(StackedAreaPayload payload) : ILayer<StackedAreaPayload>
 {
     /// <inheritdoc />
-    public string Key => "area";
+    public string Key => "stacked-area";
 
     /// <inheritdoc />
     public LayerOrder Order => LayerOrder.Content;
 
     /// <inheritdoc />
-    public int Priority => (int)ChartType.CategoryArea;
+    public int Priority => (int)ChartType.StackedArea;
 
     /// <inheritdoc />
     public ILayerPayload LayerPayload => payload;

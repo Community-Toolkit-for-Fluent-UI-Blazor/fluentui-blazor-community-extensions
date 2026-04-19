@@ -3,17 +3,13 @@ using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
-namespace FluentUI.Blazor.Community.Components.Charts.Engines;
+namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 
 /// <summary>
-/// Provides a factory for creating category (X) and numeric (Y) axes for category line charts based on the provided
-/// chart options, series, and plot area.
+/// Represents a factory responsible for creating the X and Y axes for
+///  a column chart based on the provided chart options, data series, and plot area configuration.
 /// </summary>
-/// <remarks>This factory is intended for use with line charts that use categorical X axes and numeric Y axes. It
-/// analyzes the visible series and their items to determine the set of categories and the numeric value range, ensuring
-/// that axes are valid even when no data is present. The axes produced are suitable for rendering category line charts
-/// within the specified plot area.</remarks>
-internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions>
+internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
 {
     /// <inheritdoc />
     public (ChartAxis XAxis, ChartAxis YAxis) CreateAxes(
@@ -21,12 +17,12 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
         IEnumerable<ChartSerie> series,
         ChartRect plotArea)
     {
-        var lineSeries = series
-            .Where(s => s.IsVisible && (s.ChartType == ChartType.CategoryLine || s.ChartType == ChartType.CategoryArea))
-            .OfType<CategoryLineSerie>()
+        var columnSeries = series
+            .Where(s => s.IsVisible && s.ChartType == ChartType.Column)
+            .OfType<Series.ColumnSerie>()
             .ToList();
 
-        if (lineSeries.Count == 0)
+        if (columnSeries.Count == 0)
         {
             return (
                 XAxis: CreateEmptyCategoryAxis(plotArea),
@@ -34,14 +30,19 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
             );
         }
 
-        var categories = lineSeries
+        var categories = columnSeries
             .SelectMany(s => s.Items)
             .Where(i => i.IsVisible)
             .Select(i => i.Category)
             .Distinct()
             .ToList();
 
-        var values = lineSeries
+        if (sort)
+        {
+            categories.Sort(StringComparer.Ordinal);
+        }
+
+        var values = columnSeries
             .SelectMany(s => s.Items)
             .Where(i => i.IsVisible)
             .Select(i => i.Value)
@@ -49,6 +50,16 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
 
         var min = values.Min();
         var max = values.Max();
+
+        if (min > 0)
+        {
+            min = 0;
+        }
+
+        if (max < 0)
+        {
+            max = 0;
+        }
 
         if (min == max)
         {
@@ -66,41 +77,39 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
     /// Creates a category axis for a chart based on the specified categories and plot area.
     /// </summary>
     /// <remarks>The returned axis maps each category index to a position within the specified plot area. If
-    /// only one category is provided, all indices map to the starting position.</remarks>
-    /// <param name="categories">The list of category names to be represented on the axis. The number of categories determines the axis range and
+    /// only one category is provided, all positions map to the plot area's starting coordinate.</remarks>
+    /// <param name="labels">The list of labels to be represented on the axis. The number of categories determines the axis range and
     /// tick positions.</param>
     /// <param name="plot">The plot area that defines the horizontal position and width for the axis mapping.</param>
-    /// <returns>A ChartAxis configured as a category axis, with axis range and mapping function corresponding to the provided
-    /// categories and plot area.</returns>
+    /// <returns>A ChartAxis configured as a category axis, with positions mapped according to the plot area and the number of
+    /// categories.</returns>
     private static ChartAxis CreateCategoryAxis(
-        List<string> categories,
+        List<string> labels,
         ChartRect plot)
     {
         var start = plot.X;
         var end = plot.X + plot.Width;
-        var step = categories.Count > 1
-            ? (end - start) / (categories.Count - 1)
+        var step = labels.Count > 1
+            ? (end - start) / (labels.Count - 1)
             : 0;
 
         return new ChartAxis
         {
             AxisType = ChartAxisType.Category,
             Minimum = 0,
-            Maximum = categories.Count - 1,
-            Labels = categories,
-            Map = index => start + index * step
+            Maximum = labels.Count - 1,
+            Map = index => start + index * step,
+            Labels = labels,
         };
     }
 
     /// <summary>
-    /// Creates a numeric axis for a chart based on the specified minimum and maximum values and the provided plot area.
+    /// Creates a numeric axis for a chart based on the specified minimum and maximum values and plot area.
     /// </summary>
-    /// <remarks>The returned axis maps numeric values to vertical positions within the plot area, with higher
-    /// values mapped toward the top of the area.</remarks>
-    /// <param name="min">The minimum value represented on the axis.</param>
-    /// <param name="max">The maximum value represented on the axis.</param>
-    /// <param name="plot">The plot area used to determine the axis position and scaling.</param>
-    /// <returns>A ChartAxis instance configured as a numeric axis with the specified range and mapping to the plot area.</returns>
+    /// <param name="min">The minimum value of the numeric axis.</param>
+    /// <param name="max">The maximum value of the numeric axis.</param>
+    /// <param name="plot">The plot area that defines the vertical position and height for the axis mapping.</param>
+    /// <returns>Returns a new ChartAxis instance representing a numeric axis with the specified range and plot area.</returns>
     private static ChartAxis CreateNumericAxis(
         double min,
         double max,
@@ -117,7 +126,6 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
             Map = value =>
             {
                 var t = (value - min) / (max - min);
-
                 return bottom - t * (bottom - top);
             }
         };
@@ -137,3 +145,4 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
     /// <returns>A new ChartAxis instance representing a numeric axis with a range from 0 to 1.</returns>
     private static ChartAxis CreateEmptyNumericAxis(ChartRect plot) => CreateNumericAxis(0, 1, plot);
 }
+

@@ -57,7 +57,7 @@ internal static class ChartBarSvgBuilder
         var style = bar.GetStyleForState();
         var fill = context.Theme.Palette.Series.Count == 0 ? style.Fill ?? context.Theme.Palette.Series[bar.SerieIndex % context.Theme.Palette.Series.Count].ToString() : context.Theme.Palette.Series[bar.SerieIndex % context.Theme.Palette.Series.Count].ToString();
         var opacity = style.Opacity ?? 1.0;
-        var stroke = context.Theme.Palette.Series.Count == 0 ? style.Stroke ?? context.Theme.Palette.Axis.ToString() : context.Theme.Palette.Axis.ToString();
+        var stroke = context.Theme.Palette.StrokeSeries.Count == 0 ? style.Stroke ?? context.Theme.Palette.StrokeSeries[bar.SerieIndex % context.Theme.Palette.StrokeSeries.Count].ToString() : context.Theme.Palette.StrokeSeries[bar.SerieIndex % context.Theme.Palette.StrokeSeries.Count].ToString();
         var strokeWidth = style.StrokeWidth ?? context.ComputedValues.FinalAxisThickness;
         var radius = context.ComputedValues.FinalBarRadius;
         var group = svg.AddGroup().WithTransform($"translate({bar.X.ToSvg()}, {bar.Y.ToSvg()})");

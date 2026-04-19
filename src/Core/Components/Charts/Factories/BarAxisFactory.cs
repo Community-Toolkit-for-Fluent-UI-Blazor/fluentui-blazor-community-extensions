@@ -3,7 +3,7 @@ using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
-namespace FluentUI.Blazor.Community.Components.Charts.Engines;
+namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 
 /// <summary>
 /// Provides a factory for creating axes for bar chart series. This class generates the appropriate X and Y axes based
