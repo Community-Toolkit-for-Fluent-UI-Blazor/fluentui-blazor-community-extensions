@@ -1,0 +1,7 @@
+﻿<FluentCxDeviceDetector DeviceInfoUpdated="@(e => _result = e.ToMarkup())">
+    <FluentLabel>@(_result)</FluentLabel>
+</FluentCxDeviceDetector>
+
+@code {
+    private MarkupString _result;
+}

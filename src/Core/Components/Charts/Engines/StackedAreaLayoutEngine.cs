@@ -1,5 +1,5 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Series;
+using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
@@ -18,31 +18,32 @@ internal static class StackedAreaLayoutEngine
     /// <param name="context">Chart context containing axis mapping information.</param>
     /// <returns>A tuple containing the generated line path and a read-only list of positioned line points.</returns>
     public static (LinePath TopPath, LinePath BottomPath, IReadOnlyList<LinePoint> Points) Layout(
-        CategoryLineSerie serie,
-        IReadOnlyList<CategoryLineSerie> allSeries,
+        Series.LineSerie serie,
+        IReadOnlyList<Series.LineSerie> allSeries,
         int serieIndex,
         ChartContext context)
     {
         var items = CategoryAxisEngine.Sort(serie.Items, serie.Options);
         var count = items.Count;
+
         var topPoints = new List<ChartPoint>(count);
         var bottomPoints = new List<ChartPoint>(count);
-        var pointPayloads = new List<LinePoint>(count);
+        var payloadPoints = new List<LinePoint>(count);
 
         for (var i = 0; i < count; i++)
         {
             var item = items[i];
-            var value = item.Value;
+            var rawValue = item.Value;
             var total = 0.0;
 
-            if (serie.IsFull)
+            if (serie.LineType == LineChartType.Stacked100Area)
             {
                 for (var s = 0; s < allSeries.Count; s++)
                 {
                     total += allSeries[s].Items[i].Value;
                 }
 
-                value = total == 0 ? 0 : value / total;
+                rawValue = total == 0 ? 0 : rawValue / total;
             }
 
             var bottomStack = 0.0;
@@ -51,7 +52,7 @@ internal static class StackedAreaLayoutEngine
             {
                 var prev = allSeries[s].Items[i].Value;
 
-                if (serie.IsFull)
+                if (serie.LineType == LineChartType.Stacked100Area)
                 {
                     prev = total == 0 ? 0 : prev / total;
                 }
@@ -59,7 +60,7 @@ internal static class StackedAreaLayoutEngine
                 bottomStack += prev;
             }
 
-            var topStack = bottomStack + value;
+            var topStack = bottomStack + rawValue;
             var x = context.XAxis!.Map(i);
             var yTop = context.YAxis!.Map(topStack);
             var yBottom = context.YAxis!.Map(bottomStack);
@@ -67,9 +68,9 @@ internal static class StackedAreaLayoutEngine
             topPoints.Add(new ChartPoint(x, yTop));
             bottomPoints.Add(new ChartPoint(x, yBottom));
 
-            pointPayloads.Add(new LinePoint
+            payloadPoints.Add(new LinePoint
             {
-                Id = item.Id ?? $"stacked-point-{Guid.NewGuid()}",
+                Id = item.Id ?? $"stacked-area-point-{Guid.NewGuid()}",
                 X = x,
                 Y = yTop,
                 CategoryIndex = i,
@@ -77,20 +78,10 @@ internal static class StackedAreaLayoutEngine
             });
         }
 
-        var topPath = new LinePath
-        {
-            Id = serie.Id ?? $"stacked-area-top-{Guid.NewGuid()}",
-            Points = topPoints,
-            Smooth = serie.Options?.Smooth ?? false
-        };
-
-        var bottomPath = new LinePath
-        {
-            Id = serie.Id != null ? $"{serie.Id}-bottom" : $"stacked-area-bottom-{Guid.NewGuid()}",
-            Points = bottomPoints,
-            Smooth = serie.Options?.Smooth ?? false
-        };
-
-        return (topPath, bottomPath, pointPayloads);
+        return (
+            new LinePath { Id = $"{serie.Id}-top", Points = topPoints, Smooth = false },
+            new LinePath { Id = $"{serie.Id}-bottom", Points = bottomPoints, Smooth = false },
+            payloadPoints
+        );
     }
 }

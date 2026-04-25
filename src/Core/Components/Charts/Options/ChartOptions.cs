@@ -31,6 +31,16 @@ internal sealed class ChartOptions
     public CategoryLineOptions DefaultCategoryLineOptions { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets the default options applied to scatter series in the chart.
+    /// </summary>
+    public ScatterSerieOptions DefaultScatterOptions { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the default options applied to bubble series in the chart.
+    /// </summary>
+    public BubbleSerieOptions DefaultBubbleOptions { get; set; } = new();
+
+    /// <summary>
     /// Gets the default line options applied to category lines when no specific options are provided.
     /// </summary>
     public ChartLinePointStyle DefaultLineStyles { get; set; } = new();
@@ -83,6 +93,16 @@ internal sealed class ChartOptions
     /// Gets or sets the default options applied to donut chart series.
     /// </summary>
     public RadialSerieOptions DefaultDonutOptions { get; set;  } = new();
+
+    /// <summary>
+    /// Gets or sets the default options for radar series.
+    /// </summary>
+    public RadarSerieOptions DefaultRadarOptions { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the default options for radar axes in the chart.
+    /// </summary>
+    public RadarAxesOptions DefaultRadarAxesOptions { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the style settings for the pie chart elements.

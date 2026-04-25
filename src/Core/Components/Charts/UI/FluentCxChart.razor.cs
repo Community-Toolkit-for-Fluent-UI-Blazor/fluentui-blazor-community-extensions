@@ -29,6 +29,39 @@ public partial class FluentCxChart : FluentComponentBase
     private readonly Dictionary<string, ChartSerie> _liveSeries = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
+    /// Represents a mapping of chart types to functions that compute the number of legend items for category-based charts.
+    /// </summary>
+    private static readonly Dictionary<ChartType, Func<int, int>> _categoryCharts = new(EqualityComparer<ChartType>.Default)
+    {
+        [ChartType.Bar] = i => i + 1,
+        [ChartType.Column] = i => i + 1,
+        [ChartType.Line] = i => i + 1,
+        [ChartType.Area] = i => i + 1,
+        [ChartType.StackedBar] = i => i + 1,
+        [ChartType.StackedColumn] = i => i + 1,
+        [ChartType.StackedArea] = i => i + 1,
+        [ChartType.Stacked100Bar] = i => i + 1,
+        [ChartType.Stacked100Column] = i => i + 1,
+        [ChartType.Stacked100Area] = i => i + 1,
+        [ChartType.Step] = i => i + 1,
+        [ChartType.Stacked100Step] = i => i + 1,
+        [ChartType.StackedStep] = i => i + 1,
+        [ChartType.Scatter] = i => i + 1,
+        [ChartType.Bubble] = i => i + 1,
+    };
+
+    /// <summary>
+    /// Represents a mapping of chart types to functions that compute the number of legend items for polar charts.
+    /// </summary>
+    private static readonly Dictionary<ChartType, Func<int, int>> _polarCharts = new()
+    {
+        [ChartType.Radar] = i => i + 1,
+        [ChartType.PolarLine] = i => i + 1,
+        [ChartType.PolarArea] = i => i + 1,
+        [ChartType.PolarBar] = i => i + 1,
+    };
+
+    /// <summary>
     /// Gets or sets the service responsible for providing chart theme information to the component.
     /// </summary>
     /// <remarks>This property is typically set by the dependency injection framework. It enables the
@@ -134,6 +167,11 @@ public partial class FluentCxChart : FluentComponentBase
     /// Indicates whether the chart is visible.
     /// </summary>
     private bool _isVisible = true;
+
+    /// <summary>
+    /// Value indicating whether the chart is currently in the process of rendering.
+    /// </summary>
+    private bool _isRendering;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluentCxChart"/> class with the specified configuration.
@@ -380,7 +418,7 @@ public partial class FluentCxChart : FluentComponentBase
             new ChartBarComposer(Id!, () => _chartContext, GetBarSeries),
             new ChartColumnComposer(Id!, () => _chartContext, GetColumnSeries),
             new ChartLineComposer(Id!, () => _chartContext, GetLineSeries),
-            new ChartAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions),
+            new ChartAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, IsCategorySeries),
             new ChartGridComposer(() => _chartContext, () => _options.DefaultGridOptions),
             new ChartPieComposer(Id!, () => _chartContext, GetPieSeries),
             new ChartDonutComposer(Id!, () => _chartContext, GetDonutSeries),
@@ -391,7 +429,9 @@ public partial class FluentCxChart : FluentComponentBase
                 () => Title,
                 () => Subtitle,
                 () => LegendItemShape,
-                () => _liveSeries.Values)
+                () => _liveSeries.Values),
+            new ChartPolarComposer(Id!, () => _chartContext, GetPolarSeries),
+            new ChartPolarAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, () => GetPolarSeries().Any())
         );
 
         RenderTarget ??= new ChartSvgRenderTarget(Id!, () => _chartContext, () => _chartThemeContext, () => _options);
@@ -407,6 +447,25 @@ public partial class FluentCxChart : FluentComponentBase
     private IEnumerable<Charts.Series.BarSerie> GetBarSeries()
     {
         return _liveSeries.Values.OfType<Charts.Series.BarSerie>();
+    }
+
+    private bool IsCategorySeries()
+    {
+        return _liveSeries.Values.All(x => x.ChartType is ChartType.Bar or
+            ChartType.Column or
+            ChartType.Line or
+            ChartType.Area or
+            ChartType.StackedBar or
+            ChartType.StackedColumn or
+            ChartType.StackedArea or
+            ChartType.Stacked100Bar or
+            ChartType.Stacked100Column or
+            ChartType.Stacked100Area or
+            ChartType.Step or
+            ChartType.Stacked100Step or
+            ChartType.StackedStep or
+            ChartType.Scatter or
+            ChartType.Bubble);
     }
 
     /// <summary>
@@ -454,9 +513,19 @@ public partial class FluentCxChart : FluentComponentBase
     /// </summary>
     /// <returns>An enumerable collection of CategoryLineSerie instances representing the line series contained in the current
     /// chart. The collection is empty if no such series exist.</returns>
-    private IEnumerable<Charts.Series.CategoryLineSerie> GetLineSeries()
+    private IEnumerable<Charts.Series.LineSerie> GetLineSeries()
     {
-        return _liveSeries.Values.OfType<Charts.Series.CategoryLineSerie>();
+        return _liveSeries.Values.OfType<Charts.Series.LineSerie>();
+    }
+
+    /// <summary>
+    /// Retrieves all child series of type Polar as polar series objects.
+    /// </summary>
+    /// <returns>An enumerable collection of PolarSerie instances representing the polar series contained in the current
+    /// chart. The collection is empty if no such series exist.</returns>
+    private IEnumerable<PolarSerie> GetPolarSeries()
+    {
+        return _liveSeries.Values.OfType<PolarSerie>();
     }
 
     /// <summary>
@@ -490,6 +559,16 @@ public partial class FluentCxChart : FluentComponentBase
     }
 
     /// <summary>
+    /// Updates the default radar chart axes options for the chart.
+    /// </summary>
+    /// <param name="radarAxesOptions">The new radar chart axes options to apply as the default configuration for all radar chart axes in the chart. This will affect the appearance and behavior of radar chart axes across the entire chart unless overridden by specific axis configurations.</param>
+    internal void UpdateRadarChartAxesOptions(RadarAxesOptions radarAxesOptions)
+    {
+        _options.DefaultRadarAxesOptions = radarAxesOptions;
+        Refresh();
+    }
+
+    /// <summary>
     /// Performs the chart rendering operation asynchronously, composing and flushing the chart to the render target.
     /// </summary>
     /// <remarks>This method determines whether to render the chart using asynchronous or synchronous
@@ -513,6 +592,12 @@ public partial class FluentCxChart : FluentComponentBase
                 return;
             }
 
+            if (_isRendering)
+            {
+                return;
+            }
+
+            _isRendering = true;
             var seriesChanged = SyncLiveSeries();
 
             if (_liveSeries.Count == 0)
@@ -553,17 +638,24 @@ public partial class FluentCxChart : FluentComponentBase
                 }
             }
 
+            var composed = false;
+
             if (IsAsync)
             {
-                await _chartComposer.ComposeAsync(RenderTarget!, _options);
+                composed |= await _chartComposer.ComposeAsync(RenderTarget!, _options);
             }
             else
             {
-                _chartComposer.Compose(RenderTarget!, _options);
+                composed |= _chartComposer.Compose(RenderTarget!, _options);
             }
 
-            await RenderTarget!.FlushAsync();
-            await InvokeAsync(StateHasChanged);
+            if (composed)
+            {
+                await RenderTarget!.FlushAsync();
+                await InvokeAsync(StateHasChanged);
+            }
+
+            _isRendering = false;
         });
         sw.Stop();
 
@@ -619,46 +711,36 @@ public partial class FluentCxChart : FluentComponentBase
 
         foreach (var serie in series)
         {
-            switch (serie.ChartType)
+            if (_categoryCharts.TryGetValue(serie.ChartType, out var countFunc))
             {
-                case ChartType.Bar:
-                case ChartType.Column:
-                case ChartType.CategoryLine:
-                case ChartType.CategoryArea:
-                case ChartType.StackedBar:
-                case ChartType.StackedColumn:
-                case ChartType.StackedArea:
-                case ChartType.Stacked100Bar:
-                case ChartType.Stacked100Column:
-                case ChartType.Stacked100Area:
-                    {
-                        count++;
-                    }
+                count += countFunc(count);
+                continue;
+            }
+            else if (_polarCharts.TryGetValue(serie.ChartType, out var polarCountFunc))
+            {
+                count += polarCountFunc(count);
+                continue;
+            }
+            else
+            {
+                switch (serie.ChartType)
+                {
+                    case ChartType.Pie:
+                    case ChartType.Donut:
+                    case ChartType.SemiDonut:
+                        {
+                            count += serie.RawItems.Count;
+                        }
 
-                    break;
+                        break;
 
-                case ChartType.Pie:
-                case ChartType.Donut:
-                case ChartType.SemiDonut:
-                    {
-                        count += serie.RawItems.Count;
-                    }
+                    case ChartType.MultiDonut:
+                        {
+                            count += ComputeMultiDonutLegendCount((Charts.Series.MultiDonutSerie)serie);
+                        }
 
-                    break;
-
-                case ChartType.Radar:
-                    {
-                        count += serie.Values.Count();
-                    }
-
-                    break;
-
-                case ChartType.MultiDonut:
-                    {
-                        count += ComputeMultiDonutLegendCount((Charts.Series.MultiDonutSerie)serie);
-                    }
-
-                    break;
+                        break;
+                }
             }
         }
 
@@ -862,6 +944,12 @@ public partial class FluentCxChart : FluentComponentBase
     [JSInvokable]
     public void OnResize(ChartSize size)
     {
+        if (size.Width == _chartContext.Width &&
+            size.Height == _chartContext.Height)
+        {
+            return;
+        }
+
         _needRedraw = true;
 
         _chartContext.Width = size.Width;
@@ -1175,11 +1263,10 @@ public partial class FluentCxChart : FluentComponentBase
     }
 
     /// <summary>
-    /// Clears all child series and resets the chart to its initial state, marking it as dirty and triggering a refresh.
+    /// Clears all live series and resets the chart to its initial state, marking it as dirty and triggering a refresh.
     /// </summary>
     public void Reset()
     {
-        _children.Clear();
         _liveSeries.Clear();
         _chartContext.Dirty = true;
         Refresh();

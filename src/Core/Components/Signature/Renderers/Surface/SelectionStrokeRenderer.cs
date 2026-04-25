@@ -12,41 +12,41 @@ internal sealed class SelectionStrokeRenderer(
     Func<IReadOnlyList<SignatureStroke>> getSelectedStrokes) : ISurfaceComposer<SignatureSelectionRenderingOptions>
 {
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         SignatureSelectionRenderingOptions options)
     {
         if (getTool() != SignatureStrokeTool.Selection)
         {
-            return;
+            return false;
         }
 
         if (!options.Enabled ||
             !options.Highlight)
         {
-            return;
+            return false;
         }
 
         var selected = getSelectedStrokes();
 
         if (selected is null || selected.Count == 0)
         {
-            return;
+            return false;
         }
 
         var opt = options;
         var payload = PayloadFactory.CreateSelection(opt, selected);
 
         target.AddLayer(new SelectionLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         SignatureSelectionRenderingOptions options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

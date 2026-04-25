@@ -27,11 +27,11 @@ internal sealed class HoverStrokeRenderer : ISurfaceComposer<SignatureHoverRende
     }
 
     /// <inheritdoc />
-    public void Compose(ISurfaceRenderTarget target, SignatureHoverRenderingOptions options)
+    public bool Compose(ISurfaceRenderTarget target, SignatureHoverRenderingOptions options)
     {
         if (!options.Enabled)
         {
-            return;
+            return false;
         }
 
         var stroke = _getHoverStroke();
@@ -39,18 +39,18 @@ internal sealed class HoverStrokeRenderer : ISurfaceComposer<SignatureHoverRende
 
         if (payload is null)
         {
-            return;
+            return false;
         }
 
         target.AddLayer(new HoverLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureHoverRenderingOptions options)
+    public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, SignatureHoverRenderingOptions options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }
 

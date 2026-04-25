@@ -11,23 +11,31 @@ internal sealed class ChartComposer
         _composers.AddRange(composers);
     }
 
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget renderTarget,
         CO options)
     {
+        var composed = false;
+
         foreach (var composer in _composers)
         {
-            composer.Compose(renderTarget, options);
+            composed |= composer.Compose(renderTarget, options);
         }
+
+        return composed;
     }
 
-    public async ValueTask ComposeAsync(
+    public async ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget renderTarget,
         CO options)
     {
+        var composed = false;
+
         foreach (var composer in _composers)
         {
-            await composer.ComposeAsync(renderTarget, options);
+            composed |= await composer.ComposeAsync(renderTarget, options);
         }
+
+        return composed;
     }
 }

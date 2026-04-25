@@ -22,8 +22,8 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
         ChartRect plotArea)
     {
         var lineSeries = series
-            .Where(s => s.IsVisible && (s.ChartType == ChartType.CategoryLine || s.ChartType == ChartType.CategoryArea))
-            .OfType<CategoryLineSerie>()
+            .Where(s => s.IsVisible && (s.ChartType == ChartType.Line || s.ChartType == ChartType.Area))
+            .OfType<Series.LineSerie>()
             .ToList();
 
         if (lineSeries.Count == 0)

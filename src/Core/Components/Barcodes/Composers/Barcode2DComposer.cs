@@ -22,7 +22,7 @@ internal sealed class Barcode2DComposer<TBarcodeOptions>(
     public TBarcodeOptions Options => barcodeOptions;
 
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         BarcodeRenderingOptions options)
     {
@@ -34,15 +34,15 @@ internal sealed class Barcode2DComposer<TBarcodeOptions>(
         var payload = realComposer.Compose(encodedData, options, barcodeOptions);
 
         target.AddLayer(new BarcodeLayer<Barcode2DPayload>(payload));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         BarcodeRenderingOptions options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

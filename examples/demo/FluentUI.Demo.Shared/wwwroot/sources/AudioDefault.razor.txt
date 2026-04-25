@@ -1,0 +1,177 @@
+﻿@using Microsoft.AspNetCore.StaticFiles
+@using Microsoft.JSInterop
+@implements IDisposable
+@inject IAudioMetadataProvider AudioMetadataProvider
+
+<FluentStack Orientation="Orientation.Vertical">
+    <FluentMessageBar Intent="MessageIntent.Warning" AllowDismiss=false>
+        The HTML Audio Element has an issue when the user uses the seek bar.
+    </FluentMessageBar>
+
+    <FluentMessageBar Intent="MessageIntent.Warning" AllowDismiss=false>
+        The metadata are extracted using TagLib#. This lib is very strict, so if your audio file is not well formed, it will throw an exception,
+        and an empty metadata will be used instead. Be sure that your audio files are well formed. For example, if you download an mp3 file which was
+        encoded with m4a codec, this will not work. But if you rename it with m4a, this will work.     
+    </FluentMessageBar>
+
+    <div style="height: 600px; margin-top: 5px">
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentStack>
+                <FluentSelect Items="@(Enum.GetValues<AudioPlayerView>())"
+                              TOption="AudioPlayerView"
+                              Label="View"
+                              @bind-SelectedOption=_view />
+
+                <FluentSelect Items="@(Enum.GetValues<VisualizerMode>())"
+                              TOption="VisualizerMode"
+                              Label="Visualizer"
+                              @bind-SelectedOption=_mode />
+            </FluentStack>
+
+            <FluentStack>
+                <FluentInputFile Id="my-file-uploader"
+                                 Mode="InputFileMode.SaveToTemporaryFolder"
+                                 Multiple="true"
+                                 MaximumFileCount="10"
+                                 MaximumFileSize="@(10*1024*1024)"
+                                 Accept="audio/*"
+                                 @bind-ProgressPercent="@ProgressPercent"
+                                 OnCompleted="@OnCompletedAsync"
+                                 Style="height: 300px;">
+                    <ChildContent>
+                        <label for="my-file-uploader">
+                            <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+                        </label>
+
+                        <div>
+                            Drag files here you wish to upload,
+                            or <label for="my-file-uploader">browse</label>
+                            for them<span style="color: red;">*</span>.
+                            <br />
+                            <em>Maximum of 10 files allowed.</em>
+                        </div>
+                    </ChildContent>
+                </FluentInputFile>
+
+                <FluentCxAudio VisualizerMode="@_mode" View="@_view">
+                    @foreach (var item in _audioFiles)
+                    {
+                        <AudioTrackItem Source="@GetPath(item.Value)"
+                                        Metadata="@_metadataCache[item.Key]" />
+                    }
+                </FluentCxAudio>
+            </FluentStack>
+        </FluentStack>
+    </div>
+
+</FluentStack>
+
+@code {
+    private VisualizerMode _mode;
+    private AudioPlayerView _view = AudioPlayerView.Default;
+    private FluentCxAudio? _audio;
+
+    int ProgressPercent = 0;
+    private readonly Dictionary<string, string> _audioFiles = [];
+    private readonly List<FluentInputFileEventArgs> _files = [];
+    private readonly Dictionary<string, AudioMetadata> _metadataCache = [];
+
+    [Inject]
+    private IJSRuntime Runtime { get; set; } = null!;
+
+    private static string GetPath(string path)
+    {
+        if (path.StartsWith("blob"))
+        {
+            return path;
+        }
+
+        var index = path.IndexOf("uploads");
+
+        if (index >= 0)
+        {
+            return path[(index - 1)..].Replace("\\", "/");
+        }
+
+        return path.Replace(Directory.GetCurrentDirectory(), string.Empty)
+                   .Replace("wwwroot", string.Empty)
+                   .Replace("\\", "/")
+                   .Substring(2);
+    }   
+
+    private async Task OnCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
+    {
+        foreach (var file in files)
+        {
+            var newFileName = $"RenamedFile_{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
+            var filePath = newFileName;
+
+            if (System.OperatingSystem.IsBrowser())
+            {
+                var provider = new FileExtensionContentTypeProvider();
+                if (!provider.TryGetContentType(file.Name, out var contentType))
+                {
+                    contentType = "application/octet-stream";
+                }
+
+                filePath = await Runtime.InvokeAsync<string>("getBlobUrl", contentType, File.ReadAllBytes(file.LocalFile!.FullName));
+            }
+            else
+            {
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
+                var directory = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory!);
+                }
+
+                await using var stream = File.OpenRead(file.LocalFile!.FullName);
+                await using var fileStream = File.Create(filePath);
+                await stream.CopyToAsync(fileStream);
+            }
+
+            if (!_audioFiles.ContainsKey(file.Name))
+            {
+                _audioFiles.Add(file.Name, filePath);
+            }
+
+            if (!_metadataCache.ContainsKey(file.Name))
+            {
+                using var ms = new MemoryStream(File.ReadAllBytes(file.LocalFile.FullName));
+                var metadata = AudioMetadataProvider.GetFromStream(file.Name, ms);
+                _metadataCache.Add(file.Name, metadata);
+            }
+
+            if (!_files.Contains(file))
+            {
+                _files.Add(file);
+            }
+        }
+
+        await Task.Delay(500);
+        ProgressPercent = 0;
+    }
+
+    public void Dispose()
+    {
+        try
+        {
+            foreach (var file in _audioFiles)
+            {
+                if (File.Exists(file.Value))
+                {
+                    File.Delete(file.Value);
+                }
+            }
+
+            foreach(var file in _files)
+            {
+                if (file.LocalFile is not null && File.Exists(file.LocalFile.FullName))
+                {
+                    File.Delete(file.LocalFile.FullName);
+                }
+            }
+        }
+        catch { }
+    }
+}

@@ -7,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Payloads;
 /// <remarks>This type is typically used to convey information about a specific data point within a line chart
 /// layer, such as when handling events or rendering custom visuals. Instances are considered equal if all properties
 /// match.</remarks>
-public sealed record LinePointPayload : ChartItemPayloadBase, IEquatable<LinePointPayload>
+public record LinePointPayload : ChartItemPayloadBase, IEquatable<LinePointPayload>
 {
     /// <summary>
     /// Gets the value of the X coordinate.
@@ -30,7 +30,7 @@ public sealed record LinePointPayload : ChartItemPayloadBase, IEquatable<LinePoi
     public required double Value { get; init; }
 
     /// <inheritdoc />
-    public bool Equals(LinePointPayload? other)
+    public virtual bool Equals(LinePointPayload? other)
     {
         if (other is null)
         {

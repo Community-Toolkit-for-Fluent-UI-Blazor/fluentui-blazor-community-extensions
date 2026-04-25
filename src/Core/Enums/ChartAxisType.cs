@@ -20,5 +20,10 @@ internal enum ChartAxisType
     /// <summary>
     /// Represents a specific point in time or a time value.
     /// </summary>
-    Time
+    Time,
+
+    /// <summary>
+    /// Represents a polar axis.
+    /// </summary>
+    Polar,
 }

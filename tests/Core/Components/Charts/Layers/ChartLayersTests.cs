@@ -42,7 +42,7 @@ public class ChartLayersTests
 
         Assert.Equal("line", line.Key);
         Assert.Equal(LayerOrder.Content, line.Order);
-        Assert.Equal((int)ChartType.CategoryLine, line.Priority);
+        Assert.Equal((int)ChartType.Line, line.Priority);
 
         Assert.Equal("pie", pie.Key);
         Assert.Equal(LayerOrder.Content, pie.Order);

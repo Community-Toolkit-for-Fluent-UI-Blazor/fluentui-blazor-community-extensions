@@ -10,7 +10,7 @@ namespace FluentUI.Blazor.Community.Components;
 internal sealed class AxesComposer : ISurfaceComposer<SurfaceAxesOptions>
 {
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         SurfaceAxesOptions axesOptions)
     {
@@ -18,17 +18,17 @@ internal sealed class AxesComposer : ISurfaceComposer<SurfaceAxesOptions>
 
         if (payload is null)
         {
-            return;
+            return false;
         }
 
         target.AddLayer(new AxesLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SurfaceAxesOptions options)
+    public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, SurfaceAxesOptions options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

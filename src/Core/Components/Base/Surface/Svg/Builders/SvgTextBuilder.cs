@@ -22,6 +22,30 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     { }
 
     /// <summary>
+    /// Sets the x-coordinate of the text element.
+    /// </summary>
+    /// <param name="x">The horizontal coordinate value.</param>
+    /// <returns>The current instance for method chaining.</returns>
+    public SvgTextBuilder WithX(double x)
+    {
+        Element.Attributes["x"] = x.ToSvg();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the Y coordinate of the text element.
+    /// </summary>
+    /// <param name="y">The Y coordinate value.</param>
+    /// <returns>The current <see cref="SvgTextBuilder"/> instance for method chaining.</returns>
+    public SvgTextBuilder WithY(double y)
+    {
+        Element.Attributes["y"] = y.ToSvg();
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the font family for the SVG text element.
     /// </summary>
     /// <param name="family">The name of the font family to apply to the text. This value is assigned to the 'font-family' attribute of the

@@ -22,7 +22,7 @@ internal sealed class ChartDonutComposer(
     : ISurfaceComposer<CO>
 {
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         CO chartOptions)
     {
@@ -33,7 +33,7 @@ internal sealed class ChartDonutComposer(
 
         if (filtered.Count == 0)
         {
-            return;
+            return false;
         }
 
         var defaults = chartOptions.DefaultDonutStyle;
@@ -128,15 +128,15 @@ internal sealed class ChartDonutComposer(
                 }
             ));
         }
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
-        CO chartOptions)
+        CO options)
     {
-        Compose(target, chartOptions);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

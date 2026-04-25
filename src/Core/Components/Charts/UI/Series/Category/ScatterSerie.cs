@@ -10,24 +10,20 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents a line series component for displaying category data in a Fluent UI Blazor chart.
 /// </summary>
-/// <remarks>Use this class to configure and render a line series within a category-based chart. The series
-/// displays data points connected by lines, with customizable options and data items. This component is intended for
-/// use with the Fluent UI Blazor library and follows its configuration patterns.</remarks>
-public sealed class LineSerie
-    : SerieBase
+public sealed class ScatterSerie : SerieBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="LineSerie"/> class with the specified library configuration.
+    /// Initializes a new instance of the <see cref="ScatterSerie"/> class with the specified library configuration.
     /// </summary>
     /// <param name="configuration">The configuration settings for the Fluent UI Blazor library.</param>
-    public LineSerie(LibraryConfiguration configuration)
+    public ScatterSerie(LibraryConfiguration configuration)
         : base(configuration)
     {
         Id = Identifier.NewId();
     }
 
     /// <inheritdoc />
-    protected internal override ChartType ChartType => ChartType.CategoryLine;
+    protected internal override ChartType ChartType => ChartType.Scatter;
 
     /// <summary>
     /// Gets the collection of category items to display in the component.
@@ -36,15 +32,15 @@ public sealed class LineSerie
     public IReadOnlyList<CategoryItem> Items { get; init; } = [];
 
     /// <summary>
-    /// Gets or sets the configuration options for the line series.
+    /// Gets or sets the configuration options for the scatter series.
     /// </summary>
     [Parameter]
-    public CategoryLineOptions? Options { get; init; }
+    public ScatterSerieOptions? Options { get; init; }
 
     /// <inheritdoc />
     protected internal override ChartSerie Create()
     {
-        var cls = new CategoryLineSerie
+        var cls = new Charts.Series.LineSerie
         {
             Id = Id!,
             Name = Name,
@@ -54,7 +50,8 @@ public sealed class LineSerie
             Interaction = Interaction,
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled,
-            Options = Options
+            Options = Options,
+            LineType = LineChartType.Scatter
         };
 
         cls.UpdateItems(Items);

@@ -23,11 +23,11 @@ internal class GridAdapter : ISurfaceComposer<SignatureRenderingOptions>
     }
 
     /// <inheritdoc />
-    public void Compose(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+    public bool Compose(ISurfaceRenderTarget target, SignatureRenderingOptions options)
         => _inner.Compose(target, options.Grid);
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+    public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
         => _inner.ComposeAsync(target, options.Grid);
 }
 

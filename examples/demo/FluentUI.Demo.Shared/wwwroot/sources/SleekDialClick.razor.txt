@@ -1,0 +1,34 @@
+﻿<div id="target-click" style="height: 400px; position: relative; margin-bottom: 30px">
+    <FluentCxSleekDial Target="target-click"
+                       Position="FloatingPosition.MiddleCenter"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       Mode="SleekDialMode.Radial"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())">
+        <SleekDialItem Title="Cut"
+                       OnClick="@(()=>OnClickAsync("cut"))"
+                       Icon="@(new Icons.Regular.Size24.Cut())" />
+
+        <SleekDialItem Title="Copy"
+                       OnClick="@(()=>OnClickAsync("copy"))"
+                       Icon="@(new Icons.Regular.Size24.Copy())" />
+
+        <SleekDialItem Title="Paste"
+                       OnClick="@(()=>OnClickAsync("paste"))"
+                       Icon="@(new Icons.Regular.Size24.ClipboardPaste())" />
+
+        <SleekDialItem Title="Delete"
+                       OnClick="@(()=>OnClickAsync("delete"))"
+                       Icon="@(new Icons.Regular.Size24.Delete())" />
+    </FluentCxSleekDial>
+</div>
+
+@code {
+    [Inject]
+    private IDialogService DialogService { get; set; }
+
+    private async Task OnClickAsync(string name)
+    {
+        var dialog = await DialogService.ShowInfoAsync($"You have clicked the item : {name}");
+        await dialog.Result;
+    }
+}

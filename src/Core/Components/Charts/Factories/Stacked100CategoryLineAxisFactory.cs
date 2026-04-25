@@ -18,7 +18,7 @@ internal sealed class Stacked100CategoryLineAxisFactory : IAxisFactory<CategoryL
     {
         var areas = series
             .Where(s => s.IsVisible)
-            .OfType<CategoryLineSerie>()
+            .OfType<Series.LineSerie>()
             .ToList();
 
         if (areas.Count == 0)

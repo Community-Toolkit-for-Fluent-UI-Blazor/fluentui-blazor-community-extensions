@@ -23,11 +23,11 @@ internal class EraserAdapter : ISurfaceComposer<SignatureEngineOptions>
     }
 
     /// <inheritdoc />
-    public void Compose(ISurfaceRenderTarget target, SignatureEngineOptions options)
+    public bool Compose(ISurfaceRenderTarget target, SignatureEngineOptions options)
         => _inner.Compose(target, options.Eraser);
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureEngineOptions options)
+    public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, SignatureEngineOptions options)
         => _inner.ComposeAsync(target, options.Eraser);
 }
 

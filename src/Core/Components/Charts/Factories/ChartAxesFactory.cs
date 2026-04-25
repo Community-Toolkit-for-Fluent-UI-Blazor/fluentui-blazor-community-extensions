@@ -28,6 +28,11 @@ internal static class ChartAxesFactory
     public static StackedBarAxisFactory StackedBar { get; } = new();
 
     /// <summary>
+    /// Gets the factory for creating stacked 100% bar chart axes.
+    /// </summary>
+    public static Stacked100BarAxisFactory Stacked100Bar { get; } = new();
+
+    /// <summary>
     /// Gets the factory for creating stacked column axis components.
     /// </summary>
     public static StackedColumnAxisFactory StackedColumn { get; } = new();
@@ -48,7 +53,32 @@ internal static class ChartAxesFactory
     public static Stacked100CategoryLineAxisFactory Stacked100Area { get; } = new();
 
     /// <summary>
-    /// Gets the factory for creating stacked 100% bar chart axes.
+    /// Gets the factory for creating step axis components.
     /// </summary>
-    public static Stacked100BarAxisFactory Stacked100Bar { get; } = new();
+    public static StepAxisFactory Step { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating stacked step axis configurations.
+    /// </summary>
+    public static StackedStepAxisFactory StackedStep { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating stacked 100% step axis configurations.
+    /// </summary>
+    public static Stacked100StepAxisFactory Stacked100Step { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating scatter axis configuration.
+    /// </summary>
+    public static ScatterAxesFactory Scatter { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating bubble axis configuration.
+    /// </summary>
+    public static BubbleAxesFactory Bubble { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating polar axis configuration.
+    /// </summary>
+    public static PolarAxisFactory Polar { get; } = new();
 }

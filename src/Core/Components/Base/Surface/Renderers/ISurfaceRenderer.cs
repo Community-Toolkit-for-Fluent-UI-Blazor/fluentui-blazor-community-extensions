@@ -14,7 +14,7 @@ public interface ISurfaceComposer<T>
     /// </summary>
     /// <param name="target">The rendering target that provides methods to set various visual elements for the signature surface. Cannot be null.</param>
     /// <param name="options">The rendering options that control the appearance and behavior of the signature rendering. Cannot be null.</param>
-    void Compose(
+    bool Compose(
         ISurfaceRenderTarget target,
         T options);
 
@@ -24,7 +24,7 @@ public interface ISurfaceComposer<T>
     /// <param name="target">The rendering target that provides methods to set various visual elements for the signature surface. Cannot be null.</param>
     /// <param name="options">The rendering options that control the appearance and behavior of the signature rendering. Cannot be null.</param>
     /// <returns>A ValueTask that represents the asynchronous rendering operation.</returns>
-    ValueTask ComposeAsync(
+    ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         T options);
 }

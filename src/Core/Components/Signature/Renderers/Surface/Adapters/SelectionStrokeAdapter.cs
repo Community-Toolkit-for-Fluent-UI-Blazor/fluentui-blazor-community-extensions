@@ -20,11 +20,11 @@ internal class SelectionStrokeAdapter : ISurfaceComposer<SignatureRenderingOptio
     }
 
     /// <inheritdoc />
-    public void Compose(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+    public bool Compose(ISurfaceRenderTarget target, SignatureRenderingOptions options)
         => _inner.Compose(target, options.Selection);
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
+    public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
         => _inner.ComposeAsync(target, options.Selection);
 }
 

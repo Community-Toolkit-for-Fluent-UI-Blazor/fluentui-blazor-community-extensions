@@ -1,0 +1,98 @@
+﻿@using FluentUI.Blazor.Community.Components.Charts.Options
+@using FluentUI.Blazor.Community.Components.Charts.Series
+@using FluentUI.Blazor.Community.Components.Charts.Themes
+@using FluentUI.Blazor.Community.Components.Enums
+<p>
+    This example demonstrates how to use some category charts with sample data.
+    You can select the chart palette style and the chart category to see how the chart changes.
+</p>
+
+<div style="width: 100%">
+    <FluentStack Height="100%" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="4px">
+            <FluentSelect Items="@s_chartCategory"
+                          @bind-Value="_selectedChartCategory"
+                          @bind-Value:after="OnCategoryChanged"/>
+
+            @if (_selectedChartCategory == ChartType.Radar)
+            {
+                <FluentSelect Items="@s_radarGridTypes"
+                              @bind-Value="_selectedRadarGridType" />
+
+                <FluentSwitch Label="Fill area" Value="@_options.FillArea.GetValueOrDefault()" ValueChanged="@OnFillAreaChanged" />
+            }
+        </FluentStack>
+
+        <div style="height: 500px; width: 100%">
+            <FluentCxChart @ref="_ref" PaletteStyle="ChartPaletteStyle.Radar">
+                <Options>
+                    <ChartOptions>
+                        <RadarChartAxesOptions Grid="@_selectedRadarGridType" />
+                    </ChartOptions>
+                </Options>
+                
+               <ChildContent>
+                    @if (_selectedChartCategory == ChartType.Radar)
+                    {
+                        <RadarSerie Name="Area" Items="@(_items)" Options="_options" />
+                        <RadarSerie Name="Area 2" Items="@(_items2)" Options="_options" />
+                        <RadarSerie Name="Area 2" Items="@(_items3)" Options="_options" />
+                    }
+               </ChildContent>
+            </FluentCxChart>
+        </div>
+    </FluentStack>
+</div>
+
+
+@code {
+    private FluentCxChart? _ref;
+    private ChartType _selectedChartCategory = ChartType.Radar;
+    private readonly RadarSerieOptions _options = new();
+    private RadarGridType _selectedRadarGridType = RadarGridType.Circle;
+    private static readonly RadarGridType[] s_radarGridTypes = Enum.GetValues<RadarGridType>();
+
+    private static readonly ChartType[] s_chartCategory = [
+        ChartType.Radar,
+        ChartType.PolarArea,
+        ChartType.PolarBar,
+        ChartType.PolarLine
+    ];
+
+    private static PolarItem[] _items = new[]
+    {
+        new PolarItem { Category = "Category 1", Value = 15 },
+        new PolarItem { Category = "Category 2", Value = 25 },
+        new PolarItem { Category = "Category 3", Value = 20 },
+        new PolarItem { Category = "Category 4", Value = 30 }
+    };
+
+    private static PolarItem[] _items2 = new[]
+    {
+        new PolarItem { Category = "Category 1", Value = 35 },
+        new PolarItem { Category = "Category 2", Value = 20 },
+        new PolarItem { Category = "Category 3", Value = 45 },
+        new PolarItem { Category = "Category 4", Value = 25 }
+    };
+
+
+    private static PolarItem[] _items3 = new[]
+    {
+        new PolarItem { Category = "Category 1", Value = 25 },
+        new PolarItem { Category = "Category 2", Value = 30 },
+        new PolarItem { Category = "Category 3", Value = 35 },
+        new PolarItem { Category = "Category 4", Value = 40 }
+    };
+
+
+    private void OnCategoryChanged()
+    {
+        _ref?.Reset();
+    }
+
+    private void OnFillAreaChanged(bool value)
+    {
+        _options.FillArea = value;
+        _ref?.Reset();
+    }
+}

@@ -2,7 +2,6 @@ using FluentUI.Blazor.Community.Components.Charts.Builders;
 using FluentUI.Blazor.Community.Components.Charts.Layers;
 using FluentUI.Blazor.Community.Components.Charts.Payloads;
 using FluentUI.Blazor.Community.Components.Charts.Themes;
-using FluentUI.Blazor.Community.Components.Components.Charts.Layers;
 using FluentUI.Blazor.Community.Components.Enums;
 using FluentUI.Blazor.Community.Components.Surface.Payloads;
 using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
@@ -33,6 +32,10 @@ internal sealed class ChartSvgRenderTarget
         ["chart-layout"] = (builder, payload, context, themeContext, axisOptions) => ChartLayoutSvgBuilder.Build(builder, (ChartLayoutPayload)payload!, themeContext),
         ["area"] = (builder, payload, context, themeContext, axisOptions) => ChartAreaSvgBuilder.Build(builder, (AreaPayload)payload!, themeContext),
         ["stacked-area"] = (builder, payload, context, themeContext, axisOptions) => ChartStackedAreaSvgBuilder.Build(builder, (StackedAreaPayload)payload!, themeContext),
+        ["scatter"] = (builder, payload, context, themeContext, axisOptions) => ChartScatterSvgBuilder.Build(builder, (ScatterPayload)payload!, themeContext),
+        ["bubble"] = (builder, payload, context, themeContext, axisOptions) => ChartBubbleSvgBuilder.Build(builder, (BubblePayload)payload!, themeContext),
+        ["radar"] = (builder, payload, context, themeContext, axisOptions) => ChartRadarSvgBuilder.Build(builder, (RadarPayload)payload!, themeContext),
+        ["polar-axes"] = (builder, payload, context, themeContext, axisOptions) => ChartPolarAxesSvgBuilder.Build(builder, (PolarAxesPayload)payload!, themeContext),
     };
 
     /// <summary>
@@ -87,19 +90,9 @@ internal sealed class ChartSvgRenderTarget
     /// <inheritdoc />
     protected override void ValidateLayer(ILayer layer)
     {
-        if (layer is not LineLayer &&
-            layer is not BarLayer &&
-            layer is not ColumnLayer &&
+        if (layer is not IChartLayer &&
             layer is not AxesLayer &&
-            layer is not GridLayer &&
-            layer is not PieLayer &&
-            layer is not DonutLayer &&
-            layer is not MultiDonutLayer &&
-            layer is not ClipPathLayer &&
-            layer is not ChartLayoutLayer &&
-            layer is not AreaLayer &&
-            layer is not StackedAreaLayer
-        )
+            layer is not GridLayer)
         {
             throw new InvalidOperationException($"Unsupported layer type: {layer.GetType().Name}");
         }

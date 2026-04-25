@@ -10,7 +10,7 @@ namespace FluentUI.Blazor.Community.Components;
 internal sealed class GridComposer : ISurfaceComposer<SurfaceGridOptions>
 {
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         SurfaceGridOptions options)
     {
@@ -18,19 +18,19 @@ internal sealed class GridComposer : ISurfaceComposer<SurfaceGridOptions>
 
         if (payload is null)
         {
-            return;
+            return false;
         }
 
         target.AddLayer(new GridLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         SurfaceGridOptions options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

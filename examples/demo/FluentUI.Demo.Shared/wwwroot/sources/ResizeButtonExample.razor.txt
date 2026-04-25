@@ -1,0 +1,5 @@
+﻿<FluentCxResizer>
+    <FluentButton>
+        Button inside a Resizer Component
+    </FluentButton>
+</FluentCxResizer>

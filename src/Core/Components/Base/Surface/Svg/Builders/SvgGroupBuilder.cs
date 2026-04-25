@@ -109,6 +109,23 @@ public sealed class SvgGroupBuilder : SvgElementBuilderBase<SvgGroupBuilder, Svg
     }
 
     /// <summary>
+    /// Adds a text element with the specified content.
+    /// </summary>
+    /// <param name="value">The text content.</param>
+    /// <returns>A new <see cref="SvgTextBuilder"/> for configuring the created text element.</returns>
+    public SvgTextBuilder AddText(string? value)
+    {
+        var text = new SvgText()
+        {
+            Text = value
+        };
+
+        Element.Children.Add(text);
+
+        return new SvgTextBuilder(Parent, text);
+    }
+
+    /// <summary>
     /// Adds a new polygon element to the current SVG group.
     /// </summary>
     /// <returns>A <see cref="SvgPolygonBuilder"/> instance for configuring the newly added &lt;polygon&gt; element.</returns>

@@ -18,7 +18,7 @@ public class CategoryLineLayoutEngineTests
             YAxis = new ChartAxis { AxisType = ChartAxisType.Numeric, Minimum = 0, Maximum = 10, Map = v => v * 2 }
         };
 
-        var serie = new CategoryLineSerie { Name = "Serie" };
+        var serie = new LineSerie { Name = "Serie" };
         serie.UpdateItems([
             new CategoryItem { Category = "A", Value = 2 },
             new CategoryItem { Category = "B", Value = 3 }

@@ -18,13 +18,13 @@
         </FluentStack>
 
         <FluentCxChart @ref="_ref" PaletteStyle="@_selectedChartPaletteStyle">
-            @if (_selectedChartCategory == ChartType.CategoryArea)
+            @if (_selectedChartCategory == ChartType.Area)
             {
                 <AreaSerie Name="Area" Items="@(_items)" />
                 <AreaSerie Name="Area 2" Items="@(_items2)" />
                 <AreaSerie Name="Area 2" Items="@(_items3)" />
             }
-            else if (_selectedChartCategory == ChartType.CategoryLine)
+            else if (_selectedChartCategory == ChartType.Line)
             {
                 <LineSerie Name="Line" Items="@(_items)" />
                 <LineSerie Name="Line 2" Items="@(_items2)" />
@@ -78,6 +78,36 @@
                 <Stacked100AreaSerie Name="Area 2" Items="@(_items2)" />
                 <Stacked100AreaSerie Name="Area 3" Items="@(_items3)" />
             }
+            else if (_selectedChartCategory == ChartType.Step)
+            {
+                <StepSerie Name="Step" Items="@(_items)" />
+                <StepSerie Name="Step 2" Items="@(_items2)" />
+                <StepSerie Name="Step 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.StackedStep)
+            {
+                <StackedStepSerie Name="Step" Items="@(_items)" />
+                <StackedStepSerie Name="Step 2" Items="@(_items2)" />
+                <StackedStepSerie Name="Step 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.Stacked100Step)
+            {
+                <Stacked100StepSerie Name="Step" Items="@(_items)" />
+                <Stacked100StepSerie Name="Step 2" Items="@(_items2)" />
+                <Stacked100StepSerie Name="Step 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.Scatter)
+            {
+                <ScatterSerie Name="Scatter" Items="@(_items)" />
+                <ScatterSerie Name="Scatter 2" Items="@(_items2)" />
+                <ScatterSerie Name="Scatter 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.Bubble)
+            {
+                <BubbleSerie Name="Bubble" Items="@(_items)" />
+                <BubbleSerie Name="Bubble 2" Items="@(_items2)" />
+                <BubbleSerie Name="Bubble 3" Items="@(_items3)" />
+            }
         </FluentCxChart>
     </FluentStack>
 </div>
@@ -90,9 +120,8 @@
     private ChartType _selectedChartCategory = ChartType.Bar;
 
     private static ChartType[] s_chartCategory = [
-        ChartType.CategoryArea,
-        ChartType.CategoryLine,
-   //     ChartType.CategoryStep,
+        ChartType.Area,
+        ChartType.Line,
         ChartType.Column,
         ChartType.Bar,
         ChartType.StackedBar,
@@ -100,7 +129,12 @@
         ChartType.StackedArea,
         ChartType.Stacked100Bar,
         ChartType.Stacked100Column,
-        ChartType.Stacked100Area
+        ChartType.Stacked100Area,
+        ChartType.Step,
+        ChartType.StackedStep,
+        ChartType.Stacked100Step,
+        ChartType.Scatter,
+        ChartType.Bubble
     ];
 
     private static CategoryItem[] _items = new[]

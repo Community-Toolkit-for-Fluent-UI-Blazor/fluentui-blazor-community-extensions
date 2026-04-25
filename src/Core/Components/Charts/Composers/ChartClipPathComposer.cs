@@ -14,7 +14,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Composers;
 internal sealed class ChartClipPathComposer(Func<ChartContext> context)
     : ISurfaceComposer<CO>
 {
-    public void Compose(ISurfaceRenderTarget target, CO options)
+    public bool Compose(ISurfaceRenderTarget target, CO options)
     {
         var ctx = context();
 
@@ -29,13 +29,13 @@ internal sealed class ChartClipPathComposer(Func<ChartContext> context)
         ctx.ClipPathId = payload.Id;
 
         target.AddLayer(new ClipPathLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(ISurfaceRenderTarget target, CO options)
+    public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, CO options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

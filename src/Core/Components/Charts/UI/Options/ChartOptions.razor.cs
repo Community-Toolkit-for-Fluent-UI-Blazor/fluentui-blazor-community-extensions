@@ -32,6 +32,11 @@ public partial class ChartOptions : ComponentBase
     private Charts.Options.ChartAxisOptions? _axisOptions;
 
     /// <summary>
+    /// Represents the radar chart axis options used to configure the appearance and behavior of radar chart axes.
+    /// </summary>
+    private Charts.Options.RadarAxesOptions? _radarAxesOptions;
+
+    /// <summary>
     /// Represents the chart bar options associated with this chart component.
     /// </summary>
     private ChartBarOptions? _chartBarOptions;
@@ -50,6 +55,8 @@ public partial class ChartOptions : ComponentBase
     /// Represents the current axis options for the chart, or null if no options are set.
     /// </summary>
     private ChartAxisOptions? _chartAxisOptions;
+
+    private RadarChartAxesOptions? _radarChartAxesOptions;
 
     /// <summary>
     /// Gets or sets the content to be rendered inside this component.
@@ -189,7 +196,6 @@ public partial class ChartOptions : ComponentBase
             Smooth = _chartCategoryLineOptions.Smooth,
             ShowMarkers = _chartCategoryLineOptions.ShowMarkers,
             MarkerSize = _chartCategoryLineOptions.MarkerSize,
-            ShowArea = _chartCategoryLineOptions.ShowArea
         };
 
         Parent!.UpdateCategoryLineOptions(_categoryLineOptions);
@@ -251,6 +257,32 @@ public partial class ChartOptions : ComponentBase
     internal void RemoveChartAxisOptions()
     {
         _chartAxisOptions = null;
+    }
+
+    internal void AddRadarChartAxesOptions(RadarChartAxesOptions radarChartAxesOptions)
+    {
+        _radarChartAxesOptions = radarChartAxesOptions;
+    }
+
+    internal void NotifyRadarChartAxesOptionsChanged()
+    {
+        if (_radarChartAxesOptions is null)
+        {
+            return;
+        }
+
+        _radarAxesOptions = new Charts.Options.RadarAxesOptions
+        {
+            Grid = _radarChartAxesOptions.Grid,
+            GridLevels = _radarChartAxesOptions.Levels
+        };
+
+        Parent!.UpdateRadarChartAxesOptions(_radarAxesOptions);
+    }
+
+    internal void RemoveRadarChartAxesOptions()
+    {
+        _radarChartAxesOptions = null;
     }
 
     /*    [Parameter]

@@ -9,9 +9,11 @@ namespace FluentUI.Blazor.Community.Components.Charts.Composers;
 /// </summary>
 /// <param name="context">The chart context containing relevant information for axis composition</param>
 /// <param name="axisOptions">The options defining the configuration and appearance of the chart axes</param>
+/// <param name="isCategorySeries">A function that determines whether the chart series is a category series, which affects axis rendering</param>
 internal sealed class ChartAxesComposer(
     Func<ChartContext> context,
-    Func<CAO> axisOptions)
+    Func<CAO> axisOptions,
+    Func<bool> isCategorySeries)
     : ISurfaceComposer<CO>
 {
     /// <summary>
@@ -20,38 +22,43 @@ internal sealed class ChartAxesComposer(
     private readonly ChartAxisEngine _axisEngine = new();
 
     /// <inheritdoc/>
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         CO options)
     {
         ArgumentNullException.ThrowIfNull(target);
         ArgumentNullException.ThrowIfNull(options);
 
+        if (!isCategorySeries())
+        {
+            return false;
+        }
+
         var mergedAxisOptions = Merge(axisOptions(), options.DefaultAxisOptions);
 
         if (!mergedAxisOptions.Show)
         {
-            return;
+            return false;
         }
 
         var payload = _axisEngine.Build(context(), mergedAxisOptions);
 
         if (payload is null)
         {
-            return;
+            return false;
         }
 
         target.AddLayer(new AxesLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc/>
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         CO options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 
     /// <summary>

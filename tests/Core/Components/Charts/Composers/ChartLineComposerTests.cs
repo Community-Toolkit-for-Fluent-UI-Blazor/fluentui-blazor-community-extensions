@@ -21,7 +21,7 @@ public class ChartLineComposerTests
             YAxis = new ChartAxis { AxisType = ChartAxisType.Numeric, Minimum = 0, Maximum = 10, Map = v => 100 - v }
         };
 
-        var serie = new CategoryLineSerie { Name = "Serie" };
+        var serie = new LineSerie { Name = "Serie" };
         serie.UpdateItems([new CategoryItem { Category = "A", Value = 5 }]);
 
         var composer = new ChartLineComposer("chart", () => context, () => new[] { serie });
@@ -43,7 +43,7 @@ public class ChartLineComposerTests
             YAxis = new ChartAxis { AxisType = ChartAxisType.Numeric, Minimum = 0, Maximum = 10, Map = v => 100 - v }
         };
 
-        var serie = new CategoryLineSerie { Name = "Serie", IsVisible = false };
+        var serie = new LineSerie { Name = "Serie", IsVisible = false };
 
         var composer = new ChartLineComposer("chart", () => context, () => new[] { serie });
         var target = new ChartTestRenderTarget();

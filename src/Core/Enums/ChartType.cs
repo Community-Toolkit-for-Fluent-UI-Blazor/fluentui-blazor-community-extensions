@@ -20,17 +20,17 @@ public enum ChartType
     /// <summary>
     /// Line chart using categorical X-axis.
     /// </summary>
-    CategoryLine,
+    Line,
 
     /// <summary>
     /// Area chart using categorical X-axis.
     /// </summary>
-    CategoryArea,
+    Area,
 
     /// <summary>
     /// Step line chart using categorical X-axis.
     /// </summary>
-    CategoryStep,
+    Step,
 
     /// <summary>
     /// Stacked version of Column chart.
@@ -48,6 +48,11 @@ public enum ChartType
     StackedArea,
 
     /// <summary>
+    /// Stacked version of Step chart.
+    /// </summary>
+    StackedStep,
+
+    /// <summary>
     /// 100% stacked Column chart.
     /// </summary>
     Stacked100Column,
@@ -61,6 +66,11 @@ public enum ChartType
     /// 100% stacked Area chart.
     /// </summary>
     Stacked100Area,
+
+    /// <summary>
+    /// 100% stacked Step chart.
+    /// </summary>
+    Stacked100Step,
 
     /// <summary>
     /// Standard XY line chart.

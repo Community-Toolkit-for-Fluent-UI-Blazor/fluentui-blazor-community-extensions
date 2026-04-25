@@ -3,7 +3,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Options;
 /// <summary>
 /// Represents the options for a bubble chart serie.
 /// </summary>
-public sealed class BubbleSerieOptions : IChartSerieOptions
+public sealed class BubbleSerieOptions : CategorySerieOptions
 {
     /// <summary>
     /// Gets the minimum radius of the bubbles.
@@ -14,8 +14,5 @@ public sealed class BubbleSerieOptions : IChartSerieOptions
     /// Gets the maximum radius of the bubbles.
     /// </summary>
     public double MaxRadius { get; init; } = 30;
-
-    /// <inheritdoc />
-    public ChartAnimationOptions? Animation { get; set; }
 }
 

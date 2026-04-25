@@ -59,11 +59,7 @@ internal static class ChartAreaSvgBuilder
         var style = payload.GetStyleForState();
         var serieIndex = payload.SerieIndex;
         var seriesCount = context.Theme.Palette.Series.Count;
-
-        var fill = seriesCount == 0
-            ? style.Fill
-            : context.Theme.Palette.Series[serieIndex % seriesCount].ToString();
-
+        var fill = seriesCount == 0 ? style.Fill : context.Theme.Palette.Series[serieIndex % seriesCount].ToString();
         var opacity = style.Opacity ?? 0.4;
 
         var path = svg.AddPath()

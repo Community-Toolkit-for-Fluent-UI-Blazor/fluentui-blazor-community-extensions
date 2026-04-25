@@ -14,6 +14,8 @@ Few charts types are shown in the examples below, but there are 30+ chart types 
 
 {{ CategoryChartExamples }}
 {{ CircularChartExamples }}
+{{ PolarChartExamples }}
+
 
 ## API Chart
 

@@ -16,7 +16,7 @@ internal sealed class StackedCategoryLineAxisFactory : IAxisFactory<CategoryLine
         var stacked = series
             .Where(s => s.IsVisible &&
                         (s.ChartType == ChartType.StackedArea))
-            .OfType<CategoryLineSerie>()
+            .OfType<Series.LineSerie>()
             .ToList();
 
         if (stacked.Count == 0)

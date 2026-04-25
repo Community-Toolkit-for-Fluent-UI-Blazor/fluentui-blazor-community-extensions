@@ -1,5 +1,5 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Series;
+using FluentUI.Blazor.Community.Components.Charts.Options;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
@@ -20,7 +20,7 @@ internal static class CategoryLineLayoutEngine
     /// <returns>A tuple containing the generated line path payload and a read-only list of point payloads representing the
     /// mapped chart points.</returns>
     public static (LinePath Path, IReadOnlyList<LinePoint> Points) Layout(
-        CategoryLineSerie serie,
+        Series.LineSerie serie,
         ChartContext context)
     {
         var items = CategoryAxisEngine.Sort(serie.Items, serie.Options);
@@ -48,7 +48,7 @@ internal static class CategoryLineLayoutEngine
         {
             Id = serie.Id ?? $"line-{Guid.NewGuid()}",
             Points = points,
-            Smooth = serie.Options?.Smooth ?? false
+            Smooth = (serie.Options as CategoryLineOptions)?.Smooth ?? false
         };
 
         return (path, pointPayloads);

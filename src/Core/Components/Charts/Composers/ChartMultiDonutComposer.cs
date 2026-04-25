@@ -23,7 +23,7 @@ internal sealed class ChartMultiDonutComposer(
     : ISurfaceComposer<CO>
 {
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         CO chartOptions)
     {
@@ -34,7 +34,7 @@ internal sealed class ChartMultiDonutComposer(
 
         if (filtered.Count == 0)
         {
-            return;
+            return false;
         }
 
         var defaults = chartOptions.DefaultPieStyle;
@@ -162,16 +162,16 @@ internal sealed class ChartMultiDonutComposer(
                 }
             ));
         }
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
-        CO chartOptions)
+        CO options)
     {
-        Compose(target, chartOptions);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 
     /// <summary>

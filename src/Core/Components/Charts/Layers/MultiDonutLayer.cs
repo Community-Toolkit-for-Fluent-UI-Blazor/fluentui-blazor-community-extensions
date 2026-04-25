@@ -7,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 /// Represents the layer responsible for rendering a multi donut chart.
 /// </summary>
 /// <param name="payload">The payload containing the data and configuration for the donut chart.</param>
-internal sealed class MultiDonutLayer(MultiDonutPayloadCollection payload) : ILayer<MultiDonutPayloadCollection>
+internal sealed class MultiDonutLayer(MultiDonutPayloadCollection payload) : IChartLayer, ILayer<MultiDonutPayloadCollection>
 {
     /// <inheritdoc />
     public string Key => "multi-donut";

@@ -22,4 +22,14 @@ public abstract class CategorySerieOptions : IChartSerieOptions
 
     /// <inheritdoc />
     public ChartAnimationOptions? Animation { get; set; }
+
+    /// <summary>
+    /// Gets a value indicating whether markers are shown at data points.
+    /// </summary>
+    public bool ShowMarkers { get; init; } = true;
+
+    /// <summary>
+    /// Gets the size of the marker.
+    /// </summary>
+    public double MarkerSize { get; init; } = 4;
 }

@@ -7,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 /// Represents a layer implementation for stacked area charts.
 /// </summary>
 /// <param name="payload">The payload for the stacked area layer.</param>
-internal sealed class StackedAreaLayer(StackedAreaPayload payload) : ILayer<StackedAreaPayload>
+internal sealed class StackedAreaLayer(StackedAreaPayload payload) : IChartLayer, ILayer<StackedAreaPayload>
 {
     /// <inheritdoc />
     public string Key => "stacked-area";

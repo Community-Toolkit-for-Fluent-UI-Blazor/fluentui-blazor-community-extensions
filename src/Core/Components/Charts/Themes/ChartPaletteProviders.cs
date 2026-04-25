@@ -29,6 +29,7 @@ public sealed class ChartPaletteProviders
         _providers["Spring"] = new SpringPaletteProvider();
         _providers["Summer"] = new SummerPaletteProvider();
         _providers["Autumn"] = new AutumnPaletteProvider();
+        _providers["Radar"] = new RadarPaletteProvider();
     }
 
     /// <summary>

@@ -55,6 +55,12 @@ internal static class ChartAxisResolver
         ChartTypography typo,
         ChartRect axisArea)
     {
+        if (context.XAxis?.AxisType == ChartAxisType.Polar ||
+            context.YAxis?.AxisType == ChartAxisType.Polar)
+        {
+            return;
+        }
+
         if (context.YAxis is { Labels.Count: > 0 })
         {
             ComputeYAxisLabelGeometry(context.YAxis, typo.Axis.FontSize);
@@ -75,6 +81,13 @@ internal static class ChartAxisResolver
     /// <param name="layout">The chart layout configuration containing tick length, axis thickness, and spacing values.</param>
     private static void ComputeAxisMargins(ChartContext context, ChartLayout layout)
     {
+        if (context.XAxis?.AxisType == ChartAxisType.Polar ||
+            context.YAxis?.AxisType == ChartAxisType.Polar)
+        {
+            context.AxesMargins = new Thickness(0, 0, 0, 0);
+            return;
+        }
+
         var marginLeft =
             (context.YAxis?.LabelWidth ?? 0) +
             layout.TickLength +
@@ -120,6 +133,24 @@ internal static class ChartAxisResolver
     /// <param name="ctx">The chart context containing the axes and plot area to configure.</param>
     private static void FixMaps(ChartContext ctx)
     {
+
+        if (ctx.XAxis is null ||
+            ctx.YAxis is null)
+        {
+            return;
+        }
+
+        if (ctx.XAxis.AxisType == ChartAxisType.Polar ||
+            ctx.YAxis.AxisType == ChartAxisType.Polar)
+        {
+            return;
+        }
+
+        if (ctx.PlotArea.Width <= 0 || ctx.PlotArea.Height <= 0)
+        {
+            return;
+        }
+
         var plot = ctx.PlotArea;
 
         if (ctx.XAxis is { AxisType: ChartAxisType.Category } xcat)
@@ -227,14 +258,14 @@ internal static class ChartAxisResolver
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
-        else if (types.TrueForAll(x => x == ChartType.CategoryLine))
+        else if (types.TrueForAll(x => x == ChartType.Line))
         {
             var (xAxis, yAxis) = ChartAxesFactory.CategoryLine.CreateAxes(
                 options.DefaultCategoryLineOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
-        else if (types.TrueForAll(x => x == ChartType.CategoryArea))
+        else if (types.TrueForAll(x => x == ChartType.Area))
         {
             var (xAxis, yAxis) = ChartAxesFactory.CategoryLine.CreateAxes(
                 options.DefaultCategoryLineOptions.Sort, series, axisArea);
@@ -253,6 +284,37 @@ internal static class ChartAxisResolver
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
+        else if (types.TrueForAll(x => x == ChartType.Step))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Step.CreateAxes(
+                options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.Stacked100Step))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Step.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.StackedStep))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.StackedStep.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.Scatter))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Scatter.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.Bubble))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Bubble.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
         else if (types.All(t => ChartTypeInfo.Categories[t] == ChartCategory.Category))
         {
             ChartAxesBuilder.BuildCategoryAxes(context, series);
@@ -260,6 +322,12 @@ internal static class ChartAxisResolver
         else if (types.All(t => ChartTypeInfo.Categories[t] == ChartCategory.XY))
         {
             // XY (scatter, bubble) à implémenter plus tard
+        }
+        else if (types.TrueForAll(x => x == ChartType.Radar))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Polar.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
         }
         else if (types.All(t => ChartTypeInfo.Categories[t] is ChartCategory.Polar or ChartCategory.Hierarchy))
         {
@@ -282,6 +350,12 @@ internal static class ChartAxisResolver
     /// <param name="context">The chart context containing axis information for which numeric labels will be generated and assigned.</param>
     private static void GenerateNumericLabels(ChartContext context)
     {
+        if (context.XAxis?.AxisType is ChartAxisType.Polar ||
+            context.YAxis?.AxisType is ChartAxisType.Polar)
+        {
+            return;
+        }
+
         if (context.XAxis is { AxisType: ChartAxisType.Numeric } xnum)
         {
             if (xnum.Labels is null)
@@ -324,9 +398,9 @@ internal static class ChartAxisResolver
     /// <param name="availableWidthPerCategory">The maximum width available for each category label on the X-axis, in device-independent units. Must be greater
     /// than zero.</param>
     private static void ComputeXAxisLabelGeometry(
-    ChartAxis axis,
-    double fontSize,
-    double availableWidthPerCategory)
+        ChartAxis axis,
+        double fontSize,
+        double availableWidthPerCategory)
     {
         if (axis.Labels is null || axis.Labels.Count == 0)
         {
@@ -389,8 +463,8 @@ internal static class ChartAxisResolver
     /// collection of labels.</param>
     /// <param name="fontSize">The font size, in device-independent units, to use when measuring the axis labels. Must be greater than zero.</param>
     private static void ComputeYAxisLabelGeometry(
-    ChartAxis axis,
-    double fontSize)
+        ChartAxis axis,
+        double fontSize)
     {
         if (axis.Labels is null || axis.Labels.Count == 0)
         {

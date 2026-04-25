@@ -10,7 +10,7 @@ namespace FluentUI.Blazor.Community.Components;
 internal sealed class BackgroundComposer : ISurfaceComposer<SurfaceBackgroundOptions>
 {
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         SurfaceBackgroundOptions options)
     {
@@ -18,19 +18,19 @@ internal sealed class BackgroundComposer : ISurfaceComposer<SurfaceBackgroundOpt
 
         if (payload is null)
         {
-            return;
+            return false;
         }
 
         target.AddLayer(new BackgroundLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         SurfaceBackgroundOptions options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

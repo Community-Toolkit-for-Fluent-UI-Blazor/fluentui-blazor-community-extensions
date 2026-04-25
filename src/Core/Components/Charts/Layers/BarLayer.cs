@@ -3,7 +3,7 @@ using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 
-internal sealed class BarLayer(BarPayloadCollection payload) : ILayer<BarPayloadCollection>
+internal sealed class BarLayer(BarPayloadCollection payload) : IChartLayer, ILayer<BarPayloadCollection>
 {
     /// <inheritdoc />
     public string Key => "bar";

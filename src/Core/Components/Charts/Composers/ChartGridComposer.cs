@@ -20,7 +20,7 @@ internal sealed class ChartGridComposer(
     private readonly ChartGridEngine _gridEngine = new();
 
     /// <inheritdoc/>
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         CO options)
     {
@@ -32,27 +32,27 @@ internal sealed class ChartGridComposer(
         if (!mergedGridOptions.ShowHorizontal &&
             !mergedGridOptions.ShowVertical)
         {
-            return;
+            return false;
         }
 
         var payload = _gridEngine.Build(context(), mergedGridOptions);
 
         if (payload is null)
         {
-            return;
+            return false;
         }
 
         target.AddLayer(new GridLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc/>
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         CO options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 
     /// <summary>

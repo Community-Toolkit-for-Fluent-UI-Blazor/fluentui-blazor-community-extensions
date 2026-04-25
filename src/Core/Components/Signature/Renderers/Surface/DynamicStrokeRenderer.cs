@@ -19,18 +19,16 @@ internal sealed class DynamicStrokeRenderer : ISignatureStrokeRenderer
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)
     {
-        Compose(target, strokes, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, strokes, options));
     }
 
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)
@@ -39,12 +37,14 @@ internal sealed class DynamicStrokeRenderer : ISignatureStrokeRenderer
 
         if (current is null || current.Points.Count == 0)
         {
-            return;
+            return false;
         }
 
         var payload = PayloadFactory.CreateDynamicStroke(current, [], null);
 
         target.AddLayer(new DynamicStrokeLayer(payload));
+
+        return true;
     }
 }
 

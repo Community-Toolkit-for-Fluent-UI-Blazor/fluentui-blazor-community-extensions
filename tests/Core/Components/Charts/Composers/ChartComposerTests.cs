@@ -11,15 +11,16 @@ public class ChartComposerTests
     {
         public int ComposeCount { get; private set; }
 
-        public void Compose(ISurfaceRenderTarget target, ChartOptions options)
+        public bool Compose(ISurfaceRenderTarget target, ChartOptions options)
         {
             ComposeCount++;
+            return true;
         }
 
-        public ValueTask ComposeAsync(ISurfaceRenderTarget target, ChartOptions options)
+        public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, ChartOptions options)
         {
             ComposeCount++;
-            return ValueTask.CompletedTask;
+            return ValueTask.FromResult(Compose(target, options));
         }
     }
 

@@ -8,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 /// </summary>
 /// <param name="payload">The payload containing the layout information for the chart.</param>
 internal sealed record ChartLayoutLayer(ChartLayoutPayload payload)
-    : ILayer<ChartLayoutPayload>
+    : IChartLayer, ILayer<ChartLayoutPayload>
 {
     /// <inheritdoc />
     public string Key => "chart-layout";

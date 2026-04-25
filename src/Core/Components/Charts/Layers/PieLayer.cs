@@ -7,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 /// Represents the layer responsible for rendering a pie chart.
 /// </summary>
 /// <param name="payload">The payload containing the data and configuration for the pie chart.</param>
-internal sealed class PieLayer(PiePayloadCollection payload) : ILayer<PiePayloadCollection>
+internal sealed class PieLayer(PiePayloadCollection payload) : IChartLayer, ILayer<PiePayloadCollection>
 {
     /// <inheritdoc />
     public string Key => "pie";

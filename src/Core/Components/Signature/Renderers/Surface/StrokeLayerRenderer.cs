@@ -11,29 +11,31 @@ internal sealed class StrokeLayerRenderer
     : ISignatureStrokeRenderer
 {
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)
     {
         if (string.IsNullOrEmpty(options.StrokeLayer.LayerId))
         {
-            return;
+            return false;
         }
 
         var payload = PayloadFactory.CreateStrokeLayer(options.StrokeLayer.LayerId, strokes);
 
         target.AddLayer(new StrokeLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options)
     {
         Compose(target, strokes, options);
 
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, strokes, options));
     }
 }

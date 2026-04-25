@@ -13,21 +13,21 @@ namespace FluentUI.Blazor.Community.Components;
 /// <remarks>Use this class to configure and render a line series within a category-based chart. The series
 /// displays data points connected by lines, with customizable options and data items. This component is intended for
 /// use with the Fluent UI Blazor library and follows its configuration patterns.</remarks>
-public sealed class Stacked100AreaSerie
+public sealed class AreaSerie
     : SerieBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="Stacked100AreaSerie"/> class with the specified library configuration.
+    /// Initializes a new instance of the <see cref="AreaSerie"/> class with the specified library configuration.
     /// </summary>
     /// <param name="configuration">The configuration settings for the Fluent UI Blazor library.</param>
-    public Stacked100AreaSerie(LibraryConfiguration configuration)
+    public AreaSerie(LibraryConfiguration configuration)
         : base(configuration)
     {
         Id = Identifier.NewId();
     }
 
     /// <inheritdoc />
-    protected internal override ChartType ChartType => ChartType.Stacked100Area;
+    protected internal override ChartType ChartType => ChartType.Area;
 
     /// <summary>
     /// Gets the collection of category items to display in the component.
@@ -44,7 +44,7 @@ public sealed class Stacked100AreaSerie
     /// <inheritdoc />
     protected internal override ChartSerie Create()
     {
-        var cls = new CategoryLineSerie
+        var cls = new Charts.Series.LineSerie
         {
             Id = Id!,
             Name = Name,
@@ -55,9 +55,7 @@ public sealed class Stacked100AreaSerie
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled,
             Options = Options,
-            IsArea = true,
-            IsStacked = true,
-            IsFull = true
+            LineType = LineChartType.Area
         };
 
         cls.UpdateItems(Items);

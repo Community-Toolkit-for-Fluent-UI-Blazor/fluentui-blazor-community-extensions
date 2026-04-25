@@ -49,26 +49,30 @@ internal sealed class CompositeSignatureRenderer
     /// <param name="strokes">The collection of signature strokes to be rendered on the surface.</param>
     /// <param name="options">The rendering options that control the appearance and behavior of the rendering process.</param>
     /// <param name="engineOptions">The engine options that control the appearance and behavior of the rendering process.</param>
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options,
         SignatureEngineOptions engineOptions)
     {
+        var composed = false;
+
         foreach (var renderer in _surfaceRenderers)
         {
-            renderer.Compose(target, options);
+            composed |= renderer.Compose(target, options);
         }
 
         foreach (var renderer in _strokeRenderers)
         {
-            renderer.Compose(target, strokes, options);
+            composed |= renderer.Compose(target, strokes, options);
         }
 
         foreach (var renderer in _surfaceEngineRenderers)
         {
-            renderer.Compose(target, engineOptions);
+            composed |= renderer.Compose(target, engineOptions);
         }
+
+        return composed;
     }
 
     /// <summary>
@@ -79,25 +83,29 @@ internal sealed class CompositeSignatureRenderer
     /// <param name="options">The rendering options that control how the signature strokes are displayed.</param>
     /// <param name="engineOptions">The engine options that control the appearance and behavior of the rendering process.</param>
     /// <returns>A task that represents the asynchronous rendering operation.</returns>
-    public async ValueTask RenderAsync(
+    public async ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         IReadOnlyList<SignatureStroke> strokes,
         SignatureRenderingOptions options,
         SignatureEngineOptions engineOptions)
     {
+        var composed = false;
+
         foreach (var renderer in _surfaceRenderers)
         {
-            await renderer.ComposeAsync(target, options);
+            composed |= await renderer.ComposeAsync(target, options);
         }
 
         foreach (var renderer in _strokeRenderers)
         {
-            await renderer.ComposeAsync(target, strokes, options);
+            composed |= await renderer.ComposeAsync(target, strokes, options);
         }
 
         foreach (var renderer in _surfaceEngineRenderers)
         {
-            await renderer.ComposeAsync(target, engineOptions);
+            composed |= await renderer.ComposeAsync(target, engineOptions);
         }
+
+        return composed;
     }
 }

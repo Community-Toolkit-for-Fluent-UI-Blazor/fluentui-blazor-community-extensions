@@ -29,14 +29,19 @@ internal sealed class ChartLayoutComposer(
     [
         ChartType.Bar,
         ChartType.Column,
-        ChartType.CategoryLine,
-        ChartType.CategoryArea,
+        ChartType.Line,
+        ChartType.Area,
         ChartType.StackedBar,
         ChartType.StackedColumn,
         ChartType.StackedArea,
         ChartType.Stacked100Area,
         ChartType.Stacked100Column,
-        ChartType.Stacked100Bar
+        ChartType.Stacked100Bar,
+        ChartType.Step,
+        ChartType.StackedStep,
+        ChartType.Stacked100Step,
+        ChartType.Scatter,
+        ChartType.Bubble,
     ];
 
     /// <summary>
@@ -49,8 +54,16 @@ internal sealed class ChartLayoutComposer(
         ChartType.SemiDonut,
     ];
 
+    /// <summary>
+    /// Represents the set of chart types that are considerer to have polar legends, such as radar charts.
+    /// </summary>
+    private static readonly HashSet<ChartType> s_PolarLegendTypes =
+    [
+        ChartType.Radar,
+    ];
+
     /// <inheritdoc />
-    public void Compose(ISurfaceRenderTarget target, Options.ChartOptions options)
+    public bool Compose(ISurfaceRenderTarget target, Options.ChartOptions options)
     {
         ArgumentNullException.ThrowIfNull(target);
 
@@ -64,18 +77,18 @@ internal sealed class ChartLayoutComposer(
             subtitlePayload is null &&
             legendPayload is null)
         {
-            return;
+            return false;
         }
 
         target.AddLayer(new ChartLayoutLayer(new(titlePayload, subtitlePayload, legendPayload)));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(ISurfaceRenderTarget target, Options.ChartOptions options)
+    public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, Options.ChartOptions options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 
     /// <summary>
@@ -177,6 +190,10 @@ internal sealed class ChartLayoutComposer(
             }
 
             if (s_CategoryLegendTypes.Contains(serie.ChartType))
+            {
+                items.Add(new LegendItem(serie.Name, colorIndex++));
+            }
+            else if (s_PolarLegendTypes.Contains(serie.ChartType))
             {
                 items.Add(new LegendItem(serie.Name, colorIndex++));
             }

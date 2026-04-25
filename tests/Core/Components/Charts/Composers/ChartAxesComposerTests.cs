@@ -30,7 +30,7 @@ public class ChartAxesComposerTests
 
         ChartAxesBuilder.BuildCategoryAxes(context, new[] { series });
 
-        var composer = new ChartAxesComposer(() => context, () => axisOptions);
+        var composer = new ChartAxesComposer(() => context, () => axisOptions, () => true);
         var target = new ChartTestRenderTarget();
 
         composer.Compose(target, options);
@@ -46,7 +46,7 @@ public class ChartAxesComposerTests
         var axisOptions = new ChartAxisOptions { Show = false };
         var options = new ChartOptions { DefaultAxisOptions = new ChartAxisOptions { Show = false } };
 
-        var composer = new ChartAxesComposer(() => context, () => axisOptions);
+        var composer = new ChartAxesComposer(() => context, () => axisOptions, () => true);
         var target = new ChartTestRenderTarget();
 
         composer.Compose(target, options);

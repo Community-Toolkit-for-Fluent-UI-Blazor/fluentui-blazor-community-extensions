@@ -13,35 +13,35 @@ public sealed class EraserComposer(
     Func<PointerSample?> pointerSample): ISurfaceComposer<SignatureEraserOptions>
 {
     /// <inheritdoc />
-    public void Compose(ISurfaceRenderTarget target, SignatureEraserOptions options)
+    public bool Compose(ISurfaceRenderTarget target, SignatureEraserOptions options)
     {
         if (!isEraser())
         {
-            return;
+            return false;
         }
 
         var sample = pointerSample();
 
         if (sample is null)
         {
-            return;
+            return false;
         }
 
         var payload = PayloadFactory.CreateEraser(sample, options);
 
         if (payload is null)
         {
-            return;
+            return false;
         }
 
         target.AddLayer(new EraserLayer(payload));
+
+        return true;
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureEraserOptions options)
+    public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, SignatureEraserOptions options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

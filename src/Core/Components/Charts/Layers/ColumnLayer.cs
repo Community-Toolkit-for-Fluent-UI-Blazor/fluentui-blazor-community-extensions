@@ -7,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 /// Represents a column layer in a chart.
 /// </summary>
 /// <param name="payload">The payload collection containing the data for the column layer.</param>
-internal sealed class ColumnLayer(ColumnPayloadCollection payload) : ILayer<ColumnPayloadCollection>
+internal sealed class ColumnLayer(ColumnPayloadCollection payload) : IChartLayer, ILayer<ColumnPayloadCollection>
 {
     /// <inheritdoc />
     public string Key => "column";

@@ -75,5 +75,10 @@ public enum ChartPaletteStyle
     /// <summary>
     /// Represents the Summer palette style.
     /// </summary>
-    Summer
+    Summer,
+
+    /// <summary>
+    /// Represents the Radar palette style.
+    /// </summary>
+    Radar
 }

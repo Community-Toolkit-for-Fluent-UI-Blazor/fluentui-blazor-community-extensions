@@ -344,7 +344,7 @@ public partial class SignatureSurface : FluentComponentBase, IAsyncDisposable
         }
         else
         {
-            await _renderer.RenderAsync(Target, _engine.Strokes, RenderingOptions, EngineOptions);
+            await _renderer.ComposeAsync(Target, _engine.Strokes, RenderingOptions, EngineOptions);
         }
 
         await Target.FlushAsync();

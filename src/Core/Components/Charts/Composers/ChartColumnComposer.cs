@@ -20,7 +20,7 @@ internal sealed class ChartColumnComposer(
     : ISurfaceComposer<CO>
 {
     /// <inheritdoc/>
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         CO chartOptions)
     {
@@ -31,7 +31,7 @@ internal sealed class ChartColumnComposer(
 
         if (filtered.Count == 0)
         {
-            return;
+            return false;
         }
 
         var defaults = chartOptions.DefaultBarStyle;
@@ -83,15 +83,15 @@ internal sealed class ChartColumnComposer(
 
             target.AddLayer(new ColumnLayer(new ColumnPayloadCollection(payloads)));
         }
+
+        return true;
     }
 
     /// <inheritdoc/>
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
-        CO chartOptions)
+        CO options)
     {
-        Compose(target, chartOptions);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

@@ -17,6 +17,38 @@ export namespace FluentUI.Blazor.Community.Charts {
   }
 
   const _instances = new Map<string, Chart>();
+
+  function findSizedParent(el: HTMLElement): HTMLElement {
+    let current: HTMLElement | null = el;
+
+    while (current) {
+      const style = getComputedStyle(current);
+
+      const hasExplicitHeight =
+        current.style.height ||
+        current.style.minHeight ||
+        current.style.maxHeight;
+
+      const isFlexChild =
+        style.display === "flex" && style.flexDirection !== "row";
+
+      const isGridChild =
+        style.display === "grid";
+
+      const isScrollable =
+        style.overflow !== "visible";
+
+      if (hasExplicitHeight || isFlexChild || isGridChild || isScrollable) {
+        return current;
+      }
+
+      current = current.parentElement;
+    }
+
+    return el;
+  }
+
+
   export function Initialize(id: string, visibilityThreshold: number, dotNetHelper: DotNet.DotNetObject) {
     const element = document.getElementById(id);
     if (!element) return;
@@ -28,7 +60,9 @@ export namespace FluentUI.Blazor.Community.Charts {
         dotNetHelper.invokeMethodAsync("OnResize", { width, height });
       }
     });
-    resizeObserver.observe(element);
+
+    const container = findSizedParent(element);
+    resizeObserver.observe(container);
 
     const intersectionObserver = new IntersectionObserver(entries => {
       for (let entry of entries) {
@@ -103,7 +137,7 @@ export namespace FluentUI.Blazor.Community.Charts {
     });
 
     requestAnimationFrame(() => {
-      const rect = element.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       dotNetHelper.invokeMethodAsync("OnResize", { width: rect.width, height: rect.height });
     });
   }

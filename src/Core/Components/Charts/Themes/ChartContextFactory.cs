@@ -316,7 +316,7 @@ public static class ChartThemeContextFactory
             FinalTextColor = typography.Axis.Color,
             FinalGridColor = palette.Grid,
             FinalAxisColor = palette.Axis,
-            FinalStrokeThickness = layout.AxisThickness * 1.25
+            FinalStrokeThickness = layout.AxisThickness * 1.25,
         };
     }
 }

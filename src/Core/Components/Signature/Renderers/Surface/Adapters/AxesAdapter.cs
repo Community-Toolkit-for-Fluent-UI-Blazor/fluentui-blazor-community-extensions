@@ -22,11 +22,9 @@ internal class AxesAdapter : ISurfaceComposer<SignatureRenderingOptions>
     }
 
     /// <inheritdoc />
-    public void Compose(ISurfaceRenderTarget target, SignatureRenderingOptions options)
-        => _inner.Compose(target, options.Axes);
+    public bool Compose(ISurfaceRenderTarget target, SignatureRenderingOptions options) => _inner.Compose(target, options.Axes);
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options)
-        => _inner.ComposeAsync(target, options.Axes);
+    public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, SignatureRenderingOptions options) => _inner.ComposeAsync(target, options.Axes);
 }
 

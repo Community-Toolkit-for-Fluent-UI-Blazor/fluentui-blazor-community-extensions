@@ -11,32 +11,32 @@ namespace FluentUI.Blazor.Community.Components;
 internal sealed class WatermarkComposer : ISurfaceComposer<SurfaceWatermarkOptions>
 {
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
         SurfaceWatermarkOptions options)
     {
-        Compose(target, options);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         SurfaceWatermarkOptions options)
     {
         if (!options.Enabled)
         {
-            return;
+            return false;
         }
 
         var payload = PayloadFactory.Create(options);
 
         if (payload is null)
         {
-            return;
+            return false;
         }
 
         target.AddLayer(new WatermarkLayer(payload));
+
+        return true;
     }
 }

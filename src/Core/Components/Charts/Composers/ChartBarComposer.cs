@@ -25,7 +25,7 @@ internal sealed class ChartBarComposer(
     : ISurfaceComposer<CO>
 {
     /// <inheritdoc />
-    public void Compose(
+    public bool Compose(
         ISurfaceRenderTarget target,
         CO chartOptions)
     {
@@ -36,7 +36,7 @@ internal sealed class ChartBarComposer(
 
         if (filtered.Count == 0)
         {
-            return;
+            return false;
         }
 
         var defaults = chartOptions.DefaultBarStyle;
@@ -126,15 +126,19 @@ internal sealed class ChartBarComposer(
             }
         }
 
-        if (payloads.Count > 0)
+        if (payloads.Count == 0)
         {
-            payloads.Sort((a, b) =>
-            {
-                return a.CategoryIndex.CompareTo(b.CategoryIndex);
-            });
-
-            target.AddLayer(new BarLayer(new BarPayloadCollection($"chart-bars-group", payloads)));
+            return false;
         }
+
+        payloads.Sort((a, b) =>
+        {
+            return a.CategoryIndex.CompareTo(b.CategoryIndex);
+        });
+
+        target.AddLayer(new BarLayer(new BarPayloadCollection($"chart-bars-group", payloads)));
+
+        return true;
     }
 
     private static ChartTooltipPayload GetTooltipPayload(CategoryItem item)
@@ -150,12 +154,10 @@ internal sealed class ChartBarComposer(
     }
 
     /// <inheritdoc />
-    public ValueTask ComposeAsync(
+    public ValueTask<bool> ComposeAsync(
         ISurfaceRenderTarget target,
-        CO chartOptions)
+        CO options)
     {
-        Compose(target, chartOptions);
-
-        return ValueTask.CompletedTask;
+        return ValueTask.FromResult(Compose(target, options));
     }
 }

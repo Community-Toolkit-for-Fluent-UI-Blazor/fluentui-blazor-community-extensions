@@ -7,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents a semi-donut component to render a semi-donut chart series.
 /// </summary>
-public class SemiDonutSerie : DonutSerie
+public sealed class SemiDonutSerie : DonutSerie
 {
     /// <summary>
     /// Represents a flag indicating whether the properties of the semi-donut series have changed.
