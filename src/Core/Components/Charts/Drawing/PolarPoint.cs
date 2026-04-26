@@ -4,7 +4,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Drawing;
 /// Represents a point in a polar coordinate system with both Cartesian (X, Y) and polar (Angle, Radius)
 /// representations, along with associated category and value information.
 /// </summary>
-public sealed class PolarPoint
+public sealed record PolarPoint
 {
     /// <summary>
     /// Gets the unique identifier.

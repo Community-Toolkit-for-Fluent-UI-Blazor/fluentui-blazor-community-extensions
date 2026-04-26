@@ -143,6 +143,21 @@ public enum ChartType
     PolarBar,
 
     /// <summary>
+    /// Polar scatter chart.
+    /// </summary>
+    PolarScatter,
+
+    /// <summary>
+    /// Polar bubble chart.
+    /// </summary>
+    PolarBubble,
+
+    /// <summary>
+    /// Polar rose chart
+    /// </summary>
+    PolarRose,
+
+    /// <summary>
     /// Treemap chart.
     /// </summary>
     Treemap,

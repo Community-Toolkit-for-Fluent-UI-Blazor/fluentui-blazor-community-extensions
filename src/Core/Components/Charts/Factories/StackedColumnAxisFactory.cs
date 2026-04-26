@@ -42,7 +42,7 @@ internal sealed class StackedColumnAxisFactory : IAxisFactory<ColumnSerieOptions
                     continue;
                 }
 
-                var category = item.Category;
+                var category = item.Name;
                 var value = item.Value;
 
                 if (sums.TryGetValue(category, out var current))

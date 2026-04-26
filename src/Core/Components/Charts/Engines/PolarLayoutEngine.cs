@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
+using FluentUI.Blazor.Community.Components.Charts.Helpers;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
@@ -21,7 +22,7 @@ internal static class PolarLayoutEngine
         var items = serie.Items;
         var count = items.Count;
 
-        var (cx, cy, maxRadius) = GetPolarFrame(ctx);
+        var (cx, cy, maxRadius) = PolarHelper.GetPolarFrame(ctx);
 
         var points = new List<PolarPoint>(count);
 
@@ -49,15 +50,5 @@ internal static class PolarLayoutEngine
         }
 
         return points;
-    }
-
-    private static (double cx, double cy, double maxRadius) GetPolarFrame(ChartContext ctx)
-    {
-        var plot = ctx.PlotArea;
-        var cx = plot.X + plot.Width / 2;
-        var cy = plot.Y + plot.Height / 2;
-        var maxRadius = Math.Min(plot.Width, plot.Height) / 2;
-
-        return (cx, cy, maxRadius);
     }
 }

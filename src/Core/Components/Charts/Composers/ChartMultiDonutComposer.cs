@@ -49,7 +49,7 @@ internal sealed class ChartMultiDonutComposer(
                 continue;
             }
 
-            var rings = MultiDonutLayoutEngine.Layout(multi, ctx);
+            var rings = MultiDonutLayoutEngine.Layout(multi, ctx, chartOptions);
 
             if (rings.Count == 0)
             {
@@ -64,12 +64,12 @@ internal sealed class ChartMultiDonutComposer(
             var globalColorIndex = 0;
             var slicesPerRing = new List<List<PiePayload>>(ringCount);
             var optsPerRing = new List<RadialSerieOptions>(ringCount);
+            var opts = chartOptions.DefaultDonutOptions;
 
             for (var r = 0; r < ringCount; r++)
             {
                 var ring = rings[r];
                 var donutSerie = multi.Series[r];
-                var opts = donutSerie.Options ?? new RadialSerieOptions();
                 optsPerRing.Add(opts);
 
                 var items = donutSerie.Items.Where(i => i.IsVisible).ToList();
@@ -141,7 +141,6 @@ internal sealed class ChartMultiDonutComposer(
             {
                 var ringOuter = outerMax - (ringCount - 1 - i) * thickness;
                 var ringInner = ringOuter - thickness;
-                var opts = optsPerRing[i];
 
                 donutCollections.Add(new DonutPayloadCollection
                 {

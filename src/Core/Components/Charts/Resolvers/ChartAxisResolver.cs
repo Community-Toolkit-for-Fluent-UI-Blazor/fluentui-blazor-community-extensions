@@ -323,7 +323,13 @@ internal static class ChartAxisResolver
         {
             // XY (scatter, bubble) à implémenter plus tard
         }
-        else if (types.TrueForAll(x => x == ChartType.Radar))
+        else if (types.TrueForAll(x => x == ChartType.Radar ||
+                                       x == ChartType.PolarArea ||
+                                       x == ChartType.PolarBar ||
+                                       x == ChartType.PolarLine ||
+                                       x == ChartType.PolarRose ||
+                                       x == ChartType.PolarScatter ||
+                                       x == ChartType.PolarBubble))
         {
             var (xAxis, yAxis) = ChartAxesFactory.Polar.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
             context.XAxis = xAxis;

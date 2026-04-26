@@ -25,7 +25,7 @@ internal sealed class ChartLayoutComposer(
     /// <summary>
     /// Represents the set of chart types that are considered to have category-based legends.
     /// </summary>
-    private static readonly HashSet<ChartType> s_CategoryLegendTypes =
+    private static readonly HashSet<ChartType> s_PolySeriesLegendTypes =
     [
         ChartType.Bar,
         ChartType.Column,
@@ -42,24 +42,21 @@ internal sealed class ChartLayoutComposer(
         ChartType.Stacked100Step,
         ChartType.Scatter,
         ChartType.Bubble,
+        ChartType.Radar,
+        ChartType.PolarBar,
+        ChartType.PolarLine,
     ];
 
     /// <summary>
     /// Represents the set of chart types that are considered to have circular legends, such as pie and donut charts.
     /// </summary>
-    private static readonly HashSet<ChartType> s_CircularLegendTypes =
+    private static readonly HashSet<ChartType> s_MonoSeriesLegendTypes =
     [
         ChartType.Pie,
         ChartType.Donut,
         ChartType.SemiDonut,
-    ];
-
-    /// <summary>
-    /// Represents the set of chart types that are considerer to have polar legends, such as radar charts.
-    /// </summary>
-    private static readonly HashSet<ChartType> s_PolarLegendTypes =
-    [
-        ChartType.Radar,
+        ChartType.PolarArea,
+        ChartType.PolarRose
     ];
 
     /// <inheritdoc />
@@ -68,7 +65,6 @@ internal sealed class ChartLayoutComposer(
         ArgumentNullException.ThrowIfNull(target);
 
         var ctx = context();
-
         var titlePayload = BuildTitlePayload(ctx, title());
         var subtitlePayload = BuildSubtitlePayload(ctx, subtitle());
         var legendPayload = BuildLegendPayload(ctx, legendItemShape(), series());
@@ -189,15 +185,11 @@ internal sealed class ChartLayoutComposer(
                 continue;
             }
 
-            if (s_CategoryLegendTypes.Contains(serie.ChartType))
+            if (s_PolySeriesLegendTypes.Contains(serie.ChartType))
             {
                 items.Add(new LegendItem(serie.Name, colorIndex++));
             }
-            else if (s_PolarLegendTypes.Contains(serie.ChartType))
-            {
-                items.Add(new LegendItem(serie.Name, colorIndex++));
-            }
-            else if (s_CircularLegendTypes.Contains(serie.ChartType))
+            else if (s_MonoSeriesLegendTypes.Contains(serie.ChartType))
             {
                 foreach (var item in serie.RawItems)
                 {

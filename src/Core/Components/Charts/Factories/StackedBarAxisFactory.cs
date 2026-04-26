@@ -47,7 +47,7 @@ internal sealed class StackedBarAxisFactory : IAxisFactory<BarSerieOptions>
                     continue;
                 }
 
-                var category = item.Category;
+                var category = item.Name;
                 var value = item.Value;
 
                 if (sums.TryGetValue(category, out var current))

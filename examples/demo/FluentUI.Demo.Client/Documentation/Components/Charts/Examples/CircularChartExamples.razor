@@ -20,9 +20,7 @@
         <FluentCxChart IntersectionThreshold="1" @ref="_ref" PaletteStyle="@_selectedChartPaletteStyle">
             @if (_selectedChart == ChartType.SemiDonut)
             {
-                <SemiDonutSerie Name="Donuts Chart"
-                                StartAngle="-135"
-                                EndAngle="135"
+                <SemiDonutSerie Name="Semi Donuts Chart"
                                 Items="@(_items)" />
             }
             else if (_selectedChart == ChartType.Pie)

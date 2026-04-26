@@ -22,7 +22,7 @@ public class ChartLineComposerTests
         };
 
         var serie = new LineSerie { Name = "Serie" };
-        serie.UpdateItems([new CategoryItem { Category = "A", Value = 5 }]);
+        serie.UpdateItems([new CategoryItem { Name = "A", Value = 5 }]);
 
         var composer = new ChartLineComposer("chart", () => context, () => new[] { serie });
         var target = new ChartTestRenderTarget();

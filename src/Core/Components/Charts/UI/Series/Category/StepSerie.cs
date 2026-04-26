@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.AspNetCore.Components;
@@ -35,12 +34,6 @@ public sealed class StepSerie
     [Parameter]
     public IReadOnlyList<CategoryItem> Items { get; init; } = [];
 
-    /// <summary>
-    /// Gets or sets the configuration options for the step series.
-    /// </summary>
-    [Parameter]
-    public CategoryLineOptions? Options { get; init; }
-
     /// <inheritdoc />
     protected internal override ChartSerie Create()
     {
@@ -54,7 +47,6 @@ public sealed class StepSerie
             Interaction = Interaction,
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled,
-            Options = Options,
             LineType = LineChartType.Step
         };
 

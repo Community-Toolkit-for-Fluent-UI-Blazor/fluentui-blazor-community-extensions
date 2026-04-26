@@ -38,7 +38,7 @@ internal sealed class Stacked100BarAxisFactory : IAxisFactory<BarSerieOptions>
         var categories = bars
             .SelectMany(s => s.Items)
             .Where(i => i.IsVisible)
-            .Select(i => i.Category)
+            .Select(i => i.Name)
             .Distinct()
             .ToList();
 

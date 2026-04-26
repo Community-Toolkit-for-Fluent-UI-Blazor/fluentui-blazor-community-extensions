@@ -29,7 +29,7 @@ internal sealed class StepAxisFactory : IAxisFactory<CategoryLineOptions>
         var categories = stepSeries
             .SelectMany(s => s.Items)
             .Where(i => i.IsVisible)
-            .Select(i => i.Category)
+            .Select(i => i.Name)
             .Distinct()
             .ToList();
 

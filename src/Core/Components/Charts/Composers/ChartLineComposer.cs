@@ -3,7 +3,6 @@ using FluentUI.Blazor.Community.Components.Charts;
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Charts.Engines;
 using FluentUI.Blazor.Community.Components.Charts.Layers;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Payloads;
 using FluentUI.Blazor.Community.Components.Charts.Styles;
 using FluentUI.Blazor.Community.Components.Enums;
@@ -45,7 +44,7 @@ internal sealed class ChartLineComposer
                options,
                markerDefaults ?? options.DefaultMarkerStyles,
                defaults ?? options.DefaultLineStyles,
-               StackedAreaLayoutEngine.Layout(serie, filtered, index, ctx)),
+               StackedAreaLayoutEngine.Layout(serie, filtered, index, ctx, options)),
 
             [LineChartType.Stacked100Area] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildStackedPayload(
                target,
@@ -54,7 +53,7 @@ internal sealed class ChartLineComposer
                options,
                markerDefaults ?? options.DefaultMarkerStyles,
                defaults ?? options.DefaultLineStyles,
-               StackedAreaLayoutEngine.Layout(serie, filtered, index, ctx)),
+               StackedAreaLayoutEngine.Layout(serie, filtered, index, ctx, options)),
 
             [LineChartType.StackedStep] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildStackedPayload(
                 target,
@@ -63,7 +62,7 @@ internal sealed class ChartLineComposer
                options,
                markerDefaults ?? options.DefaultMarkerStyles,
                defaults ?? options.DefaultLineStyles,
-               StackedStepLayoutEngine.Layout(serie, filtered, index, ctx)),
+               StackedStepLayoutEngine.Layout(serie, filtered, index, ctx, options)),
 
             [LineChartType.Stacked100Step] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildStackedPayload(
                target,
@@ -72,7 +71,7 @@ internal sealed class ChartLineComposer
                options,
                markerDefaults ?? options.DefaultMarkerStyles,
                defaults ?? options.DefaultLineStyles,
-               StackedStepLayoutEngine.Layout(serie, filtered, index, ctx)),
+               StackedStepLayoutEngine.Layout(serie, filtered, index, ctx, options)),
 
             [LineChartType.Scatter] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildScatterPayload(
                target,
@@ -81,7 +80,7 @@ internal sealed class ChartLineComposer
                options,
                markerDefaults ?? options.DefaultMarkerStyles,
                defaults ?? options.DefaultLineStyles,
-               ScatterLayoutEngine.Layout(serie, ctx)),
+               ScatterLayoutEngine.Layout(serie, ctx, options)),
 
             [LineChartType.Bubble] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildBubblePayload(
                 target,
@@ -90,7 +89,7 @@ internal sealed class ChartLineComposer
                 options,
                 markerDefaults ?? options.DefaultMarkerStyles,
                 defaults ?? options.DefaultLineStyles,
-                BubbleLayoutEngine.Layout(serie, ctx)),
+                BubbleLayoutEngine.Layout(serie, ctx, options)),
 
             [LineChartType.Step] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildLinePayload(
                 target,
@@ -99,7 +98,7 @@ internal sealed class ChartLineComposer
                 options,
                 markerDefaults ?? options.DefaultMarkerStyles,
                 defaults ?? options.DefaultLineStyles,
-                StepLayoutEngine.Layout(serie, ctx)),
+                StepLayoutEngine.Layout(serie, ctx, options)),
 
             [LineChartType.Line] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildLinePayload(
                 target,
@@ -108,7 +107,7 @@ internal sealed class ChartLineComposer
                 options,
                 markerDefaults ?? options.DefaultMarkerStyles,
                 defaults ?? options.DefaultLineStyles,
-                CategoryLineLayoutEngine.Layout(serie, ctx)),
+                CategoryLineLayoutEngine.Layout(serie, ctx, options)),
 
             [LineChartType.Area] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildAreaPayload(
                 target,
@@ -118,7 +117,7 @@ internal sealed class ChartLineComposer
                 options,
                 markerDefaults ?? options.DefaultMarkerStyles,
                 defaults ?? options.DefaultLineStyles,
-                CategoryLineLayoutEngine.Layout(serie, ctx))
+                CategoryLineLayoutEngine.Layout(serie, ctx, options))
         };
     }
 
@@ -439,7 +438,7 @@ internal sealed class ChartLineComposer
             Selected = ChartStyleResolver.Resolve(serie.Style?.Selected, chartLinePointStyle.Selected),
             Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
             Tooltip = new ChartTooltipPayload(),
-            Radius = (serie?.Options as ScatterSerieOptions)?.Radius ?? 5.0
+            Radius = options.DefaultScatterOptions.Radius
         };
 
         target.AddLayer(new ScatterLayer(payload));

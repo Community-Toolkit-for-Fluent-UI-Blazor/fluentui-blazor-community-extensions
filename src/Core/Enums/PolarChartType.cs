@@ -6,22 +6,37 @@ namespace FluentUI.Blazor.Community.Components.Enums;
 public enum PolarChartType
 {
     /// <summary>
-    /// 
+    /// Specifies a radar chart.
     /// </summary>
     Radar,
 
     /// <summary>
-    /// 
+    /// Specifies a polar area chart.
     /// </summary>
-    PolarArea,
+    Area,
 
     /// <summary>
-    /// 
+    /// Specifies a polar line chart.
     /// </summary>
-    PolarLine,
+    Line,
 
     /// <summary>
-    /// 
+    /// Specifies a polar bar chart.
     /// </summary>
-    PolarBar
+    Bar,
+
+    /// <summary>
+    /// Specifies a rose chart.
+    /// </summary>
+    Rose,
+
+    /// <summary>
+    /// Specifies a polar scatter chart.
+    /// </summary>
+    Scatter,
+
+    /// <summary>
+    /// Specifies a polar bubble chart.
+    /// </summary>
+    Bubble
 }

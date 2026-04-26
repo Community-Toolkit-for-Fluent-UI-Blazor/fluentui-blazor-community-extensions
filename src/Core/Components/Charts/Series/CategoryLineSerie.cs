@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Series;
@@ -10,7 +9,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Series;
 /// category and is connected by straight lines. This series type is suitable for showing trends across discrete
 /// categories.</remarks>
 public sealed class LineSerie
-    : ChartSerie<CategoryItem, CategorySerieOptions>
+    : ChartSerie<CategoryItem>
 {
     /// <inheritdoc />
     public override ChartType ChartType => LineType switch

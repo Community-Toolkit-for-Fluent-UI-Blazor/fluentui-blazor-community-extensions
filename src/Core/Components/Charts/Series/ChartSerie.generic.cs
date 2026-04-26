@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Charts.Options;
 namespace FluentUI.Blazor.Community.Components.Charts.Series;
 
 /// <summary>
@@ -6,9 +5,8 @@ namespace FluentUI.Blazor.Community.Components.Charts.Series;
 /// Contains only identity, visibility, styling, animation and interaction.
 /// Data and options belong to derived types.
 /// </summary>
-public abstract class ChartSerie<TItem, TOptions> : ChartSerie
+public abstract class ChartSerie<TItem> : ChartSerie
     where TItem : ChartItem
-    where TOptions : IChartSerieOptions
 {
     private readonly List<TItem> _items = [];
 
@@ -16,11 +14,6 @@ public abstract class ChartSerie<TItem, TOptions> : ChartSerie
     /// Gets the collection of items to be displayed.
     /// </summary>
     public IReadOnlyList<TItem> Items => _items;
-
-    /// <summary>
-    /// Gets the configuration options for the chart series.
-    /// </summary>
-    public TOptions? Options { get; set; }
 
     /// <inheritdoc />
     protected internal sealed override int ItemsCount => Items.Count;

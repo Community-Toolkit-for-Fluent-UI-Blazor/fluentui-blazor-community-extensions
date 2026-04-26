@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.AspNetCore.Components;
@@ -32,22 +31,19 @@ public class DonutSerie : SerieBase
     public IReadOnlyList<RadialSlice> Items { get; set; } = [];
 
     /// <summary>
-    /// Gets or sets the configuration options for the bar series.
-    /// </summary>
-    [Parameter]
-    public RadialSerieOptions? Options { get; set; } = new();
-
-    /// <summary>
     /// Gets or sets the parent multi-donut series that this donut series belongs to, if applicable. This property is used to establish a hierarchical relationship between individual donut series and a containing multi-donut series, allowing for coordinated rendering and interaction within a multi-donut chart context.
     /// </summary>
     [CascadingParameter]
-    private MultiDonutSerie? ParentMultiDonutSerie { get; set; }
+    internal MultiDonutSerie? ParentMultiDonutSerie { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the animation alternates direction on each pie.
     /// </summary>
     [Parameter]
     public bool AlternateAnimation { get; set; }
+
+    /// <inheritdoc />
+    protected internal override bool HasParent => ParentMultiDonutSerie is not null;
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -79,7 +75,6 @@ public class DonutSerie : SerieBase
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled,
             AlternateAnimation = AlternateAnimation,
-            Options = Options,
             IsPartOfMultiDonut = ParentMultiDonutSerie is not null
         };
 

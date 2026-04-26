@@ -33,7 +33,7 @@ public abstract class ChartItem
     /// <summary>
     /// Gets the optional name of the item.
     /// </summary>
-    public string? Name { get; init; }
+    public required string Name { get; init; } = string.Empty;
 
     /// <summary>
     /// Gets the optional tag object for custom use.

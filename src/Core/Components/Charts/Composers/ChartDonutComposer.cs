@@ -1,6 +1,5 @@
+ using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Charts.Layers;
-using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Payloads;
 using FluentUI.Blazor.Community.Components.Charts.Styles;
 using FluentUI.Blazor.Community.Components.Enums;
@@ -37,12 +36,12 @@ internal sealed class ChartDonutComposer(
         }
 
         var defaults = chartOptions.DefaultDonutStyle;
+        var opts = chartOptions.DefaultDonutOptions;
         var ctx = context();
 
         for (var serieIndex = 0; serieIndex < filtered.Count; serieIndex++)
         {
             var serie = filtered[serieIndex];
-            var opts = serie.Options ?? new RadialSerieOptions();
             var slices = DonutLayoutEngine.Layout(serie, ctx, opts);
 
             if (slices.Count == 0)

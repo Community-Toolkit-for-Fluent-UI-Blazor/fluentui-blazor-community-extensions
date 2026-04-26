@@ -13,7 +13,8 @@ internal static class ChartPolarAxesEngine
     public static PolarAxesPayload? Build(
         ChartContext ctx,
         CAO options,
-        CO chartOptions)
+        CO chartOptions,
+        PolarChartType polarChartType)
     {
         if (!options.Show ||
             ctx.XAxis is null ||
@@ -31,7 +32,8 @@ internal static class ChartPolarAxesEngine
             ConcentricGrid = BuildConcentricGrid(ctx, radiusAxis, options, chartOptions),
             AngleLabels = BuildAngleLabels(ctx, angleAxis, options),
             RadiusLabels = BuildRadiusLabels(ctx, radiusAxis, options, chartOptions),
-            Grid = chartOptions.DefaultRadarAxesOptions.Grid
+            Grid = chartOptions.DefaultRadarAxesOptions.Grid,
+            ChartType = polarChartType
         };
     }
 
@@ -40,7 +42,7 @@ internal static class ChartPolarAxesEngine
         ChartAxis angleAxis)
     {
         var list = new List<PolarAxisLinePayload>();
-        var (cx, cy, maxRadius) = GetPolarFrame(ctx);
+        var (cx, cy, maxRadius) = PolarHelper.GetPolarFrame(ctx);
 
         var count = angleAxis.Labels?.Count ?? 0;
 
@@ -62,16 +64,6 @@ internal static class ChartPolarAxesEngine
         return list;
     }
 
-    private static (double cx, double cy, double maxRadius) GetPolarFrame(ChartContext ctx)
-    {
-        var plot = ctx.PlotArea;
-        var cx = plot.X + plot.Width / 2;
-        var cy = plot.Y + plot.Height / 2;
-        var maxRadius = Math.Min(plot.Width, plot.Height) / 2;
-
-        return (cx, cy, maxRadius);
-    }
-
     private static List<PolarGridCirclePayload> BuildConcentricGrid(
         ChartContext ctx,
         ChartAxis radiusAxis,
@@ -79,10 +71,11 @@ internal static class ChartPolarAxesEngine
         CO chartOptions)
     {
         var list = new List<PolarGridCirclePayload>();
-        var (cx, cy, maxRadius) = GetPolarFrame(ctx);
+        var (cx, cy, maxRadius) = PolarHelper.GetPolarFrame(ctx);
         var maxTicks = chartOptions.DefaultRadarAxesOptions.GridLevels ?? options.MaxTicks;
         var ticks = NumericTickGenerator.GenerateNice(0, radiusAxis.DataMaximum, maxTicks);
         var max = ticks.Count > 0 ? ticks[^1] : 0;
+        ctx.PolarNiceMax = max;
 
         foreach (var v in ticks)
         {
@@ -107,7 +100,7 @@ internal static class ChartPolarAxesEngine
         var list = new List<PolarLabelPayload>();
         var plot = ctx.PlotArea;
         var count = angleAxis.Labels?.Count ?? 0;
-        var (cx, cy, maxRadius) = GetPolarFrame(ctx);
+        var (cx, cy, maxRadius) = PolarHelper.GetPolarFrame(ctx);
         var r = maxRadius + options.LabelOffset;
 
         for (var i = 0; i < count; i++)
@@ -138,7 +131,7 @@ internal static class ChartPolarAxesEngine
     {
         var maxTicks = chartOptions.DefaultRadarAxesOptions.GridLevels ?? options.MaxTicks;
         var list = new List<PolarLabelPayload>();
-        var (cx, cy, maxRadius) = GetPolarFrame(ctx);
+        var (cx, cy, maxRadius) = PolarHelper.GetPolarFrame(ctx);
         var ticks = NumericTickGenerator.GenerateNice(0, radiusAxis.DataMaximum, maxTicks);
         var max = ticks.Count > 0 ? ticks[^1] : 0;
 

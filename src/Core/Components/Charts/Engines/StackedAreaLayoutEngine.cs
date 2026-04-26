@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Enums;
+using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
@@ -16,16 +17,18 @@ internal static class StackedAreaLayoutEngine
     /// <param name="allSeries">Collection of all series in the chart, used for calculating stacked values.</param>
     /// <param name="serieIndex">Zero-based index of the serie within the allSeries collection.</param>
     /// <param name="context">Chart context containing axis mapping information.</param>
+    /// <param name="options">Chart options containing configuration settings.</param>
     /// <returns>A tuple containing the generated line path and a read-only list of positioned line points.</returns>
     public static (LinePath TopPath, LinePath BottomPath, IReadOnlyList<LinePoint> Points) Layout(
         Series.LineSerie serie,
         IReadOnlyList<Series.LineSerie> allSeries,
         int serieIndex,
-        ChartContext context)
+        ChartContext context,
+        CO options)
     {
-        var items = CategoryAxisEngine.Sort(serie.Items, serie.Options);
+        var serieOptions = options.DefaultCategoryLineOptions;
+        var items = CategoryAxisEngine.Sort(serie.Items, serieOptions);
         var count = items.Count;
-
         var topPoints = new List<ChartPoint>(count);
         var bottomPoints = new List<ChartPoint>(count);
         var payloadPoints = new List<LinePoint>(count);

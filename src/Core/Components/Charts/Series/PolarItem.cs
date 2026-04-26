@@ -6,11 +6,6 @@ namespace FluentUI.Blazor.Community.Components.Charts.Series;
 public sealed class PolarItem : ChartItem
 {
     /// <summary>
-    /// Gets the category (angular label) associated with this item.
-    /// </summary>
-    public required string Category { get; init; }
-
-    /// <summary>
     /// Gets the numeric value (radial magnitude) associated with this item.
     /// </summary>
     public required double Value { get; init; }

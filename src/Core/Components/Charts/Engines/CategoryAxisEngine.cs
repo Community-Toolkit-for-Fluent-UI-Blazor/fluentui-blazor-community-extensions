@@ -10,16 +10,16 @@ namespace FluentUI.Blazor.Community.Components.Charts;
 internal static class CategoryAxisEngine
 {
     /// <summary>
-    /// Returns a sorted list of category items based on their category names, or the original list if sorting is
+    /// Returns a sorted list of category items based on their names, or the original list if sorting is
     /// disabled in the options.
     /// </summary>
     /// <remarks>If the options parameter is null or its Sort property is false, the method returns the input
-    /// list without modification. Otherwise, a new list is returned with items sorted by their Category
+    /// list without modification. Otherwise, a new list is returned with items sorted by their Name
     /// property.</remarks>
     /// <param name="items">The collection of category items to sort.</param>
     /// <param name="options">The options that determine whether sorting is applied. If null or if sorting is disabled, the original order is
     /// preserved.</param>
-    /// <returns>A read-only list of category items sorted by category name, or the original list if sorting is not enabled.</returns>
+    /// <returns>A read-only list of category items sorted by name, or the original list if sorting is not enabled.</returns>
     public static IReadOnlyList<CategoryItem> Sort(
         IReadOnlyList<CategoryItem> items,
         CategorySerieOptions? options)
@@ -32,7 +32,7 @@ internal static class CategoryAxisEngine
         var sortedItems = new List<CategoryItem>(items);
         sortedItems.Sort((a, b) =>
         {
-            return a.Category.CompareTo(b.Category);
+            return a.Name.CompareTo(b.Name);
         });
 
         return sortedItems!;

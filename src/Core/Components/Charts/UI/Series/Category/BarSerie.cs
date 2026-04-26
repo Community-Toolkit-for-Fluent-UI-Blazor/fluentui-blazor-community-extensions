@@ -52,7 +52,6 @@ public sealed class BarSerie
             IsVisible = IsVisible,
             Style = ItemStyle,
             Interaction = Interaction,
-            Options = Options,
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled
         };

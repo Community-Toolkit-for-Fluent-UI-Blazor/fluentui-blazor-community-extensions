@@ -3,7 +3,9 @@
 
 <CascadingValue Value="this" IsFixed>
     <div id="@Id" style="@Style" class="chart @Class">
-        @Options
+        <ChartOptions>
+            @Options
+        </ChartOptions>
         @ChildContent
 
         @if (_isVisible)

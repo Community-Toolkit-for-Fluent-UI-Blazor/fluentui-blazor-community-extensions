@@ -10,7 +10,7 @@ namespace Components.Tests.Components.Charts.Builders;
 
 public class ChartAxesBuilderTests
 {
-    private sealed class TestSerie : ChartSerie<CategoryItem, CategorySerieOptions>
+    private sealed class TestSerie : ChartSerie<CategoryItem>
     {
         public override ChartType ChartType => ChartType.Bar;
 
@@ -29,12 +29,12 @@ public class ChartAxesBuilderTests
         var serie2 = new TestSerie { Name = "s2" };
 
         serie1.UpdateItems([
-            new CategoryItem { Category = "A", Value = 5 },
-            new CategoryItem { Category = "B", Value = -2 }
+            new CategoryItem { Name = "A", Value = 5 },
+            new CategoryItem { Name = "B", Value = -2 }
         ]);
         serie2.UpdateItems([
-            new CategoryItem { Category = "A", Value = 10 },
-            new CategoryItem { Category = "B", Value = 3 }
+            new CategoryItem { Name = "A", Value = 10 },
+            new CategoryItem { Name = "B", Value = 3 }
         ]);
 
         ChartAxesBuilder.BuildCategoryAxes(context, new[] { serie1, serie2 });

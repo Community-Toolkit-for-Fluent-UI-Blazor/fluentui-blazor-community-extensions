@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using CS = FluentUI.Blazor.Community.Components.Charts.Series.ColumnSerie;
+using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
@@ -27,6 +28,7 @@ internal static class ColumnLayoutEngine
     /// series.</param>
     /// <param name="serieIndex">The zero-based index of the current series within the allSeries list. Determines the horizontal offset of the
     /// columns for this series.</param>
+    /// <param name="options">The chart options containing configuration settings for column layout, such as column width and spacing. Must not be null.</param>
     /// <param name="context">The chart context containing layout information such as the plot area dimensions. Must not be null.</param>
     /// <returns>A read-only list of ChartColumn objects representing the calculated position, size, and value for each column in
     /// the specified data series.</returns>
@@ -36,17 +38,17 @@ internal static class ColumnLayoutEngine
         double minValue,
         double maxValue,
         int serieIndex,
-        ChartContext context)
+        ChartContext context,
+        CO options)
     {
+        var columnOptions = options.DefaultColumnOptions;
         var plot = context.PlotArea;
         var categoryCount = serie.Items.Count;
         var seriesCount = allSeries.Count;
-
         var bandWidth = plot.Width / categoryCount;
         var rawColumnWidth = bandWidth / seriesCount;
-        var columnWidth = rawColumnWidth * (serie.Options?.ColumnWidth ?? 1.0);
+        var columnWidth = rawColumnWidth * columnOptions.ColumnWidth;
         var columnOffset = (rawColumnWidth - columnWidth) / 2.0;
-
         var axisMin = Math.Min(0, minValue);
         var axisMax = Math.Max(0, maxValue);
 

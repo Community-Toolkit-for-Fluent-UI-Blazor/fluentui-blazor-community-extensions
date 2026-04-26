@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.AspNetCore.Components;
@@ -31,12 +30,6 @@ public sealed class BubbleSerie : SerieBase
     [Parameter]
     public IReadOnlyList<CategoryItem> Items { get; init; } = [];
 
-    /// <summary>
-    /// Gets or sets the configuration options for the bubble series.
-    /// </summary>
-    [Parameter]
-    public BubbleSerieOptions? Options { get; init; }
-
     /// <inheritdoc />
     protected internal override ChartSerie Create()
     {
@@ -50,7 +43,6 @@ public sealed class BubbleSerie : SerieBase
             Interaction = Interaction,
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled,
-            Options = Options,
             LineType = LineChartType.Bubble
         };
 

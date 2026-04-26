@@ -32,7 +32,7 @@ internal sealed class Stacked100CategoryLineAxisFactory : IAxisFactory<CategoryL
         var categories = areas
             .SelectMany(s => s.Items)
             .Where(i => i.IsVisible)
-            .Select(i => i.Category)
+            .Select(i => i.Name)
             .Distinct()
             .ToList();
 

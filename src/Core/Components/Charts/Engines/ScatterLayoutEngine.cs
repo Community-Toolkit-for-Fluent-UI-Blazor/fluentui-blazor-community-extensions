@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
+using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
@@ -9,12 +10,15 @@ internal static class ScatterLayoutEngine
     /// </summary>
     /// <param name="serie">The line series containing the data points to be laid out.</param>
     /// <param name="context">The chart context providing the mapping functions for the axes.</param>
+    /// <param name="options">The chart options that may influence the layout of the scatter points.</param>
     /// <returns>A read-only list of line points representing the scatter points.</returns>
     public static IReadOnlyList<LinePoint> Layout(
         Series.LineSerie serie,
-        ChartContext context)
+        ChartContext context,
+        CO options)
     {
-        var items = CategoryAxisEngine.Sort(serie.Items, serie.Options);
+        var serieOptions = options.DefaultScatterOptions;
+        var items = CategoryAxisEngine.Sort(serie.Items, serieOptions);
         var count = items.Count;
 
         var points = new List<LinePoint>(count);

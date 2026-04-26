@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Series;
@@ -7,14 +6,17 @@ namespace FluentUI.Blazor.Community.Components.Charts.Series;
 /// Represents a chart series that displays data in a polar coordinate system.
 /// </summary>
 public sealed class PolarSerie
-    : ChartSerie<PolarItem, PolarSerieOptions>
+    : ChartSerie<PolarItem>
 {
     /// <inheritdoc />
     public override ChartType ChartType => PolarType switch
     {
-        PolarChartType.PolarBar => ChartType.PolarBar,
-        PolarChartType.PolarArea => ChartType.PolarArea,
-        PolarChartType.PolarLine => ChartType.PolarLine,
+        PolarChartType.Bar => ChartType.PolarBar,
+        PolarChartType.Area => ChartType.PolarArea,
+        PolarChartType.Line => ChartType.PolarLine,
+        PolarChartType.Scatter => ChartType.PolarScatter,
+        PolarChartType.Bubble => ChartType.PolarBubble,
+        PolarChartType.Rose => ChartType.PolarRose,
         _ => ChartType.Radar
     };
 

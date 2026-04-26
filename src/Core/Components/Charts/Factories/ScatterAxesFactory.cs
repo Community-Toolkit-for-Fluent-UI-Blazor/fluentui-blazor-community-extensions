@@ -28,7 +28,7 @@ internal sealed class ScatterAxesFactory : IAxisFactory<CategoryLineOptions>
         var categories = scatterSeries
             .SelectMany(s => s.Items)
             .Where(i => i.IsVisible)
-            .Select(i => i.Category)
+            .Select(i => i.Name)
             .Distinct()
             .ToList();
 

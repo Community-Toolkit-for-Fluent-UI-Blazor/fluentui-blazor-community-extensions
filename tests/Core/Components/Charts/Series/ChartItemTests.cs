@@ -17,7 +17,7 @@ public class ChartItemTests
     [Fact]
     public void ChartItem_Defaults()
     {
-        var item = new TestItem();
+        var item = new TestItem() { Name = "" };
 
         Assert.NotNull(item.Id);
         Assert.Equal(ChartInteractionState.Normal, item.InteractionState);

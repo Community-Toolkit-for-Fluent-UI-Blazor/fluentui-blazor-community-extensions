@@ -7,7 +7,7 @@ namespace Components.Tests.Components.Charts.Series;
 
 public class ChartSerieTests
 {
-    private sealed class TestSerie : ChartSerie<CategoryItem, CategorySerieOptions>
+    private sealed class TestSerie : ChartSerie<CategoryItem>
     {
         public override ChartType ChartType => ChartType.Bar;
 
@@ -24,7 +24,7 @@ public class ChartSerieTests
     public void ChartSerie_ManagesItems()
     {
         var serie = new TestSerie { Name = "Serie" };
-        var item = new CategoryItem { Category = "A", Value = 1 };
+        var item = new CategoryItem { Name = "A", Value = 1 };
 
         serie.Add(item);
 
@@ -35,7 +35,7 @@ public class ChartSerieTests
         serie.Remove(item);
         Assert.Empty(serie.Items);
 
-        serie.Replace([new CategoryItem { Category = "B", Value = 2 }]);
+        serie.Replace([new CategoryItem { Name = "B", Value = 2 }]);
         Assert.Single(serie.Items);
         Assert.Equal(1, serie.ItemsCount);
     }

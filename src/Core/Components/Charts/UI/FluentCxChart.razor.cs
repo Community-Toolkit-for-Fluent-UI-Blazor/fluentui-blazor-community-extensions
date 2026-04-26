@@ -8,6 +8,7 @@ using FluentUI.Blazor.Community.Components.Charts.Themes;
 using FluentUI.Blazor.Community.Components.ColorSpace.Spaces;
 using FluentUI.Blazor.Community.Components.ColorSpace.Vision;
 using FluentUI.Blazor.Community.Components.Components.Base;
+using FluentUI.Blazor.Community.Components.Components.Charts;
 using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -31,7 +32,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <summary>
     /// Represents a mapping of chart types to functions that compute the number of legend items for category-based charts.
     /// </summary>
-    private static readonly Dictionary<ChartType, Func<int, int>> _categoryCharts = new(EqualityComparer<ChartType>.Default)
+    private static readonly Dictionary<ChartType, Func<int, int>> _singleCountCharts = new(EqualityComparer<ChartType>.Default)
     {
         [ChartType.Bar] = i => i + 1,
         [ChartType.Column] = i => i + 1,
@@ -48,17 +49,21 @@ public partial class FluentCxChart : FluentComponentBase
         [ChartType.StackedStep] = i => i + 1,
         [ChartType.Scatter] = i => i + 1,
         [ChartType.Bubble] = i => i + 1,
+        [ChartType.Radar] = i => i + 1,
+        [ChartType.PolarLine] = i => i + 1,
+        [ChartType.PolarBar] = i => i + 1
     };
 
     /// <summary>
-    /// Represents a mapping of chart types to functions that compute the number of legend items for polar charts.
+    /// Represents a mapping of chart types to functions that compute the number of legend items for multi-count charts, such as pie and donut charts.
     /// </summary>
-    private static readonly Dictionary<ChartType, Func<int, int>> _polarCharts = new()
+    private static readonly Dictionary<ChartType, Func<int, int, int>> _multiCountCharts = new(EqualityComparer<ChartType>.Default)
     {
-        [ChartType.Radar] = i => i + 1,
-        [ChartType.PolarLine] = i => i + 1,
-        [ChartType.PolarArea] = i => i + 1,
-        [ChartType.PolarBar] = i => i + 1,
+        [ChartType.PolarArea] = (i, j) => i + j,
+        [ChartType.Pie] = (i, j) => i + j,
+        [ChartType.Donut] = (i, j) => i + j,
+        [ChartType.SemiDonut] = (i, j) => i + j,
+        [ChartType.PolarRose] = (i, j) => i + j,
     };
 
     /// <summary>
@@ -422,6 +427,7 @@ public partial class FluentCxChart : FluentComponentBase
             new ChartGridComposer(() => _chartContext, () => _options.DefaultGridOptions),
             new ChartPieComposer(Id!, () => _chartContext, GetPieSeries),
             new ChartDonutComposer(Id!, () => _chartContext, GetDonutSeries),
+            new ChartSemiDonutComposer(Id!, () => _chartContext, GetSemiDonutSeries),
             new ChartMultiDonutComposer(Id!, () => _chartContext, GetMultiDonutSeries),
             new ChartClipPathComposer(() => _chartContext),
             new ChartLayoutComposer(
@@ -430,8 +436,8 @@ public partial class FluentCxChart : FluentComponentBase
                 () => Subtitle,
                 () => LegendItemShape,
                 () => _liveSeries.Values),
-            new ChartPolarComposer(Id!, () => _chartContext, GetPolarSeries),
-            new ChartPolarAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, () => GetPolarSeries().Any())
+            new ChartPolarAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, GetPolarSeries),
+            new ChartPolarComposer(Id!, () => _chartContext, GetPolarSeries)
         );
 
         RenderTarget ??= new ChartSvgRenderTarget(Id!, () => _chartContext, () => _chartThemeContext, () => _options);
@@ -486,6 +492,16 @@ public partial class FluentCxChart : FluentComponentBase
     private IEnumerable<Charts.Series.DonutSerie> GetDonutSeries()
     {
         return _liveSeries.Values.OfType<Charts.Series.DonutSerie>();
+    }
+
+    /// <summary>
+    /// Returns a collection of semi donut series generated from the child chart elements with a semi-donut chart type.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="Charts.Series.SemiDonutSerie"/> objects representing the semi-donut series created
+    /// from the child elements. The collection is empty if no child elements have a semi-donut chart type.</returns>
+    private IEnumerable<Charts.Series.SemiDonutSerie> GetSemiDonutSeries()
+    {
+        return _liveSeries.Values.OfType<Charts.Series.SemiDonutSerie>();
     }
 
     /// <summary>
@@ -565,6 +581,26 @@ public partial class FluentCxChart : FluentComponentBase
     internal void UpdateRadarChartAxesOptions(RadarAxesOptions radarAxesOptions)
     {
         _options.DefaultRadarAxesOptions = radarAxesOptions;
+        Refresh();
+    }
+
+    /// <summary>
+    /// Updates the default radar series options for the chart.
+    /// </summary>
+    /// <param name="radarSerieOptions">The new radar series options to apply as the default configuration for all radar series in the chart. This will affect the appearance and behavior of radar series across the entire chart unless overridden by specific series configurations.</param>
+    internal void UpdateRadarSerieOptions(Charts.Options.RadarSerieOptions radarSerieOptions)
+    {
+        _options.DefaultRadarOptions = radarSerieOptions;
+        Refresh();
+    }
+
+    /// <summary>
+    /// Updates the default semi-donut series options for the chart.
+    /// </summary>
+    /// <param name="semiDonutSerieOptions">The new semi-donut series options to apply as the default configuration for all semi-donut series in the chart. This will affect the appearance and behavior of semi-donut series across the entire chart unless overridden by specific series configurations.</param>
+    internal void UpdateSemiDonutSerieOptions(RadialSerieOptions semiDonutSerieOptions)
+    {
+        _options.DefaultSemiDonutOptions = semiDonutSerieOptions;
         Refresh();
     }
 
@@ -711,29 +747,20 @@ public partial class FluentCxChart : FluentComponentBase
 
         foreach (var serie in series)
         {
-            if (_categoryCharts.TryGetValue(serie.ChartType, out var countFunc))
+            if (_singleCountCharts.TryGetValue(serie.ChartType, out var countFunc))
             {
                 count += countFunc(count);
                 continue;
             }
-            else if (_polarCharts.TryGetValue(serie.ChartType, out var polarCountFunc))
+            else if (_multiCountCharts.TryGetValue(serie.ChartType, out var multiCountFunc))
             {
-                count += polarCountFunc(count);
+                count += multiCountFunc(count, serie.RawItems.Count);
                 continue;
             }
             else
             {
                 switch (serie.ChartType)
                 {
-                    case ChartType.Pie:
-                    case ChartType.Donut:
-                    case ChartType.SemiDonut:
-                        {
-                            count += serie.RawItems.Count;
-                        }
-
-                        break;
-
                     case ChartType.MultiDonut:
                         {
                             count += ComputeMultiDonutLegendCount((Charts.Series.MultiDonutSerie)serie);
@@ -834,17 +861,29 @@ public partial class FluentCxChart : FluentComponentBase
     /// series.</exception>
     private void ValidateSerie(SerieBase serie)
     {
-        var newCat = ChartTypeInfo.Categories[serie.ChartType];
+        if (_children.Count == 0)
+        {
+            return;
+        }
+
+        var newRule = ChartTypeRuleValidator.Rules[serie.ChartType];
+        var newSerie = serie.Create();
+        var count = _children.Count;
 
         foreach (var existing in _children)
         {
-            var existingCat = ChartTypeInfo.Categories[existing.ChartType];
+            var existingSerie = existing.Create();
+            var existingRule = ChartTypeRuleValidator.Rules[existing.ChartType];
 
-            if (existingCat != newCat)
+            ChartTypeRuleValidator.ValidateCategory(existingRule, newRule);
+
+            if (!serie.HasParent)
             {
-                throw new InvalidOperationException(
-                    $"Cannot mix chart types of category {existingCat} with {newCat}.");
+                ChartTypeRuleValidator.ValidateMultipleSeries(newRule, () => count > 1);
             }
+
+            ChartTypeRuleValidator.ValidateSameCategoryCount(newRule, () => existingSerie.RawItems.Count == newSerie.RawItems.Count);
+            ChartTypeRuleValidator.ValidateSameCategoryLabels(newRule, () => existingSerie.RawItems.Select(i => i.Name).SequenceEqual(newSerie.RawItems.Select(i => i.Name)));
         }
     }
 
@@ -1117,16 +1156,10 @@ public partial class FluentCxChart : FluentComponentBase
 
         switch (live, snapshot)
         {
-            case (ChartSerie<ChartItem, IChartSerieOptions> l,
-                  ChartSerie<ChartItem, IChartSerieOptions> s):
+            case (ChartSerie<ChartItem> l,
+                  ChartSerie<ChartItem> s):
                 {
                     SyncItems(l, s, ref changed);
-
-                    if (!Equals(l.Options, s.Options))
-                    {
-                        l.Options = s.Options;
-                        changed = true;
-                    }
                 }
 
                 break;
@@ -1141,16 +1174,14 @@ public partial class FluentCxChart : FluentComponentBase
     /// items from the snapshot, and updating existing items to reflect the properties of their counterparts in the
     /// snapshot. Item identity is determined by the Id property.</remarks>
     /// <typeparam name="TItem">The type of chart item contained in the series. Must inherit from ChartItem.</typeparam>
-    /// <typeparam name="TOptions">The type of options associated with the chart series. Must implement IChartSerieOptions.</typeparam>
     /// <param name="live">The chart series to be updated so that its items match those in the snapshot.</param>
     /// <param name="snapshot">The chart series representing the desired state to synchronize with.</param>
     /// <param name="changed">A reference to a boolean flag that indicates whether any changes were made to the live series. This flag is set to true if any updates occur.</param>
-    private static void SyncItems<TItem, TOptions>(
-        ChartSerie<TItem, TOptions> live,
-        ChartSerie<TItem, TOptions> snapshot,
+    private static void SyncItems<TItem>(
+        ChartSerie<TItem> live,
+        ChartSerie<TItem> snapshot,
         ref bool changed)
         where TItem : ChartItem
-        where TOptions : IChartSerieOptions
     {
         var removedIds = live.Items.Select(i => i.Id)
             .Except(snapshot.Items.Select(i => i.Id))
@@ -1263,9 +1294,18 @@ public partial class FluentCxChart : FluentComponentBase
     }
 
     /// <summary>
-    /// Clears all live series and resets the chart to its initial state, marking it as dirty and triggering a refresh.
+    /// Clears all child series from the chart and marks the chart as dirty, triggering a refresh to update the chart's visual representation.
     /// </summary>
     public void Reset()
+    {
+        _children.Clear();
+        Invalidate();
+    }
+
+    /// <summary>
+    /// Clears all live series and marks the chart as dirty, triggering a refresh to update the chart's visual representation.
+    /// </summary>
+    public void Invalidate()
     {
         _liveSeries.Clear();
         _chartContext.Dirty = true;

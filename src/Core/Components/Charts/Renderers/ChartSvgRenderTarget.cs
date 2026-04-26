@@ -34,8 +34,14 @@ internal sealed class ChartSvgRenderTarget
         ["stacked-area"] = (builder, payload, context, themeContext, axisOptions) => ChartStackedAreaSvgBuilder.Build(builder, (StackedAreaPayload)payload!, themeContext),
         ["scatter"] = (builder, payload, context, themeContext, axisOptions) => ChartScatterSvgBuilder.Build(builder, (ScatterPayload)payload!, themeContext),
         ["bubble"] = (builder, payload, context, themeContext, axisOptions) => ChartBubbleSvgBuilder.Build(builder, (BubblePayload)payload!, themeContext),
-        ["radar"] = (builder, payload, context, themeContext, axisOptions) => ChartRadarSvgBuilder.Build(builder, (RadarPayload)payload!, themeContext),
+        ["radar"] = (builder, payload, context, themeContext, axisOptions) => ChartRadarSvgBuilder.Build(builder, (RadarPayloadCollection)payload!, themeContext),
         ["polar-axes"] = (builder, payload, context, themeContext, axisOptions) => ChartPolarAxesSvgBuilder.Build(builder, (PolarAxesPayload)payload!, themeContext),
+        ["polar-area"] = (builder, payload, context, themeContext, axisOptions) => ChartPolarAreaSvgBuilder.Build(builder, (PolarAreaPayloadCollection)payload!, themeContext),
+        ["semi-donut"] = (builder, payload, context, themeContext, axisOptions) => ChartDonutSvgBuilder.Build(builder, (DonutPayloadCollection)payload!, themeContext),
+        ["polar-bar"] = (builder, payload, context, themeContext, axisOptions) => ChartPolarBarSvgBuilder.Build(builder, (PolarBarPayloadCollection)payload!, themeContext),
+        ["polar-line"] = (builder, payload, context, themeContext, axisOptions) => ChartPolarLineSvgBuilder.Build(builder, (PolarLinePayloadCollection)payload!, themeContext),
+        ["rose"] = (builder, payload, context, themeContext, axisOptions) => ChartRoseSvgBuilder.Build(builder, (RosePayloadCollection)payload!, themeContext),
+        /*["polar-scatter"] = (builder, payload, context, themeContext, axisOptions) => ChartPolarScatterSvgBuilder.Build(builder, (PolarScatterPayloadCollection)payload!, themeContext),*/
     };
 
     /// <summary>

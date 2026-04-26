@@ -8,6 +8,6 @@ public sealed class RadarSerieOptions : PolarSerieOptions
     /// <summary>
     /// Gets or sets a value indicating if the area is filled.
     /// </summary>
-    public bool? FillArea { get; set; }
+    public bool FillArea { get; set; }
 }
 

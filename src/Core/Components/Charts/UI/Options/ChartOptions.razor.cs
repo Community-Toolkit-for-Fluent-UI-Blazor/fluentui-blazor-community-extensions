@@ -37,12 +37,22 @@ public partial class ChartOptions : ComponentBase
     private Charts.Options.RadarAxesOptions? _radarAxesOptions;
 
     /// <summary>
+    /// Represents the radar series options used to configure the appearance and behavior of radar chart series.
+    /// </summary>
+    private Charts.Options.RadarSerieOptions? _radarSerieOptions;
+
+    /// <summary>
+    /// Represents the semi-donut series options used to configure the appearance and behavior of semi-donut chart series.
+    /// </summary>
+    private Charts.Options.RadialSerieOptions? _semiDonutSerieOptions;
+
+    /// <summary>
     /// Represents the chart bar options associated with this chart component.
     /// </summary>
     private ChartBarOptions? _chartBarOptions;
 
     /// <summary>
-    /// Represents the chart bar options associated with this chart component.
+    /// Represents the chart column options associated with this chart component.
     /// </summary>
     private ChartColumnOptions? _chartColumnOptions;
 
@@ -56,7 +66,20 @@ public partial class ChartOptions : ComponentBase
     /// </summary>
     private ChartAxisOptions? _chartAxisOptions;
 
+    /// <summary>
+    /// Represents the axis options for the radar chart, or null if no options are set.
+    /// </summary>
     private RadarChartAxesOptions? _radarChartAxesOptions;
+
+    /// <summary>
+    /// Represents the options for the radar serie, or null if no options are set.
+    /// </summary>
+    private RadarSerieOptions? _radarChartSerieOptions;
+
+    /// <summary>
+    /// Represents the options for the semi-donut serie, or null if no options are set.
+    /// </summary>
+    private SemiDonutSerieOptions? _semiDonutChartSerieOptions;
 
     /// <summary>
     /// Gets or sets the content to be rendered inside this component.
@@ -283,6 +306,57 @@ public partial class ChartOptions : ComponentBase
     internal void RemoveRadarChartAxesOptions()
     {
         _radarChartAxesOptions = null;
+    }
+
+    internal void AddRadarSerieOptions(RadarSerieOptions radarSerieOptions)
+    {
+        _radarChartSerieOptions = radarSerieOptions;
+    }
+
+    internal void RemoveRadarSerieOptions()
+    {
+        _radarChartSerieOptions = null;
+    }
+
+    internal void NotifyRadarSerieOptionsChanged()
+    {
+        if (_radarChartSerieOptions is null)
+        {
+            return;
+        }
+
+        _radarSerieOptions = new Charts.Options.RadarSerieOptions
+        {
+            FillArea = _radarChartSerieOptions.FillArea
+        };
+
+        Parent!.UpdateRadarSerieOptions(_radarSerieOptions);
+    }
+
+    internal void RemoveSemiDonutSerieOptions()
+    {
+        _semiDonutChartSerieOptions = null;
+    }
+
+    internal void AddSemiDonutSerieOptions(SemiDonutSerieOptions semiDonutSerieOptions)
+    {
+        _semiDonutChartSerieOptions = semiDonutSerieOptions;
+    }
+
+    internal void NotifySemiDonutSerieOptionsChanged()
+    {
+        if (_semiDonutChartSerieOptions is null)
+        {
+            return;
+        }
+
+        _semiDonutSerieOptions = new Charts.Options.RadialSerieOptions
+        {
+            StartAngle = _semiDonutChartSerieOptions.StartAngle,
+            EndAngle = _semiDonutChartSerieOptions.EndAngle
+        };
+
+        Parent!.UpdateSemiDonutSerieOptions(_semiDonutSerieOptions);
     }
 
     /*    [Parameter]

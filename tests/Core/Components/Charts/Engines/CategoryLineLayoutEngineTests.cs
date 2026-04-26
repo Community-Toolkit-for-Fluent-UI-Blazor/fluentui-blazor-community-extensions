@@ -1,6 +1,7 @@
 using FluentUI.Blazor.Community.Components.Charts;
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Charts.Engines;
+using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 using Xunit;
@@ -20,11 +21,12 @@ public class CategoryLineLayoutEngineTests
 
         var serie = new LineSerie { Name = "Serie" };
         serie.UpdateItems([
-            new CategoryItem { Category = "A", Value = 2 },
-            new CategoryItem { Category = "B", Value = 3 }
+            new CategoryItem { Name = "A", Value = 2 },
+            new CategoryItem { Name = "B", Value = 3 }
         ]);
 
-        var (path, points) = CategoryLineLayoutEngine.Layout(serie, context);
+        var options = new ChartOptions();
+        var (path, points) = CategoryLineLayoutEngine.Layout(serie, context, options);
 
         Assert.Equal(2, path.Points.Count);
         Assert.Equal(0, points[0].X);

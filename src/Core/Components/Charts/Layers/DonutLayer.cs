@@ -4,7 +4,7 @@ using FluentUI.Blazor.Community.Components.Enums;
 namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 
 /// <summary>
-/// Represents the layer responsible for rendering a pie chart.
+/// Represents the layer responsible for rendering a donut chart.
 /// </summary>
 /// <param name="payload">The payload containing the data and configuration for the donut chart.</param>
 internal sealed class DonutLayer(DonutPayloadCollection payload) : IChartLayer, ILayer<DonutPayloadCollection>

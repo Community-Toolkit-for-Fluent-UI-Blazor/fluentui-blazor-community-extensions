@@ -12,7 +12,7 @@ namespace Components.Tests.Components.Charts.Composers;
 
 public class ChartAxesComposerTests
 {
-    private sealed class TestSerie : ChartSerie<CategoryItem, CategorySerieOptions>
+    private sealed class TestSerie : ChartSerie<CategoryItem>
     {
         public override ChartType ChartType => ChartType.Bar;
 
@@ -26,7 +26,7 @@ public class ChartAxesComposerTests
         var axisOptions = new ChartAxisOptions { Show = true };
         var options = new ChartOptions { DefaultAxisOptions = new ChartAxisOptions { Show = true } };
         var series = new TestSerie { Name = "Serie" };
-        series.UpdateItems([new CategoryItem { Category = "A", Value = 1 }]);
+        series.UpdateItems([new CategoryItem { Name = "A", Value = 1 }]);
 
         ChartAxesBuilder.BuildCategoryAxes(context, new[] { series });
 

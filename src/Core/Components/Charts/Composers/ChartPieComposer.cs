@@ -1,7 +1,6 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Charts.Engines;
 using FluentUI.Blazor.Community.Components.Charts.Layers;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Payloads;
 using FluentUI.Blazor.Community.Components.Charts.Styles;
 using FluentUI.Blazor.Community.Components.Enums;
@@ -38,11 +37,11 @@ internal sealed class ChartPieComposer(
         }
 
         var defaults = chartOptions.DefaultPieStyle;
+        var opts = chartOptions.DefaultPieOptions;
 
         for (var serieIndex = 0; serieIndex < filtered.Count; serieIndex++)
         {
             var serie = filtered[serieIndex];
-            var opts = serie.Options ?? new RadialSerieOptions();
             var ctx = context();
 
             var slices = PieLayoutEngine.Layout(serie, ctx, opts);

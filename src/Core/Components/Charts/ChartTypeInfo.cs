@@ -49,6 +49,7 @@ internal static class ChartTypeInfo
         [ChartType.PolarArea] = ChartCategory.Polar,
         [ChartType.PolarLine] = ChartCategory.Polar,
         [ChartType.PolarBar] = ChartCategory.Polar,
+        [ChartType.PolarRose] = ChartCategory.Polar,
 
         [ChartType.Treemap] = ChartCategory.Hierarchy,
         [ChartType.Sunburst] = ChartCategory.Hierarchy,

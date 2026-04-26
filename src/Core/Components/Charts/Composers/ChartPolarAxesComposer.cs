@@ -2,13 +2,14 @@ using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 using CAO = FluentUI.Blazor.Community.Components.Charts.Options.ChartAxisOptions;
 using FluentUI.Blazor.Community.Components.Charts.Engines;
 using FluentUI.Blazor.Community.Components.Charts.Layers;
+using FluentUI.Blazor.Community.Components.Charts.Series;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Composers;
 
 internal sealed class ChartPolarAxesComposer(
     Func<ChartContext> context,
     Func<CAO> axisOptions,
-    Func<bool> isPolarSeries)
+    Func<IEnumerable<PolarSerie>> polarSeries)
     : ISurfaceComposer<CO>
 {
     /// <inheritdoc/>
@@ -19,14 +20,17 @@ internal sealed class ChartPolarAxesComposer(
         ArgumentNullException.ThrowIfNull(target);
         ArgumentNullException.ThrowIfNull(options);
 
-        if (!isPolarSeries())
+        var ps = polarSeries();
+
+        if (!ps.Any())
         {
             return false;
         }
 
         var ctx = context();
         var axisOpts = axisOptions();
-        var payload = ChartPolarAxesEngine.Build(ctx, axisOpts, options);
+        var first = ps.FirstOrDefault();
+        var payload = ChartPolarAxesEngine.Build(ctx, axisOpts, options, first!.PolarType);
 
         if (payload is null)
         {

@@ -17,17 +17,36 @@ internal static class ChartRadarSvgBuilder
     /// <param name="context">Theme context for styling the chart elements.</param>
     public static void Build(
         SvgBuilder svg,
-        RadarPayload payload,
+        RadarPayloadCollection payload,
         ChartThemeContext context)
     {
         var group = svg.AddGroup()
-                       .WithId($"radar-{payload.Id}");
+                       .WithId($"radar-group");
 
-        RenderArea(group, payload, context);
-        RenderLine(group, payload, context);
-        RenderPoints(group, payload, context);
+        foreach (var radar in payload.Radars)
+        {
+            BuildSingle(group, radar, context);
+        }
 
         group.Close();
+    }
+
+    /// <summary>
+    /// Builds a single radar series (area + line + points).
+    /// </summary>
+    private static void BuildSingle(
+        SvgGroupBuilder svg,
+        RadarPayload payload,
+        ChartThemeContext theme)
+    {
+        var serieGroup = svg.AddGroup()
+                            .WithId($"radar-{payload.Id}");
+
+        RenderArea(serieGroup, payload, theme);
+        RenderLine(serieGroup, payload, theme);
+        RenderPoints(serieGroup, payload, theme);
+
+        serieGroup.Close();
     }
 
     /// <summary>

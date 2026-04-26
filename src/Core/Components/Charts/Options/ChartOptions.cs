@@ -8,6 +8,14 @@ namespace FluentUI.Blazor.Community.Components.Charts.Options;
 internal sealed class ChartOptions
 {
     /// <summary>
+    /// Gets the default axis options applied to all axes in the chart unless overridden by specific axis settings.
+    /// </summary>
+    public ChartAxisOptions DefaultAxisOptions { get; set; } = new()
+    {
+        Layer = Enums.AxesLayerOrder.Background
+    };
+
+    /// <summary>
     /// Gets the default options applied to all bar series in the chart unless overridden.
     /// </summary>
     /// <remarks>Use this property to specify common configuration settings for bar series. Individual series
@@ -53,12 +61,9 @@ internal sealed class ChartOptions
     public ChartMarkerLineStyle DefaultMarkerStyles { get; set; } = new();
 
     /// <summary>
-    /// Gets the default axis options applied to all axes in the chart unless overridden by specific axis settings.
+    /// Gets the default bar styles applied to polar bar series in the chart.
     /// </summary>
-    public ChartAxisOptions DefaultAxisOptions { get; set; } = new()
-    {
-        Layer = Enums.AxesLayerOrder.Foreground
-    };
+    public ChartPolarBarStyle DefaultPolarBarStyles {  get; set; } = new();
 
     /// <summary>
     /// Gets the default grid options used for chart rendering.
@@ -92,7 +97,7 @@ internal sealed class ChartOptions
     /// <summary>
     /// Gets or sets the default options applied to donut chart series.
     /// </summary>
-    public RadialSerieOptions DefaultDonutOptions { get; set;  } = new();
+    public RadialSerieOptions DefaultDonutOptions { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the default options for radar series.
@@ -121,6 +126,14 @@ internal sealed class ChartOptions
     public ChartPieStyle DefaultDonutStyle { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets the style settings for the semi-donut chart elements.
+    /// </summary>
+    /// <remarks>Use this property to customize the appearance of radial chart components, such as colors,
+    /// line thickness, and marker styles. Modifying these settings allows for consistent theming and visual distinction
+    /// within the chart.</remarks>
+    public ChartPieStyle DefaultSemiDonutStyle { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the animation options for the chart.
     /// </summary>
     /// <remarks>Use this property to configure how chart animations behave, such as enabling or disabling
@@ -132,4 +145,18 @@ internal sealed class ChartOptions
     /// Gets or sets a value indicating whether animations are enabled for the chart.
     /// </summary>
     public bool AnimationEnabled { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the default options for step series in the chart.
+    /// </summary>
+    public CategoryLineOptions DefaultStepOptions { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the default options for semi-donut series in the chart.
+    /// </summary>
+    public RadialSerieOptions DefaultSemiDonutOptions { get; set; } = new()
+    {
+        StartAngle = 190,
+        EndAngle = 350
+    };
 }

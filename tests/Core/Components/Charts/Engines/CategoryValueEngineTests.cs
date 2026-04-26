@@ -19,7 +19,7 @@ public class CategoryValueEngineTests
     [Fact]
     public void CategoryValueEngine_ComputeValueRange_ExpandsWhenEqual()
     {
-        var items = new[] { new CategoryItem { Category = "A", Value = 10 } };
+        var items = new[] { new CategoryItem { Name = "A", Value = 10 } };
 
         var (min, max) = CategoryValueEngine.ComputeValueRange(items);
 

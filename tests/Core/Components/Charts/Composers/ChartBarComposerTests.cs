@@ -15,7 +15,7 @@ public class ChartBarComposerTests
     {
         var context = new ChartContext { PlotArea = new ChartRect(0, 0, 100, 100) };
         var serie = new BarSerie { Name = "Serie" };
-        serie.UpdateItems([new CategoryItem { Category = "A", Value = 5 }]);
+        serie.UpdateItems([new CategoryItem { Name = "A", Value = 5 }]);
 
         var composer = new ChartBarComposer("chart", () => context, () => new[] { serie });
         var target = new ChartTestRenderTarget();

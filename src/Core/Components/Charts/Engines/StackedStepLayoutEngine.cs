@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using FluentUI.Blazor.Community.Components.Enums;
+using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
@@ -9,11 +10,12 @@ internal static class StackedStepLayoutEngine
         Series.LineSerie serie,
         IReadOnlyList<Series.LineSerie> allSeries,
         int serieIndex,
-        ChartContext context)
+        ChartContext context,
+        CO options)
     {
-        var items = CategoryAxisEngine.Sort(serie.Items, serie.Options);
+        var serieOptions = options.DefaultCategoryLineOptions;
+        var items = CategoryAxisEngine.Sort(serie.Items, serieOptions);
         var count = items.Count;
-
         var top = new List<ChartPoint>(count * 2 - 1);
         var bottom = new List<ChartPoint>(count * 2 - 1);
         var payloadPoints = new List<LinePoint>(count);

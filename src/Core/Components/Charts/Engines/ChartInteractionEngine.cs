@@ -359,7 +359,7 @@ internal sealed class ChartInteractionEngine
             Placement = tooltipPosition,
             Visible = true,
             Text = item is CategoryItem ci ? $"Value: {ci.Value}" : string.Empty,
-            Title = item is CategoryItem ci2 ? $"Category: {ci2.Category}" : string.Empty
+            Title = item is CategoryItem ci2 ? $"Category: {ci2.Name}" : string.Empty
         };
     }
 

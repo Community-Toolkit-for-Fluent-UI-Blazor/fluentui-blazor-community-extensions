@@ -1,5 +1,4 @@
 using FluentUI.Blazor.Community.Components.Enums;
-using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -9,11 +8,6 @@ namespace FluentUI.Blazor.Community.Components;
 /// </summary>
 public sealed class SemiDonutSerie : DonutSerie
 {
-    /// <summary>
-    /// Represents a flag indicating whether the properties of the semi-donut series have changed.
-    /// </summary>
-    private bool _hasChanged;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="SemiDonutSerie"/> class with the specified library configuration.
     /// </summary>
@@ -26,39 +20,24 @@ public sealed class SemiDonutSerie : DonutSerie
     /// <inheritdoc />
     protected internal override ChartType ChartType => ChartType.SemiDonut;
 
-    /// <summary>
-    /// Gets or sets the start angle of the semi-donut chart series.
-    /// </summary>
-    [Parameter]
-    public double StartAngle { get; set; }
-
-    /// <summary>
-    /// Gets or sets the end angle of the semi-donut chart series.
-    /// </summary>
-    [Parameter]
-    public double EndAngle { get; set; }
-
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    protected internal override Charts.Series.ChartSerie Create()
     {
-        base.OnParametersSet();
-
-        if (_hasChanged)
+        var semiDonutSerie = new Charts.Series.SemiDonutSerie
         {
-            _hasChanged = false;
-            Options ??= new Charts.Options.RadialSerieOptions();
-            Options.StartAngle = StartAngle;
-            Options.EndAngle = EndAngle;
-            Refresh();
-        }
-    }
+            Id = Id!,
+            Name = Name,
+            Tag = Tag,
+            IsVisible = IsVisible,
+            Style = ItemStyle,
+            Interaction = Interaction,
+            Animation = GetAnimationOptions(),
+            AnimationEnabled = AnimationEnabled,
+            AlternateAnimation = AlternateAnimation
+        };
 
-    /// <inheritdoc />
-    public override Task SetParametersAsync(ParameterView parameters)
-    {
-        _hasChanged = parameters.TryGetValue<double>(nameof(StartAngle), out var newAngle) && newAngle != StartAngle ||
-                      parameters.TryGetValue<double>(nameof(EndAngle), out var endAngle) && endAngle != EndAngle;
+        semiDonutSerie.UpdateItems(Items);
 
-        return base.SetParametersAsync(parameters);
+        return semiDonutSerie;
     }
 }

@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.AspNetCore.Components;
@@ -35,12 +34,6 @@ public sealed class StackedBarSerie
     [Parameter]
     public IReadOnlyList<CategoryItem> Items { get; init; } = [];
 
-    /// <summary>
-    /// Gets or sets the configuration options for the bar series.
-    /// </summary>
-    [Parameter]
-    public BarSerieOptions? Options { get; init; } = new();
-
     /// <inheritdoc />
     protected internal override ChartSerie Create()
     {
@@ -52,7 +45,6 @@ public sealed class StackedBarSerie
             IsVisible = IsVisible,
             Style = ItemStyle,
             Interaction = Interaction,
-            Options = Options,
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled,
             IsStacked = true

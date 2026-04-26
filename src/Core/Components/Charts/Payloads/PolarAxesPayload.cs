@@ -31,4 +31,9 @@ public sealed record PolarAxesPayload : ILayerPayload
     /// Gets or sets the type of grid used in the radar chart.
     /// </summary>
     public required RadarGridType Grid { get; init; }
+
+    /// <summary>
+    /// Gets or sets the type of chart (e.g., radar, polar area) for which the axes are being rendered.
+    /// </summary>
+    public required PolarChartType ChartType { get; init; }
 }

@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.AspNetCore.Components;
@@ -32,12 +31,6 @@ public sealed class PieSerie : SerieBase
     public IReadOnlyList<RadialSlice> Items { get; init; } = [];
 
     /// <summary>
-    /// Gets or sets the configuration options for the bar series.
-    /// </summary>
-    [Parameter]
-    public RadialSerieOptions? Options { get; init; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether to use alternate animation for the multi-donut series.
     /// </summary>
     [Parameter]
@@ -56,8 +49,7 @@ public sealed class PieSerie : SerieBase
             Interaction = Interaction,
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled,
-            AlternateAnimation = AlternateAnimation,
-            Options = Options
+            AlternateAnimation = AlternateAnimation
         };
 
         pieSerie.UpdateItems(Items);

@@ -37,7 +37,7 @@ internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions
         var categories = lineSeries
             .SelectMany(s => s.Items)
             .Where(i => i.IsVisible)
-            .Select(i => i.Category)
+            .Select(i => i.Name)
             .Distinct()
             .ToList();
 

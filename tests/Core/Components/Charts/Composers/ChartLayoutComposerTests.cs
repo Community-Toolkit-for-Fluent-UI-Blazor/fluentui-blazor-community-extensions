@@ -23,7 +23,7 @@ public class ChartLayoutComposerTests
         };
 
         var serie = new BarSerie { Name = "Serie" };
-        serie.UpdateItems([new CategoryItem { Category = "A", Value = 1 }]);
+        serie.UpdateItems([new CategoryItem { Name = "A", Value = 1 }]);
 
         var composer = new ChartLayoutComposer(
             () => context,

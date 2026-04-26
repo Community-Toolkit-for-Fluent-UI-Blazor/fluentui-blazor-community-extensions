@@ -14,13 +14,13 @@ public class CategoryAxisEngineTests
     {
         var items = new List<CategoryItem>
         {
-            new() { Category = "B", Value = 1 },
-            new() { Category = "A", Value = 2 }
+            new() { Name = "B", Value = 1 },
+            new() { Name = "A", Value = 2 }
         };
 
         var result = CategoryAxisEngine.Sort(items, new TestCategoryOptions { Sort = true });
 
-        Assert.Equal("B", result[0].Category);
+        Assert.Equal("B", result[0].Name);
     }
 
     [Fact]
@@ -28,13 +28,13 @@ public class CategoryAxisEngineTests
     {
         var items = new List<CategoryItem>
         {
-            new() { Category = "B", Value = 1 },
-            new() { Category = "A", Value = 2 }
+            new() { Name = "B", Value = 1 },
+            new() { Name = "A", Value = 2 }
         };
 
         var result = CategoryAxisEngine.Sort(items, new TestCategoryOptions { Sort = false });
 
-        Assert.Equal("A", result[0].Category);
+        Assert.Equal("A", result[0].Name);
     }
 
     [Fact]

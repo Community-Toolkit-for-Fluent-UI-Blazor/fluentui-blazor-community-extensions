@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
+using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
@@ -6,9 +7,10 @@ internal static class StepLayoutEngine
 {
     public static (LinePath Path, IReadOnlyList<LinePoint> Points) Layout(
         Series.LineSerie serie,
-        ChartContext context)
+        ChartContext context,
+        CO options)
     {
-        var items = CategoryAxisEngine.Sort(serie.Items, serie.Options);
+        var items = CategoryAxisEngine.Sort(serie.Items, options.DefaultStepOptions);
         var count = items.Count;
 
         var stepPoints = new List<ChartPoint>(count * 2 - 1);

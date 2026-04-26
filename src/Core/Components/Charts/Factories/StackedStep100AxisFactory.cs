@@ -29,7 +29,7 @@ internal sealed class Stacked100StepAxisFactory : IAxisFactory<CategoryLineOptio
         var categories = steps
             .SelectMany(s => s.Items)
             .Where(i => i.IsVisible)
-            .Select(i => i.Category)
+            .Select(i => i.Name)
             .Distinct()
             .ToList();
 

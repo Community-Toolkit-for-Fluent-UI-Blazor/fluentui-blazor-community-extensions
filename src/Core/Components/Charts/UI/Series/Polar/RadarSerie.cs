@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.AspNetCore.Components;
@@ -31,12 +30,6 @@ public sealed class RadarSerie : SerieBase
     [Parameter]
     public IReadOnlyList<PolarItem> Items { get; set; } = [];
 
-    /// <summary>
-    /// Gets or sets the configuration options for the radar series.
-    /// </summary>
-    [Parameter]
-    public RadarSerieOptions? Options { get; set; } = new();
-
     /// <inheritdoc />
     protected internal override ChartSerie Create()
     {
@@ -50,7 +43,6 @@ public sealed class RadarSerie : SerieBase
             Interaction = Interaction,
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled,
-            Options = Options,
             PolarType = PolarChartType.Radar
         };
 

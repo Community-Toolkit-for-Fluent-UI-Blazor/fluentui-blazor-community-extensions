@@ -1,5 +1,5 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
+using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
@@ -7,18 +7,17 @@ internal static class BubbleLayoutEngine
 {
     public static IReadOnlyList<BubblePoint> Layout(
         Series.LineSerie serie,
-        ChartContext context)
+        ChartContext context,
+        CO options)
     {
-        var items = CategoryAxisEngine.Sort(serie.Items, serie.Options);
+        var bubbleOptions = options.DefaultBubbleOptions;
+        var items = CategoryAxisEngine.Sort(serie.Items, bubbleOptions);
         var count = items.Count;
-
-        var radiusMin = (serie.Options as BubbleSerieOptions)?.MinRadius ?? 4;
-        var radiusMax = (serie.Options as BubbleSerieOptions)?.MaxRadius ?? 30;
+        var radiusMin = bubbleOptions.MinRadius;
+        var radiusMax = bubbleOptions.MaxRadius;
         var bubbleValues = items.Select(i => i.Value).ToList();
-
         var minVal = bubbleValues.Min();
         var maxVal = bubbleValues.Max();
-
         var range = maxVal - minVal;
 
         if (range <= 0)

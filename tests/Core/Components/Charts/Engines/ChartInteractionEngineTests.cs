@@ -11,7 +11,7 @@ public class ChartInteractionEngineTests
     public void ChartInteractionEngine_Hover_SetsHoverState()
     {
         var serie = new BarSerie { Name = "Serie" };
-        serie.UpdateItems([new CategoryItem { Category = "A", Value = 1 }]);
+        serie.UpdateItems([new CategoryItem { Name = "A", Value = 1 }]);
         var item = serie.Items[0];
 
         var engine = new ChartInteractionEngine(() => new[] { serie });
@@ -27,7 +27,7 @@ public class ChartInteractionEngineTests
     public void ChartInteractionEngine_Select_TogglesSelection()
     {
         var serie = new BarSerie { Name = "Serie" };
-        serie.UpdateItems([new CategoryItem { Category = "A", Value = 1 }]);
+        serie.UpdateItems([new CategoryItem { Name = "A", Value = 1 }]);
         var item = serie.Items[0];
 
         var engine = new ChartInteractionEngine(() => new[] { serie });
@@ -43,7 +43,7 @@ public class ChartInteractionEngineTests
     public void ChartInteractionEngine_PointerLeave_ClearsHover()
     {
         var serie = new BarSerie { Name = "Serie" };
-        serie.UpdateItems([new CategoryItem { Category = "A", Value = 1 }]);
+        serie.UpdateItems([new CategoryItem { Name = "A", Value = 1 }]);
         var item = serie.Items[0];
 
         var engine = new ChartInteractionEngine(() => new[] { serie });
@@ -60,7 +60,7 @@ public class ChartInteractionEngineTests
     public void ChartInteractionEngine_PressAndRelease_UpdatesState()
     {
         var serie = new BarSerie { Name = "Serie" };
-        serie.UpdateItems([new CategoryItem { Category = "A", Value = 1 }]);
+        serie.UpdateItems([new CategoryItem { Name = "A", Value = 1 }]);
         var item = serie.Items[0];
 
         var engine = new ChartInteractionEngine(() => new[] { serie });

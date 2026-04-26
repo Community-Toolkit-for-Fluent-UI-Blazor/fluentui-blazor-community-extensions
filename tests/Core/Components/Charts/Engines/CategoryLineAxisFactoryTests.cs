@@ -15,8 +15,8 @@ public class CategoryLineAxisFactoryTests
         var plot = new ChartRect(0, 0, 100, 50);
         var serie = new LineSerie { Name = "Serie" };
         serie.UpdateItems([
-            new CategoryItem { Category = "B", Value = -2 },
-            new CategoryItem { Category = "A", Value = 5 }
+            new CategoryItem { Name = "B", Value = -2 },
+            new CategoryItem { Name = "A", Value = 5 }
         ]);
 
         var factory = new CategoryLineAxisFactory();

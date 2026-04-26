@@ -1,5 +1,6 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
 using BS = FluentUI.Blazor.Community.Components.Charts.Series.BarSerie;
+using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
@@ -16,18 +17,21 @@ internal static class StackedBarLayoutEngine
     /// <param name="allSeries">All series in the chart, used to calculate stacked offsets.</param>
     /// <param name="serieIndex">The index of the current series within all series.</param>
     /// <param name="context">The chart rendering context containing plot area dimensions.</param>
+    /// <param name="options">The chart options containing bar layout settings.</param>
     /// <returns>A read-only list of positioned chart bars with calculated dimensions and coordinates.</returns>
     public static IReadOnlyList<ChartBar> Layout(
         BS serie,
         IReadOnlyList<BS> allSeries,
         int serieIndex,
-        ChartContext context)
+        ChartContext context,
+        CO options)
     {
+        var barOptions = options.DefaultBarOptions;
         var plot = context.PlotArea;
         var categoryCount = serie.Items.Count;
         var bandHeight = plot.Height / categoryCount;
         var rawBarHeight = bandHeight;
-        var barHeight = rawBarHeight * (serie.Options?.BarHeight ?? 1.0);
+        var barHeight = rawBarHeight * barOptions.BarHeight;
         var barOffset = (rawBarHeight - barHeight) / 2.0;
 
         var axis = context.XAxis!;

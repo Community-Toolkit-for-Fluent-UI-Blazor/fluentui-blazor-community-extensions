@@ -3,7 +3,7 @@ using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 
-internal class RadarLayer(RadarPayload payload) : IChartLayer, ILayer<RadarPayload>
+internal sealed class RadarLayer(RadarPayloadCollection payload) : IChartLayer, ILayer<RadarPayloadCollection>
 {
     /// <inheritdoc />
     public string Key => "radar";

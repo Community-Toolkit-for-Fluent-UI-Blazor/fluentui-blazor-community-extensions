@@ -14,10 +14,10 @@ internal static class ChartPolarAxesSvgBuilder
             .WithStroke(theme.Theme.Palette.Axis.ToString())
             .WithStrokeWidth(theme.ComputedValues.FinalStrokeThickness);
 
-        RenderRadialAxes(group, payload);
-        RenderConcentricGrid(group, payload, payload.Grid == Enums.RadarGridType.Circle);
-        RenderPolygonGrid(group, payload, payload.Grid == Enums.RadarGridType.Polygon);
-        RenderAngleLabels(group, payload, theme);
+        RenderRadialAxes(group, payload, payload.ChartType == Enums.PolarChartType.Radar);
+        RenderConcentricGrid(group, payload, payload.Grid == Enums.RadarGridType.Circle || payload.ChartType == Enums.PolarChartType.Area);
+        RenderPolygonGrid(group, payload, payload.Grid == Enums.RadarGridType.Polygon && payload.ChartType != Enums.PolarChartType.Area);
+        RenderAngleLabels(group, payload, theme, payload.ChartType == Enums.PolarChartType.Radar);
         RenderRadiusLabels(group, payload, theme);
 
         group.Close();
@@ -25,8 +25,14 @@ internal static class ChartPolarAxesSvgBuilder
 
     private static void RenderRadialAxes(
         SvgGroupBuilder svg,
-        PolarAxesPayload payload)
+        PolarAxesPayload payload,
+        bool when)
     {
+        if (!when)
+        {
+            return;
+        }
+
         foreach (var axis in payload.RadialAxes)
         {
             var path = svg.AddPath().WithFill("none");
@@ -105,8 +111,14 @@ internal static class ChartPolarAxesSvgBuilder
     private static void RenderAngleLabels(
         SvgGroupBuilder svg,
         PolarAxesPayload payload,
-        ChartThemeContext context)
+        ChartThemeContext context,
+        bool when)
     {
+        if (!when)
+        {
+            return;
+        }
+
         var typo = context.Theme.Typography.Label;
 
         foreach (var label in payload.AngleLabels)

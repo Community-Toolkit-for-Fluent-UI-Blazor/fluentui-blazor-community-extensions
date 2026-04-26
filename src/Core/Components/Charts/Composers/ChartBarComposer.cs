@@ -89,8 +89,8 @@ internal sealed class ChartBarComposer(
         for (var serieIndex = 0; serieIndex < filtered.Count; serieIndex++)
         {
             var serie = filtered[serieIndex];
-            var bars = serie.IsStacked ? StackedBarLayoutEngine.Layout(serie, filtered, serieIndex, ctx) :
-                                         BarLayoutEngine.Layout(serie, filtered, minValue, maxValue, serieIndex, ctx);
+            var bars = serie.IsStacked ? StackedBarLayoutEngine.Layout(serie, filtered, serieIndex, ctx, chartOptions) :
+                                         BarLayoutEngine.Layout(serie, filtered, minValue, maxValue, serieIndex, ctx, chartOptions);
 
             for (var i = 0; i < bars.Count; i++)
             {

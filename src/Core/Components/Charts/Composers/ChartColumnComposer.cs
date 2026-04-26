@@ -42,8 +42,8 @@ internal sealed class ChartColumnComposer(
         for (var serieIndex = 0; serieIndex < filtered.Count; serieIndex++)
         {
             var serie = filtered[serieIndex];
-            var columns = serie.IsStacked ? StackedColumnLayoutEngine.Layout(serie, filtered, serieIndex, ctx) :
-                                            ColumnLayoutEngine.Layout(serie, filtered, minValue, maxValue, serieIndex, ctx);
+            var columns = serie.IsStacked ? StackedColumnLayoutEngine.Layout(serie, filtered, serieIndex, ctx, chartOptions) :
+                                            ColumnLayoutEngine.Layout(serie, filtered, minValue, maxValue, serieIndex, ctx, chartOptions);
             var payloads = new List<ColumnPayload>(columns.Count);
 
             for (var i = 0; i < columns.Count; i++)

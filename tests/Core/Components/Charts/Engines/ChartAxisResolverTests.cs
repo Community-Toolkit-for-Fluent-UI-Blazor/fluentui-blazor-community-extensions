@@ -34,7 +34,7 @@ public class ChartAxisResolverTests
         var theme = new ChartThemeContext { Theme = new ChartTheme() };
 
         var serie = new BarSerie { Name = "Bar" };
-        serie.UpdateItems([new CategoryItem { Category = "A", Value = 1 }]);
+        serie.UpdateItems([new CategoryItem { Name = "A", Value = 1 }]);
 
         ChartAxisResolver.Resolve(options, context, theme, new ChartSerie[] { serie });
 

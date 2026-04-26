@@ -1,5 +1,5 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
+using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
 using MDS = FluentUI.Blazor.Community.Components.Charts.Series.MultiDonutSerie;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
@@ -33,12 +33,14 @@ internal static class MultiDonutLayoutEngine
     /// are enabled for a series.</remarks>
     /// <param name="serie">The multi-series donut data to be rendered. Must not be null and must contain at least one visible series with
     /// non-zero values.</param>
+    /// <param name="options">The chart options containing configuration settings for the donut layout, such as inner radius factors and label display options. Must not be null.</param>
     /// <param name="context">The chart context that defines the plot area and layout parameters. Must not be null.</param>
     /// <returns>A read-only list of donut ring layouts, each describing the geometry and slice arrangement for a visible series.
     /// Returns an empty list if there are no visible series with data.</returns>
     public static IReadOnlyList<DonutRingLayout> Layout(
         MDS serie,
-        ChartContext context)
+        ChartContext context,
+        CO options)
     {
         ArgumentNullException.ThrowIfNull(serie);
         ArgumentNullException.ThrowIfNull(context);
@@ -56,10 +58,10 @@ internal static class MultiDonutLayoutEngine
 
         var maxRadius = Math.Min(plot.Width, plot.Height) / 2.0;
         var ringCount = serie.Series.Count;
-
         var usableRadius = maxRadius * 0.9;
         var bandThickness = usableRadius / ringCount;
         var rings = new List<DonutRingLayout>(ringCount);
+        var opts = options.DefaultDonutOptions;
 
         for (var index = 0; index < ringCount; index++)
         {
@@ -85,7 +87,6 @@ internal static class MultiDonutLayoutEngine
             }
 
             var outerRadius = usableRadius - index * bandThickness;
-            var opts = donutSerie.Options ?? new RadialSerieOptions();
             var innerFactor = opts.InnerRadius <= 0 ? 0.5 : opts.InnerRadius;
             var innerRadius = outerRadius * innerFactor;
             var anglePerUnit = 360.0 / total;

@@ -127,6 +127,11 @@ public abstract class SerieBase : FluentComponentBase, IDisposable
     /// <returns>A new <see cref="ChartSerie"/> instance representing the configured chart series.</returns>
     protected internal abstract ChartSerie Create();
 
+    /// <summary>
+    /// Gets a value indicating whether the current series has a parent chart component.
+    /// </summary>
+    protected internal virtual bool HasParent => false;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {

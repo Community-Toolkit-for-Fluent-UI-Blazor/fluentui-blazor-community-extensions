@@ -33,7 +33,7 @@ internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
         var categories = columnSeries
             .SelectMany(s => s.Items)
             .Where(i => i.IsVisible)
-            .Select(i => i.Category)
+            .Select(i => i.Name)
             .Distinct()
             .ToList();
 

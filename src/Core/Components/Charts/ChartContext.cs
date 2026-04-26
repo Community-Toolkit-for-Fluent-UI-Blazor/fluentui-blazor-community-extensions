@@ -86,4 +86,9 @@ internal sealed record ChartContext
     /// Gets the unique identifier for the clipping path used in the chart's rendering context, if applicable.
     /// </summary>
     public string? ClipPathId { get; internal set; }
+
+    /// <summary>
+    /// Gets the maximum value used for scaling polar chart axes, ensuring that all data points fit within the chart's bounds.
+    /// </summary>
+    public double PolarNiceMax { get; internal set; }
 }
