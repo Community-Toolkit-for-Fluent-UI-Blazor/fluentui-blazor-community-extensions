@@ -22,37 +22,37 @@
             {
                 <AreaSerie Name="Area" Items="@(_items)" />
                 <AreaSerie Name="Area 2" Items="@(_items2)" />
-                <AreaSerie Name="Area 2" Items="@(_items3)" />
+                <AreaSerie Name="Area 3" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.Line)
             {
                 <LineSerie Name="Line" Items="@(_items)" />
                 <LineSerie Name="Line 2" Items="@(_items2)" />
-                <LineSerie Name="Line 2" Items="@(_items3)" />
+                <LineSerie Name="Line 3" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.Column)
             {
                 <ColumnSerie Name="Columns" Items="@(_items)" />
                 <ColumnSerie Name="Columns 2" Items="@(_items2)" />
-                <ColumnSerie Name="Columns 2" Items="@(_items3)" />
+                <ColumnSerie Name="Columns 3" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.Bar)
             {
                 <BarSerie Name="Bars" Items="@(_items)" />
                 <BarSerie Name="Bars 2" Items="@(_items2)" />
-                <BarSerie Name="Bars 2" Items="@(_items3)" />
+                <BarSerie Name="Bars 3" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.StackedBar)
             {
                 <StackedBarSerie Name="Bars" Items="@(_items)" />
                 <StackedBarSerie Name="Bars 2" Items="@(_items2)" />
-                <StackedBarSerie Name="Bars 2" Items="@(_items3)" />
+                <StackedBarSerie Name="Bars 3" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.StackedColumn)
             {
                 <StackedColumnSerie Name="Columns" Items="@(_items)" />
                 <StackedColumnSerie Name="Columns 2" Items="@(_items2)" />
-                <StackedColumnSerie Name="Columns 2" Items="@(_items3)" />
+                <StackedColumnSerie Name="Columns 3" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.StackedArea)
             {
@@ -64,13 +64,13 @@
             {
                 <Stacked100BarSerie Name="Bars" Items="@(_items)" />
                 <Stacked100BarSerie Name="Bars 2" Items="@(_items2)" />
-                <Stacked100BarSerie Name="Bars 2" Items="@(_items3)" />
+                <Stacked100BarSerie Name="Bars 3" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.Stacked100Column)
             {
                 <Stacked100ColumnSerie Name="Columns" Items="@(_items)" />
                 <Stacked100ColumnSerie Name="Columns 2" Items="@(_items2)" />
-                <Stacked100ColumnSerie Name="Columns 2" Items="@(_items3)" />
+                <Stacked100ColumnSerie Name="Columns 3" Items="@(_items3)" />
             }
             else if (_selectedChartCategory == ChartType.Stacked100Area)
             {
@@ -96,18 +96,6 @@
                 <Stacked100StepSerie Name="Step 2" Items="@(_items2)" />
                 <Stacked100StepSerie Name="Step 3" Items="@(_items3)" />
             }
-            else if (_selectedChartCategory == ChartType.Scatter)
-            {
-                <ScatterSerie Name="Scatter" Items="@(_items)" />
-                <ScatterSerie Name="Scatter 2" Items="@(_items2)" />
-                <ScatterSerie Name="Scatter 3" Items="@(_items3)" />
-            }
-            else if (_selectedChartCategory == ChartType.Bubble)
-            {
-                <BubbleSerie Name="Bubble" Items="@(_items)" />
-                <BubbleSerie Name="Bubble 2" Items="@(_items2)" />
-                <BubbleSerie Name="Bubble 3" Items="@(_items3)" />
-            }
         </FluentCxChart>
     </FluentStack>
 </div>
@@ -132,9 +120,7 @@
         ChartType.Stacked100Area,
         ChartType.Step,
         ChartType.StackedStep,
-        ChartType.Stacked100Step,
-        ChartType.Scatter,
-        ChartType.Bubble
+        ChartType.Stacked100Step
     ];
 
     private static CategoryItem[] _items = new[]

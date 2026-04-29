@@ -42,8 +42,8 @@ internal sealed class ChartLineComposer
                serie,
                index,
                options,
-               markerDefaults ?? options.DefaultMarkerStyles,
-               defaults ?? options.DefaultLineStyles,
+               markerDefaults ?? options.MarkerStyles,
+               defaults ?? options.LineStyles,
                StackedAreaLayoutEngine.Layout(serie, filtered, index, ctx, options)),
 
             [LineChartType.Stacked100Area] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildStackedPayload(
@@ -51,8 +51,8 @@ internal sealed class ChartLineComposer
                serie,
                index,
                options,
-               markerDefaults ?? options.DefaultMarkerStyles,
-               defaults ?? options.DefaultLineStyles,
+               markerDefaults ?? options.MarkerStyles,
+               defaults ?? options.LineStyles,
                StackedAreaLayoutEngine.Layout(serie, filtered, index, ctx, options)),
 
             [LineChartType.StackedStep] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildStackedPayload(
@@ -60,8 +60,8 @@ internal sealed class ChartLineComposer
                serie,
                index,
                options,
-               markerDefaults ?? options.DefaultMarkerStyles,
-               defaults ?? options.DefaultLineStyles,
+               markerDefaults ?? options.MarkerStyles,
+               defaults ?? options.LineStyles,
                StackedStepLayoutEngine.Layout(serie, filtered, index, ctx, options)),
 
             [LineChartType.Stacked100Step] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildStackedPayload(
@@ -69,35 +69,17 @@ internal sealed class ChartLineComposer
                serie,
                index,
                options,
-               markerDefaults ?? options.DefaultMarkerStyles,
-               defaults ?? options.DefaultLineStyles,
+               markerDefaults ?? options.MarkerStyles,
+               defaults ?? options.LineStyles,
                StackedStepLayoutEngine.Layout(serie, filtered, index, ctx, options)),
-
-            [LineChartType.Scatter] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildScatterPayload(
-               target,
-               serie,
-               index,
-               options,
-               markerDefaults ?? options.DefaultMarkerStyles,
-               defaults ?? options.DefaultLineStyles,
-               ScatterLayoutEngine.Layout(serie, ctx, options)),
-
-            [LineChartType.Bubble] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildBubblePayload(
-                target,
-                serie,
-                index,
-                options,
-                markerDefaults ?? options.DefaultMarkerStyles,
-                defaults ?? options.DefaultLineStyles,
-                BubbleLayoutEngine.Layout(serie, ctx, options)),
 
             [LineChartType.Step] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildLinePayload(
                 target,
                 serie,
                 index,
                 options,
-                markerDefaults ?? options.DefaultMarkerStyles,
-                defaults ?? options.DefaultLineStyles,
+                markerDefaults ?? options.MarkerStyles,
+                defaults ?? options.LineStyles,
                 StepLayoutEngine.Layout(serie, ctx, options)),
 
             [LineChartType.Line] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildLinePayload(
@@ -105,8 +87,8 @@ internal sealed class ChartLineComposer
                 serie,
                 index,
                 options,
-                markerDefaults ?? options.DefaultMarkerStyles,
-                defaults ?? options.DefaultLineStyles,
+                markerDefaults ?? options.MarkerStyles,
+                defaults ?? options.LineStyles,
                 CategoryLineLayoutEngine.Layout(serie, ctx, options)),
 
             [LineChartType.Area] = (target, serie, filtered, index, ctx, options, markerDefaults, defaults) => BuildAreaPayload(
@@ -115,8 +97,8 @@ internal sealed class ChartLineComposer
                 serie,
                 index,
                 options,
-                markerDefaults ?? options.DefaultMarkerStyles,
-                defaults ?? options.DefaultLineStyles,
+                markerDefaults ?? options.MarkerStyles,
+                defaults ?? options.LineStyles,
                 CategoryLineLayoutEngine.Layout(serie, ctx, options))
         };
     }
@@ -332,118 +314,6 @@ internal sealed class ChartLineComposer
         target.AddLayer(new StackedAreaLayer(payload));
     }
 
-    /// <summary>
-    /// Constructs and adds a bubble layer to the render target by transforming series data and points into a bubble
-    /// payload.
-    /// </summary>
-    /// <param name="target">The render target to which the bubble layer will be added.</param>
-    /// <param name="serie">The line series containing the data items to be rendered.</param>
-    /// <param name="index">The zero-based index of the series in the chart.</param>
-    /// <param name="options">The chart options containing global settings such as animation configuration.</param>
-    /// <param name="markerLineStyle">The default marker line style to apply when item-specific styles are not defined.</param>
-    /// <param name="chartLinePointStyle">The default chart line point style to apply at the series level when styles are not defined.</param>
-    /// <param name="points">The collection of bubble points to render, containing position and size information.</param>
-    private void BuildBubblePayload(
-        ISurfaceRenderTarget target,
-        LS serie,
-        int index,
-        CO options,
-        ChartMarkerLineStyle markerLineStyle,
-        ChartLinePointStyle chartLinePointStyle,
-        IReadOnlyList<BubblePoint> points)
-    {
-        var payloadPoints = points.Select(p =>
-        {
-            var item = serie.Items[p.CategoryIndex];
-
-            return new BubblePointPayload
-            {
-                BubbleValue = p.BubbleValue,
-                Radius = p.Radius,
-                SerieIndex = index,
-                ChartId = _chartId,
-                Id = p.Id,
-                X = p.X,
-                Y = p.Y,
-                CategoryIndex = p.CategoryIndex,
-                Value = p.Value,
-                AnimationEnabled = options.AnimationEnabled,
-                InteractionState = item.InteractionState,
-                Index = p.CategoryIndex,
-                GroupId = serie.Id,
-                Trigger = item.Trigger,
-                Effect = item.Effect,
-                Normal = ChartStyleResolver.Resolve(item.Style?.Normal, markerLineStyle.Normal),
-                Hover = ChartStyleResolver.Resolve(item.Style?.Hover, markerLineStyle.Hover),
-                Pressed = ChartStyleResolver.Resolve(item.Style?.Pressed, markerLineStyle.Pressed),
-                Selected = ChartStyleResolver.Resolve(item.Style?.Selected, markerLineStyle.Selected),
-                Animation = ChartAnimationResolver.Resolve(item.Animation, serie.Animation, options.Animation),
-                Tooltip = new ChartTooltipPayload()
-            };
-        }).ToList();
-
-        var payload = new BubblePayload
-        {
-            ChartId = _chartId,
-            Id = serie.Id,
-            SerieIndex = index,
-            AnimationEnabled = serie.AnimationEnabled,
-            GroupId = string.Empty,
-            Index = index,
-            Points = payloadPoints,
-            Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, chartLinePointStyle.Normal),
-            Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, chartLinePointStyle.Hover),
-            Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, chartLinePointStyle.Pressed),
-            Selected = ChartStyleResolver.Resolve(serie.Style?.Selected, chartLinePointStyle.Selected),
-            Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
-            Tooltip = new ChartTooltipPayload()
-        };
-
-        target.AddLayer(new BubbleLayer(payload));
-    }
-
-    /// <summary>
-    /// Builds and adds a scatter chart layer to the render target using the specified series data and styles.
-    /// </summary>
-    /// <param name="target">The render target to add the scatter layer to.</param>
-    /// <param name="serie">The series containing the data and configuration.</param>
-    /// <param name="index">The index of the series in the chart.</param>
-    /// <param name="options">The chart options.</param>
-    /// <param name="markerLineStyle">The marker line style to apply.</param>
-    /// <param name="chartLinePointStyle">The chart line point style to apply.</param>
-    /// <param name="points">The collection of line points to render.</param>
-    private void BuildScatterPayload(
-        ISurfaceRenderTarget target,
-        LS serie,
-        int index,
-        CO options,
-        ChartMarkerLineStyle markerLineStyle,
-        ChartLinePointStyle chartLinePointStyle,
-        IReadOnlyList<LinePoint> points)
-    {
-        var payloadPoints = BuildLinePointPayload(_chartId, serie, index, points, markerLineStyle, options);
-
-        var payload = new ScatterPayload
-        {
-            ChartId = _chartId,
-            Id = serie.Id,
-            SerieIndex = index,
-            AnimationEnabled = serie.AnimationEnabled,
-            GroupId = string.Empty,
-            Index = index,
-            Points = payloadPoints,
-            Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, chartLinePointStyle.Normal),
-            Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, chartLinePointStyle.Hover),
-            Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, chartLinePointStyle.Pressed),
-            Selected = ChartStyleResolver.Resolve(serie.Style?.Selected, chartLinePointStyle.Selected),
-            Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
-            Tooltip = new ChartTooltipPayload(),
-            Radius = options.DefaultScatterOptions.Radius
-        };
-
-        target.AddLayer(new ScatterLayer(payload));
-    }
-
     /// <inheritdoc />
     public bool Compose(
         ISurfaceRenderTarget target,
@@ -461,8 +331,8 @@ internal sealed class ChartLineComposer
             return a.Items.Sum(x => x.Value).CompareTo(b.Items.Sum(x => x.Value));
         });
 
-        var defaults = chartOptions.DefaultLineStyles;
-        var markerDefaults = chartOptions.DefaultMarkerStyles;
+        var defaults = chartOptions.LineStyles;
+        var markerDefaults = chartOptions.MarkerStyles;
         var ctx = _context();
 
         for (var i = 0; i < filtered.Count; i++)

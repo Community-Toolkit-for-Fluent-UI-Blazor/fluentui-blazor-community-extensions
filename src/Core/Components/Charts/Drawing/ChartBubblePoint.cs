@@ -9,7 +9,5 @@ internal sealed class BubblePoint
     public required double X { get; init; }
     public required double Y { get; init; }
     public required double Radius { get; init; }
-    public required int CategoryIndex { get; init; }
     public required double Value { get; init; }
-    public required double BubbleValue { get; init; }
 }

@@ -37,7 +37,7 @@ internal sealed class ChartMultiDonutComposer(
             return false;
         }
 
-        var defaults = chartOptions.DefaultPieStyle;
+        var defaults = chartOptions.PieStyle;
         var ctx = context();
 
         for (var serieIndex = 0; serieIndex < filtered.Count; serieIndex++)
@@ -64,7 +64,7 @@ internal sealed class ChartMultiDonutComposer(
             var globalColorIndex = 0;
             var slicesPerRing = new List<List<PiePayload>>(ringCount);
             var optsPerRing = new List<RadialSerieOptions>(ringCount);
-            var opts = chartOptions.DefaultDonutOptions;
+            var opts = chartOptions.DonutOptions;
 
             for (var r = 0; r < ringCount; r++)
             {

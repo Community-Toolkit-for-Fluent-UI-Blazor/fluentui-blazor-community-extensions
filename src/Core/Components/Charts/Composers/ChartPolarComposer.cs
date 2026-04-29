@@ -37,12 +37,13 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
         }
 
         var ctx = _context();
-
         var radarSeries = filtered.Where(s => s.PolarType == PolarChartType.Radar).ToList();
         var areaSeries = filtered.Where(s => s.PolarType == PolarChartType.Area).ToList();
         var barSeries = filtered.Where(s => s.PolarType == PolarChartType.Bar).ToList();
         var lineSeries = filtered.Where(s => s.PolarType == PolarChartType.Line).ToList();
         var roseSeries = filtered.Where(s => s.PolarType == PolarChartType.Rose).ToList();
+        var polarScatterSeries = filtered.Where(s => s.PolarType == PolarChartType.Scatter).ToList();
+        var polarBubbleSeries = filtered.Where(s => s.PolarType == PolarChartType.Bubble).ToList();
 
         if (radarSeries.Count > 0)
         {
@@ -69,11 +70,140 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
             BuildRoseGroup(target, roseSeries, ctx, options);
         }
 
+        if (polarScatterSeries.Count > 0)
+        {
+            BuildPolarScatterGroup(target, polarScatterSeries, ctx, options);
+        }
+
+        if (polarBubbleSeries.Count > 0)
+        {
+            BuildPolarBubbleGroup(target, polarBubbleSeries, ctx, options);
+        }
+
         return true;
     }
 
     /// <inheritdoc/>
     public ValueTask<bool> ComposeAsync(ISurfaceRenderTarget target, CO options) => ValueTask.FromResult(Compose(target, options));
+
+    /// <summary>
+    /// Builds the polar scatter chart layer and adds it to the render target.
+    /// </summary>
+    /// <param name="target">The render target where the polar scatter chart layer will be added.</param>
+    /// <param name="polarScatterSeries">The polar series containing the data points for the polar scatter chart.</param>
+    /// <param name="ctx">The chart context containing layout and rendering information.</param>
+    /// <param name="options">The chart options containing default styles and animation settings.</param>
+    /// <exception cref="NotImplementedException"></exception>
+    private void BuildPolarScatterGroup(
+        ISurfaceRenderTarget target,
+        List<PolarSerie> polarScatterSeries,
+        ChartContext ctx,
+        CO options)
+    {
+        var payloads = new List<PolarScatterPayload>(polarScatterSeries.Count);
+
+        for (var serieIndex = 0; serieIndex < polarScatterSeries.Count; serieIndex++)
+        {
+            var serie = polarScatterSeries[serieIndex];
+            var points = PolarScatterLayoutEngine.Layout(serie, ctx, options);
+            var pointPayloads = new List<PolarScatterPointPayload>(points.Count);
+
+            for (var i = 0; i < points.Count; i++)
+            {
+                var p = points[i];
+                var item = serie.Items[p.Index];
+
+                pointPayloads.Add(new PolarScatterPointPayload
+                {
+                    X = p.X,
+                    Y = p.Y,
+                    Radius = p.Radius,
+                    Id = item.Id!,
+                    Index = p.Index,
+                    SerieIndex = serieIndex,
+                    GroupId = serie.Id,
+                    ChartId = _chartId,
+                    InteractionState = item.InteractionState,
+                    Trigger = item.Trigger,
+                    Effect = item.Effect,
+                    Normal = ChartStyleResolver.Resolve(item.Style?.Normal, options.MarkerStyles.Normal),
+                    Hover = ChartStyleResolver.Resolve(item.Style?.Hover, options.MarkerStyles.Hover),
+                    Pressed = ChartStyleResolver.Resolve(item.Style?.Pressed, options.MarkerStyles.Pressed),
+                    Selected = ChartStyleResolver.Resolve(item.Style?.Selected, options.MarkerStyles.Selected),
+                    AnimationEnabled = serie.AnimationEnabled,
+                    Animation = ChartAnimationResolver.Resolve(item.Animation, serie.Animation, options.Animation),
+                    Tooltip = new ChartTooltipPayload(),
+                    Value = item.Value
+                });
+            }
+
+            payloads.Add(new PolarScatterPayload
+            {
+                Points = pointPayloads
+            });
+        }
+
+        target.AddLayer(new PolarScatterLayer(new PolarScatterPayloadCollection(payloads)));
+    }
+
+    /// <summary>
+    /// Builds the polar bubble chart layer and adds it to the render target.
+    /// </summary>
+    /// <param name="target">The render target where the polar bubble chart layer will be added.</param>
+    /// <param name="polarBubbleSeries">The polar series containing the data points for the polar bubble chart.</param>
+    /// <param name="ctx">The chart context containing layout and rendering information.</param>
+    /// <param name="options">The chart options containing default styles and animation settings.</param>
+    private void BuildPolarBubbleGroup(
+        ISurfaceRenderTarget target,
+        List<PolarSerie> polarBubbleSeries,
+        ChartContext ctx,
+        CO options)
+    {
+        var payloads = new List<PolarBubblePayload>(polarBubbleSeries.Count);
+
+        for (var serieIndex = 0; serieIndex < polarBubbleSeries.Count; serieIndex++)
+        {
+            var serie = polarBubbleSeries[serieIndex];
+            var points = PolarBubbleLayoutEngine.Layout(serie, ctx, options);
+            var pointPayloads = new List<PolarBubblePointPayload>(points.Count);
+
+            for (var i = 0; i < points.Count; i++)
+            {
+                var p = points[i];
+                var item = serie.Items[p.Index];
+
+                pointPayloads.Add(new PolarBubblePointPayload
+                {
+                    X = p.X,
+                    Y = p.Y,
+                    Radius = p.Radius,
+                    Id = item.Id!,
+                    Index = p.Index,
+                    SerieIndex = serieIndex,
+                    GroupId = serie.Id,
+                    ChartId = _chartId,
+                    InteractionState = item.InteractionState,
+                    Trigger = item.Trigger,
+                    Effect = item.Effect,
+                    Normal = ChartStyleResolver.Resolve(item.Style?.Normal, options.MarkerStyles.Normal),
+                    Hover = ChartStyleResolver.Resolve(item.Style?.Hover, options.MarkerStyles.Hover),
+                    Pressed = ChartStyleResolver.Resolve(item.Style?.Pressed, options.MarkerStyles.Pressed),
+                    Selected = ChartStyleResolver.Resolve(item.Style?.Selected, options.MarkerStyles.Selected),
+                    AnimationEnabled = serie.AnimationEnabled,
+                    Animation = ChartAnimationResolver.Resolve(item.Animation, serie.Animation, options.Animation),
+                    Tooltip = new ChartTooltipPayload(),
+                    Value = item.Value
+                });
+            }
+
+            payloads.Add(new PolarBubblePayload
+            {
+                Points = pointPayloads
+            });
+        }
+
+        target.AddLayer(new PolarBubbleLayer(new PolarBubblePayloadCollection(payloads)));
+    }
 
     /// <summary>
     /// Builds the rose chart layer and adds it to the render target.
@@ -119,10 +249,10 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
                     AnimationEnabled = serie.AnimationEnabled,
                     GroupId = serie.Id,
 
-                    Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, options.DefaultPolarBarStyles.Normal),
-                    Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, options.DefaultPolarBarStyles.Hover),
-                    Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, options.DefaultPolarBarStyles.Pressed),
-                    Selected = ChartStyleResolver.Resolve(serie.Style?.Selected, options.DefaultPolarBarStyles.Selected),
+                    Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, options.PolarBarStyles.Normal),
+                    Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, options.PolarBarStyles.Hover),
+                    Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, options.PolarBarStyles.Pressed),
+                    Selected = ChartStyleResolver.Resolve(serie.Style?.Selected, options.PolarBarStyles.Selected),
 
                     Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
                     Tooltip = new ChartTooltipPayload()
@@ -180,10 +310,10 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
                     SerieIndex = serieIndex,
                     AnimationEnabled = serie.AnimationEnabled,
                     GroupId = serie.Id,
-                    Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, options.DefaultLineStyles.Normal),
-                    Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, options.DefaultLineStyles.Hover),
-                    Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, options.DefaultLineStyles.Pressed),
-                    Selected = ChartStyleResolver.Resolve(serie.Style?.Selected, options.DefaultLineStyles.Selected),
+                    Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, options.LineStyles.Normal),
+                    Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, options.LineStyles.Hover),
+                    Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, options.LineStyles.Pressed),
+                    Selected = ChartStyleResolver.Resolve(serie.Style?.Selected, options.LineStyles.Selected),
                     Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
                     Tooltip = new ChartTooltipPayload(),
                     InteractionState = item.InteractionState,
@@ -220,7 +350,7 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
         for (var serieIndex = 0; serieIndex < series.Count; serieIndex++)
         {
             var serie = series[serieIndex];
-            var serieOptions = options.DefaultRadarOptions;
+            var serieOptions = options.RadarOptions;
             var (path, polarPoints) = RadarLayoutEngine.Layout(serie, ctx);
 
             BuildPolarPointsPayload(
@@ -253,7 +383,7 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
                 Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
                 Tooltip = new ChartTooltipPayload(),
                 FillArea = serieOptions.FillArea,
-                Grid = options.DefaultRadarAxesOptions.Grid
+                Grid = options.RadarAxesOptions.Grid
             };
 
             radarPayloads.Add(payload);
@@ -303,10 +433,10 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
                     SerieIndex = serieIndex,
                     AnimationEnabled = serie.AnimationEnabled,
                     GroupId = serie.Id,
-                    Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, options.DefaultPolarBarStyles.Normal),
-                    Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, options.DefaultPolarBarStyles.Hover),
-                    Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, options.DefaultPolarBarStyles.Pressed),
-                    Selected = ChartStyleResolver.Resolve(serie.Style?.Selected, options.DefaultPolarBarStyles.Selected),
+                    Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, options.PolarBarStyles.Normal),
+                    Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, options.PolarBarStyles.Hover),
+                    Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, options.PolarBarStyles.Pressed),
+                    Selected = ChartStyleResolver.Resolve(serie.Style?.Selected, options.PolarBarStyles.Selected),
                     Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
                     Tooltip = new ChartTooltipPayload(),
                     InteractionState = item.InteractionState,
@@ -346,8 +476,8 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
         out ChartLinePointStyle lineDefaults,
         out List<LinePointPayload> payloadPoints)
     {
-        var markerDefaults = options.DefaultMarkerStyles;
-        lineDefaults = options.DefaultLineStyles;
+        var markerDefaults = options.MarkerStyles;
+        lineDefaults = options.LineStyles;
         payloadPoints = [.. polarPoints
             .Select(p =>
             {

@@ -36,6 +36,7 @@ internal sealed class ChartThemeProvider(
             ChartPaletteStyle.Summer => paletteGenerators.Get("Summer"),
             ChartPaletteStyle.Spring => paletteGenerators.Get("Spring"),
             ChartPaletteStyle.Winter => paletteGenerators.Get("Winter"),
+            ChartPaletteStyle.Radar => paletteGenerators.Get("Radar"),
             _ => paletteGenerators.Get("Default")
         };
 

@@ -6,11 +6,11 @@ namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 /// <summary>
 /// Represents a chart layer that renders bubble series using the specified payload.
 /// </summary>
-/// <param name="payload">The payload containing the bubble points to be rendered.</param>
-internal class BubbleLayer(BubblePayload payload) : IChartLayer, ILayer<BubblePayload>
+/// <param name="payload"></param>
+internal sealed class XYBubbleLayer(XYBubblePayloadCollection payload) : IChartLayer, ILayer<XYBubblePayload>
 {
     /// <inheritdoc />
-    public string Key => "bubble";
+    public string Key => "xy-bubble";
 
     /// <inheritdoc />
     public LayerOrder Order => LayerOrder.Content;

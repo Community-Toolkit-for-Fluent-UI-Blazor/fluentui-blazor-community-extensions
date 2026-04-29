@@ -4,29 +4,32 @@ using FluentUI.Blazor.Community.Components.Charts.Themes;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Builders;
 
-internal class ChartScatterSvgBuilder
+internal static class ChartScatterSvgBuilder
 {
     public static void Build(
        SvgBuilder svg,
-       ScatterPayload payload,
+       XYScatterPayloadCollection payload,
        ChartThemeContext context)
     {
-        if (payload.Points.Count == 0)
+        if (payload.Payloads.Count == 0)
         {
             return;
         }
 
         var group = svg.AddGroup()
-                       .WithId($"scatter-{payload.Id}");
+                       .WithId($"scatter");
 
-        RenderScatter(group, payload, context);
+        foreach (var item in payload.Payloads)
+        {
+            RenderScatter(group, item, context);
+        }
 
         group.Close();
     }
 
     private static void RenderScatter(
         SvgGroupBuilder group,
-        ScatterPayload payload,
+        XYScatterPayload payload,
         ChartThemeContext context)
     {
         var serieIndex = payload.SerieIndex;
@@ -45,9 +48,8 @@ internal class ChartScatterSvgBuilder
             var strokeWidth = style.StrokeWidth ?? strokeWidthBase;
             var opacity = style.Opacity ?? 1.0;
 
-            group.AddCircle(pt.X, pt.Y, payload.Radius)
+            group.AddCircle(pt.X, pt.Y, pt.Radius)
                 .WithAttribute("data-id", pt.Id)
-                .WithAttribute("data-category", pt.CategoryIndex)
                 .WithAttribute("data-value", pt.Value.ToString("G", CultureInfo.InvariantCulture))
                 .WithFill(fill)
                 .WithOpacity(opacity)

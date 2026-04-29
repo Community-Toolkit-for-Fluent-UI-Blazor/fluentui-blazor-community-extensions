@@ -8,34 +8,34 @@ internal static class ScatterLayoutEngine
     /// <summary>
     /// Layout the scatter points based on the provided series and chart context.
     /// </summary>
-    /// <param name="serie">The line series containing the data points to be laid out.</param>
+    /// <param name="serie">The XY series containing the data points to be laid out.</param>
     /// <param name="context">The chart context providing the mapping functions for the axes.</param>
     /// <param name="options">The chart options that may influence the layout of the scatter points.</param>
-    /// <returns>A read-only list of line points representing the scatter points.</returns>
-    public static IReadOnlyList<LinePoint> Layout(
-        Series.LineSerie serie,
+    /// <returns>A read-only list of XY points representing the scatter points.</returns>
+    public static IReadOnlyList<XYPoint> Layout(
+        Series.XYSerie serie,
         ChartContext context,
         CO options)
     {
-        var serieOptions = options.DefaultScatterOptions;
-        var items = CategoryAxisEngine.Sort(serie.Items, serieOptions);
+        var serieOptions = options.ScatterOptions;
+        var items = serie.Items;
         var count = items.Count;
 
-        var points = new List<LinePoint>(count);
+        var points = new List<XYPoint>(count);
 
         for (var i = 0; i < count; i++)
         {
             var item = items[i];
-            var x = context.XAxis!.Map(i);
-            var y = context.YAxis!.Map(item.Value);
 
-            points.Add(new LinePoint
+            points.Add(new XYPoint
             {
-                Id = item.Id ?? $"scatter-point-{Guid.NewGuid()}",
-                X = x,
-                Y = y,
-                CategoryIndex = i,
-                Value = item.Value
+                X = context.XAxis!.Map(item.X),
+                Y = context.YAxis!.Map(item.Y),
+                RawX = item.X,
+                RawY = item.Y,
+                Index = i,
+                Value = item.Value,
+                Radius = serieOptions.Radius
             });
         }
 

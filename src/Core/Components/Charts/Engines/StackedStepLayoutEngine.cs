@@ -13,7 +13,7 @@ internal static class StackedStepLayoutEngine
         ChartContext context,
         CO options)
     {
-        var serieOptions = options.DefaultCategoryLineOptions;
+        var serieOptions = options.CategoryLineOptions;
         var items = CategoryAxisEngine.Sort(serie.Items, serieOptions);
         var count = items.Count;
         var top = new List<ChartPoint>(count * 2 - 1);

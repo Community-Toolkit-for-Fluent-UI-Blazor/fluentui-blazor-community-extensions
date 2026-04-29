@@ -51,7 +51,10 @@ public partial class FluentCxChart : FluentComponentBase
         [ChartType.Bubble] = i => i + 1,
         [ChartType.Radar] = i => i + 1,
         [ChartType.PolarLine] = i => i + 1,
-        [ChartType.PolarBar] = i => i + 1
+        [ChartType.PolarBar] = i => i + 1,
+        [ChartType.PolarScatter] = i => i + 1,
+        [ChartType.PolarBubble] = i => i + 1,
+        [ChartType.XYLine] = i => i + 1,
     };
 
     /// <summary>
@@ -420,15 +423,16 @@ public partial class FluentCxChart : FluentComponentBase
         base.OnInitialized();
 
         _chartComposer.AddRange(
-            new ChartBarComposer(Id!, () => _chartContext, GetBarSeries),
-            new ChartColumnComposer(Id!, () => _chartContext, GetColumnSeries),
-            new ChartLineComposer(Id!, () => _chartContext, GetLineSeries),
-            new ChartAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, IsCategorySeries),
-            new ChartGridComposer(() => _chartContext, () => _options.DefaultGridOptions),
-            new ChartPieComposer(Id!, () => _chartContext, GetPieSeries),
-            new ChartDonutComposer(Id!, () => _chartContext, GetDonutSeries),
-            new ChartSemiDonutComposer(Id!, () => _chartContext, GetSemiDonutSeries),
-            new ChartMultiDonutComposer(Id!, () => _chartContext, GetMultiDonutSeries),
+            new ChartBarComposer(Id!, () => _chartContext, GetSeries<Charts.Series.BarSerie>),
+            new ChartColumnComposer(Id!, () => _chartContext, GetSeries<Charts.Series.ColumnSerie>),
+            new ChartLineComposer(Id!, () => _chartContext, GetSeries<Charts.Series.LineSerie>),
+            new ChartXYComposer(Id!, () => _chartContext, GetSeries<Charts.Series.XYSerie>),
+            new ChartAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, IsAxesSeries),
+            new ChartGridComposer(() => _chartContext, () => _options.GridOptions),
+            new ChartPieComposer(Id!, () => _chartContext, GetSeries<Charts.Series.PieSerie>),
+            new ChartDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.DonutSerie>),
+            new ChartSemiDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.SemiDonutSerie>),
+            new ChartMultiDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.MultiDonutSerie>),
             new ChartClipPathComposer(() => _chartContext),
             new ChartLayoutComposer(
                 () => _chartContext,
@@ -436,26 +440,28 @@ public partial class FluentCxChart : FluentComponentBase
                 () => Subtitle,
                 () => LegendItemShape,
                 () => _liveSeries.Values),
-            new ChartPolarAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, GetPolarSeries),
-            new ChartPolarComposer(Id!, () => _chartContext, GetPolarSeries)
+            new ChartPolarAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, GetSeries<PolarSerie>),
+            new ChartPolarComposer(Id!, () => _chartContext, GetSeries<PolarSerie>)
         );
 
         RenderTarget ??= new ChartSvgRenderTarget(Id!, () => _chartContext, () => _chartThemeContext, () => _options);
     }
 
     /// <summary>
-    /// Returns a collection of bar series generated from the child chart elements with a bar chart type.
+    /// Returns a collection of series of the specified type generated from the child chart elements.
     /// </summary>
-    /// <remarks>Use this method to retrieve all bar series defined by the current set of child chart
-    /// elements. Only child elements with a chart type of bar are included in the result.</remarks>
-    /// <returns>An enumerable collection of <see cref="Charts.Series.BarSerie"/> objects representing the bar series created
-    /// from the child elements. The collection is empty if no child elements have a bar chart type.</returns>
-    private IEnumerable<Charts.Series.BarSerie> GetBarSeries()
+    /// <typeparam name="T">The type of series to retrieve.</typeparam>
+    /// <returns>An enumerable collection of series of the specified type. The collection is empty if no child elements have the specified chart type.</returns>
+    private IEnumerable<T> GetSeries<T>()
     {
-        return _liveSeries.Values.OfType<Charts.Series.BarSerie>();
+        return _liveSeries.Values.OfType<T>();
     }
 
-    private bool IsCategorySeries()
+    /// <summary>
+    /// Gets a value indicating whether all child series are of a type that uses axes.
+    /// </summary>
+    /// <returns>Returns <see langword="true" /> if all child series use axes; otherwise, <see langword="false" />.</returns>
+    private bool IsAxesSeries()
     {
         return _liveSeries.Values.All(x => x.ChartType is ChartType.Bar or
             ChartType.Column or
@@ -471,86 +477,17 @@ public partial class FluentCxChart : FluentComponentBase
             ChartType.Stacked100Step or
             ChartType.StackedStep or
             ChartType.Scatter or
-            ChartType.Bubble);
-    }
-
-    /// <summary>
-    /// Returns a collection of pie series generated from the child chart elements with a pie chart type.
-    /// </summary>
-    /// <returns>An enumerable collection of <see cref="Charts.Series.PieSerie"/> objects representing the pie series created
-    /// from the child elements. The collection is empty if no child elements have a pie chart type.</returns>
-    private IEnumerable<Charts.Series.PieSerie> GetPieSeries()
-    {
-        return _liveSeries.Values.OfType<Charts.Series.PieSerie>();
-    }
-
-    /// <summary>
-    /// Returns a collection of donut series generated from the child chart elements with a donut chart type.
-    /// </summary>
-    /// <returns>An enumerable collection of <see cref="Charts.Series.DonutSerie"/> objects representing the donut series created
-    /// from the child elements. The collection is empty if no child elements have a donut chart type.</returns>
-    private IEnumerable<Charts.Series.DonutSerie> GetDonutSeries()
-    {
-        return _liveSeries.Values.OfType<Charts.Series.DonutSerie>();
-    }
-
-    /// <summary>
-    /// Returns a collection of semi donut series generated from the child chart elements with a semi-donut chart type.
-    /// </summary>
-    /// <returns>An enumerable collection of <see cref="Charts.Series.SemiDonutSerie"/> objects representing the semi-donut series created
-    /// from the child elements. The collection is empty if no child elements have a semi-donut chart type.</returns>
-    private IEnumerable<Charts.Series.SemiDonutSerie> GetSemiDonutSeries()
-    {
-        return _liveSeries.Values.OfType<Charts.Series.SemiDonutSerie>();
-    }
-
-    /// <summary>
-    /// Returns a collection of donut series generated from the child chart elements with a donut chart type.
-    /// </summary>
-    /// <returns>An enumerable collection of <see cref="Charts.Series.MultiDonutSerie"/> objects representing the multi-donut series created
-    /// from the child elements. The collection is empty if no child elements have a multi-donut chart type.</returns>
-    private IEnumerable<Charts.Series.MultiDonutSerie> GetMultiDonutSeries()
-    {
-        return _liveSeries.Values.OfType<Charts.Series.MultiDonutSerie>();
-    }
-
-    /// <summary>
-    /// Retrieves all child series configured as column chart types.
-    /// </summary>
-    /// <returns>An enumerable collection of <see cref="Charts.Series.ColumnSerie"/> objects representing the column series
-    /// defined among the child elements. The collection is empty if no column series are present.</returns>
-    private IEnumerable<Charts.Series.ColumnSerie> GetColumnSeries()
-    {
-        return _liveSeries.Values.OfType<Charts.Series.ColumnSerie>();
-    }
-
-    /// <summary>
-    /// Retrieves all child series of type CategoryLine as line series objects.
-    /// </summary>
-    /// <returns>An enumerable collection of CategoryLineSerie instances representing the line series contained in the current
-    /// chart. The collection is empty if no such series exist.</returns>
-    private IEnumerable<Charts.Series.LineSerie> GetLineSeries()
-    {
-        return _liveSeries.Values.OfType<Charts.Series.LineSerie>();
-    }
-
-    /// <summary>
-    /// Retrieves all child series of type Polar as polar series objects.
-    /// </summary>
-    /// <returns>An enumerable collection of PolarSerie instances representing the polar series contained in the current
-    /// chart. The collection is empty if no such series exist.</returns>
-    private IEnumerable<PolarSerie> GetPolarSeries()
-    {
-        return _liveSeries.Values.OfType<PolarSerie>();
+            ChartType.Bubble or
+            ChartType.XYLine);
     }
 
     /// <summary>
     /// Updates the default bar series options for the chart.
     /// </summary>
     /// <param name="options">The bar series options to apply as the new default configuration.</param>
-    internal void UpdateBarOptions(Charts.Options.BarSerieOptions options)
+    internal void UpdateBarOptions(BarSerieOptions options)
     {
-        _options.DefaultBarOptions = options;
+        _options.BarOptions = options;
         Refresh();
     }
 
@@ -558,9 +495,9 @@ public partial class FluentCxChart : FluentComponentBase
     /// Updates the default column options for the chart.
     /// </summary>
     /// <param name="options">The new column options to apply as the default settings.</param>
-    internal void UpdateColumnOptions(Charts.Options.ColumnSerieOptions options)
+    internal void UpdateColumnOptions(ColumnSerieOptions options)
     {
-        _options.DefaultColumnOptions = options;
+        _options.ColumnOptions = options;
         Refresh();
     }
 
@@ -580,7 +517,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="radarAxesOptions">The new radar chart axes options to apply as the default configuration for all radar chart axes in the chart. This will affect the appearance and behavior of radar chart axes across the entire chart unless overridden by specific axis configurations.</param>
     internal void UpdateRadarChartAxesOptions(RadarAxesOptions radarAxesOptions)
     {
-        _options.DefaultRadarAxesOptions = radarAxesOptions;
+        _options.RadarAxesOptions = radarAxesOptions;
         Refresh();
     }
 
@@ -590,7 +527,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="radarSerieOptions">The new radar series options to apply as the default configuration for all radar series in the chart. This will affect the appearance and behavior of radar series across the entire chart unless overridden by specific series configurations.</param>
     internal void UpdateRadarSerieOptions(Charts.Options.RadarSerieOptions radarSerieOptions)
     {
-        _options.DefaultRadarOptions = radarSerieOptions;
+        _options.RadarOptions = radarSerieOptions;
         Refresh();
     }
 
@@ -600,7 +537,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="semiDonutSerieOptions">The new semi-donut series options to apply as the default configuration for all semi-donut series in the chart. This will affect the appearance and behavior of semi-donut series across the entire chart unless overridden by specific series configurations.</param>
     internal void UpdateSemiDonutSerieOptions(RadialSerieOptions semiDonutSerieOptions)
     {
-        _options.DefaultSemiDonutOptions = semiDonutSerieOptions;
+        _options.SemiDonutOptions = semiDonutSerieOptions;
         Refresh();
     }
 
@@ -749,12 +686,12 @@ public partial class FluentCxChart : FluentComponentBase
         {
             if (_singleCountCharts.TryGetValue(serie.ChartType, out var countFunc))
             {
-                count += countFunc(count);
+                count = countFunc(count);
                 continue;
             }
             else if (_multiCountCharts.TryGetValue(serie.ChartType, out var multiCountFunc))
             {
-                count += multiCountFunc(count, serie.RawItems.Count);
+                count = multiCountFunc(count, serie.RawItems.Count);
                 continue;
             }
             else
@@ -837,7 +774,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="categoryLineOptions">The new category line options to apply as the default configuration for category line series in the chart.</param>
     internal void UpdateCategoryLineOptions(CategoryLineOptions categoryLineOptions)
     {
-        _options.DefaultCategoryLineOptions = categoryLineOptions;
+        _options.CategoryLineOptions = categoryLineOptions;
         Refresh();
     }
 

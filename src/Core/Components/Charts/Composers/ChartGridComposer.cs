@@ -27,7 +27,7 @@ internal sealed class ChartGridComposer(
         ArgumentNullException.ThrowIfNull(target);
         ArgumentNullException.ThrowIfNull(options);
 
-        var mergedGridOptions = Merge(gridOptions(), options.DefaultGridOptions);
+        var mergedGridOptions = Merge(gridOptions(), options.GridOptions);
 
         if (!mergedGridOptions.ShowHorizontal &&
             !mergedGridOptions.ShowVertical)

@@ -36,8 +36,8 @@ internal sealed class ChartPieComposer(
             return false;
         }
 
-        var defaults = chartOptions.DefaultPieStyle;
-        var opts = chartOptions.DefaultPieOptions;
+        var defaults = chartOptions.PieStyle;
+        var opts = chartOptions.PieOptions;
 
         for (var serieIndex = 0; serieIndex < filtered.Count; serieIndex++)
         {

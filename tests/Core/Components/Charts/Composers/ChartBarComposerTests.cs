@@ -19,7 +19,7 @@ public class ChartBarComposerTests
 
         var composer = new ChartBarComposer("chart", () => context, () => new[] { serie });
         var target = new ChartTestRenderTarget();
-        var options = new ChartOptions { DefaultBarStyle = new FluentUI.Blazor.Community.Components.Charts.Styles.ChartBarStyle() };
+        var options = new ChartOptions { BarStyles = new FluentUI.Blazor.Community.Components.Charts.Styles.ChartBarStyle() };
 
         composer.Compose(target, options);
 

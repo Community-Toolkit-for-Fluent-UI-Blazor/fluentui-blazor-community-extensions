@@ -40,14 +40,4 @@ public enum LineChartType
     /// interpolation.
     /// </summary>
     Stacked100Step,
-
-    /// <summary>
-    /// Represents a scatter chart visualization type.
-    /// </summary>
-    Scatter,
-
-    /// <summary>
-    /// Represents a bubble chart visualization type.
-    /// </summary>
-    Bubble
 }

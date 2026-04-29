@@ -9,17 +9,17 @@ namespace FluentUI.Blazor.Community.Components.Enums;
 public enum ChartCategory
 {
     /// <summary>
-    /// Represents a category or classification used to group related items or entities.
+    /// Specifies a chart category that represents discrete data points grouped into categories, such as bar or column charts.
     /// </summary>
     Category,
 
     /// <summary>
-    /// Represents a value or object related to the XY coordinate system or concept.
+    /// Specifies a chart category that represents continuous data points plotted along two axes, such as line or scatter charts.
     /// </summary>
     XY,
 
     /// <summary>
-    /// Represents a value or entity related to polar coordinates or polar systems.
+    /// Specifies a chart category that represents data visualized in a polar coordinate system, such as radar or polar area charts.
     /// </summary>
     Polar,
 
@@ -33,6 +33,11 @@ public enum ChartCategory
     /// </summary>
     /// <remarks>Use this enumeration to select the desired hierarchical chart style, such as Treemap,
     /// Sunburst, or Icicle, when visualizing nested or parent-child data structures.</remarks>
-    Hierarchy   // Treemap, Sunburst, Icicle
+    Hierarchy,   // Treemap, Sunburst, Icicle
+
+    /// <summary>
+    /// Specifies the circular visualization type used for displaying data in a circular layout.
+    /// </summary>
+    Circular
 }
 

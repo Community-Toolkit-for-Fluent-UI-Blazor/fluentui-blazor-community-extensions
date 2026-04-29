@@ -56,6 +56,18 @@
                         <PolarLineSerie Name="Line 2" Items="@(_items2)" />
                         <PolarLineSerie Name="Line 3" Items="@(_items3)" />
                     }
+                    else if(_selectedChartCategory == ChartType.PolarScatter)
+                    {
+                        <PolarScatterSerie Name="Scatter" Items="@(_items)" />
+                        <PolarScatterSerie Name="Scatter 2" Items="@(_items2)" />
+                        <PolarScatterSerie Name="Scatter 3" Items="@(_items3)" />
+                    }
+                    else if (_selectedChartCategory == ChartType.PolarBubble)
+                    {
+                        <PolarBubbleSerie Name="Bubble" Items="@(_items)" />
+                        <PolarBubbleSerie Name="Bubble 2" Items="@(_items2)" />
+                        <PolarBubbleSerie Name="Bubble 3" Items="@(_items3)" />
+                    }
                </ChildContent>
             </FluentCxChart>
         </div>
@@ -126,6 +138,9 @@
         ChartType.Radar => ChartPaletteStyle.Radar,
         ChartType.PolarBar => ChartPaletteStyle.Autumn,
         ChartType.PolarLine => ChartPaletteStyle.Spring,
+        ChartType.PolarRose => ChartPaletteStyle.Radar,
+        ChartType.PolarScatter => ChartPaletteStyle.Summer,
+        ChartType.PolarBubble => ChartPaletteStyle.Summer,
         _ => ChartPaletteStyle.Winter
     };
 

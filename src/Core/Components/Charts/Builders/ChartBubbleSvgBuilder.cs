@@ -8,20 +8,23 @@ internal static class ChartBubbleSvgBuilder
 {
     public static void Build(
         SvgBuilder svg,
-        BubblePayload payload,
+        XYBubblePayloadCollection payload,
         ChartThemeContext context)
     {
         var group = svg.AddGroup()
-                       .WithId($"bubble-{payload.Id}");
+                       .WithId($"bubble");
 
-        RenderPoints(group, payload, context);
+        foreach (var item in payload.Payloads)
+        {
+            RenderPoints(group, item, context);
+        }
 
         group.Close();
     }
 
     private static void RenderPoints(
         SvgGroupBuilder svg,
-        BubblePayload payload,
+        XYBubblePayload payload,
         ChartThemeContext context)
     {
         var serieIndex = payload.SerieIndex;
@@ -49,9 +52,7 @@ internal static class ChartBubbleSvgBuilder
 
             svg.AddCircle(pt.X, pt.Y, pt.Radius)
                 .WithAttribute("data-id", pt.Id)
-                .WithAttribute("data-category", pt.CategoryIndex)
                 .WithAttribute("data-value", pt.Value.ToString("G", CultureInfo.InvariantCulture))
-                .WithAttribute("data-bubble", pt.BubbleValue.ToString("G", CultureInfo.InvariantCulture))
                 .WithFill(fill)
                 .WithOpacity(opacity)
                 .WithStroke(stroke)

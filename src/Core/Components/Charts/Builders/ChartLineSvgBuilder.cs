@@ -116,7 +116,8 @@ internal static class ChartLineSvgBuilder
                 .WithFill(fill)
                 .WithOpacity(opacity)
                 .WithStroke(stroke)
-                .WithStrokeWidth(strokeWidth);
+                .WithStrokeWidth(strokeWidth)
+                .Close();
         }
     }
 }

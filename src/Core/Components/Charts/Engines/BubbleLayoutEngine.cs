@@ -5,13 +5,20 @@ namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
 internal static class BubbleLayoutEngine
 {
-    public static IReadOnlyList<BubblePoint> Layout(
-        Series.LineSerie serie,
+    /// <summary>
+    /// Layouts the bubble points for a given XYSerie based on the provided chart context and options.
+    /// </summary>
+    /// <param name="serie">The XY series containing the data points to be laid out.</param>
+    /// <param name="context">The chart context providing the mapping functions for the axes.</param>
+    /// <param name="options">The chart options that may influence the layout of the bubble points.</param>
+    /// <returns>A read-only list of XY points representing the bubble points.</returns>
+    public static IReadOnlyList<XYPoint> Layout(
+        Series.XYSerie serie,
         ChartContext context,
         CO options)
     {
-        var bubbleOptions = options.DefaultBubbleOptions;
-        var items = CategoryAxisEngine.Sort(serie.Items, bubbleOptions);
+        var bubbleOptions = options.BubbleOptions;
+        var items = serie.Items;
         var count = items.Count;
         var radiusMin = bubbleOptions.MinRadius;
         var radiusMax = bubbleOptions.MaxRadius;
@@ -25,27 +32,27 @@ internal static class BubbleLayoutEngine
             range = 1;
         }
 
-        var points = new List<BubblePoint>(count);
+        var points = new List<XYPoint>(count);
 
         for (var i = 0; i < count; i++)
         {
             var item = items[i];
 
-            var x = context.XAxis!.Map(i);
-            var y = context.YAxis!.Map(item.Value);
+            var x = context.XAxis!.Map(item.X);
+            var y = context.YAxis!.Map(item.Y);
             var raw = item.Value;
             var t = (raw - minVal) / range;
             var radius = radiusMin + t * (radiusMax - radiusMin);
 
-            points.Add(new BubblePoint
+            points.Add(new XYPoint
             {
-                Id = item.Id ?? $"bubble-point-{Guid.NewGuid()}",
                 X = x,
                 Y = y,
                 Radius = radius,
-                CategoryIndex = i,
                 Value = item.Value,
-                BubbleValue = raw
+                Index = i,
+                RawX = item.X,
+                RawY = item.Y,
             });
         }
 

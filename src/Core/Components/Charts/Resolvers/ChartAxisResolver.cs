@@ -224,94 +224,74 @@ internal static class ChartAxisResolver
 
         if (types.TrueForAll(x => x == ChartType.Bar))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.Bar.CreateAxes(options.DefaultBarOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.Bar.CreateAxes(options.BarOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.StackedBar))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.StackedBar.CreateAxes(options.DefaultBarOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.StackedBar.CreateAxes(options.BarOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.Stacked100Bar))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Bar.CreateAxes(options.DefaultBarOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Bar.CreateAxes(options.BarOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.Column))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.Column.CreateAxes(options.DefaultColumnOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.Column.CreateAxes(options.ColumnOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.StackedColumn))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.StackedColumn.CreateAxes(options.DefaultColumnOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.StackedColumn.CreateAxes(options.ColumnOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.Stacked100Column))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Column.CreateAxes(options.DefaultBarOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Column.CreateAxes(options.BarOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
-        else if (types.TrueForAll(x => x == ChartType.Line))
+        else if (types.TrueForAll(x => x == ChartType.Line ||
+                                       x == ChartType.Area))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.CategoryLine.CreateAxes(
-                options.DefaultCategoryLineOptions.Sort, series, axisArea);
-            context.XAxis = xAxis;
-            context.YAxis = yAxis;
-        }
-        else if (types.TrueForAll(x => x == ChartType.Area))
-        {
-            var (xAxis, yAxis) = ChartAxesFactory.CategoryLine.CreateAxes(
-                options.DefaultCategoryLineOptions.Sort, series, axisArea);
-            context.XAxis = xAxis;
-            context.YAxis = yAxis;
-        }
-        else if (types.TrueForAll(x => x == ChartType.StackedArea))
-        {
-            var (xAxis, yAxis) = ChartAxesFactory.StackedArea.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
-            context.XAxis = xAxis;
-            context.YAxis = yAxis;
-        }
-        else if (types.TrueForAll(x => x == ChartType.Stacked100Area))
-        {
-            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Area.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.CategoryLine.CreateAxes(options.CategoryLineOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.Step))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.Step.CreateAxes(
-                options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.Step.CreateAxes(options.CategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.StackedArea))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.StackedArea.CreateAxes(options.CategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.TrueForAll(x => x == ChartType.Stacked100Area))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Area.CreateAxes(options.CategoryLineOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.Stacked100Step))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Step.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.Stacked100Step.CreateAxes(options.CategoryLineOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
         else if (types.TrueForAll(x => x == ChartType.StackedStep))
         {
-            var (xAxis, yAxis) = ChartAxesFactory.StackedStep.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
-            context.XAxis = xAxis;
-            context.YAxis = yAxis;
-        }
-        else if (types.TrueForAll(x => x == ChartType.Scatter))
-        {
-            var (xAxis, yAxis) = ChartAxesFactory.Scatter.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
-            context.XAxis = xAxis;
-            context.YAxis = yAxis;
-        }
-        else if (types.TrueForAll(x => x == ChartType.Bubble))
-        {
-            var (xAxis, yAxis) = ChartAxesFactory.Bubble.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.StackedStep.CreateAxes(options.CategoryLineOptions.Sort, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
@@ -321,21 +301,17 @@ internal static class ChartAxisResolver
         }
         else if (types.All(t => ChartTypeInfo.Categories[t] == ChartCategory.XY))
         {
-            // XY (scatter, bubble) à implémenter plus tard
-        }
-        else if (types.TrueForAll(x => x == ChartType.Radar ||
-                                       x == ChartType.PolarArea ||
-                                       x == ChartType.PolarBar ||
-                                       x == ChartType.PolarLine ||
-                                       x == ChartType.PolarRose ||
-                                       x == ChartType.PolarScatter ||
-                                       x == ChartType.PolarBubble))
-        {
-            var (xAxis, yAxis) = ChartAxesFactory.Polar.CreateAxes(options.DefaultCategoryLineOptions.Sort, series, axisArea);
+            var (xAxis, yAxis) = ChartAxesFactory.XY.CreateAxes(false, series, axisArea);
             context.XAxis = xAxis;
             context.YAxis = yAxis;
         }
-        else if (types.All(t => ChartTypeInfo.Categories[t] is ChartCategory.Polar or ChartCategory.Hierarchy))
+        else if (types.TrueForAll(t => ChartTypeInfo.Categories[t] == ChartCategory.Polar))
+        {
+            var (xAxis, yAxis) = ChartAxesFactory.Polar.CreateAxes(options.CategoryLineOptions.Sort, series, axisArea);
+            context.XAxis = xAxis;
+            context.YAxis = yAxis;
+        }
+        else if (types.All(t => ChartTypeInfo.Categories[t] is ChartCategory.Hierarchy))
         {
             context.XAxis = null;
             context.YAxis = null;

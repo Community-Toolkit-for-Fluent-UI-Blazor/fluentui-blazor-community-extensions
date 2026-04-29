@@ -13,6 +13,7 @@ Few charts types are shown in the examples below, but there are 30+ chart types 
 ## Examples
 
 {{ CategoryChartExamples }}
+{{ XYChartExamples }}
 {{ CircularChartExamples }}
 {{ PolarChartExamples }}
 

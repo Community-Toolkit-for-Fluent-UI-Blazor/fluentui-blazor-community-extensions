@@ -9,28 +9,29 @@ namespace FluentUI.Blazor.Community.Components.Charts.Themes;
 /// </summary>
 internal sealed class NeonPaletteProvider : IChartPaletteProvider
 {
+    private static readonly NeonPlugin _plugin = new();
+
     /// <inheritdoc />
     public Task<ChartPalette> GenerateAsync(ChartPaletteRequest request)
     {
+        if (request.ColorCount == 0)
+        {
+            return Task.FromResult(new ChartPalette());
+        }
+
         var n = Math.Max(1, request.ColorCount);
         var series = new List<Srgb8>(n);
         var strokeSeries = new List<Srgb8>(n);
-        var L = request.Options.IsDark ? 0.80 : 0.70;
-        var C = 0.30;
-        var step = 2 * Math.PI / n;
 
-        for (var i = 0; i < n; i++)
+        var baseHex = request.BaseColor?.ToString() ?? "#3B82F6";
+        var hexColors = _plugin.Generate(baseHex, n, new GenerationOptions
         {
-            var h = i * step;
-            var lch = new Oklch(L, C, h);
-            var lab = ColorSpaceConverters.FromOklch(lch);
-            var xyz = ColorSpaceConverters.FromOklab(lab);
+            Easing = ColorPaletteEasing.Linear
+        });
 
-            var srgb = ColorSpaceConverters.ToSrgb8(
-                xyz,
-                request.WorkingSpace.XyzToRgbMatrix,
-                request.WorkingSpace.Profile.Gamma
-            );
+        foreach (var hex in hexColors)
+        {
+            var srgb = Srgb8.Parse(hex);
 
             var transformed = ColorVisionTransform.Apply(
                 srgb,
@@ -39,13 +40,20 @@ internal sealed class NeonPaletteProvider : IChartPaletteProvider
             );
 
             series.Add(transformed);
-            strokeSeries.Add(ColorSpaceConverters.ModifyColor(transformed, request.Options.IsDark, request.WorkingSpace, request.Vision));
+            strokeSeries.Add(
+                ColorSpaceConverters.ModifyColor(
+                    transformed,
+                    request.Options.IsDark,
+                    request.WorkingSpace,
+                    request.Vision
+                )
+            );
         }
 
         return Task.FromResult(new ChartPalette
         {
             Series = series,
-            StrokeSeries = strokeSeries,
+            StrokeSeries = strokeSeries
         });
     }
 }

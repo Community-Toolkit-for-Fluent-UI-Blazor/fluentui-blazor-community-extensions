@@ -28,12 +28,12 @@ public sealed class ScatterSerie : SerieBase
     /// Gets the collection of category items to display in the component.
     /// </summary>
     [Parameter]
-    public IReadOnlyList<CategoryItem> Items { get; init; } = [];
+    public IReadOnlyList<XYItem> Items { get; init; } = [];
 
     /// <inheritdoc />
     protected internal override ChartSerie Create()
     {
-        var cls = new Charts.Series.LineSerie
+        var cls = new Charts.Series.XYSerie
         {
             Id = Id!,
             Name = Name,
@@ -43,7 +43,7 @@ public sealed class ScatterSerie : SerieBase
             Interaction = Interaction,
             Animation = GetAnimationOptions(),
             AnimationEnabled = AnimationEnabled,
-            LineType = LineChartType.Scatter
+            XYType = XYChartType.Scatter
         };
 
         cls.UpdateItems(Items);

@@ -8,130 +8,64 @@ internal static class ChartTypeRuleValidator
     internal static readonly Dictionary<ChartType, ChartTypeRule> Rules =
     new(EqualityComparer<ChartType>.Default)
     {
-        [ChartType.Radar] = new ChartTypeRule
-        {
-            Category = ChartCategory.Polar,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.PolarLine] = new ChartTypeRule
-        {
-            Category = ChartCategory.Polar,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.PolarBar] = new ChartTypeRule
-        {
-            Category = ChartCategory.Polar,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.PolarArea] = new ChartTypeRule
-        {
-            Category = ChartCategory.Polar,
-            AllowMultipleSeries = false,
-            RequireSameCategoryCount = false,
-            RequireSameCategoryLabels = false
-        },
-
-        [ChartType.PolarRose] = new ChartTypeRule
-        {
-            Category = ChartCategory.Polar,
-            AllowMultipleSeries = false,
-            RequireSameCategoryCount = false,
-            RequireSameCategoryLabels = false
-        },
-
-        [ChartType.Pie] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = false
-        },
-
-        [ChartType.Donut] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = false,
-        },
-
-        [ChartType.Bar] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.Column] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.Stacked100Bar] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.Stacked100Area] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.Stacked100Column] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.Stacked100Step] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.Area] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.Line] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        },
-
-        [ChartType.MultiDonut] = new ChartTypeRule
-        {
-            Category = ChartCategory.Category,
-            AllowMultipleSeries = true,
-            RequireSameCategoryCount = true,
-            RequireSameCategoryLabels = true
-        }
+        [ChartType.Radar] = GetDefaultPolar(),
+        [ChartType.PolarLine] = GetDefaultPolar(),
+        [ChartType.PolarScatter] = GetDefaultPolar(),
+        [ChartType.PolarBubble] = GetDefaultPolar(),
+        [ChartType.PolarBar] = GetDefaultPolar(),
+        [ChartType.PolarArea] = GetDefault(ChartCategory.Polar),
+        [ChartType.PolarRose] = GetDefault(ChartCategory.Polar),
+        [ChartType.Pie] = GetDefault(ChartCategory.Circular),
+        [ChartType.Donut] = GetDefault(ChartCategory.Circular),
+        [ChartType.Bar] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.Step] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.StackedColumn] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.StackedBar] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.StackedStep] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.Scatter] = GetDefaultWithTrue(ChartCategory.XY),
+        [ChartType.Bubble] = GetDefaultWithTrue(ChartCategory.XY),
+        [ChartType.Column] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.StackedArea] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.Stacked100Bar] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.Stacked100Area] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.Stacked100Column] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.Stacked100Step] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.Area] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.Line] = GetDefaultWithTrue(ChartCategory.Category),
+        [ChartType.XYLine] = GetDefaultWithTrue(ChartCategory.XY),
+        [ChartType.MultiDonut] = GetDefaultWithTrue(ChartCategory.Circular),
+        [ChartType.SemiDonut] = GetDefaultWithTrue(ChartCategory.Circular),
     };
+
+    private static ChartTypeRule GetDefaultWithTrue(ChartCategory category)
+    {
+        return new ChartTypeRule
+        {
+            Category = category,
+            AllowMultipleSeries = true,
+            RequireSameCategoryCount = true,
+            RequireSameCategoryLabels = true
+        };
+    }
+
+    private static ChartTypeRule GetDefault(ChartCategory value)
+    {
+        return new ChartTypeRule
+        {
+            Category = value
+        };
+    }
+
+    private static ChartTypeRule GetDefaultPolar()
+    {
+        return new ChartTypeRule
+        {
+            Category = ChartCategory.Polar,
+            AllowMultipleSeries = true,
+            RequireSameCategoryCount = true,
+            RequireSameCategoryLabels = true
+        };
+    }
 
     internal static void ValidateCategory(ChartTypeRule left, ChartTypeRule right)
     {

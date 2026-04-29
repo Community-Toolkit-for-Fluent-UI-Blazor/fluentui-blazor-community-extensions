@@ -21,8 +21,6 @@ public sealed class LineSerie
         LineChartType.Step => ChartType.Step,
         LineChartType.StackedStep => ChartType.StackedStep,
         LineChartType.Stacked100Step => ChartType.Stacked100Step,
-        LineChartType.Scatter => ChartType.Scatter,
-        LineChartType.Bubble => ChartType.Bubble,
         _ => ChartType.Line
     };
 

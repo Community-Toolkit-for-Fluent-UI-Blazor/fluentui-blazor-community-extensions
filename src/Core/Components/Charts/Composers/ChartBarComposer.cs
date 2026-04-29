@@ -39,7 +39,7 @@ internal sealed class ChartBarComposer(
             return false;
         }
 
-        var defaults = chartOptions.DefaultBarStyle;
+        var defaults = chartOptions.BarStyles;
         var ctx = context();
         var payloads = new List<BarPayload>();
         var minValue = 0.0;

@@ -327,7 +327,7 @@ public partial class ChartOptions : ComponentBase
 
         _radarSerieOptions = new Charts.Options.RadarSerieOptions
         {
-            FillArea = _radarChartSerieOptions.FillArea
+            FillArea = _radarChartSerieOptions.FillArea 
         };
 
         Parent!.UpdateRadarSerieOptions(_radarSerieOptions);

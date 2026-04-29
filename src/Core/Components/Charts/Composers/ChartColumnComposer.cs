@@ -34,7 +34,7 @@ internal sealed class ChartColumnComposer(
             return false;
         }
 
-        var defaults = chartOptions.DefaultBarStyle;
+        var defaults = chartOptions.BarStyles;
         var minValue = filtered.SelectMany(s => s.Items.Select(i => i.Value)).Min();
         var maxValue = filtered.SelectMany(s => s.Items.Select(i => i.Value)).Max();
         var ctx = context();

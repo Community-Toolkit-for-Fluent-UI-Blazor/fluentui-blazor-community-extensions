@@ -81,4 +81,9 @@ internal static class ChartAxesFactory
     /// Gets the factory for creating polar axis configuration.
     /// </summary>
     public static PolarAxisFactory Polar { get; } = new();
+
+    /// <summary>
+    /// Gets the factory for creating xy axis configuration.
+    /// </summary>
+    public static XYAxesFactory XY { get; } = new();
 }

@@ -26,7 +26,7 @@ internal static class StackedAreaLayoutEngine
         ChartContext context,
         CO options)
     {
-        var serieOptions = options.DefaultCategoryLineOptions;
+        var serieOptions = options.CategoryLineOptions;
         var items = CategoryAxisEngine.Sort(serie.Items, serieOptions);
         var count = items.Count;
         var topPoints = new List<ChartPoint>(count);

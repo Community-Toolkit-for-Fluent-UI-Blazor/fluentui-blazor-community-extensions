@@ -14,28 +14,29 @@ namespace FluentUI.Blazor.Community.Components.Charts.Themes;
 /// vision deficiencies and the specified working color space.</remarks>
 internal sealed class PastelPaletteProvider : IChartPaletteProvider
 {
+    private static readonly PastelPlugin _plugin = new();
+
     /// <inheritdoc />
     public Task<ChartPalette> GenerateAsync(ChartPaletteRequest request)
     {
+        if (request.ColorCount == 0)
+        {
+            return Task.FromResult(new ChartPalette());
+        }
+
         var n = Math.Max(1, request.ColorCount);
         var series = new List<Srgb8>(n);
         var strokeSeries = new List<Srgb8>(n);
-        var L = request.Options.IsDark ? 0.85 : 0.90;
-        var C = 0.07;
-        var step = 2 * Math.PI / n;
 
-        for (var i = 0; i < n; i++)
+        var baseHex = request.BaseColor?.ToString() ?? "#FFB3C6";
+        var hexColors = _plugin.Generate(baseHex, n, new GenerationOptions
         {
-            var h = i * step;
-            var lch = new Oklch(L, C, h);
-            var lab = ColorSpaceConverters.FromOklch(lch);
-            var xyz = ColorSpaceConverters.FromOklab(lab);
+            Easing = ColorPaletteEasing.Linear
+        });
 
-            var srgb = ColorSpaceConverters.ToSrgb8(
-                xyz,
-                request.WorkingSpace.XyzToRgbMatrix,
-                request.WorkingSpace.Profile.Gamma
-            );
+        foreach (var hex in hexColors)
+        {
+            var srgb = Srgb8.Parse(hex);
 
             var transformed = ColorVisionTransform.Apply(
                 srgb,
@@ -44,7 +45,14 @@ internal sealed class PastelPaletteProvider : IChartPaletteProvider
             );
 
             series.Add(transformed);
-            strokeSeries.Add(ColorSpaceConverters.ModifyColor(transformed, request.Options.IsDark, request.WorkingSpace, request.Vision));
+            strokeSeries.Add(
+                ColorSpaceConverters.ModifyColor(
+                    transformed,
+                    request.Options.IsDark,
+                    request.WorkingSpace,
+                    request.Vision
+                )
+            );
         }
 
         return Task.FromResult(new ChartPalette
