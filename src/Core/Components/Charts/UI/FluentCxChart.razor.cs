@@ -55,6 +55,7 @@ public partial class FluentCxChart : FluentComponentBase
         [ChartType.PolarScatter] = i => i + 1,
         [ChartType.PolarBubble] = i => i + 1,
         [ChartType.XYLine] = i => i + 1,
+        [ChartType.XYArea] = i => i + 1,
     };
 
     /// <summary>

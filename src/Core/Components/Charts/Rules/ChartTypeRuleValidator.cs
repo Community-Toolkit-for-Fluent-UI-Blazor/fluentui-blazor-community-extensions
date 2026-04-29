@@ -33,6 +33,7 @@ internal static class ChartTypeRuleValidator
         [ChartType.Area] = GetDefaultWithTrue(ChartCategory.Category),
         [ChartType.Line] = GetDefaultWithTrue(ChartCategory.Category),
         [ChartType.XYLine] = GetDefaultWithTrue(ChartCategory.XY),
+        [ChartType.XYArea] = GetDefaultWithTrue(ChartCategory.XY),
         [ChartType.MultiDonut] = GetDefaultWithTrue(ChartCategory.Circular),
         [ChartType.SemiDonut] = GetDefaultWithTrue(ChartCategory.Circular),
     };

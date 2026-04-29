@@ -13,6 +13,7 @@ public sealed class XYSerie : ChartSerie<XYItem>
         XYChartType.Scatter => ChartType.Scatter,
         XYChartType.Bubble => ChartType.Bubble,
         XYChartType.Line => ChartType.XYLine,
+        XYChartType.Area => ChartType.XYArea,
         _ => throw new NotSupportedException($"Unsupported XY chart type: {XYType}")
     };
 

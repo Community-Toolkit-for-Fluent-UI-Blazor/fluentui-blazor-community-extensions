@@ -36,6 +36,12 @@
                 <XYLineSerie Name="Line 2" Items="@(_items2)" />
                 <XYLineSerie Name="Line 3" Items="@(_items3)" />
             }
+            else if (_selectedChartCategory == ChartType.XYArea)
+            {
+                <XYAreaSerie Name="Area" Items="@(_items)" />
+                <XYAreaSerie Name="Area 2" Items="@(_items2)" />
+                <XYAreaSerie Name="Area 3" Items="@(_items3)" />
+            }
         </FluentCxChart>
     </FluentStack>
 </div>
@@ -50,7 +56,8 @@
     private static ChartType[] s_chartCategory = [
         ChartType.Scatter,
         ChartType.Bubble,
-        ChartType.XYLine
+        ChartType.XYLine,
+        ChartType.XYArea
     ];
 
     private static XYItem[] _items = new[]

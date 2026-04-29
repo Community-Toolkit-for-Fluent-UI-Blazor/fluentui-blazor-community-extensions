@@ -37,47 +37,81 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
         }
 
         var ctx = _context();
-        var radarSeries = filtered.Where(s => s.PolarType == PolarChartType.Radar).ToList();
-        var areaSeries = filtered.Where(s => s.PolarType == PolarChartType.Area).ToList();
-        var barSeries = filtered.Where(s => s.PolarType == PolarChartType.Bar).ToList();
-        var lineSeries = filtered.Where(s => s.PolarType == PolarChartType.Line).ToList();
-        var roseSeries = filtered.Where(s => s.PolarType == PolarChartType.Rose).ToList();
-        var polarScatterSeries = filtered.Where(s => s.PolarType == PolarChartType.Scatter).ToList();
-        var polarBubbleSeries = filtered.Where(s => s.PolarType == PolarChartType.Bubble).ToList();
+        var radar = new List<PolarSerie>();
+        var area = new List<PolarSerie>();
+        var bar = new List<PolarSerie>();
+        var line = new List<PolarSerie>();
+        var rose = new List<PolarSerie>();
+        var polarScatter = new List<PolarSerie>();
+        var polarBubble = new List<PolarSerie>();
 
-        if (radarSeries.Count > 0)
+        foreach (var serie in filtered)
         {
-            BuildRadarGroup(target, radarSeries, ctx, options);
+            switch (serie.PolarType)
+            {
+                case PolarChartType.Radar:
+                    radar.Add(serie);
+                    break;
+
+                case PolarChartType.Area:
+                    area.Add(serie);
+                    break;
+
+                case PolarChartType.Bar:
+                    bar.Add(serie);
+                    break;
+
+                case PolarChartType.Line:
+                    line.Add(serie);
+                    break;
+
+                case PolarChartType.Rose:
+                    rose.Add(serie);
+                    break;
+
+                case PolarChartType.Scatter:
+                    polarScatter.Add(serie);
+                    break;
+
+                case PolarChartType.Bubble:
+                    polarBubble.Add(serie);
+                    break;
+            }
         }
 
-        if (areaSeries.Count > 0)
+        if (radar.Count > 0)
         {
-            BuildPolarAreaGroup(target, areaSeries, ctx, options);
+            BuildRadarGroup(target, radar, ctx, options);
         }
 
-        if (barSeries.Count > 0)
+        if (area.Count > 0)
         {
-            BuildPolarBarGroup(target, barSeries, ctx, options);
+            BuildPolarAreaGroup(target, area, ctx, options);
         }
 
-        if (lineSeries.Count > 0)
+        if (bar.Count > 0)
         {
-            BuildPolarLineGroup(target, lineSeries, ctx, options);
+            BuildPolarBarGroup(target, bar, ctx, options);
         }
 
-        if (roseSeries.Count > 0)
+        if (line.Count > 0)
         {
-            BuildRoseGroup(target, roseSeries, ctx, options);
+            BuildPolarLineGroup(target, line, ctx, options);
         }
 
-        if (polarScatterSeries.Count > 0)
+        if (rose.Count > 0)
         {
-            BuildPolarScatterGroup(target, polarScatterSeries, ctx, options);
+            BuildRoseGroup(target, rose, ctx, options);
         }
 
-        if (polarBubbleSeries.Count > 0)
+        if (polarScatter.Count > 0)
         {
-            BuildPolarBubbleGroup(target, polarBubbleSeries, ctx, options);
+            BuildPolarScatterGroup(target, polarScatter, ctx, options);
+        }
+
+        if (polarBubble.Count > 0)
+        {
+            BuildPolarBubbleGroup(target, polarBubble, ctx, options);
         }
 
         return true;

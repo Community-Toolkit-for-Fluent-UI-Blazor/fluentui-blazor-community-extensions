@@ -47,7 +47,8 @@ internal sealed class ChartLayoutComposer(
         ChartType.PolarLine,
         ChartType.PolarScatter,
         ChartType.PolarBubble,
-        ChartType.XYLine
+        ChartType.XYLine,
+        ChartType.XYArea,
     ];
 
     /// <summary>

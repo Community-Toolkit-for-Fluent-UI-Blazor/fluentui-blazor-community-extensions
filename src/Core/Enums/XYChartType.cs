@@ -18,5 +18,15 @@ public enum XYChartType
     /// <summary>
     /// Specifies a line chart.
     /// </summary>
-    Line
+    Line,
+
+    /// <summary>
+    /// Specifies an area chart.
+    /// </summary>
+    Area,
+
+    /// <summary>
+    /// Specifies an histogram chart.
+    /// </summary>
+    Histogram
 }

@@ -44,6 +44,7 @@ internal sealed class ChartSvgRenderTarget
         ["xy-scatter"] = (builder, payload, context, themeContext, axisOptions) => ChartScatterSvgBuilder.Build(builder, (XYScatterPayloadCollection)payload!, themeContext),
         ["xy-bubble"] = (builder, payload, context, themeContext, axisOptions) => ChartBubbleSvgBuilder.Build(builder, (XYBubblePayloadCollection)payload!, themeContext),
         ["xy-line"] = (builder, payload, context, themeContext, axisOptions) => ChartXYLineSvgBuilder.Build(builder, (XYLinePayloadCollection)payload!, themeContext),
+        ["xy-area"] = (builder, payload, context, themeContext, axisOptions) => ChartXYAreaSvgBuilder.Build(builder, (XYAreaPayloadCollection)payload!, themeContext),
     };
 
     /// <summary>

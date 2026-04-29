@@ -134,6 +134,11 @@ internal sealed class ChartOptions
     public ChartPieStyle SemiDonutStyle { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets the style settings for the XY area chart elements.
+    /// </summary>
+    public ChartXYAreaStyle XYAreaStyle { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the animation options for the chart.
     /// </summary>
     /// <remarks>Use this property to configure how chart animations behave, such as enabling or disabling

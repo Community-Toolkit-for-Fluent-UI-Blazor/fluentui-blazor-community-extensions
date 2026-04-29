@@ -2,7 +2,7 @@ using FluentUI.Blazor.Community.Components.Charts.Drawing;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Engines;
 
-internal static class XYLineLayoutEngine
+internal static class XYLayoutEngine
 {
     /// <summary>
     /// Layouts the XY points for a given XYSerie based on the provided chart context and options.
@@ -16,16 +16,6 @@ internal static class XYLineLayoutEngine
     {
         var items = serie.Items;
         var count = items.Count;
-        var bubbleValues = items.Select(i => i.Value).ToList();
-        var minVal = bubbleValues.Min();
-        var maxVal = bubbleValues.Max();
-        var range = maxVal - minVal;
-
-        if (range <= 0)
-        {
-            range = 1;
-        }
-
         var points = new List<XYPoint>(count);
 
         for (var i = 0; i < count; i++)

@@ -42,23 +42,61 @@ internal sealed class ChartXYComposer
         }
 
         var ctx = _context();
-        var scatterSeries = filtered.Where(s => s.XYType == XYChartType.Scatter).ToList();
-        var bubbleSeries = filtered.Where(s => s.XYType == XYChartType.Bubble).ToList();
-        var lineSeries = filtered.Where(s => s.XYType == XYChartType.Line).ToList();
+        var scatter = new List<XYS>();
+        var bubble = new List<XYS>();
+        var line = new List<XYS>();
+        var area = new List<XYS>();
+        var histogram = new List<XYS>();
 
-        if (scatterSeries.Count > 0)
+        foreach (var serie in filtered)
         {
-            BuildScatterGroup(target, scatterSeries, ctx, options);
+            switch (serie.XYType)
+            {
+                case XYChartType.Scatter:
+                    scatter.Add(serie);
+                    break;
+
+                case XYChartType.Bubble:
+                    bubble.Add(serie);
+                    break;
+
+                case XYChartType.Line:
+                    line.Add(serie);
+                    break;
+
+                case XYChartType.Area:
+                    area.Add(serie);
+                    break;
+
+                case XYChartType.Histogram:
+                    histogram.Add(serie);
+                    break;
+            }
         }
 
-        if (bubbleSeries.Count > 0)
+        if (area.Count > 0)
         {
-            BuildBubbleGroup(target, bubbleSeries, ctx, options);
+            BuildAreaGroup(target, area, ctx, options);
         }
 
-        if (lineSeries.Count > 0)
+        if (histogram.Count > 0)
         {
-            BuildLineGroup(target, lineSeries, ctx, options);
+           // BuildHistogramGroup(target, histogram, ctx, options);
+        }
+
+        if (scatter.Count > 0)
+        {
+            BuildScatterGroup(target, scatter, ctx, options);
+        }
+
+        if (bubble.Count > 0)
+        {
+            BuildBubbleGroup(target, bubble, ctx, options);
+        }
+
+        if (line.Count > 0)
+        {
+            BuildLineGroup(target, line, ctx, options);
         }
 
         return true;
@@ -69,6 +107,80 @@ internal sealed class ChartXYComposer
     {
         return ValueTask.FromResult(Compose(target, options));
     }
+
+    /// <summary>
+    /// Represents the logic to build a group of area series and add them to the render target.
+    /// </summary>
+    /// <param name="target">The render target where the area series will be added.</param>
+    /// <param name="series">The collection of area series to be rendered.</param>
+    /// <param name="ctx">The chart context for composition.</param>
+    /// <param name="options">The chart options for rendering.</param>
+    private void BuildAreaGroup(
+        ISurfaceRenderTarget target,
+        List<XYS> series,
+        ChartContext ctx,
+        CO options)
+    {
+        var payloads = new List<XYAreaPayload>(series.Count);
+        var baseline = ctx.YAxis!.Map(0);
+
+        for (var i = 0; i < series.Count; i++)
+        {
+            var serie = series[i];
+            var points = XYLayoutEngine.Layout(serie, ctx);
+            var pointPayloads = new List<XYPointPayload>(points.Count);
+            BuildPointPayloads(options, i, serie, points, pointPayloads);
+
+            payloads.Add(new XYAreaPayload
+            {
+                Baseline = baseline,
+                Points = pointPayloads,
+                SerieIndex = i,
+                ChartId = _chartId,
+                GroupId = serie.Id,
+                Id = $"xy-area-{serie.Name}",
+                Index = i,
+                Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, options.XYAreaStyle.Normal),
+                Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, options.XYAreaStyle.Hover),
+                Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, options.XYAreaStyle.Pressed),
+            });
+        }
+
+        target.AddLayer(new XYAreaLayer(new(payloads)));
+    }
+
+ /*   /// <summary>
+    /// Builds and adds a histogram layer to the render target from the provided series data.
+    /// </summary>
+    /// <param name="target">The surface render target to which the histogram layer will be added.</param>
+    /// <param name="series">The list of XYS series containing the data to be visualized as histograms.</param>
+    /// <param name="ctx">The chart context providing layout and rendering information.</param>
+    /// <param name="options">The chart options defining styling and configuration for the histogram.</param>
+    private void BuildHistogramGroup(
+        ISurfaceRenderTarget target,
+        List<XYS> series,
+        ChartContext ctx,
+        CO options)
+    {
+        var payloads = new List<HistogramPayload>(series.Count);
+
+        for (var i = 0; i < series.Count; i++)
+        {
+            var serie = series[i];
+            var bars = HistogramLayoutEngine.Layout(serie, ctx, options);
+
+            payloads.Add(new HistogramPayload
+            {
+                Id = $"xy-histogram-{serie.Name}",
+                SerieIndex = i,
+                Bars = bars,
+                Fill = ChartStyleResolver.Resolve(serie.Style?.Normal, options.AreaStyles.Normal),
+                Stroke = ChartStyleResolver.Resolve(serie.Style?.Normal, options.LineStyles.Normal)
+            });
+        }
+
+        target.AddLayer(new HistogramLayer(new(payloads)));
+    }*/
 
     /// <summary>
     /// Represents the logic to build a group of bubble series and add them to the render target.
@@ -121,7 +233,7 @@ internal sealed class ChartXYComposer
         for (var i = 0; i < series.Count; i++)
         {
             var serie = series[i];
-            var points = XYLineLayoutEngine.Layout(serie, ctx);
+            var points = XYLayoutEngine.Layout(serie, ctx);
             var pointPayloads = new List<XYPointPayload>(points.Count);
             BuildPointPayloads(options, i, serie, points, pointPayloads);
 

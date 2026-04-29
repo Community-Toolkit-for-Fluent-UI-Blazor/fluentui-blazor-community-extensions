@@ -42,6 +42,26 @@ internal sealed class XYAxesFactory : IAxisFactory<XYSeriesOptions>
             yMax += 1;
         }
 
+        if (xMin > 0)
+        {
+            xMin = 0;
+        }
+
+        if (yMin > 0)
+        {
+            yMin = 0;
+        }
+
+        if (xMax < 0)
+        {
+            xMax = 0;
+        }
+
+        if (yMax < 0)
+        {
+            yMax = 0;
+        }
+
         var xAxis = new ChartAxis
         {
             AxisType = ChartAxisType.Numeric,

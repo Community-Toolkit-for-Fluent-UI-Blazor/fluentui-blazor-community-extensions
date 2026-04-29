@@ -7,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Layers;
 /// Represents a chart layer that renders scatter series using the specified payload.
 /// </summary>
 /// <param name="payload"></param>
-internal sealed class XYScatterLayer(XYScatterPayloadCollection payload) : IChartLayer, ILayer<XYScatterPayload>
+internal sealed class XYScatterLayer(XYScatterPayloadCollection payload) : IChartLayer, ILayer<XYScatterPayloadCollection>
 {
     /// <inheritdoc />
     public string Key => "xy-scatter";
