@@ -1,0 +1,12 @@
+.fluentcx-slideshow {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: var(--slideshow-height);
+  width: var(--slideshow-width);
+  display: flex;
+  flex-flow: row nowrap;
+  cursor: default;
+  white-space: nowrap;
+  overflow: hidden;
+}

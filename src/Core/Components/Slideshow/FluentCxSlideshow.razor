@@ -1,0 +1,32 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TItem
+
+<CascadingValue Value="(this)" IsFixed="true">
+    <div id="@Id"
+         class="@InternalClass"
+         style="@InternalStyle"
+         role="list"
+         tabindex="0"
+         @attributes="@AdditionalAttributes">
+
+        <div>
+            @if (ChildContent is not null)
+            {
+                @ChildContent
+            }
+        </div>
+
+        @if (ShowControls)
+        {
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          IconOnly="true"
+                          IconStart="@(PreviousIcon)" />
+
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          IconOnly="true"
+                          IconStart="@(NextIcon)" />
+        }
+    </div>
+</CascadingValue>
+
