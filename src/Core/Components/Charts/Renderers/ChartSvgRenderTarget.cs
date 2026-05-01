@@ -45,6 +45,8 @@ internal sealed class ChartSvgRenderTarget
         ["xy-bubble"] = (builder, payload, context, themeContext, axisOptions) => ChartBubbleSvgBuilder.Build(builder, (XYBubblePayloadCollection)payload!, themeContext),
         ["xy-line"] = (builder, payload, context, themeContext, axisOptions) => ChartXYLineSvgBuilder.Build(builder, (XYLinePayloadCollection)payload!, themeContext),
         ["xy-area"] = (builder, payload, context, themeContext, axisOptions) => ChartXYAreaSvgBuilder.Build(builder, (XYAreaPayloadCollection)payload!, themeContext),
+        ["histogram"] = (builder, payload, context, themeContext, axisOptions) => ChartHistogramSvgBuilder.Build(builder, (HistogramPayloadCollection)payload!, themeContext),
+        ["xy-column"] = (builder, payload, context, themeContext, axisOptions) => ChartXYColumnSvgBuilder.Build(builder, (PayloadCollection<XYColumnPayloadCollection>)payload!, themeContext),
     };
 
     /// <summary>
@@ -92,7 +94,7 @@ internal sealed class ChartSvgRenderTarget
 
         if (_layerRenderes.TryGetValue(layer.Key, out var renderer))
         {
-            renderer(builder, layer.LayerPayload, _context(), _resolvedThemeContext!, _options().DefaultAxisOptions);
+            renderer(builder, layer.LayerPayload, _context(), _resolvedThemeContext!, _options().Axis);
         }
     }
 

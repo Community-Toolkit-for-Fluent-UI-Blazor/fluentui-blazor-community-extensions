@@ -47,7 +47,7 @@ internal static class BarLayoutEngine
         var seriesCount = allSeries.Count;
         var bandHeight = plot.Height / categoryCount;
         var rawBarHeight = bandHeight / seriesCount;
-        var barHeight = rawBarHeight * (options.BarOptions.BarHeight);
+        var barHeight = rawBarHeight * (options.Bar.BarHeight);
         var barOffset = (rawBarHeight - barHeight) / 2.0;
         var axisMin = Math.Min(0, minValue);
         var axisMax = Math.Max(0, maxValue);

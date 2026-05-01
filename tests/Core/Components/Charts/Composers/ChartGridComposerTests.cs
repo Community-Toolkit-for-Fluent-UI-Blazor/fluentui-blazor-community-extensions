@@ -14,7 +14,7 @@ public class ChartGridComposerTests
     {
         var context = new ChartContext { PlotArea = new ChartRect(0, 0, 100, 100) };
         var gridOptions = new ChartGridOptions { ShowHorizontal = true, ShowVertical = true };
-        var chartOptions = new ChartOptions { GridOptions = new ChartGridOptions { ShowHorizontal = true, ShowVertical = true } };
+        var chartOptions = new ChartOptions { Grid = new ChartGridOptions { ShowHorizontal = true, ShowVertical = true } };
 
         var composer = new ChartGridComposer(() => context, () => gridOptions);
         var target = new ChartTestRenderTarget();
@@ -30,7 +30,7 @@ public class ChartGridComposerTests
     {
         var context = new ChartContext { PlotArea = new ChartRect(0, 0, 100, 100) };
         var gridOptions = new ChartGridOptions { ShowHorizontal = false, ShowVertical = false };
-        var chartOptions = new ChartOptions { GridOptions = new ChartGridOptions { ShowHorizontal = false, ShowVertical = false } };
+        var chartOptions = new ChartOptions { Grid = new ChartGridOptions { ShowHorizontal = false, ShowVertical = false } };
 
         var composer = new ChartGridComposer(() => context, () => gridOptions);
         var target = new ChartTestRenderTarget();

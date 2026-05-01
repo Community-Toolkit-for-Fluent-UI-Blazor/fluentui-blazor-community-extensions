@@ -39,7 +39,7 @@ internal static class StackedColumnLayoutEngine
         var categoryCount = serie.Items.Count;
         var bandWidth = plot.Width / categoryCount;
         var rawColumnWidth = bandWidth;
-        var columnWidth = rawColumnWidth * options.ColumnOptions.ColumnWidth;
+        var columnWidth = rawColumnWidth * options.Column.ColumnWidth;
         var columnOffset = (rawColumnWidth - columnWidth) / 2.0;
 
         var axis = context.YAxis!;

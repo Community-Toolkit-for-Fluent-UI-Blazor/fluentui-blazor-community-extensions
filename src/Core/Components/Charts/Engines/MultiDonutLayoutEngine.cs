@@ -61,7 +61,7 @@ internal static class MultiDonutLayoutEngine
         var usableRadius = maxRadius * 0.9;
         var bandThickness = usableRadius / ringCount;
         var rings = new List<DonutRingLayout>(ringCount);
-        var opts = options.DonutOptions;
+        var opts = options.Donut;
 
         for (var index = 0; index < ringCount; index++)
         {

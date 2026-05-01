@@ -1,5 +1,4 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
@@ -8,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 /// <summary>
 /// Represents a factory for creating axes for stacked 100% category line chart series.
 /// </summary>
-internal sealed class Stacked100CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions>
+internal sealed class Stacked100CategoryLineAxisFactory : IAxisFactory
 {
     /// <inheritdoc />
     public (ChartAxis XAxis, ChartAxis YAxis) CreateAxes(

@@ -32,4 +32,12 @@ public abstract class ChartSerie<TItem> : ChartSerie
         _items.Clear();
         _items.AddRange(items);
     }
+
+    internal void Sort(Func<TItem, TItem, int> comparison)
+    {
+        _items.Sort((a, b) =>
+        {
+            return comparison(a, b);
+        });
+    }
 }

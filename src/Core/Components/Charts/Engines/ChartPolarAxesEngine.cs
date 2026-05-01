@@ -32,7 +32,7 @@ internal static class ChartPolarAxesEngine
             ConcentricGrid = BuildConcentricGrid(ctx, radiusAxis, options, chartOptions),
             AngleLabels = BuildAngleLabels(ctx, angleAxis, options),
             RadiusLabels = BuildRadiusLabels(ctx, radiusAxis, options, chartOptions),
-            Grid = chartOptions.RadarAxesOptions.Grid,
+            Grid = chartOptions.RadarAxes.Grid,
             ChartType = polarChartType
         };
     }
@@ -72,7 +72,7 @@ internal static class ChartPolarAxesEngine
     {
         var list = new List<PolarGridCirclePayload>();
         var (cx, cy, maxRadius) = PolarHelper.GetPolarFrame(ctx);
-        var maxTicks = chartOptions.RadarAxesOptions.GridLevels ?? options.MaxTicks;
+        var maxTicks = chartOptions.RadarAxes.GridLevels ?? options.MaxTicks;
         var ticks = NumericTickGenerator.GenerateNice(0, radiusAxis.DataMaximum, maxTicks);
         var max = ticks.Count > 0 ? ticks[^1] : 0;
         ctx.PolarNiceMax = max;
@@ -129,7 +129,7 @@ internal static class ChartPolarAxesEngine
         CAO options,
         CO chartOptions)
     {
-        var maxTicks = chartOptions.RadarAxesOptions.GridLevels ?? options.MaxTicks;
+        var maxTicks = chartOptions.RadarAxes.GridLevels ?? options.MaxTicks;
         var list = new List<PolarLabelPayload>();
         var (cx, cy, maxRadius) = PolarHelper.GetPolarFrame(ctx);
         var ticks = NumericTickGenerator.GenerateNice(0, radiusAxis.DataMaximum, maxTicks);

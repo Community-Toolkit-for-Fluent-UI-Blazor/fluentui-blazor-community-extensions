@@ -2,7 +2,10 @@ using FluentUI.Blazor.Community.Components.Surface.Utils;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Styles;
 
-internal sealed class ChartXYAreaStyle
+/// <summary>
+/// Represents the default visual styles for XY area elements in a chart.
+/// </summary>
+public sealed class ChartXYAreaStyle
 {
     private const string BaseFill = "#4A90E2";
 

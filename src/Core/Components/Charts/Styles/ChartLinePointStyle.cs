@@ -5,7 +5,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Styles;
 /// <summary>
 /// Represents the default line styles for category lines in a chart.
 /// </summary>
-internal sealed class ChartLinePointStyle
+public sealed class ChartLinePointStyle
 {
     private const string BaseFill = "#50E3C2";
 

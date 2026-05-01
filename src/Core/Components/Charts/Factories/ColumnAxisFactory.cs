@@ -1,5 +1,4 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
@@ -9,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 /// Represents a factory responsible for creating the X and Y axes for
 ///  a column chart based on the provided chart options, data series, and plot area configuration.
 /// </summary>
-internal sealed class ColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
+internal sealed class ColumnAxisFactory : IAxisFactory
 {
     /// <inheritdoc />
     public (ChartAxis XAxis, ChartAxis YAxis) CreateAxes(

@@ -5,7 +5,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Styles;
 /// <summary>
 /// Represents the default radial styles for radial elements in a chart, such as pie or donut segments.
 /// </summary>
-internal sealed class ChartPieStyle
+public sealed class ChartPieStyle
 {
     private const string BaseFill = "#FF7F50";
 

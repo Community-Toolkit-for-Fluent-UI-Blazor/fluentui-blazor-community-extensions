@@ -43,7 +43,7 @@ internal static class PolarScatterLayoutEngine
             var x = cx + radius * Math.Cos(angle);
             var y = cy - radius * Math.Sin(angle);
 
-            var size = options.PolarScatterOptions.MarkerSize ?? 4.0;
+            var size = options.PolarScatter.MarkerSize ?? 4.0;
 
             points.Add((i, x, y, size));
         }

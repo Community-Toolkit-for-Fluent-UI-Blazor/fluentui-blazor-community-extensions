@@ -36,11 +36,6 @@ public abstract class ChartItem
     public required string Name { get; init; } = string.Empty;
 
     /// <summary>
-    /// Gets the optional tag object for custom use.
-    /// </summary>
-    public object? Tag { get; set; }
-
-    /// <summary>
     /// Gets the style settings applied to the chart item.
     /// </summary>
     /// <remarks>Use this property to customize the appearance of the chart item, such as colors, borders, or

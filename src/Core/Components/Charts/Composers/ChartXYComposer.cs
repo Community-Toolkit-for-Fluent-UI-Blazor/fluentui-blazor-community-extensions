@@ -8,6 +8,9 @@ using XYS = FluentUI.Blazor.Community.Components.Charts.Series.XYSerie;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Composers;
 
+/// <summary>
+/// Represents the composer for XY charts.
+/// </summary>
 internal sealed class ChartXYComposer
     : ISurfaceComposer<CO>
 {
@@ -46,7 +49,7 @@ internal sealed class ChartXYComposer
         var bubble = new List<XYS>();
         var line = new List<XYS>();
         var area = new List<XYS>();
-        var histogram = new List<XYS>();
+        var column = new List<XYS>();
 
         foreach (var serie in filtered)
         {
@@ -68,8 +71,8 @@ internal sealed class ChartXYComposer
                     area.Add(serie);
                     break;
 
-                case XYChartType.Histogram:
-                    histogram.Add(serie);
+                case XYChartType.Column:
+                    column.Add(serie);
                     break;
             }
         }
@@ -79,9 +82,9 @@ internal sealed class ChartXYComposer
             BuildAreaGroup(target, area, ctx, options);
         }
 
-        if (histogram.Count > 0)
+        if (column.Count > 0)
         {
-           // BuildHistogramGroup(target, histogram, ctx, options);
+            BuildColumnGroup(target, column, ctx, options);
         }
 
         if (scatter.Count > 0)
@@ -107,6 +110,130 @@ internal sealed class ChartXYComposer
     {
         return ValueTask.FromResult(Compose(target, options));
     }
+
+    /// <summary>
+    /// Builds and adds a column chart layer to the render target by processing series data, calculating column layouts.
+    /// </summary>
+    /// <param name="target">The render target where the column layer will be added.</param>
+    /// <param name="series">The collection of column series to be rendered.</param>
+    /// <param name="ctx">The chart context for composition.</param>
+    /// <param name="options">The chart options for rendering.</param>
+    private void BuildColumnGroup(
+        ISurfaceRenderTarget target,
+        List<XYS> series,
+        ChartContext ctx,
+        CO options)
+    {
+        var payloads = new List<XYColumnPayloadCollection>(series.Count);
+
+        for (var i = 0; i < series.Count; i++)
+        {
+            var serie = series[i];
+            var columns = XYColumnLayoutEngine.Layout(serie, series, i, ctx, options);
+            var columnPayloads = new List<XYColumnPayload>(columns.Count);
+
+            for (var j = 0; j < columns.Count; j++)
+            {
+                var col = columns[j];
+                var item = serie.Items[j];
+
+                columnPayloads.Add(new XYColumnPayload
+                {
+                    ChartId = _chartId,
+                    GroupId = serie.Id,
+                    X = col.X,
+                    Height = col.Height,
+                    Id = item.Id!,
+                    Index = j,
+                    Normal = ChartStyleResolver.Resolve(item.Style?.Normal, options.XYColumnStyle.Normal),
+                    SerieIndex = i,
+                    Value = item.Value,
+                    Width = col.Width,
+                    Y = col.Y,
+                    AnimationEnabled = serie.AnimationEnabled,
+                    Animation = ChartAnimationResolver.Resolve(item.Animation, serie.Animation, options.Animation),
+                    Trigger = item.Trigger,
+                    InteractionState = item.InteractionState,
+                    Effect = item.Effect,
+                    Hover = ChartStyleResolver.Resolve(item.Style?.Hover, options.XYColumnStyle.Hover),
+                    Pressed = ChartStyleResolver.Resolve(item.Style?.Pressed, options.XYColumnStyle.Pressed),
+                    Selected = ChartStyleResolver.Resolve(item.Style?.Selected, options.XYColumnStyle.Selected),
+                    Disabled = ChartStyleResolver.Resolve(item.Style?.Disabled, options.XYColumnStyle.Disabled),
+                    Tooltip = new ChartTooltipPayload() { }
+                });
+            }
+
+            payloads.Add(new XYColumnPayloadCollection
+            {
+                Columns = columnPayloads,
+                Id = $"xy-column-{serie.Name}",
+                SerieIndex = i
+            });
+        }
+
+        target.AddLayer(new XYColumnLayer(new(payloads)
+        {
+            Id = $"xy-column-{_chartId}"
+        }));
+    }
+
+    /*  /// <summary>
+      /// Builds and adds a histogram chart layer to the render target by processing series data, calculating bar layouts,
+      /// and generating payloads for rendering.
+      /// </summary>
+      /// <param name="target">The render target where the histogram layer will be added.</param>
+      /// <param name="series">The collection of histogram series to be rendered.</param>
+      /// <param name="ctx">The chart context for composition.</param>
+      /// <param name="options">The chart options for rendering.</param>
+      private void BuildHistogramGroup(
+          ISurfaceRenderTarget target,
+          List<XYS> series,
+          ChartContext ctx,
+          CO options)
+      {
+          var payloads = new List<HistogramPayload>(series.Count);
+          var seriesCount = series.Count;
+
+          for (var i = 0; i < seriesCount; i++)
+          {
+              var serie = series[i];
+              var bars = HistogramLayoutEngine.Layout(serie, ctx, options, i, seriesCount);
+              var barPayloads = new List<HistogramBarPayload>(bars.Count);
+
+              for (var b = 0; b < bars.Count; b++)
+              {
+                  var bar = bars[b];
+
+                  barPayloads.Add(new HistogramBarPayload
+                  {
+                      Id = $"hist-bar-{serie.Name}-{b}",
+                      GroupId = serie.Id,
+                      ChartId = _chartId,
+                      Index = b,
+                      SerieIndex = i,
+                      X = bar.X1,
+                      Y = bar.Y2,
+                      Width = bar.X2 - bar.X1,
+                      Height = bar.Y1 - bar.Y2,
+                      Count = bar.Count,
+                      Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, options.HistogramStyle.Normal),
+                      Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, options.HistogramStyle.Hover),
+                      Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, options.HistogramStyle.Pressed),
+                      AnimationEnabled = serie.AnimationEnabled,
+                      Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
+                  });
+              }
+
+              payloads.Add(new HistogramPayload
+              {
+                  SerieIndex = i,
+                  Bars = barPayloads,
+                  Id = $"histogram-{serie.Name}"
+              });
+          }
+
+          target.AddLayer(new HistogramLayer(new(payloads)));
+      }*/
 
     /// <summary>
     /// Represents the logic to build a group of area series and add them to the render target.
@@ -148,39 +275,6 @@ internal sealed class ChartXYComposer
 
         target.AddLayer(new XYAreaLayer(new(payloads)));
     }
-
- /*   /// <summary>
-    /// Builds and adds a histogram layer to the render target from the provided series data.
-    /// </summary>
-    /// <param name="target">The surface render target to which the histogram layer will be added.</param>
-    /// <param name="series">The list of XYS series containing the data to be visualized as histograms.</param>
-    /// <param name="ctx">The chart context providing layout and rendering information.</param>
-    /// <param name="options">The chart options defining styling and configuration for the histogram.</param>
-    private void BuildHistogramGroup(
-        ISurfaceRenderTarget target,
-        List<XYS> series,
-        ChartContext ctx,
-        CO options)
-    {
-        var payloads = new List<HistogramPayload>(series.Count);
-
-        for (var i = 0; i < series.Count; i++)
-        {
-            var serie = series[i];
-            var bars = HistogramLayoutEngine.Layout(serie, ctx, options);
-
-            payloads.Add(new HistogramPayload
-            {
-                Id = $"xy-histogram-{serie.Name}",
-                SerieIndex = i,
-                Bars = bars,
-                Fill = ChartStyleResolver.Resolve(serie.Style?.Normal, options.AreaStyles.Normal),
-                Stroke = ChartStyleResolver.Resolve(serie.Style?.Normal, options.LineStyles.Normal)
-            });
-        }
-
-        target.AddLayer(new HistogramLayer(new(payloads)));
-    }*/
 
     /// <summary>
     /// Represents the logic to build a group of bubble series and add them to the render target.

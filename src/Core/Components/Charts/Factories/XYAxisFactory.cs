@@ -1,11 +1,10 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 
-internal sealed class XYAxesFactory : IAxisFactory<XYSeriesOptions>
+internal sealed class XYAxesFactory : IAxisFactory
 {
     /// <inheritdoc />
     public (ChartAxis XAxis, ChartAxis YAxis) CreateAxes(
@@ -24,11 +23,28 @@ internal sealed class XYAxesFactory : IAxisFactory<XYSeriesOptions>
         }
 
         var items = xySeries.SelectMany(s => s.Items).ToList();
-        var xMin = items.Min(i => i.X);
-        var xMax = items.Max(i => i.X);
 
-        var yMin = items.Min(i => i.Y);
-        var yMax = items.Max(i => i.Y);
+        if (items.Count == 0)
+        {
+            return (CreateEmptyNumericAxis(), CreateEmptyNumericAxis());
+        }
+
+        var xMin = double.MaxValue;
+        var xMax = double.MinValue;
+        var yMin = double.MaxValue;
+        var yMax = double.MinValue;
+
+        for (var i = 0; i < items.Count; i++)
+        {
+            var it = items[i];
+            var x = it.X;
+            var y = it.Y;
+
+            xMin = Math.Min(xMin, x);
+            xMax = Math.Max(xMax, x);
+            yMax = Math.Max(yMax, y);
+            yMin = Math.Min(yMin, y);
+        }
 
         if (xMin == xMax)
         {

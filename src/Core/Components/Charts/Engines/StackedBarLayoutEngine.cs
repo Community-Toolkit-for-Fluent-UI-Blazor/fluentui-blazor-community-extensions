@@ -26,7 +26,7 @@ internal static class StackedBarLayoutEngine
         ChartContext context,
         CO options)
     {
-        var barOptions = options.BarOptions;
+        var barOptions = options.Bar;
         var plot = context.PlotArea;
         var categoryCount = serie.Items.Count;
         var bandHeight = plot.Height / categoryCount;

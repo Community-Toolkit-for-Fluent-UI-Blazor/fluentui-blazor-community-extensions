@@ -3,7 +3,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Styles;
 /// <summary>
 /// Represents the default line styles for marker lines in a chart.
 /// </summary>
-internal sealed class ChartMarkerLineStyle
+public sealed class ChartMarkerLineStyle
 {
     /// <summary>
     /// Gets the normal visual state.

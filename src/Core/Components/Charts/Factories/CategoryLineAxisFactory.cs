@@ -1,5 +1,4 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
@@ -13,7 +12,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 /// analyzes the visible series and their items to determine the set of categories and the numeric value range, ensuring
 /// that axes are valid even when no data is present. The axes produced are suitable for rendering category line charts
 /// within the specified plot area.</remarks>
-internal sealed class CategoryLineAxisFactory : IAxisFactory<CategoryLineOptions>
+internal sealed class CategoryLineAxisFactory : IAxisFactory
 {
     /// <inheritdoc />
     public (ChartAxis XAxis, ChartAxis YAxis) CreateAxes(

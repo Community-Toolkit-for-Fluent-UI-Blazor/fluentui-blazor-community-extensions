@@ -1,12 +1,13 @@
-using FluentUI.Blazor.Community.Components.Charts;
 using FluentUI.Blazor.Community.Components.Enums;
 
-namespace FluentUI.Blazor.Community.Components.Components.Charts;
+namespace FluentUI.Blazor.Community.Components.Charts;
 
+/// <summary>
+/// Represents a validator for chart type rules.
+/// </summary>
 internal static class ChartTypeRuleValidator
 {
-    internal static readonly Dictionary<ChartType, ChartTypeRule> Rules =
-    new(EqualityComparer<ChartType>.Default)
+    internal static readonly Dictionary<ChartType, ChartTypeRule> Rules = new(EqualityComparer<ChartType>.Default)
     {
         [ChartType.Radar] = GetDefaultPolar(),
         [ChartType.PolarLine] = GetDefaultPolar(),
@@ -36,6 +37,8 @@ internal static class ChartTypeRuleValidator
         [ChartType.XYArea] = GetDefaultWithTrue(ChartCategory.XY),
         [ChartType.MultiDonut] = GetDefaultWithTrue(ChartCategory.Circular),
         [ChartType.SemiDonut] = GetDefaultWithTrue(ChartCategory.Circular),
+        [ChartType.Histogram] = GetDefault(ChartCategory.XY),
+        [ChartType.XYColumn] = GetDefaultWithTrue(ChartCategory.XY)
     };
 
     private static ChartTypeRule GetDefaultWithTrue(ChartCategory category)

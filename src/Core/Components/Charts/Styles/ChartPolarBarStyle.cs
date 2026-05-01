@@ -2,7 +2,10 @@ using FluentUI.Blazor.Community.Components.Surface.Utils;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Styles;
 
-internal sealed class ChartPolarBarStyle
+/// <summary>
+/// Represents the default visual styles for polar bar elements in a chart.
+/// </summary>
+public sealed class ChartPolarBarStyle
 {
     private const string BaseFill = "#4A90E2";
 

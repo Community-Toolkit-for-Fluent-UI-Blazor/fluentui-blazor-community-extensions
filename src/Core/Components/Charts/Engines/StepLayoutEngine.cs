@@ -10,7 +10,7 @@ internal static class StepLayoutEngine
         ChartContext context,
         CO options)
     {
-        var items = CategoryAxisEngine.Sort(serie.Items, options.StepOptions);
+        var items = CategoryAxisEngine.Sort(serie.Items, options.Step);
         var count = items.Count;
 
         var stepPoints = new List<ChartPoint>(count * 2 - 1);

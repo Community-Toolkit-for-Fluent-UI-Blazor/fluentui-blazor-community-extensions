@@ -1,5 +1,4 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
@@ -14,7 +13,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 /// axes, and sorts categories if specified in the options. The factory is not intended to be used directly by
 /// consumers; instead, it is used internally by chart rendering components to ensure consistent axis generation for bar
 /// charts.</remarks>
-internal sealed class BarAxisFactory : IAxisFactory<BarSerieOptions>
+internal sealed class BarAxisFactory : IAxisFactory
 {
     /// <inheritdoc />
     public (ChartAxis XAxis, ChartAxis YAxis) CreateAxes(

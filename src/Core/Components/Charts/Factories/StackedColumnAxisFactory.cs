@@ -1,5 +1,4 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
@@ -9,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 /// Creates chart axes for stacked column charts by extracting categories and calculating numeric ranges from aggregated
 /// stack values.
 /// </summary>
-internal sealed class StackedColumnAxisFactory : IAxisFactory<ColumnSerieOptions>
+internal sealed class StackedColumnAxisFactory : IAxisFactory
 {
     /// <inheritdoc />
     public (ChartAxis XAxis, ChartAxis YAxis) CreateAxes(

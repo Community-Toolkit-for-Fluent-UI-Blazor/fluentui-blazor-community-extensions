@@ -384,7 +384,7 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
         for (var serieIndex = 0; serieIndex < series.Count; serieIndex++)
         {
             var serie = series[serieIndex];
-            var serieOptions = options.RadarOptions;
+            var serieOptions = options.Radar;
             var (path, polarPoints) = RadarLayoutEngine.Layout(serie, ctx);
 
             BuildPolarPointsPayload(
@@ -417,7 +417,7 @@ internal sealed class ChartPolarComposer : ISurfaceComposer<CO>
                 Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
                 Tooltip = new ChartTooltipPayload(),
                 FillArea = serieOptions.FillArea,
-                Grid = options.RadarAxesOptions.Grid
+                Grid = options.RadarAxes.Grid
             };
 
             radarPayloads.Add(payload);

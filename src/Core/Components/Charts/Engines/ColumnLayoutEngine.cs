@@ -41,7 +41,7 @@ internal static class ColumnLayoutEngine
         ChartContext context,
         CO options)
     {
-        var columnOptions = options.ColumnOptions;
+        var columnOptions = options.Column;
         var plot = context.PlotArea;
         var categoryCount = serie.Items.Count;
         var seriesCount = allSeries.Count;

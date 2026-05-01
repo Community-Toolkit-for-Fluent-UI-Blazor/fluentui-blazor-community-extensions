@@ -8,7 +8,6 @@ using FluentUI.Blazor.Community.Components.Charts.Themes;
 using FluentUI.Blazor.Community.Components.ColorSpace.Spaces;
 using FluentUI.Blazor.Community.Components.ColorSpace.Vision;
 using FluentUI.Blazor.Community.Components.Components.Base;
-using FluentUI.Blazor.Community.Components.Components.Charts;
 using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -56,6 +55,7 @@ public partial class FluentCxChart : FluentComponentBase
         [ChartType.PolarBubble] = i => i + 1,
         [ChartType.XYLine] = i => i + 1,
         [ChartType.XYArea] = i => i + 1,
+        [ChartType.XYColumn] = i => i + 1,
     };
 
     /// <summary>
@@ -428,8 +428,8 @@ public partial class FluentCxChart : FluentComponentBase
             new ChartColumnComposer(Id!, () => _chartContext, GetSeries<Charts.Series.ColumnSerie>),
             new ChartLineComposer(Id!, () => _chartContext, GetSeries<Charts.Series.LineSerie>),
             new ChartXYComposer(Id!, () => _chartContext, GetSeries<Charts.Series.XYSerie>),
-            new ChartAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, IsAxesSeries),
-            new ChartGridComposer(() => _chartContext, () => _options.GridOptions),
+            new ChartAxesComposer(() => _chartContext, () => _options.Axis, IsAxesSeries),
+            new ChartGridComposer(() => _chartContext, () => _options.Grid),
             new ChartPieComposer(Id!, () => _chartContext, GetSeries<Charts.Series.PieSerie>),
             new ChartDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.DonutSerie>),
             new ChartSemiDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.SemiDonutSerie>),
@@ -441,8 +441,9 @@ public partial class FluentCxChart : FluentComponentBase
                 () => Subtitle,
                 () => LegendItemShape,
                 () => _liveSeries.Values),
-            new ChartPolarAxesComposer(() => _chartContext, () => _options.DefaultAxisOptions, GetSeries<PolarSerie>),
-            new ChartPolarComposer(Id!, () => _chartContext, GetSeries<PolarSerie>)
+            new ChartPolarAxesComposer(() => _chartContext, () => _options.Axis, GetSeries<PolarSerie>),
+            new ChartPolarComposer(Id!, () => _chartContext, GetSeries<PolarSerie>),
+            new ChartHistogramComposer(Id!, () => _chartContext, GetSeries<Charts.Series.HistogramSerie>)
         );
 
         RenderTarget ??= new ChartSvgRenderTarget(Id!, () => _chartContext, () => _chartThemeContext, () => _options);
@@ -479,7 +480,10 @@ public partial class FluentCxChart : FluentComponentBase
             ChartType.StackedStep or
             ChartType.Scatter or
             ChartType.Bubble or
-            ChartType.XYLine);
+            ChartType.XYLine or
+            ChartType.Histogram or
+            ChartType.XYColumn or
+            ChartType.XYArea);
     }
 
     /// <summary>
@@ -488,7 +492,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="options">The bar series options to apply as the new default configuration.</param>
     internal void UpdateBarOptions(BarSerieOptions options)
     {
-        _options.BarOptions = options;
+        _options.Bar = options;
         Refresh();
     }
 
@@ -498,7 +502,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="options">The new column options to apply as the default settings.</param>
     internal void UpdateColumnOptions(ColumnSerieOptions options)
     {
-        _options.ColumnOptions = options;
+        _options.Column = options;
         Refresh();
     }
 
@@ -508,7 +512,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="axisOptions">The new axis options to apply as the default configuration for all axes in the chart. This will affect the appearance and behavior of axes across the entire chart unless overridden by specific axis configurations.</param>
     internal void UpdateAxisOptions(Charts.Options.ChartAxisOptions axisOptions)
     {
-        _options.DefaultAxisOptions = axisOptions;
+        _options.Axis = axisOptions;
         Refresh();
     }
 
@@ -518,7 +522,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="radarAxesOptions">The new radar chart axes options to apply as the default configuration for all radar chart axes in the chart. This will affect the appearance and behavior of radar chart axes across the entire chart unless overridden by specific axis configurations.</param>
     internal void UpdateRadarChartAxesOptions(RadarAxesOptions radarAxesOptions)
     {
-        _options.RadarAxesOptions = radarAxesOptions;
+        _options.RadarAxes = radarAxesOptions;
         Refresh();
     }
 
@@ -528,7 +532,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="radarSerieOptions">The new radar series options to apply as the default configuration for all radar series in the chart. This will affect the appearance and behavior of radar series across the entire chart unless overridden by specific series configurations.</param>
     internal void UpdateRadarSerieOptions(Charts.Options.RadarSerieOptions radarSerieOptions)
     {
-        _options.RadarOptions = radarSerieOptions;
+        _options.Radar = radarSerieOptions;
         Refresh();
     }
 
@@ -538,7 +542,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="semiDonutSerieOptions">The new semi-donut series options to apply as the default configuration for all semi-donut series in the chart. This will affect the appearance and behavior of semi-donut series across the entire chart unless overridden by specific series configurations.</param>
     internal void UpdateSemiDonutSerieOptions(RadialSerieOptions semiDonutSerieOptions)
     {
-        _options.SemiDonutOptions = semiDonutSerieOptions;
+        _options.SemiDonut = semiDonutSerieOptions;
         Refresh();
     }
 
@@ -699,6 +703,13 @@ public partial class FluentCxChart : FluentComponentBase
             {
                 switch (serie.ChartType)
                 {
+                    case ChartType.Histogram:
+                        {
+                            count = _options.Histogram.BinCount;
+                        }
+
+                        break;
+
                     case ChartType.MultiDonut:
                         {
                             count += ComputeMultiDonutLegendCount((Charts.Series.MultiDonutSerie)serie);
@@ -775,7 +786,7 @@ public partial class FluentCxChart : FluentComponentBase
     /// <param name="categoryLineOptions">The new category line options to apply as the default configuration for category line series in the chart.</param>
     internal void UpdateCategoryLineOptions(CategoryLineOptions categoryLineOptions)
     {
-        _options.CategoryLineOptions = categoryLineOptions;
+        _options.CategoryLine = categoryLineOptions;
         Refresh();
     }
 
@@ -1160,7 +1171,6 @@ public partial class FluentCxChart : FluentComponentBase
                 changed = true;
 
                 liveItem.Label = snapItem.Label;
-                liveItem.Tag = snapItem.Tag;
                 liveItem.Style = snapItem.Style;
                 liveItem.Animation = snapItem.Animation;
                 liveItem.Interaction = snapItem.Interaction;
@@ -1180,7 +1190,6 @@ public partial class FluentCxChart : FluentComponentBase
     private static bool ItemsEqual(ChartItem a, ChartItem b)
     {
         return a.Label == b.Label &&
-               Equals(a.Tag, b.Tag) &&
                Equals(a.Style, b.Style) &&
                Equals(a.Tooltip, b.Tooltip) &&
                Equals(a.Animation, b.Animation) &&

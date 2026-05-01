@@ -83,6 +83,11 @@ public enum ChartType
     XYArea,
 
     /// <summary>
+    /// XY column chart (vertical bars with XY coordinates).
+    /// </summary>
+    XYColumn,
+
+    /// <summary>
     /// Scatter plot.
     /// </summary>
     Scatter,

@@ -91,4 +91,16 @@ internal sealed record ChartContext
     /// Gets the maximum value used for scaling polar chart axes, ensuring that all data points fit within the chart's bounds.
     /// </summary>
     public double PolarNiceMax { get; internal set; }
+
+    /// <summary>
+    /// Gets the model for the histogram chart, if applicable.
+    /// </summary>
+    public HistogramModel HistogramModel { get; internal set; } = new()
+    {
+        BinEdges = [],
+        BinWidth = 0,
+        Counts = [],
+        Max = 0,
+        Min = 0
+    };
 }

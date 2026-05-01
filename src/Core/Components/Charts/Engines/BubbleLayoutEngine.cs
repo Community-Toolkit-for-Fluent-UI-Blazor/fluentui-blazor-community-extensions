@@ -17,7 +17,7 @@ internal static class BubbleLayoutEngine
         ChartContext context,
         CO options)
     {
-        var bubbleOptions = options.BubbleOptions;
+        var bubbleOptions = options.Bubble;
         var items = serie.Items;
         var count = items.Count;
         var radiusMin = bubbleOptions.MinRadius;

@@ -30,6 +30,7 @@ internal static class CategoryAxisEngine
         }
 
         var sortedItems = new List<CategoryItem>(items);
+
         sortedItems.Sort((a, b) =>
         {
             return a.Name.CompareTo(b.Name);

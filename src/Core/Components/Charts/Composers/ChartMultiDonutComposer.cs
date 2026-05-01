@@ -64,7 +64,7 @@ internal sealed class ChartMultiDonutComposer(
             var globalColorIndex = 0;
             var slicesPerRing = new List<List<PiePayload>>(ringCount);
             var optsPerRing = new List<RadialSerieOptions>(ringCount);
-            var opts = chartOptions.DonutOptions;
+            var opts = chartOptions.Donut;
 
             for (var r = 0; r < ringCount; r++)
             {

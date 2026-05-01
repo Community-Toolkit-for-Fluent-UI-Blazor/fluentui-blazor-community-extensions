@@ -26,7 +26,7 @@ public enum XYChartType
     Area,
 
     /// <summary>
-    /// Specifies an histogram chart.
+    /// Specifies a column chart.
     /// </summary>
-    Histogram
+    Column
 }

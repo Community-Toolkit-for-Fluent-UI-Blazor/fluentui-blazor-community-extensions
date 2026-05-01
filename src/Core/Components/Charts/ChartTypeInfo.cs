@@ -33,10 +33,12 @@ internal static class ChartTypeInfo
         [ChartType.XYArea] = ChartCategory.XY,
         [ChartType.Scatter] = ChartCategory.XY,
         [ChartType.Bubble] = ChartCategory.XY,
-        [ChartType.Histogram] = ChartCategory.XY,
         [ChartType.Boxplot] = ChartCategory.XY,
         [ChartType.Violin] = ChartCategory.XY,
         [ChartType.Density] = ChartCategory.XY,
+        [ChartType.XYColumn] = ChartCategory.XY,
+
+        [ChartType.Histogram] = ChartCategory.Histogram,
 
         [ChartType.Candlestick] = ChartCategory.Financial,
         [ChartType.OHLC] = ChartCategory.Financial,

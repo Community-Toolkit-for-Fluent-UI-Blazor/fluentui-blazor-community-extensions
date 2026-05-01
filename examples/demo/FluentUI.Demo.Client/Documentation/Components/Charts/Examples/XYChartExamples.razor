@@ -42,6 +42,16 @@
                 <XYAreaSerie Name="Area 2" Items="@(_items2)" />
                 <XYAreaSerie Name="Area 3" Items="@(_items3)" />
             }
+            else if (_selectedChartCategory == ChartType.XYColumn)
+            {
+                <XYColumnSerie Name="Histogram" Items="@(_items)" />
+                <XYColumnSerie Name="Histogram 2" Items="@(_items2)" />
+                <XYColumnSerie Name="Histogram 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.Histogram)
+            {
+                <HistogramSerie Name="Histogram" Items="@(_histogramSerie)" />
+            }
         </FluentCxChart>
     </FluentStack>
 </div>
@@ -57,8 +67,12 @@
         ChartType.Scatter,
         ChartType.Bubble,
         ChartType.XYLine,
-        ChartType.XYArea
+        ChartType.XYArea,
+        ChartType.XYColumn,
+        ChartType.Histogram
     ];
+
+    private static ValueItem[] _histogramSerie = GenerateNormal(1000);
 
     private static XYItem[] _items = new[]
     {
@@ -89,5 +103,26 @@
     private void OnCategoryChanged()
     {
         _ref?.Reset();
+    }
+
+    public static ValueItem[] GenerateNormal(int count = 1000, double mean = 50, double stddev = 10)
+    {
+        var rnd = new Random();
+        var items = new ValueItem[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            // Box-Muller transform
+            double u1 = 1.0 - rnd.NextDouble();
+            double u2 = 1.0 - rnd.NextDouble();
+            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) *
+                                   Math.Sin(2.0 * Math.PI * u2);
+
+            double value = mean + stddev * randStdNormal;
+
+            items[i] = new ValueItem { Name = $"Item {i + 1}", Value = value };
+        }
+
+        return items;
     }
 }

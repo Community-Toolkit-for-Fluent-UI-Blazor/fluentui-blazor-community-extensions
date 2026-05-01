@@ -1,11 +1,10 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 
-internal sealed class BubbleAxesFactory : IAxisFactory<CategoryLineOptions>
+internal sealed class BubbleAxesFactory : IAxisFactory
 {
     public (ChartAxis XAxis, ChartAxis YAxis) CreateAxes(
         bool sort,

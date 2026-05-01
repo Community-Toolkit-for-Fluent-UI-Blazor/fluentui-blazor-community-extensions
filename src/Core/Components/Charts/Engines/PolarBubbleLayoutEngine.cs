@@ -33,7 +33,7 @@ internal class PolarBubbleLayoutEngine
 
         var (cx, cy, maxRadius) = PolarHelper.GetPolarFrame(ctx);
         var points = new List<(int, double, double, double)>(count);
-        var bubbleOptions = options.PolarBubbleOptions;
+        var bubbleOptions = options.PolarBubble;
         var minR = bubbleOptions.MinRadius;
         var maxR = bubbleOptions.MaxRadius;
         var minValue = items.Min(i => i.Value);

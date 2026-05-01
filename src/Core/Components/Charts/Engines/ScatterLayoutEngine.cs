@@ -17,7 +17,7 @@ internal static class ScatterLayoutEngine
         ChartContext context,
         CO options)
     {
-        var serieOptions = options.ScatterOptions;
+        var serieOptions = options.Scatter;
         var items = serie.Items;
         var count = items.Count;
 

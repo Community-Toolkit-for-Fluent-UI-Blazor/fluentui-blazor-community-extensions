@@ -25,7 +25,7 @@ internal static class CategoryLineLayoutEngine
         ChartContext context,
         CO options)
     {
-        var categoryOptions = options.CategoryLineOptions;
+        var categoryOptions = options.CategoryLine;
         var items = CategoryAxisEngine.Sort(serie.Items, categoryOptions);
         var points = new List<ChartPoint>(items.Count);
         var pointPayloads = new List<LinePoint>(items.Count);

@@ -8,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Styles;
 /// <remarks>This class defines the default appearance for bar elements in their normal, hover, pressed, and
 /// selected states. The styles can be used to ensure consistent visual representation across chart
 /// components.</remarks>
-internal sealed class ChartBarStyle
+public sealed class ChartBarStyle
 {
     private const string BaseFill = "#4A90E2";
 

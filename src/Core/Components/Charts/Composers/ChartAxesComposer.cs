@@ -34,7 +34,7 @@ internal sealed class ChartAxesComposer(
             return false;
         }
 
-        var mergedAxisOptions = Merge(axisOptions(), options.DefaultAxisOptions);
+        var mergedAxisOptions = Merge(axisOptions(), options.Axis);
 
         if (!mergedAxisOptions.Show)
         {

@@ -10,7 +10,7 @@ internal sealed class ChartOptions
     /// <summary>
     /// Gets the default axis options applied to all axes in the chart unless overridden by specific axis settings.
     /// </summary>
-    public ChartAxisOptions DefaultAxisOptions { get; set; } = new()
+    public ChartAxisOptions Axis { get; set; } = new()
     {
         Layer = Enums.AxesLayerOrder.Background
     };
@@ -20,7 +20,7 @@ internal sealed class ChartOptions
     /// </summary>
     /// <remarks>Use this property to specify common configuration settings for bar series. Individual series
     /// can override these defaults by providing their own options.</remarks>
-    public BarSerieOptions BarOptions { get; set; } = new();
+    public BarSerieOptions Bar { get; set; } = new();
 
     /// <summary>
     /// Gets the default options applied to all column series in the chart unless overridden by specific series
@@ -28,7 +28,7 @@ internal sealed class ChartOptions
     /// </summary>
     /// <remarks>Use this property to configure common appearance or behavior for all column series.
     /// Individual series can override these options by specifying their own settings.</remarks>
-    public ColumnSerieOptions ColumnOptions { get; set; } = new();
+    public ColumnSerieOptions Column { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the default options used for rendering category lines.
@@ -36,17 +36,17 @@ internal sealed class ChartOptions
     /// <remarks>These options are applied to category lines unless explicitly overridden. Adjusting these
     /// settings affects the appearance and behavior of all category lines that do not have their own specific
     /// options.</remarks>
-    public CategoryLineOptions CategoryLineOptions { get; set; } = new();
+    public CategoryLineOptions CategoryLine { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the default options applied to scatter series in the chart.
     /// </summary>
-    public ScatterSerieOptions ScatterOptions { get; set; } = new();
+    public ScatterSerieOptions Scatter { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the default options applied to bubble series in the chart.
     /// </summary>
-    public BubbleSerieOptions BubbleOptions { get; set; } = new();
+    public BubbleSerieOptions Bubble { get; set; } = new();
 
     /// <summary>
     /// Gets the default line options applied to category lines when no specific options are provided.
@@ -68,7 +68,7 @@ internal sealed class ChartOptions
     /// <summary>
     /// Gets the default grid options used for chart rendering.
     /// </summary>
-    public ChartGridOptions GridOptions { get; set; } = new();
+    public ChartGridOptions Grid { get; set; } = new();
 
     /// <summary>
     /// Gets the default bar style applied to all bar elements in the chart unless overridden by specific series or element settings.
@@ -92,22 +92,22 @@ internal sealed class ChartOptions
     /// </summary>
     /// <remarks>Use this property to configure the appearance and behavior of pie chart series when no
     /// specific option is set for an individual series.</remarks>
-    public RadialSerieOptions PieOptions { get; set; } = new();
+    public RadialSerieOptions Pie { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the default options applied to donut chart series.
     /// </summary>
-    public RadialSerieOptions DonutOptions { get; set; } = new();
+    public RadialSerieOptions Donut { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the default options for radar series.
     /// </summary>
-    public RadarSerieOptions RadarOptions { get; set; } = new();
+    public RadarSerieOptions Radar { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the default options for radar axes in the chart.
     /// </summary>
-    public RadarAxesOptions RadarAxesOptions { get; set; } = new();
+    public RadarAxesOptions RadarAxes { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the style settings for the pie chart elements.
@@ -154,12 +154,12 @@ internal sealed class ChartOptions
     /// <summary>
     /// Gets or sets the default options for step series in the chart.
     /// </summary>
-    public CategoryLineOptions StepOptions { get; set; } = new();
+    public CategoryLineOptions Step { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the default options for semi-donut series in the chart.
     /// </summary>
-    public RadialSerieOptions SemiDonutOptions { get; set; } = new()
+    public RadialSerieOptions SemiDonut { get; set; } = new()
     {
         StartAngle = 190,
         EndAngle = 350
@@ -168,10 +168,30 @@ internal sealed class ChartOptions
     /// <summary>
     /// Gets or sets the default options for polar scatter series in the chart.
     /// </summary>
-    public PolarScatterOptions PolarScatterOptions { get; set; } = new();
+    public PolarScatterOptions PolarScatter { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the default options for polar bubble series in the chart.
     /// </summary>
-    public PolarBubbleOptions PolarBubbleOptions { get; set; } = new();
+    public PolarBubbleOptions PolarBubble { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the default options for histogram series in the chart.
+    /// </summary>
+    public HistogramOptions Histogram { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the style configuration for the histogram chart.
+    /// </summary>
+    public ChartHistogramStyle HistogramStyle { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the default options for XY column series in the chart.
+    /// </summary>
+    public XYColumnSerieOptions XYColumnSerie { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the style configuration for the XY column chart.
+    /// </summary>
+    public ChartXYColumnStyle XYColumnStyle { get; set; } = new();
 }

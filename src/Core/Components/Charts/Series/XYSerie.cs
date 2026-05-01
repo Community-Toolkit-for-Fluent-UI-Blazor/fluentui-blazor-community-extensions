@@ -14,6 +14,7 @@ public sealed class XYSerie : ChartSerie<XYItem>
         XYChartType.Bubble => ChartType.Bubble,
         XYChartType.Line => ChartType.XYLine,
         XYChartType.Area => ChartType.XYArea,
+        XYChartType.Column => ChartType.XYColumn,
         _ => throw new NotSupportedException($"Unsupported XY chart type: {XYType}")
     };
 
@@ -23,5 +24,5 @@ public sealed class XYSerie : ChartSerie<XYItem>
     public XYChartType XYType { get; internal set; }
 
     /// <inheritdoc />
-    protected internal override IEnumerable<double> Values => Items.Select(x => x.Y);
+    protected internal override IEnumerable<double> Values => Items.Select(x => x.Value);
 }

@@ -33,7 +33,7 @@ public sealed class BubbleSerie : SerieBase
     /// <inheritdoc />
     protected internal override ChartSerie Create()
     {
-        var cls = new Charts.Series.XYSerie
+        var cls = new XYSerie
         {
             Id = Id!,
             Name = Name,

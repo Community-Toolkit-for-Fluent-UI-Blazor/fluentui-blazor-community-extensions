@@ -1,5 +1,4 @@
 using FluentUI.Blazor.Community.Components.Charts.Drawing;
-using FluentUI.Blazor.Community.Components.Charts.Options;
 using FluentUI.Blazor.Community.Components.Charts.Series;
 using FluentUI.Blazor.Community.Components.Enums;
 
@@ -8,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 /// <summary>
 /// Represents a factory for creating axes for 100% stacked bar chart series.
 /// </summary>
-internal sealed class Stacked100BarAxisFactory : IAxisFactory<BarSerieOptions>
+internal sealed class Stacked100BarAxisFactory : IAxisFactory
 {
     /// <summary>
     /// Creates X and Y axes for a 100% stacked bar chart based on the provided series data.

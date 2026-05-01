@@ -38,6 +38,11 @@ public enum ChartCategory
     /// <summary>
     /// Specifies the circular visualization type used for displaying data in a circular layout.
     /// </summary>
-    Circular
+    Circular,
+
+    /// <summary>
+    /// Specifies the histogram visualization type used for displaying data distributions in a bar chart format.
+    /// </summary>
+    Histogram
 }
 

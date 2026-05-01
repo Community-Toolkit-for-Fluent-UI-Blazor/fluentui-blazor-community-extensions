@@ -24,7 +24,7 @@ public class ChartAxesComposerTests
     {
         var context = new ChartContext { PlotArea = new ChartRect(0, 0, 100, 100) };
         var axisOptions = new ChartAxisOptions { Show = true };
-        var options = new ChartOptions { DefaultAxisOptions = new ChartAxisOptions { Show = true } };
+        var options = new ChartOptions { Axis = new ChartAxisOptions { Show = true } };
         var series = new TestSerie { Name = "Serie" };
         series.UpdateItems([new CategoryItem { Name = "A", Value = 1 }]);
 
@@ -44,7 +44,7 @@ public class ChartAxesComposerTests
     {
         var context = new ChartContext { PlotArea = new ChartRect(0, 0, 100, 100) };
         var axisOptions = new ChartAxisOptions { Show = false };
-        var options = new ChartOptions { DefaultAxisOptions = new ChartAxisOptions { Show = false } };
+        var options = new ChartOptions { Axis = new ChartAxisOptions { Show = false } };
 
         var composer = new ChartAxesComposer(() => context, () => axisOptions, () => true);
         var target = new ChartTestRenderTarget();

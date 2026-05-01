@@ -153,7 +153,7 @@ internal sealed class ChartLayoutComposer(
             return null;
         }
 
-        var items = BuildLegendItems(series);
+        var items = BuildLegendItems(series, ctx);
 
         return new ChartLegendPayload
         {
@@ -173,9 +173,12 @@ internal sealed class ChartLayoutComposer(
     /// which they are processed.</remarks>
     /// <param name="series">An enumerable collection of chart series from which to generate legend items. Each series determines how its
     /// legend items are constructed according to its chart type.</param>
+    /// <param name="ctx">The chart context providing additional information such as histogram bin edges, if applicable.</param>
     /// <returns>A list of legend items representing the labels and color indices for the provided chart series. The list may be
     /// empty if no series are provided.</returns>
-    private static List<LegendItem> BuildLegendItems(IEnumerable<ChartSerie> series)
+    private static List<LegendItem> BuildLegendItems(
+        IEnumerable<ChartSerie> series,
+        ChartContext ctx)
     {
         var items = new List<LegendItem>();
         var colorIndex = 0;
@@ -198,6 +201,27 @@ internal sealed class ChartLayoutComposer(
                 foreach (var item in serie.RawItems)
                 {
                     items.Add(new LegendItem(item.Name, colorIndex++));
+                }
+            }
+            else if (serie.ChartType == ChartType.Histogram)
+            {
+                var model = ctx.HistogramModel;
+
+                if (model is null)
+                {
+                    continue;
+                }
+
+                var edges = model.BinEdges;
+                var binCount = model.Counts.Length;
+
+                for (var b = 0; b < binCount; b++)
+                {
+                    var start = edges[b];
+                    var end = edges[b + 1];
+                    var label = $"{start:G3} – {end:G3}";
+
+                    items.Add(new LegendItem(label, colorIndex++));
                 }
             }
             else if (serie.ChartType == ChartType.MultiDonut)

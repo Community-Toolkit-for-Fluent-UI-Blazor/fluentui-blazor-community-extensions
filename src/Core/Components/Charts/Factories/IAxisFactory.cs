@@ -6,8 +6,7 @@ namespace FluentUI.Blazor.Community.Components.Charts.Factories;
 /// <summary>
 /// Represents a factory for creating chart axes based on the provided chart options, series data, and plot area configuration.
 /// </summary>
-/// <typeparam name="TOptions"></typeparam>
-internal interface IAxisFactory<TOptions>
+internal interface IAxisFactory
 {
     /// <summary>
     /// Creates and configures the X and Y axes for a chart based on the specified options, data series, and plot area.

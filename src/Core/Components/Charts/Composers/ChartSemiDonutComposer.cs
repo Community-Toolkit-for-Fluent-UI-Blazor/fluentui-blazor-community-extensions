@@ -36,7 +36,7 @@ internal sealed class ChartSemiDonutComposer(
         }
 
         var defaults = chartOptions.SemiDonutStyle;
-        var opts = chartOptions.SemiDonutOptions;
+        var opts = chartOptions.SemiDonut;
         var ctx = context();
 
         for (var serieIndex = 0; serieIndex < filtered.Count; serieIndex++)
