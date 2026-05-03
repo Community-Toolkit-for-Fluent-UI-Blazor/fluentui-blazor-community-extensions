@@ -38,7 +38,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder From(string value)
     {
-        _animate.Attributes["from"] = value;
+        _animate.SetAttribute("from", value);
 
         return this;
     }
@@ -50,7 +50,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder From(double value)
     {
-        _animate.Attributes["from"] = value.ToSvg();
+        _animate.SetAttribute("from", value.ToSvg());
 
         return this;
     }
@@ -62,7 +62,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder To(string value)
     {
-        _animate.Attributes["to"] = value;
+        _animate.SetAttribute("to", value);
 
         return this;
     }
@@ -74,7 +74,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder To(double value)
     {
-        _animate.Attributes["to"] = value.ToSvg();
+        _animate.SetAttribute("to", value.ToSvg());
 
         return this;
     }
@@ -90,7 +90,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder Values(string values)
     {
-        _animate.Attributes["values"] = values;
+        _animate.SetAttribute("values", values);
 
         return this;
     }
@@ -105,7 +105,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder Duration(string duration)
     {
-        _animate.Attributes["dur"] = duration;
+        _animate.SetAttribute("dur", duration);
 
         return this;
     }
@@ -120,7 +120,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder Duration(TimeSpan duration)
     {
-        _animate.Attributes["dur"] = $"{duration.TotalMilliseconds}ms";
+        _animate.SetAttribute("dur", $"{duration.TotalMilliseconds}ms");
 
         return this;
     }
@@ -135,7 +135,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder Begin(string value)
     {
-        _animate.Attributes["begin"] = value;
+        _animate.SetAttribute("begin", value);
 
         return this;
     }
@@ -150,7 +150,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder Begin(TimeSpan value)
     {
-        _animate.Attributes["begin"] = $"{value.TotalMilliseconds}ms";
+        _animate.SetAttribute("begin", $"{value.TotalMilliseconds}ms");
 
         return this;
     }
@@ -163,7 +163,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder End(string end)
     {
-        _animate.Attributes["end"] = end;
+        _animate.SetAttribute("end", end);
 
         return this;
     }
@@ -178,7 +178,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder RepeatCount(string count = "indefinite")
     {
-        _animate.Attributes["repeatCount"] = count;
+        _animate.SetAttribute("repeatCount", count);
 
         return this;
     }
@@ -193,7 +193,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder RepeatCount(double count)
     {
-        _animate.Attributes["repeatCount"] = count.ToSvg();
+        _animate.SetAttribute("repeatCount", count.ToSvg());
 
         return this;
     }
@@ -205,7 +205,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder Fill(string fill)
     {
-        _animate.Attributes["fill"] = fill;
+        _animate.SetAttribute("fill", fill);
 
         return this;
     }
@@ -217,7 +217,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder Fill(SvgAnimationFillMode value = SvgAnimationFillMode.Freeze)
     {
-        _animate.Attributes["fill"] = value.ToString().ToLowerInvariant();
+        _animate.SetAttribute("fill", value.ToString().ToLowerInvariant());
 
         return this;
     }
@@ -233,7 +233,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/> to allow method chaining.</returns>
     public SvgAnimateTransformBuilder KeyTimes(string keyTimes)
     {
-        _animate.Attributes["keyTimes"] = keyTimes;
+        _animate.SetAttribute("keyTimes", keyTimes);
 
         return this;
     }
@@ -249,7 +249,7 @@ public sealed class SvgAnimateTransformBuilder
     /// <returns>The current instance of <see cref="SvgAnimateTransformBuilder"/>, enabling method chaining.</returns>
     public SvgAnimateTransformBuilder KeySplines(string keySplines)
     {
-        _animate.Attributes["keySplines"] = keySplines;
+        _animate.SetAttribute("keySplines", keySplines);
 
         return this;
     }
@@ -272,7 +272,7 @@ public sealed class SvgAnimateTransformBuilder
     {
         if (!string.IsNullOrEmpty(value))
         {
-            _animate.Attributes[attribute] = value;
+            _animate.SetAttribute(attribute, value);
         }
 
         return this;

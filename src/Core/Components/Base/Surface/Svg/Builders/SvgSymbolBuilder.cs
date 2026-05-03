@@ -33,7 +33,7 @@ public sealed class SvgSymbolBuilder : SvgElementBuilderBase<SvgSymbolBuilder, S
     /// <returns>The current instance of the SvgSymbolBuilder with the updated viewBox attribute.</returns>
     public SvgSymbolBuilder WithViewBox(double x, double y, double width, double height)
     {
-        Element.Attributes["viewBox"] = $"{x.ToSvg()} {y.ToSvg()} {width.ToSvg()} {height.ToSvg()}";
+        Element.SetAttribute("viewBox", $"{x.ToSvg()} {y.ToSvg()} {width.ToSvg()} {height.ToSvg()}");
 
         return this;
     }

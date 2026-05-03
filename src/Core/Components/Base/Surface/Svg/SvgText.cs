@@ -18,15 +18,16 @@ public sealed class SvgText : SvgElement
     /// <inheritdoc />
     public override void WriteTo(StringBuilder sb)
     {
-        sb.Append('<').Append(TagName);
+        sb.Append('<');
+        sb.Append(TagName);
 
-        foreach (var attr in Attributes)
+        foreach (var (Key, Value) in Attributes)
         {
-            sb.Append(' ')
-              .Append(attr.Key)
-              .Append("=\"")
-              .Append(attr.Value)
-              .Append('"');
+            sb.Append(' ');
+            sb.Append(Key);
+            sb.Append("=\"");
+            sb.Append(Value);
+            sb.Append('"');
         }
 
         if (Children.Count == 0 && string.IsNullOrEmpty(Text))
@@ -47,6 +48,8 @@ public sealed class SvgText : SvgElement
             child.WriteTo(sb);
         }
 
-        sb.Append("</").Append(TagName).Append('>');
+        sb.Append("</");
+        sb.Append(TagName);
+        sb.Append('>');
     }
 }

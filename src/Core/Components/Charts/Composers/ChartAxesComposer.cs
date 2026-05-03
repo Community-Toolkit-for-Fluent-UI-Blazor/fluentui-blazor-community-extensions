@@ -9,11 +9,9 @@ namespace FluentUI.Blazor.Community.Components.Charts.Composers;
 /// </summary>
 /// <param name="context">The chart context containing relevant information for axis composition</param>
 /// <param name="axisOptions">The options defining the configuration and appearance of the chart axes</param>
-/// <param name="isCategorySeries">A function that determines whether the chart series is a category series, which affects axis rendering</param>
 internal sealed class ChartAxesComposer(
     Func<ChartContext> context,
-    Func<CAO> axisOptions,
-    Func<bool> isCategorySeries)
+    Func<CAO> axisOptions)
     : ISurfaceComposer<CO>
 {
     /// <summary>
@@ -28,11 +26,6 @@ internal sealed class ChartAxesComposer(
     {
         ArgumentNullException.ThrowIfNull(target);
         ArgumentNullException.ThrowIfNull(options);
-
-        if (!isCategorySeries())
-        {
-            return false;
-        }
 
         var mergedAxisOptions = Merge(axisOptions(), options.Axis);
 

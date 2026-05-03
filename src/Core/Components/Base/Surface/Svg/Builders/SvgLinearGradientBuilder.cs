@@ -71,12 +71,12 @@ public sealed class SvgLinearGradientBuilder : SvgElementBuilderBase<SvgLinearGr
     public SvgLinearGradientBuilder AddStop(double offset, string color, double? opacity = null)
     {
         var stop = new SvgStop();
-        stop.Attributes["offset"] = offset.ToSvg();
-        stop.Attributes["stop-color"] = color;
+        stop.SetAttribute("offset", offset.ToSvg());
+        stop.SetAttribute("stop-color", color);
 
         if (opacity.HasValue)
         {
-            stop.Attributes["stop-opacity"] = opacity.Value.ToSvg();
+            stop.SetAttribute("stop-opacity", opacity.Value.ToSvg());
         }
 
         Element.Children.Add(stop);

@@ -34,10 +34,10 @@ public sealed class SvgFilterBuilder : SvgElementBuilderBase<SvgFilterBuilder, S
     /// <returns>The current instance of <see cref="SvgFilterBuilder"/>, enabling method chaining.</returns>
     public SvgFilterBuilder WithBounds(double x, double y, double width, double height)
     {
-        Element.Attributes["x"] = x.ToSvg();
-        Element.Attributes["y"] = y.ToSvg();
-        Element.Attributes["width"] = width.ToSvg();
-        Element.Attributes["height"] = height.ToSvg();
+        Element.SetAttribute("x", x.ToSvg());
+        Element.SetAttribute("y", y.ToSvg());
+        Element.SetAttribute("width", width.ToSvg());
+        Element.SetAttribute("height", height.ToSvg());
 
         return this;
     }

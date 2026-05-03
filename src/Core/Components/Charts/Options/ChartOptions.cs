@@ -194,4 +194,39 @@ internal sealed class ChartOptions
     /// Gets or sets the style configuration for the XY column chart.
     /// </summary>
     public ChartXYColumnStyle XYColumnStyle { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the style configuration for the treemap chart.
+    /// </summary>
+    public ChartHierarchyStyle TreemapStyle { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the style configuration for the partition chart.
+    /// </summary>
+    public ChartHierarchyStyle PartitionStyle { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the style configuration for the dendrogram chart.
+    /// </summary>
+    public ChartHierarchyStyle DendrogramStyle { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the style configuration for the radial tree chart.
+    /// </summary>
+    public ChartHierarchyStyle RadialTreeStyle { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the style configuration for the tree chart.
+    /// </summary>
+    public ChartHierarchyStyle TreeStyle { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the style configuration for the sunburst chart.
+    /// </summary>
+    public ChartHierarchyStyle SunburstStyle { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the style configuration for the icicle chart.
+    /// </summary>
+    public ChartHierarchyStyle IcicleStyle { get; set; } = new();
 }

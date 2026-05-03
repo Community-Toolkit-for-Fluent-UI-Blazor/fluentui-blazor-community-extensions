@@ -6,8 +6,13 @@ namespace FluentUI.Blazor.Community.Components.Enums;
 /// <remarks>Use this enumeration to indicate the general type of chart to render or process. Each category groups
 /// related chart types, such as bar and column charts under Category, or pie and donut charts under Polar. Selecting
 /// the appropriate category can help determine suitable visualizations and behaviors for data presentation.</remarks>
-public enum ChartCategory
+public enum ChartFamily
 {
+    /// <summary>
+    /// No specific chart category is assigned.
+    /// </summary>
+    None,
+
     /// <summary>
     /// Specifies a chart category that represents discrete data points grouped into categories, such as bar or column charts.
     /// </summary>

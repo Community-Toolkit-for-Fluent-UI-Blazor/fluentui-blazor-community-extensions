@@ -57,6 +57,18 @@ public sealed class SvgGroupBuilder : SvgElementBuilderBase<SvgGroupBuilder, Svg
     }
 
     /// <summary>
+    /// Adds a new SVG line element as a child of the current group and returns a builder for configuring the line.
+    /// </summary>
+    /// <returns>A <see cref="SvgLineBuilder"/> instance for further configuration of the newly added SVG line.</returns>
+    public SvgLineBuilder AddLine()
+    {
+        var line = new SvgLine();
+        Element.Children.Add(line);
+
+        return new SvgLineBuilder(Parent, line);
+    }
+
+    /// <summary>
     /// Adds a new SVG path element as a child and returns a builder for configuring the path.
     /// </summary>
     /// <returns>A <see cref="SvgPathBuilder"/> instance for further configuration of the newly added SVG path.</returns>
@@ -100,8 +112,8 @@ public sealed class SvgGroupBuilder : SvgElementBuilderBase<SvgGroupBuilder, Svg
             Text = value
         };
 
-        text.Attributes["x"] = x.ToSvg();
-        text.Attributes["y"] = y.ToSvg();
+        text.SetAttribute("x", x.ToSvg());
+        text.SetAttribute("y", y.ToSvg());
 
         Element.Children.Add(text);
 

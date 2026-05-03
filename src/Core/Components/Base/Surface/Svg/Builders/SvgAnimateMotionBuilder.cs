@@ -38,7 +38,7 @@ public sealed class SvgAnimateMotionBuilder
     /// <returns>The current instance of <see cref="SvgAnimateMotionBuilder"/> to allow method chaining.</returns>
     public SvgAnimateMotionBuilder Path(string path)
     {
-        _animate.Attributes["path"] = path;
+        _animate.SetAttribute("path", path);
 
         return this;
     }
@@ -55,7 +55,7 @@ public sealed class SvgAnimateMotionBuilder
     /// <returns>The current instance of <see cref="SvgAnimateMotionBuilder"/> to allow method chaining.</returns>
     public SvgAnimateMotionBuilder Duration(string duration)
     {
-        _animate.Attributes["dur"] = duration;
+        _animate.SetAttribute("dur", duration);
 
         return this;
     }
@@ -70,7 +70,7 @@ public sealed class SvgAnimateMotionBuilder
     /// <returns>The current instance of <see cref="SvgAnimateMotionBuilder"/> to allow method chaining.</returns>
     public SvgAnimateMotionBuilder Begin(string begin)
     {
-        _animate.Attributes["begin"] = begin;
+        _animate.SetAttribute("begin", begin);
 
         return this;
     }
@@ -85,7 +85,7 @@ public sealed class SvgAnimateMotionBuilder
     /// <returns>The current instance of <see cref="SvgAnimateMotionBuilder"/> to allow method chaining.</returns>
     public SvgAnimateMotionBuilder RepeatCount(string count)
     {
-        _animate.Attributes["repeatCount"] = count;
+        _animate.SetAttribute("repeatCount", count);
 
         return this;
     }
@@ -98,7 +98,7 @@ public sealed class SvgAnimateMotionBuilder
     /// <returns>The current instance of <see cref="SvgAnimateMotionBuilder"/> to allow method chaining.</returns>
     public SvgAnimateMotionBuilder Fill(string fill)
     {
-        _animate.Attributes["fill"] = fill;
+        _animate.SetAttribute("fill", fill);
         return this;
     }
 
@@ -114,7 +114,7 @@ public sealed class SvgAnimateMotionBuilder
     public SvgAnimateMotionBuilder AddMPath(string href)
     {
         var mpath = new SvgMPath();
-        mpath.Attributes["href"] = href;
+        mpath.SetAttribute("href", href);
 
         _animate.Children.Add(mpath);
 

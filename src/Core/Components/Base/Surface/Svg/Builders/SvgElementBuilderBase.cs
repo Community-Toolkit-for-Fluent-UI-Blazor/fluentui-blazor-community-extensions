@@ -57,7 +57,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     {
         if (!string.IsNullOrEmpty(color))
         {
-            _element.Attributes["fill"] = color;
+            _element.SetAttribute("fill", color);
         }
 
         return (TBuilder)(object)this;
@@ -70,9 +70,12 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     /// useful for styling, scripting, or accessibility purposes.</remarks>
     /// <param name="id">The value to assign to the 'id' attribute. Can be null or empty to remove the attribute.</param>
     /// <returns>The builder instance with the updated 'id' attribute, enabling method chaining.</returns>
-    public TBuilder WithId(string id)
+    public TBuilder WithId(string? id)
     {
-        _element.Attributes["id"] = id;
+        if (!string.IsNullOrEmpty(id))
+        {
+            _element.SetAttribute("id", id);
+        }
 
         return (TBuilder)(object)this;
     }
@@ -87,7 +90,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     {
         if (!string.IsNullOrEmpty(clipPathId))
         {
-            _element.Attributes["clip-path"] = $"url(#{clipPathId})";
+            _element.SetAttribute("clip-path", $"url(#{clipPathId})");
         }
 
         return (TBuilder)(object)this;
@@ -102,7 +105,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     {
         if (!string.IsNullOrEmpty(color))
         {
-            _element.Attributes["stroke"] = color;
+            _element.SetAttribute("stroke", color);
         }
 
         return (TBuilder)(object)this;
@@ -115,11 +118,9 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     /// <returns>The builder instance with the updated stroke width, enabling method chaining.</returns>
     public TBuilder WithStrokeWidth(double? width)
     {
-        var stringWidth = width?.ToSvg();
-
-        if (!string.IsNullOrEmpty(stringWidth))
+        if (width.HasValue)
         {
-            _element.Attributes["stroke-width"] = stringWidth;
+            _element.SetAttribute("stroke-width", width.ToSvg());
         }
 
         return (TBuilder)(object)this;
@@ -134,7 +135,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     {
         if (array?.Length > 0)
         {
-            _element.Attributes["stroke-dasharray"] = string.Join(' ', array);
+            _element.SetAttribute("stroke-dasharray", string.Join(' ', array));
         }
 
         return (TBuilder)(object)this;
@@ -147,9 +148,12 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     /// 0.0 to 1.0 may result in unexpected rendering behavior.</remarks>
     /// <param name="value">The opacity value to apply. Must be between 0.0 (fully transparent) and 1.0 (fully opaque).</param>
     /// <returns>The current builder instance with the updated opacity value.</returns>
-    public TBuilder WithOpacity(double value)
+    public TBuilder WithOpacity(double? value)
     {
-        _element.Attributes["opacity"] = value.ToSvg();
+        if (value.HasValue)
+        {
+            _element.SetAttribute("opacity", value.ToSvg());
+        }
 
         return (TBuilder)(object)this;
     }
@@ -163,7 +167,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     /// <returns>The current builder instance with the updated class attribute.</returns>
     public TBuilder WithClass(string className)
     {
-        _element.Attributes["class"] = className;
+        _element.SetAttribute("class", className);
 
         return (TBuilder)(object)this;
     }
@@ -178,7 +182,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     /// <returns>The current builder instance with the updated transform attribute, enabling fluent configuration.</returns>
     public TBuilder WithTransform(string transform)
     {
-        _element.Attributes["transform"] = transform;
+        _element.SetAttribute("transform", transform);
 
         return (TBuilder)(object)this;
     }
@@ -193,7 +197,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     /// <returns>The current instance to allow method chaining.</returns>
     public TBuilder WithTransformBox(string value)
     {
-        Element.Attributes["transform-box"] = value;
+        Element.SetAttribute("transform-box", value);
 
         return (TBuilder)(object)this;
     }
@@ -206,7 +210,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     /// <returns>The current instance to allow method chaining.</returns>
     public TBuilder WithTransformOrigin(string value)
     {
-        Element.Attributes["transform-origin"] = value;
+        Element.SetAttribute("transform-origin", value);
 
         return (TBuilder)(object)this;
     }
@@ -224,7 +228,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
     {
         if (!string.IsNullOrEmpty(value))
         {
-            _element.Attributes[name] = value;
+            _element.SetAttribute(name, value);
         }
 
         return (TBuilder)(object)this;
@@ -311,7 +315,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
 
         if (!string.IsNullOrEmpty(attrValue))
         {
-            _element.Attributes[name] = attrValue;
+            _element.SetAttribute(name, attrValue);
         }
 
         return (TBuilder)(object)this;
@@ -323,7 +327,7 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
         Action<SvgAnimateBuilder> config)
     {
         var anim = new SvgAnimate();
-        anim.Attributes["attributeName"] = attribute;
+        anim.SetAttribute("attributeName", attribute);
 
         Element.Children.Add(anim);
 
@@ -339,8 +343,8 @@ public abstract class SvgElementBuilderBase<TBuilder, TElement> : ISvgAnimatable
         Action<SvgAnimateTransformBuilder> configure)
     {
         var anim = new SvgAnimateTransform();
-        anim.Attributes["attributeName"] = "transform";
-        anim.Attributes["type"] = type;
+        anim.SetAttribute("attributeName", "transform");
+        anim.SetAttribute("type", type);
 
         Element.Children.Add(anim);
 

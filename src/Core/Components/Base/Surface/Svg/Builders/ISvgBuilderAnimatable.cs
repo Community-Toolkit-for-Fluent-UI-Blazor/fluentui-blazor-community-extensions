@@ -19,7 +19,7 @@ public interface ISvgAnimatable<TBuilder>
     /// Sets the opacity level for the current element.
     /// </summary>
     /// <param name="value">The opacity value to apply. Must be between 0.0 (fully transparent) and 1.0 (fully opaque).</param>
-    TBuilder WithOpacity(double value);
+    TBuilder WithOpacity(double? value);
 
     /// <summary>
     /// Adds an attribute with the specified name and value.

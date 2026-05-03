@@ -32,8 +32,8 @@ public sealed class SvgRadialGradientBuilder : SvgElementBuilderBase<SvgRadialGr
     /// <returns>The current instance of <see cref="SvgRadialGradientBuilder"/> to allow method chaining.</returns>
     public SvgRadialGradientBuilder Center(double cx, double cy)
     {
-        Element.Attributes["cx"] = cx.ToSvg();
-        Element.Attributes["cy"] = cy.ToSvg();
+        Element.SetAttribute("cx", cx.ToSvg());
+        Element.SetAttribute("cy", cy.ToSvg());
 
         return this;
     }
@@ -45,7 +45,7 @@ public sealed class SvgRadialGradientBuilder : SvgElementBuilderBase<SvgRadialGr
     /// <returns>The current instance of <see cref="SvgRadialGradientBuilder"/> to allow method chaining.</returns>
     public SvgRadialGradientBuilder Radius(double r)
     {
-        Element.Attributes["r"] = r.ToSvg();
+        Element.SetAttribute("r", r.ToSvg());
 
         return this;
     }
@@ -67,12 +67,12 @@ public sealed class SvgRadialGradientBuilder : SvgElementBuilderBase<SvgRadialGr
         var stop = new SvgStop();
         Element.Children.Add(stop);
 
-        stop.Attributes["offset"] = offset.ToSvg();
-        stop.Attributes["stop-color"] = color;
+        stop.SetAttribute("offset", offset.ToSvg());
+        stop.SetAttribute("stop-color", color);
 
         if (opacity.HasValue)
         {
-            stop.Attributes["stop-opacity"] = opacity.Value.ToSvg();
+            stop.SetAttribute("stop-opacity", opacity.Value.ToSvg());
         }
 
         return this;

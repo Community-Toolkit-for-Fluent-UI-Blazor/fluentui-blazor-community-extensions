@@ -15,7 +15,7 @@ public abstract class SvgElement
     /// </summary>
     /// <remarks>Use this property to add custom attributes that are not explicitly defined on the component.
     /// These attributes will be rendered on the root element of the component.</remarks>
-    public Dictionary<string, string> Attributes { get; } = new(StringComparer.OrdinalIgnoreCase);
+    internal protected List<(string Key, string Value)> Attributes { get; } = [];
 
     /// <summary>
     /// Gets the collection of child SVG elements contained within this element.
@@ -39,15 +39,16 @@ public abstract class SvgElement
     /// <param name="sb">The StringBuilder to which the HTML output is appended. Cannot be null.</param>
     public virtual void WriteTo(StringBuilder sb)
     {
-        sb.Append('<').Append(TagName);
+        sb.Append('<');
+        sb.Append(TagName);
 
-        foreach (var attr in Attributes)
+        foreach (var (Key, Value) in Attributes)
         {
-            sb.Append(' ')
-              .Append(attr.Key)
-              .Append("=\"")
-              .Append(attr.Value)
-              .Append('"');
+            sb.Append(' ');
+            sb.Append(Key);
+            sb.Append("=\"");
+            sb.Append(Value);
+            sb.Append('"');
         }
 
         if (Children.Count == 0)
@@ -63,6 +64,28 @@ public abstract class SvgElement
             child.WriteTo(sb);
         }
 
-        sb.Append("</").Append(TagName).Append('>');
+        sb.Append("</");
+        sb.Append(TagName);
+        sb.Append('>');
+    }
+
+    /// <summary>
+    /// Sets an attribute with the specified key and value, updating an existing attribute or adding a new one if not
+    /// found.
+    /// </summary>
+    /// <param name="key">The key of the attribute to set.</param>
+    /// <param name="value">The value to assign to the attribute.</param>
+    public void SetAttribute(string key, string value)
+    {
+        for (var i = 0; i < Attributes.Count; i++)
+        {
+            if (string.Equals(Attributes[i].Key, key))
+            {
+                Attributes[i] = (key, value);
+                return;
+            }
+        }
+
+        Attributes.Add((key, value));
     }
 }

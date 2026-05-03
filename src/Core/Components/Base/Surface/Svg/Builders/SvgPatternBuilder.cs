@@ -34,7 +34,7 @@ public sealed class SvgPatternBuilder : SvgElementBuilderBase<SvgPatternBuilder,
     /// <returns>The current instance of the SvgPatternBuilder with the updated viewBox attribute.</returns>
     public SvgPatternBuilder WithViewBox(double x, double y, double width, double height)
     {
-        Element.Attributes["viewBox"] = $"{x.ToSvg()} {y.ToSvg()} {width.ToSvg()} {height.ToSvg()}";
+        Element.SetAttribute("viewBox", $"{x.ToSvg()} {y.ToSvg()} {width.ToSvg()} {height.ToSvg()}");
 
         return this;
     }
@@ -49,8 +49,8 @@ public sealed class SvgPatternBuilder : SvgElementBuilderBase<SvgPatternBuilder,
     /// <returns>The current instance of <see cref="SvgPatternBuilder"/> with the updated size.</returns>
     public SvgPatternBuilder WithSize(double width, double height)
     {
-        Element.Attributes["width"] = width.ToSvg();
-        Element.Attributes["height"] = height.ToSvg();
+        Element.SetAttribute("width", width.ToSvg());
+        Element.SetAttribute("height", height.ToSvg());
 
         return this;
     }
@@ -63,7 +63,7 @@ public sealed class SvgPatternBuilder : SvgElementBuilderBase<SvgPatternBuilder,
     /// <returns>The current instance of <see cref="SvgPatternBuilder"/> to allow method chaining.</returns>
     public SvgPatternBuilder WithPatternUnits(string units)
     {
-        Element.Attributes["patternUnits"] = units;
+        Element.SetAttribute("patternUnits", units);
 
         return this;
     }

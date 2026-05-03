@@ -32,8 +32,8 @@ public class ChartComposerTests
         var second = new TestComposer();
         var target = new ChartTestRenderTarget();
 
-        composer.AddRange(first, second);
-        composer.Compose(target, new ChartOptions());
+        composer.AddCommonComposers(first, second);
+        composer.Compose([], target, new ChartOptions());
 
         Assert.Equal(1, first.ComposeCount);
         Assert.Equal(1, second.ComposeCount);
@@ -47,8 +47,8 @@ public class ChartComposerTests
         var second = new TestComposer();
         var target = new ChartTestRenderTarget();
 
-        composer.AddRange(first, second);
-        await composer.ComposeAsync(target, new ChartOptions());
+        composer.AddCommonComposers(first, second);
+        await composer.ComposeAsync([], target, new ChartOptions());
 
         Assert.Equal(1, first.ComposeCount);
         Assert.Equal(1, second.ComposeCount);

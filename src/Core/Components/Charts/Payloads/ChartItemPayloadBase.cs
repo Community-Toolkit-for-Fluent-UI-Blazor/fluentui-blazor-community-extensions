@@ -12,7 +12,7 @@ public abstract record ChartItemPayloadBase : IAnimatedPayload, ILayerPayload
     /// <summary>
     /// Gets the unique identifier for the element.
     /// </summary>
-    public required string Id { get; init; } = Guid.NewGuid().ToString();
+    public required string? Id { get; init; }
 
     /// <summary>
     /// Gets the unique identifier for the group this element belongs to.

@@ -25,7 +25,7 @@ public class ChartAnimationEngineTests
             return this;
         }
 
-        public TestAnimatable WithOpacity(double value) => this;
+        public TestAnimatable WithOpacity(double? value) => this;
 
         public TestAnimatable WithAttribute(string name, string value) => this;
 

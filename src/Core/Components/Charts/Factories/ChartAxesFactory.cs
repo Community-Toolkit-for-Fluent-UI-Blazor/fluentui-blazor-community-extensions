@@ -68,16 +68,6 @@ internal static class ChartAxesFactory
     public static Stacked100StepAxisFactory Stacked100Step { get; } = new();
 
     /// <summary>
-    /// Gets the factory for creating scatter axis configuration.
-    /// </summary>
-    public static ScatterAxesFactory Scatter { get; } = new();
-
-    /// <summary>
-    /// Gets the factory for creating bubble axis configuration.
-    /// </summary>
-    public static BubbleAxesFactory Bubble { get; } = new();
-
-    /// <summary>
     /// Gets the factory for creating polar axis configuration.
     /// </summary>
     public static PolarAxisFactory Polar { get; } = new();

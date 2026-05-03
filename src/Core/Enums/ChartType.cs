@@ -195,23 +195,43 @@ public enum ChartType
     /// <summary>
     /// Density plot.
     /// </summary>
-    Density
+    Density,
 
-/*
-Waterfall,
-StackedWaterfall,
-Stacked100Waterfall,
+    /// <summary>
+    /// Partition chart (used for hierarchical data visualization).
+    /// </summary>
+    Partition,
 
-Heatmap,
-CalendarHeatmap,
+    /// <summary>
+    /// Dendrogram chart.
+    /// </summary>
+    Dendrogram,
 
-Sankey,
-Chord,
+    /// <summary>
+    /// Radial tree chart.
+    /// </summary>
+    RadialTree,
 
-Streamgraph,
-Marimekko,
-Bullet,
-Gantt,
-ParallelCoordinates,
-Boxen,*/
+    /// <summary>
+    /// Tree chart.
+    /// </summary>
+    Tree
+
+    /*
+    Waterfall,
+    StackedWaterfall,
+    Stacked100Waterfall,
+
+    Heatmap,
+    CalendarHeatmap,
+
+    Sankey,
+    Chord,
+
+    Streamgraph,
+    Marimekko,
+    Bullet,
+    Gantt,
+    ParallelCoordinates,
+    Boxen,*/
 }

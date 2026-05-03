@@ -39,8 +39,24 @@ internal static class ChartAxesBuilder
         };
 
         var values = series.SelectMany(s => s.Values);
-        var min = Math.Min(0, values.Min());
-        var max = Math.Max(0, values.Max());
+        var min = double.MaxValue;
+        var max = double.MinValue;
+
+        foreach (var value in values)
+        {
+            if (value < min)
+            {
+                min = value;
+            }
+
+            if (value > max)
+            {
+                max = value;
+            }
+        }
+
+        min = Math.Min(0, min);
+        max = Math.Max(0, max);
 
         context.YAxis = new ChartAxis
         {

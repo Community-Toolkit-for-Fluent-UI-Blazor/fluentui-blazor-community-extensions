@@ -28,7 +28,7 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     /// <returns>The current instance for method chaining.</returns>
     public SvgTextBuilder WithX(double x)
     {
-        Element.Attributes["x"] = x.ToSvg();
+        Element.SetAttribute("x", x.ToSvg());
 
         return this;
     }
@@ -40,7 +40,7 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     /// <returns>The current <see cref="SvgTextBuilder"/> instance for method chaining.</returns>
     public SvgTextBuilder WithY(double y)
     {
-        Element.Attributes["y"] = y.ToSvg();
+        Element.SetAttribute("y", y.ToSvg());
 
         return this;
     }
@@ -53,7 +53,7 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     /// <returns>The current instance of <see cref="SvgTextBuilder"/>, enabling method chaining.</returns>
     public SvgTextBuilder WithFontFamily(string family)
     {
-        Element.Attributes["font-family"] = family;
+        Element.SetAttribute("font-family", family);
 
         return this;
     }
@@ -65,7 +65,7 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     /// <returns>The current instance of <see cref="SvgTextBuilder"/>, enabling method chaining.</returns>
     public SvgTextBuilder WithFontSize(double size)
     {
-        Element.Attributes["font-size"] = size.ToSvg();
+        Element.SetAttribute("font-size", size.ToSvg());
 
         return this;
     }
@@ -83,7 +83,7 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
             return this;
         }
 
-        Element.Attributes["font-size"] = size;
+        Element.SetAttribute("font-size", size);
 
         return this;
     }
@@ -97,7 +97,7 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     /// <returns>The current instance of <see cref="SvgTextBuilder"/>, enabling method chaining.</returns>
     public SvgTextBuilder WithTextAnchor(SvgTextAnchor anchor)
     {
-        Element.Attributes["text-anchor"] = anchor.ToString().ToLowerInvariant();
+        Element.SetAttribute("text-anchor", anchor.ToString().ToLowerInvariant());
 
         return this;
     }
@@ -112,7 +112,7 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     /// <returns>The current instance of <see cref="SvgTextBuilder"/>, enabling method chaining.</returns>
     public SvgTextBuilder WithDominantBaseline(string baseline)
     {
-        Element.Attributes["dominant-baseline"] = baseline;
+        Element.SetAttribute("dominant-baseline", baseline);
 
         return this;
     }
@@ -123,10 +123,49 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     /// <param name="x">The x-coordinate of the point around which to rotate the text. This value is used in the 'transform' attribute of the SVG element.</param>
     /// <param name="y">The y-coordinate of the point around which to rotate the text. This value is used in the 'transform' attribute of the SVG element.</param>
     /// <param name="angle">The angle in degrees to rotate the text around the specified point. This value is used in the 'transform' attribute of the SVG element.</param>
+    /// <param name="condition">A boolean condition that determines whether the rotation transformation should be applied. If true, the rotation is applied; if false, no transformation is made.</param>
     /// <returns>The current instance of <see cref="SvgTextBuilder"/>, enabling method chaining.</returns>
-    public SvgTextBuilder WithRotation(double angle, double x, double y)
+    public SvgTextBuilder WithRotation(double angle, double x, double y, bool condition = true)
     {
-        Element.Attributes["transform"] = $"rotate({angle.ToSvg()} {x.ToSvg()} {y.ToSvg()})";
+        if (condition)
+        {
+            Element.SetAttribute("transform", $"rotate({angle.ToSvg()} {x.ToSvg()} {y.ToSvg()})");
+        }
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets a translation transformation for the SVG text element by specified x and y offsets.
+    /// </summary>
+    /// <param name="x">The x-coordinate offset for the translation transformation.</param>
+    /// <param name="y">The y-coordinate offset for the translation transformation.</param>
+    /// <param name="condition">A boolean condition that determines whether the translation transformation should be applied. If true, the translation is applied; if false, no transformation is made.</param>
+    /// <returns>The current instance of <see cref="SvgTextBuilder"/>, enabling method chaining.</returns>
+    public SvgTextBuilder WithTransform(double x, double y, bool condition = true)
+    {
+        if (condition)
+        {
+            Element.SetAttribute("transform", $"translate({x.ToSvg()}, {y.ToSvg()})");
+        }
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets a raw SVG transform attribute on the text element.
+    /// </summary>
+    /// <remarks>This method accepts any valid SVG transform syntax (e.g., "translate(10, 20)
+    /// rotate(45)").</remarks>
+    /// <param name="transform">The raw SVG transform attribute value.</param>
+    /// <param name="condition">Indicates whether to apply the transform. Default is <see langword="true"/>.</param>
+    /// <returns>The current <see cref="SvgTextBuilder"/> instance for method chaining.</returns>
+    public SvgTextBuilder WithRawTransform(string transform, bool condition = true)
+    {
+        if (condition)
+        {
+            Element.SetAttribute("transform", transform);
+        }
 
         return this;
     }
@@ -139,14 +178,14 @@ public sealed class SvgTextBuilder : SvgElementBuilderBase<SvgTextBuilder, SvgTe
     /// <exception cref="NotImplementedException">The method is not implemented.</exception>
     public SvgTextBuilder WithFontWeight(TextWeight fontWeight)
     {
-        Element.Attributes["font-weight"] = fontWeight switch
+        Element.SetAttribute("font-weight", fontWeight switch
         {
             TextWeight.Regular => "400",
             TextWeight.Semibold => "600",
             TextWeight.Medium => "500",
             TextWeight.Bold => "700",
             _ => throw new NotImplementedException($"Font weight '{fontWeight}' is not implemented.")
-        };
+        });
 
         return this;
     }

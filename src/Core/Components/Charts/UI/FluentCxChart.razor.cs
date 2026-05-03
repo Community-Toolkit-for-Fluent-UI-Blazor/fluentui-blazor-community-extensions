@@ -68,6 +68,13 @@ public partial class FluentCxChart : FluentComponentBase
         [ChartType.Donut] = (i, j) => i + j,
         [ChartType.SemiDonut] = (i, j) => i + j,
         [ChartType.PolarRose] = (i, j) => i + j,
+        [ChartType.Treemap] = (i, j) => i + j,
+        [ChartType.Sunburst] = (i, j) => i + j,
+        [ChartType.Partition] = (i, j) => i + j,
+        [ChartType.RadialTree] = (i, j) => i + j,
+        [ChartType.Tree] = (i, j) => i + j,
+        [ChartType.Icicle] = (i, j) => i + j,
+        [ChartType.Dendrogram] = (i, j) => i + j,
     };
 
     /// <summary>
@@ -423,27 +430,48 @@ public partial class FluentCxChart : FluentComponentBase
     {
         base.OnInitialized();
 
-        _chartComposer.AddRange(
-            new ChartBarComposer(Id!, () => _chartContext, GetSeries<Charts.Series.BarSerie>),
-            new ChartColumnComposer(Id!, () => _chartContext, GetSeries<Charts.Series.ColumnSerie>),
-            new ChartLineComposer(Id!, () => _chartContext, GetSeries<Charts.Series.LineSerie>),
-            new ChartXYComposer(Id!, () => _chartContext, GetSeries<Charts.Series.XYSerie>),
-            new ChartAxesComposer(() => _chartContext, () => _options.Axis, IsAxesSeries),
-            new ChartGridComposer(() => _chartContext, () => _options.Grid),
-            new ChartPieComposer(Id!, () => _chartContext, GetSeries<Charts.Series.PieSerie>),
-            new ChartDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.DonutSerie>),
-            new ChartSemiDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.SemiDonutSerie>),
-            new ChartMultiDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.MultiDonutSerie>),
-            new ChartClipPathComposer(() => _chartContext),
-            new ChartLayoutComposer(
+        _chartComposer.AddCommonComposers(new ChartLayoutComposer(
                 () => _chartContext,
                 () => Title,
                 () => Subtitle,
                 () => LegendItemShape,
-                () => _liveSeries.Values),
-            new ChartPolarAxesComposer(() => _chartContext, () => _options.Axis, GetSeries<PolarSerie>),
-            new ChartPolarComposer(Id!, () => _chartContext, GetSeries<PolarSerie>),
+                () => _liveSeries.Values));
+
+        _chartComposer.AddXYComposers(
+            new ChartAxesComposer(() => _chartContext, () => _options.Axis),
+            new ChartGridComposer(() => _chartContext, () => _options.Grid),
+            new ChartXYComposer(Id!, () => _chartContext, GetSeries<XYSerie>)
+        );
+
+        _chartComposer.AddHistogramComposers(
+            new ChartAxesComposer(() => _chartContext, () => _options.Axis),
+            new ChartGridComposer(() => _chartContext, () => _options.Grid),
             new ChartHistogramComposer(Id!, () => _chartContext, GetSeries<Charts.Series.HistogramSerie>)
+        );
+
+        _chartComposer.AddPolarComposers(
+            new ChartPolarAxesComposer(() => _chartContext, () => _options.Axis, GetSeries<PolarSerie>),
+            new ChartPolarComposer(Id!, () => _chartContext, GetSeries<PolarSerie>)
+        );
+
+        _chartComposer.AddCategoryComposers(
+            new ChartAxesComposer(() => _chartContext, () => _options.Axis),
+            new ChartGridComposer(() => _chartContext, () => _options.Grid),
+            new ChartBarComposer(Id!, () => _chartContext, GetSeries<Charts.Series.BarSerie>),
+            new ChartColumnComposer(Id!, () => _chartContext, GetSeries<Charts.Series.ColumnSerie>),
+            new ChartLineComposer(Id!, () => _chartContext, GetSeries<Charts.Series.LineSerie>),
+            new ChartClipPathComposer(() => _chartContext)
+        );
+
+        _chartComposer.AddCircularComposers(
+            new ChartPieComposer(Id!, () => _chartContext, GetSeries<Charts.Series.PieSerie>),
+            new ChartDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.DonutSerie>),
+            new ChartSemiDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.SemiDonutSerie>),
+            new ChartMultiDonutComposer(Id!, () => _chartContext, GetSeries<Charts.Series.MultiDonutSerie>)
+        );
+
+        _chartComposer.AddHierarchyComposers(
+            new ChartHierarchyComposer(Id!, () => _chartContext, GetSeries<HierarchySerie>)
         );
 
         RenderTarget ??= new ChartSvgRenderTarget(Id!, () => _chartContext, () => _chartThemeContext, () => _options);
@@ -457,33 +485,6 @@ public partial class FluentCxChart : FluentComponentBase
     private IEnumerable<T> GetSeries<T>()
     {
         return _liveSeries.Values.OfType<T>();
-    }
-
-    /// <summary>
-    /// Gets a value indicating whether all child series are of a type that uses axes.
-    /// </summary>
-    /// <returns>Returns <see langword="true" /> if all child series use axes; otherwise, <see langword="false" />.</returns>
-    private bool IsAxesSeries()
-    {
-        return _liveSeries.Values.All(x => x.ChartType is ChartType.Bar or
-            ChartType.Column or
-            ChartType.Line or
-            ChartType.Area or
-            ChartType.StackedBar or
-            ChartType.StackedColumn or
-            ChartType.StackedArea or
-            ChartType.Stacked100Bar or
-            ChartType.Stacked100Column or
-            ChartType.Stacked100Area or
-            ChartType.Step or
-            ChartType.Stacked100Step or
-            ChartType.StackedStep or
-            ChartType.Scatter or
-            ChartType.Bubble or
-            ChartType.XYLine or
-            ChartType.Histogram or
-            ChartType.XYColumn or
-            ChartType.XYArea);
     }
 
     /// <summary>
@@ -620,11 +621,11 @@ public partial class FluentCxChart : FluentComponentBase
 
             if (IsAsync)
             {
-                composed |= await _chartComposer.ComposeAsync(RenderTarget!, _options);
+                composed |= await _chartComposer.ComposeAsync(_liveSeries.Values, RenderTarget!, _options);
             }
             else
             {
-                composed |= _chartComposer.Compose(RenderTarget!, _options);
+                composed |= _chartComposer.Compose(_liveSeries.Values, RenderTarget!, _options);
             }
 
             if (composed)

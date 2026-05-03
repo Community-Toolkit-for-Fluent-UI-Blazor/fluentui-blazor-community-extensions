@@ -47,6 +47,7 @@ internal sealed class ChartSvgRenderTarget
         ["xy-area"] = (builder, payload, context, themeContext, axisOptions) => ChartXYAreaSvgBuilder.Build(builder, (XYAreaPayloadCollection)payload!, themeContext),
         ["histogram"] = (builder, payload, context, themeContext, axisOptions) => ChartHistogramSvgBuilder.Build(builder, (HistogramPayloadCollection)payload!, themeContext),
         ["xy-column"] = (builder, payload, context, themeContext, axisOptions) => ChartXYColumnSvgBuilder.Build(builder, (PayloadCollection<XYColumnPayloadCollection>)payload!, themeContext),
+        ["hierarchy"] = (builder, payload, context, themeContext, axisOptions) => ChartHierarchySvgBuilder.Build(builder, (HierarchyPayload)payload!, themeContext),
     };
 
     /// <summary>

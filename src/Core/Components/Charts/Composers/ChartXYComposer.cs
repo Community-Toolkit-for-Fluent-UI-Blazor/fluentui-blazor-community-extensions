@@ -177,64 +177,6 @@ internal sealed class ChartXYComposer
         }));
     }
 
-    /*  /// <summary>
-      /// Builds and adds a histogram chart layer to the render target by processing series data, calculating bar layouts,
-      /// and generating payloads for rendering.
-      /// </summary>
-      /// <param name="target">The render target where the histogram layer will be added.</param>
-      /// <param name="series">The collection of histogram series to be rendered.</param>
-      /// <param name="ctx">The chart context for composition.</param>
-      /// <param name="options">The chart options for rendering.</param>
-      private void BuildHistogramGroup(
-          ISurfaceRenderTarget target,
-          List<XYS> series,
-          ChartContext ctx,
-          CO options)
-      {
-          var payloads = new List<HistogramPayload>(series.Count);
-          var seriesCount = series.Count;
-
-          for (var i = 0; i < seriesCount; i++)
-          {
-              var serie = series[i];
-              var bars = HistogramLayoutEngine.Layout(serie, ctx, options, i, seriesCount);
-              var barPayloads = new List<HistogramBarPayload>(bars.Count);
-
-              for (var b = 0; b < bars.Count; b++)
-              {
-                  var bar = bars[b];
-
-                  barPayloads.Add(new HistogramBarPayload
-                  {
-                      Id = $"hist-bar-{serie.Name}-{b}",
-                      GroupId = serie.Id,
-                      ChartId = _chartId,
-                      Index = b,
-                      SerieIndex = i,
-                      X = bar.X1,
-                      Y = bar.Y2,
-                      Width = bar.X2 - bar.X1,
-                      Height = bar.Y1 - bar.Y2,
-                      Count = bar.Count,
-                      Normal = ChartStyleResolver.Resolve(serie.Style?.Normal, options.HistogramStyle.Normal),
-                      Hover = ChartStyleResolver.Resolve(serie.Style?.Hover, options.HistogramStyle.Hover),
-                      Pressed = ChartStyleResolver.Resolve(serie.Style?.Pressed, options.HistogramStyle.Pressed),
-                      AnimationEnabled = serie.AnimationEnabled,
-                      Animation = ChartAnimationResolver.Resolve(null, serie.Animation, options.Animation),
-                  });
-              }
-
-              payloads.Add(new HistogramPayload
-              {
-                  SerieIndex = i,
-                  Bars = barPayloads,
-                  Id = $"histogram-{serie.Name}"
-              });
-          }
-
-          target.AddLayer(new HistogramLayer(new(payloads)));
-      }*/
-
     /// <summary>
     /// Represents the logic to build a group of area series and add them to the render target.
     /// </summary>

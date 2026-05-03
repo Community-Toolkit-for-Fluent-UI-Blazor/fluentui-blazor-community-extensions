@@ -41,6 +41,6 @@ public interface IAnimatedPayload
     /// <summary>
     /// Gets the identifier of the chart item associated with this payload.
     /// </summary>
-    string Id { get; }
+    string? Id { get; }
 }
 

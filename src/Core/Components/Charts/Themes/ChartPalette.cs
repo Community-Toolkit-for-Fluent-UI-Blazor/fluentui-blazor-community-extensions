@@ -7,6 +7,19 @@ namespace FluentUI.Blazor.Community.Components.Charts.Themes;
 /// </summary>
 public sealed record ChartPalette
 {
+    private string[] _seriesStrings = [];
+    private string[] _strokeSeriesStrings = [];
+
+    /// <summary>
+    /// Gets the collection of series colors as string representations.
+    /// </summary>
+    internal IReadOnlyList<string> SeriesAsString => _seriesStrings.Length != Series.Count ? _seriesStrings = [.. Series.Select(static c => c.ToString())] : _seriesStrings;
+
+    /// <summary>
+    /// Gets the collection of stoke series colors as string representations.
+    /// </summary>
+    internal IReadOnlyList<string> StrokeSeriesAsString => _strokeSeriesStrings.Length != StrokeSeries.Count ? _strokeSeriesStrings = [.. StrokeSeries.Select(static c => c.ToString())] : _strokeSeriesStrings;
+
     /// <summary>
     /// Gets the collection of sRGB color values that define the series.
     /// </summary>

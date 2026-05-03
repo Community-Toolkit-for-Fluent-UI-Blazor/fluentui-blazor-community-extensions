@@ -49,6 +49,7 @@ internal sealed class ChartLayoutComposer(
         ChartType.PolarBubble,
         ChartType.XYLine,
         ChartType.XYArea,
+        ChartType.XYColumn
     ];
 
     /// <summary>
@@ -60,7 +61,14 @@ internal sealed class ChartLayoutComposer(
         ChartType.Donut,
         ChartType.SemiDonut,
         ChartType.PolarArea,
-        ChartType.PolarRose
+        ChartType.PolarRose,
+        ChartType.Treemap,
+        ChartType.Tree,
+        ChartType.RadialTree,
+        ChartType.Icicle,
+        ChartType.Sunburst,
+        ChartType.Partition,
+        ChartType.Dendrogram
     ];
 
     /// <inheritdoc />

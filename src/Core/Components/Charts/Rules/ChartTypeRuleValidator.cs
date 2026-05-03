@@ -14,34 +14,41 @@ internal static class ChartTypeRuleValidator
         [ChartType.PolarScatter] = GetDefaultPolar(),
         [ChartType.PolarBubble] = GetDefaultPolar(),
         [ChartType.PolarBar] = GetDefaultPolar(),
-        [ChartType.PolarArea] = GetDefault(ChartCategory.Polar),
-        [ChartType.PolarRose] = GetDefault(ChartCategory.Polar),
-        [ChartType.Pie] = GetDefault(ChartCategory.Circular),
-        [ChartType.Donut] = GetDefault(ChartCategory.Circular),
-        [ChartType.Bar] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.Step] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.StackedColumn] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.StackedBar] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.StackedStep] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.Scatter] = GetDefaultWithTrue(ChartCategory.XY),
-        [ChartType.Bubble] = GetDefaultWithTrue(ChartCategory.XY),
-        [ChartType.Column] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.StackedArea] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.Stacked100Bar] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.Stacked100Area] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.Stacked100Column] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.Stacked100Step] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.Area] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.Line] = GetDefaultWithTrue(ChartCategory.Category),
-        [ChartType.XYLine] = GetDefaultWithTrue(ChartCategory.XY),
-        [ChartType.XYArea] = GetDefaultWithTrue(ChartCategory.XY),
-        [ChartType.MultiDonut] = GetDefaultWithTrue(ChartCategory.Circular),
-        [ChartType.SemiDonut] = GetDefaultWithTrue(ChartCategory.Circular),
-        [ChartType.Histogram] = GetDefault(ChartCategory.XY),
-        [ChartType.XYColumn] = GetDefaultWithTrue(ChartCategory.XY)
+        [ChartType.PolarArea] = GetDefault(ChartFamily.Polar),
+        [ChartType.PolarRose] = GetDefault(ChartFamily.Polar),
+        [ChartType.Pie] = GetDefault(ChartFamily.Circular),
+        [ChartType.Donut] = GetDefault(ChartFamily.Circular),
+        [ChartType.Bar] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.Step] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.StackedColumn] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.StackedBar] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.StackedStep] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.Scatter] = GetDefaultWithTrue(ChartFamily.XY),
+        [ChartType.Bubble] = GetDefaultWithTrue(ChartFamily.XY),
+        [ChartType.Column] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.StackedArea] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.Stacked100Bar] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.Stacked100Area] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.Stacked100Column] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.Stacked100Step] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.Area] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.Line] = GetDefaultWithTrue(ChartFamily.Category),
+        [ChartType.XYLine] = GetDefaultWithTrue(ChartFamily.XY),
+        [ChartType.XYArea] = GetDefaultWithTrue(ChartFamily.XY),
+        [ChartType.MultiDonut] = GetDefaultWithTrue(ChartFamily.Circular),
+        [ChartType.SemiDonut] = GetDefaultWithTrue(ChartFamily.Circular),
+        [ChartType.Histogram] = GetDefault(ChartFamily.XY),
+        [ChartType.XYColumn] = GetDefaultWithTrue(ChartFamily.XY),
+        [ChartType.Tree] = GetDefault(ChartFamily.Hierarchy),
+        [ChartType.Treemap] = GetDefault(ChartFamily.Hierarchy),
+        [ChartType.Dendrogram] = GetDefault(ChartFamily.Hierarchy),
+        [ChartType.Partition] = GetDefault(ChartFamily.Hierarchy),
+        [ChartType.Sunburst] = GetDefault(ChartFamily.Hierarchy),
+        [ChartType.Icicle] = GetDefault(ChartFamily.Hierarchy),
+        [ChartType.RadialTree] = GetDefault(ChartFamily.Hierarchy),
     };
 
-    private static ChartTypeRule GetDefaultWithTrue(ChartCategory category)
+    private static ChartTypeRule GetDefaultWithTrue(ChartFamily category)
     {
         return new ChartTypeRule
         {
@@ -52,7 +59,7 @@ internal static class ChartTypeRuleValidator
         };
     }
 
-    private static ChartTypeRule GetDefault(ChartCategory value)
+    private static ChartTypeRule GetDefault(ChartFamily value)
     {
         return new ChartTypeRule
         {
@@ -64,7 +71,7 @@ internal static class ChartTypeRuleValidator
     {
         return new ChartTypeRule
         {
-            Category = ChartCategory.Polar,
+            Category = ChartFamily.Polar,
             AllowMultipleSeries = true,
             RequireSameCategoryCount = true,
             RequireSameCategoryLabels = true

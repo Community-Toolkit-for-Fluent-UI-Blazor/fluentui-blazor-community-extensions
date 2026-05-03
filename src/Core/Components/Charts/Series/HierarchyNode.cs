@@ -3,15 +3,19 @@ namespace FluentUI.Blazor.Community.Components.Charts.Series;
 /// <summary>
 /// Represents a node in a hierarchical chart (treemap, sunburst).
 /// </summary>
-public sealed class HierarchyNode : ChartItem
+internal sealed class HierarchyNode
 {
-    /// <summary>
-    /// Gets the numeric value of this node.
-    /// </summary>
-    public required double Value { get; init; }
+    public string Name { get; set; } = "";
+    public double Value { get; internal set; }
 
-    /// <summary>
-    /// Gets the children nodes (empty for leaf nodes).
-    /// </summary>
-    public IReadOnlyList<HierarchyNode> Children { get; init; } = [];
+    public List<HierarchyNode> Children { get; } = [];
+
+    public HierarchyNode? Parent { get; internal set; }
+
+    public int Depth { get; internal set; }
+
+    public HierarchyItem? SourceItem { get; internal set; }
+
+    public int ParentIndex { get; internal set; }
+    public Range ChildrenRange { get; internal set; }
 }

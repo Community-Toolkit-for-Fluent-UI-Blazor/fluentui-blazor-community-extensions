@@ -24,8 +24,8 @@ public sealed class SvgBuilder
     public SvgBuilder()
     {
         _root = new SvgRoot();
-        _root.Attributes["xmlns"] = "http://www.w3.org/2000/svg";
-        _root.Attributes["version"] = "1.1";
+        _root.SetAttribute("xmlns", "http://www.w3.org/2000/svg");
+        _root.SetAttribute("version", "1.1");
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public sealed class SvgBuilder
     {
         if (!string.IsNullOrEmpty(id))
         {
-            _root.Attributes["id"] = id!;
+            _root.SetAttribute("id", id);
         }
 
         return this;
@@ -52,7 +52,7 @@ public sealed class SvgBuilder
     {
         if (!string.IsNullOrEmpty(id))
         {
-            _root.Attributes["data-svg-id"] = id!;
+            _root.SetAttribute("data-svg-id", id);
         }
 
         return this;
@@ -67,7 +67,7 @@ public sealed class SvgBuilder
     /// <returns>The current instance of <see cref="SvgBuilder"/>, enabling method chaining.</returns>
     public SvgBuilder RenderedWidth(double width)
     {
-        _root.Attributes["width"] = width.ToSvg();
+        _root.SetAttribute("width", width.ToSvg());
 
         return this;
     }
@@ -79,7 +79,7 @@ public sealed class SvgBuilder
     /// <returns></returns>
     public SvgBuilder ShapeRendering(string value)
     {
-        _root.Attributes["shape-rendering"] = value;
+        _root.SetAttribute("shape-rendering", value);
 
         return this;
     }
@@ -106,7 +106,7 @@ public sealed class SvgBuilder
             _ => throw new ArgumentOutOfRangeException(nameof(value), $"Unsupported shape rendering value: {value}")
         };
 
-        _root.Attributes["shape-rendering"] = attributeValue;
+        _root.SetAttribute("shape-rendering", attributeValue);
 
         return this;
     }
@@ -120,7 +120,7 @@ public sealed class SvgBuilder
     /// <returns>The current instance of <see cref="SvgBuilder"/>, enabling method chaining.</returns>
     public SvgBuilder PreserveAspectRatio(string value = "xMidYMid meet")
     {
-        _root.Attributes["preserveAspectRatio"] = value;
+        _root.SetAttribute("preserveAspectRatio", value);
 
         return this;
     }
@@ -132,7 +132,7 @@ public sealed class SvgBuilder
     /// <returns>The current instance of <see cref="SvgBuilder"/> to allow method chaining.</returns>
     public SvgBuilder RenderedHeight(double height)
     {
-        _root.Attributes["height"] = height.ToSvg();
+        _root.SetAttribute("height", height.ToSvg());
 
         return this;
     }
@@ -150,7 +150,7 @@ public sealed class SvgBuilder
     /// <returns>The current instance of the SvgBuilder with the updated viewBox attribute.</returns>
     public SvgBuilder ViewBox(double x, double y, double width, double height)
     {
-        _root.Attributes["viewBox"] = $"{x.ToSvg()} {y.ToSvg()} {width.ToSvg()} {height.ToSvg()}";
+        _root.SetAttribute("viewBox", $"{x.ToSvg()} {y.ToSvg()} {width.ToSvg()} {height.ToSvg()}");
 
         return this;
     }
@@ -317,7 +317,7 @@ public sealed class SvgBuilder
     /// <returns>The current instance of <see cref="SvgBuilder"/>, enabling method chaining.</returns>
     public SvgBuilder WithTransform(string transform)
     {
-        _root.Attributes["transform"] = transform;
+        _root.SetAttribute("transform", transform);
 
         return this;
     }
@@ -336,8 +336,8 @@ public sealed class SvgBuilder
             Text = text
         };
 
-        t.Attributes["x"] = x.ToSvg();
-        t.Attributes["y"] = y.ToSvg();
+        t.SetAttribute("x", x.ToSvg());
+        t.SetAttribute("y", y.ToSvg());
 
         _root.Children.Add(t);
 

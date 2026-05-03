@@ -42,7 +42,7 @@ public sealed class SvgAnimateBuilder
             return this;
         }
 
-        _animate.Attributes["from"] = value;
+        _animate.SetAttribute("from", value);
 
         return this;
     }
@@ -60,7 +60,7 @@ public sealed class SvgAnimateBuilder
             return this;
         }
 
-        _animate.Attributes["to"] = value;
+        _animate.SetAttribute("to", value);
 
         return this;
     }
@@ -73,7 +73,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/>, enabling method chaining.</returns>
     public SvgAnimateBuilder From(double value)
     {
-        _animate.Attributes["from"] = value.ToSvg();
+        _animate.SetAttribute("from", value.ToSvg());
 
         return this;
     }
@@ -86,7 +86,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder To(double value)
     {
-        _animate.Attributes["to"] = value.ToSvg();
+        _animate.SetAttribute("to", value.ToSvg());
 
         return this;
     }
@@ -102,7 +102,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder Values(string values)
     {
-        _animate.Attributes["values"] = values;
+        _animate.SetAttribute("values", values);
 
         return this;
     }
@@ -130,7 +130,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/>, enabling method chaining.</returns>
     public SvgAnimateBuilder Duration(string duration)
     {
-        _animate.Attributes["dur"] = duration;
+        _animate.SetAttribute("dur", duration);
 
         return this;
     }
@@ -145,7 +145,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/>, enabling method chaining.</returns>
     public SvgAnimateBuilder Duration(TimeSpan duration)
     {
-        _animate.Attributes["dur"] = $"{duration.TotalMilliseconds}ms";
+        _animate.SetAttribute("dur", $"{duration.TotalMilliseconds}ms");
 
         return this;
     }
@@ -161,7 +161,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder Begin(string begin)
     {
-        _animate.Attributes["begin"] = begin;
+        _animate.SetAttribute("begin", begin);
 
         return this;
     }
@@ -177,7 +177,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder Begin(TimeSpan begin)
     {
-        _animate.Attributes["begin"] = $"{begin.TotalMilliseconds}ms";
+        _animate.SetAttribute("begin", $"{begin.TotalMilliseconds}ms");
 
         return this;
     }
@@ -192,7 +192,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder End(string end)
     {
-        _animate.Attributes["end"] = end;
+        _animate.SetAttribute("end", end);
 
         return this;
     }
@@ -207,7 +207,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder End(TimeSpan end)
     {
-        _animate.Attributes["end"] = $"{end.TotalMilliseconds}ms";
+        _animate.SetAttribute("end", $"{end.TotalMilliseconds}ms");
 
         return this;
     }
@@ -222,7 +222,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder RepeatCount(string count)
     {
-        _animate.Attributes["repeatCount"] = count;
+        _animate.SetAttribute("repeatCount", count);
 
         return this;
     }
@@ -234,7 +234,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder Fill(string fill)
     {
-        _animate.Attributes["fill"] = fill;
+        _animate.SetAttribute("fill", fill);
 
         return this;
     }
@@ -259,7 +259,7 @@ public sealed class SvgAnimateBuilder
     {
         if (!string.IsNullOrEmpty(value))
         {
-            _animate.Attributes[attribute] = value;
+            _animate.SetAttribute(attribute, value);
         }
 
         return this;
@@ -276,7 +276,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder KeyTimes(string keyTimes)
     {
-        _animate.Attributes["keyTimes"] = keyTimes;
+        _animate.SetAttribute("keyTimes", keyTimes);
 
         return this;
     }
@@ -305,7 +305,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of the <see cref="SvgAnimateBuilder"/>, enabling method chaining.</returns>
     public SvgAnimateBuilder KeySplines(string keySplines)
     {
-        _animate.Attributes["keySplines"] = keySplines;
+        _animate.SetAttribute("keySplines", keySplines);
 
         return this;
     }
@@ -320,7 +320,7 @@ public sealed class SvgAnimateBuilder
     /// <returns>The current instance of <see cref="SvgAnimateBuilder"/> to allow method chaining.</returns>
     public SvgAnimateBuilder OnEnd(string jsMethod, string chartId, string groupId, string itemId)
     {
-        _animate.Attributes["onend"] = $"{jsMethod}('{chartId}', '{groupId}', '{itemId}')";
+        _animate.SetAttribute("onend", $"{jsMethod}('{chartId}', '{groupId}', '{itemId}')");
 
         return this;
     }
