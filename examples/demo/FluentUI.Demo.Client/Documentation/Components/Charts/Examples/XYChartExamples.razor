@@ -1,0 +1,128 @@
+﻿@using FluentUI.Blazor.Community.Components.Charts.Series
+@using FluentUI.Blazor.Community.Components.Charts.Themes
+@using FluentUI.Blazor.Community.Components.Enums
+<p>
+    This example demonstrates how to use some XY charts with sample data.
+    You can select the chart palette style and the chart category to see how the chart changes.
+</p>
+
+<div style="width: 100%; height: 500px">
+    <FluentStack Height="100%" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="4px">
+            <FluentSelect Items="@s_chartPaletteStyles"
+                          @bind-Value="_selectedChartPaletteStyle" />
+
+            <FluentSelect Items="@s_chartCategory"
+                          @bind-Value="_selectedChartCategory"
+                          @bind-Value:after="OnCategoryChanged"/>
+        </FluentStack>
+
+        <FluentCxChart @ref="_ref" PaletteStyle="@_selectedChartPaletteStyle">
+            @if (_selectedChartCategory == ChartType.Scatter)
+            {
+                <ScatterSerie Name="Scatter" Items="@(_items)" />
+                <ScatterSerie Name="Scatter 2" Items="@(_items2)" />
+                <ScatterSerie Name="Scatter 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.Bubble)
+            {
+                <BubbleSerie Name="Bubble" Items="@(_items)" />
+                <BubbleSerie Name="Bubble 2" Items="@(_items2)" />
+                <BubbleSerie Name="Bubble 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.XYLine)
+            {
+                <XYLineSerie Name="Line" Items="@(_items)" />
+                <XYLineSerie Name="Line 2" Items="@(_items2)" />
+                <XYLineSerie Name="Line 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.XYArea)
+            {
+                <XYAreaSerie Name="Area" Items="@(_items)" />
+                <XYAreaSerie Name="Area 2" Items="@(_items2)" />
+                <XYAreaSerie Name="Area 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.XYColumn)
+            {
+                <XYColumnSerie Name="Histogram" Items="@(_items)" />
+                <XYColumnSerie Name="Histogram 2" Items="@(_items2)" />
+                <XYColumnSerie Name="Histogram 3" Items="@(_items3)" />
+            }
+            else if (_selectedChartCategory == ChartType.Histogram)
+            {
+                <HistogramSerie Name="Histogram" Items="@(_histogramSerie)" />
+            }
+        </FluentCxChart>
+    </FluentStack>
+</div>
+
+
+@code {
+    private FluentCxChart? _ref;
+    private static ChartPaletteStyle[] s_chartPaletteStyles = Enum.GetValues<ChartPaletteStyle>().ToArray();
+    private ChartPaletteStyle _selectedChartPaletteStyle = ChartPaletteStyle.Autumn;
+    private ChartType _selectedChartCategory = ChartType.Scatter;
+
+    private static ChartType[] s_chartCategory = [
+        ChartType.Scatter,
+        ChartType.Bubble,
+        ChartType.XYLine,
+        ChartType.XYArea,
+        ChartType.XYColumn,
+        ChartType.Histogram
+    ];
+
+    private static ValueItem[] _histogramSerie = GenerateNormal(1000);
+
+    private static XYItem[] _items = new[]
+    {
+        new XYItem { Name = "Category 1", X = 1, Y = 15, Value = 20 },
+        new XYItem { Name = "Category 2", X = 2, Y = 25, Value = 30 },
+        new XYItem { Name = "Category 3", X = 3, Y = 20, Value = 25 },
+        new XYItem { Name = "Category 4", X = 4, Y = 30, Value = 35 }
+    };
+
+    private static XYItem[] _items2 = new[]
+    {
+        new XYItem { Name = "Category 1", X = 1, Y = 35, Value = 40 },
+        new XYItem { Name = "Category 2", X = 2, Y = 20, Value = 25 },
+        new XYItem { Name = "Category 3", X = 3, Y = 45, Value = 50 },
+        new XYItem { Name = "Category 4", X = 4, Y = 25, Value = 30 }
+    };
+
+
+    private static XYItem[] _items3 = new[]
+    {
+        new XYItem { Name = "Category 1", X = 1, Y = 25, Value = 30 },
+        new XYItem { Name = "Category 2", X = 2, Y = 30, Value = 35 },
+        new XYItem { Name = "Category 3", X = 3, Y = 35, Value = 40 },
+        new XYItem { Name = "Category 4", X = 4, Y = 40, Value = 45 }
+    };
+
+
+    private void OnCategoryChanged()
+    {
+        _ref?.Reset();
+    }
+
+    public static ValueItem[] GenerateNormal(int count = 1000, double mean = 50, double stddev = 10)
+    {
+        var rnd = new Random();
+        var items = new ValueItem[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            // Box-Muller transform
+            double u1 = 1.0 - rnd.NextDouble();
+            double u2 = 1.0 - rnd.NextDouble();
+            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) *
+                                   Math.Sin(2.0 * Math.PI * u2);
+
+            double value = mean + stddev * randStdNormal;
+
+            items[i] = new ValueItem { Name = $"Item {i + 1}", Value = value };
+        }
+
+        return items;
+    }
+}

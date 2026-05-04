@@ -1,0 +1,92 @@
+﻿@using FluentUI.Blazor.Community.Components.Charts.Series
+@using FluentUI.Blazor.Community.Components.Charts.Themes
+@using FluentUI.Blazor.Community.Components.Enums
+<p>
+    This example demonstrates how to use some circular charts with sample data.
+    You can select the chart palette style and the circular chart to see how the chart changes.
+</p>
+
+<div style="width: 100%; height: 500px">
+    <FluentStack Height="100%" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="4px">
+            <FluentSelect Items="@s_chartPaletteStyles"
+                          @bind-Value="_selectedChartPaletteStyle" />
+
+            <FluentSelect Items="@s_chartTypes"
+                          @bind-Value="_selectedChart"
+                          @bind-Value:after="OnChanged" />
+        </FluentStack>
+
+        <FluentCxChart IntersectionThreshold="1" @ref="_ref" PaletteStyle="@_selectedChartPaletteStyle">
+            @if (_selectedChart == ChartType.SemiDonut)
+            {
+                <SemiDonutSerie Name="Semi Donuts Chart"
+                                Items="@(_items)" />
+            }
+            else if (_selectedChart == ChartType.Pie)
+            {
+                <PieSerie Effect=Blazor.Community.Components.Enums.ChartAnimationEffect.Sweep Name="Pies" Items="@(_items)" />
+            }
+            else if (_selectedChart == ChartType.MultiDonut)
+            {
+                <MultiDonutSerie Effect="ChartAnimationEffect.Sweep"
+                                 AlternateAnimation="true"
+                                 Name="Multi Donut Chart">
+                    <DonutSerie Items="@(_items)" />
+                    <DonutSerie Items="@(_items2)" />
+                    <DonutSerie Items="@(_items3)" />
+                </MultiDonutSerie>
+            }
+            else if (_selectedChart == ChartType.Donut)
+            {
+                <DonutSerie Effect=ChartAnimationEffect.Sweep
+                            Name="Donuts Chart"
+                            Items="@(_items)" />
+            }
+        </FluentCxChart>
+    </FluentStack>
+</div>
+
+
+@code {
+    private FluentCxChart? _ref;
+    private static ChartPaletteStyle[] s_chartPaletteStyles = Enum.GetValues<ChartPaletteStyle>().ToArray();
+    private ChartPaletteStyle _selectedChartPaletteStyle = ChartPaletteStyle.Autumn;
+    private ChartType _selectedChart = ChartType.Donut;
+
+    private static ChartType[] s_chartTypes = [
+        ChartType.Donut,
+        ChartType.MultiDonut,
+        ChartType.SemiDonut,
+        ChartType.Pie,
+    ];
+
+    private static RadialSlice[] _items = new[]
+    {
+        new RadialSlice { Name = "Book 1", Value = 10 },
+        new RadialSlice { Name = "Book 2", Value = 20 },
+        new RadialSlice { Name = "Book 3", Value = 30 },
+        new RadialSlice { Name = "Book 4", Value = 40 }
+    };
+
+    private static RadialSlice[] _items2 = new[]
+     {
+        new RadialSlice { Name = "Book 1", Value = 5 },
+        new RadialSlice { Name = "Book 2", Value = 25 },
+        new RadialSlice { Name = "Book 3", Value = 50 },
+        new RadialSlice { Name = "Book 4", Value = 70 }
+    };
+
+    private static RadialSlice[] _items3 = new[]
+    {
+        new RadialSlice { Name = "Book 1", Value = 60 },
+        new RadialSlice { Name = "Book 2", Value = 40 },
+        new RadialSlice { Name = "Book 3", Value = 70 },
+        new RadialSlice { Name = "Book 4", Value = 10 }
+    };
+
+    private void OnChanged()
+    {
+        _ref?.Reset();
+    }
+}

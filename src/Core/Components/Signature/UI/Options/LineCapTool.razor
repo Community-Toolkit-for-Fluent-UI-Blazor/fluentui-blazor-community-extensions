@@ -1,0 +1,15 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
+@inherits FluentComponentBase
+
+<FluentButton Tooltip="@Localizer[LanguageResource.CX_Signature_Tools_LineCap_Tooltip]" IconOnly Id="@Id">
+    <FluentIcon Value="@(new Regular.Size24.LineFlowDiagonalUpRight())" />
+</FluentButton>
+
+<FluentMenu OnCheckedChanged="@(OnMenuItemClickAsync)" Trigger="@Id">
+    <FluentMenuList>
+        <FluentMenuItem Checked="@(LineCap == LineCap.Butt)" Id="Butt" Role="MenuItemRole.Radio">@Localizer[LanguageResource.CX_Signature_Tools_LineCap_Butt]</FluentMenuItem>
+        <FluentMenuItem Checked="@(LineCap == LineCap.Round)" Id="Round" Role="MenuItemRole.Radio">@Localizer[LanguageResource.CX_Signature_Tools_LineCap_Round]</FluentMenuItem>
+        <FluentMenuItem Checked="@(LineCap == LineCap.Square)" Id="Square" Role="MenuItemRole.Radio">@Localizer[LanguageResource.CX_Signature_Tools_LineCap_Square]</FluentMenuItem>
+    </FluentMenuList>
+</FluentMenu>

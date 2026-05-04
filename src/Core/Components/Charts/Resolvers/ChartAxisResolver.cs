@@ -1,0 +1,552 @@
+using System.Globalization;
+using FluentUI.Blazor.Community.Components.Charts.Builders;
+using FluentUI.Blazor.Community.Components.Charts.Drawing;
+using FluentUI.Blazor.Community.Components.Charts.Factories;
+using FluentUI.Blazor.Community.Components.Charts.Helpers;
+using FluentUI.Blazor.Community.Components.Charts.Series;
+using FluentUI.Blazor.Community.Components.Charts.Themes;
+using FluentUI.Blazor.Community.Components.Charts.Utils;
+using FluentUI.Blazor.Community.Components.Enums;
+using CO = FluentUI.Blazor.Community.Components.Charts.Options.ChartOptions;
+
+namespace FluentUI.Blazor.Community.Components.Charts;
+
+/// <summary>
+/// Represents a resolver that determines the appropriate chart axes to use based on the types of series present in the chart.
+/// </summary>
+internal static class ChartAxisResolver
+{
+    /// <summary>
+    /// Resolves the chart axes for the specified chart context based on the provided chart options, theme, and series.
+    /// </summary>
+    /// <param name="options">The chart options containing configuration settings for the chart.</param>
+    /// <param name="context">The chart context that holds the state and layout information for the chart.</param>
+    /// <param name="theme">The chart theme context providing styling and layout information.</param>
+    /// <param name="series">The collection of chart series to be rendered.</param>
+    public static void Resolve(
+       CO options,
+       ChartContext context,
+       ChartThemeContext theme,
+       IReadOnlyList<ChartSerie> series)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(series);
+
+        var layout = theme.Theme.Layout;
+        var typo = theme.Theme.Typography;
+        var axisArea = context.RemainingSpaceArea;
+
+        ResolveAxes(options, context, series, axisArea);
+        GenerateNumericLabels(context);
+        ComputeAxisLabelGeometry(context, typo, axisArea);
+        ComputeAxisMargins(context, layout);
+        ComputePlotArea(context, axisArea, layout);
+        FixMaps(context);
+    }
+
+    /// <summary>
+    /// Computes the geometry for X and Y axis labels based on typography settings and available space.
+    /// </summary>
+    /// <param name="context">The chart context containing the axis data.</param>
+    /// <param name="typo">The typography settings containing font size information for axis labels.</param>
+    /// <param name="axisArea">The rectangular area available for rendering the axis.</param>
+    private static void ComputeAxisLabelGeometry(
+        ChartContext context,
+        ChartTypography typo,
+        ChartRect axisArea)
+    {
+        if (context.XAxis?.AxisType == ChartAxisType.Polar ||
+            context.YAxis?.AxisType == ChartAxisType.Polar)
+        {
+            return;
+        }
+
+        if (context.YAxis is { Labels.Count: > 0 })
+        {
+            ComputeYAxisLabelGeometry(context.YAxis, typo.Axis.FontSize);
+        }
+
+        if (context.XAxis is { Labels.Count: > 0 })
+        {
+            var labelCount = context.XAxis.Labels.Count;
+            var availableWidth = axisArea.Width / Math.Max(1, labelCount);
+            ComputeXAxisLabelGeometry(context.XAxis, typo.Axis.FontSize, availableWidth);
+        }
+    }
+
+    /// <summary>
+    /// Computes and sets the axis margins based on label dimensions and layout properties.
+    /// </summary>
+    /// <param name="context">The chart context containing axis information and where the computed margins will be stored.</param>
+    /// <param name="layout">The chart layout configuration containing tick length, axis thickness, and spacing values.</param>
+    private static void ComputeAxisMargins(ChartContext context, ChartLayout layout)
+    {
+        if (context.XAxis?.AxisType == ChartAxisType.Polar ||
+            context.YAxis?.AxisType == ChartAxisType.Polar)
+        {
+            context.AxesMargins = new Thickness(0, 0, 0, 0);
+            return;
+        }
+
+        var marginLeft =
+            (context.YAxis?.LabelWidth ?? 0) +
+            layout.TickLength +
+            layout.AxisThickness +
+            layout.AxisSpacing;
+
+        var marginBottom =
+            (context.XAxis?.LabelHeight ?? 0) +
+            layout.TickLength +
+            layout.AxisThickness +
+            layout.AxisSpacing;
+
+        context.AxesMargins = new Thickness(
+            marginLeft,
+            0,
+            0,
+            marginBottom);
+    }
+
+    /// <summary>
+    /// Computes and sets the plot area rectangle by applying axis margins and layout padding to the provided axis area.
+    /// </summary>
+    /// <param name="context">The chart context to update with the computed plot area.</param>
+    /// <param name="axisArea">The axis area rectangle used as the basis for the plot area calculation.</param>
+    /// <param name="layout">The layout configuration containing padding values for the plot area.</param>
+    private static void ComputePlotArea(
+        ChartContext context,
+        ChartRect axisArea,
+        ChartLayout layout)
+    {
+        context.PlotArea = new ChartRect(
+            axisArea.X + context.AxesMargins.Left + layout.PlotPaddingLeft,
+            axisArea.Y + layout.PlotPaddingTop,
+            Math.Max(0, axisArea.Width - context.AxesMargins.Left - layout.PlotPaddingLeft - layout.PlotPaddingRight),
+            Math.Max(0, axisArea.Height - context.AxesMargins.Bottom - layout.PlotPaddingTop - layout.PlotPaddingBottom),
+            axisArea);
+    }
+
+    /// <summary>
+    /// Configures coordinate mapping functions for chart axes to transform data values or category indices into plot
+    /// area pixel coordinates.
+    /// </summary>
+    /// <param name="ctx">The chart context containing the axes and plot area to configure.</param>
+    private static void FixMaps(ChartContext ctx)
+    {
+
+        if (ctx.XAxis is null ||
+            ctx.YAxis is null)
+        {
+            return;
+        }
+
+        if (ctx.XAxis.AxisType == ChartAxisType.Polar ||
+            ctx.YAxis.AxisType == ChartAxisType.Polar)
+        {
+            return;
+        }
+
+        if (ctx.PlotArea.Width <= 0 || ctx.PlotArea.Height <= 0)
+        {
+            return;
+        }
+
+        var plot = ctx.PlotArea;
+
+        if (ctx.XAxis is { AxisType: ChartAxisType.Category } xcat)
+        {
+            var min = xcat.Minimum;
+            var max = xcat.Maximum;
+
+            xcat.Map = i =>
+            {
+                var t = (i - min) / (max - min);
+
+                return plot.X + t * plot.Width;
+            };
+        }
+
+        if (ctx.XAxis is { AxisType: ChartAxisType.Numeric } xnum)
+        {
+            var min = xnum.Minimum;
+            var max = xnum.Maximum;
+
+            xnum.Map = v =>
+            {
+                var t = (v - min) / (max - min);
+                return plot.X + t * plot.Width;
+            };
+        }
+
+        if (ctx.YAxis is { AxisType: ChartAxisType.Category } ycat)
+        {
+            var min = ycat.Minimum;
+            var max = ycat.Maximum;
+
+            ycat.Map = i =>
+            {
+                var t = (i - min) / (max - min);
+                return plot.Y + t * plot.Height;
+            };
+        }
+
+        if (ctx.YAxis is { AxisType: ChartAxisType.Numeric } ynum)
+        {
+            var min = ynum.Minimum;
+            var max = ynum.Maximum;
+
+            ynum.Map = v =>
+            {
+                var t = (v - min) / (max - min);
+                return plot.Y + plot.Height - t * plot.Height;
+            };
+        }
+    }
+
+    /// <summary>
+    /// Configures the chart axes in the specified chart context based on the provided chart series and options.
+    /// </summary>
+    /// <remarks>This method sets the X and Y axes of the chart context according to the chart types present
+    /// in the series. Only homogeneous chart types or compatible categories are supported. For polar or hierarchical
+    /// chart types, axes are set to null.</remarks>
+    /// <param name="options">The chart options used to determine axis configuration, including sorting and default behaviors for different
+    /// chart types.</param>
+    /// <param name="context">The chart context in which axes will be resolved and set. Cannot be null.</param>
+    /// <param name="series">The collection of chart series that defines the chart types and data for axis resolution. Cannot be null.</param>
+    /// <param name="axisArea">The area available for axes, used to calculate appropriate axis configurations based on the chart layout.</param>
+    private static void ResolveAxes(
+        CO options,
+        ChartContext context,
+        IReadOnlyList<ChartSerie> series,
+        ChartRect axisArea)
+    {
+        var family = ChartFamily.None;
+
+        for (var i = 0; i < series.Count; i++)
+        {
+            var t = series[i].ChartType;
+            var f = ChartTypeInfo.Categories[t];
+
+            if (family == ChartFamily.None)
+            {
+                family = f;
+            }
+            else if (family != f)
+            {
+                throw new NotSupportedException("Mixed chart families are not supported.");
+            }
+        }
+
+        switch (family)
+        {
+            case ChartFamily.Histogram:
+                {
+                    var hist = (Series.HistogramSerie)series[0];
+                    var model = HistogramModelBuilder.Build(hist.Items, options.Histogram);
+                    context.HistogramModel = model;
+
+                    var (xAxis, yAxis) = HistogramAxesFactory.CreateAxes(model);
+                    context.XAxis = xAxis;
+                    context.YAxis = yAxis;
+                }
+
+                return;
+
+            case ChartFamily.Hierarchy:
+            case ChartFamily.Circular:
+                {
+                    context.XAxis = null;
+                    context.YAxis = null;
+                }
+
+                return;
+
+            case ChartFamily.XY:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.XY.CreateAxes(false, series, axisArea);
+                }
+
+                return;
+
+            case ChartFamily.Polar:
+                {
+                    var (xAxis, yAxis) = ChartAxesFactory.Polar.CreateAxes(options.CategoryLine.Sort, series, axisArea);
+                    context.XAxis = xAxis;
+                    context.YAxis = yAxis;
+                }
+
+                return;
+
+            case ChartFamily.Category:
+                {
+                    ResolveCategory(options, context, series, axisArea);
+                }
+
+                return;
+
+            default:
+                throw new NotSupportedException("Unknown chart family.");
+        }
+    }
+
+    private static void ResolveCategory(
+        CO options,
+        ChartContext context,
+        IReadOnlyList<ChartSerie> series,
+        ChartRect axisArea)
+    {
+        var type = series[0].ChartType;
+
+        switch (type)
+        {
+            case ChartType.Bar:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.Bar.CreateAxes(options.Bar.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.StackedBar:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.StackedBar.CreateAxes(options.Bar.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.Stacked100Bar:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.Stacked100Bar.CreateAxes(options.Bar.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.Column:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.Column.CreateAxes(options.Column.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.StackedColumn:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.StackedColumn.CreateAxes(options.Column.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.Stacked100Column:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.Stacked100Column.CreateAxes(options.Column.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.Line:
+            case ChartType.Area:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.CategoryLine.CreateAxes(options.Column.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.Step:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.Step.CreateAxes(options.Column.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.StackedArea:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.StackedArea.CreateAxes(options.Column.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.StackedStep:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.StackedStep.CreateAxes(options.Column.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.Stacked100Area:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.Stacked100Area.CreateAxes(options.Column.Sort, series, axisArea);
+                }
+
+                break;
+
+            case ChartType.Stacked100Step:
+                {
+                    (context.XAxis, context.YAxis) = ChartAxesFactory.Stacked100Step.CreateAxes(options.Column.Sort, series, axisArea);
+                }
+
+                break;
+
+            default:
+                ChartAxesBuilder.BuildCategoryAxes(context, series);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Generates and assigns numeric axis labels for the X and Y axes of the specified chart context if they are
+    /// configured as numeric axes and do not already have labels defined.
+    /// </summary>
+    /// <remarks>This method only generates labels for axes of type numeric and does not overwrite existing
+    /// labels. It is intended to ensure that numeric axes have appropriate tick labels based on their minimum and
+    /// maximum values.</remarks>
+    /// <param name="context">The chart context containing axis information for which numeric labels will be generated and assigned.</param>
+    private static void GenerateNumericLabels(ChartContext context)
+    {
+        if (context.XAxis?.AxisType is ChartAxisType.Polar ||
+            context.YAxis?.AxisType is ChartAxisType.Polar)
+        {
+            return;
+        }
+
+        if (context.XAxis is { AxisType: ChartAxisType.Numeric } xnum)
+        {
+            if (xnum.Labels is null)
+            {
+                var ticks = NumericTickGenerator.GenerateNice(xnum.DataMinimum, xnum.DataMaximum, maxTicks: 6);
+
+                if (ticks.Count > 0)
+                {
+                    xnum.Minimum = ticks[0];
+                    xnum.Maximum = ticks[^1];
+                    xnum.Labels = [.. ticks.Select(v => v.ToString("G3", CultureInfo.InvariantCulture))];
+                }
+            }
+        }
+
+        if (context.YAxis is { AxisType: ChartAxisType.Numeric } ynum)
+        {
+            if (ynum.Labels is null)
+            {
+                var ticks = NumericTickGenerator.GenerateNice(ynum.DataMinimum, ynum.DataMaximum, maxTicks: 6);
+
+                if (ticks.Count > 0)
+                {
+                    ynum.Minimum = ticks[0];
+                    ynum.Maximum = ticks[^1];
+                    ynum.Labels = [.. ticks.Select(v => v.ToString("G3", CultureInfo.InvariantCulture))];
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Calculates and sets the optimal label rotation, width, and height for the X-axis labels based on the available
+    /// width per category and the specified font size.
+    /// </summary>
+    /// <remarks>This method updates the axis's label rotation, width, and height properties to ensure that
+    /// labels fit within the available space. If no labels are present, the label geometry is reset to zero.</remarks>
+    /// <param name="axis">The chart axis whose label geometry will be computed and updated. Cannot be null.</param>
+    /// <param name="fontSize">The font size, in device-independent units, to use when measuring the axis labels. Must be greater than zero.</param>
+    /// <param name="availableWidthPerCategory">The maximum width available for each category label on the X-axis, in device-independent units. Must be greater
+    /// than zero.</param>
+    private static void ComputeXAxisLabelGeometry(
+        ChartAxis axis,
+        double fontSize,
+        double availableWidthPerCategory)
+    {
+        if (axis.Labels is null || axis.Labels.Count == 0)
+        {
+            axis.LabelRotation = 0;
+            axis.LabelWidth = 0;
+            axis.LabelHeight = 0;
+            return;
+        }
+
+        var m0 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, 0);
+        var m45 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, -45);
+        var m90 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, -90);
+
+        var candidates = new (double angle, double w, double h)[]
+        {
+            (  0, m0.width,  m0.height),
+            (-45, m45.width, m45.height),
+            (-90, m90.width, m90.height)
+        };
+
+        (double angle, double w, double h)? best = null;
+
+        foreach (var c in candidates)
+        {
+            if (c.w <= availableWidthPerCategory)
+            {
+                if (best == null || c.h < best.Value.h)
+                {
+                    best = c;
+                }
+            }
+        }
+
+        if (best == null)
+        {
+            best = candidates[0];
+
+            foreach (var c in candidates)
+            {
+                if (c.h < best.Value.h)
+                {
+                    best = c;
+                }
+            }
+        }
+
+        axis.LabelRotation = best.Value.angle;
+        axis.LabelWidth = best.Value.w;
+        axis.LabelHeight = best.Value.h;
+    }
+
+    /// <summary>
+    /// Calculates and sets the optimal rotation angle, width, and height for Y-axis labels based on the provided font
+    /// size and label content.
+    /// </summary>
+    /// <remarks>This method evaluates multiple rotation angles to determine the most space-efficient
+    /// orientation for Y-axis labels. It updates the axis with the chosen label rotation, width, and height to ensure
+    /// proper layout and readability.</remarks>
+    /// <param name="axis">The Y-axis whose label geometry will be computed and updated. Must not be null, and should have a non-null
+    /// collection of labels.</param>
+    /// <param name="fontSize">The font size, in device-independent units, to use when measuring the axis labels. Must be greater than zero.</param>
+    private static void ComputeYAxisLabelGeometry(
+        ChartAxis axis,
+        double fontSize)
+    {
+        if (axis.Labels is null || axis.Labels.Count == 0)
+        {
+            axis.LabelRotation = 0;
+            axis.LabelWidth = 0;
+            axis.LabelHeight = 0;
+            return;
+        }
+
+        var m0 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, 0);
+        var m45 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, -45);
+        var m90 = LabelMeasurer.MeasureMax(axis.Labels, fontSize, -90);
+
+        var candidates = new (double angle, double w, double h)[]
+        {
+            (  0, m0.width,  m0.height),
+            (-45, m45.width, m45.height),
+            (-90, m90.width, m90.height)
+        };
+
+        var best = candidates[0];
+
+        foreach (var c in candidates)
+        {
+            if (c.w < best.w)
+            {
+                best = c;
+            }
+        }
+
+        axis.LabelRotation = best.angle;
+        axis.LabelWidth = best.w;
+        axis.LabelHeight = best.h;
+    }
+}

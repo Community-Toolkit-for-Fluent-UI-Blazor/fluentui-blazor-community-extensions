@@ -1,0 +1,29 @@
+﻿<p>
+    The UPC-A barcode is a widely used linear barcode symbology that encodes 12 numeric digits.
+    It is commonly used in retail and consumer goods industries for product identification and inventory management.
+    Only 11 digits are encoded in the barcode, while the 12th digit is a check digit that is calculated based on the first 11 digits to ensure data integrity during scanning.
+    By using the <code>UpcASymbology</code> component, you can generate UPC-A barcodes in your application.
+    Only numeric characters are allowed in the input, and the length of the input must be exactly 11 digits to generate a valid UPC-A barcode.
+    The symbology only expose the <code>ModuleHeight</code> parameter to change the height of the bars, and <code>ModuleWidth</code> to change the width of the bars.
+</p>
+
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="8px">
+            <FluentTextInput Label="Value to encode as barcode"
+                             @bind-Value="Value"
+                             Immediate
+                             MinLength="11"
+                             MaxLength="11" />
+        </FluentStack>
+        
+        <FluentCxBarcode Value="@(Value.Length < 11 ? "" : Value)">
+            <UpcASymbology />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+}

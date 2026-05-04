@@ -1,0 +1,12 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
+@inherits FluentComponentBase
+ 
+<FluentButton Size="ButtonSize.Large"
+              IconOnly
+              Tooltip="@Localizer[IsRedoButton ? LanguageResource.CX_Signature_Tools_Redo_Tooltip : LanguageResource.CX_Signature_Tools_Undo_Tooltip]"
+              Id="@Id"
+              OnClick="@(OnClick)"
+              Disabled="@Disabled">
+    <FluentIcon Value="@(IconButton)" />
+</FluentButton>

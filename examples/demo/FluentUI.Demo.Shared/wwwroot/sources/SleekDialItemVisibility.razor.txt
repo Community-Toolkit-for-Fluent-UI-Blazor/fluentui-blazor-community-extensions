@@ -1,0 +1,25 @@
+﻿<div id="target-radial" style="height: 600px; position: relative; margin-bottom: 30px">
+    <FluentSwitch Label="Show Cut Item" @bind-Value=_isCutVisible />
+    <FluentSwitch Label="Show Copy Item" @bind-Value=_isCopyVisible />
+    <FluentSwitch Label="Show Paste Item" @bind-Value=_isPasteVisible />
+    <FluentSwitch Label="Show Delete Item" @bind-Value=_isDeleteVisible />
+
+    <FluentCxSleekDial Target="target-radial"
+                       Position="FloatingPosition.MiddleCenter"
+                       OpenIcon="@(new Icons.Filled.Size24.Navigation())"
+                       Mode="SleekDialMode.Radial"
+                       CloseIcon="@(new Icons.Filled.Size24.Dismiss())"
+                       StayOpen>
+        <SleekDialItem Title="Cut" Icon="@(new Icons.Regular.Size24.Cut())" @bind-IsVisible=_isCutVisible />
+        <SleekDialItem Title="Copy" Icon="@(new Icons.Regular.Size24.Copy())" @bind-IsVisible=_isCopyVisible />
+        <SleekDialItem Title="Paste" Icon="@(new Icons.Regular.Size24.ClipboardPaste())" @bind-IsVisible=_isPasteVisible/>
+        <SleekDialItem Title="Delete" Icon="@(new Icons.Regular.Size24.Delete())" @bind-IsVisible=_isDeleteVisible />
+    </FluentCxSleekDial>
+</div>
+
+@code {
+    private bool _isCutVisible = true;
+    private bool _isCopyVisible = true;
+    private bool _isPasteVisible = true;
+    private bool _isDeleteVisible = true;
+}

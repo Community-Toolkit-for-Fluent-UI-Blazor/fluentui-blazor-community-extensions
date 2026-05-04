@@ -1,0 +1,53 @@
+using FluentUI.Blazor.Community.Components.Charts.Series;
+using FluentUI.Blazor.Community.Components.Enums;
+using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
+
+namespace FluentUI.Blazor.Community.Components;
+
+/// <summary>
+/// Represents an area series component for displaying XY data in a Fluent UI Blazor chart.
+/// </summary>
+public sealed class XYAreaSerie : SerieBase
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="XYAreaSerie"/> class with the specified library configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration settings for the Fluent UI Blazor library.</param>
+    public XYAreaSerie(LibraryConfiguration configuration)
+        : base(configuration)
+    {
+        Id = Identifier.NewId();
+    }
+
+    /// <inheritdoc />
+    protected internal override ChartType ChartType => ChartType.XYArea;
+
+    /// <summary>
+    /// Gets the collection of category items to display in the component.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyList<XYItem> Items { get; init; } = [];
+
+    /// <inheritdoc />
+    protected internal override ChartSerie Create()
+    {
+        var cls = new XYSerie
+        {
+            Id = Id!,
+            Name = Name,
+            Tag = Tag,
+            IsVisible = IsVisible,
+            Style = ItemStyle,
+            Interaction = Interaction,
+            Animation = GetAnimationOptions(),
+            AnimationEnabled = AnimationEnabled,
+            XYType = XYChartType.Area
+        };
+
+        cls.UpdateItems(Items);
+
+        return cls;
+    }
+}

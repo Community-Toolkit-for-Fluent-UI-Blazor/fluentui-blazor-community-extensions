@@ -1,0 +1,80 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentDialogInstance
+
+<FluentDialogBody>
+    <ChildContent>
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentSwitch Style="width: 100%" LabelPosition="LabelPosition.Before" Label="Enable shadow" />
+
+            <FluentText Weight="TextWeight.Bold"
+                        Size="TextSize.Size300">
+                Shadow settings
+            </FluentText>
+
+            <FluentTextInput Label="Color"
+                             Width="60px"
+                             TextInputType="TextInputType.Color" />
+
+            <FluentSlider Label="Opacity"
+                          Min="0"
+                          Max="100"
+                          TValue="int"
+                          Style="width: 100%"
+                          Step="1" />
+
+            <FluentSlider Label="Blur"
+                          Min="0"
+                          Max="20"
+                          TValue="int"
+                          Style="width: 100%"
+                          Step="1" />
+
+            <FluentSlider Label="Offset X"
+                          Min="0"
+                          Max="20"
+                          TValue="int"
+                          Style="width: 100%"
+                          Step="1" />
+
+            <FluentSlider Label="Offset Y"
+                          Min="0"
+                          Style="width: 100%"
+                          Max="20"
+                          TValue="int"
+                          Step="1" />
+
+            <FluentText Weight="TextWeight.Bold"
+                        Size="TextSize.Size300">
+                Pen settings
+            </FluentText>
+
+            <FluentSlider Label="Minimum width"
+                          Min="0.5"
+                          Max="5"
+                          Style="width: 100%"
+                          TValue="double"
+                          Step="0.1" />
+
+            <FluentSlider Label="Maximum width"
+                          Min="0.5"
+                          Max="10"
+                          Style="width: 100%"
+                          TValue="double"
+                          Step="0.1" />
+
+            <FluentSlider Label="Power width"
+                          Min="1"
+                          Max="5"
+                          Style="width: 100%"
+                          TValue="double"
+                          Step="0.1" />
+
+            <FluentSlider Label="Maximum velocity for width"
+                          Min="1"
+                          Max="5"
+                          Style="width: 100%"
+                          TValue="double"
+                          Step="0.1" />
+        </FluentStack>
+    </ChildContent>
+</FluentDialogBody>

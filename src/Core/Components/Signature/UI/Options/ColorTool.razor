@@ -1,0 +1,11 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
+@inherits FluentComponentBase
+
+<FluentTextInput Width="@Width"
+                 Id="@Id"
+                 TextInputType="TextInputType.Color"
+                 Label="@Localizer[LanguageResource.CX_Signature_Tools_Color_Label]"
+                 @bind-Value="Color"
+                 @bind-Value:after="OnColorChangedAsync"
+                 />

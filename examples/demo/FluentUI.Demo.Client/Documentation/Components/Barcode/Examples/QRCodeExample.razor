@@ -1,0 +1,42 @@
+﻿@using FluentUI.Blazor.Community.Components.Enums
+<p>
+    The QR code (Quick Response code) is a two-dimensional barcode symbology that can encode various types of data, including alphanumeric characters, binary data, and even URLs.
+    You can customize the QR code by setting the <code>EncodingMode</code>, <code>ErrorCorrection</code>, <code>ModuleSize</code>, and <code>Version</code> parameters in the <code>QRCodeSymbology</code> component.
+    You can choose the encoding mode based on the type of data you want to encode, and the error correction level determines the amount of error correction applied to the QR code, allowing it to be read even if it is partially damaged or obscured.
+    You can choose the size of the modules (the individual squares that make up the QR code) by setting the <code>ModuleSize</code> parameter, and the version determines the overall size and data capacity of the QR code, with higher versions allowing for more data to be encoded.
+</p>
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="8px">
+            <FluentTextInput Label="Value to encode as barcode"
+                             @bind-Value="Value"
+                             Immediate />
+
+            <FluentSelect Items="@_errors"
+                          @bind-Value="@_error"
+                          Label="Error Correction Level"/>
+        </FluentStack>
+        
+        <FluentCxBarcode Value="@Value" BackgroundOptions=@(new SurfaceBackgroundOptions()
+            {
+Color = "white"
+            }) ForegroundOptions="@(new SurfaceForegroundOptions()
+{
+Color = "black"
+})">
+            <QRCodeSymbology EncodingMode="Blazor.Community.Components.Enums.QREncodingMode.Byte"
+                            ErrorCorrection="@_error"
+                            ModuleSize="10"
+                            Version="Blazor.Community.Components.Enums.QRVersion.Auto"
+
+            />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+    private static readonly QRErrorCorrectionLevel[] _errors = Enum.GetValues<QRErrorCorrectionLevel>();
+    private QRErrorCorrectionLevel _error = QRErrorCorrectionLevel.Quartile;
+}

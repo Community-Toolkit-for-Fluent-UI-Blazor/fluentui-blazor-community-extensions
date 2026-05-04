@@ -1,0 +1,24 @@
+﻿<p>
+   The EAN-13 barcode is a widely used symbology that encodes 13 numeric digits.
+   It is commonly used for retail products and is recognized globally for product identification and inventory management.
+
+</p>
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="8px">
+            <FluentTextInput Label="Value to encode as barcode"
+                             @bind-Value="Value"
+                             MinLength="12"
+                             MaxLength="12" />
+        </FluentStack>
+        
+        <FluentCxBarcode Value="@Value">
+            <Ean13Symbology />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+}

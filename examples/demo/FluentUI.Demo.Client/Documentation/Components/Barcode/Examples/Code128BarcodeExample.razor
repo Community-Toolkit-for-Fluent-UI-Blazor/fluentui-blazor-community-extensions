@@ -1,0 +1,34 @@
+﻿<p>
+    The Code 128 barcode is a high-density linear barcode symbology that can encode alphanumeric characters.
+    It is widely used in various industries for inventory management, shipping, and product labeling due to its compact size and ability to encode a large amount of data.
+    The <code>Code128Symbology</code> component can be used to generate Code 128 barcodes in your application.
+    It contains 4 parameters :
+
+    <ul>
+        <li><code>ModuleHeight</code> : Height of the bars</li>
+        <li><code>ModuleWidth</code> : Width of a bar</li>
+        <li><code>ShowText</code> : Show the raw encoded text.</li>
+        <li><code>Subset</code> : Allow the user to specify the subset to use for encoding.</li>
+    </ul>
+
+    The subset parameter allows you to specify which subset of the Code 128 symbology to use. The options are:
+    A : Uppercase letters, numbers, and special characters
+    B : Uppercase and lowercase letters, numbers, and special characters
+    C : Numeric characters only
+</p>
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentTextInput Immediate
+                         Label="Value to encode as barcode"
+                         @bind-Value="Value" />
+        
+        <FluentCxBarcode Value="@Value">
+            <Code128Symbology />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+}

@@ -1,0 +1,10 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentStack HorizontalGap="6" VerticalAlignment="VerticalAlignment.Center" Height="60px">
+    <SizeTool Size="@Size" SizeChanged="@SizeChanged" />
+    <EraserShapeTool Shape="@Shape" ShapeChanged="@ShapeChanged" />
+    <EraserModeTool Mode="@Mode" ModeChanged="@ModeChanged" />
+    <FluentSpacer />
+    <PanelSettings OnClick="@OnSettingsClick" />
+</FluentStack>

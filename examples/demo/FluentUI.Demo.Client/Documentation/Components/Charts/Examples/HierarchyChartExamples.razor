@@ -1,0 +1,131 @@
+﻿@using FluentUI.Blazor.Community.Components.Charts.Series
+@using FluentUI.Blazor.Community.Components.Charts.Themes
+@using FluentUI.Blazor.Community.Components.Enums
+<p>
+    This example demonstrates how to use some hierarchy charts with sample data.
+</p>
+
+<div style="width: 100%; height: 500px">
+    <FluentStack Height="100%" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="4px">
+            <FluentSelect Items="@s_chartPaletteStyles"
+                          @bind-Value="_selectedChartPaletteStyle" />
+
+           <FluentSelect Items="@s_chartCategory"
+                          @bind-Value="_selectedChartCategory"
+                          @bind-Value:after="OnHierarchyChanged" />
+        </FluentStack>
+
+        <FluentCxChart @ref="_ref" PaletteStyle="@_selectedChartPaletteStyle">
+            @if (_selectedChartCategory == ChartType.Treemap)
+            {
+                <TreemapSerie Name="Treemap" Items="@(_books)" Group="x => new[] { x.Genre, x.SubGenre, x.Name }" />
+            }
+            else if (_selectedChartCategory == ChartType.Partition)
+            {
+                <PartitionSerie Name="Partition" Items="@(_books)" Group="x => new[] { x.Genre, x.SubGenre, x.Name }" />
+            }
+            else if (_selectedChartCategory == ChartType.Icicle)
+            {
+                <IcicleSerie Name="Icicle" Items="@(_books)" Group="x => new[] { x.Genre, x.SubGenre, x.Name }" />
+            }
+            else if (_selectedChartCategory == ChartType.Sunburst)
+            {
+                <SunburstSerie Name="Sunburst" Items="@(_books)" Group="x => new[] { x.Genre, x.SubGenre, x.Name }" />
+            }
+            else if (_selectedChartCategory == ChartType.Tree)
+            {
+                <TreeSerie Name="Tree" Items="@(_books)" Group="x => new[] { x.Genre, x.SubGenre, x.Name }" />
+            }
+            else if (_selectedChartCategory == ChartType.RadialTree)
+            {
+                <RadialTreeSerie Name="RadialTree" Items="@(_books)" Group="x => new[] { x.Genre, x.SubGenre, x.Name }" />
+            }
+            else if (_selectedChartCategory == ChartType.Dendrogram)
+            {
+                <DendrogramSerie Name="Dendrogram" Items="@(_books)" Group="x => new[] { x.Genre, x.SubGenre, x.Name }" />
+            }
+        </FluentCxChart>
+    </FluentStack>
+</div>
+
+
+@code {
+    public class TreemapItem : HierarchyItem
+    {
+        public string Genre { get; set; } = "";
+        public string SubGenre { get; set; } = "";
+        public double PurchasePrice { get; set; }
+    }
+
+    private readonly List<TreemapItem> _books = new()
+    {
+
+        new() { Genre = "Fantasy", SubGenre = "Epic", Name = "The Crown of Embers", Value = 120, PurchasePrice = 19.99 },
+        new() { Genre = "Fantasy", SubGenre = "Epic", Name = "Storm of the Fallen", Value = 95, PurchasePrice = 17.49 },
+        new() { Genre = "Fantasy", SubGenre = "Epic", Name = "The Last Kingdom of Aeryn", Value = 80, PurchasePrice = 21.00 },
+        new() { Genre = "Fantasy", SubGenre = "Epic", Name = "Blades of the Ancients", Value = 60, PurchasePrice = 16.99 },
+        new() { Genre = "Fantasy", SubGenre = "Dark Fantasy", Name = "Shadows of Blackmoor", Value = 110, PurchasePrice = 18.50 },
+        new() { Genre = "Fantasy", SubGenre = "Dark Fantasy", Name = "The Witch’s Pact", Value = 85, PurchasePrice = 15.99 },
+        new() { Genre = "Fantasy", SubGenre = "Dark Fantasy", Name = "Bloodbound Oath", Value = 70, PurchasePrice = 14.49 },
+        new() { Genre = "Fantasy", SubGenre = "Dark Fantasy", Name = "Hollowborn", Value = 55, PurchasePrice = 13.99 },
+        new() { Genre = "Fantasy", SubGenre = "Urban Fantasy", Name = "Neon Sorcery", Value = 90, PurchasePrice = 16.50 },
+        new() { Genre = "Fantasy", SubGenre = "Urban Fantasy", Name = "The Arcane District", Value = 75, PurchasePrice = 14.99 },
+        new() { Genre = "Fantasy", SubGenre = "Urban Fantasy", Name = "Midnight Conjurer", Value = 65, PurchasePrice = 13.50 },
+        new() { Genre = "Fantasy", SubGenre = "Urban Fantasy", Name = "City of Lost Mages", Value = 50, PurchasePrice = 12.99 },
+        new() { Genre = "Science Fiction", SubGenre = "Space Opera", Name = "Empire of the Void", Value = 140, PurchasePrice = 22.99 },
+        new() { Genre = "Science Fiction", SubGenre = "Space Opera", Name = "Starfall Armada", Value = 120, PurchasePrice = 20.50 },
+        new() { Genre = "Science Fiction", SubGenre = "Space Opera", Name = "The Celestial Frontier", Value = 95, PurchasePrice = 18.99 },
+        new() { Genre = "Science Fiction", SubGenre = "Space Opera", Name = "Voyagers Beyond Orion", Value = 85, PurchasePrice = 17.49 },
+        new() { Genre = "Science Fiction", SubGenre = "Cyberpunk", Name = "Neon Ghosts", Value = 100, PurchasePrice = 16.99 },
+        new() { Genre = "Science Fiction", SubGenre = "Cyberpunk", Name = "Chrome Rebellion", Value = 80, PurchasePrice = 15.49 },
+        new() { Genre = "Science Fiction", SubGenre = "Cyberpunk", Name = "The Data Thief", Value = 70, PurchasePrice = 14.99 },
+        new() { Genre = "Science Fiction", SubGenre = "Cyberpunk", Name = "Synthetic Dreams", Value = 55, PurchasePrice = 13.49 },
+        new() { Genre = "Science Fiction", SubGenre = "Post‑Apocalyptic", Name = "Ashes of Tomorrow", Value = 110, PurchasePrice = 18.50 },
+        new() { Genre = "Science Fiction", SubGenre = "Post‑Apocalyptic", Name = "The Last Refuge", Value = 90, PurchasePrice = 16.99 },
+        new() { Genre = "Science Fiction", SubGenre = "Post‑Apocalyptic", Name = "Wasteland Chronicles", Value = 75, PurchasePrice = 15.50 },
+        new() { Genre = "Science Fiction", SubGenre = "Post‑Apocalyptic", Name = "Broken Earth Protocol", Value = 60, PurchasePrice = 14.49 },
+       /* new() { Genre = "Mystery", SubGenre = "Detective", Name = "The Silent Evidence", Value = 85, PurchasePrice = 14.99 },
+        new() { Genre = "Mystery", SubGenre = "Detective", Name = "Case of the Crimson Key", Value = 70, PurchasePrice = 13.49 },
+        new() { Genre = "Mystery", SubGenre = "Detective", Name = "The Vanishing Ledger", Value = 65, PurchasePrice = 12.99 },
+        new() { Genre = "Mystery", SubGenre = "Detective", Name = "Murder on Hollow Street", Value = 55, PurchasePrice = 11.99 },
+        new() { Genre = "Mystery", SubGenre = "Thriller", Name = "The Night Caller", Value = 95, PurchasePrice = 15.99 },
+        new() { Genre = "Mystery", SubGenre = "Thriller", Name = "Deepwater Conspiracy", Value = 80, PurchasePrice = 14.49 },
+        new() { Genre = "Mystery", SubGenre = "Thriller", Name = "The Last Witness", Value = 75, PurchasePrice = 13.99 },
+        new() { Genre = "Mystery", SubGenre = "Thriller", Name = "Shadow Protocol", Value = 60, PurchasePrice = 12.49 },
+        new() { Genre = "Mystery", SubGenre = "Crime", Name = "Blood on the Docks", Value = 90, PurchasePrice = 14.99 },
+        new() { Genre = "Mystery", SubGenre = "Crime", Name = "The Iron Syndicate", Value = 70, PurchasePrice = 13.49 },
+        new() { Genre = "Mystery", SubGenre = "Crime", Name = "Cold Case Requiem", Value = 65, PurchasePrice = 12.99 },
+        new() { Genre = "Mystery", SubGenre = "Crime", Name = "The Broken Badge", Value = 50, PurchasePrice = 11.49 },
+        new() { Genre = "Non‑Fiction", SubGenre = "History", Name = "Empires of the Ancient World", Value = 130, PurchasePrice = 19.99 },
+        new() { Genre = "Non‑Fiction", SubGenre = "History", Name = "The Age of Explorers", Value = 95, PurchasePrice = 17.99 },
+        new() { Genre = "Non‑Fiction", SubGenre = "History", Name = "Warriors of the North", Value = 80, PurchasePrice = 16.49 },
+        new() { Genre = "Non‑Fiction", SubGenre = "Science", Name = "Quantum Horizons", Value = 100, PurchasePrice = 18.99 },
+        new() { Genre = "Non‑Fiction", SubGenre = "Science", Name = "The Hidden Universe", Value = 85, PurchasePrice = 17.49 },
+        new() { Genre = "Non‑Fiction", SubGenre = "Science", Name = "Life in the Microcosm", Value = 70, PurchasePrice = 15.99 },
+        new() { Genre = "Non‑Fiction", SubGenre = "Self‑Help", Name = "The Focus Blueprint", Value = 90, PurchasePrice = 14.99 },
+        new() { Genre = "Non‑Fiction", SubGenre = "Self‑Help", Name = "Habits of Clarity", Value = 75, PurchasePrice = 13.49 },
+        new() { Genre = "Non‑Fiction", SubGenre = "Self‑Help", Name = "Mindset Reset", Value = 65, PurchasePrice = 12.99 }*/
+    };
+
+
+    private FluentCxChart? _ref;
+    private static ChartPaletteStyle[] s_chartPaletteStyles = Enum.GetValues<ChartPaletteStyle>().ToArray();
+    private ChartPaletteStyle _selectedChartPaletteStyle = ChartPaletteStyle.Autumn;
+    private ChartType _selectedChartCategory = ChartType.Treemap;
+
+    private static ChartType[] s_chartCategory = [
+        ChartType.Treemap,
+        ChartType.Partition,
+        ChartType.Icicle,
+        ChartType.Sunburst,
+        ChartType.Tree,
+        ChartType.RadialTree,
+        ChartType.Dendrogram
+    ];
+
+    private void OnHierarchyChanged()
+    {
+        _ref?.Reset();
+    }
+}

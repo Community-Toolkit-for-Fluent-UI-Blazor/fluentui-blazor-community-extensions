@@ -1,0 +1,83 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div id="@Id" class="fluentcx-signature @Class" style="@Style">
+        <FluentStack Style="height: 100%" HorizontalGap="4">
+            <FluentStack Width="50px"
+                         HorizontalAlignment="HorizontalAlignment.Center"
+                         Orientation="Orientation.Vertical"
+                         VerticalGap="2px">
+                @if (Tools is not null)
+                {
+                    @Tools
+                }
+                else
+                {
+                    <PenTool @bind-Color="RenderingOptions.Pen.Color"
+                             @bind-Opacity="RenderingOptions.Pen.Opacity"
+                             @bind-LineCap="RenderingOptions.Pen.LineCap"
+                             @bind-LineJoin="RenderingOptions.Pen.LineJoin"
+                             @bind-LineDash="RenderingOptions.Pen.LineDash"
+                             @bind-Width="EngineOptions.Pen.BaseWidth"
+                             @bind-StrokeWidthMode="EngineOptions.Pen.WidthMode"
+                             OnSettingsClicked="@OnShowPenSettingsPanelAsync"
+                             IsActive="@(SelectedTool is PenTool)" />
+
+                    <EraserTool @bind-Size="EngineOptions.Eraser.Size"
+                                @bind-Shape="EngineOptions.Eraser.Shape"
+                                @bind-Mode="EngineOptions.Eraser.Mode"
+                                OnSettingsClick="@OnShowEraserSettingsPanelAsync"
+                                IsActive="@(SelectedTool is EraserTool)" />
+
+                    <UndoRedoTool OnClick="@(() => Undo())" Disabled="@(!CanUndo())" />
+
+                    <UndoRedoTool IsRedoButton OnClick="@(() => Redo())" Disabled="@(!CanRedo())" />
+
+                    <ExportTool OnClick="@ExportAsync" />
+
+                    <ClearTool OnClick=@ClearAsync />
+                }
+            </FluentStack>
+
+            <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalGap="4"
+                         Orientation="Orientation.Vertical">
+                <div style="height: 60px; width: 100%">
+                    @_render(SelectedTool)
+                </div>
+                <SignatureSurface EngineOptions="@EngineOptions"
+                                  RenderingOptions="@RenderingOptions"
+                                  Theme="@Theme"
+                                  Target="@Target"
+                                  @ref="_signatureSurface"
+                                  OnHistoryChanged="@(OnHistoryChanged)"/>
+            </FluentStack>
+        
+        </FluentStack>
+    </div>
+
+    <FluentOverlay Interactive="false" CloseMode="OverlayCloseMode.Manual" @bind-Visible="_isExporting">
+        <FluentProgressBar Width="340px" />
+        <FluentText Size="TextSize.Size200" CustomColor="@SystemColors.Neutral.Foreground3" Color="Color.Custom">
+            Exporting the signature... Please wait.
+        </FluentText>
+    </FluentOverlay>
+</CascadingValue>
+
+@code {
+    private readonly RenderFragment<ISignatureTool?> _render = tool => builder =>
+    {
+        if (tool is not null)
+        {
+            if (tool.CustomOptions is not null)
+            {
+                builder.AddContent(0, tool.CustomOptions);
+            }
+            else
+            {
+                builder.AddContent(0, tool.DefaultOptions);
+            }
+        }
+    };
+}

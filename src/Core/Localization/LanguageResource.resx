@@ -123,4 +123,211 @@
   <data name="CX_ColorPalette_NoColorGenerated" xml:space="preserve">
     <value>No valid color was generated.</value>
   </data>
+  <data name="CX_Signature_Tools_Eraser_Button_Title" xml:space="preserve">
+    <value>Select eraser mode</value>
+  </data>
+  <data name="CX_Signature_Tools_Color_Label" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Button_Label" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Menu_Item_Pixel" xml:space="preserve">
+    <value>Pixel</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Menu_Item_Stroke" xml:space="preserve">
+    <value>Stroke</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Menu_Item_Hybrid" xml:space="preserve">
+    <value>Hybrid</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Shape_Button_Label" xml:space="preserve">
+    <value>Shape</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Shape_Button_Title" xml:space="preserve">
+    <value>Select eraser shape</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Shape_Menu_Item_Circle" xml:space="preserve">
+    <value>Circle</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Shape_Menu_Item_Square" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="CX_Signature_Tools_Clear_Tooltip" xml:space="preserve">
+    <value>Clear the signature</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Tooltip" xml:space="preserve">
+    <value>Eraser</value>
+  </data>
+  <data name="CX_Signature_Tools_Export_Tooltip" xml:space="preserve">
+    <value>Export the signature</value>
+  </data>
+  <data name="CX_Signature_Tools_Pen_Tooltip" xml:space="preserve">
+    <value>Pen</value>
+  </data>
+  <data name="CX_Signature_Tools_Redo_Tooltip" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="CX_Signature_Tools_Undo_Tooltip" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_Background" xml:space="preserve">
+    <value>Include Background</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_Background" xml:space="preserve">
+    <value>Include the background in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_Grid" xml:space="preserve">
+    <value>Include the grid in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_Grid" xml:space="preserve">
+    <value>Include Grid</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_Axes" xml:space="preserve">
+    <value>Include the axes in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_Axes" xml:space="preserve">
+    <value>Include Axes</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_View" xml:space="preserve">
+    <value>Include View</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_View" xml:space="preserve">
+    <value>Include the view in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_Watermark" xml:space="preserve">
+    <value>Include Watermark</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_Watermark" xml:space="preserve">
+    <value>Include the watermark in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Options_Label" xml:space="preserve">
+    <value>Options Export</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Options_Image_Label" xml:space="preserve">
+    <value>Image Export</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsAvif_Label" xml:space="preserve">
+    <value>Export as AVIF</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsAvif_Description" xml:space="preserve">
+    <value>Export the image in AVIF format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsBmp_Description" xml:space="preserve">
+    <value>Export the image in BMP format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsBmp_Label" xml:space="preserve">
+    <value>Export as BMP</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsHeif_Description" xml:space="preserve">
+    <value>Export the image in HEIF format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsHeif_Label" xml:space="preserve">
+    <value>Export as HEIF</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsJpeg_Description" xml:space="preserve">
+    <value>Export the image in JPEG format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsJpeg_Label" xml:space="preserve">
+    <value>Export as JPEG</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsPng_Label" xml:space="preserve">
+    <value>Export as PNG</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsPng_Description" xml:space="preserve">
+    <value>Export the image in PNG format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsTiff_Label" xml:space="preserve">
+    <value>Export as TIFF</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsTiff_Description" xml:space="preserve">
+    <value>Export the image in TIFF format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsWebp_Description" xml:space="preserve">
+    <value>Export the image in WEBP format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsWebp_Label" xml:space="preserve">
+    <value>Export as WEBP</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToJson_Label" xml:space="preserve">
+    <value>Export to JSON</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToSvg_Description" xml:space="preserve">
+    <value>Export the image as a document in SVG format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToBinary_Description" xml:space="preserve">
+    <value>Export the image as a document in BINARY format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToBinary_Label" xml:space="preserve">
+    <value>Export to BINARY</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToJson_Description" xml:space="preserve">
+    <value>Export the image as a document in JSON format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToSvg_Label" xml:space="preserve">
+    <value>Export to SVG</value>
+  </data>
+  <data name="CX_Signature_Tools_LineCap_Tooltip" xml:space="preserve">
+    <value>Line cap</value>
+  </data>
+  <data name="CX_Signature_Tools_LineCap_Butt" xml:space="preserve">
+    <value>Butt</value>
+  </data>
+  <data name="CX_Signature_Tools_LineCap_Round" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="CX_Signature_Tools_LineCap_Square" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_Tooltip" xml:space="preserve">
+    <value>Line dash</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_Solid" xml:space="preserve">
+    <value>Solid</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_DashDot" xml:space="preserve">
+    <value>Dash dot</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_Dashes" xml:space="preserve">
+    <value>Dashes</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_Dots" xml:space="preserve">
+    <value>Dots</value>
+  </data>
+  <data name="CX_Signature_Tools_LineJoin_Bevel" xml:space="preserve">
+    <value>Bevel</value>
+  </data>
+  <data name="CX_Signature_Tools_LineJoin_Miter" xml:space="preserve">
+    <value>Miter</value>
+  </data>
+  <data name="CX_Signature_Tools_LineJoin_Round" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="CX_Signature_Tools_LineJoin_Tooltip" xml:space="preserve">
+    <value>Line join</value>
+  </data>
+  <data name="CX_Signature_Tools_Opacity_Label" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="CX_Signature_Tools_Drawer_Settings_Tooltip" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="CX_Signature_Tools_PenWidth_Label" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="CX_Signature_Tools_Size_Label" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="CX_Signature_Tools_StrokeWidth_Tooltip" xml:space="preserve">
+    <value>Stroke width mode</value>
+  </data>
+  <data name="CX_Signature_Tools_StrokeWidth_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="CX_Signature_Tools_StrokeWidth_Linear" xml:space="preserve">
+    <value>Linear</value>
+  </data>
+  <data name="CX_Signature_Tools_StrokeWidth_Power" xml:space="preserve">
+    <value>Power</value>
+  </data>
 </root>

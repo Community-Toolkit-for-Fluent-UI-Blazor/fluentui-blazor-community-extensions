@@ -21,13 +21,24 @@ public class NeonPlugin : IColorPlugin
             throw new ArgumentException("Base color must be a valid hex color code.", nameof(baseColor));
         }
 
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(steps);
+
         var (h, _, _) = ColorUtils.HexToHsl(baseColor);
-        var list = new List<string>();
+        var list = new List<string>(steps);
+
+        if (steps == 1)
+        {
+            list.Add(ColorUtils.HslToHex(h, 1.0, 0.5));
+
+            return list;
+        }
 
         for (var i = 0; i < steps; i++)
         {
-            var t = i / (double)(steps - 1);
-            list.Add(ColorUtils.HslToHex(h + t * 360, 1.0, 0.5));
+            var t = i / (double)steps;
+
+            var h2 = h + t * 360.0;
+            list.Add(ColorUtils.HslToHex(h2, 1.0, 0.5));
         }
 
         return list;

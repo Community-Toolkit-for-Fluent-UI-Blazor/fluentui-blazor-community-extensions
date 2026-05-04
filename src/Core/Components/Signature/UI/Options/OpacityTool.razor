@@ -1,0 +1,9 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
+@inherits FluentComponentBase
+
+<FluentSlider Id=@Id
+              TValue="int"
+              Label="@Localizer[LanguageResource.CX_Signature_Tools_Opacity_Label]"
+              Value="@Opacity"
+              ValueChanged="@OnOpacityChangedAsync" />

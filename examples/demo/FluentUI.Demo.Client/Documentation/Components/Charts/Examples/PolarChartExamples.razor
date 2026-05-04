@@ -1,0 +1,152 @@
+﻿@using FluentUI.Blazor.Community.Components.Charts.Series
+@using FluentUI.Blazor.Community.Components.Charts.Themes
+@using FluentUI.Blazor.Community.Components.Enums
+<p>
+    This example demonstrates how to use some category charts with sample data.
+    You can select the chart palette style and the chart category to see how the chart changes.
+</p>
+
+<div style="width: 100%">
+    <FluentStack Height="100%" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="4px">
+            <FluentSelect Items="@s_chartCategory"
+                          @bind-Value="_selectedChartCategory"
+                          @bind-Value:after="OnCategoryChanged"/>
+
+            @if (_selectedChartCategory == ChartType.Radar)
+            {
+                <FluentSelect Items="@s_radarGridTypes"
+                              @bind-Value="_selectedRadarGridType" />
+
+                <FluentSwitch Label="Fill area" @bind-Value="_fillArea" />
+            }
+        </FluentStack>
+
+        <div style="height: 500px; width: 100%">
+            <FluentCxChart @ref="_ref" PaletteStyle="@PaletteStyle">
+                <Options>
+                    <RadarChartAxesOptions Grid="@_selectedRadarGridType" />
+                    <RadarSerieOptions FillArea="@_fillArea" />
+                </Options>
+                
+               <ChildContent>
+                    @if (_selectedChartCategory == ChartType.Radar)
+                    {
+                        <RadarSerie Name="Area" Items="@(_items)" />
+                        <RadarSerie Name="Area 2" Items="@(_items2)" />
+                        <RadarSerie Name="Area 2" Items="@(_items3)" />
+                    }
+                    else if (_selectedChartCategory == ChartType.PolarArea)
+                    {
+                        <PolarAreaSerie Name="Area" Items="@(_items)" />
+                    }
+                    else if (_selectedChartCategory == ChartType.PolarRose)
+                    {
+                        <PolarRoseSerie Name="Rose" Items="@(_roseItems)" />
+                    }
+                    else if (_selectedChartCategory == ChartType.PolarBar)
+                    {
+                        <PolarBarSerie Name="Bar" Items="@(_items)" />
+                        <PolarBarSerie Name="Bar 2" Items="@(_items2)" />
+                        <PolarBarSerie Name="Bar 3" Items="@(_items3)" />
+                    }
+                    else if (_selectedChartCategory == ChartType.PolarLine)
+                    {
+                        <PolarLineSerie Name="Line" Items="@(_items)" />
+                        <PolarLineSerie Name="Line 2" Items="@(_items2)" />
+                        <PolarLineSerie Name="Line 3" Items="@(_items3)" />
+                    }
+                    else if(_selectedChartCategory == ChartType.PolarScatter)
+                    {
+                        <PolarScatterSerie Name="Scatter" Items="@(_items)" />
+                        <PolarScatterSerie Name="Scatter 2" Items="@(_items2)" />
+                        <PolarScatterSerie Name="Scatter 3" Items="@(_items3)" />
+                    }
+                    else if (_selectedChartCategory == ChartType.PolarBubble)
+                    {
+                        <PolarBubbleSerie Name="Bubble" Items="@(_items)" />
+                        <PolarBubbleSerie Name="Bubble 2" Items="@(_items2)" />
+                        <PolarBubbleSerie Name="Bubble 3" Items="@(_items3)" />
+                    }
+               </ChildContent>
+            </FluentCxChart>
+        </div>
+    </FluentStack>
+</div>
+
+
+@code {
+    private FluentCxChart? _ref;
+    private bool _fillArea = true;
+    private ChartType _selectedChartCategory = ChartType.Radar;
+    private RadarGridType _selectedRadarGridType = RadarGridType.Circle;
+    private static readonly RadarGridType[] s_radarGridTypes = Enum.GetValues<RadarGridType>();
+
+    private static readonly ChartType[] s_chartCategory = [
+        ChartType.Radar,
+        ChartType.PolarArea,
+        ChartType.PolarBar,
+        ChartType.PolarLine,
+        ChartType.PolarScatter,
+        ChartType.PolarBubble,
+        ChartType.PolarRose
+    ];
+
+    private static PolarItem[] _items = new[]
+    {
+        new PolarItem { Name = "Category 1", Value = 15 },
+        new PolarItem { Name = "Category 2", Value = 25 },
+        new PolarItem { Name = "Category 3", Value = 20 },
+        new PolarItem { Name = "Category 4", Value = 30 }
+    };
+
+    private static PolarItem[] _items2 = new[]
+    {
+        new PolarItem { Name = "Category 1", Value = 35 },
+        new PolarItem { Name = "Category 2", Value = 20 },
+        new PolarItem { Name = "Category 3", Value = 45 },
+        new PolarItem { Name = "Category 4", Value = 25 }
+    };
+
+
+    private static PolarItem[] _items3 = new[]
+    {
+        new PolarItem { Name = "Category 1", Value = 25 },
+        new PolarItem { Name = "Category 2", Value = 30 },
+        new PolarItem { Name = "Category 3", Value = 35 },
+        new PolarItem { Name = "Category 4", Value = 40 }
+    };
+
+    private static PolarItem[] _roseItems = new[]
+    {
+        new PolarItem { Name = "Category 1", Value = 25 },
+        new PolarItem { Name = "Category 2", Value = 30 },
+        new PolarItem { Name = "Category 3", Value = 35 },
+        new PolarItem { Name = "Category 4", Value = 40 },
+        new PolarItem { Name = "Category 5", Value = 10 },
+        new PolarItem { Name = "Category 6", Value = 5 },
+        new PolarItem { Name = "Category 7", Value = 20 },
+        new PolarItem { Name = "Category 8", Value = 15 },
+        new PolarItem { Name = "Category 9", Value = 45 },
+        new PolarItem { Name = "Category 10", Value = 50 },
+        new PolarItem { Name = "Category 11", Value = 17 },
+        new PolarItem { Name = "Category 12", Value = 33 }
+    };
+
+    private ChartPaletteStyle PaletteStyle => _selectedChartCategory switch
+    {
+        ChartType.Radar => ChartPaletteStyle.Radar,
+        ChartType.PolarBar => ChartPaletteStyle.Autumn,
+        ChartType.PolarLine => ChartPaletteStyle.Spring,
+        ChartType.PolarRose => ChartPaletteStyle.Radar,
+        ChartType.PolarScatter => ChartPaletteStyle.Summer,
+        ChartType.PolarBubble => ChartPaletteStyle.Summer,
+        _ => ChartPaletteStyle.Winter
+    };
+
+
+    private void OnCategoryChanged()
+    {
+        _ref?.Reset();
+    }
+}

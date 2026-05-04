@@ -1,0 +1,25 @@
+﻿<p>
+    The Upc-E barcode is a compact version of the UPC-A barcode symbology that encodes 6 numeric digits.
+    It is commonly used for small packages and products where space is limited.
+    The Upc-E barcode is designed to be a more condensed version of the UPC-A barcode, allowing for a smaller footprint while still providing product identification and inventory management capabilities.
+    As Upc-A barcode, you can only customize the height and width of the bars by setting the <code>ModuleHeight</code> and <code>ModuleWidth</code> parameters respectively in the <code>UpcESymbology</code> component.
+</p>
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="8px">
+            <FluentTextInput Label="Value to encode as barcode"
+                             @bind-Value="Value"
+                             MinLength="6"
+                             MaxLength="6" />
+        </FluentStack>
+        
+        <FluentCxBarcode Value="@Value">
+            <UpcESymbology />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+}

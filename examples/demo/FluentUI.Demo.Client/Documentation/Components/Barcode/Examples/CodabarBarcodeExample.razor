@@ -1,0 +1,32 @@
+﻿<p>
+    The Codabar barcode is a linear barcode symbology that is commonly used in various industries for encoding numeric data, such as library systems, blood banks, and air parcel services. It is designed to encode a limited set of characters, including digits (0-9) and a few special characters (-, $, :, /, ., +).
+    You can use the <code>CodabarSymbology</code> component to generate Codabar barcodes in your application.
+
+    It has 4 paramters to configure the appearance of the barcode:
+
+    <ul>
+        <li><code>ModuleWidth</code> : allows you to set the width of the narrowest bar in the barcode. The default value is 1px.</li>
+        <li><code>WideRatio</code> : allows you to set the ratio of the wide bars to the narrow bars. The default value is 3.</li>
+        <li><code>ModuleHeight</code> : allows you to set the height of the bars in the barcode. The default value is 50px.</li>
+        <li><code>ShowText</code> : allows you to specify whether to display the human-readable text below the barcode. The default value is true.</li>
+    </ul>
+</p>
+
+
+<div style="height: 400px">
+    <FluentStack Height="100%" VerticalGap="50" Orientation="Orientation.Vertical">
+        <FluentStack HorizontalGap="8px">
+            <FluentTextInput Immediate
+                             Label="Value to encode as barcode"
+                             @bind-Value="Value" />
+        </FluentStack>
+        
+        <FluentCxBarcode Value="@Value">
+            <CodabarSymbology  />
+        </FluentCxBarcode>
+    </FluentStack>
+</div>
+
+@code {
+    private string Value { get; set; } = string.Empty;
+}

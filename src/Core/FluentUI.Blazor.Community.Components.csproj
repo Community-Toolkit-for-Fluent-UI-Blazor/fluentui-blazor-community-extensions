@@ -14,6 +14,14 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Components\Signature\Importers\**" />
+    <Content Remove="Components\Signature\Importers\**" />
+    <EmbeddedResource Remove="Components\Signature\Importers\**" />
+    <None Remove="Components\Signature\Importers\**" />
+    <TypeScriptCompile Remove="Components\Signature\Importers\**" />
+  </ItemGroup>
+
 
 
   <ItemGroup>
@@ -23,10 +31,12 @@
   <!-- Dependencies -->
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components">
       <IncludeAssets>runtime; build; native; compile</IncludeAssets>
       <ExcludeAssets>contentFiles</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

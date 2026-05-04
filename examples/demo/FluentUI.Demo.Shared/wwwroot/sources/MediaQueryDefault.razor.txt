@@ -1,0 +1,42 @@
+﻿<p>
+    MediaQuery allow the user to modify some elements like layout or to show / hide some elements from a specific screen size, and so on...
+</p>
+
+<FluentCxMediaQuery Query="(max-width: 640px)" OnMediaChanged="(e => _xs = e)" />
+<FluentCxMediaQuery Query="(max-width: 960px)" OnMediaChanged="(e => _sm = e)" />
+<FluentCxMediaQuery Query="(max-width: 1280px)" OnMediaChanged="(e => _md = e)" />
+<FluentCxMediaQuery Query="(min-width: 1281px)" OnMediaChanged="(e => _lg = e)" />
+
+<FluentStack Orientation="Orientation.Vertical">
+    <FluentMessageBar AllowDismiss=false
+                      Intent="MessageIntent.Info">Resize your browser to see the effects of the media query</FluentMessageBar>
+
+    <FluentCard>
+        @if (_xs)
+        {
+            <FluentLabel>Show only in XS device</FluentLabel>
+        }
+        else if (_sm)
+        {
+            <FluentLabel>Show only in SM device</FluentLabel>
+        }
+        else if (_md)
+        {
+            <FluentLabel>Show only in MD device</FluentLabel>
+        }
+        else if (_lg)
+        {
+            <FluentLabel>Show only in LG device</FluentLabel>
+        }
+    </FluentCard>
+</FluentStack>
+
+
+
+
+@code {
+    private bool _xs;
+    private bool _sm;
+    private bool _md;
+    private bool _lg;
+}

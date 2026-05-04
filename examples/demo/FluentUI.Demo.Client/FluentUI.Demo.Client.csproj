@@ -16,6 +16,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
 		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" />
 		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+		<PackageReference Include="SkiaSharp" />
 	</ItemGroup>
 
 	<ItemGroup>

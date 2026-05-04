@@ -1,0 +1,12 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Localization
+@inherits FluentComponentBase
+
+<FluentSlider Id=@Id
+              TValue="double"
+              Label="@Localizer[LanguageResource.CX_Signature_Tools_PenWidth_Label]"
+              Value=@Width
+              Min="@Min"
+              Max="@Max"
+              Step="@Step"
+              ValueChanged="@OnValueChangedAsync"/>
