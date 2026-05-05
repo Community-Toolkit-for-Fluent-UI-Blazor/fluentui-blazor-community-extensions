@@ -1,0 +1,37 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Audio
+@inherits FluentComponentBase
+
+@if (State == RecorderState.Recording)
+{
+    @if (AudioWaveVisualizerContent is not null)
+    {
+        @AudioWaveVisualizerContent
+    }
+    else
+    {
+        <FluentCard Height="180px" MinimalStyle>
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         Height="100%">
+                <ChatAudioWaveVisualizer RecordingTime="@_recordingTime" Id="@_visualizerId" WaveCount="@WaveCount" />
+            </FluentStack>
+        </FluentCard>
+    }
+}
+else if (State == RecorderState.Processing)
+{
+    @if (AudioProcessingContent is not null)
+    {
+        @AudioProcessingContent
+    }
+    else
+    {
+        <FluentCard Height="180px" MinimalStyle>
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Center"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         Height="100%">
+                <ChatAudioProcessing />
+            </FluentStack>
+        </FluentCard>
+    }
+}

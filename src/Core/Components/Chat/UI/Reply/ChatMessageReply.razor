@@ -1,0 +1,27 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id" class="@ClassValue" style="@Style">
+
+    @* Icon *@
+    <div class="chat-reply-icon">
+        <FluentIcon Value="@(new Regular.Size24.ArrowReply())" Color="Color.Primary" />
+    </div>
+
+    <span class="chat-reply-start-message">"</span>
+
+    @* Message *@
+    <FluentText Class="chat-reply-messagebar" Nowrap Truncate>
+        @Text
+    </FluentText>
+
+    <span class="chat-reply-end-message">"</span>
+
+    @if (AllowDismiss)
+    {
+        <div class="chat-reply-messagebar-close" @onclick=@OnDismissAsync>
+            <FluentIcon Value="@(new Regular.Size16.Dismiss())"
+                        Color=@Color.Primary />
+        </div>
+    }
+</div>

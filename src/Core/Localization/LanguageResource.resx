@@ -330,4 +330,49 @@
   <data name="CX_Signature_Tools_StrokeWidth_Power" xml:space="preserve">
     <value>Power</value>
   </data>
+  <data name="CX_Chat_SendingMessageLabel" xml:space="preserve">
+    <value>Message being sent ...</value>
+  </data>
+  <data name="CX_Chat_EnterMessage" xml:space="preserve">
+    <value>Send the message</value>
+  </data>
+  <data name="CX_Chat_AudioProcessingLabel" xml:space="preserve">
+    <value>Audio message processing...</value>
+  </data>
+  <data name="CX_Chat_LiveAudioRecording" xml:space="preserve">
+    <value>Record an audio message.</value>
+  </data>
+  <data name="CX_Chat_InsertMedia" xml:space="preserve">
+    <value>Add media (images, videos, audios)</value>
+  </data>
+  <data name="CX_Chat_InsertEmojis" xml:space="preserve">
+    <value>Add emojis</value>
+  </data>
+  <data name="CX_Chat_InsertGift" xml:space="preserve">
+    <value>Add a gift</value>
+  </data>
+  <data name="CX_Chat_SendMessage" xml:space="preserve">
+    <value>Send the message</value>
+  </data>
+  <data name="CX_Chat_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CX_Chat_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CX_Chat_Room_Rename" xml:space="preserve">
+    <value>Rename the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_Create" xml:space="preserve">
+    <value>Create a chat room</value>
+  </data>
+  <data name="CX_Chat_Room_Placeholder" xml:space="preserve">
+    <value>Enter the name of the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_Label" xml:space="preserve">
+    <value>Name of the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_AriaLabel" xml:space="preserve">
+    <value>Name of the chat room</value>
+  </data>
 </root>

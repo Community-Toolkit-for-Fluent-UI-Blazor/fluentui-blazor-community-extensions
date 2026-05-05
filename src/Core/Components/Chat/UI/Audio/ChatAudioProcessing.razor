@@ -1,0 +1,13 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Audio
+@using FluentUI.Blazor.Community.Components.Localization
+@inherits FluentComponentBase
+
+<FluentStack Orientation="Orientation.Vertical"
+             Style="height: 100%"
+             VerticalAlignment="VerticalAlignment.Center"
+             HorizontalAlignment="HorizontalAlignment.Center">
+    <FluentProgressBar Width="340px" />
+    <FluentLabel Style="font-size: 10px; line-height: 8px;">
+        @Localizer[LanguageResource.CX_Chat_AudioProcessingLabel]
+    </FluentLabel>
+</FluentStack>
