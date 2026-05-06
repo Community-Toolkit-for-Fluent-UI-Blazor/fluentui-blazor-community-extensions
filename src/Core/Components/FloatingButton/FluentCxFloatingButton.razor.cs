@@ -11,6 +11,11 @@ namespace FluentUI.Blazor.Community.Components;
 public partial class FluentCxFloatingButton : FluentButton
 {
     /// <summary>
+    /// Represents a value indicating whether the position of the floating element has changed.
+    /// </summary>
+    private bool _hasFloatingPositionChanged;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="FluentCxFloatingButton"/> class.
     /// </summary>
     public FluentCxFloatingButton(LibraryConfiguration configuration) : base(configuration)
@@ -65,4 +70,33 @@ public partial class FluentCxFloatingButton : FluentButton
     /// </summary>
     [Parameter]
     public FloatingPosition Position { get; set; } = FloatingPosition.BottomRight;
+
+    /// <summary>
+    /// Gets or sets the callback that is invoked when the position of the floating element changes.
+    /// </summary>
+    /// <remarks>Use this event callback to respond to changes in the floating element's position, such as
+    /// updating related UI elements or triggering additional logic in the parent component. The callback receives a
+    /// <see cref="FloatingPosition"/> value representing the new position.</remarks>
+    [Parameter]
+    public EventCallback<FloatingPosition> PositionChanged { get; set; }
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _hasFloatingPositionChanged = parameters.HasValueChanged(nameof(Position), Position);
+
+        return base.SetParametersAsync(parameters);
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (_hasFloatingPositionChanged)
+        {
+            _hasFloatingPositionChanged = false;
+            await PositionChanged.InvokeAsync(Position);
+        }
+    }
 }
