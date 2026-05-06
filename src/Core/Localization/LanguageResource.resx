@@ -375,4 +375,118 @@
   <data name="CX_Chat_Room_AriaLabel" xml:space="preserve">
     <value>Name of the chat room</value>
   </data>
+  <data name="CX_Chat_Room_SearchPlaceholder" xml:space="preserve">
+    <value>Search for a chat room...</value>
+  </data>
+  <data name="CX_Chat_Room_SearchLabel" xml:space="preserve">
+    <value>Search for a chat room</value>
+  </data>
+  <data name="CX_Chat_Room_MaximumSelectedOptionsMessageLabel" xml:space="preserve">
+    <value>The maximum number of creators that can be selected has been reached.</value>
+  </data>
+  <data name="CX_Chat_Room_SuggestedRooms" xml:space="preserve">
+    <value>Suggested rooms</value>
+  </data>
+  <data name="CX_Chat_Room_NoResultsFound" xml:space="preserve">
+    <value>No results found</value>
+  </data>
+  <data name="CX_Chat_Room_ProgressLabel" xml:space="preserve">
+    <value>Loading rooms...</value>
+  </data>
+  <data name="CX_Chat_Room_EmptyRoomMessage" xml:space="preserve">
+    <value>&lt;b&gt;There are no messages to read.&lt;/b&gt;</value>
+  </data>
+  <data name="CX_Chat_Room_UnreadSingular" xml:space="preserve">
+    <value>&lt;b&gt;{0} unread message&lt;/b&gt;</value>
+  </data>
+  <data name="CX_Chat_Room_UnreadPlural" xml:space="preserve">
+    <value>&lt;b&gt;{0} unread messages&lt;/b&gt;</value>
+  </data>
+  <data name="CX_Chat_Room_DeleteRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_DialogYes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="CX_Chat_Room_DialogNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="CX_Chat_Room_DeleteRoomTitle" xml:space="preserve">
+    <value>Delete the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_HideRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to hide the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_HideRoomTitle" xml:space="preserve">
+    <value>Hide the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_BlockRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to block the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_BlockRoomTitle" xml:space="preserve">
+    <value>Block the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_UnblockRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to unblock the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_UnblockRoomTitle" xml:space="preserve">
+    <value>Unblock the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_UnhideRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to unhide the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_UnhideRoomTitle" xml:space="preserve">
+    <value>Unhide the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="CX_Chat_Room_Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="CX_Chat_Room_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="CX_Chat_Room_Unblock" xml:space="preserve">
+    <value>Unblock</value>
+  </data>
+  <data name="CX_Chat_Room_Unhide" xml:space="preserve">
+    <value>Unhide</value>
+  </data>
+  <data name="CX_Chat_Room_NewGroup" xml:space="preserve">
+    <value>Create a new chat group</value>
+  </data>
+  <data name="CX_Chat_Room_ShowBlockedRooms" xml:space="preserve">
+    <value>Show blocked rooms</value>
+  </data>
+  <data name="CX_Chat_Room_ShowHiddenRooms" xml:space="preserve">
+    <value>Show hidden rooms</value>
+  </data>
+  <data name="CX_Chat_Room_GiftSender" xml:space="preserve">
+    <value>You have sent a gift.</value>
+  </data>
+  <data name="CX_Chat_Room_GiftReceiver" xml:space="preserve">
+    <value>You have received a gift from {0}.</value>
+  </data>
+  <data name="CX_Chat_Room_DialogOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="CX_Chat_Room_DialogCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CX_Chat_Room_UserSelectionDialogTitle" xml:space="preserve">
+    <value>Select users</value>
+  </data>
+  <data name="CX_Chat_Room_SearchForUserPlaceholder" xml:space="preserve">
+    <value>Enter the names of the users...</value>
+  </data>
+  <data name="CX_Chat_Room_SearchForUser" xml:space="preserve">
+    <value>Search for a user</value>
+  </data>
+  <data name="CX_Chat_Room_UserGroupMaxOptionsSelected" xml:space="preserve">
+    <value>The maximum number of users that can be selected has been reached.</value>
+  </data>
+  <data name="CX_Chat_Room_SuggestedUsers" xml:space="preserve">
+    <value>Suggested users</value>
+  </data>
 </root>

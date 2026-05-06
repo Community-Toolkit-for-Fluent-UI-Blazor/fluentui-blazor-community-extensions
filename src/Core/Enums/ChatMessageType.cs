@@ -24,8 +24,13 @@ public enum ChatMessageType
     Files = 2,
 
     /// <summary>
+    /// The message contains a gift.
+    /// </summary>
+    Gift = 4,
+
+    /// <summary>
     /// The message contains a custom content.
     /// </summary>
     /// <remarks>Custom is defined by the user.</remarks>
-    Custom = 4,
+    Custom = 8,
 }

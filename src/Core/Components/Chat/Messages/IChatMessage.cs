@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components.Chat.Files;
+using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Chat.Messages;
 
@@ -71,4 +72,9 @@ public interface IChatMessage
     /// Gets the message to which this chat message is replying, if applicable; otherwise, null.
     /// </summary>
     IChatMessage? ReplyToMessage { get; }
+
+    /// <summary>
+    /// Gets the type of the chat message, indicating whether it is a text message, image message, or another type of message.
+    /// </summary>
+    ChatMessageType Type { get; }
 }

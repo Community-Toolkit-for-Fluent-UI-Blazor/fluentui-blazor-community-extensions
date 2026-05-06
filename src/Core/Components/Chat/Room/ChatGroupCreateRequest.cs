@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Components.Chat;
+namespace FluentUI.Blazor.Community.Components.Chat.Room;
 
 /// <summary>
 /// Represents a request to create a chat group with selected users.

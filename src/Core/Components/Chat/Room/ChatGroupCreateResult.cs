@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Components.Chat;
+namespace FluentUI.Blazor.Community.Components.Chat.Room;
 
 /// <summary>
 /// Represents the result of a chat group creation operation.

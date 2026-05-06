@@ -6,19 +6,13 @@ namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
 /// <summary>
 /// Represents the dialog to create or rename a chat room.
 /// </summary>
-public partial class ChatRoomDialog
+public partial class ChatRoomRenameDialog
 {
     /// <summary>
     /// Gets or sets the dialog instance from the parent component.
     /// </summary>
     [CascadingParameter]
     private IDialogInstance Dialog { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets a value indicating if the dialog is used for renaming a chat room.
-    /// </summary>
-    [Parameter]
-    public bool IsRename { get; set; }
 
     /// <summary>
     /// Gets or sets the value of the rename.

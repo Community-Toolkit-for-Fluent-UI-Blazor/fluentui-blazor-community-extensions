@@ -118,7 +118,7 @@ public sealed partial class SvgSignatureImporter : SvgSurfaceImporterBase<Stroke
         var opacity = TryParseDouble(firstPath, "opacity") ?? 1.0;
         var linecap = firstPath.Attribute("stroke-linecap")?.Value ?? "round";
         var linejoin = firstPath.Attribute("stroke-linejoin")?.Value ?? "round";
-        var dashArray = SignatureMathUtils.ToDashArray(firstPath.Attribute("stroke-dasharray")?.Value);
+        var dashArray = SurfaceMathUtils.ToDashArray(firstPath.Attribute("stroke-dasharray")?.Value);
 
         // Shadow
         var shadow = ParseShadow(g);

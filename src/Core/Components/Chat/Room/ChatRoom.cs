@@ -31,7 +31,7 @@ public class ChatRoom : IChatRoom
     public bool IsDeleted { get; set; }
 
     /// <inheritdoc />
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
 
     /// <inheritdoc />
     public IChatMessage? LastMessage { get; set; }

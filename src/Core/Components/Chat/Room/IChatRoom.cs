@@ -10,7 +10,7 @@ public interface IChatRoom
     /// <summary>
     /// Gets the creation date of the chat room.
     /// </summary>
-    DateTime CreatedDate { get; }
+    DateTimeOffset CreatedDate { get; }
 
     /// <summary>
     /// Gets the unique identifier of the chat room.
