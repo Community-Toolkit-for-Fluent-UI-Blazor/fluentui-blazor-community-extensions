@@ -1,0 +1,15 @@
+.sleekdial-item {
+  position: absolute;
+  display: inline-flex;
+  z-index: 100001;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+  outline: none;
+}
+
+  .sleekdial-item:focus {
+    outline: 2px solid var(--accent-fill-rest);
+    outline-offset: 4px;
+    border-radius: 50%;
+  }

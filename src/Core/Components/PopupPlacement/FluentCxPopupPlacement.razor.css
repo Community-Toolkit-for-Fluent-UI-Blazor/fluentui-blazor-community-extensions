@@ -1,0 +1,144 @@
+.fluentcx-popup {
+  position: fixed;
+  z-index: 997;
+  transform: none !important;
+  pointer-events: none;
+  opacity: 0;
+}
+
+  .fluentcx-popup.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+.fluentcx-popup-placement {
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+  transition: opacity 0.150s ease, transform 0.150s ease;
+  will-change: transform, opacity;
+}
+
+.dir-up {
+  transform-origin: bottom center;
+}
+
+.dir-down {
+  transform-origin: top center;
+}
+
+.dir-left {
+  transform-origin: center right;
+}
+
+.dir-right {
+  transform-origin: center left;
+}
+
+.anim-fade {
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-fade {
+  opacity: 1;
+}
+
+.anim-scale {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-scale {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.anim-fadescale {
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-fadescale {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.anim-slide.dir-up {
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-slide.dir-up {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.anim-slide.dir-down {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-slide.dir-down {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.anim-slide.dir-left {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-slide.dir-left {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.anim-slide.dir-right {
+  transform: translateX(-10px);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-slide.dir-right {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.anim-slidescale.dir-up {
+  transform: translateY(10px) scale(0.8);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-slidescale.dir-up {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.anim-slidescale.dir-down {
+  transform: translateY(-10px) scale(0.8);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-slidescale.dir-down {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.anim-slidescale.dir-left {
+  transform: translateX(10px) scale(0.8);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-slidescale.dir-left {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+}
+
+.anim-slidescale.dir-right {
+  transform: translateX(-10px) scale(0.8);
+  opacity: 0;
+}
+
+.fluentcx-popup.open.anim-slidescale.dir-right {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+}

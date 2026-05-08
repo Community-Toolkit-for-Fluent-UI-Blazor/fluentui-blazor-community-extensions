@@ -1,0 +1,57 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div aria-expanded="@IsOpen"
+         aria-haspopup="true"
+         id="sleekdial-container-@(Id)"
+         class="sleekdial-container">
+
+        @ChildContent
+
+        @if (IsDialVisible)
+        {
+            <FluentCxFloatingButton Class="@InternalClass"
+                                    AdditionalAttributes="@AdditionalAttributes"
+                                    Position="@Position"
+                                    OnClick="@OnFloatingButtonClickAsync"
+                                    IconStart="@(IsOpen ? CloseIcon : OpenIcon)"
+                                    ChildContent="@(!string.IsNullOrEmpty(Text) ? RenderText(Text) : null)"
+                                    Id="@($"sleekdial-fab-{Id}")"
+                                    PositionChanged="@OnPositionChangedAsync"
+                                    Style="min-width: 52px; min-height: 52px" />
+
+            @if (IsModal)
+            {
+                <div class="@(IsOpen ? "sleekdial-overlay sleekdial-overlay-active" : "sleekdial-overlay") @(FullscreenModal ? "sleekdial-overlay-fullscreen" : "")"
+                     @onclick="OnOverlayClick">
+                </div>
+            }
+
+            <FluentCxPopupPlacement AnchorId="@($"sleekdial-fab-{Id}")"
+                                    IsOpen="IsOpen"
+                                    Animation="PopupAnimation.SlideScale"
+                                    Placement="@PopupPlacementForDial"
+                                    UseDirectionalAnimation="true"
+                                    RestrictedArea="@RestrictedArea"
+                                    Width="@_popupWidth"
+                                    Height="@_popupHeight"
+                                    IsRadial="@(Mode == SleekDialMode.Radial)"
+                                    Gap="@GetGap()"
+                                    OnPositionUpdated="@OnPositionUpdated"
+                                    PreferredDirection="@SleekDialMapper.MapDirectionToPreferred(Direction)"
+                                    AnchorLogicalPosition="@SleekDialMapper.MapFloatingPosition(Position)"
+                                    @ref="_popupRef">
+                <SleekDialView Layouts="@Layouts" />
+            </FluentCxPopupPlacement>
+        }
+    </div>
+    <FluentKeyCode Anchor="@($"sleekdial-container-{Id}")" OnKeyDown="@OnKeyDownHandlerAsync" />
+</CascadingValue>
+
+@code {
+    private readonly RenderFragment<string> RenderText = text => __builder =>
+    {
+        <FluentText>@text</FluentText>
+    };
+}
