@@ -1,0 +1,30 @@
+﻿
+<div style="height: 500px">
+    <FluentStack HorizontalGap="4px">
+        <FluentSwitch Label="Can Block" @bind-Checked="_canBlock" />
+        <FluentSwitch Label="Can Delete" @bind-Checked="_canDelete" />
+        <FluentSwitch Label="Can Hide" @bind-Checked="_canHide" />
+        <FluentSwitch Label="Can Rename" @bind-Checked="_canRename" />
+        <FluentSwitch Label="Can Unblock" @bind-Checked="_canUnblock" />
+        <FluentSwitch Label="Can Unhide" @bind-Checked="_canUnhide" />
+        <FluentSwitch Label="Is New Group Chat Enabled" @bind-Checked="_isNewGroupChatEnabled" />
+    </FluentStack>
+
+    <ChatRoomListView CanBlock="@_canBlock"
+                      CanDelete="@_canDelete"
+                      CanHide="@_canHide"
+                      CanRename="@_canRename"
+                      CanUnblock="@_canUnblock"
+                      CanUnhide="@_canUnhide"
+                      IsNewGroupChatEnabled="@_isNewGroupChatEnabled"/>
+</div>
+
+@code {
+    private bool _canBlock = true;
+    private bool _canDelete = true;
+    private bool _canHide = true;
+    private bool _canRename = true;
+    private bool _canUnblock = true;
+    private bool _canUnhide = true;
+    private bool _isNewGroupChatEnabled = true;
+}

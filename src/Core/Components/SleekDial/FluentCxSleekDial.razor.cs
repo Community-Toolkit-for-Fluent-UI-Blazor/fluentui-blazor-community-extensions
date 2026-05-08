@@ -218,6 +218,12 @@ public partial class FluentCxSleekDial
     internal bool IsOpen => _isOpen;
 
     /// <summary>
+    /// Gets or sets the height of the dial component.
+    /// </summary>
+    [Parameter]
+    public string? Height { get; set; }
+
+    /// <summary>
     /// Gets a value indicating whether the dial is currently visible based on the configured hide mode and the state of
     /// the internal items.
     /// </summary>
@@ -587,5 +593,15 @@ public partial class FluentCxSleekDial
         }
 
         return base.SetParametersAsync(parameters);
+    }
+
+    private string? GetHeight()
+    {
+        if (!string.IsNullOrEmpty(Height))
+        {
+            return $"height: {Height};";
+        }
+
+        return null;
     }
 }

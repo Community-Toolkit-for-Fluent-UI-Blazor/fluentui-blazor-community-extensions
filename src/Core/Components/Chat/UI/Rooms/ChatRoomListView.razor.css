@@ -1,0 +1,36 @@
+.chatroom-root {
+  height: 100%;
+  position: relative;
+}
+
+.chatroom-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chatroom-search {
+  flex: 0 0 auto;
+  padding: 10px 0;
+}
+
+.chatroom-list-wrapper {
+  flex: 1 1 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chatroom-listbox {
+  flex: 1 1 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+  .chatroom-listbox > .fluent-listbox {
+    flex: 1 1 auto;
+    height: 100%;
+    overflow-y: auto;
+  }

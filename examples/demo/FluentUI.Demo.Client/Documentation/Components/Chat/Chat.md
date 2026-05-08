@@ -14,4 +14,5 @@ The Chat component is used to display a conversation between two or more partici
 ## Examples
 
 {{ ChatExamples }}
+{{ ChatRoomExamples }}
 
