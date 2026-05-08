@@ -2,7 +2,7 @@
 title: DeviceDetector
 route: /DeviceDetector
 order: 0000
-category: 10|Layout
+category: 20|Layout
 icon: PhoneDesktop
 ---
 

@@ -69,7 +69,6 @@
 		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Documentation\GetStarted\Migration\" />
 		<Folder Include="wwwroot\sources\" />
 	</ItemGroup>
 

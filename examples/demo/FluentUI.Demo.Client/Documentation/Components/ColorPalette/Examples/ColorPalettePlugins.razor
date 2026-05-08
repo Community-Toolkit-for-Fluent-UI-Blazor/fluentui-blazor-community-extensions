@@ -1,0 +1,45 @@
+﻿
+<FluentSelect Items="@plugins"
+              TOption="IColorPlugin"
+              TValue="IColorPlugin"
+              Label="Plugins"
+              AriaLabel="Plugins"
+              Multiple="true"
+              OptionText="@(i => i.Name)"
+              @bind-SelectedItems="@selectedPlugins" />
+
+
+<FluentCxColorPalette ItemSize="32"
+                      Mode="ColorPaletteMode.None"
+                      Plugins="@selectedPlugins"
+                      GradientSteps="48"
+                      MaxColors="256"
+                      ShowPreview="true" />
+
+@code {
+    IEnumerable<IColorPlugin> selectedPlugins = [];
+
+    static List<IColorPlugin> plugins = new()
+    {
+       new AccessibilitySafePlugin(),
+       new AnalogousPlugin(),
+       new ComplementaryPlugin(),
+       new CoolPlugin(),
+       new DesaturatePlugin(),
+       new DualHuePlugin("#FF58EB"),
+       new GrayscalePlugin(),
+       new MonochromaticPlugin(),
+       new NeonPlugin(),
+       new PastelPlugin(),
+       new TetradicPlugin(),
+       new SplitComplementaryPlugin(),
+       new TriadicPlugin(),
+       new WarmPlugin()
+    };
+
+    protected override void OnInitialized()
+    {
+        selectedPlugins = [plugins.First()];
+    }
+}
+

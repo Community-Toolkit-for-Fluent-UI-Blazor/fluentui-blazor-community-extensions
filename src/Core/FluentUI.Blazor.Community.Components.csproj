@@ -47,4 +47,19 @@
     </AssemblyAttribute>
   </ItemGroup>
 
+  <!-- Resources Localization  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.ResxSourceGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <EmbeddedResource Update="Localization\LanguageResource.resx">
+      <Public>true</Public>
+      <OmitGetResourceString>true</OmitGetResourceString>
+      <AsConstants>true</AsConstants>
+      <NoWarn>CS1591</NoWarn>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
