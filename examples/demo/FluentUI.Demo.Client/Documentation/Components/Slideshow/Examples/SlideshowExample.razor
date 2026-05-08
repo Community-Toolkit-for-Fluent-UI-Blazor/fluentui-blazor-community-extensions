@@ -11,11 +11,13 @@
         <FluentSelect Items=@s_ratioModes
                       Label="Select ratio mode"
                       TOption="SlideshowRatioMode"
+                      TValue="SlideshowRatioMode"
                       @bind-Value="_selectedRatioMode" />
 
         <FluentSelect Items=@s_ratios
                       Label="Select aspect ratio"
                       TOption="SlideshowContentRatio"
+                      TValue="SlideshowContentRatio"
                       @bind-Value="_selectedRatio" />
 
         @if (_showIndicators || _selectedLoop != SlideshowLoopingMode.Infinite)
@@ -23,6 +25,7 @@
             <FluentSelect Items=@s_indicator_positions
                           Label="Position of the indicator"
                           TOption="SlideshowIndicatorPosition"
+                          TValue="SlideshowIndicatorPosition"
                           @bind-Value="_selectedPosition" />
         }
 
@@ -31,12 +34,14 @@
             <FluentSelect Items=@s_orientations
                           Label="Orientation of the slides"
                           TOption="Orientation"
+                          TValue="Orientation"
                           @bind-Value="_selectedOrientation" />
         }
 
         <FluentSelect Items=@s_loops
                       Label="Loop mode"
                       TOption="SlideshowLoopingMode"
+                      TValue="SlideshowLoopingMode"
                       @bind-Value="_selectedLoop" />
 
         <FluentSwitch Label="Autoplay" @bind-Value="_isAutoplay" />
