@@ -1,0 +1,25 @@
+.audio-circle {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.audio-bar {
+  --bar-height: 10px;
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 6px;
+  height: var(--bar-height);
+  background: var(--colorBrandForeground1);
+  transform-origin: bottom center;
+  border-radius: 3px;
+  transition: height 0.15s linear;
+}
+
+.audio-recording-time {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

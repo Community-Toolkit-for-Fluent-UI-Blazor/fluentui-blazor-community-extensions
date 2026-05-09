@@ -1,0 +1,58 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs
+@inherits FluentDialogInstance
+
+<FluentDialogBody>
+    <TitleTemplate>
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentIcon Value="@(new Size24.DocumentEdit())" />
+
+            <FluentLabel Typo="Typography.PaneHeader">
+                @Localizer[LanguageResource.CX_Chat_Room_UserSelectionDialogTitle]
+            </FluentLabel>
+        </FluentStack>
+    </TitleTemplate>
+
+    <ChildContent>
+        <FluentAutocomplete Placeholder="@Localizer[LanguageResource.CX_Chat_Room_SearchForUserPlaceholder]"
+                            Style="margin-bottom: 10px; width: 452px;"
+                            TOption="ChatUser"
+                            TValue="string"
+                            OptionText="@(e => e.DisplayName)"
+                            OnOptionsSearch="OnSearchAsync"
+                            Autofocus
+                            MaximumOptionsSearch="10"
+                            MaximumSelectedOptions="5"
+                            @bind-SelectedOptions="_selectedItems">
+            <LabelTemplate>
+                <FluentIcon Value="@(new Size20.Person())" Style="margin: 0 4px;" />
+                @Localizer[LanguageResource.CX_Chat_Room_SearchForUser]
+            </LabelTemplate>
+
+            <OptionTemplate>
+                <FluentAvatar Size="AvatarSize.Size24"
+                              Image="@context.Avatar"
+                              Name="@context.DisplayName"
+                              Initials="@context.Initials" />
+            </OptionTemplate>
+
+            <MaximumSelectedOptionsMessage>
+                @Localizer[LanguageResource.CX_Chat_Room_UserGroupMaxOptionsSelected]
+            </MaximumSelectedOptionsMessage>
+
+            <HeaderContent>
+                <FluentText Color="Color.Primary">
+                    @Localizer[LanguageResource.CX_Chat_Room_SuggestedUsers]
+                </FluentText>
+            </HeaderContent>
+
+            <FooterContent>
+                @if (!context.Items.Any())
+                {
+                    <FluentLabel Style="font-size: 11px; text-align: center; width: 200px;">
+                        @Localizer[LanguageResource.CX_Chat_Room_NoResultsFound]
+                    </FluentLabel>
+                }
+            </FooterContent>
+        </FluentAutocomplete>
+    </ChildContent>
+</FluentDialogBody>

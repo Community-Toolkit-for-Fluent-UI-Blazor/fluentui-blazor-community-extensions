@@ -1,0 +1,15 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Audio
+@inherits FluentComponentBase
+
+<div id="@Id" class="audio-circle">
+    @for (int i = 0; i < WaveCount; i++)
+    {
+        <div class="audio-bar" style="--index:@i"></div>
+    }
+
+    <div class="audio-recording-time">
+        <FluentText Weight="TextWeight.Bold">
+            @RecordingTime
+        </FluentText>
+    </div>
+</div>

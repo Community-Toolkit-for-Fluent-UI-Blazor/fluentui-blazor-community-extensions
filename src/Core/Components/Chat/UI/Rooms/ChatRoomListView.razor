@@ -1,0 +1,193 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id" class="chatroom-root">
+    @if (!ChatState.IsLoading)
+    {
+        <div class="chatroom-layout">
+            @if (IsSearchEnabled && RoomSearchFunction is not null)
+            {
+                <FluentStack Orientation="Orientation.Horizontal"
+                             HorizontalAlignment="HorizontalAlignment.Center">
+                    <div class="chatroom-search">
+                        <FluentAutocomplete Placeholder="@Localizer[LanguageResource.CX_Chat_Room_SearchPlaceholder]"
+                                            TOption="ChatRoom"
+                                            TValue="string"
+                                            OptionText="@(e => e.Name)"
+                                            MaximumOptionsSearch="10"
+                                            OnOptionsSearch=OnChatRoomSearchAsync
+                                            MaximumSelectedOptions="10"
+                                            SelectedItems="@_selectedRooms"
+                                            SelectedItemsChanged="OnSelectedRoomsChanged">
+                            <LabelTemplate>
+                                <FluentIcon Value="@(new Size20.Person())" Style="margin: 0 4px;" />
+                                @Localizer[LanguageResource.CX_Chat_Room_SearchLabel]
+                            </LabelTemplate>
+
+                            <MaximumSelectedOptionsMessage>
+                                @Localizer[LanguageResource.CX_Chat_Room_MaximumSelectedOptionsMessageLabel]
+                            </MaximumSelectedOptionsMessage>
+
+                            <HeaderContent>
+                                <FluentLabel Color="Color.Accent"
+                                             Style="padding: 8px; font-size: 11px; border-bottom: 1px solid var(--neutral-fill-stealth-hover);">
+                                    @Localizer[LanguageResource.CX_Chat_Room_SuggestedRooms]
+                                </FluentLabel>
+                            </HeaderContent>
+
+                            <FooterContent>
+                                @if (!context.Items.Any())
+                                {
+                                    <FluentLabel Style="font-size: 11px; text-align: center; width: 200px;">
+                                        @Localizer[LanguageResource.CX_Chat_Room_NoResultsFound]
+                                    </FluentLabel>
+                                }
+                            </FooterContent>
+                        </FluentAutocomplete>
+                    </div>
+                </FluentStack>
+            }
+
+            <div class="chatroom-list-wrapper">
+                @* <FluentListbox TOption="ChatRoom"
+                               TValue="string"
+                               Multiple="false"
+                               @bind-Value="@_selectedRoom"
+                               @bind-Value:after="OnSelectedChatRoomChangedAsync"
+                               Class="chatroom-listbox">
+                    @foreach (var item in CurrentRooms)
+                    {
+                        @_renderOptionItem(item)
+                    }
+                </FluentListbox> *@
+
+                <Virtualize Items="@CurrentRooms"
+                            TItem="ChatRoom"
+                            Context="room"
+                            ItemSize="120">
+                    @_renderOptionItem(room)
+                </Virtualize>
+
+                @if (IsNewGroupChatEnabled || CanUnblock || CanUnhide)
+                {
+                    <FluentCxSleekDial Position="FloatingPosition.BottomLeft"
+                                       Mode="SleekDialMode.Radial">
+                        @foreach (var (title, icon, command) in GetSleekDialActions())
+                        {
+                            <SleekDialItem Title="@title"
+                                           Icon="@icon"
+                                           OnClick="@command" />
+                        }
+                    </FluentCxSleekDial>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        if (LoadingContent is not null)
+        {
+            @LoadingContent
+        }
+        else
+        {
+            <FluentStack Orientation="Orientation.Vertical"
+                         HorizontalAlignment="HorizontalAlignment.Center"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         Style="height: 100%">
+                <FluentProgressBar Width="340px" />
+                <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                    @Localizer[LanguageResource.CX_Chat_Room_ProgressLabel]
+                </FluentLabel>
+            </FluentStack>
+        }
+    }
+</div>
+
+@code {
+    public ChatRoomListView(LibraryConfiguration configuration)
+        : base(configuration)
+    {
+        Id = Identifier.NewId();
+
+        _renderOptionItem = item => __builder =>
+        {
+            if (ItemTemplate is not null)
+            {
+                ItemTemplate(item);
+            }
+            else
+            {
+                <FluentOption Selected="@(item.Id.ToString() == _selectedRoom)"
+                              TOption="ChatRoom"
+                              Disabled=@(item.IsBlocked && Owner == item.Owner)
+                              Value="@item.Id.ToString()"
+                              Style="height: 120px;">
+                    <FluentStack Orientation="Orientation.Horizontal"
+                                 VerticalAlignment=VerticalAlignment.Center
+                                 HorizontalAlignment="HorizontalAlignment.Stretch">
+                        <FluentStack Orientation="Orientation.Horizontal"
+                                     HorizontalAlignment="HorizontalAlignment.Center"
+                                     Style="width: fit-content">
+                            @* Replace with AvatarGroup when available *@
+                            @foreach (var user in item.Users.Take(4))
+                            {
+                                <FluentAvatar Image="@user.Avatar"
+                                              Initials="@user.Initials"
+                                              Shape="AvatarShape.Circle"
+                                              Size="AvatarSize.Size40" />
+                            }
+                        </FluentStack>
+
+                        <FluentStack Orientation="Orientation.Vertical">
+                            <FluentLabel>@item.Name</FluentLabel>
+
+                            <div style="height:100%">
+                                @if (Owner is not null)
+                                {
+                                    if (item.UnreadMessagesForUserId.TryGetValue(Owner.Id, out var m) && m >= 1)
+                                    {
+                                        @((MarkupString)(item.UnreadMessagesForUserId[Owner.Id] == 1 ? string.Format(Localizer[LanguageResource.CX_Chat_Room_UnreadSingular], item.UnreadMessagesForUserId[Owner.Id]) : string.Format(Localizer[LanguageResource.CX_Chat_Room_UnreadPlural], item.UnreadMessagesForUserId[Owner.Id])))
+                                    }
+                                    else if (item.IsEmpty)
+                                    {
+                                        @((MarkupString)Localizer[LanguageResource.CX_Chat_Room_EmptyRoomMessage])
+                                    }
+                                    else if (item.LastMessage is not null)
+                                    {
+                                        <FluentText Block Truncate Style="max-height: 48px">
+                                            <b>@(Format(item.LastMessage))</b>
+                                        </FluentText>
+                                    }
+                                }
+                            </div>
+
+                            <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
+                                <FluentLabel Style="color: var(--input-placeholder-rest); font-size: 9px;">
+                                    @(item.LastMessage?.CreatedDate.Date.ToShortDateString() ?? item.CreatedDate.Date.ToShortDateString())
+                                </FluentLabel>
+                            </FluentStack>
+                        </FluentStack>
+
+                        @if (CanDelete || CanBlock || CanRename || CanUnblock || CanUnhide)
+                        {
+                            <FluentMenu>
+                                <FluentMenuButton IconEnd="@(new Size24.MoreVertical())" />
+
+                                <FluentMenuList>
+                                    @foreach (var (label, icon, action) in GetPopoverActions())
+                                    {
+                                        <FluentMenuItem OnClick="@action"
+                                                        IconStart="@icon">
+                                            @label
+                                        </FluentMenuItem>
+                                    }
+                                </FluentMenuList>
+                            </FluentMenu>
+                        }
+                    </FluentStack>
+                </FluentOption>
+            }
+        };
+    }
+}

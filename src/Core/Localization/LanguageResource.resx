@@ -123,4 +123,370 @@
   <data name="CX_ColorPalette_NoColorGenerated" xml:space="preserve">
     <value>No valid color was generated.</value>
   </data>
+  <data name="CX_Signature_Tools_Eraser_Button_Title" xml:space="preserve">
+    <value>Select eraser mode</value>
+  </data>
+  <data name="CX_Signature_Tools_Color_Label" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Button_Label" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Menu_Item_Pixel" xml:space="preserve">
+    <value>Pixel</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Menu_Item_Stroke" xml:space="preserve">
+    <value>Stroke</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Menu_Item_Hybrid" xml:space="preserve">
+    <value>Hybrid</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Shape_Button_Label" xml:space="preserve">
+    <value>Shape</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Shape_Button_Title" xml:space="preserve">
+    <value>Select eraser shape</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Shape_Menu_Item_Circle" xml:space="preserve">
+    <value>Circle</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Shape_Menu_Item_Square" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="CX_Signature_Tools_Clear_Tooltip" xml:space="preserve">
+    <value>Clear the signature</value>
+  </data>
+  <data name="CX_Signature_Tools_Eraser_Tooltip" xml:space="preserve">
+    <value>Eraser</value>
+  </data>
+  <data name="CX_Signature_Tools_Export_Tooltip" xml:space="preserve">
+    <value>Export the signature</value>
+  </data>
+  <data name="CX_Signature_Tools_Pen_Tooltip" xml:space="preserve">
+    <value>Pen</value>
+  </data>
+  <data name="CX_Signature_Tools_Redo_Tooltip" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="CX_Signature_Tools_Undo_Tooltip" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_Background" xml:space="preserve">
+    <value>Include Background</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_Background" xml:space="preserve">
+    <value>Include the background in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_Grid" xml:space="preserve">
+    <value>Include the grid in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_Grid" xml:space="preserve">
+    <value>Include Grid</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_Axes" xml:space="preserve">
+    <value>Include the axes in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_Axes" xml:space="preserve">
+    <value>Include Axes</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_View" xml:space="preserve">
+    <value>Include View</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_View" xml:space="preserve">
+    <value>Include the view in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Label_Include_Watermark" xml:space="preserve">
+    <value>Include Watermark</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Description_Include_Watermark" xml:space="preserve">
+    <value>Include the watermark in the exported image.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Options_Label" xml:space="preserve">
+    <value>Options Export</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_Options_Image_Label" xml:space="preserve">
+    <value>Image Export</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsAvif_Label" xml:space="preserve">
+    <value>Export as AVIF</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsAvif_Description" xml:space="preserve">
+    <value>Export the image in AVIF format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsBmp_Description" xml:space="preserve">
+    <value>Export the image in BMP format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsBmp_Label" xml:space="preserve">
+    <value>Export as BMP</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsHeif_Description" xml:space="preserve">
+    <value>Export the image in HEIF format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsHeif_Label" xml:space="preserve">
+    <value>Export as HEIF</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsJpeg_Description" xml:space="preserve">
+    <value>Export the image in JPEG format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsJpeg_Label" xml:space="preserve">
+    <value>Export as JPEG</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsPng_Label" xml:space="preserve">
+    <value>Export as PNG</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsPng_Description" xml:space="preserve">
+    <value>Export the image in PNG format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsTiff_Label" xml:space="preserve">
+    <value>Export as TIFF</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsTiff_Description" xml:space="preserve">
+    <value>Export the image in TIFF format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsWebp_Description" xml:space="preserve">
+    <value>Export the image in WEBP format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_AsWebp_Label" xml:space="preserve">
+    <value>Export as WEBP</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToJson_Label" xml:space="preserve">
+    <value>Export to JSON</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToSvg_Description" xml:space="preserve">
+    <value>Export the image as a document in SVG format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToBinary_Description" xml:space="preserve">
+    <value>Export the image as a document in BINARY format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToBinary_Label" xml:space="preserve">
+    <value>Export to BINARY</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToJson_Description" xml:space="preserve">
+    <value>Export the image as a document in JSON format.</value>
+  </data>
+  <data name="CX_Signature_Drawer_Export_ToSvg_Label" xml:space="preserve">
+    <value>Export to SVG</value>
+  </data>
+  <data name="CX_Signature_Tools_LineCap_Tooltip" xml:space="preserve">
+    <value>Line cap</value>
+  </data>
+  <data name="CX_Signature_Tools_LineCap_Butt" xml:space="preserve">
+    <value>Butt</value>
+  </data>
+  <data name="CX_Signature_Tools_LineCap_Round" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="CX_Signature_Tools_LineCap_Square" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_Tooltip" xml:space="preserve">
+    <value>Line dash</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_Solid" xml:space="preserve">
+    <value>Solid</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_DashDot" xml:space="preserve">
+    <value>Dash dot</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_Dashes" xml:space="preserve">
+    <value>Dashes</value>
+  </data>
+  <data name="CX_Signature_Tools_LineDash_Dots" xml:space="preserve">
+    <value>Dots</value>
+  </data>
+  <data name="CX_Signature_Tools_LineJoin_Bevel" xml:space="preserve">
+    <value>Bevel</value>
+  </data>
+  <data name="CX_Signature_Tools_LineJoin_Miter" xml:space="preserve">
+    <value>Miter</value>
+  </data>
+  <data name="CX_Signature_Tools_LineJoin_Round" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="CX_Signature_Tools_LineJoin_Tooltip" xml:space="preserve">
+    <value>Line join</value>
+  </data>
+  <data name="CX_Signature_Tools_Opacity_Label" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="CX_Signature_Tools_Drawer_Settings_Tooltip" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="CX_Signature_Tools_PenWidth_Label" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="CX_Signature_Tools_Size_Label" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="CX_Signature_Tools_StrokeWidth_Tooltip" xml:space="preserve">
+    <value>Stroke width mode</value>
+  </data>
+  <data name="CX_Signature_Tools_StrokeWidth_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="CX_Signature_Tools_StrokeWidth_Linear" xml:space="preserve">
+    <value>Linear</value>
+  </data>
+  <data name="CX_Signature_Tools_StrokeWidth_Power" xml:space="preserve">
+    <value>Power</value>
+  </data>
+  <data name="CX_Chat_SendingMessageLabel" xml:space="preserve">
+    <value>Message being sent ...</value>
+  </data>
+  <data name="CX_Chat_EnterMessage" xml:space="preserve">
+    <value>Send the message</value>
+  </data>
+  <data name="CX_Chat_AudioProcessingLabel" xml:space="preserve">
+    <value>Audio message processing...</value>
+  </data>
+  <data name="CX_Chat_LiveAudioRecording" xml:space="preserve">
+    <value>Record an audio message.</value>
+  </data>
+  <data name="CX_Chat_InsertMedia" xml:space="preserve">
+    <value>Add media (images, videos, audios)</value>
+  </data>
+  <data name="CX_Chat_InsertEmojis" xml:space="preserve">
+    <value>Add emojis</value>
+  </data>
+  <data name="CX_Chat_InsertGift" xml:space="preserve">
+    <value>Add a gift</value>
+  </data>
+  <data name="CX_Chat_SendMessage" xml:space="preserve">
+    <value>Send the message</value>
+  </data>
+  <data name="CX_Chat_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CX_Chat_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CX_Chat_Room_Rename" xml:space="preserve">
+    <value>Rename the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_Create" xml:space="preserve">
+    <value>Create a chat room</value>
+  </data>
+  <data name="CX_Chat_Room_Placeholder" xml:space="preserve">
+    <value>Enter the name of the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_Label" xml:space="preserve">
+    <value>Name of the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_AriaLabel" xml:space="preserve">
+    <value>Name of the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_SearchPlaceholder" xml:space="preserve">
+    <value>Search for a chat room...</value>
+  </data>
+  <data name="CX_Chat_Room_SearchLabel" xml:space="preserve">
+    <value>Search for a chat room</value>
+  </data>
+  <data name="CX_Chat_Room_MaximumSelectedOptionsMessageLabel" xml:space="preserve">
+    <value>The maximum number of creators that can be selected has been reached.</value>
+  </data>
+  <data name="CX_Chat_Room_SuggestedRooms" xml:space="preserve">
+    <value>Suggested rooms</value>
+  </data>
+  <data name="CX_Chat_Room_NoResultsFound" xml:space="preserve">
+    <value>No results found</value>
+  </data>
+  <data name="CX_Chat_Room_ProgressLabel" xml:space="preserve">
+    <value>Loading rooms...</value>
+  </data>
+  <data name="CX_Chat_Room_EmptyRoomMessage" xml:space="preserve">
+    <value>&lt;b&gt;There are no messages to read.&lt;/b&gt;</value>
+  </data>
+  <data name="CX_Chat_Room_UnreadSingular" xml:space="preserve">
+    <value>&lt;b&gt;{0} unread message&lt;/b&gt;</value>
+  </data>
+  <data name="CX_Chat_Room_UnreadPlural" xml:space="preserve">
+    <value>&lt;b&gt;{0} unread messages&lt;/b&gt;</value>
+  </data>
+  <data name="CX_Chat_Room_DeleteRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_DialogYes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="CX_Chat_Room_DialogNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="CX_Chat_Room_DeleteRoomTitle" xml:space="preserve">
+    <value>Delete the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_HideRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to hide the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_HideRoomTitle" xml:space="preserve">
+    <value>Hide the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_BlockRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to block the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_BlockRoomTitle" xml:space="preserve">
+    <value>Block the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_UnblockRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to unblock the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_UnblockRoomTitle" xml:space="preserve">
+    <value>Unblock the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_UnhideRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to unhide the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_UnhideRoomTitle" xml:space="preserve">
+    <value>Unhide the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="CX_Chat_Room_Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="CX_Chat_Room_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="CX_Chat_Room_Unblock" xml:space="preserve">
+    <value>Unblock</value>
+  </data>
+  <data name="CX_Chat_Room_Unhide" xml:space="preserve">
+    <value>Unhide</value>
+  </data>
+  <data name="CX_Chat_Room_NewGroup" xml:space="preserve">
+    <value>Create a new chat group</value>
+  </data>
+  <data name="CX_Chat_Room_ShowBlockedRooms" xml:space="preserve">
+    <value>Show blocked rooms</value>
+  </data>
+  <data name="CX_Chat_Room_ShowHiddenRooms" xml:space="preserve">
+    <value>Show hidden rooms</value>
+  </data>
+  <data name="CX_Chat_Room_GiftSender" xml:space="preserve">
+    <value>You have sent a gift.</value>
+  </data>
+  <data name="CX_Chat_Room_GiftReceiver" xml:space="preserve">
+    <value>You have received a gift from {0}.</value>
+  </data>
+  <data name="CX_Chat_Room_DialogOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="CX_Chat_Room_DialogCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CX_Chat_Room_UserSelectionDialogTitle" xml:space="preserve">
+    <value>Select users</value>
+  </data>
+  <data name="CX_Chat_Room_SearchForUserPlaceholder" xml:space="preserve">
+    <value>Enter the names of the users...</value>
+  </data>
+  <data name="CX_Chat_Room_SearchForUser" xml:space="preserve">
+    <value>Search for a user</value>
+  </data>
+  <data name="CX_Chat_Room_UserGroupMaxOptionsSelected" xml:space="preserve">
+    <value>The maximum number of users that can be selected has been reached.</value>
+  </data>
+  <data name="CX_Chat_Room_SuggestedUsers" xml:space="preserve">
+    <value>Suggested users</value>
+  </data>
 </root>

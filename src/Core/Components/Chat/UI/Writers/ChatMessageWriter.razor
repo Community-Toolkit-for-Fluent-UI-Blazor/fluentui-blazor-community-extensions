@@ -1,0 +1,265 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Writers
+@using FluentUI.Blazor.Community.Components.Chat.UI.Audio
+@using FluentUI.Blazor.Community.Components.Enums
+@using FluentUI.Blazor.Community.Components.Localization
+@inherits FluentComponentBase
+
+@if (SendingRenderMode == ChatMessageSendingRenderMode.Inline && IsSending)
+{
+    <FluentCard Height="180px" MinimalStyle>
+        @if (SendingContent is not null)
+        {
+            @SendingContent
+        }
+        else
+        {
+            <FluentStack Orientation="Orientation.Vertical"
+                         Style="height: 100%"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentProgressBar Width="340px" />
+                <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                    @Localizer[LanguageResource.CX_Chat_SendingMessageLabel];
+                </FluentLabel>
+            </FluentStack>
+        }
+    </FluentCard>
+}
+else
+{
+    <FluentStack Orientation="Orientation.Horizontal"
+                 Width="100%"
+                 Height="100%"
+                 HorizontalGap="10px"
+                 VerticalAlignment="VerticalAlignment.Bottom">
+        @if (Orientation == Orientation.Horizontal)
+        {
+            @_toolbarFragment(0)
+        }
+
+        <FluentStack Width="100%"
+                     Height="100%"
+                     Orientation="Orientation.Vertical">
+            @if (IsReply)
+            {
+                <ChatMessageReply Text="@(Draft.GetReplyText(Owner))"
+                                  AllowDismiss=true
+                                  OnDismiss="@(OnDismiss)" />
+            }
+
+            <ChatAudioRecorder OnRecorderStateChanged="@OnRecorderStateChanged" @ref="_audioRecorder" />
+
+            @if (_isWriterVisible)
+            {
+                <FluentTextArea @bind-Value=Draft.Text
+                                Placeholder="@Localizer[LanguageResource.CX_Chat_EnterMessage]"
+                                Width="100%"
+                                Height="@GetAreaHeight()"
+                                Autofocus
+                                Immediate />
+            }
+
+            @if (Orientation == Orientation.Vertical)
+            {
+                @_toolbarFragment(-1)
+            }
+        </FluentStack>
+
+        @if (Orientation == Orientation.Horizontal)
+        {
+            @_toolbarFragment(1)
+        }
+    </FluentStack>
+}
+
+
+@code {
+    public ChatMessageWriter(LibraryConfiguration configuration)
+        : base(configuration)
+    {
+        Id = Identifier.NewId();
+        _toolbarFragment = (e) => __builder =>
+        {
+            if (e == 0)
+            {
+                <FluentStack Width="auto" VerticalGap="4px" Orientation="Orientation.Vertical">
+
+                    @if (!IsEdit)
+                    {
+                        if (ShowLiveAudioRecordingButton)
+                        {
+                            <FluentCounterBadge Count="@(Draft.SelectedChatFiles.FindAll(x => x.IsRecordedAudio).Count)"
+                                                OverflowCount="9"
+                                                ShowWhen=@(c => ShowCounterBadge && c > 0)
+                                                ShowEmpty="false"
+                                                Color="BadgeColor.Informative"
+                                                Appearance="BadgeAppearance.Filled">
+                                <FluentButton Id="AudioRecording"
+                                              Title="@Localizer[LanguageResource.CX_Chat_LiveAudioRecording]"
+                                              OnClick="@(OnAudioRecordingClickAsync)"
+                                              IconStart="@(GetMicroIcon())"
+                                              Shape="ButtonShape.Circular" />
+                            </FluentCounterBadge>
+                        }
+
+                        <FluentSpacer Orientation="Orientation.Vertical" />
+
+                        if (ShowMediaButton)
+                        {
+                            <FluentCounterBadge Count="@(Draft.SelectedChatFiles.FindAll(x => !x.IsRecordedAudio).Count)"
+                                                OverflowCount="9"
+                                                ShowEmpty="false"
+                                                ShowWhen=@(c => ShowCounterBadge && c > 0)
+                                                Color="BadgeColor.Informative"
+                                                Appearance="BadgeAppearance.Filled">
+                                <FluentButton Id="MediaImporterButton"
+                                              OnClick="@(OnImportMedia)"
+                                              Title="@Localizer[LanguageResource.CX_Chat_InsertMedia]"
+                                              Shape="ButtonShape.Circular"
+                                              IconStart="@MediaIcon" />
+                            </FluentCounterBadge>
+                        }
+                    }
+
+                    @if (ShowEmojiButton && !IsMobile)
+                    {
+                        <FluentButton Id="EmojiButton"
+                                      Title="@Localizer[LanguageResource.CX_Chat_InsertEmojis]"
+                                      OnClick="@(OnEmoji)"
+                                      IconStart="@(EmojiIcon)"
+                                      Shape="ButtonShape.Circular" />
+                    }
+
+                    @if (!IsEdit && ShowGiftButton)
+                    {
+                        <FluentButton Title="@Localizer[LanguageResource.CX_Chat_InsertGift]"
+                                      OnClick="@OnGift"
+                                      IconStart="@(GiftIcon)"
+                                      Shape="ButtonShape.Circular" />
+                    }
+                </FluentStack>
+            }
+            else if (e == 1)
+            {
+                <FluentStack Height="100%" Width="auto" Orientation="Orientation.Vertical">
+                    @if (!IsEdit)
+                    {
+                        <FluentButton Title="@Localizer[LanguageResource.CX_Chat_SendMessage]"
+                                      Disabled=@(string.IsNullOrEmpty(Draft.Text) && (Draft.SelectedChatFiles.Count == 0))
+                                      OnClick="OnSendMessage"
+                                      IconStart="@(SendIcon)"
+                                      Shape="ButtonShape.Circular" />
+                    }
+
+                    <FluentSpacer Orientation="Orientation.Vertical" />
+
+                    @if (IsEdit)
+                    {
+                        <FluentButton Title="@Localizer[LanguageResource.CX_Chat_Cancel]"
+                                      OnClick="@OnCancel"
+                                      IconStart="@DismissIcon"
+                                      Shape="ButtonShape.Circular" />
+
+                        <FluentSpacer Orientation="Orientation.Vertical" />
+
+                        <FluentButton Title="@Localizer[LanguageResource.CX_Chat_Ok]"
+                                      OnClick="@OnEditMessage"
+                                      IconStart="@CheckmarkIcon"
+                                      Shape="ButtonShape.Circular" />
+                    }
+                </FluentStack>
+            }
+            else
+            {
+                <FluentStack Width="auto" Height="100%" Orientation="Orientation.Horizontal">
+
+                    @if (!IsEdit)
+                    {
+                        if (ShowLiveAudioRecordingButton)
+                        {
+                            <FluentCounterBadge Count="@(Draft.SelectedChatFiles.FindAll(x => x.IsRecordedAudio).Count)"
+                                                OverflowCount="9"
+                                                ShowEmpty="false"
+                                                ShowWhen=@(c => ShowCounterBadge && c > 0)
+                                                Color="BadgeColor.Informative"
+                                                Appearance="BadgeAppearance.Filled">
+                                <FluentButton Id="AudioRecording"
+                                              Title="@Localizer[LanguageResource.CX_Chat_LiveAudioRecording]"
+                                              OnClick="@(OnAudioRecordingClickAsync)"
+                                              IconStart="@(GetMicroIcon())"
+                                              Shape="ButtonShape.Circular" />
+                            </FluentCounterBadge>
+                        }
+
+                        <FluentSpacer />
+
+                        if (ShowMediaButton)
+                        {
+                            <FluentCounterBadge Count="@(Draft.SelectedChatFiles.FindAll(x => !x.IsRecordedAudio).Count)"
+                                                ShowEmpty="false"
+                                                OverflowCount="9"
+                                                ShowWhen=@(c => ShowCounterBadge && c > 0)
+                                                Color="BadgeColor.Informative"
+                                                Appearance="BadgeAppearance.Filled">
+                                <FluentButton Id="MediaImporterButton"
+                                              OnClick="@(OnImportMedia)"
+                                              Title="@Localizer[LanguageResource.CX_Chat_InsertMedia]"
+                                              Shape="ButtonShape.Circular"
+                                              IconStart="@MediaIcon" />
+                            </FluentCounterBadge>
+                        }
+                    }
+
+                    <FluentSpacer />
+
+                    @if (ShowEmojiButton && !IsMobile)
+                    {
+                        <FluentButton Id="EmojiButton"
+                                      Title="@Localizer[LanguageResource.CX_Chat_InsertEmojis]"
+                                      OnClick="@(OnEmoji)"
+                                      IconStart="@(EmojiIcon)"
+                                      Shape="ButtonShape.Circular" />
+                    }
+
+                    <FluentSpacer />
+
+                    @if (!IsEdit)
+                    {
+                        if (ShowGiftButton)
+                        {
+                            <FluentButton Title="@Localizer[LanguageResource.CX_Chat_InsertGift]"
+                                          OnClick="@OnGift"
+                                          IconStart="@(GiftIcon)"
+                                          Shape="ButtonShape.Circular" />
+                        }
+
+                        <FluentSpacer />
+
+                        <FluentButton Title="@Localizer[LanguageResource.CX_Chat_SendMessage]"
+                                      Disabled=@(string.IsNullOrEmpty(Draft.Text) && (Draft.SelectedChatFiles.Count == 0))
+                                      OnClick="OnSendMessage"
+                                      IconOnly
+                                      Shape="ButtonShape.Circular">
+                            <FluentIcon Value="@SendIcon" />
+                        </FluentButton>
+                    }
+
+                    @if (IsEdit)
+                    {
+                        <FluentSpacer />
+
+                        <FluentButton Title="@Localizer[LanguageResource.CX_Chat_Cancel]"
+                                      OnClick="@OnCancel"
+                                      IconStart="@DismissIcon"
+                                      Shape="ButtonShape.Circular" />
+
+                        <FluentButton Title="@Localizer[LanguageResource.CX_Chat_Ok]"
+                                      OnClick="@OnEditMessage"
+                                      IconStart="@CheckmarkIcon"
+                                      Shape="ButtonShape.Circular" />
+                    }
+                </FluentStack>
+            }
+        };
+    }
+}

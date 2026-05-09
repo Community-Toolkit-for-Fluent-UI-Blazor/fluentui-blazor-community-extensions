@@ -1,0 +1,27 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs
+@inherits FluentDialogInstance
+@using FluentUI.Blazor.Community.Components.Localization
+
+<FluentDialogBody>
+    <TitleTemplate>
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentIcon Value="@(new Size24.Rename())" />
+
+            <FluentText Size="TextSize.Size700">
+                @Localizer[LanguageResource.CX_Chat_Room_Rename]
+            </FluentText>
+        </FluentStack>
+    </TitleTemplate>
+
+    <ChildContent>
+        <FluentTextInput MaxLength="50"
+                         MinLength="3"
+                         Placeholder="@Localizer[LanguageResource.CX_Chat_Room_Placeholder]"
+                         Label="@Localizer[LanguageResource.CX_Chat_Room_Label]"
+                         AriaLabel="@Localizer[LanguageResource.CX_Chat_Room_AriaLabel]"
+                         Immediate
+                         Autofocus
+                         Required="true"
+                         @bind-Value="Value"/>
+    </ChildContent>
+</FluentDialogBody>

@@ -1,4 +1,4 @@
-export declare module DotNet {
+export declare namespace DotNet {
   export type JsonReviver = ((key: any, value: any) => any);
   /**
    * Creates a .NET call dispatcher to use for handling invocations between JavaScript and a .NET runtime.
