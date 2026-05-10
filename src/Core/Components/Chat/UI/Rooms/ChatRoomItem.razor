@@ -1,0 +1,19 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Rooms
+@inherits FluentComponentBase
+
+<div class="@CssClass"
+     style="@Style"
+     id="@Id"
+     @onclick="HandleClick"
+     @onmouseover="() => _hover = true"
+     @onmouseout="() => _hover = false">
+
+    @if (IsSelected)
+    {
+        <div class="selection-bar"></div>
+    }
+
+    <div class="content-wrapper">
+        @ChildContent
+    </div>
+</div>

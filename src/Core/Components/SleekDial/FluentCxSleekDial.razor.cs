@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
@@ -15,6 +16,10 @@ namespace FluentUI.Blazor.Community.Components;
 /// user experience and streamline access to actions or options.</remarks>
 public partial class FluentCxSleekDial
 {
+    private static readonly Icon s_openIcon = new Size24.List();
+
+    private static readonly Icon s_closeIcon = new Size24.Dismiss();
+
     /// <summary>
     /// Represents a value indicating whether the dial is currently open.
     /// </summary>
@@ -99,7 +104,7 @@ public partial class FluentCxSleekDial
     /// <remarks>If not set, a default close icon is used. The icon should be of type <see cref="Icon"/> to
     /// ensure proper rendering.</remarks>
     [Parameter]
-    public Icon? CloseIcon { get; set; }
+    public Icon? CloseIcon { get; set; } = s_closeIcon;
 
     /// <summary>
     /// Gets or sets the icon displayed when the item is in an open state.
@@ -107,7 +112,7 @@ public partial class FluentCxSleekDial
     /// <remarks>This property allows customization of the icon shown for open items. If not set, a default
     /// icon will be used.</remarks>
     [Parameter]
-    public Icon? OpenIcon { get; set; }
+    public Icon? OpenIcon { get; set; } = s_openIcon;
 
     /// <summary>
     /// Gets or sets the text content to be displayed.

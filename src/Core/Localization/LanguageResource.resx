@@ -489,4 +489,16 @@
   <data name="CX_Chat_Room_SuggestedUsers" xml:space="preserve">
     <value>Suggested users</value>
   </data>
+  <data name="CX_Chat_Room_NoRoomsMessage" xml:space="preserve">
+    <value>No rooms</value>
+  </data>
+  <data name="CX_Chat_Room_Blocked_OperationCanceled" xml:space="preserve">
+    <value>Loading blocked rooms was cancelled by the user {UserName}.</value>
+  </data>
+  <data name="CX_Chat_Room_Hidden_OperationCanceled" xml:space="preserve">
+    <value>Loading hidden rooms was cancelled by the user {UserName}.</value>
+  </data>
+  <data name="CX_Chat_Room_Loading_OperationCanceled" xml:space="preserve">
+    <value>Loading rooms was cancelled by the user {UserName}.</value>
+  </data>
 </root>

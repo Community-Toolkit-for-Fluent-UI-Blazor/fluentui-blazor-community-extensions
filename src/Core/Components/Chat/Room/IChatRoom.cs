@@ -5,7 +5,7 @@ namespace FluentUI.Blazor.Community.Components.Chat.Room;
 /// <summary>
 /// Represents a chat room.
 /// </summary>
-public interface IChatRoom
+public interface IChatRoom : IChatRoomCapabilities
 {
     /// <summary>
     /// Gets the creation date of the chat room.
@@ -18,24 +18,9 @@ public interface IChatRoom
     long Id { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the chat room is blocked.
-    /// </summary>
-    bool IsBlocked { get; }
-
-    /// <summary>
-    /// Gets a value indicating whether the chat room is deleted.
-    /// </summary>
-    bool IsDeleted { get; }
-
-    /// <summary>
     /// Gets a value indicating whether the chat room is empty.
     /// </summary>
     bool IsEmpty { get; }
-
-    /// <summary>
-    /// Gets a value indicating whether the chat room is hidden.
-    /// </summary>
-    bool IsHidden { get; }
 
     /// <summary>
     /// Gets the last message in the chat room.

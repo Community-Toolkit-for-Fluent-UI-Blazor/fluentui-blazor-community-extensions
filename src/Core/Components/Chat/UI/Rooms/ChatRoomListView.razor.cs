@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Linq.Expressions;
 using FluentUI.Blazor.Community.Components.Chat;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
@@ -7,6 +8,7 @@ using FluentUI.Blazor.Community.Components.Enums;
 using FluentUI.Blazor.Community.Components.Infrastructure;
 using FluentUI.Blazor.Community.Components.Localization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
 
@@ -15,8 +17,8 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents a view for displaying a list of chat rooms. 
 /// </summary>
-public partial class ChatRoomListView
-    : FluentComponentBase
+public partial class ChatRoomListView<TChatRoom>
+    : FluentComponentBase where TChatRoom : IChatRoomCapabilities
 {
     /// <summary>
     /// Represents the different views available for the chat room list.
@@ -27,6 +29,8 @@ public partial class ChatRoomListView
         Blocked,
         Hidden
     }
+
+    private CancellationTokenSource? _cts;
 
     /// <summary>
     /// Represents the selected chat rooms.
@@ -56,7 +60,7 @@ public partial class ChatRoomListView
     /// <summary>
     /// Render fragment for displaying chat room options.
     /// </summary>
-    private readonly RenderFragment<ChatRoom> _renderOptionItem;
+    private readonly RenderFragment<ChatRoom> _renderRoomItem;
 
     /// <summary>
     /// Represents the list view type.
@@ -82,12 +86,6 @@ public partial class ChatRoomListView
     public ChatRoomCreateDelegate? OnNewChatGroup { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the component is in mobile view.
-    /// </summary>
-    [Parameter]
-    public bool IsMobile { get; set; }
-
-    /// <summary>
     /// Gets or sets the chat state, which contains the current chat room and loading state.
     /// </summary>
     [Inject]
@@ -97,19 +95,13 @@ public partial class ChatRoomListView
     /// Gets or sets the items provider for fetching chat rooms.
     /// </summary>
     [Parameter]
-    public ChatRoomItemsProvider? ItemsProvider { get; set; }
+    public ChatRoomItemsProvider<TChatRoom>? ItemsProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the item template fragment to render a chat room option.
     /// </summary>
     [Parameter]
     public RenderFragment<ChatRoom>? ItemTemplate { get; set; }
-
-    /// <summary>
-    /// Gets or sets the event callback for when the chat room is in mobile view to navigate to the chat.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnMobileNavigation { get; set; }
 
     /// <summary>
     /// Gets or sets the function to search for users in the chat room.
@@ -121,7 +113,7 @@ public partial class ChatRoomListView
     /// Gets or sets the function to search for chat rooms.
     /// </summary>
     [Parameter]
-    public Func<string?, StringComparison, Task<IEnumerable<ChatRoom>>>? RoomSearchFunction { get; set; }
+    public Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatRoom>>>? RoomSearchFunction { get; set; }
 
     /// <summary>
     /// Gets or sets the string comparison to compare the name of the room.
@@ -232,6 +224,18 @@ public partial class ChatRoomListView
     public bool ShowDeletedRoom { get; set; }
 
     /// <summary>
+    /// Gets or sets the fragment for displaying when there are no chat rooms to show in the list.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? EmptyContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the logger for the component, which is used for logging information and errors related to the chat room list view.
+    /// </summary>
+    [Inject]
+    private ILogger<ChatRoomListView<TChatRoom>> Logger { get; set; } = default!;
+
+    /// <summary>
     /// Handles changes to the selected chat rooms and updates the component state.
     /// </summary>
     /// <param name="value">The new collection of selected chat rooms.</param>
@@ -253,19 +257,57 @@ public partial class ChatRoomListView
     };
 
     /// <summary>
+    /// Updates the chat rooms collection by canceling any pending operations, clearing the existing rooms, and fetching
+    /// new rooms using the provided filter expression.
+    /// </summary>
+    /// <param name="listViewValue">The list view mode to set for the room display.</param>
+    /// <param name="rooms">The collection to populate with filtered chat rooms.</param>
+    /// <param name="value">The filter expression to apply when retrieving chat rooms.</param>
+    /// <param name="localizedMessage">The localization key for the log message in case of operation cancellation.</param>
+    /// <returns>A task representing the asynchronous update operation.</returns>
+    private async Task OnUpdateRoomsAsync(
+       ListView listViewValue,
+       List<ChatRoom> rooms,
+       Expression<Func<TChatRoom, bool>> value,
+       string localizedMessage)
+    {
+        if (_cts is not null)
+        {
+            await _cts.CancelAsync();
+            _cts.Dispose();
+        }
+
+        _cts = new CancellationTokenSource();
+        var token = _cts.Token;
+
+        _listView = listViewValue;
+        rooms.Clear();
+
+        if (ItemsProvider is not null)
+        {
+            try
+            {
+                var items = await ItemsProvider(new(value), token);
+                rooms.AddRange(items);
+            }
+            catch (OperationCanceledException ex)
+            {
+                if (Logger.IsEnabled(LogLevel.Information))
+                {
+                    var message = Localizer[localizedMessage];
+                    Logger.LogInformation(ex, message, Owner?.UserName);
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// Occurs when the unblock rooms action is triggered.
     /// </summary>
     /// <returns>Returns a task which displays the blocked rooms view.</returns>
     private async Task OnUnblockRoomsAsync()
     {
-        _listView = ListView.Blocked;
-        _blockedRooms.Clear();
-
-        if (ItemsProvider is not null)
-        {
-            var items = await ItemsProvider(new(x => x.IsBlocked));
-            _blockedRooms.AddRange(items);
-        }
+        await OnUpdateRoomsAsync(ListView.Blocked, _blockedRooms, x => x.IsBlocked, LanguageResource.CX_Chat_Room_Blocked_OperationCanceled);
     }
 
     /// <summary>
@@ -274,14 +316,7 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which displays the blocked rooms view.</returns>
     private async Task OnUnhideRoomsAsync()
     {
-        _listView = ListView.Hidden;
-        _hiddenRooms.Clear();
-
-        if (ItemsProvider is not null)
-        {
-            var items = await ItemsProvider(new(x => x.IsHidden));
-            _hiddenRooms.AddRange(items);
-        }
+        await OnUpdateRoomsAsync(ListView.Hidden, _hiddenRooms, x => x.IsHidden, LanguageResource.CX_Chat_Room_Hidden_OperationCanceled);
     }
 
     /// <summary>
@@ -293,7 +328,16 @@ public partial class ChatRoomListView
     {
         if (RoomSearchFunction is not null)
         {
-            e.Items = await RoomSearchFunction(e.Text, RoomNameComparison);
+            if (_cts is not null)
+            {
+                await _cts.CancelAsync();
+                _cts.Dispose();
+            }
+
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
+
+            e.Items = await RoomSearchFunction(e.Text, RoomNameComparison, token);
         }
     }
 
@@ -480,28 +524,28 @@ public partial class ChatRoomListView
         }
     }
 
-/*    /// <summary>
-    /// Occurs when the selected chat room changes.
-    /// </summary>
-    /// <returns>Returns a task which change the chat room when completed.</returns>
-    private async Task OnSelectedChatRoomChangedAsync()
-    {
-        if (string.IsNullOrEmpty(_selectedRoom))
+    /*    /// <summary>
+        /// Occurs when the selected chat room changes.
+        /// </summary>
+        /// <returns>Returns a task which change the chat room when completed.</returns>
+        private async Task OnSelectedChatRoomChangedAsync()
         {
-            ChatState.Room = null;
-            _selectedRoom = "-1";
-        }
-        else
-        {
-            var roomId = long.Parse(_selectedRoom, CultureInfo.InvariantCulture);
-            ChatState.Room = _chatRooms.FirstOrDefault(x => x.Id == roomId);
-        }
+            if (string.IsNullOrEmpty(_selectedRoom))
+            {
+                ChatState.Room = null;
+                _selectedRoom = "-1";
+            }
+            else
+            {
+                var roomId = long.Parse(_selectedRoom, CultureInfo.InvariantCulture);
+                ChatState.Room = _chatRooms.FirstOrDefault(x => x.Id == roomId);
+            }
 
-        if (IsMobile && OnMobileNavigation.HasDelegate)
-        {
-            await OnMobileNavigation.InvokeAsync();
-        }
-    }*/
+            if (IsMobile && OnMobileNavigation.HasDelegate)
+            {
+                await OnMobileNavigation.InvokeAsync();
+            }
+        }*/
 
     /// <summary>
     /// Loads the chat rooms asynchronously based on the provided ID.
@@ -510,6 +554,15 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which loads the room when completed.</returns>
     private async Task LoadChatRoomsAsync(long id = -1)
     {
+        if (_cts is not null)
+        {
+            await _cts.CancelAsync();
+            _cts.Dispose();
+        }
+
+        _cts = new CancellationTokenSource();
+        var token = _cts.Token;
+
         ChatState.IsLoading = true;
         await InvokeAsync(StateHasChanged);
 
@@ -517,20 +570,31 @@ public partial class ChatRoomListView
 
         if (ItemsProvider is not null)
         {
-            var predicate = PredicateBuilder<ChatRoom>.True;
-
-            if (CanUnblock)
+            try
             {
-                predicate = PredicateBuilder<ChatRoom>.Or(x => !x.IsBlocked);
-            }
+                var predicate = PredicateBuilder<TChatRoom>.True;
 
-            if (CanUnhide)
+                if (CanUnblock)
+                {
+                    predicate = PredicateBuilder<TChatRoom>.And(x => !x.IsBlocked);
+                }
+
+                if (CanUnhide)
+                {
+                    predicate = PredicateBuilder<TChatRoom>.And(x => !x.IsHidden);
+                }
+
+                var items = await ItemsProvider(new(predicate), token);
+                _chatRooms.AddRange(items);
+            }
+            catch (OperationCanceledException ex)
             {
-                predicate = PredicateBuilder<ChatRoom>.Or(x => !x.IsHidden);
+                if (Logger.IsEnabled(LogLevel.Information))
+                {
+                    var message = Localizer[LanguageResource.CX_Chat_Room_Loading_OperationCanceled];
+                    Logger.LogInformation(ex, message, Owner?.UserName);
+                }
             }
-
-            var items = await ItemsProvider(new(predicate));
-            _chatRooms.AddRange(items);
         }
 
         if (id != -1)
@@ -539,14 +603,6 @@ public partial class ChatRoomListView
         }
 
         _selectedRoom = ChatState.Room is null ? "-1" : ChatState.Room.Id.ToString(CultureInfo.InvariantCulture);
-
-        //if (_chatRooms.Count > 0 &&
-        //    ChatState.Room is null)
-        //{
-        //    ChatState.Room = _chatRooms[0];
-        //    _selectedRoom = _chatRooms[0].Id.ToString();
-        //}
-
         ChatState.IsLoading = false;
 
         await InvokeAsync(StateHasChanged);
@@ -634,7 +690,6 @@ public partial class ChatRoomListView
         }
 
         ChatState.IsLoading = true;
-
         ChatState.Room?.IsHidden = true;
 
         if (OnHide.HasDelegate)
@@ -664,7 +719,6 @@ public partial class ChatRoomListView
         }
 
         ChatState.IsLoading = true;
-
         ChatState.Room?.IsBlocked = true;
 
         if (OnBlock.HasDelegate)
@@ -693,7 +747,6 @@ public partial class ChatRoomListView
         }
 
         ChatState.IsLoading = true;
-
         ChatState.Room?.IsBlocked = false;
 
         if (OnUnblock.HasDelegate)
@@ -722,7 +775,6 @@ public partial class ChatRoomListView
         }
 
         ChatState.IsLoading = true;
-
         ChatState.Room?.IsHidden = false;
 
         if (OnUnhide.HasDelegate)

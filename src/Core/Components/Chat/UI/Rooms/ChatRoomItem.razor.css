@@ -1,0 +1,51 @@
+.chat-room-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 120px;
+  padding: 8px 12px;
+  border-radius: var(--control-corner-radius);
+  cursor: pointer;
+  background-color: var(--colorNeutralBackground1);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+  .chat-room-item.hover:not(.disabled) {
+    background-color: var(--colorNeutralBackground1Hover);
+  }
+
+  .chat-room-item.selected {
+    background-color: var(--colorNeutralBackground1Selected);
+    box-shadow: 0 0 0 1px var(--colorNeutralStroke1);
+  }
+
+  .chat-room-item.disabled {
+    background-color: var(--colorNeutralBackgroundDisabled);
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .chat-room-item .selection-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: var(--control-corner-radius) 0 0 var(--control-corner-radius);
+    background-color: var(--colorBrandForeground1);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .chat-room-item.selected .selection-bar {
+    opacity: 1;
+  }
+
+  .chat-room-item .content-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }

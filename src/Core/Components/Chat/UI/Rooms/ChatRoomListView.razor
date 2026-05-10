@@ -1,5 +1,7 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Chat.UI.Rooms
 @inherits FluentComponentBase
+@typeparam TChatRoom where TChatRoom : IChatRoomCapabilities
 
 <div id="@Id" class="chatroom-root">
     @if (!ChatState.IsLoading)
@@ -49,23 +51,32 @@
             }
 
             <div class="chatroom-list-wrapper">
-                @* <FluentListbox TOption="ChatRoom"
-                               TValue="string"
-                               Multiple="false"
-                               @bind-Value="@_selectedRoom"
-                               @bind-Value:after="OnSelectedChatRoomChangedAsync"
-                               Class="chatroom-listbox">
-                    @foreach (var item in CurrentRooms)
-                    {
-                        @_renderOptionItem(item)
-                    }
-                </FluentListbox> *@
-
                 <Virtualize Items="@CurrentRooms"
                             TItem="ChatRoom"
                             Context="room"
                             ItemSize="120">
-                    @_renderOptionItem(room)
+                    <EmptyContent>
+                        @if (EmptyContent is not null)
+                        {
+                            @EmptyContent
+                        }
+                        else
+                        {
+                            <FluentStack Orientation="Orientation.Vertical"
+                                         HorizontalAlignment="HorizontalAlignment.Center"
+                                         VerticalAlignment="VerticalAlignment.Center"
+                                         Style="height: 100%; padding: 20px;">
+                                <FluentIcon Value="@(new Size48.Chat())" />
+                                <FluentLabel Style="font-size: var(--type-ramp-minus-1-font-size);">
+                                    @Localizer[LanguageResource.CX_Chat_Room_NoRoomsMessage]
+                                </FluentLabel>
+                            </FluentStack>
+                        }
+                    </EmptyContent>
+
+                    <ChildContent>
+                        @_renderRoomItem(room)
+                    </ChildContent>
                 </Virtualize>
 
                 @if (IsNewGroupChatEnabled || CanUnblock || CanUnhide)
@@ -110,7 +121,7 @@
     {
         Id = Identifier.NewId();
 
-        _renderOptionItem = item => __builder =>
+        _renderRoomItem = item => __builder =>
         {
             if (ItemTemplate is not null)
             {
@@ -118,11 +129,8 @@
             }
             else
             {
-                <FluentOption Selected="@(item.Id.ToString() == _selectedRoom)"
-                              TOption="ChatRoom"
-                              Disabled=@(item.IsBlocked && Owner == item.Owner)
-                              Value="@item.Id.ToString()"
-                              Style="height: 120px;">
+                <ChatRoomItem IsSelected="@(item.Id.ToString() == _selectedRoom)"
+                              IsDisabled=@(item.IsBlocked && Owner == item.Owner)>
                     <FluentStack Orientation="Orientation.Horizontal"
                                  VerticalAlignment=VerticalAlignment.Center
                                  HorizontalAlignment="HorizontalAlignment.Stretch">
@@ -186,7 +194,7 @@
                             </FluentMenu>
                         }
                     </FluentStack>
-                </FluentOption>
+                </ChatRoomItem>
             }
         };
     }

@@ -27,6 +27,11 @@ public sealed class ChatUser
     public string? DisplayName { get; set; }
 
     /// <summary>
+    /// Gets or sets the user principal name of the user.
+    /// </summary>
+    public string? UserName { get; set; }
+
+    /// <summary>
     /// Gets or sets the id of the culture of the user.
     /// </summary>
     public long CultureId { get; set; }
