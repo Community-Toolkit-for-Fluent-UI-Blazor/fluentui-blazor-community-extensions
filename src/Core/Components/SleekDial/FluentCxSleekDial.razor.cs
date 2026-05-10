@@ -175,7 +175,8 @@ public partial class FluentCxSleekDial
     /// <summary>
     /// Gets or sets the animation settings for the dial, which control the visual effects applied during opening, closing, and item interactions.
     /// </summary>
-    [Parameter] public SleekDialAnimationSettings AnimationSettings { get; set; } = new();
+    [Parameter]
+    public SleekDialAnimationSettings AnimationSettings { get; set; } = new();
 
     /// <summary>
     /// Gets or sets a value indicating whether the dial should remain open after an item is clicked.
@@ -201,6 +202,12 @@ public partial class FluentCxSleekDial
     public bool RestrictedArea { get; set; }
 
     /// <summary>
+    /// Gets or sets the width of the dial when in linear mode.
+    /// </summary>
+    [Parameter]
+    public string? Height { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the dial should be rendered as a fullscreen overlay.
     /// </summary>
     [Parameter]
@@ -223,6 +230,27 @@ public partial class FluentCxSleekDial
     internal bool IsOpen => _isOpen;
 
     /// <summary>
+    /// Gets if there are any visible items in the internal items collection.
+    /// </summary>
+    private bool HasVisibleItems
+    {
+        get
+        {
+            var items = InternalItems;
+
+            for (var i = 0; i < items.Count; i++)
+            {
+                if (items[i].IsVisible)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    /// <summary>
     /// Gets a value indicating whether the dial is currently visible based on the configured hide mode and the state of
     /// the internal items.
     /// </summary>
@@ -232,24 +260,18 @@ public partial class FluentCxSleekDial
     private bool IsDialVisible => HideMode switch
     {
         SleekDialHideMode.None => true,
-
-        SleekDialHideMode.WhenEmpty =>
-            InternalItems.Count > 0,
-
-        SleekDialHideMode.WhenNoVisible =>
-            InternalItems.Any(i => i.IsVisible),
-
-        SleekDialHideMode.WhenEmptyOrNoVisible =>
-            InternalItems.Count > 0 &&
-            InternalItems.Any(i => i.IsVisible),
-
+        SleekDialHideMode.WhenEmpty => InternalItems.Count > 0,
+        SleekDialHideMode.WhenNoVisible => HasVisibleItems,
+        SleekDialHideMode.WhenEmptyOrNoVisible => HasVisibleItems,
         _ => true
     };
 
     /// <summary>
     /// Gets the internally generated CSS class string for the component.
     /// </summary>
-    private string? InternalClass => DefaultClassBuilder.Build();
+    private string? InternalStyle => DefaultStyleBuilder
+        .AddStyle("height", Height, when: !string.IsNullOrEmpty(Height))
+        .Build();
 
     /// <summary>
     /// Gets the popup placement used for the dial based on the current mode and direction.

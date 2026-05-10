@@ -50,8 +50,14 @@ public partial class ChatRoomItem : FluentComponentBase
     [Parameter]
     public EventCallback OnClick { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to show the "More" button for additional options related to the chat room item.
+    /// </summary>
+    [Parameter]
+    public bool ShowMoreButton { get; set; }
+
     private string? CssClass => DefaultClassBuilder
-        .AddClass("chat-item")
+        .AddClass("chat-room-item")
         .AddClass("selected", IsSelected)
         .AddClass("disabled", IsDisabled)
         .AddClass("hover", _hover && !IsDisabled)

@@ -7,13 +7,16 @@
      @onclick="HandleClick"
      @onmouseover="() => _hover = true"
      @onmouseout="() => _hover = false">
+    <FluentStack VerticalAlignment=VerticalAlignment.Center HorizontalGap="8px">
+        @if (IsSelected)
+        {
+            <div class="selection-bar"></div>
+        }
 
-    @if (IsSelected)
-    {
-        <div class="selection-bar"></div>
-    }
+        <div class="content-wrapper">
+            @ChildContent
+        </div>
 
-    <div class="content-wrapper">
-        @ChildContent
-    </div>
+        <FluentButton Id="@($"chat-room-menu-{Id}")" IconEnd="@(new Size24.MoreVertical())" />
+    </FluentStack>
 </div>

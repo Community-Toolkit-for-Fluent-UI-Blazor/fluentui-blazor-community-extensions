@@ -4,7 +4,7 @@
 
 <FluentDialogBody>
     <TitleTemplate>
-        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalGap="8px">
             <FluentIcon Value="@(new Size24.Rename())" />
 
             <FluentText Size="TextSize.Size700">
@@ -19,9 +19,9 @@
                          Placeholder="@Localizer[LanguageResource.CX_Chat_Room_Placeholder]"
                          Label="@Localizer[LanguageResource.CX_Chat_Room_Label]"
                          AriaLabel="@Localizer[LanguageResource.CX_Chat_Room_AriaLabel]"
-                         Immediate
                          Autofocus
                          Required="true"
+                         Width="99%"
                          @bind-Value="Value"/>
     </ChildContent>
 </FluentDialogBody>

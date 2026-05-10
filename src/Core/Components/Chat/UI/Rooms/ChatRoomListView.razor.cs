@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -58,14 +59,19 @@ public partial class ChatRoomListView<TChatRoom>
     private string? _selectedRoom;
 
     /// <summary>
-    /// Render fragment for displaying chat room options.
-    /// </summary>
-    private readonly RenderFragment<ChatRoom> _renderRoomItem;
-
-    /// <summary>
     /// Represents the list view type.
     /// </summary>
     private ListView _listView;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChatRoomListView{TChatRoom}"/> class with the specified library configuration.
+    /// </summary>
+    /// <param name="configuration">The library configuration.</param>
+    public ChatRoomListView(LibraryConfiguration configuration)
+        : base(configuration)
+    {
+        Id = Identifier.NewId();
+    }
 
     /// <summary>
     /// Gets or sets the dialog service for showing dialogs.
@@ -107,7 +113,7 @@ public partial class ChatRoomListView<TChatRoom>
     /// Gets or sets the function to search for users in the chat room.
     /// </summary>
     [Parameter]
-    public Func<string?, Task<IEnumerable<ChatUser>>>? UserSearchFunction { get; set; }
+    public Func<string?, StringComparison, Task<IEnumerable<ChatUser>>>? UserSearchFunction { get; set; }
 
     /// <summary>
     /// Gets or sets the function to search for chat rooms.
@@ -354,6 +360,7 @@ public partial class ChatRoomListView<TChatRoom>
                 a.Footer.PrimaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogOk];
                 a.Footer.SecondaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogCancel];
                 a.Parameters.Add(nameof(ChatUserGroupSelectorDialog.OnSearchFunction), UserSearchFunction);
+                a.Parameters.Add(nameof(ChatUserGroupSelectorDialog.StringComparison), UsernameComparison);
             }
         );
 
@@ -631,12 +638,13 @@ public partial class ChatRoomListView<TChatRoom>
         if (ChatState.Room is not null)
         {
             ChatState.Room.Name = dialog.Value as string;
-            await LoadChatRoomsAsync(ChatState.Room.Id);
 
             if (OnRename.HasDelegate)
             {
                 await OnRename.InvokeAsync(ChatState.Room);
             }
+
+            await LoadChatRoomsAsync(ChatState.Room.Id);
         }
 
         ChatState.IsLoading = false;
@@ -650,9 +658,9 @@ public partial class ChatRoomListView<TChatRoom>
     {
         var dialog = await DialogService.ShowConfirmationAsync(
             Localizer[LanguageResource.CX_Chat_Room_DeleteRoomMessage],
+            Localizer[LanguageResource.CX_Chat_Room_DeleteRoomTitle],
             Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo],
-            Localizer[LanguageResource.CX_Chat_Room_DeleteRoomTitle]);
+            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
 
         if (dialog.Cancelled)
         {
@@ -667,8 +675,6 @@ public partial class ChatRoomListView<TChatRoom>
         }
 
         ChatState.Room = null;
-
-        await LoadChatRoomsAsync();
         ChatState.IsLoading = false;
     }
 
@@ -680,9 +686,9 @@ public partial class ChatRoomListView<TChatRoom>
     {
         var dialog = await DialogService.ShowConfirmationAsync(
             Localizer[LanguageResource.CX_Chat_Room_HideRoomMessage],
+            Localizer[LanguageResource.CX_Chat_Room_HideRoomTitle],
             Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo],
-            Localizer[LanguageResource.CX_Chat_Room_HideRoomTitle]);
+            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
 
         if (dialog.Cancelled)
         {
@@ -697,7 +703,6 @@ public partial class ChatRoomListView<TChatRoom>
             await OnHide.InvokeAsync(ChatState.Room);
         }
 
-        await LoadChatRoomsAsync();
         ChatState.IsLoading = false;
     }
 
@@ -709,9 +714,9 @@ public partial class ChatRoomListView<TChatRoom>
     {
         var dialog = await DialogService.ShowConfirmationAsync(
             Localizer[LanguageResource.CX_Chat_Room_BlockRoomMessage],
+            Localizer[LanguageResource.CX_Chat_Room_BlockRoomTitle],
             Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo],
-            Localizer[LanguageResource.CX_Chat_Room_BlockRoomTitle]);
+            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
 
         if (dialog.Cancelled)
         {
@@ -737,9 +742,9 @@ public partial class ChatRoomListView<TChatRoom>
     {
         var dialog = await DialogService.ShowConfirmationAsync(
             Localizer[LanguageResource.CX_Chat_Room_UnblockRoomMessage],
+            Localizer[LanguageResource.CX_Chat_Room_UnblockRoomTitle],
             Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo],
-            Localizer[LanguageResource.CX_Chat_Room_UnblockRoomTitle]);
+            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
 
         if (dialog.Cancelled)
         {
@@ -765,9 +770,9 @@ public partial class ChatRoomListView<TChatRoom>
     {
         var dialog = await DialogService.ShowConfirmationAsync(
             Localizer[LanguageResource.CX_Chat_Room_UnhideRoomMessage],
+            Localizer[LanguageResource.CX_Chat_Room_UnhideRoomTitle],
             Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo],
-            Localizer[LanguageResource.CX_Chat_Room_UnhideRoomTitle]);
+            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
 
         if (dialog.Cancelled)
         {
@@ -872,5 +877,16 @@ public partial class ChatRoomListView<TChatRoom>
                 yield return (Localizer[LanguageResource.CX_Chat_Room_Delete], new Size24.Delete(), OnDeleteAsync);
             }
         }
+    }
+
+    private void HandleRoomClick(ChatRoom room)
+    {
+        if (ChatState.Room?.Id == room.Id)
+        {
+            return;
+        }
+
+        ChatState.Room = room;
+        _selectedRoom = room.Id.ToString(CultureInfo.InvariantCulture);
     }
 }

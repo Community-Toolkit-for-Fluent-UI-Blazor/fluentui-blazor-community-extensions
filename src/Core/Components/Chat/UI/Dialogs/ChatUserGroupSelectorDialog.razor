@@ -3,18 +3,18 @@
 
 <FluentDialogBody>
     <TitleTemplate>
-        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalGap="8px">
             <FluentIcon Value="@(new Size24.DocumentEdit())" />
 
-            <FluentLabel Typo="Typography.PaneHeader">
+            <FluentText Size="TextSize.Size700">
                 @Localizer[LanguageResource.CX_Chat_Room_UserSelectionDialogTitle]
-            </FluentLabel>
+            </FluentText>
         </FluentStack>
     </TitleTemplate>
 
     <ChildContent>
         <FluentAutocomplete Placeholder="@Localizer[LanguageResource.CX_Chat_Room_SearchForUserPlaceholder]"
-                            Style="margin-bottom: 10px; width: 452px;"
+                            Width="99%"
                             TOption="ChatUser"
                             TValue="string"
                             OptionText="@(e => e.DisplayName)"

@@ -15,22 +15,14 @@
 }
 
 .chatroom-list-wrapper {
-  flex: 1 1 auto;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.chatroom-listbox {
-  flex: 1 1 auto;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-  .chatroom-listbox > .fluent-listbox {
-    flex: 1 1 auto;
-    height: 100%;
-    overflow-y: auto;
-  }
+.chatroom-virtualize-container {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}

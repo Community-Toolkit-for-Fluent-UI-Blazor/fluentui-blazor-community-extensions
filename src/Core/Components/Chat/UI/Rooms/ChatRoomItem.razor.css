@@ -5,10 +5,12 @@
   width: 100%;
   height: 120px;
   padding: 8px 12px;
-  border-radius: var(--control-corner-radius);
   cursor: pointer;
   background-color: var(--colorNeutralBackground1);
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  background-color: var(--colorNeutralBackground1);
+  border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+  border-radius: var(--borderRadiusMedium);
 }
 
   .chat-room-item.hover:not(.disabled) {
@@ -29,9 +31,9 @@
 
   .chat-room-item .selection-bar {
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
     width: 4px;
     border-radius: var(--control-corner-radius) 0 0 var(--control-corner-radius);
     background-color: var(--colorBrandForeground1);
@@ -48,4 +50,5 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    padding: 12px;
   }

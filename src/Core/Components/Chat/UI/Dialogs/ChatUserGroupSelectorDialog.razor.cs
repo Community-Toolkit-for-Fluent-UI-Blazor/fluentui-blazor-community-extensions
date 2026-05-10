@@ -23,7 +23,13 @@ public partial class ChatUserGroupSelectorDialog
     /// Gets or sets the function to search users.
     /// </summary>
     [Parameter]
-    public Func<string, Task<IEnumerable<ChatUser>>> OnSearchFunction { get; set; } = default!;
+    public Func<string, StringComparison, Task<IEnumerable<ChatUser>>> OnSearchFunction { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the string comparison to use when searching users.
+    /// </summary>
+    [Parameter]
+    public StringComparison StringComparison { get; set; } = StringComparison.OrdinalIgnoreCase;
 
     /// <summary>
     /// Occurs to search the user in an asynchronous way.
@@ -32,7 +38,12 @@ public partial class ChatUserGroupSelectorDialog
     /// <returns>Returns a task which find the users when completed.</returns>
     private async Task OnSearchAsync(OptionsSearchEventArgs<ChatUser> e)
     {
-        e.Items = await OnSearchFunction(e.Text);
+        if (OnSearchFunction is null)
+        {
+            throw new InvalidOperationException("OnSearchFunction cannot be null.");
+        }
+
+        e.Items = await OnSearchFunction(e.Text, StringComparison);
     }
 
     /// <inheritdoc />

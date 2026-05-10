@@ -5,14 +5,14 @@
     <div aria-expanded="@IsOpen"
          aria-haspopup="true"
          id="sleekdial-container-@(Id)"
-         class="sleekdial-container">
+         class="sleekdial-container @Class"
+         style="@InternalStyle">
 
         @ChildContent
 
         @if (IsDialVisible)
         {
-            <FluentCxFloatingButton Class="@InternalClass"
-                                    AdditionalAttributes="@AdditionalAttributes"
+            <FluentCxFloatingButton AdditionalAttributes="@AdditionalAttributes"
                                     Position="@Position"
                                     OnClick="@OnFloatingButtonClickAsync"
                                     IconStart="@(IsOpen ? CloseIcon : OpenIcon)"

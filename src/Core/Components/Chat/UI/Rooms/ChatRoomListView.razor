@@ -1,5 +1,4 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
-@using FluentUI.Blazor.Community.Components.Chat.UI.Rooms
 @inherits FluentComponentBase
 @typeparam TChatRoom where TChatRoom : IChatRoomCapabilities
 
@@ -51,34 +50,110 @@
             }
 
             <div class="chatroom-list-wrapper">
-                <Virtualize Items="@CurrentRooms"
-                            TItem="ChatRoom"
-                            Context="room"
-                            ItemSize="120">
-                    <EmptyContent>
-                        @if (EmptyContent is not null)
-                        {
-                            @EmptyContent
-                        }
-                        else
-                        {
-                            <FluentStack Orientation="Orientation.Vertical"
-                                         HorizontalAlignment="HorizontalAlignment.Center"
-                                         VerticalAlignment="VerticalAlignment.Center"
-                                         Style="height: 100%; padding: 20px;">
-                                <FluentIcon Value="@(new Size48.Chat())" />
-                                <FluentLabel Style="font-size: var(--type-ramp-minus-1-font-size);">
-                                    @Localizer[LanguageResource.CX_Chat_Room_NoRoomsMessage]
-                                </FluentLabel>
-                            </FluentStack>
-                        }
-                    </EmptyContent>
+                <div class="chatroom-virtualize-container">
+                    <Virtualize Items="@CurrentRooms"
+                                TItem="ChatRoom"
+                                Context="room"
+                                ItemSize="120">
+                        <EmptyContent>
+                            @if (EmptyContent is not null)
+                            {
+                                @EmptyContent
+                            }
+                            else
+                            {
+                                <FluentStack Orientation="Orientation.Vertical"
+                                             HorizontalAlignment="HorizontalAlignment.Center"
+                                             VerticalAlignment="VerticalAlignment.Center"
+                                             Style="height: 100%; padding: 20px;">
+                                    <FluentIcon Value="@(new Size48.Chat())" />
+                                    <FluentLabel Style="font-size: var(--type-ramp-minus-1-font-size);">
+                                        @Localizer[LanguageResource.CX_Chat_Room_NoRoomsMessage]
+                                    </FluentLabel>
+                                </FluentStack>
+                            }
+                        </EmptyContent>
 
-                    <ChildContent>
-                        @_renderRoomItem(room)
-                    </ChildContent>
-                </Virtualize>
+                        <ChildContent>
+                            @if (ItemTemplate is not null)
+                            {
+                                ItemTemplate(room);
+                            }
+                            else
+                            {
+                                <ChatRoomItem IsSelected="@(room.Id.ToString() == _selectedRoom)"
+                                              IsDisabled=@(room.IsBlocked && Owner == room.Owner)
+                                              Id="@room.Id.ToString()"
+                                              ShowMoreButton="@(CanDelete || CanBlock || CanRename || CanUnblock || CanUnhide)"
+                                              OnClick="@(() => HandleRoomClick(room))">
+                                    <FluentStack Orientation="Orientation.Horizontal"
+                                                 VerticalAlignment=VerticalAlignment.Center
+                                                 HorizontalAlignment="HorizontalAlignment.Stretch"
+                                                 HorizontalGap="10px">
+                                        <FluentStack Orientation="Orientation.Horizontal"
+                                                     HorizontalAlignment="HorizontalAlignment.Center"
+                                                     Style="width: fit-content">
+                                            @* Replace with AvatarGroup when available *@
+                                            @foreach (var user in room.Users.Take(4))
+                                            {
+                                                <FluentAvatar Image="@user.Avatar"
+                                                              Initials="@user.Initials"
+                                                              Shape="AvatarShape.Circle"
+                                                              Size="AvatarSize.Size40" />
+                                            }
+                                        </FluentStack>
 
+                                        <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px">
+                                            <FluentLabel>@room.Name</FluentLabel>
+
+                                            <div style="height:100%">
+                                                @if (Owner is not null)
+                                                {
+                                                    if (room.UnreadMessagesForUserId.TryGetValue(Owner.Id, out var m) && m >= 1)
+                                                    {
+                                                        @((MarkupString)(room.UnreadMessagesForUserId[Owner.Id] == 1 ? string.Format(Localizer[LanguageResource.CX_Chat_Room_UnreadSingular], room.UnreadMessagesForUserId[Owner.Id]) : string.Format(Localizer[LanguageResource.CX_Chat_Room_UnreadPlural], room.UnreadMessagesForUserId[Owner.Id])))
+                                                    }
+                                                    else if (room.IsEmpty)
+                                                    {
+                                                        @((MarkupString)Localizer[LanguageResource.CX_Chat_Room_EmptyRoomMessage])
+                                                    }
+                                                    else if (room.LastMessage is not null)
+                                                    {
+                                                        <FluentText Block Truncate Style="max-height: 48px">
+                                                            <b>@(Format(room.LastMessage))</b>
+                                                        </FluentText>
+                                                    }
+                                                }
+                                            </div>
+
+                                            <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
+                                                <FluentLabel Style="color: var(--input-placeholder-rest); font-size: 9px;">
+                                                    @(room.LastMessage?.CreatedDate.Date.ToShortDateString() ?? room.CreatedDate.Date.ToShortDateString())
+                                                </FluentLabel>
+                                            </FluentStack>
+                                        </FluentStack>
+
+                                        @if (CanDelete || CanBlock || CanRename || CanUnblock || CanUnhide)
+                                        {
+                                            <FluentMenu Trigger="@($"chat-room-menu-{room.Id}")">
+                                                <FluentMenuList>
+                                                    @foreach (var (label, icon, action) in GetPopoverActions())
+                                                    {
+                                                        <FluentMenuItem OnClick="@action"
+                                                                        IconStart="@icon">
+                                                            @label
+                                                        </FluentMenuItem>
+                                                    }
+                                                </FluentMenuList>
+                                            </FluentMenu>
+                                        }
+                                    </FluentStack>
+                                </ChatRoomItem>
+                            }
+                        </ChildContent>
+                    </Virtualize>
+                </div>
+                
                 @if (IsNewGroupChatEnabled || CanUnblock || CanUnhide)
                 {
                     <FluentCxSleekDial Position="FloatingPosition.BottomLeft"
@@ -114,88 +189,3 @@
         }
     }
 </div>
-
-@code {
-    public ChatRoomListView(LibraryConfiguration configuration)
-        : base(configuration)
-    {
-        Id = Identifier.NewId();
-
-        _renderRoomItem = item => __builder =>
-        {
-            if (ItemTemplate is not null)
-            {
-                ItemTemplate(item);
-            }
-            else
-            {
-                <ChatRoomItem IsSelected="@(item.Id.ToString() == _selectedRoom)"
-                              IsDisabled=@(item.IsBlocked && Owner == item.Owner)>
-                    <FluentStack Orientation="Orientation.Horizontal"
-                                 VerticalAlignment=VerticalAlignment.Center
-                                 HorizontalAlignment="HorizontalAlignment.Stretch">
-                        <FluentStack Orientation="Orientation.Horizontal"
-                                     HorizontalAlignment="HorizontalAlignment.Center"
-                                     Style="width: fit-content">
-                            @* Replace with AvatarGroup when available *@
-                            @foreach (var user in item.Users.Take(4))
-                            {
-                                <FluentAvatar Image="@user.Avatar"
-                                              Initials="@user.Initials"
-                                              Shape="AvatarShape.Circle"
-                                              Size="AvatarSize.Size40" />
-                            }
-                        </FluentStack>
-
-                        <FluentStack Orientation="Orientation.Vertical">
-                            <FluentLabel>@item.Name</FluentLabel>
-
-                            <div style="height:100%">
-                                @if (Owner is not null)
-                                {
-                                    if (item.UnreadMessagesForUserId.TryGetValue(Owner.Id, out var m) && m >= 1)
-                                    {
-                                        @((MarkupString)(item.UnreadMessagesForUserId[Owner.Id] == 1 ? string.Format(Localizer[LanguageResource.CX_Chat_Room_UnreadSingular], item.UnreadMessagesForUserId[Owner.Id]) : string.Format(Localizer[LanguageResource.CX_Chat_Room_UnreadPlural], item.UnreadMessagesForUserId[Owner.Id])))
-                                    }
-                                    else if (item.IsEmpty)
-                                    {
-                                        @((MarkupString)Localizer[LanguageResource.CX_Chat_Room_EmptyRoomMessage])
-                                    }
-                                    else if (item.LastMessage is not null)
-                                    {
-                                        <FluentText Block Truncate Style="max-height: 48px">
-                                            <b>@(Format(item.LastMessage))</b>
-                                        </FluentText>
-                                    }
-                                }
-                            </div>
-
-                            <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
-                                <FluentLabel Style="color: var(--input-placeholder-rest); font-size: 9px;">
-                                    @(item.LastMessage?.CreatedDate.Date.ToShortDateString() ?? item.CreatedDate.Date.ToShortDateString())
-                                </FluentLabel>
-                            </FluentStack>
-                        </FluentStack>
-
-                        @if (CanDelete || CanBlock || CanRename || CanUnblock || CanUnhide)
-                        {
-                            <FluentMenu>
-                                <FluentMenuButton IconEnd="@(new Size24.MoreVertical())" />
-
-                                <FluentMenuList>
-                                    @foreach (var (label, icon, action) in GetPopoverActions())
-                                    {
-                                        <FluentMenuItem OnClick="@action"
-                                                        IconStart="@icon">
-                                            @label
-                                        </FluentMenuItem>
-                                    }
-                                </FluentMenuList>
-                            </FluentMenu>
-                        }
-                    </FluentStack>
-                </ChatRoomItem>
-            }
-        };
-    }
-}

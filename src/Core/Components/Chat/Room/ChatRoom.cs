@@ -7,8 +7,6 @@ namespace FluentUI.Blazor.Community.Components.Chat.Room;
 /// </summary>
 public class ChatRoom : IChatRoom
 {
-    private readonly List<ChatUser> _users = [];
-
     /// <inheritdoc />
     public long Id { get; set; }
 
@@ -16,7 +14,7 @@ public class ChatRoom : IChatRoom
     public string? Name { get; set; }
 
     /// <inheritdoc />
-    public IReadOnlyList<ChatUser> Users => _users;
+    public IReadOnlyList<ChatUser> Users { get; init; } = [];
 
     /// <inheritdoc />
     public ChatUser? Owner { get; set; }
@@ -47,19 +45,9 @@ public class ChatRoom : IChatRoom
     {
         if (user is null)
         {
-            return _users;
+            return Users;
         }
 
-        return _users.FindAll(u => u.Id != user.Id);
-    }
-
-    /// <summary>
-    /// Sets the users of the chat room, replacing any existing users.
-    /// </summary>
-    /// <param name="users">The users to set for the chat room.</param>
-    internal void SetUsers(IEnumerable<ChatUser> users)
-    {
-        _users.Clear();
-        _users.AddRange(users);
+        return [.. Users.Where(u => u.Id != user.Id)];
     }
 }

@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using FluentUI.Blazor.Community.Components.Chat.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -26,6 +27,7 @@ public static class ServiceCollectionExtensions
             throw new NotSupportedException("Transient lifetime is not supported for Fluent UI Community services.");
         }
 
-        return services.AddScoped<DeviceInfoState>();
+        return services.AddScoped<DeviceInfoState>()
+                       .AddScoped<ChatState>();
     }
 }

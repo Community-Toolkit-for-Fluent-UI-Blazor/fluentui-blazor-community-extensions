@@ -100,19 +100,13 @@ public record ChatState
         ChatUser owner,
         params ChatUser[] users)
     {
-        var room = new ChatRoom
+        Room = new ChatRoom
         {
             Id = id,
             Name = name,
             Owner = owner,
-            IsEmpty = true
+            IsEmpty = true,
+            Users = users
         };
-
-        if (users.Length > 0)
-        {
-            room.SetUsers(users);
-        }
-
-        Room = room;
     }
 }
