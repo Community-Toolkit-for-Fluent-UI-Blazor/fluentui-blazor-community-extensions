@@ -6,13 +6,13 @@
     <div class="@InternalClass"
          style="@InternalStyle"
          tabindex="@Index"
-         @ref="_root"
-         @onclick="OnClickAsync">
+         @ref="_root">
         <FluentButton Disabled="@Item.Disabled"
                       Title="@Item.Title"
                       Shape="ButtonShape.Circular"
                       IconStart="@Item.Icon"
                       Size="ButtonSize.Large"
+                      OnClick="@OnClickAsync"
                       ChildContent="@(!string.IsNullOrEmpty(Item.Text) ? _renderText(Item.Text) : null)"
                       Style="position: relative;" />
     </div>

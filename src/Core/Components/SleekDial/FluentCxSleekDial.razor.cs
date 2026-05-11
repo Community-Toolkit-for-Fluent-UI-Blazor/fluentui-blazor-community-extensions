@@ -16,8 +16,14 @@ namespace FluentUI.Blazor.Community.Components;
 /// user experience and streamline access to actions or options.</remarks>
 public partial class FluentCxSleekDial
 {
-    private static readonly Icon s_openIcon = new Size24.List();
+    /// <summary>
+    /// Represents the default icon used for the open state of the dial, which is a horizontal three-line icon.
+    /// </summary>
+    private static readonly Icon s_openIcon = new Size24.LineHorizontal3();
 
+    /// <summary>
+    /// Represents the default icon used for the close state of the dial, which is a dismiss or "X" icon.
+    /// </summary>
     private static readonly Icon s_closeIcon = new Size24.Dismiss();
 
     /// <summary>
@@ -614,5 +620,14 @@ public partial class FluentCxSleekDial
         }
 
         return base.SetParametersAsync(parameters);
+    }
+
+    /// <summary>
+    /// Closes the popup asynchronously.
+    /// </summary>
+    /// <returns>Returns a task that represents the closing asynchronous operation.</returns>
+    internal async Task OnCloseAsync()
+    {
+        await ShowOrHidePopupAsync(false);
     }
 }

@@ -307,6 +307,11 @@ public partial class ChatRoomListView<TChatRoom>
         }
     }
 
+    private async Task OnShowRoomsAsync()
+    {
+        await OnUpdateRoomsAsync(ListView.Normal, _chatRooms, x => !x.IsBlocked && !x.IsHidden, LanguageResource.CX_Chat_Room_ShowAllRooms_OperationCanceled);
+    }
+
     /// <summary>
     /// Occurs when the unblock rooms action is triggered.
     /// </summary>
@@ -317,9 +322,9 @@ public partial class ChatRoomListView<TChatRoom>
     }
 
     /// <summary>
-    /// Occurs when the unblock rooms action is triggered.
+    /// Occurs when the unhide rooms action is triggered.
     /// </summary>
-    /// <returns>Returns a task which displays the blocked rooms view.</returns>
+    /// <returns>Returns a task which displays the hidden rooms view.</returns>
     private async Task OnUnhideRoomsAsync()
     {
         await OnUpdateRoomsAsync(ListView.Hidden, _hiddenRooms, x => x.IsHidden, LanguageResource.CX_Chat_Room_Hidden_OperationCanceled);
@@ -531,29 +536,6 @@ public partial class ChatRoomListView<TChatRoom>
         }
     }
 
-    /*    /// <summary>
-        /// Occurs when the selected chat room changes.
-        /// </summary>
-        /// <returns>Returns a task which change the chat room when completed.</returns>
-        private async Task OnSelectedChatRoomChangedAsync()
-        {
-            if (string.IsNullOrEmpty(_selectedRoom))
-            {
-                ChatState.Room = null;
-                _selectedRoom = "-1";
-            }
-            else
-            {
-                var roomId = long.Parse(_selectedRoom, CultureInfo.InvariantCulture);
-                ChatState.Room = _chatRooms.FirstOrDefault(x => x.Id == roomId);
-            }
-
-            if (IsMobile && OnMobileNavigation.HasDelegate)
-            {
-                await OnMobileNavigation.InvokeAsync();
-            }
-        }*/
-
     /// <summary>
     /// Loads the chat rooms asynchronously based on the provided ID.
     /// </summary>
@@ -621,33 +603,20 @@ public partial class ChatRoomListView<TChatRoom>
     /// <returns>Returns a task which renames the chat room when completed.</returns>
     private async Task OnRenameAsync()
     {
-        var dialog = await DialogService.ShowDialogAsync<ChatRoomRenameDialog>(a =>
-        {
-            a.Footer.PrimaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogOk];
-            a.Footer.SecondaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogCancel];
-            a.Parameters.Add(nameof(ChatRoomRenameDialog.Value), ChatState.Room?.Name);
-        });
-
-        if (dialog.Cancelled)
-        {
-            return;
-        }
-
-        ChatState.IsLoading = true;
-
-        if (ChatState.Room is not null)
-        {
-            ChatState.Room.Name = dialog.Value as string;
-
-            if (OnRename.HasDelegate)
+        await ExecuteRoomActionAsync(
+            showDialog: () => DialogService.ShowDialogAsync<ChatRoomRenameDialog>(a =>
             {
-                await OnRename.InvokeAsync(ChatState.Room);
-            }
-
-            await LoadChatRoomsAsync(ChatState.Room.Id);
-        }
-
-        ChatState.IsLoading = false;
+                a.Footer.PrimaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogOk];
+                a.Footer.SecondaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogCancel];
+                a.Parameters.Add(nameof(ChatRoomRenameDialog.Value), ChatState.Room?.Name);
+            }),
+            applyChange: async (value) =>
+            {
+                ChatState.Room?.Name = value as string;
+            },
+            callback: OnRename,
+            clearRoom: false
+        );
     }
 
     /// <summary>
@@ -656,26 +625,16 @@ public partial class ChatRoomListView<TChatRoom>
     /// <returns>Returns a task which deletes the chat room when completed.</returns>
     private async Task OnDeleteAsync()
     {
-        var dialog = await DialogService.ShowConfirmationAsync(
-            Localizer[LanguageResource.CX_Chat_Room_DeleteRoomMessage],
-            Localizer[LanguageResource.CX_Chat_Room_DeleteRoomTitle],
-            Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
-
-        if (dialog.Cancelled)
-        {
-            return;
-        }
-
-        ChatState.IsLoading = true;
-
-        if (OnDelete.HasDelegate)
-        {
-            await OnDelete.InvokeAsync(ChatState.Room);
-        }
-
-        ChatState.Room = null;
-        ChatState.IsLoading = false;
+        await ExecuteRoomActionAsync(
+            showDialog: () => DialogService.ShowConfirmationAsync(
+                Localizer[LanguageResource.CX_Chat_Room_DeleteRoomMessage],
+                Localizer[LanguageResource.CX_Chat_Room_DeleteRoomTitle],
+                Localizer[LanguageResource.CX_Chat_Room_DialogYes],
+                Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
+            applyChange: null,
+            callback: OnDelete,
+            clearRoom: true
+        );
     }
 
     /// <summary>
@@ -684,26 +643,25 @@ public partial class ChatRoomListView<TChatRoom>
     /// <returns>Returns a task which hides the chat room when completed.</returns>
     private async Task OnHideAsync()
     {
-        var dialog = await DialogService.ShowConfirmationAsync(
-            Localizer[LanguageResource.CX_Chat_Room_HideRoomMessage],
-            Localizer[LanguageResource.CX_Chat_Room_HideRoomTitle],
-            Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
-
-        if (dialog.Cancelled)
-        {
-            return;
-        }
-
-        ChatState.IsLoading = true;
-        ChatState.Room?.IsHidden = true;
-
-        if (OnHide.HasDelegate)
-        {
-            await OnHide.InvokeAsync(ChatState.Room);
-        }
-
-        ChatState.IsLoading = false;
+        await ExecuteRoomActionAsync(
+            showDialog: () => DialogService.ShowConfirmationAsync(
+                Localizer[LanguageResource.CX_Chat_Room_HideRoomMessage],
+                Localizer[LanguageResource.CX_Chat_Room_HideRoomTitle],
+                Localizer[LanguageResource.CX_Chat_Room_DialogYes],
+                Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
+            applyChange: (e) =>
+            {
+                if (ChatState.Room is not null)
+                {
+                    ChatState.Room.IsHidden = true;
+                    _hiddenRooms.Add(ChatState.Room);
+                    _chatRooms.Remove(ChatState.Room);
+                }
+                
+                return Task.CompletedTask;
+            },
+            callback: OnHide
+        );
     }
 
     /// <summary>
@@ -712,26 +670,25 @@ public partial class ChatRoomListView<TChatRoom>
     /// <returns>Returns a task which blocks the room when completed.</returns>
     private async Task OnBlockAsync()
     {
-        var dialog = await DialogService.ShowConfirmationAsync(
-            Localizer[LanguageResource.CX_Chat_Room_BlockRoomMessage],
-            Localizer[LanguageResource.CX_Chat_Room_BlockRoomTitle],
-            Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
+        await ExecuteRoomActionAsync(
+            showDialog: () => DialogService.ShowConfirmationAsync(
+                Localizer[LanguageResource.CX_Chat_Room_BlockRoomMessage],
+                Localizer[LanguageResource.CX_Chat_Room_BlockRoomTitle],
+                Localizer[LanguageResource.CX_Chat_Room_DialogYes],
+                Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
+            applyChange: (e) =>
+            {
+                if (ChatState.Room is not null)
+                {
+                    ChatState.Room.IsBlocked = true;
+                    _blockedRooms.Add(ChatState.Room);
+                    _chatRooms.Remove(ChatState.Room);
+                }
 
-        if (dialog.Cancelled)
-        {
-            return;
-        }
-
-        ChatState.IsLoading = true;
-        ChatState.Room?.IsBlocked = true;
-
-        if (OnBlock.HasDelegate)
-        {
-            await OnBlock.InvokeAsync(ChatState.Room);
-        }
-
-        ChatState.IsLoading = false;
+                return Task.CompletedTask;
+            },
+            callback: OnBlock
+        );
     }
 
     /// <summary>
@@ -740,39 +697,72 @@ public partial class ChatRoomListView<TChatRoom>
     /// <returns>Returns a task which unblocks the room when completed.</returns>
     private async Task OnUnblockAsync()
     {
-        var dialog = await DialogService.ShowConfirmationAsync(
-            Localizer[LanguageResource.CX_Chat_Room_UnblockRoomMessage],
-            Localizer[LanguageResource.CX_Chat_Room_UnblockRoomTitle],
-            Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
+        await ExecuteRoomActionAsync(
+            showDialog: () => DialogService.ShowConfirmationAsync(
+                Localizer[LanguageResource.CX_Chat_Room_UnblockRoomMessage],
+                Localizer[LanguageResource.CX_Chat_Room_UnblockRoomTitle],
+                Localizer[LanguageResource.CX_Chat_Room_DialogYes],
+                Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
+            applyChange: (e) =>
+            {
+                if (ChatState.Room is not null)
+                {
+                    ChatState.Room.IsBlocked = false;
+                    _blockedRooms.Remove(ChatState.Room);
+                    _chatRooms.Add(ChatState.Room);
+                }
 
-        if (dialog.Cancelled)
-        {
-            return;
-        }
-
-        ChatState.IsLoading = true;
-        ChatState.Room?.IsBlocked = false;
-
-        if (OnUnblock.HasDelegate)
-        {
-            await OnUnblock.InvokeAsync(ChatState.Room);
-        }
-
-        ChatState.IsLoading = false;
+                return Task.CompletedTask;
+            },
+            callback: OnUnblock,
+            clearRoom: true
+        );
     }
 
     /// <summary>
     /// Occurs when the unhide action is triggered for a chat room.
     /// </summary>
-    /// <returns>Returns a task which unblocks the room when completed.</returns>
+    /// <returns>Returns a task which unhides the room when completed.</returns>
     private async Task OnUnhideAsync()
     {
-        var dialog = await DialogService.ShowConfirmationAsync(
-            Localizer[LanguageResource.CX_Chat_Room_UnhideRoomMessage],
-            Localizer[LanguageResource.CX_Chat_Room_UnhideRoomTitle],
-            Localizer[LanguageResource.CX_Chat_Room_DialogYes],
-            Localizer[LanguageResource.CX_Chat_Room_DialogNo]);
+        await ExecuteRoomActionAsync(
+            showDialog: () => DialogService.ShowConfirmationAsync(
+                Localizer[LanguageResource.CX_Chat_Room_UnhideRoomMessage],
+                Localizer[LanguageResource.CX_Chat_Room_UnhideRoomTitle],
+                Localizer[LanguageResource.CX_Chat_Room_DialogYes],
+                Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
+            applyChange: (e) =>
+            {
+                if (ChatState.Room is not null)
+                {
+                    ChatState.Room.IsHidden = false;
+                    _hiddenRooms.Remove(ChatState.Room);
+                    _chatRooms.Add(ChatState.Room);
+                }
+
+                return Task.CompletedTask;
+            },
+            callback: OnUnhide,
+            clearRoom: true
+        );
+    }
+
+    /// <summary>
+    /// Executes a chat room action by showing a dialog, applying changes to the chat room based on the dialog result,
+    /// invoking a callback, and optionally reloading the chat rooms and clearing the selected room.
+    /// </summary>
+    /// <param name="showDialog">A function that shows a dialog and returns the result.</param>
+    /// <param name="applyChange">A function that applies changes to the chat room based on the dialog result.</param>
+    /// <param name="callback">A callback to invoke after the action is applied.</param>
+    /// <param name="clearRoom">Indicates whether to clear the selected chat room after the action.</param>
+    /// <returns>Returns a task representing the asynchronous operation.</returns>
+    private async Task ExecuteRoomActionAsync(
+        Func<Task<DialogResult>> showDialog,
+        Func<object?, Task>? applyChange = null,
+        EventCallback<ChatRoom>? callback = null,
+        bool clearRoom = true)
+    {
+        var dialog = await showDialog();
 
         if (dialog.Cancelled)
         {
@@ -780,11 +770,21 @@ public partial class ChatRoomListView<TChatRoom>
         }
 
         ChatState.IsLoading = true;
-        ChatState.Room?.IsHidden = false;
 
-        if (OnUnhide.HasDelegate)
+        if (applyChange is not null)
         {
-            await OnUnhide.InvokeAsync(ChatState.Room);
+            await applyChange(dialog.Value);
+        }
+
+        if (callback?.HasDelegate == true &&
+            ChatState.Room is not null)
+        {
+            await callback.Value.InvokeAsync(ChatState.Room);
+        }
+
+        if (clearRoom)
+        {
+            ChatState.Room = null;
         }
 
         ChatState.IsLoading = false;
@@ -803,19 +803,34 @@ public partial class ChatRoomListView<TChatRoom>
 
     private IEnumerable<(string Title, Icon Icon, Func<Task> Action)> GetSleekDialActions()
     {
-        if (IsNewGroupChatEnabled)
+        if (IsNewGroupChatEnabled &&
+            _listView == ListView.Normal)
         {
             yield return (Localizer[LanguageResource.CX_Chat_Room_NewGroup], new Size24.Add(), OnNewChatGroupAsync);
         }
 
         if (CanUnblock)
         {
-            yield return (Localizer[LanguageResource.CX_Chat_Room_ShowBlockedRooms], new Size24.PresenceBlocked(), OnUnblockRoomsAsync);
+            if (_listView != ListView.Blocked)
+            {
+                yield return (Localizer[LanguageResource.CX_Chat_Room_ShowBlockedRooms], new Size24.PresenceBlocked(), OnUnblockRoomsAsync);
+            }
+            else
+            {
+                yield return (Localizer[LanguageResource.CX_Chat_Room_ShowAllRooms], new Size24.PresenceAvailable(), OnShowRoomsAsync);
+            }
         }
 
         if (CanUnhide)
         {
-            yield return (Localizer[LanguageResource.CX_Chat_Room_ShowHiddenRooms], new Size24.EyeOff(), OnUnhideRoomsAsync);
+            if (_listView != ListView.Hidden)
+            {
+                yield return (Localizer[LanguageResource.CX_Chat_Room_ShowHiddenRooms], new Size24.Eye(), OnUnhideRoomsAsync);
+            }
+            else
+            {
+                yield return (Localizer[LanguageResource.CX_Chat_Room_ShowAllRooms], new Size24.EyeOff(), OnShowRoomsAsync);
+            }
         }
     }
 
@@ -825,7 +840,7 @@ public partial class ChatRoomListView<TChatRoom>
         {
             if (CanRename)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Rename], new Size24.Edit(), OnRenameAsync);
+                yield return (Localizer[LanguageResource.CX_Chat_Room_Rename_Menu], new Size24.Edit(), OnRenameAsync);
             }
 
             if (CanBlock)

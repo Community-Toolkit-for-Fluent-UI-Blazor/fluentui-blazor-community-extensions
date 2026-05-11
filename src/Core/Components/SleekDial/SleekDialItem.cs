@@ -86,6 +86,13 @@ public class SleekDialItem
         {
             await OnClick.InvokeAsync();
         }
+
+        if (Parent is null)
+        {
+            return;
+        }
+
+        await Parent.OnCloseAsync();
     }
 
     /// <inheritdoc />

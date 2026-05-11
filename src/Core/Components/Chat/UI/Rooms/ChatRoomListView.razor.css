@@ -25,4 +25,7 @@
   flex: 1;
   overflow-y: auto;
   position: relative;
+  padding: var(--spacingVerticalXS) var(--spacingHorizontalXS);
+  border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+  border-radius: var(--borderRadiusMedium);
 }

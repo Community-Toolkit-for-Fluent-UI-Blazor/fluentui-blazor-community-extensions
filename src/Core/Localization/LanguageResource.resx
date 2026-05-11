@@ -501,4 +501,13 @@
   <data name="CX_Chat_Room_Loading_OperationCanceled" xml:space="preserve">
     <value>Loading rooms was cancelled by the user {UserName}.</value>
   </data>
+  <data name="CX_Chat_Room_ShowAllRooms_OperationCanceled" xml:space="preserve">
+    <value>Loading rooms was cancelled by the user {UserName}.</value>
+  </data>
+  <data name="CX_Chat_Room_ShowAllRooms" xml:space="preserve">
+    <value>Show all rooms</value>
+  </data>
+  <data name="CX_Chat_Room_Rename_Menu" xml:space="preserve">
+    <value>Rename</value>
+  </data>
 </root>
