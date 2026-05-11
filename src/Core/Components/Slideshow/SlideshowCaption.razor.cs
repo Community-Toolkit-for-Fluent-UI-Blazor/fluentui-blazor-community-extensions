@@ -4,7 +4,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents a caption for a <see cref="SlideshowItem{TItem}"/>.
+/// Represents a caption for a <see cref="SlideshowItem"/>.
 /// </summary>
 public partial class SlideshowCaption
      : FluentComponentBase
