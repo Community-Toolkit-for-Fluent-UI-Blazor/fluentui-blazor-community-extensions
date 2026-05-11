@@ -6,11 +6,11 @@ using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents the video inside a <see cref="FluentCxSlideshow{TItem}"/>.
+/// Represents the video inside a <see cref="FluentCxSlideshow"/>.
 /// </summary>
-public partial class SlideshowVideo<TItem> : FluentComponentBase
+public partial class SlideshowVideo : FluentComponentBase
 {
-    private SlideshowVideoJS<TItem>? _jsModule;
+    private SlideshowVideoJS? _jsModule;
 
     /// <summary>
     /// Initializes a new instance of the SlideshowVideo class using the specified library configuration.
@@ -61,7 +61,7 @@ public partial class SlideshowVideo<TItem> : FluentComponentBase
     /// important to ensure that the parent item is set correctly to maintain the intended structure of the
     /// slideshow.</remarks>
     [CascadingParameter]
-    private SlideshowItem<TItem>? Parent { get; set; }
+    private SlideshowItem? Parent { get; set; }
 
     /// <inheritdoc/>
     protected override void OnInitialized()
@@ -92,7 +92,7 @@ public partial class SlideshowVideo<TItem> : FluentComponentBase
 
         if (firstRender)
         {
-            _jsModule = new SlideshowVideoJS<TItem>(JSModule, State);
+            _jsModule = new SlideshowVideoJS(JSModule, State);
             await _jsModule.Initialize(Id);
         }
     }

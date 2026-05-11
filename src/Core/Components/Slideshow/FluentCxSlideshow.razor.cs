@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Timers;
 using FluentUI.Blazor.Community.Components.Components.Base;
 using FluentUI.Blazor.Community.Components.Extensions;
+using FluentUI.Blazor.Community.Components.Localization;
 using FluentUI.Blazor.Community.Components.States;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -16,9 +17,7 @@ namespace FluentUI.Blazor.Community.Components;
 ///  such as autoplay, looping modes, and touch support. This component is designed to be flexible and customizable,
 ///  allowing developers to create engaging slideshow experiences in their Blazor applications.
 /// </summary>
-/// <typeparam name="TItem">Type of the item</typeparam>
-[CascadingTypeParameter(nameof(TItem))]
-public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDisposable
+public partial class FluentCxSlideshow : FluentComponentBase
 {
     /// <summary>
     /// Represents the collection of slideshow items currently managed by the slideshow component.
@@ -26,7 +25,7 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// <remarks>This list is initialized as empty and stores the individual items displayed in the slideshow.
     /// Items should be added, removed, or modified only through the component's public methods to ensure correct
     /// slideshow state management.</remarks>
-    private readonly List<SlideshowItem<TItem>> _slides = [];
+    private readonly List<SlideshowItem> _slides = [];
 
     /// <summary>
     /// Stores the timer instance used to schedule periodic operations within the containing class.
@@ -78,7 +77,7 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// <summary>
     /// Represents the reference of the slideshow instance that can be used for JavaScript interop calls.
     /// </summary>
-    private readonly DotNetObjectReference<FluentCxSlideshow<TItem>> _dotnetReference;
+    private readonly DotNetObjectReference<FluentCxSlideshow> _dotnetReference;
 
     /// <summary>
     /// Represents the javaScript module reference used for invoking JavaScript functions related to the slideshow component.
@@ -109,25 +108,15 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// <summary>
     /// Gets or sets a value indicating whether the slideshow controls (previous and next buttons) should be displayed.
     /// </summary>
-    [Parameter] public bool ShowControls { get; set; } = true;
+    [Parameter]
+    public bool ShowControls { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the slideshow component. This content typically consists of
-    ///  <see cref="SlideshowItem{TItem}"/>
+    ///  <see cref="SlideshowItem"/>
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    /// <summary>
-    /// Gets or sets the collection of items to be displayed in the slideshow when using the component in a data-driven manner.
-    /// </summary>
-    [Parameter] public IEnumerable<TItem> Items { get; set; } = [];
-
-    /// <summary>
-    /// Gets or sets the template used to render each item in the slideshow when using the component in a data-driven manner.
-    /// </summary>
-    [Parameter]
-    public RenderFragment<TItem>? ItemTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the slideshow indicators (navigation dots) should be displayed.
@@ -175,20 +164,12 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// <summary>
     /// Gets or sets the label for the previous button in the slideshow controls. This label is used for accessibility purposes and can be customized to provide a more descriptive text for screen readers.
     /// </summary>
-    [Parameter]
-    public string PreviousLabel { get; set; } = "Previous";
+    private string PreviousLabel => Localizer[LanguageResource.CX_Slideshow_Previous];
 
     /// <summary>
     /// Gets or sets the label for the next button in the slideshow controls. Similar to the previous button label, this is used for accessibility purposes to provide descriptive text for screen readers when navigating through the slideshow.
     /// </summary>
-    [Parameter]
-    public string NextLabel { get; set; } = "Next";
-
-    /// <summary>
-    /// Gets or sets a function that returns a unique identifier for each item in the slideshow when using the component in a data-driven manner. This function is used to generate stable keys for each item, which can improve performance and help maintain state when items are added, removed, or reordered in the slideshow.
-    /// </summary>
-    [Parameter]
-    public Func<TItem, long>? ItemFunc { get; set; }
+    private string NextLabel => Localizer[LanguageResource.CX_Slideshow_Next];
 
     /// <summary>
     /// Gets or sets the position of the slideshow indicators (navigation dots) when they are displayed. The position can be set to one of the following values:
@@ -255,7 +236,7 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// <summary>
     /// Gets the total number of slides or items available, depending on the current content configuration.
     /// </summary>
-    private int Count => ChildContent is not null ? _slides.Count : Items.Count();
+    private int Count => _slides.Count;
 
     /// <summary>
     /// Gets a value indicating whether navigation to the previous item in the slideshow is currently disabled.
@@ -273,6 +254,13 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     internal Orientation InternalOrientation => GetInternalOrientation();
 
     /// <summary>
+    /// Gets the css for the slideshow.
+    /// </summary>
+    private string? InternalClass => DefaultClassBuilder
+        .AddClass("fluentcx-slideshow")
+        .Build();
+
+    /// <summary>
     /// Gets the computed inline CSS style string for the slideshow component, including item count, current index,
     /// duration, and easing function.
     /// </summary>
@@ -281,18 +269,6 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
         .AddStyle("--slideshow-current-index", Index.ToString(CultureInfo.CurrentCulture))
         .AddStyle("--slideshow-duration", $"{SlideDuration.TotalMilliseconds}ms")
         .AddStyle("--slideshow-easing", "cubic-bezier(0.22, 0.61, 0.36, 1)")
-        .Build();
-
-    /// <summary>
-    /// Gets the CSS class string applied to the slideshow container based on the current orientation and loop mode.
-    /// </summary>
-    private string? InternalContainerCss => new CssBuilder()
-        .AddClass("slideshow-container")
-        .AddClass("slideshow-animate")
-        .AddClass("slideshow-animate-horizontal", InternalOrientation == Orientation.Horizontal)
-        .AddClass("slideshow-animate-vertical", InternalOrientation == Orientation.Vertical)
-        .AddClass("slideshow-translate-horizontal", LoopMode != SlideshowLoopingMode.Infinite && InternalOrientation == Orientation.Horizontal)
-        .AddClass("slideshow-translate-vertical", LoopMode != SlideshowLoopingMode.Infinite && InternalOrientation == Orientation.Vertical)
         .Build();
 
     /// <summary>
@@ -308,26 +284,54 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// <summary>
     /// Gets the previous button style string for horizontal orientation.
     /// </summary>
-    private static string PreviousHorizontalStyle =>
-        "position: absolute; left: 50px; top: 50%; transform: translateY(-50%); min-height: 100px; max-height: 100px; width: 32px";
+    private static string? PreviousHorizontalStyle { get; } = new StyleBuilder()
+        .AddStyle("position", "absolute")
+        .AddStyle("left", "50px")
+        .AddStyle("top", "50%")
+        .AddStyle("transform", "translateY(-50%)")
+        .AddStyle("min-height", "100px")
+        .AddStyle("max-height", "100px")
+        .AddStyle("width", "32px")
+        .Build();
 
     /// <summary>
     /// Gets the previous button style string for vertical orientation.
     /// </summary>
-    private static string PreviousVerticalStyle =>
-        "position: absolute; left: 50%; top: 50px; transform: translateX(-50%); min-width: 100px; max-width: 100px; height: 32px";
+    private static string? PreviousVerticalStyle { get; } = new StyleBuilder()
+        .AddStyle("position", "absolute")
+        .AddStyle("left", "50%")
+        .AddStyle("top", "50px")
+        .AddStyle("transform", "translateX(-50%)")
+        .AddStyle("min-width", "100px")
+        .AddStyle("max-width", "100px")
+        .AddStyle("height", "32px")
+        .Build();
 
     /// <summary>
     /// Gets the next button style string for horizontal orientation.
     /// </summary>
-    private static string NextHorizontalStyle =>
-        "position: absolute; right: 50px; top: 50%; transform: translateY(-50%); min-height: 100px; max-height: 100px; width: 32px";
+    private static string? NextHorizontalStyle { get; } = new StyleBuilder()
+        .AddStyle("position", "absolute")
+        .AddStyle("right", "50px")
+        .AddStyle("top", "50%")
+        .AddStyle("transform", "translateY(-50%)")
+        .AddStyle("min-height", "100px")
+        .AddStyle("max-height", "100px")
+        .AddStyle("width", "32px")
+        .Build();
 
     /// <summary>
     /// Gets the next button style string for vertical orientation.
     /// </summary>
-    private static string NextVerticalStyle =>
-        "position: absolute; left: 50%; bottom: 50px; transform: translateX(-50%); min-width: 100px; max-width: 100px; height: 32px";
+    private static string? NextVerticalStyle { get; } = new StyleBuilder()
+        .AddStyle("position", "absolute")
+        .AddStyle("left", "50%")
+        .AddStyle("bottom", "50px")
+        .AddStyle("transform", "translateX(-50%)")
+        .AddStyle("min-width", "100px")
+        .AddStyle("max-width", "100px")
+        .AddStyle("height", "32px")
+        .Build();
 
     /// <summary>
     /// Gets the state of the slideshow component.
@@ -437,7 +441,7 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// valid item contained in the slideshow.</param>
     /// <returns>A string representing the ARIA hidden value for the specified item, or null if the item is not found in the
     /// slideshow.</returns>
-    internal string? GetAriaHiddenValue(SlideshowItem<TItem> item)
+    internal string? GetAriaHiddenValue(SlideshowItem item)
     {
         return GetAriaHiddenValue(_slides.IndexOf(item));
     }
@@ -581,7 +585,7 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// any UI elements reflecting the slideshow state are updated accordingly.</remarks>
     /// <param name="value">The slideshow item to remove from the collection. This item must exist in the collection; otherwise, no action
     /// is taken.</param>
-    internal void Remove(SlideshowItem<TItem> value)
+    internal void Remove(SlideshowItem value)
     {
         _slides.Remove(value);
         InvokeAsync(StateHasChanged);
@@ -593,7 +597,7 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// <remarks>After the item is added, the component's state is updated asynchronously to reflect the
     /// change.</remarks>
     /// <param name="value">The slideshow item to add. This parameter must not be null.</param>
-    internal void Add(SlideshowItem<TItem> value)
+    internal void Add(SlideshowItem value)
     {
         _slides.Add(value);
         InvokeAsync(StateHasChanged);
@@ -606,7 +610,7 @@ public partial class FluentCxSlideshow<TItem> : FluentComponentBase, IAsyncDispo
     /// The comparison is based on the equality implementation of SlideshowItem{TItem}.</remarks>
     /// <param name="value">The slideshow item to locate in the collection. This parameter cannot be null.</param>
     /// <returns>true if the specified slideshow item is found in the collection; otherwise, false.</returns>
-    internal bool Contains(SlideshowItem<TItem> value)
+    internal bool Contains(SlideshowItem value)
     {
         return _slides.Contains(value);
     }

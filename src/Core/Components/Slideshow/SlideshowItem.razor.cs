@@ -7,18 +7,18 @@ using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents an item for the <see cref="FluentCxSlideshow{TItem}"/>.
+/// Represents an item for the <see cref="FluentCxSlideshow"/>.
 /// </summary>
-/// <typeparam name="TItem">Type of the item.</typeparam>
-public partial class SlideshowItem<TItem>
+public partial class SlideshowItem
     : FluentComponentBase, IDisposable
 {
-    private SlideshowImage<TItem>? _imageChild;
+    private SlideshowImage? _imageChild;
+    private SlideshowVideo? _videoChild;
     private SlideshowContentRatio _contentRatio;
     private SlideshowRatioMode _ratioMode;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SlideshowItem{TItem}"/> class.
+    /// Initializes a new instance of the <see cref="SlideshowItem"/> class.
     /// </summary>
     public SlideshowItem(LibraryConfiguration libraryConfiguration)
         : base(libraryConfiguration)
@@ -48,7 +48,7 @@ public partial class SlideshowItem<TItem>
     /// Gets or sets the parent of the component.
     /// </summary>
     [CascadingParameter]
-    private FluentCxSlideshow<TItem> Parent { get; set; } = default!;
+    private FluentCxSlideshow Parent { get; set; } = default!;
 
     [Inject]
     private SlideshowState State { get; set; } = default!;
@@ -74,7 +74,7 @@ public partial class SlideshowItem<TItem>
     /// Adds the specified child image to the slideshow.
     /// </summary>
     /// <param name="child">The child image to be added to the slideshow. This parameter cannot be null.</param>
-    internal void Add(SlideshowImage<TItem> child)
+    internal void Add(SlideshowImage child)
     {
         _imageChild = child;
     }
@@ -84,7 +84,7 @@ public partial class SlideshowItem<TItem>
     /// </summary>
     /// <param name="child">The child image to be removed from the slideshow. If this image is the currently active image, it will be set to
     /// null.</param>
-    internal void Remove(SlideshowImage<TItem> child)
+    internal void Remove(SlideshowImage child)
     {
         if (_imageChild == child)
         {
@@ -99,7 +99,7 @@ public partial class SlideshowItem<TItem>
 
         if (Parent is null)
         {
-            throw new InvalidOperationException($"{GetType().Name} must be used within a {typeof(FluentCxSlideshow<TItem>).Name} component.");
+            throw new InvalidOperationException($"{GetType().Name} must be used within a {typeof(FluentCxSlideshow).Name} component.");
         }
 
         State.SizeChanged += OnSizeChanged;
@@ -222,13 +222,16 @@ public partial class SlideshowItem<TItem>
         GC.SuppressFinalize(this);
     }
 
-    internal void Add(SlideshowVideo<TItem> slideshowVideo)
+    internal void Add(SlideshowVideo slideshowVideo)
     {
-        throw new NotImplementedException();
+        _videoChild = slideshowVideo;
     }
 
-    internal void Remove(SlideshowVideo<TItem> slideshowVideo)
+    internal void Remove(SlideshowVideo slideshowVideo)
     {
-        throw new NotImplementedException();
+        if (_videoChild == slideshowVideo)
+        {
+            _videoChild = null;
+        }
     }
 }

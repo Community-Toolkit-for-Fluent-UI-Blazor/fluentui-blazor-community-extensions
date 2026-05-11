@@ -10,7 +10,7 @@ public class SlideshowImageJSTests
     public void OnImageMeasured_UpdatesStateAndRaisesEvent()
     {
         var state = new SlideshowState();
-        var jsModule = new SlideshowImageJS<string>(null!, state);
+        var jsModule = new SlideshowImageJS(null!, state);
         var raisedId = string.Empty;
 
         state.SizeChanged += (_, id) => raisedId = id;

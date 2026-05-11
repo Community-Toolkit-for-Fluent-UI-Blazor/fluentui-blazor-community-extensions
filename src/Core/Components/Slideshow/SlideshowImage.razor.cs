@@ -6,10 +6,9 @@ using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
-/// Represents the image inside a <see cref="FluentCxSlideshow{TItem}"/>.
+/// Represents the image inside a <see cref="FluentCxSlideshow"/>.
 /// </summary>
-/// <typeparam name="TItem">Type of the item.</typeparam>
-public partial class SlideshowImage<TItem>
+public partial class SlideshowImage
     : FluentComponentBase
 {
     /// <summary>
@@ -19,12 +18,12 @@ public partial class SlideshowImage<TItem>
     /// <remarks>This field is nullable, indicating that the JavaScript module may not be initialized. It is
     /// intended for internal use to facilitate interaction between the .NET component and its associated JavaScript
     /// logic.</remarks>
-    private SlideshowImageJS<TItem>? _jsModule;
+    private SlideshowImageJS? _jsModule;
 
     #region Constructors
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SlideshowImage{TItem}"/> class.
+    /// Initializes a new instance of the <see cref="SlideshowImage"/> class.
     /// </summary>
     public SlideshowImage(LibraryConfiguration configuration)
         : base(configuration)
@@ -76,7 +75,7 @@ public partial class SlideshowImage<TItem>
     /// Gets or sets the parent slideshow item in the cascading parameter hierarchy.
     /// </summary>
     [CascadingParameter]
-    private SlideshowItem<TItem>? Parent { get; set; }
+    private SlideshowItem? Parent { get; set; }
 
     #endregion Properties
 
@@ -112,7 +111,7 @@ public partial class SlideshowImage<TItem>
 
         if (firstRender)
         {
-            _jsModule = new SlideshowImageJS<TItem>(JSModule, State);
+            _jsModule = new SlideshowImageJS(JSModule, State);
             await _jsModule.Initialize(Id);
         }
     }

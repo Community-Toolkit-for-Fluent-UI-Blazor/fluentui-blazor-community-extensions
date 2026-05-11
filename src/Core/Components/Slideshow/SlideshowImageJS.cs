@@ -12,10 +12,9 @@ namespace FluentUI.Blazor.Community.Components;
 /// <remarks>This class manages the lifecycle of a JavaScript-based slideshow image component, ensuring that
 /// resources are properly initialized and disposed. It is intended for internal use within Blazor components that
 /// require integration with JavaScript slideshow functionality.</remarks>
-/// <typeparam name="TItem">Specifies the type of items displayed by the slideshow component.</typeparam>
 /// <param name="fluentJSModule">The JavaScript module loader used to import the slideshow image JavaScript module required for interoperation.</param>
 /// <param name="state">The state management object that maintains the state of the slideshow images.</param>
-internal sealed class SlideshowImageJS<TItem>(
+internal sealed class SlideshowImageJS(
     FluentJSModule fluentJSModule,
     SlideshowState state)
 {

@@ -10,7 +10,7 @@ public class SlideshowVideoJSTests
     public void OnVideoMeasured_UpdatesStateAndRaisesEvent()
     {
         var state = new SlideshowState();
-        var jsModule = new SlideshowVideoJS<string>(null!, state);
+        var jsModule = new SlideshowVideoJS(null!, state);
         var raisedId = string.Empty;
 
         state.SizeChanged += (_, id) => raisedId = id;
