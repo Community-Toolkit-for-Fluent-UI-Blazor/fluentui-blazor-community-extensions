@@ -1,3 +1,4 @@
+using FluentUI.Blazor.Community.Components.Chat.Room;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
@@ -27,6 +28,12 @@ public partial class ChatRoomItem : FluentComponentBase
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to show the "more" button for additional actions on the chat room item.
+    /// </summary>
+    [Parameter]
+    public bool ShowMoreButton { get; set; }
+
+    /// <summary>
     /// Gets or sets the content to be rendered inside this component.
     /// </summary>
     [Parameter]
@@ -51,11 +58,14 @@ public partial class ChatRoomItem : FluentComponentBase
     public EventCallback OnClick { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to show the "More" button for additional options related to the chat room item.
+    /// Gets or sets the collection of actions that can be performed on the chat room item.
     /// </summary>
     [Parameter]
-    public bool ShowMoreButton { get; set; }
+    public IEnumerable<ChatRoomAction> MoreMenuActions { get; set; } = [];
 
+    /// <summary>
+    /// Gets the css for the item.
+    /// </summary>
     private string? CssClass => DefaultClassBuilder
         .AddClass("chat-room-item")
         .AddClass("selected", IsSelected)

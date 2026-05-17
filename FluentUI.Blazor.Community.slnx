@@ -25,6 +25,9 @@
   <Folder Name="/src/Core/">
     <Project Path="src/Core/FluentUI.Blazor.Community.Components.csproj" />
   </Folder>
+  <Folder Name="/src/Emojis/">
+    <Project Path="src/Emojis/FluentUI.Blazor.Community.Components.Emojis.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Core/Components.Tests.csproj" />
   </Folder>

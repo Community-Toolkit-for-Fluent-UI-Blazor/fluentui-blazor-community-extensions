@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FluentUI.Blazor.Community.Components.Emojis</name>
+    </assembly>
+    <members>
+        <member name="T:FluentUI.Blazor.Community.Components.Emojis.AppleEmojiProvider">
+            <summary>
+            Represents an emoji provider for Apple platforms.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.AppleEmojiProvider.FontFamily">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.AppleEmojiProvider.FallbackFontFamily">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji">
+            <summary>
+            Represents a comprehensive model of an emoji, encapsulating all relevant properties and metadata for accurate rendering and categorization within Fluent UI Blazor components.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.#ctor(System.String,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.String,System.Boolean,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Boolean,System.String,System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji"/> class with the specified emoji metadata.
+            </summary>
+            <param name="unicode">The Unicode character representation of the emoji.</param>
+            <param name="name">The full name of the emoji.</param>
+            <param name="shortName">The short name or identifier for the emoji.</param>
+            <param name="keywords">A collection of keywords associated with the emoji for search and discovery.</param>
+            <param name="category">The category to which the emoji belongs.</param>
+            <param name="subgroup">The subgroup classification of the emoji.</param>
+            <param name="isSequence">A value indicating whether the emoji is composed of multiple codepoint sequences.</param>
+            <param name="codepoints">A collection of Unicode codepoints that make up the emoji.</param>
+            <param name="variants">A collection of variant forms of the emoji.</param>
+            <param name="supportsSkinTone">A value indicating whether the emoji supports skin tone modifiers.</param>
+            <param name="unicodeVersion">The Unicode version in which the emoji was introduced.</param>
+            <param name="emojiVersion">The Emoji version in which the emoji was introduced.</param>
+            <param name="isZWJ">A value indicating whether the emoji uses Zero Width Joiner (ZWJ) sequences.</param>
+            <param name="isKeycap">A value indicating whether the emoji is a keycap emoji.</param>
+            <param name="isFlag">A value indicating whether the emoji represents a flag.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.Unicode">
+            <summary>
+            Gets the Unicode representation of the emoji.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.Name">
+            <summary>
+            Gets the name of the emoji.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.ShortName">
+            <summary>
+            Gets the short name of the emoji.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.DisplayName">
+            <summary>
+            Gets tje display name of the emoji.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.Keywords">
+            <summary>
+            Gets the list of keywords associated with the emoji.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.Category">
+            <summary>
+            Gets the category of the emoji, such as "Smileys &amp; Emotion", "People &amp; Body", "Animals &amp; Nature", etc.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.Subgroup">
+            <summary>
+            Gets the subgroup of the emoji, which provides a more specific classification within the main category, such as "face-smiling", "hand-fingers-open", "animal-mammal", etc.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.IsSequence">
+            <summary>
+            Gets a value indicating whether the emoji is a sequence of multiple code points (e.g., family emojis, flag emojis) rather than a single code point.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.Codepoints">
+            <summary>
+            Gets the list of Unicode code points that make up the emoji.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.Variants">
+            <summary>
+            Gets the list of variant forms of the emoji, such as skin tone.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.SupportsSkinTone">
+            <summary>
+            Gets a value indicating whether the emoji supports skin tone modifiers.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.SupportsGender">
+            <summary>
+            Gets a value indicating whether the emoji supports gender.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.UnicodeVersion">
+            <summary>
+            Gets the Unicode version in which the emoji was introduced.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.EmojiVersion">
+            <summary>
+            Gets the emoji version in which the emoji was introduced, which may differ from the Unicode version for certain emojis that were added in later updates to the emoji standard.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.IsZWJ">
+            <summary>
+            Gets a value indicating whether the emoji is a zero-width joiner (ZWJ) sequence.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.IsKeycap">
+            <summary>
+            Gets a value indicating whether the emoji is a keycap.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.IsFlag">
+            <summary>
+            Gets a value indicating whether the emoji is a flag.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiFactory">
+            <summary>
+            Factory for creating <see cref="T:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji"/> instances from emoji metadata and localization data.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiFactory.Create(System.String,FluentUI.Blazor.Community.Components.Emojis.EmojiMeta,FluentUI.Blazor.Community.Components.Emojis.EmojiLocalized)">
+            <summary>
+            Creates a new FluentCxEmoji instance from Unicode, metadata, and localized information.
+            </summary>
+            <param name="unicode">The Unicode character(s) representing the emoji.</param>
+            <param name="meta">The metadata containing technical information about the emoji.</param>
+            <param name="loc">The localized information containing names, keywords, and categories.</param>
+            <returns>A new FluentCxEmoji instance initialized with the provided data.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker">
+            <summary>
+            Represents a component that allows users to explore and select emojis from the Fluent Cx UI emoji set. 
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.#ctor(Microsoft.FluentUI.AspNetCore.Components.LibraryConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker"/> class.
+            </summary>
+            <param name="configuration">The library configuration to use.</param>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.Culture">
+            <summary>
+            Gets or sets the culture to use for loading emoji data and performing searches.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.EmojiFontProvider">
+            <summary>
+            Gets or sets the emoji font provider that specifies the font family to use for rendering emojis.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.FontFamily">
+            <summary>
+            Gets the CSS font-family string to use for rendering emojis, combining the specified emoji font family and fallback font family.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.InternalClass">
+            <summary>
+            Gets the internal CSS class for the component.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.SearchText">
+            <summary>
+            Gets or sets the search text entered by the user for filtering emojis.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.SelectedCategory">
+            <summary>
+            Gets or sets the currently selected emoji category.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.VisibleEmojis">
+            <summary>
+            Gets or sets the list of emojis that are currently visible based on the selected category and search text.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.OnEmojiChanged">
+            <summary>
+            Gets or sets the event callback that is invoked when the selected emoji changes.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.OnInitializedAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <inheritdoc />
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.OnParametersSetAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Emojis.IEmojiFontProvider">
+            <summary>
+            Represents a provider of emoji font information for Fluent UI Blazor components.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.IEmojiFontProvider.FontFamily">
+            <summary>
+            Gets the font family.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.IEmojiFontProvider.FallbackFontFamily">
+            <summary>
+            Gets the fallback font family to use when the primary font is unavailable.
+            </summary>
+            <returns>The name of the fallback font family.</returns>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Emojis.MicrosoftEmojiProvider">
+            <summary>
+            Represents an emoji provider for Microsoft platforms.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.MicrosoftEmojiProvider.FontFamily">
+            <inheritdoc />
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.MicrosoftEmojiProvider.FallbackFontFamily">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

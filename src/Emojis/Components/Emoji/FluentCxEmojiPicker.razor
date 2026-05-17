@@ -1,0 +1,75 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Emojis
+@inherits FluentComponentBase
+
+<div id="@Id" class="@InternalClass" style="@Style">
+    <div class="fluent-cx-emoji-search">
+        <FluentTextInput @bind-Value="SearchText"
+                         Placeholder="@Localizer["CX_Emojis_SearchPlaceholder"]"
+                         Appearance="TextInputAppearance.Outline"
+                         @bind-Value:after="OnSearchChangedAsync"
+                         Immediate
+                         Width="100%">
+            <StartTemplate>
+                <FluentIcon Value="@(new Size16.Search())" Color="Color.Primary" />
+            </StartTemplate>
+        </FluentTextInput>
+    </div>
+
+    <FluentTabs ActiveTabId="@SelectedCategory"
+                ActiveTabIdChanged="@(SelectCategoryAsync)">
+        @foreach (var cat in _emojiStore.Categories)
+        {
+            var iconEmoji = cat.Value.FirstOrDefault();
+            var icon = iconEmoji?.Unicode ?? "❓";
+
+            <FluentTab DeferredLoading Id="@cat.Key">
+                <HeaderTemplate>
+                    <FluentStack HorizontalAlignment="HorizontalAlignment.Center">
+                       <span title="@iconEmoji?.Category" style="@InternalFontFamilyStyle">@icon</span>
+                    </FluentStack>
+                </HeaderTemplate>
+
+                <ChildContent>
+                    <div class="fluent-cx-emoji-grid">
+                        <Virtualize @ref="_virtualize"
+                                    ItemsProvider="@LoadEmojisAsync"
+                                    ItemSize="56">
+                            <ItemContent Context="row">
+                                <FluentStack>
+                                    @foreach (var emoji in row.Items)
+                                    {
+                                        <FluentButton Appearance="@(SelectedEmoji == emoji ? ButtonAppearance.Primary : ButtonAppearance.Subtle)"
+                                                      Title="@emoji.DisplayName"
+                                                      OnClick="@(() => SelectEmojiAsync(emoji))"
+                                                      Size="ButtonSize.Large"
+                                                      Style="@InternalFontFamilyStyle">
+                                            @emoji.Unicode
+                                        </FluentButton>
+                                    }
+                                </FluentStack>
+                            </ItemContent>
+                        </Virtualize>
+                    </div>
+                </ChildContent>
+            </FluentTab>
+        }
+    </FluentTabs>
+    @* <FluentStack Wrap>
+        @foreach (var cat in _emojiStore.Categories)
+        {
+            var iconEmoji = cat.Value.FirstOrDefault();
+            var icon = iconEmoji?.Unicode ?? "❓";
+
+            <FluentButton Appearance="@(SelectedCategory == cat.Key ? ButtonAppearance.Primary : ButtonAppearance.Subtle)"
+                          OnClick="@(() => SelectCategory(cat.Key))"
+                          Size="ButtonSize.Large"
+                          Title="@cat.Key"
+                          Style="@InternalFontFamilyStyle">
+                @icon
+            </FluentButton>
+        }
+    </FluentStack> *@
+
+    
+</div>
+

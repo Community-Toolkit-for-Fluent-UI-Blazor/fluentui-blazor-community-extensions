@@ -1,6 +1,6 @@
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
-namespace FluentUI.Blazor.Community.Components.Chat.EventArgs;
+namespace FluentUI.Blazor.Community.Components.Chat;
 
 /// <summary>
 /// Represents an event args for a chat file.

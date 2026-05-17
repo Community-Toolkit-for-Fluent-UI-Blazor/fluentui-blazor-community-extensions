@@ -1,0 +1,30 @@
+.fluent-cx-emoji-explorer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  width: 100%;
+}
+
+.fluent-cx-emoji-search {
+  padding: 4px 0;
+}
+
+.fluent-cx-emoji-categories {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.fluent-cx-emoji-grid {
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.fluent-cx-emoji-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+  gap: 6px;
+}

@@ -5,7 +5,7 @@ namespace FluentUI.Blazor.Community.Components.Chat.Messages;
 /// <summary>
 /// Represents the state of the chat.
 /// </summary>
-public record ChatState
+internal record ChatState
 {
     /// <summary>
     /// Represents the selected room.
@@ -85,28 +85,5 @@ public record ChatState
     public ChatMessageDraft? GetDraft()
     {
         return GetDraft(Room?.Id);
-    }
-
-    /// <summary>
-    /// Creates a new chat room with the specified parameters and sets it as the current room.
-    /// </summary>
-    /// <param name="id">The unique identifier for the chat room.</param>
-    /// <param name="name">The name of the chat room.</param>
-    /// <param name="owner">The owner of the chat room.</param>
-    /// <param name="users">The users to add to the chat room.</param>
-    public void CreateChatRoom(
-        long id,
-        string? name,
-        ChatUser owner,
-        params ChatUser[] users)
-    {
-        Room = new ChatRoom
-        {
-            Id = id,
-            Name = name,
-            Owner = owner,
-            IsEmpty = true,
-            Users = users
-        };
     }
 }

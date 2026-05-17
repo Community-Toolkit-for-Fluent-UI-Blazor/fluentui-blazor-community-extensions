@@ -1,0 +1,335 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+@if (Message is not null &&
+     Owner is not null)
+{
+    @if (ShowDeleted && Message.IsDeleted)
+    {
+        <div>
+            @if (DeletedMessageTemplate is not null)
+            {
+                @DeletedMessageTemplate
+            }
+            else
+            {
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentStack>
+                        @if (Owner != Message.Sender)
+                        {
+                            @_renderAvatar
+                        }
+
+                        @_renderDeletedMessage
+
+                        @if (Owner == Message.Sender)
+                        {
+                            @_renderAvatar
+                        }
+                    </FluentStack>
+
+                    @_renderFooter
+                </FluentStack>
+            }
+        </div>
+    }
+    else if (!Message.IsDeleted)
+    {
+        <div id="@($"message-{Id}-{Message.Id}")" style="height: 170px; margin-top: 5px; margin-bottom: 5px">
+            @if (MessageTemplate is not null)
+            {
+                @MessageTemplate(Message)
+            }
+            else
+            {
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentStack>
+                        @if (Owner == Message.Sender)
+                        {
+                            @_renderActionButtons
+                        }
+                        else
+                        {
+                            @_renderAvatar
+                        }
+
+                        @_renderCard
+
+                        @if (Owner == Message.Sender)
+                        {
+                            @_renderAvatar
+                        }
+                        else
+                        {
+                            @_renderActionButtons
+                        }
+                    </FluentStack>
+
+                    @_renderFooter
+                </FluentStack>
+            }
+        </div>
+    }
+}
+
+@code {
+    public ChatMessageCard(LibraryConfiguration libraryConfiguration)
+        : base(libraryConfiguration)
+    {
+        Id = Identifier.NewId();
+
+        _renderActionButtons = __builder =>
+        {
+            <FluentStack Width="auto"
+                         Orientation="Orientation.Vertical"
+                         VerticalAlignment="VerticalAlignment.Center"
+                         Style="height: 150px">
+                <FluentStack VerticalAlignment="VerticalAlignment.Top">
+                    @if (Message!.IsPinned)
+                    {
+                        <FluentIcon Value="@(new Size24.Pin())" />
+                    }
+                </FluentStack>
+
+                <FluentStack Style="height: 100%" />
+
+                <FluentStack VerticalAlignment="VerticalAlignment.Bottom">
+                    <FluentButton Id="@($"MoreButton{Message!.Id}")"
+                                  IconStart="@(new Size24.MoreVertical())" />
+                </FluentStack>
+
+            </FluentStack>
+        };
+
+        _renderAvatar = __builder =>
+        {
+            <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                         Width="75px"
+                         Style="height: 150px">
+                <FluentAvatar Size="AvatarSize.Size72"
+                              Image="@Message!.Sender!.Avatar"
+                              Initials="@Message!.Sender!.Initials" />
+            </FluentStack>
+        };
+
+        _renderFooter = __builder =>
+        {
+            @if (Message!.Sender == Owner)
+            {
+                <FluentStack HorizontalAlignment="HorizontalAlignment.Left">
+                    <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                        @($"{Message!.CreatedDate.Date.ToShortDateString()} {Message!.CreatedDate.Date.ToShortTimeString()}")
+                    </FluentLabel>
+
+                    @if (Message.EditedDate.HasValue)
+                    {
+                        <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                            @Localizer[LanguageResource.CX_Chat_Message_Edited]
+                        </FluentLabel>
+                    }
+                </FluentStack>
+            }
+            else
+            {
+                <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
+                    @if (Message.EditedDate.HasValue)
+                    {
+                        <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                            @Localizer[LanguageResource.CX_Chat_Message_Edited]
+                        </FluentLabel>
+                    }
+
+                    <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                        @($"{Message!.CreatedDate.Date.ToShortDateString()} {Message!.CreatedDate.Date.ToShortTimeString()}")
+                    </FluentLabel>
+                </FluentStack>
+            }
+        };
+
+        _renderGift = __builder =>
+        {
+
+        };
+
+        _renderDocument = __builder =>
+        {
+            /*<FluentCxImageGroup MaxVisibleItems="@GetDocumentVisibleCount()"
+            Shape="@(groupType == ImageGroupLayout.Spread ? ImageShape.RoundSquare : ImageShape.Circle)"
+                                GroupLayout="@groupType"
+                                Size="ImageSize.Size72">
+                @foreach (var item in Message!.Files)
+                {
+                    <FluentCxImageGroupItem Source="@GetSourceImage(item)"
+                                            Alt="Image of a document" />
+                }
+            </FluentCxImageGroup>*/
+        };
+
+        _renderText = __builder =>
+        {
+            var section = Message!.Sections.FirstOrDefault(x => x.CultureId == Owner!.CultureId);
+
+            if (section is null)
+            {
+                section = Message.Sections[0];
+            }
+
+            if (!string.IsNullOrEmpty(section?.Content))
+            {
+                <FluentText Truncate="true">
+                    @((MarkupString)section!.Content!)
+                </FluentText>
+            }
+        };
+
+        _renderMessage = __builder =>
+        {
+            var type = Message!.Type;
+
+            if (type == ChatMessageType.Text)
+            {
+                <FluentStack Orientation="Orientation.Vertical">
+                    @if (Message.ReplyToMessageId.HasValue)
+                    {
+                        <ChatMessageReply InsideCard Text="@GetReplyText()" />
+                    }
+
+                    @_renderText
+                </FluentStack>
+
+            }
+            else if (type == ChatMessageType.Files)
+            {
+                <FluentStack Orientation="Orientation.Vertical">
+                    @if (Message.ReplyToMessageId.HasValue)
+                    {
+                        <FluentMessageBar Intent="MessageBarIntent.Custom"
+                                          AllowDismiss=false
+                                          Icon="@(new Size24.ArrowReply())">
+                            @Localizer[LanguageResource.CX_Chat_Message_ReplyFromDocumentOnly]
+                        </FluentMessageBar>
+                    }
+
+                    <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
+                        @_renderDocument
+                    </FluentStack>
+                </FluentStack>
+            }
+            else if (type == ChatMessageType.Gift)
+            {
+                <FluentStack Orientation="Orientation.Vertical">
+                    @if (Message.ReplyToMessageId.HasValue)
+                    {
+                        <FluentMessageBar Intent="MessageBarIntent.Custom"
+                                          Icon="@(new Size24.ArrowReply())"
+                                          AllowDismiss=false>
+                            @Localizer[LanguageResource.CX_Chat_Message_ReplyFromGiftOnly]
+                        </FluentMessageBar>
+                    }
+
+                    @_renderGift
+                </FluentStack>
+            }
+            else
+            {
+                <FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical">
+                        @if (Message.ReplyToMessageId.HasValue)
+                        {
+                            <FluentMessageBar Intent="MessageBarIntent.Custom"
+                                              Icon="@(new Size24.ArrowReply())"
+                                              AllowDismiss=false>
+                                @GetReplyText()
+                            </FluentMessageBar>
+                        }
+
+                        @_renderText
+                    </FluentStack>
+
+                   
+                    @_renderDocument
+
+                    @_renderGift
+                </FluentStack>
+            }
+        };
+
+        _renderEmojiButton = __builder =>
+        {
+            /*<FluentButton OnClick=@(OnShowEmojiExplorerAsync)
+                          Id="@($"EmojiButton{Message!.Id}")"
+                          Appearance="Appearance.Neutral"
+                          Style="border-radius: 10000px">
+                <FluentIcon Value="@(new Regular.Size24.EmojiAdd())" />
+            </FluentButton>*/
+        };
+
+        _renderReadState = __builder =>
+        {
+            // var readState = Message!.GetMessageReadState(Owner!);
+
+            // @switch (readState)
+            // {
+            //     case ChatMessageReadState.Unread:
+            //         <FluentIcon Title="@ChatMessageListLabels.Unread" Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.EyeOff().WithColor(Color.Accent))" />
+            //         break;
+
+            //     case ChatMessageReadState.Read:
+            //         <FluentIcon Title="@ChatMessageListLabels.Read" Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.Eye().WithColor(Color.Accent))" />
+            //         break;
+
+            //     case ChatMessageReadState.ReadByEveryone:
+            //         <FluentIcon Title="@ChatMessageListLabels.ReadByEveryone" Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.PeopleCheckmark().WithColor(Color.Accent))" />
+            //         break;
+            // }
+        };
+
+        _renderReactions = s => __builder =>
+        {
+            @foreach (var item in s.Where(x => !string.IsNullOrEmpty(x.Emoji)))
+            {
+                <FluentBadge>
+                    <FluentStack HorizontalGap="0">
+                        <div style="height: 22px; align-items: center; display: flex; font-size:18px;">
+                            @* @((MarkupString)(GEmojiSharp.Emoji.Get(item.Emoji!).Markup()))*@
+                        </div>
+
+                        <FluentAvatar Initials="@item.UserReactedBy!.Initials"
+                                      Size="AvatarSize.Size24"
+                                      Image="@item.UserReactedBy?.Avatar" />
+                    </FluentStack>
+                </FluentBadge>
+            }
+        };
+
+        _renderCard = __builder =>
+        {
+            <FluentCard Style="cursor: pointer;" @onclick=@OnTappedAsync Height="150px" AreaRestricted=false>
+                <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
+                    @_renderMessage
+
+                    <FluentStack VerticalAlignment="VerticalAlignment.Bottom"
+                                 HorizontalAlignment="HorizontalAlignment.Left"
+                                 Style="height: 100%">
+                        @_renderEmojiButton
+
+                        @_renderReadState
+
+                        <FluentSpacer />
+
+                        @_renderReactions(Message!.Reactions)
+
+                        <FluentSpacer />
+                    </FluentStack>
+                </FluentStack>
+            </FluentCard>
+        };
+
+        _renderDeletedMessage = __builder =>
+        {
+            <FluentCard Height="150px">
+                <em>@Localizer[LanguageResource.CX_Chat_Message_ThisMessageWasDeleted]</em>
+            </FluentCard>
+        };
+    }
+}

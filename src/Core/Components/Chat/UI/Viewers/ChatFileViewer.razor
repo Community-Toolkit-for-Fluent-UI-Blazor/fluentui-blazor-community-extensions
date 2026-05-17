@@ -1,0 +1,20 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Components.Chat.UI.Viewers
+@inherits FluentComponentBase
+
+<div class="@Css" style="@Style">
+    <FluentStack Style="overflow-x: auto;"
+                 Padding="@InternalPadding"
+                 HorizontalGap="8px">
+        @if (Files is not null)
+        {
+            @foreach (var item in Files)
+            {
+                <ChatFileViewItem Item=@item
+                                  @key=@item.Id
+                                  OnDismiss="@(() => OnDismissAsync(item))"
+                                  Template="@ItemTemplate"
+                                  LoadingContent="@LoadingItemContent" />
+            }
+        }
+    </FluentStack>
+</div>

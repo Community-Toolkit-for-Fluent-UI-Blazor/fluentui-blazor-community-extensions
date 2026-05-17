@@ -15,22 +15,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Components\SleekDial\OLDS\**" />
-    <Content Remove="Components\SleekDial\OLDS\**" />
-    <EmbeddedResource Remove="Components\SleekDial\OLDS\**" />
-    <None Remove="Components\SleekDial\OLDS\**" />
-    <TypeScriptCompile Remove="Components\SleekDial\OLDS\**" />
-  </ItemGroup>
-
-
-
-  <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <!-- Dependencies -->
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components">
       <IncludeAssets>runtime; build; native; compile</IncludeAssets>
       <ExcludeAssets>contentFiles</ExcludeAssets>

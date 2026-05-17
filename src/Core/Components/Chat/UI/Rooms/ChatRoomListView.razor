@@ -84,8 +84,9 @@
                                 <ChatRoomItem IsSelected="@(room.Id.ToString() == _selectedRoom)"
                                               IsDisabled=@(room.IsBlocked && Owner == room.Owner)
                                               Id="@room.Id.ToString()"
-                                              ShowMoreButton="@(CanDelete || CanBlock || CanRename || CanUnblock || CanUnhide)"
-                                              OnClick="@(() => HandleRoomClick(room))">
+                                              OnClick="@(() => HandleRoomClick(room))"
+                                              ShowMoreButton="@(CanBlock || CanHide || CanDelete || CanPin || CanMute || CanRename)"
+                                              MoreMenuActions="@GetPopoverActions()">
                                     <FluentStack Orientation="Orientation.Horizontal"
                                                  VerticalAlignment=VerticalAlignment.Center
                                                  HorizontalAlignment="HorizontalAlignment.Stretch"
@@ -104,26 +105,25 @@
                                         </FluentStack>
 
                                         <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px">
-                                            <FluentLabel>@room.Name</FluentLabel>
+                                            <FluentStack HorizontalGap="8px">
+                                                <FluentLabel>@room.Name</FluentLabel>
+                                                <FluentSpacer />
+
+                                                @if (room.IsPinned)
+                                                {
+                                                    <FluentIcon Value="@(s_Pin)" />
+                                                }
+
+                                                @if (room.IsMuted)
+                                                {
+                                                    <FluentIcon Value="@(s_Mute)" />
+                                                }
+                                            </FluentStack>
 
                                             <div style="height:100%">
-                                                @if (Owner is not null)
-                                                {
-                                                    if (room.UnreadMessagesForUserId.TryGetValue(Owner.Id, out var m) && m >= 1)
-                                                    {
-                                                        @((MarkupString)(room.UnreadMessagesForUserId[Owner.Id] == 1 ? string.Format(Localizer[LanguageResource.CX_Chat_Room_UnreadSingular], room.UnreadMessagesForUserId[Owner.Id]) : string.Format(Localizer[LanguageResource.CX_Chat_Room_UnreadPlural], room.UnreadMessagesForUserId[Owner.Id])))
-                                                    }
-                                                    else if (room.IsEmpty)
-                                                    {
-                                                        @((MarkupString)Localizer[LanguageResource.CX_Chat_Room_EmptyRoomMessage])
-                                                    }
-                                                    else if (room.LastMessage is not null)
-                                                    {
-                                                        <FluentText Block Truncate Style="max-height: 48px">
-                                                            <b>@(Format(room.LastMessage))</b>
-                                                        </FluentText>
-                                                    }
-                                                }
+                                                <FluentText Block Truncate Style="max-height: 48px">
+                                                    @GetRoomPreview(room)
+                                                </FluentText>                                                
                                             </div>
 
                                             <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
@@ -132,29 +132,14 @@
                                                 </FluentLabel>
                                             </FluentStack>
                                         </FluentStack>
-
-                                        @if (CanDelete || CanBlock || CanRename || CanUnblock || CanUnhide)
-                                        {
-                                            <FluentMenu Trigger="@($"chat-room-menu-{room.Id}")">
-                                                <FluentMenuList>
-                                                    @foreach (var (label, icon, action) in GetPopoverActions())
-                                                    {
-                                                        <FluentMenuItem OnClick="@action"
-                                                                        IconStart="@icon">
-                                                            @label
-                                                        </FluentMenuItem>
-                                                    }
-                                                </FluentMenuList>
-                                            </FluentMenu>
-                                        }
                                     </FluentStack>
                                 </ChatRoomItem>
                             }
                         </ChildContent>
                     </Virtualize>
                 </div>
-                
-                @if (IsNewGroupChatEnabled || CanUnblock || CanUnhide)
+
+                @if (IsNewGroupChatEnabled || CanUnblock || CanUnhide || CanUnarchive)
                 {
                     <FluentCxSleekDial Position="FloatingPosition.BottomLeft"
                                        Mode="SleekDialMode.Radial">

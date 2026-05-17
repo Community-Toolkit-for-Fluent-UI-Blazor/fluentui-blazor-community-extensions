@@ -1,0 +1,511 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsPackable>true</IsPackable>
+    <SignAssembly>False</SignAssembly>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(SolutionDir).generated</CompilerGeneratedFilesOutputPath>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\emojis\emoji-af.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ak.zip" />
+    <Content Remove="wwwroot\emojis\emoji-am.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ar.zip" />
+    <Content Remove="wwwroot\emojis\emoji-as.zip" />
+    <Content Remove="wwwroot\emojis\emoji-az.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ba.zip" />
+    <Content Remove="wwwroot\emojis\emoji-be.zip" />
+    <Content Remove="wwwroot\emojis\emoji-bg.zip" />
+    <Content Remove="wwwroot\emojis\emoji-bn.zip" />
+    <Content Remove="wwwroot\emojis\emoji-br.zip" />
+    <Content Remove="wwwroot\emojis\emoji-bs.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ca.zip" />
+    <Content Remove="wwwroot\emojis\emoji-categories-af.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ak.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-am.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ar.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-as.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-az.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ba.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-be.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-bg.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-bn.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-br.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-bs.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ca.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-cs.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-cv.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-cy.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-da.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-de.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-el.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-en.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-es.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-et.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-eu.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-fa.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ff.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-fi.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-fo.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-fr.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ga.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-gu.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ha.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-he.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-hi.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-hr.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-hsb.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-hu.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-hy.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ia.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-id.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ig.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-is.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-it.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ja.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-jv.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ka.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-kk.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-kl.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-km.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-kn.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ko.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ku.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ky.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-lb.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-lo.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-lt.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-lv.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-mi.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-mk.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ml.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-mn.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-mr.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ms.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-mt.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-my.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ne.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-nl.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-nn.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-no.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-oc.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-om.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-or.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-pa.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ps.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-pt.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-qu.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-rm.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ro.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ru.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-rw.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-sa.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-sc.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-sd.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-sk.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-sl.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-so.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-sq.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-sr.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-sv.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-sw.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ta.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-te.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-tg.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-th.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ti.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-tk.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-tn.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-to.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-tr.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-tt.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ug.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-uk.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-ur.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-uz.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-vi.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-wo.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-xh.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-yo.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-zh.json" />
+    <Content Remove="wwwroot\emojis\emoji-categories-zu.json" />
+    <Content Remove="wwwroot\emojis\emoji-cs.zip" />
+    <Content Remove="wwwroot\emojis\emoji-cv.zip" />
+    <Content Remove="wwwroot\emojis\emoji-cy.zip" />
+    <Content Remove="wwwroot\emojis\emoji-da.zip" />
+    <Content Remove="wwwroot\emojis\emoji-de.zip" />
+    <Content Remove="wwwroot\emojis\emoji-el.zip" />
+    <Content Remove="wwwroot\emojis\emoji-en.zip" />
+    <Content Remove="wwwroot\emojis\emoji-es.zip" />
+    <Content Remove="wwwroot\emojis\emoji-et.zip" />
+    <Content Remove="wwwroot\emojis\emoji-eu.zip" />
+    <Content Remove="wwwroot\emojis\emoji-fa.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ff.zip" />
+    <Content Remove="wwwroot\emojis\emoji-fi.zip" />
+    <Content Remove="wwwroot\emojis\emoji-fo.zip" />
+    <Content Remove="wwwroot\emojis\emoji-fr.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ga.zip" />
+    <Content Remove="wwwroot\emojis\emoji-gl.zip" />
+    <Content Remove="wwwroot\emojis\emoji-gu.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ha.zip" />
+    <Content Remove="wwwroot\emojis\emoji-he.zip" />
+    <Content Remove="wwwroot\emojis\emoji-hi.zip" />
+    <Content Remove="wwwroot\emojis\emoji-hr.zip" />
+    <Content Remove="wwwroot\emojis\emoji-hsb.zip" />
+    <Content Remove="wwwroot\emojis\emoji-hu.zip" />
+    <Content Remove="wwwroot\emojis\emoji-hy.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ia.zip" />
+    <Content Remove="wwwroot\emojis\emoji-id.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ig.zip" />
+    <Content Remove="wwwroot\emojis\emoji-is.zip" />
+    <Content Remove="wwwroot\emojis\emoji-it.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ja.zip" />
+    <Content Remove="wwwroot\emojis\emoji-jv.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ka.zip" />
+    <Content Remove="wwwroot\emojis\emoji-kk.zip" />
+    <Content Remove="wwwroot\emojis\emoji-kl.zip" />
+    <Content Remove="wwwroot\emojis\emoji-km.zip" />
+    <Content Remove="wwwroot\emojis\emoji-kn.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ko.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ku.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ky.zip" />
+    <Content Remove="wwwroot\emojis\emoji-lb.zip" />
+    <Content Remove="wwwroot\emojis\emoji-lo.zip" />
+    <Content Remove="wwwroot\emojis\emoji-lt.zip" />
+    <Content Remove="wwwroot\emojis\emoji-lv.zip" />
+    <Content Remove="wwwroot\emojis\emoji-meta.zip" />
+    <Content Remove="wwwroot\emojis\emoji-mi.zip" />
+    <Content Remove="wwwroot\emojis\emoji-mk.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ml.zip" />
+    <Content Remove="wwwroot\emojis\emoji-mn.zip" />
+    <Content Remove="wwwroot\emojis\emoji-mr.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ms.zip" />
+    <Content Remove="wwwroot\emojis\emoji-mt.zip" />
+    <Content Remove="wwwroot\emojis\emoji-my.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ne.zip" />
+    <Content Remove="wwwroot\emojis\emoji-nl.zip" />
+    <Content Remove="wwwroot\emojis\emoji-nn.zip" />
+    <Content Remove="wwwroot\emojis\emoji-no.zip" />
+    <Content Remove="wwwroot\emojis\emoji-oc.zip" />
+    <Content Remove="wwwroot\emojis\emoji-om.zip" />
+    <Content Remove="wwwroot\emojis\emoji-or.zip" />
+    <Content Remove="wwwroot\emojis\emoji-pa.zip" />
+    <Content Remove="wwwroot\emojis\emoji-pl.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ps.zip" />
+    <Content Remove="wwwroot\emojis\emoji-pt.zip" />
+    <Content Remove="wwwroot\emojis\emoji-qu.zip" />
+    <Content Remove="wwwroot\emojis\emoji-rm.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ro.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ru.zip" />
+    <Content Remove="wwwroot\emojis\emoji-rw.zip" />
+    <Content Remove="wwwroot\emojis\emoji-sa.zip" />
+    <Content Remove="wwwroot\emojis\emoji-sc.zip" />
+    <Content Remove="wwwroot\emojis\emoji-sd.zip" />
+    <Content Remove="wwwroot\emojis\emoji-si.zip" />
+    <Content Remove="wwwroot\emojis\emoji-sk.zip" />
+    <Content Remove="wwwroot\emojis\emoji-sl.zip" />
+    <Content Remove="wwwroot\emojis\emoji-so.zip" />
+    <Content Remove="wwwroot\emojis\emoji-sq.zip" />
+    <Content Remove="wwwroot\emojis\emoji-sr.zip" />
+    <Content Remove="wwwroot\emojis\emoji-sv.zip" />
+    <Content Remove="wwwroot\emojis\emoji-sw.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ta.zip" />
+    <Content Remove="wwwroot\emojis\emoji-te.zip" />
+    <Content Remove="wwwroot\emojis\emoji-tg.zip" />
+    <Content Remove="wwwroot\emojis\emoji-th.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ti.zip" />
+    <Content Remove="wwwroot\emojis\emoji-tk.zip" />
+    <Content Remove="wwwroot\emojis\emoji-tn.zip" />
+    <Content Remove="wwwroot\emojis\emoji-to.zip" />
+    <Content Remove="wwwroot\emojis\emoji-tr.zip" />
+    <Content Remove="wwwroot\emojis\emoji-tt.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ug.zip" />
+    <Content Remove="wwwroot\emojis\emoji-uk.zip" />
+    <Content Remove="wwwroot\emojis\emoji-ur.zip" />
+    <Content Remove="wwwroot\emojis\emoji-uz.zip" />
+    <Content Remove="wwwroot\emojis\emoji-vi.zip" />
+    <Content Remove="wwwroot\emojis\emoji-wo.zip" />
+    <Content Remove="wwwroot\emojis\emoji-xh.zip" />
+    <Content Remove="wwwroot\emojis\emoji-yo.zip" />
+    <Content Remove="wwwroot\emojis\emoji-zh.zip" />
+    <Content Remove="wwwroot\emojis\emoji-zu.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <!-- Dependencies -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components">
+      <IncludeAssets>runtime; build; native; compile</IncludeAssets>
+      <ExcludeAssets>contentFiles</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <XmlFiles Include="$(ProjectDir)bin\$(Configuration)\net10.0\*.xml" />
+    </ItemGroup>
+    <Copy SourceFiles="@(XmlFiles)" DestinationFolder="$(SolutionDir)examples\tools\FluentUI.Demo.DocApiGen" />
+  </Target>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Components.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\emojis\emoji-af.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ak.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-am.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ar.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-as.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-az.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ba.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-be.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-bg.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-bn.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-br.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-bs.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ca.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-cs.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-af.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-cv.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-el.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-et.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ar.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ak.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-am.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ha.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-as.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-hr.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-hi.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-he.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ga.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-fo.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-fi.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ff.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-da.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-cy.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-eu.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-fa.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-es.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-de.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-az.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ba.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-be.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-bg.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-gu.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-hsb.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-hu.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-hy.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-kn.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-km.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-kl.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-kk.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-mk.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-mi.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-lv.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-lt.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-lo.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-lb.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ky.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ku.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ko.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ja.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-bn.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-br.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-bs.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ca.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ia.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-id.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ig.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-is.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ka.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-jv.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ml.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-mr.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-mn.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ms.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-mt.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-my.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-oc.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-no.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-nn.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ne.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-om.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-or.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-pa.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ps.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-qu.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-rm.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ro.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-rw.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-sa.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-sc.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-sd.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-sl.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-sk.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-so.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-sq.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-sr.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-sv.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-sw.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ta.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-te.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-tg.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-th.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ti.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-tk.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-tn.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-to.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-tr.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-tt.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ug.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-uk.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ur.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-uz.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-vi.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-wo.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-xh.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-yo.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-zu.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-zh.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-ru.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-nl.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-pt.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-it.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-fr.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-categories-en.json" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-cs.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-cv.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-cy.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-da.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-de.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-el.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-en.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-es.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-et.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-eu.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-fa.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ff.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-fi.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-fo.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-fr.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ga.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-gl.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-gu.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ha.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-he.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-hi.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-hr.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-hsb.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-hu.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-hy.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ia.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-id.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ig.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-is.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-it.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ja.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-jv.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ka.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-kk.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-kl.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-km.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-kn.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ko.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ku.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ky.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-lb.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-lo.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-lt.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-lv.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-meta.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-mi.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-mk.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ml.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-mn.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-mr.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ms.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-mt.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-my.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ne.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-nl.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-nn.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-no.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-oc.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-om.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-or.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-pa.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-pl.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ps.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-pt.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-qu.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-rm.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ro.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ru.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-rw.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-sa.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-sc.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-sd.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-si.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-sk.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-sl.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-so.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-sq.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-sr.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-sv.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-sw.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ta.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-te.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-tg.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-th.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ti.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-tk.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-tn.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-to.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-tr.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-tt.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ug.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-uk.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-ur.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-uz.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-vi.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-wo.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-xh.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-yo.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-zh.zip" />
+    <EmbeddedResource Include="wwwroot\emojis\emoji-zu.zip" />
+  </ItemGroup>
+
+  <!-- Resources Localization  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.ResxSourceGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
+</Project>

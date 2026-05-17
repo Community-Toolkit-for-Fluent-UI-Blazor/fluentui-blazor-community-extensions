@@ -19,4 +19,19 @@ public interface IChatRoomCapabilities
     /// Gets a value indicating whether the chat room is hidden.
     /// </summary>
     bool IsHidden { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the chat room is muted.
+    /// </summary>
+    bool IsMuted { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the chat room is pinned.
+    /// </summary>
+    bool IsPinned { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the chat room is archived.
+    /// </summary>
+    bool IsArchived { get; }
 }

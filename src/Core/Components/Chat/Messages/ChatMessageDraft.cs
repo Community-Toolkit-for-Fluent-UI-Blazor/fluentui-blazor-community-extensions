@@ -1,4 +1,4 @@
-using FluentUI.Blazor.Community.Components.Chat.EventArgs;
+using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Chat.Messages;
 
@@ -31,6 +31,21 @@ public sealed class ChatMessageDraft
     /// Gets or sets the files to send with the message.
     /// </summary>
     public List<ChatFileEventArgs> SelectedChatFiles { get; set; } = [];
+
+    /// <summary>
+    /// Gets or sets the type of the message.
+    /// </summary>
+    public ChatMessageType Type { get; set; } = ChatMessageType.Text;
+
+    /// <summary>
+    /// Gets or sets the identifier of the room for which the draft is created.
+    /// </summary>
+    public long RoomId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the identifier of the sender of the message.
+    /// </summary>
+    public long SenderId { get; set; }
 
     /// <summary>
     /// Gets the replied message.
@@ -133,4 +148,33 @@ public sealed class ChatMessageDraft
     {
         _replyMessage = message;
     }
+
+  /*  public ChatMessageCreateRequest ToCreateRequest()
+    {
+        return new ChatMessageCreateRequest
+        {
+            RoomId = RoomId,
+            SenderId = SenderId,
+            Type = Type,
+            Text = Text,
+            ReplyToMessageId = _replyMessage?.Id,
+            Files = SelectedChatFiles.Select(f => f.ToUploadModel()).ToList(),
+            TranslatedTexts = GetTranslatedTexts()
+        };
+    }
+
+    public ChatMessageEditRequest ToEditRequest()
+    {
+        if (_editMessage is null)
+            throw new InvalidOperationException("No message is being edited.");
+
+        return new ChatMessageEditRequest
+        {
+            MessageId = _editMessage.Id,
+            Text = Text,
+            Files = SelectedChatFiles.Select(f => f.ToUploadModel()).ToList(),
+            TranslatedTexts = GetTranslatedTexts()
+        };
+    }
+  */
 }

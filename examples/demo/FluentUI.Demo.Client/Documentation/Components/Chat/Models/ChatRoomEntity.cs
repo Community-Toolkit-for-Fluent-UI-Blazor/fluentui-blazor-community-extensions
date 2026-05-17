@@ -12,6 +12,12 @@ public class ChatRoomEntity : IChatRoom
 
     public bool IsHidden { get; set; }
 
+    public bool IsPinned { get; set; }
+
+    public bool IsMuted { get; set; }
+
+    public bool IsArchived { get; set; }
+
     public long Id { get; set; }
 
     public string? Name { get; set; }

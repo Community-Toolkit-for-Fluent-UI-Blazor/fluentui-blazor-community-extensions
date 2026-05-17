@@ -17,6 +17,28 @@
             @ChildContent
         </div>
 
-        <FluentButton Id="@($"chat-room-menu-{Id}")" IconEnd="@(new Size24.MoreVertical())" />
+        @if (ShowMoreButton)
+        {
+            <FluentButton Id="@($"chat-room-menu-{Id}")" IconEnd="@(new Size24.MoreVertical())" />
+
+            <FluentMenu Trigger="@($"chat-room-menu-{Id}")">
+                <FluentMenuList>
+                    @foreach (var chatRoomAction in MoreMenuActions)
+                    {
+                        if (chatRoomAction.IsSeparator)
+                        {
+                            <FluentDivider />
+                        }
+                        else
+                        {
+                            <FluentMenuItem OnClick="@chatRoomAction.Action"
+                                            IconStart="@chatRoomAction.Icon">
+                                @chatRoomAction.Label
+                            </FluentMenuItem>
+                        }
+                    }
+                </FluentMenuList>
+            </FluentMenu>
+        }
     </FluentStack>
 </div>

@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\Core\FluentUI.Blazor.Community.Components.csproj" />
+		<ProjectReference Include="..\..\..\src\Emojis\FluentUI.Blazor.Community.Components.Emojis.csproj" />
 		<ProjectReference Include="..\..\Tools\FluentUI.Demo.DocViewer\FluentUI.Demo.DocViewer.csproj" />
 	</ItemGroup>
 

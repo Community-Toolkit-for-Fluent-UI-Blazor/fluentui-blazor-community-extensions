@@ -510,4 +510,58 @@
   <data name="CX_Chat_Room_Rename_Menu" xml:space="preserve">
     <value>Rename</value>
   </data>
+  <data name="CX_Chat_Room_Pin" xml:space="preserve">
+    <value>Pin</value>
+  </data>
+  <data name="CX_Chat_Room_Unpin" xml:space="preserve">
+    <value>Unpin</value>
+  </data>
+  <data name="CX_Chat_Room_Unmute" xml:space="preserve">
+    <value>Unmute</value>
+  </data>
+  <data name="CX_Chat_Room_Mute" xml:space="preserve">
+    <value>Mute</value>
+  </data>
+  <data name="CX_Chat_Room_UnarchiveRoomMessage" xml:space="preserve">
+    <value>Are you sure you want to unarchive the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_UnarchiveRoomTitle" xml:space="preserve">
+    <value>Unarchive the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_ArchiveRoomTitle" xml:space="preserve">
+    <value>Archive the chat room</value>
+  </data>
+  <data name="CX_Chat_Room_ArchiveRoomMessage" xml:space="preserve">
+    <value>Are you sure you want archive the chat room ?</value>
+  </data>
+  <data name="CX_Chat_Room_ShowArchivedRooms" xml:space="preserve">
+    <value>Show the archived rooms</value>
+  </data>
+  <data name="CX_Chat_Room_Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="CX_Chat_Room_Unarchive" xml:space="preserve">
+    <value>Unarchive</value>
+  </data>
+  <data name="CX_Chat_Room_Archived_OperationCanceled" xml:space="preserve">
+    <value>Loading archived rooms was cancelled by the user {UserName}.</value>
+  </data>
+  <data name="CX_Chat_Message_Edited" xml:space="preserve">
+    <value>Edited</value>
+  </data>
+  <data name="CX_Chat_Message_ReplyFromDocumentOnly" xml:space="preserve">
+    <value>Media message (audio, images, videos...)</value>
+  </data>
+  <data name="CX_Chat_Message_ReplyFromGiftOnly" xml:space="preserve">
+    <value>Gift message</value>
+  </data>
+  <data name="CX_Chat_Message_ThisMessageWasDeleted" xml:space="preserve">
+    <value>This message was deleted.</value>
+  </data>
+  <data name="CX_Emojis_SearchPlaceholder" xml:space="preserve">
+    <value>Search an emoji... </value>
+  </data>
+  <data name="CX_Chat_FileView_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
 </root>

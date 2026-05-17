@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Text.Json;
 using FluentUI.Blazor.Community.Components.Chat;
+using FluentUI.Blazor.Community.Components.Chat.Engine;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
 using FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
@@ -28,9 +30,23 @@ public partial class ChatRoomListView<TChatRoom>
     {
         Normal,
         Blocked,
-        Hidden
+        Hidden,
+        Archived
     }
 
+    /// <summary>
+    /// Represents the icon used to indicate a pinned chat room in the list view.
+    /// </summary>
+    private static readonly Icon s_Pin = new Size16.Pin().WithColor(Color.Primary);
+
+    /// <summary>
+    /// Represents the icon used to indicate a muted chat room in the list view.
+    /// </summary>
+    private static readonly Icon s_Mute = new Size16.SpeakerMute().WithColor(Color.Error);
+
+    /// <summary>
+    /// Represents the cancellation token source used for canceling ongoing operations when updating the chat room list.
+    /// </summary>
     private CancellationTokenSource? _cts;
 
     /// <summary>
@@ -52,6 +68,11 @@ public partial class ChatRoomListView<TChatRoom>
     /// Represents the hidden chat rooms.
     /// </summary>
     private readonly List<ChatRoom> _hiddenRooms = [];
+
+    /// <summary>
+    /// Represents the archived chat rooms.
+    /// </summary>
+    private readonly List<ChatRoom> _archivedRooms = [];
 
     /// <summary>
     /// Represents the selected chat room.
@@ -96,6 +117,12 @@ public partial class ChatRoomListView<TChatRoom>
     /// </summary>
     [Inject]
     private ChatState ChatState { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the chat room state, which contains the state of the chat rooms, such as blocked, hidden, or archived rooms.
+    /// </summary>
+    [Inject]
+    private ChatRoomState RoomState { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the items provider for fetching chat rooms.
@@ -152,12 +179,6 @@ public partial class ChatRoomListView<TChatRoom>
     public bool CanHide { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the chat room can be unhide.
-    /// </summary>
-    [Parameter]
-    public bool CanUnhide { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether the chat room can be blocked.
     /// </summary>
     [Parameter]
@@ -170,6 +191,30 @@ public partial class ChatRoomListView<TChatRoom>
     public bool CanRename { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the chat room can be pinned.
+    /// </summary>
+    [Parameter]
+    public bool CanPin { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the chat room can be muted.
+    /// </summary>
+    [Parameter]
+    public bool CanMute { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the chat room can be archived.
+    /// </summary>
+    [Parameter]
+    public bool CanArchive { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the chat room can be unarchived.
+    /// </summary>
+    [Parameter]
+    public bool CanUnarchive { get; set; }
+
+    /// <summary>
     /// Gets or sets the event callback for when a chat room is deleted.
     /// </summary>
     [Parameter]
@@ -179,25 +224,31 @@ public partial class ChatRoomListView<TChatRoom>
     /// Gets or sets the event callback for when a chat room is blocked.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnBlock { get; set; }
-
-    /// <summary>
-    /// Gets or sets the event callback for when a chat room is unblocked.
-    /// </summary>
-    [Parameter]
-    public EventCallback<ChatRoom> OnUnblock { get; set; }
+    public EventCallback<ChatRoom> OnBlockChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback for when a chat room is hidden.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnHide { get; set; }
+    public EventCallback<ChatRoom> OnHideChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the event callback for when a chat room is unhide.
+    /// Gets or sets the event callback for when a chat room is archived or unarchived.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnUnhide { get; set; }
+    public EventCallback<ChatRoom> OnArchiveChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback for when a chat room is pinned.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChatRoom> OnPinChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback for when a chat room is muted.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChatRoom> OnMuteChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback for when a chat room is renamed.
@@ -224,6 +275,12 @@ public partial class ChatRoomListView<TChatRoom>
     public bool CanUnblock { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the unblock functionality is enabled for the chat room list.
+    /// </summary>
+    [Parameter]
+    public bool CanUnhide { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether to show deleted rooms in the chat room list.
     /// </summary>
     [Parameter]
@@ -242,6 +299,50 @@ public partial class ChatRoomListView<TChatRoom>
     private ILogger<ChatRoomListView<TChatRoom>> Logger { get; set; } = default!;
 
     /// <summary>
+    /// Gets or sets the chat engine, which is used for managing chat rooms and messages in real-time.
+    /// </summary>
+    [Inject]
+    private ChatEngine ChatEngine { get; set; } = default!;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        RoomState.RoomsChanged += OnRoomsChanged;
+        RoomState.RoomUpdated += OnRoomUpdated;
+    }
+
+    /// <inheritdoc />
+    public override ValueTask DisposeAsync()
+    {
+        RoomState.RoomsChanged -= OnRoomsChanged;
+        RoomState.RoomUpdated -= OnRoomUpdated;
+
+        return base.DisposeAsync();
+    }
+
+    /// <summary>
+    /// Handles the rooms changed event and triggers a component state update.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void OnRoomsChanged(object? sender, EventArgs e)
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>
+    /// Handles the room updated event and triggers a UI refresh.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="room">The updated chat room.</param>
+    private void OnRoomUpdated(object? sender, ChatRoom room)
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>
     /// Handles changes to the selected chat rooms and updates the component state.
     /// </summary>
     /// <param name="value">The new collection of selected chat rooms.</param>
@@ -256,11 +357,39 @@ public partial class ChatRoomListView<TChatRoom>
     /// </summary>
     private ICollection<ChatRoom> CurrentRooms => _listView switch
     {
-        ListView.Normal => _selectedRooms.Count > 0 ? _selectedRooms : _chatRooms,
-        ListView.Blocked => _blockedRooms,
-        ListView.Hidden => _hiddenRooms,
+        ListView.Normal => OrderRooms(_selectedRooms.Count > 0 ? _selectedRooms : _chatRooms),
+        ListView.Blocked => OrderRooms(_blockedRooms),
+        ListView.Hidden => OrderRooms(_hiddenRooms),
+        ListView.Archived => OrderRooms(_archivedRooms),
         _ => []
     };
+
+    /// <summary>
+    /// Sorts chat rooms by pinned status and last message date.
+    /// </summary>
+    /// <remarks>The input list is sorted in-place.</remarks>
+    /// <param name="value">The list of chat rooms to sort.</param>
+    /// <returns>The sorted collection with pinned rooms first, ordered by most recent message date.</returns>
+    private static List<ChatRoom> OrderRooms(List<ChatRoom> value)
+    {
+        value.Sort((a, b) =>
+        {
+            if (a.IsPinned && !b.IsPinned)
+            {
+                return -1;
+            }
+            else if (!a.IsPinned && b.IsPinned)
+            {
+                return 1;
+            }
+            else
+            {
+                return b.LastMessage?.CreatedDate.CompareTo(a.LastMessage?.CreatedDate ?? DateTimeOffset.MinValue) ?? 0;
+            }
+        });
+
+        return value;
+    }
 
     /// <summary>
     /// Updates the chat rooms collection by canceling any pending operations, clearing the existing rooms, and fetching
@@ -307,6 +436,10 @@ public partial class ChatRoomListView<TChatRoom>
         }
     }
 
+    /// <summary>
+    /// Displays all non-blocked and non-hidden chat rooms in the normal list view.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of updating the room list view.</returns>
     private async Task OnShowRoomsAsync()
     {
         await OnUpdateRoomsAsync(ListView.Normal, _chatRooms, x => !x.IsBlocked && !x.IsHidden, LanguageResource.CX_Chat_Room_ShowAllRooms_OperationCanceled);
@@ -328,6 +461,15 @@ public partial class ChatRoomListView<TChatRoom>
     private async Task OnUnhideRoomsAsync()
     {
         await OnUpdateRoomsAsync(ListView.Hidden, _hiddenRooms, x => x.IsHidden, LanguageResource.CX_Chat_Room_Hidden_OperationCanceled);
+    }
+
+    /// <summary>
+    /// Occurs when the unarchive rooms action is triggered.
+    /// </summary>
+    /// <returns>Returns a task which displays the archived rooms view.</returns>
+    private async Task OnUnarchiveRoomsAsync()
+    {
+        await OnUpdateRoomsAsync(ListView.Archived, _archivedRooms, x => x.IsArchived, LanguageResource.CX_Chat_Room_Archived_OperationCanceled);
     }
 
     /// <summary>
@@ -389,7 +531,26 @@ public partial class ChatRoomListView<TChatRoom>
                 throw new ChatRoomListException("The chat group must have an id greater than or equal to 1.");
             }
 
-            await LoadChatRoomsAsync(result.GroupId.GetValueOrDefault());
+            var newRoom = new ChatRoom
+            {
+                Id = result.GroupId.Value,
+                Name = result.GroupName ?? string.Join(", ", users.Select(u => u.DisplayName)),
+                Users = [.. users, Owner],
+                Owner = Owner,
+                CreatedDate = DateTimeOffset.UtcNow,
+                IsEmpty = true
+            };
+
+            _chatRooms.Add(newRoom);
+            ChatState.Room = newRoom;
+            _selectedRoom = newRoom.Id.ToString(CultureInfo.InvariantCulture);
+
+            await ChatEngine.RegisterRoomAsync(newRoom);
+            ChatEngine.SetOwner(Owner!.Id);
+            var payload = JsonSerializer.SerializeToElement(new { RoomId = newRoom.Id });
+            await ChatEngine.SendCreatedRoomAsync(newRoom.Id, Owner!.Id, payload);
+
+            await InvokeAsync(StateHasChanged);
         }
     }
 
@@ -563,18 +724,44 @@ public partial class ChatRoomListView<TChatRoom>
             {
                 var predicate = PredicateBuilder<TChatRoom>.True;
 
-                if (CanUnblock)
+                if (!CanUnblock)
                 {
                     predicate = PredicateBuilder<TChatRoom>.And(x => !x.IsBlocked);
                 }
 
-                if (CanUnhide)
+                if (!CanUnhide)
                 {
                     predicate = PredicateBuilder<TChatRoom>.And(x => !x.IsHidden);
                 }
 
+                if (!CanUnarchive)
+                {
+                    predicate = PredicateBuilder<TChatRoom>.And(x => !x.IsArchived);
+                }
+
                 var items = await ItemsProvider(new(predicate), token);
-                _chatRooms.AddRange(items);
+
+                foreach (var item in items)
+                {
+                    if (item.IsBlocked)
+                    {
+                        _blockedRooms.Add(item);
+                    }
+                    else if (item.IsHidden)
+                    {
+                        _hiddenRooms.Add(item);
+                    }
+                    else if (item.IsArchived)
+                    {
+                        _archivedRooms.Add(item);
+                    }
+                    else
+                    {
+                        _chatRooms.Add(item);
+                    }
+
+                    await ChatEngine.RegisterRoomAsync(item);
+                }
             }
             catch (OperationCanceledException ex)
             {
@@ -588,7 +775,28 @@ public partial class ChatRoomListView<TChatRoom>
 
         if (id != -1)
         {
-            ChatState.Room = _chatRooms.FirstOrDefault(x => x.Id == id);
+            var sources = new (IEnumerable<ChatRoom> Rooms, ListView View)[]
+            {
+                (_chatRooms, ListView.Normal),
+                (_blockedRooms, ListView.Blocked),
+                (_hiddenRooms, ListView.Hidden),
+                (_archivedRooms, ListView.Archived)
+            };
+
+            ChatRoom? found = null;
+
+            foreach (var (rooms, view) in sources)
+            {
+                found = rooms.FirstOrDefault(x => x.Id == id);
+
+                if (found is not null)
+                {
+                    _listView = view;
+                    break;
+                }
+            }
+
+            ChatState.Room = found;
         }
 
         _selectedRoom = ChatState.Room is null ? "-1" : ChatState.Room.Id.ToString(CultureInfo.InvariantCulture);
@@ -657,10 +865,37 @@ public partial class ChatRoomListView<TChatRoom>
                     _hiddenRooms.Add(ChatState.Room);
                     _chatRooms.Remove(ChatState.Room);
                 }
-                
+
                 return Task.CompletedTask;
             },
-            callback: OnHide
+            callback: OnHideChanged
+        );
+    }
+
+    /// <summary>
+    /// Occurs when the hide action is triggered for a chat room.
+    /// </summary>
+    /// <returns>Returns a task which archives the chat room when completed.</returns>
+    private async Task OnArchiveAsync()
+    {
+        await ExecuteRoomActionAsync(
+            showDialog: () => DialogService.ShowConfirmationAsync(
+                Localizer[LanguageResource.CX_Chat_Room_ArchiveRoomMessage],
+                Localizer[LanguageResource.CX_Chat_Room_ArchiveRoomTitle],
+                Localizer[LanguageResource.CX_Chat_Room_DialogYes],
+                Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
+            applyChange: (e) =>
+            {
+                if (ChatState.Room is not null)
+                {
+                    ChatState.Room.IsArchived = true;
+                    _archivedRooms.Add(ChatState.Room);
+                    _chatRooms.Remove(ChatState.Room);
+                }
+
+                return Task.CompletedTask;
+            },
+            callback: OnArchiveChanged
         );
     }
 
@@ -687,7 +922,75 @@ public partial class ChatRoomListView<TChatRoom>
 
                 return Task.CompletedTask;
             },
-            callback: OnBlock
+            callback: OnBlockChanged
+        );
+    }
+
+    /// <summary>
+    /// Occurs when the pin action is triggered for a chat room.
+    /// </summary>
+    /// <returns>Returns a task which pins the room when completed.</returns>
+    private async Task OnPinAsync()
+    {
+        await ExecuteRoomActionAsync(
+            applyChange: () =>
+            {
+                ChatState.Room?.IsPinned = true;
+
+                return Task.CompletedTask;
+            },
+            callback: OnPinChanged
+        );
+    }
+
+    /// <summary>
+    /// Occurs when the unpin action is triggered for a chat room.
+    /// </summary>
+    /// <returns>Returns a task which pins the room when completed.</returns>
+    private async Task OnUnpinAsync()
+    {
+        await ExecuteRoomActionAsync(
+            applyChange: () =>
+            {
+                ChatState.Room?.IsPinned = false;
+
+                return Task.CompletedTask;
+            },
+            callback: OnPinChanged
+        );
+    }
+
+    /// <summary>
+    /// Occurs when the pin action is triggered for a chat room.
+    /// </summary>
+    /// <returns>Returns a task which mutes the room when completed.</returns>
+    private async Task OnMuteAsync()
+    {
+        await ExecuteRoomActionAsync(
+            applyChange: () =>
+            {
+                ChatState.Room?.IsMuted = true;
+
+                return Task.CompletedTask;
+            },
+            callback: OnMuteChanged
+        );
+    }
+
+    /// <summary>
+    /// Occurs when the unmute action is triggered for a chat room.
+    /// </summary>
+    /// <returns>Returns a task which unmutes the room when completed.</returns>
+    private async Task OnUnmuteAsync()
+    {
+        await ExecuteRoomActionAsync(
+            applyChange: () =>
+            {
+                ChatState.Room?.IsMuted = false;
+
+                return Task.CompletedTask;
+            },
+            callback: OnMuteChanged
         );
     }
 
@@ -714,7 +1017,7 @@ public partial class ChatRoomListView<TChatRoom>
 
                 return Task.CompletedTask;
             },
-            callback: OnUnblock,
+            callback: OnBlockChanged,
             clearRoom: true
         );
     }
@@ -742,7 +1045,35 @@ public partial class ChatRoomListView<TChatRoom>
 
                 return Task.CompletedTask;
             },
-            callback: OnUnhide,
+            callback: OnHideChanged,
+            clearRoom: true
+        );
+    }
+
+    /// <summary>
+    /// Occurs when the unarchive action is triggered for a chat room.
+    /// </summary>
+    /// <returns>Returns a task which unarchives the room when completed.</returns>
+    private async Task OnUnarchiveAsync()
+    {
+        await ExecuteRoomActionAsync(
+            showDialog: () => DialogService.ShowConfirmationAsync(
+                Localizer[LanguageResource.CX_Chat_Room_UnarchiveRoomMessage],
+                Localizer[LanguageResource.CX_Chat_Room_UnarchiveRoomTitle],
+                Localizer[LanguageResource.CX_Chat_Room_DialogYes],
+                Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
+            applyChange: (e) =>
+            {
+                if (ChatState.Room is not null)
+                {
+                    ChatState.Room.IsArchived = false;
+                    _archivedRooms.Remove(ChatState.Room);
+                    _chatRooms.Add(ChatState.Room);
+                }
+
+                return Task.CompletedTask;
+            },
+            callback: OnArchiveChanged,
             clearRoom: true
         );
     }
@@ -756,28 +1087,88 @@ public partial class ChatRoomListView<TChatRoom>
     /// <param name="callback">A callback to invoke after the action is applied.</param>
     /// <param name="clearRoom">Indicates whether to clear the selected chat room after the action.</param>
     /// <returns>Returns a task representing the asynchronous operation.</returns>
-    private async Task ExecuteRoomActionAsync(
+    private Task ExecuteRoomActionAsync(
         Func<Task<DialogResult>> showDialog,
         Func<object?, Task>? applyChange = null,
         EventCallback<ChatRoom>? callback = null,
         bool clearRoom = true)
     {
-        var dialog = await showDialog();
+        return ExecuteRoomActionCoreAsync(showDialog, applyChange, callback, clearRoom);
+    }
 
-        if (dialog.Cancelled)
+    /// <summary>
+    /// Executes a chat room action by applying changes to the chat room, invoking a callback, and optionally reloading the chat rooms.
+    /// </summary>
+    /// <param name="applyChange">A function that applies changes to the chat room based on the dialog result.</param>
+    /// <param name="callback">A callback to invoke after the action is applied.</param>
+    /// <param name="clearRoom">Indicates whether to clear the selected chat room after the action.</param>
+    /// <returns>Returns a task representing the asynchronous operation.</returns>
+    private Task ExecuteRoomActionAsync(
+        Func<Task> applyChange,
+        EventCallback<ChatRoom>? callback = null,
+        bool clearRoom = false)
+    {
+        return ExecuteRoomActionCoreAsync(
+            showDialog: null,
+            applyChange: async _ => await applyChange(),
+            callback: callback,
+            clearRoom: clearRoom);
+    }
+
+    /// <summary>
+    /// Executes a room action with optional dialog interaction before applying changes.
+    /// </summary>
+    /// <param name="showDialog">Optional function to display a dialog and return its result.</param>
+    /// <param name="applyChange">Optional function to apply changes with the provided value.</param>
+    /// <param name="callback">Optional event callback to invoke with the affected chat room.</param>
+    /// <param name="clearRoom">Indicates whether to clear the room during execution.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    private async Task ExecuteRoomActionCoreAsync(
+        Func<Task<DialogResult>>? showDialog,
+        Func<object?, Task>? applyChange,
+        EventCallback<ChatRoom>? callback,
+        bool clearRoom)
+    {
+        if (showDialog is not null)
         {
-            return;
-        }
+            var dialog = await showDialog();
 
+            if (dialog.Cancelled)
+            {
+                return;
+            }
+
+            await ExecuteInternalAsync(dialog.Value, applyChange, callback, clearRoom);
+        }
+        else
+        {
+            await ExecuteInternalAsync(null, applyChange, callback, clearRoom);
+        }
+    }
+
+    /// <summary>
+    /// Executes an internal operation that manages chat state loading status, applies optional changes, invokes
+    /// callbacks, and optionally clears the chat room.
+    /// </summary>
+    /// <param name="value">The value to pass to the change application function.</param>
+    /// <param name="applyChange">An optional function to apply changes using the provided value.</param>
+    /// <param name="callback">An optional event callback to invoke with the current chat room.</param>
+    /// <param name="clearRoom">Indicates whether to clear the chat room after execution.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    private async Task ExecuteInternalAsync(
+        object? value,
+        Func<object?, Task>? applyChange,
+        EventCallback<ChatRoom>? callback,
+        bool clearRoom)
+    {
         ChatState.IsLoading = true;
 
         if (applyChange is not null)
         {
-            await applyChange(dialog.Value);
+            await applyChange(value);
         }
 
-        if (callback?.HasDelegate == true &&
-            ChatState.Room is not null)
+        if (callback?.HasDelegate == true && ChatState.Room is not null)
         {
             await callback.Value.InvokeAsync(ChatState.Room);
         }
@@ -801,6 +1192,11 @@ public partial class ChatRoomListView<TChatRoom>
         }
     }
 
+    /// <summary>
+    /// Retrieves the available actions for the sleek dial based on current view state and permissions.
+    /// </summary>
+    /// <returns>A collection of tuples containing the localized title, icon, and asynchronous action handler for each available
+    /// dial action.</returns>
     private IEnumerable<(string Title, Icon Icon, Func<Task> Action)> GetSleekDialActions()
     {
         if (IsNewGroupChatEnabled &&
@@ -832,68 +1228,281 @@ public partial class ChatRoomListView<TChatRoom>
                 yield return (Localizer[LanguageResource.CX_Chat_Room_ShowAllRooms], new Size24.EyeOff(), OnShowRoomsAsync);
             }
         }
+
+        if (CanUnarchive)
+        {
+            if (_listView != ListView.Archived)
+            {
+                yield return (Localizer[LanguageResource.CX_Chat_Room_ShowArchivedRooms], new Size24.Archive(), OnUnarchiveRoomsAsync);
+            }
+            else
+            {
+                yield return (Localizer[LanguageResource.CX_Chat_Room_ShowAllRooms], new Size24.ArchiveArrowBack(), OnShowRoomsAsync);
+            }
+        }
     }
 
-    private IEnumerable<(string Label, Icon Icon, Func<Task> Action)> GetPopoverActions()
+    /// <summary>
+    /// Gets the available popover actions for the current chat room based on the list view and user permissions.
+    /// </summary>
+    /// <returns>A collection of chat room actions available for the current context.</returns>
+    private IEnumerable<ChatRoomAction> GetPopoverActions()
     {
+        if (ChatState.Room is null)
+        {
+            yield break;
+        }
+
+        var room = ChatState.Room;
+
         if (_listView == ListView.Normal)
         {
             if (CanRename)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Rename_Menu], new Size24.Edit(), OnRenameAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Rename_Menu],
+                    Icon = new Size24.Edit(),
+                    Action = OnRenameAsync
+                };
+            }
+
+            if (CanPin)
+            {
+                yield return new ChatRoomAction
+                {
+                    Label = room.IsPinned ? Localizer[LanguageResource.CX_Chat_Room_Unpin] : Localizer[LanguageResource.CX_Chat_Room_Pin],
+                    Icon = room.IsPinned ? new Size24.PinOff() : new Size24.Pin(),
+                    Action = room.IsPinned ? OnUnpinAsync : OnPinAsync
+                };
+            }
+
+            if (CanMute)
+            {
+                yield return new ChatRoomAction
+                {
+                    Label = room.IsMuted ? Localizer[LanguageResource.CX_Chat_Room_Unmute] : Localizer[LanguageResource.CX_Chat_Room_Mute],
+                    Icon = room.IsMuted ? new Size24.Speaker2() : new Size24.SpeakerMute(),
+                    Action = room.IsMuted ? OnUnmuteAsync : OnMuteAsync
+                };
+            }
+
+            yield return ChatRoomAction.Separator;
+
+            if (CanArchive)
+            {
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Archive],
+                    Icon = new Size24.Archive(),
+                    Action = OnArchiveAsync
+                };
             }
 
             if (CanBlock)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Block], new Size24.PresenceBlocked(), OnBlockAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Block],
+                    Icon = new Size24.PresenceBlocked(),
+                    Action = OnBlockAsync
+                };
             }
 
             if (CanHide)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Hide], new Size24.EyeOff(), OnHideAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Hide],
+                    Icon = new Size24.EyeOff(),
+                    Action = OnHideAsync
+                };
             }
+
+            yield return ChatRoomAction.Separator;
 
             if (CanDelete)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Delete], new Size24.Delete(), OnDeleteAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Delete],
+                    Icon = new Size24.Delete(),
+                    Action = OnDeleteAsync
+                };
             }
         }
         else if (_listView == ListView.Blocked)
         {
+            if (CanArchive)
+            {
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Archive],
+                    Icon = new Size24.Archive(),
+                    Action = OnArchiveAsync
+                };
+            }
+
             if (CanUnblock)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Unblock], new Size24.PresenceAvailable(), OnUnblockAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Unblock],
+                    Icon = new Size24.PresenceAvailable(),
+                    Action = OnUnblockAsync
+                };
             }
 
             if (CanHide)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Hide], new Size24.Eye(), OnHideAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Hide],
+                    Icon = new Size24.Eye(),
+                    Action = OnHideAsync
+                };
             }
+
+            yield return ChatRoomAction.Separator;
 
             if (CanDelete)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Delete], new Size24.Delete(), OnDeleteAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Delete],
+                    Icon = new Size24.Delete(),
+                    Action = OnDeleteAsync
+                };
             }
         }
         else if (_listView == ListView.Hidden)
         {
+            if (CanArchive)
+            {
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Archive],
+                    Icon = new Size24.Archive(),
+                    Action = OnArchiveAsync
+                };
+            }
+
             if (CanUnhide)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Unhide], new Size24.Eye(), OnUnhideAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Unhide],
+                    Icon = new Size24.Eye(),
+                    Action = OnUnhideAsync
+                };
             }
 
             if (CanBlock)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Block], new Size24.PresenceBlocked(), OnBlockAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Block],
+                    Icon = new Size24.PresenceBlocked(),
+                    Action = OnBlockAsync
+                };
             }
+
+            yield return ChatRoomAction.Separator;
 
             if (CanDelete)
             {
-                yield return (Localizer[LanguageResource.CX_Chat_Room_Delete], new Size24.Delete(), OnDeleteAsync);
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Delete],
+                    Icon = new Size24.Delete(),
+                    Action = OnDeleteAsync
+                };
+            }
+        }
+        else if (_listView == ListView.Archived)
+        {
+            if (CanUnarchive)
+            {
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Unarchive],
+                    Icon = new Size24.ArchiveArrowBack(),
+                    Action = OnUnarchiveAsync
+                };
+            }
+
+            if (CanBlock)
+            {
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Block],
+                    Icon = new Size24.PresenceBlocked(),
+                    Action = OnBlockAsync
+                };
+            }
+
+            if (CanHide)
+            {
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Hide],
+                    Icon = new Size24.EyeOff(),
+                    Action = OnHideAsync
+                };
+            }
+
+            yield return ChatRoomAction.Separator;
+
+            if (CanDelete)
+            {
+                yield return new ChatRoomAction
+                {
+                    Label = Localizer[LanguageResource.CX_Chat_Room_Delete],
+                    Icon = new Size24.Delete(),
+                    Action = OnDeleteAsync
+                };
             }
         }
     }
 
+    /// <summary>
+    /// Gets the preview text for a chat room, displaying unread message count, empty room message, or the last message.
+    /// </summary>
+    /// <param name="room">The chat room to generate a preview for.</param>
+    /// <returns>A markup string containing the room preview text with appropriate localization and formatting.</returns>
+    private MarkupString GetRoomPreview(ChatRoom room)
+    {
+        if (Owner is null)
+        {
+            return new MarkupString(string.Empty);
+        }
+
+        if (room.UnreadMessagesForUserId.TryGetValue(Owner.Id, out var unread) && unread > 0)
+        {
+            var text = unread == 1
+                ? Localizer[LanguageResource.CX_Chat_Room_UnreadSingular, unread]
+                : Localizer[LanguageResource.CX_Chat_Room_UnreadPlural, unread];
+
+            return new MarkupString(text);
+        }
+
+        if (room.IsEmpty)
+        {
+            return new MarkupString(Localizer[LanguageResource.CX_Chat_Room_EmptyRoomMessage]);
+        }
+
+        if (room.LastMessage is not null)
+        {
+            return new MarkupString($"<b>{Format(room.LastMessage)}</b>");
+        }
+
+        return new MarkupString(string.Empty);
+    }
+
+    /// <summary>
+    /// Handles the click event on a chat room item. If the clicked room is not already selected, it updates the selected room in the chat state and sets the selected room ID for UI purposes.
+    /// </summary>
+    /// <param name="room">The chat room that was clicked.</param>
     private void HandleRoomClick(ChatRoom room)
     {
         if (ChatState.Room?.Id == room.Id)

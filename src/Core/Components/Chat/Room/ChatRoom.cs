@@ -26,7 +26,19 @@ public class ChatRoom : IChatRoom
     public bool IsBlocked { get; set; }
 
     /// <inheritdoc />
+    public bool IsMuted { get; set; }
+
+    /// <inheritdoc />
+    public bool IsPinned { get; set; }
+
+    /// <inheritdoc />
     public bool IsDeleted { get; set; }
+
+    /// <inheritdoc />
+    public bool IsArchived { get; set; }
+
+    /// <inheritdoc />
+    public bool IsHidden { get; set; }
 
     /// <inheritdoc />
     public DateTimeOffset CreatedDate { get; set; }
@@ -36,9 +48,6 @@ public class ChatRoom : IChatRoom
 
     /// <inheritdoc />
     public IReadOnlyDictionary<long, uint> UnreadMessagesForUserId { get; internal set; } = new Dictionary<long, uint>();
-
-    /// <inheritdoc />
-    public bool IsHidden { get; set; }
 
     /// <inheritdoc />
     internal IReadOnlyList<ChatUser> GetUsersBut(ChatUser? user)

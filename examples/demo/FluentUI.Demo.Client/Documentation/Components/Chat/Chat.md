@@ -13,6 +13,9 @@ The Chat component is used to display a conversation between two or more partici
 
 ## Examples
 
-{{ ChatExamples }}
+The chat room example demonstrates how to use the Chat room component to manage a list of rooms.
+With some flags, you can enable or disable the ability to create, edit, delete, archive, block, hide, pin or mute rooms.
+The SleekDial allow you to show the options to see the blocked rooms, the hidden rooms, the archived rooms and to create a new room.
+
 {{ ChatRoomExamples }}
 

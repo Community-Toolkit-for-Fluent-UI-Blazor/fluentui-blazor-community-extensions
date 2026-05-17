@@ -3,31 +3,72 @@
 @using FluentUI.Demo.Client.Documentation.Components.Chat.Models
 
 <div style="height: 500px">
-    <FluentStack HorizontalGap="4px">
-        <FluentSwitch Label="Can Block" @bind-Checked="_canBlock" />
-        <FluentSwitch Label="Can Delete" @bind-Checked="_canDelete" />
-        <FluentSwitch Label="Can Hide" @bind-Checked="_canHide" />
-        <FluentSwitch Label="Can Rename" @bind-Checked="_canRename" />
-        <FluentSwitch Label="Can Unblock" @bind-Checked="_canUnblock" />
-        <FluentSwitch Label="Can Unhide" @bind-Checked="_canUnhide" />
-        <FluentSwitch Label="Is New Group Chat Enabled" @bind-Checked="_isNewGroupChatEnabled" />
+    <FluentStack HorizontalGap="4px" Wrap>
+        <FluentSwitch Label="Can Block"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canBlock" />
+
+        <FluentSwitch Label="Can Delete"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canDelete" />
+
+        <FluentSwitch Label="Can Hide"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canHide" />
+
+        <FluentSwitch Label="Can Archive"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canArchive" />
+
+        <FluentSwitch Label="Can Rename"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canRename" />
+
+        <FluentSwitch Label="Can Unblock"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canUnblock" />
+
+        <FluentSwitch Label="Can Unhide"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canUnhide" />
+
+        <FluentSwitch Label="Can Unarchive"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canUnarchive" />
+
+        <FluentSwitch Label="Can Pin"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canPin" />
+
+        <FluentSwitch Label="Can Mute"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_canMute" />
+
+        <FluentSwitch Label="Is New Group Chat Enabled"
+                      LabelPosition="LabelPosition.Before"
+                      @bind-Value="_isNewGroupChatEnabled" />
     </FluentStack>
 
     <ChatRoomListView CanBlock="@_canBlock"
                       CanDelete="@_canDelete"
                       CanHide="@_canHide"
                       CanRename="@_canRename"
+                      CanArchive="@_canArchive"
+                      CanUnarchive="@_canUnarchive"
                       CanUnblock="@_canUnblock"
                       CanUnhide="@_canUnhide"
+                      CanPin="@_canPin"
+                      CanMute="@_canMute"
                       IsNewGroupChatEnabled="@_isNewGroupChatEnabled"
                       TChatRoom="ChatRoomEntity"
                       ItemsProvider="OnItemsProviderAsync"
                       UserSearchFunction="OnUserSearchAsync"
-                      OnBlock="@OnBlock"
-                      OnUnblock="@OnUnblock"
-                      OnHide="@OnHide"
-                      OnUnhide="@OnUnhide"
-                      OnRename="@OnRename"/>
+                      OnBlockChanged="@OnBlock"
+                      OnHideChanged="@OnHide"
+                      OnPinChanged="@OnPin"
+                      OnMuteChanged="@OnMute"
+                      OnRename="@OnRename"
+                      OnArchiveChanged="@OnArchived" />
 </div>
 
 @code {
@@ -37,6 +78,10 @@
     private bool _canRename = true;
     private bool _canUnblock = true;
     private bool _canUnhide = true;
+    private bool _canArchive = true;
+    private bool _canUnarchive = true;
+    private bool _canPin = true;
+    private bool _canMute = true;
     private bool _isNewGroupChatEnabled = true;
     private readonly List<ChatUser> _users = new()
     {
@@ -60,6 +105,16 @@
         ];
     }
 
+    private void OnArchived(ChatRoom room)
+    {
+        var r = _chatRooms.Find(x => x.Id == room.Id);
+
+        if (r is not null)
+        {
+            r.IsArchived = room.IsArchived;
+        }
+    }
+
     private void OnBlock(ChatRoom room)
     {
         var r = _chatRooms.Find(x => x.Id == room.Id);
@@ -76,7 +131,7 @@
 
         if (r is not null)
         {
-            r.IsBlocked = false;
+            r.IsBlocked = room.IsBlocked;
         }
     }
 
@@ -86,17 +141,7 @@
 
         if (r is not null)
         {
-            r.IsHidden = true;
-        }
-    }
-
-    private void OnUnhide(ChatRoom room)
-    {
-        var r = _chatRooms.Find(x => x.Id == room.Id);
-
-        if (r is not null)
-        {
-            r.IsHidden = false;
+            r.IsHidden = room.IsHidden;
         }
     }
 
@@ -107,6 +152,26 @@
         if (r is not null)
         {
             r.Name = room.Name;
+        }
+    }
+
+    private void OnPin(ChatRoom room)
+    {
+        var r = _chatRooms.Find(x => x.Id == room.Id);
+
+        if (r is not null)
+        {
+            r.IsPinned = room.IsPinned;
+        }
+    }
+
+    private void OnMute(ChatRoom room)
+    {
+        var r = _chatRooms.Find(x => x.Id == room.Id);
+
+        if (r is not null)
+        {
+            r.IsMuted = room.IsMuted;
         }
     }
 
