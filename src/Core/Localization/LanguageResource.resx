@@ -564,4 +564,10 @@
   <data name="CX_Chat_FileView_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="CH_Chat_FileViewer_Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="CH_Chat_FileViewer_Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
 </root>

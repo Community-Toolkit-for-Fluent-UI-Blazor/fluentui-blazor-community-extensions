@@ -1,4 +1,4 @@
-﻿@namespace FluentUI.Blazor.Community.Components.Components.Chat.UI.Viewers
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Viewers
 @inherits FluentComponentBase
 
 @if (Item is not null)
@@ -18,7 +18,7 @@
                 }
                 else if (Item.ContentType.StartsWith("video"))
                 {
-                    <video id="@($"video-player-{Id}")" src="@_url" width="110" height="110" />
+                    <video src="@_url" width="110" height="110" />
                 }
                 else if (Item.ContentType.StartsWith("audio"))
                 {
@@ -43,7 +43,7 @@
                              HorizontalAlignment="HorizontalAlignment.Center"
                              VerticalAlignment="VerticalAlignment.Center">
                     <FluentSpinner />
-                    <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                    <FluentLabel Style="font-size: 8px; line-height: 8px;">
                         @Localizer[LanguageResource.CX_Chat_FileView_Loading]
                     </FluentLabel>
                 </FluentStack>
@@ -52,7 +52,8 @@
 
 
         <FluentButton IconStart=@(new Size24.Dismiss())
-                      Style="width: 32px; border-radius: 10000px; position: absolute; top: 5px; right: 5px;"
+                      Shape="ButtonShape.Circular"
+                      Size="ButtonSize.Small"
                       OnClick="@OnDismissAsync"
                       Appearance="ButtonAppearance.Subtle"
                       />

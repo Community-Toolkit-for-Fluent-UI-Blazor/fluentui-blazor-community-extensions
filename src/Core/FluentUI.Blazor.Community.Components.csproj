@@ -53,6 +53,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <ProjectReference Include="..\Emojis\FluentUI.Blazor.Community.Components.Emojis.csproj" />
 
     <EmbeddedResource Update="Localization\LanguageResource.resx">
       <Public>true</Public>

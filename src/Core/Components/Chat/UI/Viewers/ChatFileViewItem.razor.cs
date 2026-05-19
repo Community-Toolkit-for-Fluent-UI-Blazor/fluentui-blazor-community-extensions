@@ -1,10 +1,9 @@
-using FluentUI.Blazor.Community.Components.Chat;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 using Microsoft.JSInterop;
 
-namespace FluentUI.Blazor.Community.Components.Components.Chat.UI.Viewers;
+namespace FluentUI.Blazor.Community.Components.Chat.UI.Viewers;
 
 /// <summary>
 /// Represents a component that displays a file in a chat context.
@@ -21,16 +20,6 @@ public partial class ChatFileViewItem
     /// Represents the URL of the file.
     /// </summary>
     private string? _url;
-
-    /// <summary>
-    /// Represents the javaScript file that contains the logic for the chat file view item component.
-    /// </summary>
-    private const string JavascriptFile = "./_content/FluentUI.Blazor.Community.Components/Components/Chat/UI/Viewers/ChatFileViewItem.razor.js";
-
-    /// <summary>
-    /// Represents the javaScript module reference for the chat file view item component.
-    /// </summary>
-    private IJSObjectReference? _module;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatFileViewItem"/> class with a new identifier.
@@ -74,6 +63,12 @@ public partial class ChatFileViewItem
     public RenderFragment? LoadingContent { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    [Inject]
+    private IFileUploader FileUploader { get; set; } = default!;
+
+    /// <summary>
     /// Occurs when the file view item is dismissed.
     /// </summary>
     /// <returns>Returns a task which dismiss the file item when completed.</returns>
@@ -95,8 +90,6 @@ public partial class ChatFileViewItem
             return;
         }
 
-        _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", JavascriptFile);
-
         var data = await Item.GetDataAsync();
 
         if (data.Length == 0)
@@ -112,10 +105,8 @@ public partial class ChatFileViewItem
             contentType.StartsWith("audio") ||
             contentType.StartsWith("video"))
         {
-
-
-            _url = await _module.InvokeAsync<string>(
-                "createObjectUrl",
+            _url = await FileUploader.UploadFileAsync(
+                Id!,
                 data,
                 contentType);
 
@@ -134,15 +125,9 @@ public partial class ChatFileViewItem
     {
         try
         {
-            if (_module is not null)
+            if (FileUploader is not null && !string.IsNullOrEmpty(_url))
             {
-                if (!string.IsNullOrEmpty(_url))
-                {
-                    await _module.InvokeVoidAsync("revokeObjectUrl", _url);
-                }
-
-                await _module.DisposeAsync();
-                _module = null;
+                await FileUploader.RevokeUrlAsync(_url);
             }
         }
         catch (JSDisconnectedException)

@@ -1,8 +1,7 @@
-using FluentUI.Blazor.Community.Components.Chat;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
-namespace FluentUI.Blazor.Community.Components.Components.Chat.UI.Viewers;
+namespace FluentUI.Blazor.Community.Components.Chat.UI.Viewers;
 
 /// <summary>
 /// Represents a component that displays a list of files in a chat context.

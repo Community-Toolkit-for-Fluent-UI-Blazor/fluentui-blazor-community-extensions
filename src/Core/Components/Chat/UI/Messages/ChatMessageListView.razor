@@ -1,6 +1,5 @@
 ﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Messages
 @inherits FluentComponentBase
-@typeparam TItem where TItem : class, new()
 
 <CascadingValue Value="this" IsFixed>
     <FluentCard Id="@Id" MinimalStyle>
@@ -113,8 +112,7 @@
                         <ChatFileViewer Files="@_chatDraft?.SelectedChatFiles"
                                         OnDismiss="@OnDismissFile"
                                         ItemTemplate="@ChatFileTemplate"
-                                        LoadingItemContent="@LoadingFileContent"
-                                        LoadingLabel="@ChatMessageListLabels.LoadingLabel" />
+                                        LoadingItemContent="@LoadingFileContent" />
                     }
 
                     <ChatMessageWriter Draft="@_chatDraft"
@@ -128,7 +126,6 @@
                                        OnImportMedia="@OnImportMediaAsync"
                                        OnEmoji="@(()=>_isEmojiPopoverVisible = !_isEmojiPopoverVisible)"
                                        OnGift="@OnAddGiftAsync"
-                                       Labels="@ChatMessageListLabels"
                                        OnCancel="@OnCancelEdit"
                                        OnEditMessage=@OnEditMessageAsync
                                        Orientation=@MessageWriterOrientation
@@ -148,7 +145,6 @@
                                        MicroOffIcon="@MicroOffIcon"
                                        AudioWaveVisualizerContent="@AudioWaveVisualizerContent"
                                        ShowLiveAudioRecordingButton=@IsRecordingAudioEnabled
-                                       OnRecordingAudio="@OnRecordingAudioAsync"
                                        IsAudioProcessing="@_isAudioProcessing" />
                 </FluentStack>
             }
@@ -180,21 +176,15 @@
 
     <FluentPopover AnchorId="EmojiButton"
                    @bind-Open=_isEmojiPopoverVisible
-                   Style="width: 420px; height: 450px; max-height:450px"
-                   VerticalPosition="VerticalPosition.Top"
-                   AutoFocus=true>
-        <Body>
-            @if (EmojiView is not null)
-            {
-                @EmojiView
-            }
-            else
-            {
-                <GEmojiExplorer MaxHeight="420px"
-                                ItemsProvider="@GEmojiItemsProvider"
-                                SelectedEmojiChanged="@(e => OnAddEmoji(e))" />
-            }
-        </Body>
+                   Style="width: 420px; height: 450px; max-height:450px">
+        @if (EmojiView is not null)
+        {
+            @EmojiView
+        }
+        else
+        {
+            <FluentCxEmojiPicker OnEmojiChanged="@(e => OnAddEmoji(e))" />
+        }
     </FluentPopover>
 
     @if (ChatState.Room is not null &&
@@ -203,7 +193,7 @@
         <FluentOverlay Dismissable=false>
             <FluentStack VerticalAlignment=VerticalAlignment.Bottom
                          HorizontalAlignment="HorizontalAlignment.Center">
-                <FluentMessageBar Intent="MessageIntent.Info">@(ChatState.Room.Owner == Owner ? ChatMessageListLabels.OwnerBlockMessage : ChatMessageListLabels.BlockMessage)</FluentMessageBar>
+                <FluentMessageBar Intent="MessageBarIntent.Info">@(ChatState.Room.Owner == Owner ? ChatMessageListLabels.OwnerBlockMessage : ChatMessageListLabels.BlockMessage)</FluentMessageBar>
             </FluentStack>
         </FluentOverlay>
     }
