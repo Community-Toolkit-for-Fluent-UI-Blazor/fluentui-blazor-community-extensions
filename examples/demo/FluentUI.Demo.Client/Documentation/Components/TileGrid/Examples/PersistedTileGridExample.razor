@@ -1,0 +1,48 @@
+﻿@using FluentUI.Demo.Client.Documentation.Components.TileGrid.Models
+@inject IJSRuntime JSRuntime
+
+<p>
+    You can store the items order in a database or local storage to persist the layout across sessions.
+    An interface <code>ITileGridStorage</code> is available to help you implement your own storage mechanism.
+    We provide a default implementation <code>LocalStorageTileGridStorage</code> that uses the browser's local storage.
+</p>﻿
+
+<FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
+                  Columns="5"
+                  TItem="DashboardItem"
+                  ColumnGap="2px"
+                  RowGap="2px"
+                  RowHeight="150px"
+                  CanReorder
+                  StorageKey="DashboardExample"
+                  StorageProvider="@_storageProvider"
+                  Items="@_items">
+    <ItemContent>
+        <FluentCard Height="100%">
+            Index : @context.Index | CS : @context.ColumnSpan | RS : @context.RowSpan
+        </FluentCard>
+    </ItemContent>
+</FluentCxTileGrid>
+
+@code {
+    private TileGridLocalStorage<DashboardItem>? _storageProvider;
+
+    private List<DashboardItem> _items = [
+        new DashboardItem(1, 1, 1),
+        new DashboardItem(2, 3, 1),
+        new DashboardItem(3, 1, 1),
+        new DashboardItem(4, 2, 2),
+        new DashboardItem(5, 1, 2),
+        new DashboardItem(6, 2, 2),
+        new DashboardItem(7, 5, 1),
+        new DashboardItem(8, 4, 1),
+        new DashboardItem(9, 1, 1),
+    ];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _storageProvider = new(JSRuntime);
+    }
+}

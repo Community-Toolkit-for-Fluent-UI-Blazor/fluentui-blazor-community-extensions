@@ -1,0 +1,35 @@
+﻿@using FluentUI.Demo.Client.Documentation.Components.TileGrid.Models
+<p>
+    When using the <code>CanReorder</code> property, users can drag and drop tiles to reorder them within the grid.
+    To do that, you need to set the <code>CanReorder</code> property to <code>true</code> on the <code>FluentCxTileGrid</code> component and to
+     implement the <code>ITileGridItem</code> interface.
+</p>﻿
+
+<FluentCxTileGrid Style="background-color: var(--neutral-layer-3); padding: 4px"
+                  Columns="5"
+                  TItem="DashboardItem"
+                  ColumnGap="2px"
+                  RowGap="2px"
+                  RowHeight="150px"
+                  CanReorder
+                  Items="@_items">
+    <ItemContent>
+        <FluentCard Height="100%">
+            CS : @context.ColumnSpan | RS : @context.RowSpan
+        </FluentCard>
+    </ItemContent>
+</FluentCxTileGrid>
+
+@code {
+    private List<DashboardItem> _items = [
+        new DashboardItem(1, 1, 1),
+        new DashboardItem(2, 3, 1),
+        new DashboardItem(3, 1, 1),
+        new DashboardItem(4, 2, 2),
+        new DashboardItem(5, 1, 2),
+        new DashboardItem(6, 2, 2),
+        new DashboardItem(7, 5, 1),
+        new DashboardItem(8, 4, 1),
+        new DashboardItem(9, 1, 1),
+    ];
+}

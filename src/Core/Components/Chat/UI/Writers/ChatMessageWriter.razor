@@ -47,7 +47,9 @@ else
                                   OnDismiss="@(OnDismiss)" />
             }
 
-            <ChatAudioRecorder OnRecorderStateChanged="@OnRecorderStateChanged" @ref="_audioRecorder" />
+            <ChatAudioRecorder OnRecorderStateChanged="@OnRecorderStateChanged"
+                               OnAudioReady="@(OnAudioReady)"
+                               @ref="_audioRecorder" />
 
             @if (_isWriterVisible)
             {

@@ -13,7 +13,7 @@ export namespace FluentUI.Blazor.Community.Components.FileDownloaderProvider {
     }
   }
 
-  export function Stream(id: string, chunk: Uint8Array): void {
+  export function Stream(id: string, chunk: Uint8Array<ArrayBuffer>): void {
     const file = files.get(id);
 
     if (!file || file.cancelled) {

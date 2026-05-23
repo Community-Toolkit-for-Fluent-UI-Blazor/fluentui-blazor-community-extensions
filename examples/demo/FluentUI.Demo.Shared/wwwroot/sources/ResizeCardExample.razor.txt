@@ -1,0 +1,5 @@
+﻿<FluentCxResizer>
+    <FluentCard>
+        Fluent Card inside a Resizer Component
+    </FluentCard>
+</FluentCxResizer>

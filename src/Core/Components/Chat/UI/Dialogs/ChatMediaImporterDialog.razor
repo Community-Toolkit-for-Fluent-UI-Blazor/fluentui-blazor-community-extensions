@@ -1,0 +1,48 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs
+@inherits FluentComponentBase
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentButton Style="width: 100%"
+                      Shape="ButtonShape.Circular"
+                      OnClick="@(() => OnCloseAsync(ChatMediaImporterDialogResult.Cloud))"
+                      IconStart="@(new Size20.Cloud())">
+            @Localizer[LanguageResource.CX_Chat_Message_Import_SelectFromCloudDrive]
+        </FluentButton>
+
+        <FluentButton Style="width: 100%"
+                      Shape="ButtonShape.Circular"
+                      OnClick="@(() => OnCloseAsync(ChatMediaImporterDialogResult.Local))"
+                      IconStart="@(new Size20.HardDrive())">
+            @Localizer[LanguageResource.CX_Chat_Message_Import_SelectFromHardDrive]
+        </FluentButton>
+    </FluentStack>
+</FluentDialogBody>
+
+@code {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChatMediaImporterDialog" /> class.
+    /// </summary>
+    /// <param name="configuration">The library configuration.</param>
+    public ChatMediaImporterDialog(LibraryConfiguration configuration)
+        : base(configuration)
+    {
+    }
+
+
+    /// <summary>
+    /// Gets or sets the dialog reference.
+    /// </summary>
+    [CascadingParameter]
+    private IDialogInstance Dialog { get; set; } = default!;
+
+    /// <summary>
+    /// Close the dialog.
+    /// </summary>
+    /// <param name="result">Result of the dialog.</param>
+    /// <returns>Returns a task which closes the dialog when completed.</returns>
+    private async Task OnCloseAsync(ChatMediaImporterDialogResult result)
+    {
+        await Dialog.CloseAsync(result);
+    }
+}

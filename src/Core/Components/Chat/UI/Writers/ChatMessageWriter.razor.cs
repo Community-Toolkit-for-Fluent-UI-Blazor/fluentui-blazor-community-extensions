@@ -218,17 +218,21 @@ public partial class ChatMessageWriter
     public RenderFragment? AudioWaveVisualizerContent { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating that a record audio is processing.
-    /// </summary>
-    [Parameter]
-    public bool IsAudioProcessing { get; set; }
-
-    /// <summary>
     /// Gets or sets the content to indicate that a record audio is processing.
     /// </summary>
     [Parameter]
     public RenderFragment? AudioProcessingContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the callback when the audio data is ready after recording.
+    /// </summary>
+    [Parameter]
+    public EventCallback<byte[]> OnAudioReady { get; set; }
+
+    /// <summary>
+    /// Retrieves the appropriate microphone icon based on the current state of the audio recorder.
+    /// </summary>
+    /// <returns>Returns the appropriate microphone icon.</returns>
     private Icon GetMicroIcon()
     {
         if (_audioRecorder is not null)

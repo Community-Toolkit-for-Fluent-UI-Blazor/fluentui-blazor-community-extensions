@@ -15,6 +15,48 @@
         <member name="P:FluentUI.Blazor.Community.Components.Emojis.AppleEmojiProvider.FallbackFontFamily">
             <inheritdoc />
         </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Emojis.EmojiDialogSettings">
+            <summary>
+            Represents the settings for the emoji dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.EmojiDialogSettings.EmojisPerRow">
+            <summary>
+            Gets or sets the number of emojis to display per row in the emoji picker dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.EmojiDialogSettings.FontProvider">
+            <summary>
+            Gets or sets the emoji font provider.
+            </summary>
+        </member>
+        <member name="T:FluentUI.Blazor.Community.Components.Emojis.EmojiPickerDialog">
+            <summary>
+            Represents a dialog component that allows users to select emojis.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.EmojiPickerDialog.Dialog">
+            <summary>
+            Gets or sets the dialog instance that manages the state and behavior of the emoji picker dialog.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.EmojiPickerDialog.FontProvider">
+            <summary>
+            Gets or sets the emoji font provider.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.EmojiPickerDialog.EmojisPerRow">
+            <summary>
+            Gets or sets the number of emojis to display per row in the emoji picker dialog.
+            </summary>
+        </member>
+        <member name="M:FluentUI.Blazor.Community.Components.Emojis.EmojiPickerDialog.OnEmojiChangedAsync(FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji)">
+            <summary>
+            Handles the emoji selection change and closes the dialog with the selected emoji.
+            </summary>
+            <param name="emoji">The selected emoji.</param>
+            <returns>A task that represents the asynchronous operation of closing the dialog.</returns>
+        </member>
         <member name="T:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji">
             <summary>
             Represents a comprehensive model of an emoji, encapsulating all relevant properties and metadata for accurate rendering and categorization within Fluent UI Blazor components.
@@ -165,6 +207,11 @@
             Gets the CSS font-family string to use for rendering emojis, combining the specified emoji font family and fallback font family.
             </summary>
         </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.InternalFontFamilyStyle">
+            <summary>
+            Gets the internal CSS style string for the component.
+            </summary>
+        </member>
         <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.InternalClass">
             <summary>
             Gets the internal CSS class for the component.
@@ -188,6 +235,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.OnEmojiChanged">
             <summary>
             Gets or sets the event callback that is invoked when the selected emoji changes.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.EmojisPerRow">
+            <summary>
+            Gets or sets the number of emojis to display per row in the emoji grid.
             </summary>
         </member>
         <member name="M:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.OnInitializedAsync">

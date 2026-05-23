@@ -48,6 +48,9 @@ public partial class FluentCxEmojiPicker : FluentComponentBase
     /// </summary>
     private string FontFamily => $"{EmojiFontProvider.FontFamily}, {EmojiFontProvider.FallbackFontFamily}";
 
+    /// <summary>
+    /// Gets the internal CSS style string for the component.
+    /// </summary>
     private string? InternalFontFamilyStyle => new StyleBuilder()
         .AddStyle("font-family", FontFamily)
         .AddStyle("font-size", "24px")

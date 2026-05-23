@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
+using FluentUI.Blazor.Community.Components.Clipboard;
+using FluentUI.Blazor.Community.Components.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -28,6 +30,18 @@ public static class ServiceCollectionExtensions
         }
 
         return services.AddScoped<DeviceInfoState>()
-                       .AddScoped<ChatState>();
+                       .AddScoped<ChatState>()
+                       .AddScoped<IClipboardInitializer, ClipboardInitializer>()
+                       .AddScoped<IClipboard, Clipboard.Clipboard>();
+    }
+
+    /// <summary>
+    /// Adds the Azure translation client to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection to add the translation client to.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IServiceCollection AddAzureTranslationClient(this IServiceCollection services)
+    {
+        return services.AddScoped<ITranslationClient, AzureTranslationClient>();
     }
 }

@@ -1,0 +1,62 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<FluentCard Id="@Id" Appearance="CardAppearance.Subtle" Shadow="CardShadow.Medium">
+    @if (Item is not null)
+    {
+        @if (_itemLoaded)
+        {
+            if (Template is not null)
+            {
+                @Template(Item)
+            }
+            else
+            {
+                if (Item.ContentType.StartsWith("image"))
+                {
+                    <img width="110" height="110" src="@_source" style="object-fit: cover" />
+                }
+                else if (Item.ContentType.StartsWith("video"))
+                {
+                    @if (!string.IsNullOrEmpty(_source))
+                    {
+                        <video id="@($"video-player-{Id}")" src="@_source" width="110" height="110">
+                        </video>
+                    }
+                    else
+                    {
+                        <video id="@($"video-player-{Id}")" width="110" height="110">
+                        </video>
+                    }
+                }
+                else if (Item.ContentType.StartsWith("audio"))
+                {
+                    <ChatAudioFileViewer Source="@_source" />
+                }
+                else
+                {
+                   @*  <FluentIcon Value="@(FileIcons.FromExtensionAndGridViewOptions(Path.GetExtension(Item.Name), FileView.MediumIcons))"
+                                Width="110px" /> *@
+                }
+            }
+        }
+        else
+        {
+            @if (LoadingContent is not null)
+            {
+                @LoadingContent
+            }
+            else
+            {
+                <FluentStack Orientation="Orientation.Vertical"
+                             HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalAlignment="VerticalAlignment.Center">
+                    <FluentSpinner />
+                    <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                        @Localizer[LanguageResource.CX_Chat_FileView_Loading]
+                    </FluentLabel>
+                </FluentStack>
+            }
+        }
+    }
+</FluentCard>

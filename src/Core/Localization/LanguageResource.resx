@@ -570,4 +570,70 @@
   <data name="CH_Chat_FileViewer_Play" xml:space="preserve">
     <value>Play</value>
   </data>
+  <data name="CX_Chat_EmokiPicker_Dialog_Title" xml:space="preserve">
+    <value>Select an Emoji</value>
+  </data>
+  <data name="CX_Chat_Message_Unpin" xml:space="preserve">
+    <value>Unpin</value>
+  </data>
+  <data name="CX_Chat_Message_Pin" xml:space="preserve">
+    <value>Pin</value>
+  </data>
+  <data name="CX_Chat_Message_Reply" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="CX_Chat_Message_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CX_Chat_Message_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="CX_Chat_Message_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="CX_Chat_Message_Unread" xml:space="preserve">
+    <value>Unread</value>
+  </data>
+  <data name="CX_Chat_Message_PartiallyRead" xml:space="preserve">
+    <value>Partially read</value>
+  </data>
+  <data name="CX_Chat_Message_FullyRead" xml:space="preserve">
+    <value>Read by everyone</value>
+  </data>
+  <data name="CX_Chat_Message_DeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the message ?</value>
+  </data>
+  <data name="CX_Chat_Message_DialogYes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="CX_Chat_Message_DialogNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="CX_Chat_Message_DeleteTitle" xml:space="preserve">
+    <value>Delete the message</value>
+  </data>
+  <data name="CX_Chat_Message_Text_Copied" xml:space="preserve">
+    <value>Text successfully copied.</value>
+  </data>
+  <data name="CX_Chat_Message_Text_Copy_Failed" xml:space="preserve">
+    <value>Failed to copy the text.</value>
+  </data>
+  <data name="CX_Chat_Message_Text_Copied_Title" xml:space="preserve">
+    <value>Copied !</value>
+  </data>
+  <data name="CX_Chat_Message_Text_Copy_Failed_Title" xml:space="preserve">
+    <value>Copy failed !</value>
+  </data>
+  <data name="CX_Chat_Message_Import_SelectFromCloudDrive" xml:space="preserve">
+    <value>Select files from cloud</value>
+  </data>
+  <data name="CX_Chat_Message_Import_SelectFromHardDrive" xml:space="preserve">
+    <value>Select files from local drive</value>
+  </data>
+  <data name="CX_Chat_Message_Import_FileSelectorDialogTitle" xml:space="preserve">
+    <value>Import files from...</value>
+  </data>
+  <data name="CX_Chat_Message_Import_DialogCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>

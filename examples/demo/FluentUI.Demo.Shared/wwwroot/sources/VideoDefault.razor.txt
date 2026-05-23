@@ -1,0 +1,223 @@
+﻿@using Microsoft.AspNetCore.StaticFiles
+@using Microsoft.JSInterop
+@implements IDisposable
+@inject IVideoMetadataProvider VideoMetadataProvider
+
+<FluentMessageBar Intent="MessageIntent.Warning" AllowDismiss="false">
+    The <c>VideoMetadataProvider</c> uses FFmpeg to extract metadata from video files.
+    This feature is only enabled when the app runs on server. If you run the app in WebAssembly, the metadata extraction will be skipped.
+</FluentMessageBar>
+
+<div style="height: 600px">
+   <FluentStack Style="height: 100%">
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentSelect Items="@(Enum.GetValues<VideoPlayerView>())"
+                          @bind-SelectedOption="_view" />
+
+            <FluentInputFile Id="my-file-uploader"
+                             Mode="InputFileMode.SaveToTemporaryFolder"
+                             Multiple="true"
+                             MaximumFileCount="10"
+                             MaximumFileSize="@(250*1024*1024)"
+                             Accept="video/*"
+                             @bind-ProgressPercent="@ProgressPercent"
+                             OnCompleted="@OnCompletedAsync"
+                             Style="height: 200px;width:180px">
+                <ChildContent>
+                    <label for="my-file-uploader">
+                        <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+                    </label>
+
+                    <div>
+                        Drag files here you wish to upload,
+                        or <label for="my-file-uploader">browse</label>
+                        for them<span style="color: red;">*</span>.
+                        <br />
+                        <em>Maximum of 10 files allowed.</em>
+                    </div>
+                </ChildContent>
+            </FluentInputFile>
+        </FluentStack>
+
+        <FluentCxVideo @ref="_video"
+                       @bind-View="@_view"
+                       Subtitles="@_subtitleEntries" >
+            @foreach (var item in _videoFiles)
+            {
+                <VideoTrackItem Source="@GetPath(item.Value)"
+                                Metadata="@_metadataCache[item.Key]" />
+            }
+        </FluentCxVideo>
+   </FluentStack>
+</div>
+
+@code {
+    private bool IsHorizontal { get; set; } = true;
+    private Orientation Orientation => IsHorizontal ? Orientation.Horizontal : Orientation.Vertical;
+    private VideoPlayerView _view = VideoPlayerView.Default;
+    private FluentCxVideo? _video;
+
+    private readonly Dictionary<string, string> _videoFiles = [];
+    private readonly List<FluentInputFileEventArgs> _files = [];
+    private readonly Dictionary<string, VideoMetadata> _metadataCache = [];
+    private readonly MultilingualSubtitles _subtitleEntries = new();
+
+    [Inject]
+    private IJSRuntime Runtime { get; set; } = null!;
+
+    int ProgressPercent = 0;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _subtitleEntries.AddRange((new()
+            {
+                Code = "en",
+                Name = "English",
+            },
+            [
+            new SubtitleEntry
+            {
+                Start = 1,
+                End = 4,
+                Text = "This is an example of a subtitle entry."
+            },
+            new SubtitleEntry
+            {
+                Start = 5,
+                End = 8,
+                Text = "You can add multiple entries with different timings."
+            },
+            new SubtitleEntry
+            {
+                Start = 9,
+                End = 12,
+                Text = "Subtitles enhance accessibility and user experience."
+            }
+        ]
+        ),
+        (new()
+        {
+            Code = "fr",
+            Name = "Français",
+        },
+            [
+            new SubtitleEntry
+            {
+                Start = 1,
+                End = 4,
+                Text = "Ceci est un exemple de sous-titre."
+            },
+            new SubtitleEntry
+            {
+                Start = 5,
+                End = 8,
+                Text = "Vous pouvez ajouter de multiple entrées avec un timing différent.."
+            },
+            new SubtitleEntry
+            {
+                Start = 9,
+                End = 12,
+                Text = "Les sous-titres peuvent améliorer l'accessibilité et l'expérience utilisateur."
+            }
+        ]
+        ));
+    }
+
+    private static string GetPath(string path)
+    {
+        if (path.StartsWith("blob"))
+        {
+            return path;
+        }
+
+        var index = path.IndexOf("uploads");
+
+        if (index >= 0)
+        {
+            return path[(index - 1)..].Replace("\\", "/");
+        }
+
+        return path.Replace(Directory.GetCurrentDirectory(), string.Empty)
+                   .Replace("wwwroot", string.Empty)
+                   .Replace("\\", "/")
+                   .Substring(2);
+    }
+
+    private async Task OnCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
+    {
+        foreach (var file in files)
+        {
+            var newFileName = $"RenamedFile_{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
+            var filePath = newFileName;
+
+            if (System.OperatingSystem.IsBrowser())
+            {
+                var provider = new FileExtensionContentTypeProvider();
+                if (!provider.TryGetContentType(file.Name, out var contentType))
+                {
+                    contentType = "application/octet-stream";
+                }
+
+                filePath = await Runtime.InvokeAsync<string>("getBlobUrl", contentType, File.ReadAllBytes(file.LocalFile!.FullName));
+            }
+            else
+            {
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
+                var directory = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory!);
+                }
+
+                await using var stream = File.OpenRead(file.LocalFile!.FullName);
+                await using var fileStream = File.Create(filePath);
+                await stream.CopyToAsync(fileStream);
+            }
+
+            if (!_videoFiles.ContainsKey(file.Name))
+            {
+                _videoFiles.Add(file.Name, filePath);
+            }
+
+            if (!_metadataCache.ContainsKey(file.Name))
+            {
+                using var ms = new MemoryStream(File.ReadAllBytes(file.LocalFile.FullName));
+                var metadata = await VideoMetadataProvider.GetFromStreamAsync(ms);
+                _metadataCache.Add(file.Name, metadata ?? new());
+            }
+
+            if (!_files.Contains(file))
+            {
+                _files.Add(file);
+            }
+        }
+
+        await Task.Delay(500);
+        ProgressPercent = 0;
+    }
+
+    public void Dispose()
+    {
+        try
+        {
+            foreach (var file in _videoFiles)
+            {
+                if (File.Exists(file.Value))
+                {
+                    File.Delete(file.Value);
+                }
+            }
+
+            foreach (var file in _files)
+            {
+                if (file.LocalFile is not null && File.Exists(file.LocalFile.FullName))
+                {
+                    File.Delete(file.LocalFile.FullName);
+                }
+            }
+        }
+        catch { }
+    }
+}

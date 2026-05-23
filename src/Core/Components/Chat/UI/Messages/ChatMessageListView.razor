@@ -53,9 +53,9 @@
                             @((MarkupString)string.Format(ChatMessageListLabels.EmptyRoomMessage, string.Join(", ", ChatState.Room.GetUsersBut(Owner).Select(x => x.DisplayName)))!)
                         </FluentLabel>
 
-                        <div style="height: 100%" />
+                        <FluentSpacer Orientation="Orientation.Vertical" />
 
-                        <FluentDivider Orientation="Orientation.Horizontal" Role="DividerRole.Presentation" />
+                        <FluentDivider Appearance="DividerAppearance.Brand" />
 
                         <FluentStack Orientation="Orientation.Vertical"
                                      HorizontalAlignment="HorizontalAlignment.Center">
@@ -73,7 +73,7 @@
                 <div id="messages-container" style="overflow-y: auto; height: 100%; width: 100%">
                     <Virtualize TItem="IChatMessage"
                                 ItemsProvider="@GetItemsAsync"
-                                ItemSize="@ItemSize"
+                                ItemSize="180"
                                 MaxItemCount="@MaxItemCount"
                                 OverscanCount="@OverscanCount"
                                 @ref=_virtualizeMessageList>
@@ -107,7 +107,8 @@
                  IsMessageWriterVisible)
             {
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="2">
-                    @if (ChatFileRenderingMode == ChatFileRenderingMode.Viewer && _chatDraft?.SelectedChatFiles.Count > 0)
+                    @if (ChatFileRenderingMode == ChatFileRenderingMode.PreviewArea &&
+                         _chatDraft?.SelectedChatFiles.Count > 0)
                     {
                         <ChatFileViewer Files="@_chatDraft?.SelectedChatFiles"
                                         OnDismiss="@OnDismissFile"
@@ -140,12 +141,13 @@
                                        SendingRenderMode="@SendingRenderMode"
                                        IsSending=@_isSending
                                        SendingContent="@SendingContent"
-                                       ShowCounterBadge="@(ChatFileRenderingMode == ChatFileRenderingMode.Discrete)"
+                                       ShowCounterBadge="@(ChatFileRenderingMode == ChatFileRenderingMode.Badge)"
                                        MicroIcon="@MicroIcon"
                                        MicroOffIcon="@MicroOffIcon"
                                        AudioWaveVisualizerContent="@AudioWaveVisualizerContent"
                                        ShowLiveAudioRecordingButton=@IsRecordingAudioEnabled
-                                       IsAudioProcessing="@_isAudioProcessing" />
+                                       OnAudioReady="@OnAudioReady"
+                                       />
                 </FluentStack>
             }
         </FluentStack>
@@ -153,7 +155,7 @@
         @if (SendingRenderMode == ChatMessageSendingRenderMode.Overlay)
         {
             <FluentOverlay @bind-Visible=_isSending
-                           Opacity="0.75">
+                           Opacity="75">
                 @if (SendingContent is not null)
                 {
                     @SendingContent
@@ -164,7 +166,7 @@
                                  Orientation="Orientation.Vertical"
                                  HorizontalAlignment="HorizontalAlignment.Center"
                                  Style="height: 100%">
-                        <FluentProgress Width="340px" />
+                        <FluentProgressBar Width="340px" />
                         <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
                             @ChatMessageListLabels.SendingMessageLabel
                         </FluentLabel>

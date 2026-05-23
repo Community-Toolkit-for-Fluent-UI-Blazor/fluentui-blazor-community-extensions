@@ -1,0 +1,13 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Emojis
+
+<FluentDialogBody>
+    <TitleTemplate>
+        @Dialog?.Options.Header.Title
+    </TitleTemplate>
+
+    <ChildContent>
+        <FluentCxEmojiPicker EmojiFontProvider="@FontProvider"
+                             EmojisPerRow="@EmojisPerRow"
+                             OnEmojiChanged="@OnEmojiChangedAsync" />
+    </ChildContent>
+</FluentDialogBody>

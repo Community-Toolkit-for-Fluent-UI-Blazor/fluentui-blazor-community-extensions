@@ -1,0 +1,62 @@
+@keyframes tileGlow {
+  0% {
+    box-shadow: 0 0 4px 1px var(--colorBrandForeground1);
+  }
+
+  100% {
+    box-shadow: 0 0 10px 3px var(--colorBrandForeground1);
+  }
+}
+
+.tile-grid-item-animated-glow {
+  animation: tileGlow 0.6s ease-in-out infinite alternate;
+}
+
+.tile-grid-item-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.tile-grid-item {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.resize-handle-bottom, .resize-handle-right, .resize-handle-corner {
+  position: absolute;
+  background: var(--colorNeutralForeground2);
+  opacity: 0.55;
+  border-radius: 3px;
+  transition: opacity 120ms ease, background 120ms ease;
+}
+
+.resize-handle-bottom {
+  left: 50%;
+  bottom: 2px;
+  height: 6px;
+  transform: translateX(-50%);
+  cursor: s-resize;
+}
+
+.resize-handle-right {
+  right: 2px;
+  top: 50%;
+  width: 6px;
+  transform: translateY(-50%);
+  cursor: e-resize;
+}
+
+.resize-handle-corner {
+  right: 2px;
+  bottom: 2px;
+  width: 12px;
+  height: 12px;
+  cursor: se-resize;
+}
+
+.resize-handle-bottom:hover, .resize-handle-right:hover, .resize-handle-corner:hover {
+  opacity: 1;
+  background: var(--colorBrandForeground1);
+}

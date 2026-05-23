@@ -1,0 +1,5 @@
+﻿<h3>IssueTester</h3>
+
+@code {
+
+}
