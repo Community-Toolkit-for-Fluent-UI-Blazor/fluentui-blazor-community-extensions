@@ -1,0 +1,7 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentDialogInstance
+
+<FluentDialogBody>
+    <FluentTreeView Items="@GetItems()"
+                    @bind-SelectedItem=_selectedItem />
+</FluentDialogBody>

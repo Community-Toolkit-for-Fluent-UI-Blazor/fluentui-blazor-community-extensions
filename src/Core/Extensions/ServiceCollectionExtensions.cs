@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Clipboard;
 using FluentUI.Blazor.Community.Components.Infrastructure;
+using FluentUI.Blazor.Community.Components.Components.FileManager.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -32,7 +33,10 @@ public static class ServiceCollectionExtensions
         return services.AddScoped<DeviceInfoState>()
                        .AddScoped<ChatState>()
                        .AddScoped<IClipboardInitializer, ClipboardInitializer>()
-                       .AddScoped<IClipboard, Clipboard.Clipboard>();
+                       .AddScoped<IClipboard, Clipboard.Clipboard>()
+                       .AddScoped<FileManagerState>()
+                       .AddScoped<IFileDownloader, FileDownloader>()
+                       .AddScoped(typeof(IFileEntryZipService<>), typeof(DefaultFileEntryZipService<>));
     }
 
     /// <summary>

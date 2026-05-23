@@ -1,0 +1,76 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using Microsoft.FluentUI.AspNetCore.Components.Utilities
+@inherits FileManagerBase<TItem>
+@typeparam TItem where TItem : class, new()
+
+@if (Entry is not null)
+{
+    <div class="file-manager-list @Class" hidden-when="md lg xl xxl" style="overflow-x: auto; @Style">
+        @_content
+    </div>
+
+    <div hidden-when="xs sm" class="file-manager-list @Class" style="@Style">
+        @_content
+    </div>
+}
+
+@code {
+    public FileManagerList(LibraryConfiguration configuration)
+     : base(configuration)
+    {
+        Id = Identifier.NewId();
+        _content = __builder =>
+        {
+            <FluentDataGrid TGridItem="FileEntry<TItem>"
+                            ShowHover
+                            Virtualize
+                            OnRowDoubleClick=@(OnRowDoubleClickAsync)
+                            ItemSize="55"
+                            DisplayMode="DataGridDisplayMode.Table"
+                            Items="@Entry?.Children.AsQueryable()"
+                            Loading="@IsBusy">
+                <ChildContent>
+                    <SelectColumn TGridItem="FileEntry<TItem>"
+                                  SelectMode="@DataGridSelectMode.Multiple"
+                                  SelectFromEntireRow=true
+                                  @bind-SelectedItems="@SelectedItems"
+                                  @bind-SelectedItems:after=OnSelectedItemsChangedAsync />
+
+                    <TemplateColumn Title="Name">
+                        <FluentStack HorizontalGap="6px" VerticalAlignment="VerticalAlignment.Center">
+                            @if (context.IsDirectory)
+                            {
+                                <FluentIcon Value="@(FileIconFactory.Get(FileIconKey.Folder, FileView.List))" />
+                            }
+                            else
+                            {
+                                <FluentIcon Value="@FileIcons.GetIcon(context.Extension!, FileView.List)" />
+                            }
+
+                            @context.Name
+                        </FluentStack>
+                    </TemplateColumn>
+
+                    @if (Parent?.State.View == FileView.Details)
+                    {
+                        <PropertyColumn Title="CreatedDate" Property="@(c => c.CreatedDate)" />
+
+                        <TemplateColumn Title="Size">
+                            @ByteSize.FromBytes(context.Size).ToString()
+                        </TemplateColumn>
+                    }
+                </ChildContent>
+
+                <LoadingContent>
+                    <FluentStack Orientation="Orientation.Vertical"
+                                 HorizontalAlignment="HorizontalAlignment.Center"
+                                 VerticalAlignment="VerticalAlignment.Center"
+                                 Style="height: 100%">
+                        <FluentProgressBar Min="0" Max="100" Width="340px" Value="@(IsIndeterminateProgress ? null : ProgressPercent)" />
+                        <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">@ProgressLabel</FluentLabel>
+                    </FluentStack>
+                </LoadingContent>
+            </FluentDataGrid>
+        };
+    }
+}

@@ -1,0 +1,102 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentDialogInstance
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentSpacer Orientation="Orientation.Vertical" Height="20px" />
+        <FluentText Size="TextSize.Size400"
+                    Weight="TextWeight.Semibold"
+                    Margin="@Margin.Bottom3">
+            Search fields
+        </FluentText>
+
+        <FluentStack Margin="@Margin.Bottom2">
+            <FluentLabel>Search in names</FluentLabel>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.SearchInNames" />
+        </FluentStack>
+
+        <FluentStack Margin="@Margin.Bottom2">
+            <FluentLabel>Search in content</FluentLabel>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.SearchInContent" />
+        </FluentStack>
+
+        <FluentStack Margin="@Margin.Bottom4">
+            <FluentLabel>Search in metadatas</FluentLabel>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.SearchInMetadata" />
+        </FluentStack>
+
+        <FluentText Size="TextSize.Size400"
+                    Weight="TextWeight.Semibold"
+                    Margin="@Margin.Bottom3">
+            Deep search
+        </FluentText>
+
+        <FluentStack Margin="@Margin.Bottom4">
+            <FluentLabel>Recursive search</FluentLabel>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.Recursive" />
+        </FluentStack>
+
+        <FluentText Size="TextSize.Size400"
+                    Weight="TextWeight.Semibold"
+                    Margin="@Margin.Bottom3">
+            Fuzzy search
+        </FluentText>
+
+        <FluentStack Margin="@Margin.Bottom2">
+            <FluentLabel>Fuzzy active</FluentLabel>
+            <FluentSpacer />
+            <FluentSwitch @bind-Value="Options.Fuzzy" />
+        </FluentStack>
+
+        <FluentStack Margin="@Margin.Bottom4">
+            <FluentLabel>Fuzzy threshold</FluentLabel>
+            <FluentSpacer />
+            <FluentSlider Min="0" Max="10" @bind-Value="Options.FuzzyThreshold" />
+        </FluentStack>
+
+        <FluentText Size="TextSize.Size400"
+                    Weight="TextWeight.Semibold"
+                    Margin="@Margin.Bottom3">
+            Filters
+        </FluentText>
+
+        <FluentTextInput Width="100%"
+                         Style="width: 100%"
+                         Label="Extensions"
+                         @bind-Value="_extensions"
+                         Margin="@Margin.Bottom2" />
+
+        <FluentStack HorizontalGap="12px" Margin="@Margin.Bottom2">
+            <FluentDatePicker Label="Created after"
+                              @bind-Value="Options.CreatedAfter" />
+
+            <FluentDatePicker Label="Created before"
+                              @bind-Value="Options.CreatedBefore" />
+        </FluentStack>
+
+        <FluentStack HorizontalGap="12px" Margin="@Margin.Bottom2">
+            <FluentDatePicker Label="Modified after"
+                              @bind-Value="Options.ModifiedAfter" />
+
+            <FluentDatePicker Label="Modified before"
+                              @bind-Value="Options.ModifiedBefore" />
+        </FluentStack>
+
+        <FluentStack HorizontalGap="12px" Margin="@Margin.Bottom2">
+            <FluentTextInput Label="Min. size"
+                             Width="100%"
+                             Style="width: 100%"
+                             @bind-Value="_minSize" />
+
+            <FluentTextInput Label="Max. size"
+                             Width="100%"
+                             Style="width: 100%"
+                             @bind-Value="_maxSize" />
+        </FluentStack>
+    </FluentStack>
+    
+</FluentDialogBody>

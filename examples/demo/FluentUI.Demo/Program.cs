@@ -1,6 +1,6 @@
 using FluentUI.Blazor.Community.Components;
-using FluentUI.Demo.Components;
 using FluentUI.Demo.Client;
+using FluentUI.Demo.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using FluentUI.Blazor.Community.Components.Localization;
 

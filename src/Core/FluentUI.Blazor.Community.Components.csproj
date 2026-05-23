@@ -23,6 +23,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components">
       <IncludeAssets>runtime; build; native; compile</IncludeAssets>
       <ExcludeAssets>contentFiles</ExcludeAssets>

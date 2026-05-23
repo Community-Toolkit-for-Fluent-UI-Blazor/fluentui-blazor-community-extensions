@@ -1,0 +1,17 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem where TItem : class, new()
+
+<FluentDialogBody>
+     @if (Content is not null)
+    {
+        <FileEntryDetails Entries="@Content.Children" />
+    }    
+</FluentDialogBody>
+
+@code {
+    /// <summary>
+    /// Gets or sets the content to be displayed in the dialog.
+    /// </summary>
+    [Parameter]
+    public FileEntry<TItem>? Content { get; set; }
+}

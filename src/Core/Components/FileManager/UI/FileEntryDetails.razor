@@ -1,0 +1,131 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@typeparam TItem where TItem : class, new()
+
+@if (Entries is not null && Entries.Any())
+{
+    var count = Entries.Count();
+
+    @if (count == 1)
+    {
+        var entry = Entries.First();
+
+        <FluentStack Style="height: 100%"
+                     Orientation="Orientation.Vertical"
+                     HorizontalAlignment="HorizontalAlignment.Center"
+                     VerticalAlignment="VerticalAlignment.Top">
+
+            <div style="width:100%; height: 320px; background-color: var(--neutral-layer-2)">
+                @if (_isImage && _entryDataContent is not null)
+                {
+                    <img src="@GetBase64Content(_entryDataContent, _contentType)"
+                         style="width: 100%; height: 100%; object-fit: contain" />
+                }
+                else
+                {
+                    <FluentStack Style="height: 100%"
+                                 VerticalAlignment="VerticalAlignment.Center"
+                                 HorizontalAlignment="HorizontalAlignment.Center">
+                        <FluentIcon Width="128px"
+                                    Value="@GetIcon(entry)" />
+                    </FluentStack>
+                }
+            </div>
+
+            <FluentStack Width="95%" Orientation="Orientation.Vertical">
+
+                <FluentText Weight="TextWeight.Bold"
+                            Size="TextSize.Size700"
+                            Style="margin-top: 20px; margin-bottom: 20px"
+                            Color="Color.Default">
+                    @entry.Name
+                </FluentText>
+
+                @if (entry.IsDirectory)
+                {
+                    <FluentText Weight="TextWeight.Bold"
+                                Color="Color.Default">
+                        @($"{entry.Children.Count} élément(s)")
+                    </FluentText>
+
+                    @if (entry.Children.Count > 0)
+                    {
+                        <FluentMessageBar AllowDismiss="false" Intent="MessageBarIntent.Info">
+                            Sélectionnez un fichier pour plus d’informations.
+                        </FluentMessageBar>
+                    }
+                }
+                else
+                {
+                    <FluentText Weight="TextWeight.Bold"
+                                Style="margin-bottom: 10px"
+                                Color="Color.Default">
+                        Détails
+                    </FluentText>
+
+                    <FluentStack Orientation="Orientation.Vertical">
+
+                        <FluentStack>
+                            <FluentText Weight="TextWeight.Bold" Color="Color.Default">Type</FluentText>
+                            <FluentSpacer />
+                            <FluentText Color="Color.Default">@_fileTypeLabel</FluentText>
+                        </FluentStack>
+
+                        <FluentStack>
+                            <FluentText Weight="TextWeight.Bold" Color="Color.Default">Content-Type</FluentText>
+                            <FluentSpacer />
+                            <FluentText Color="Color.Default">@_contentType</FluentText>
+                        </FluentStack>
+
+                        <FluentStack>
+                            <FluentText Weight="TextWeight.Bold" Color="Color.Default">Taille</FluentText>
+                            <FluentSpacer />
+                            <FluentText Color="Color.Default">@ByteSize.FromBytes(entry.Size)</FluentText>
+                        </FluentStack>
+
+                        <FluentStack>
+                            <FluentText Weight="TextWeight.Bold" Color="Color.Default">Créé</FluentText>
+                            <FluentSpacer />
+                            <FluentText Color="Color.Default">@entry.CreatedDate.ToString("g")</FluentText>
+                        </FluentStack>
+
+                        <FluentStack>
+                            <FluentText Weight="TextWeight.Bold" Color="Color.Default">Modifié</FluentText>
+                            <FluentSpacer />
+                            <FluentText Color="Color.Default">@entry.ModifiedDate.ToString("g")</FluentText>
+                        </FluentStack>
+
+                    </FluentStack>
+                }
+            </FluentStack>
+        </FluentStack>
+    }
+    else
+    {
+        <FluentStack Style="height: 100%"
+                     Orientation="Orientation.Vertical"
+                     HorizontalAlignment="HorizontalAlignment.Center"
+                     VerticalAlignment="VerticalAlignment.Top">
+
+            <div style="width:100%; height: 320px; background-color: var(--neutral-layer-2)">
+                <FluentStack Style="height: 100%"
+                             VerticalAlignment="VerticalAlignment.Center"
+                             HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentIcon Width="128px" Value="@FileIconFactory.Get(FileIconKey.MultiSelection, FileView.Details)" />
+                </FluentStack>
+            </div>
+
+            <FluentStack Width="95%" Orientation="Orientation.Vertical">
+                <FluentText Weight="TextWeight.Bold"
+                            Size="TextSize.Size700"
+                            Style="margin-top: 20px; margin-bottom: 20px"
+                            Color="Color.Default">
+                    @count élément(s) sélectionnés
+                </FluentText>
+
+                <FluentMessageBar AllowDismiss="false" Intent="MessageBarIntent.Info">
+                    Sélectionnez un seul fichier pour afficher ses détails.
+                </FluentMessageBar>
+            </FluentStack>
+        </FluentStack>
+    }
+}

@@ -1,0 +1,166 @@
+﻿@using FluentUI.Blazor.Community.Components.TrailMenu
+@using FluentUI.Demo.Client.Infrastructure
+
+
+<div style="height: 800px">
+    <FluentCxFileManager TItem="FileManagerSampleFile"
+                         Provider="@_fileProvider"
+                         OnCreateDirectoryRequested="@OnCreateDirectoryRequested"
+                         OnRenameRequested="@OnRenameRequested"
+                         OnUploadStream="@OnUploadStreamAsync"
+                         OnFileUploaded="@OnStreamUploadedAsync"
+                         OnUploadCompleted="@OnUploadCompleted"
+                         OnDeleteRequested="@OnDeleteRequestedAsync"
+                         OnMoveRequested="@OnMoveRequestedAsync" />
+</div>
+
+@code {
+    private IFileProvider<FileManagerSampleFile>? _fileProvider;
+    private LocalStorageFileManagerRepository<FileManagerSampleFile>? _repo;
+    private List<FileManagerSampleFile> _files = new();
+    private readonly Dictionary<int, (string, MemoryStream)> _uploadStreams = new();
+
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _repo = new LocalStorageFileManagerRepository<FileManagerSampleFile>(JSRuntime);
+        _fileProvider = new LocalStorageFileProvider<FileManagerSampleFile>(_repo);
+
+        _files.AddRange(await _repo.LoadAsync());
+    }
+
+    private async Task OnMoveRequestedAsync(MoveEntriesEventArgs e)
+    {
+        await Task.Delay(3000);
+        foreach (var id in e.Ids)
+        {
+            var file = _files.FirstOrDefault(f => f.Id == id);
+
+            if (file is not null)
+            {
+                file.ParentId = e.NewParentId;
+                file.LastModified = DateTime.UtcNow;
+                e.Results.Add(new MoveEntryResult(id)
+                {
+                    Success = true
+                });
+            }
+            else
+            {
+                e.Results.Add(new MoveEntryResult(id)
+                {
+                    Success = false,
+                    ErrorMessage = "File not found"
+                });
+            }
+        }
+
+        await _repo!.SaveAsync(_files);
+    }
+
+    private void OnUploadCompleted()
+    {
+        foreach(var item in _uploadStreams)
+        {
+            item.Value.Item2.Dispose();
+        }
+
+        _uploadStreams.Clear();
+    }
+
+    private async Task OnDeleteRequestedAsync(DeleteEntriesEventArgs e)
+    {
+        await Task.Delay(3000);
+        foreach(var item in e.Ids)
+        {
+            var file = _files.FirstOrDefault(f => f.Id == item);
+
+            if (file is null)
+            {
+                e.Results.Add(new DeleteEntryResult(item)
+                    {
+                        Success = false,
+                        ErrorMessage = "File not found"
+                    });
+            }
+            else
+            {
+                bool removed = _files.Remove(file);
+
+                e.Results.Add(new DeleteEntryResult(item)
+                    {
+                        Success = removed,
+                        ErrorMessage = removed ? null : "Failed to remove file"
+                });
+            }
+        }
+
+        await _repo!.SaveAsync(_files);
+    }
+
+    private async Task OnStreamUploadedAsync(StreamUploadedEventArgs e)
+    {
+        var data = _uploadStreams[e.File.Index].Item2.ToArray();
+
+        var file = new FileManagerSampleFile()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = _uploadStreams[e.File.Index].Item1,
+                Created = DateTime.UtcNow,
+                ParentId = e.ParentId,
+                Data = data,
+                Size = e.File.Size,
+                LastModified = DateTime.UtcNow
+            };
+
+
+        _files.Add(file);
+        await _repo!.SaveAsync(_files);
+
+        e.Descriptor = new UploadFileDescriptor(file.Id, file.Name, file.Size, file.Created, file.LastModified, () => Task.FromResult(file.Data));
+    }
+
+    private async Task OnUploadStreamAsync(UploadStreamEventArgs e)
+    {
+        if (!_uploadStreams.ContainsKey(e.Index))
+        {
+            _uploadStreams[e.Index] = (e.Name, new MemoryStream());
+        }
+
+        await _uploadStreams[e.Index].Item2.WriteAsync(new ReadOnlyMemory<byte>(e.Buffer));
+    }
+
+    private async Task OnRenameRequested(RenameEntryEventArgs e)
+    {
+        await Task.Delay(3000);
+        var file = _files.FirstOrDefault(f => f.Id == e.Id);
+
+        if (file is not null)
+        {
+            file.Name = e.NewName;
+            file.LastModified = DateTime.UtcNow;
+            await _repo!.SaveAsync(_files);
+            e.Success = true;
+        }
+    }
+
+    private async Task OnCreateDirectoryRequested(CreateDirectoryEventArgs e)
+    {
+        await Task.Delay(3000);
+        var sample = new FileManagerSampleFile
+        {
+            Name = e.Name,
+            IsDirectory = true,
+            ParentId = e.ParentId,
+            Created = DateTime.UtcNow,
+            LastModified = DateTime.UtcNow,
+        };
+
+        e.Descriptor = new DirectoryDescriptor(sample.Id);
+        _files.Add(sample);
+        await _repo!.SaveAsync(_files);
+    }
+}

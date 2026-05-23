@@ -1,0 +1,5 @@
+.file-manager-list {
+  height: calc(100% - 41px);
+  width: 100%;
+  overflow-y: auto;
+}
