@@ -1,0 +1,7 @@
+.fuicx-slideshow-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}

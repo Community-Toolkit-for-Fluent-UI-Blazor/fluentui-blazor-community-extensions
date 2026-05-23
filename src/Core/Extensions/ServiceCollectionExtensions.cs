@@ -3,6 +3,7 @@ using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Clipboard;
 using FluentUI.Blazor.Community.Components.Infrastructure;
 using FluentUI.Blazor.Community.Components.Components.FileManager.Services;
+using FluentUI.Blazor.Community.Components.States;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -36,7 +37,8 @@ public static class ServiceCollectionExtensions
                        .AddScoped<IClipboard, Clipboard.Clipboard>()
                        .AddScoped<FileManagerState>()
                        .AddScoped<IFileDownloader, FileDownloader>()
-                       .AddScoped(typeof(IFileEntryZipService<>), typeof(DefaultFileEntryZipService<>));
+                       .AddScoped(typeof(IFileEntryZipService<>), typeof(DefaultFileEntryZipService<>))
+                       .AddScoped<SlideshowState>();
     }
 
     /// <summary>

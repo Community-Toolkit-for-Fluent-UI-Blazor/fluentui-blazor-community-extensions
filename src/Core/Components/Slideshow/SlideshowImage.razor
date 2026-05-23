@@ -1,0 +1,12 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<img id="@Id"
+     class="fuicx-slideshow-image @Class"
+     style="@Style"
+     loading="@(IsLazy ? "lazy" : "eager")"
+     fetchpriority="@(FetchPriorityHigh ? "high" : "low")"
+     src="@Source"
+     alt="@Alt"
+     title="@Title"
+     @attributes="@AdditionalAttributes"/>

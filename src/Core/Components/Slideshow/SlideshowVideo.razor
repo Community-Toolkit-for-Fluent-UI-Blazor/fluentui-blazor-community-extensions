@@ -1,0 +1,12 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<video id="@Id"
+       class="fuicx-slideshow-video @Class"
+       style="@Style"
+       preload="@(IsLazy ? "metadata" : "auto")"
+       src="@Source"
+       poster="@Poster"
+       playsinline
+       @attributes="@AdditionalAttributes">
+</video>

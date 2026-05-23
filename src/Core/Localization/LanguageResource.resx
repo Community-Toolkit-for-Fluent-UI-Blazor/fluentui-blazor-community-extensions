@@ -651,4 +651,10 @@
   <data name="CX_Chat_Message_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="CX_Slideshow_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="CX_Slideshow_Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
 </root>
