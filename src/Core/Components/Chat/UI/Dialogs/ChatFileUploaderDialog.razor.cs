@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using FluentUI.Blazor.Community.Components.Chat;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
-namespace FluentUI.Blazor.Community.Components.Components.Chat.UI.Dialogs;
+namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
 
 /// <summary>
 /// Represents a dialog that allows users to upload files in a chat interface.
@@ -18,18 +14,12 @@ public partial class ChatFileUploaderDialog
     /// </summary>
     /// <param name="Name">Name of the file.</param>
     /// <param name="Stream">Stream containing the data of the file.</param>
-    private record FileMemory(string Name, MemoryStream Stream)
-    { }
-
-    /// <summary>
-    /// Represents a unique identifier.
-    /// </summary>
-    private readonly string _id = Identifier.NewId();
+    private record FileMemory(string Name, MemoryStream Stream);
 
     /// <summary>
     /// Accepted files by default.
     /// </summary>
-    private readonly AcceptFile _acceptFiles = AcceptFile.Audio | AcceptFile.Image | AcceptFile.Video | AcceptFile.Document;
+    private readonly AcceptFileCategory _acceptFiles = AcceptFileCategory.Audio | AcceptFileCategory.Image | AcceptFileCategory.Video | AcceptFileCategory.Document;
 
     /// <summary>
     /// Number of file the user can upload at one time.
@@ -40,11 +30,6 @@ public partial class ChatFileUploaderDialog
     /// Template to report a progress.
     /// </summary>
     private readonly RenderFragment<ProgressFileDetails> _progressTemplate;
-
-    /// <summary>
-    /// Template to represents an icon of the document.
-    /// </summary>
-    private readonly RenderFragment<ChatFileEventArgs> _iconTemplate;
 
     /// <summary>
     /// Dictionary containing all files uploaded.
@@ -65,13 +50,15 @@ public partial class ChatFileUploaderDialog
     /// Gets or sets the dialog reference.
     /// </summary>
     [CascadingParameter]
-    private FluentDialog Dialog { get; set; } = default!;
+    private IDialogInstance Dialog { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the content of the dialog.
+    /// Gets the string representing the accepted file types for the file input element.
     /// </summary>
-    [Parameter]
-    public FileUploaderContent Content { get; set; } = default!;
+    private string Accept => new AcceptFileRules()
+    {
+        Categories = _acceptFiles
+    }.ToAcceptString();
 
     /// <summary>
     /// Occurs when the progression of the uploaded file changed.

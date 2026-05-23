@@ -636,4 +636,19 @@
   <data name="CX_Chat_Message_Import_DialogCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CX_Chat_Message_Import_Completed" xml:space="preserve">
+    <value>Completed !</value>
+  </data>
+  <data name="CX_Chat_Message_Import_Progression" xml:space="preserve">
+    <value>Loading {0} - {1}</value>
+  </data>
+  <data name="CX_Chat_Message_DragDropFileLabel" xml:space="preserve">
+    <value>Drag files here you wish to upload, or &lt;label for=\"{0}\"&gt;browse&lt;/label&gt; for them&lt;span style=\"color: red;\"&gt;*&lt;/span&gt;.&lt;br /&gt;&lt;em&gt;Maximum of {1} files allowed.&lt;/em&gt;</value>
+  </data>
+  <data name="CX_Chat_Message_Import_DialogOK" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="CX_Chat_Message_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
 </root>

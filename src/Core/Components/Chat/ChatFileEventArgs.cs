@@ -8,19 +8,19 @@ namespace FluentUI.Blazor.Community.Components.Chat;
 public record ChatFileEventArgs
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChatFileEventArgs"/> class with the specified id, name, content type, and data function.
+    /// Initializes a new instance of the <see cref="ChatFileEventArgs"/> class with the specified name, content type, and data.
     /// </summary>
     /// <param name="id">Identifier of the file.</param>
     /// <param name="name">Name of the file.</param>
     /// <param name="contentType">Content type of the file.</param>
-    /// <param name="data">Data of the file as an asynchronous task.</param>
+    /// <param name="data">Data of the file.</param>
     /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
-    public ChatFileEventArgs(long id, string name, string contentType, Func<Task<byte[]>> data, bool isRecordedAudio = false)
+    public ChatFileEventArgs(string id, string name, string contentType, byte[] data, bool isRecordedAudio = false)
     {
-        Id = $"f{id}";
+        Id = id;
         Name = name;
         ContentType = contentType;
-        DataFunc = data;
+        Data = data;
         IsRecordedAudio = isRecordedAudio;
     }
 
@@ -32,13 +32,37 @@ public record ChatFileEventArgs
     /// <param name="data">Data of the file.</param>
     /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
     public ChatFileEventArgs(string name, string contentType, byte[] data, bool isRecordedAudio = false)
+        : this (Identifier.NewId(), name, contentType, data, isRecordedAudio)
     {
-        Id = Identifier.NewId();
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChatFileEventArgs"/> class with the specified name, content type, and data.
+    /// </summary>
+    /// <param name="id">Identifier of the file.</param>
+    /// <param name="name">Name of the file.</param>
+    /// <param name="contentType">Content type of the file.</param>
+    /// <param name="dataFunc">Function that retrieves the data of the file asynchronously.</param>
+    /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
+    public ChatFileEventArgs(string id, string name, string contentType, Func<Task<byte[]>> dataFunc, bool isRecordedAudio = false)
+    {
+        Id = id;
         Name = name;
         ContentType = contentType;
-        Data = data;
+        DataFunc = dataFunc;
         IsRecordedAudio = isRecordedAudio;
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChatFileEventArgs"/> class with the specified name, content type, and data.
+    /// </summary>
+    /// <param name="name">Name of the file.</param>
+    /// <param name="contentType">Content type of the file.</param>
+    /// <param name="dataFunc">Function that retrieves the data of the file asynchronously.</param>
+    /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
+    public ChatFileEventArgs(string name, string contentType, Func<Task<byte[]>> dataFunc, bool isRecordedAudio = false)
+        : this(Identifier.NewId(), name, contentType, dataFunc, isRecordedAudio)
+    { }
 
     /// <summary>
     /// Gets or sets the identifier of the file.
@@ -75,4 +99,10 @@ public record ChatFileEventArgs
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains the data of the file.</returns>
     public Task<byte[]> GetDataAsync() => DataFunc != null ? DataFunc() : Task.FromResult(Data ?? []);
+
+    /// <summary>
+    /// Retrieves the length of the file data.
+    /// </summary>
+    /// <returns>The length of the file data.</returns>
+    internal int GetLength() => Data?.Length ?? 0;
 }

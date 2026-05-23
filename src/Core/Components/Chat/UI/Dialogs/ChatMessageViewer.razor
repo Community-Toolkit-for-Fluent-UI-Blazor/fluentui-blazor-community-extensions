@@ -1,0 +1,42 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs
+@inherits FluentDialogInstance
+
+<FluentDialogBody>
+    <TitleTemplate>
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentIcon Value="@(new Size24.ContentView())" />
+
+            <FluentText Size="TextSize.Size700">
+                @DialogInstance.Options.Header.Title
+            </FluentText>
+        </FluentStack>
+    </TitleTemplate>
+
+    <ChildContent>
+        <FluentCxSlideshow ShowControls=@ShowControlsAndIndicators
+                           ShowIndicators=@ShowControlsAndIndicators
+                           TItem="string"
+                           AutoSize
+                           Id="@Id">
+            @if (Message is not null)
+            {
+                if (Message.MessageType.HasFlag(ChatMessageType.Text))
+                {
+                    <SlideshowItem TItem="string">
+                        <ChatMessageSlideShowItemText Owner="@Owner" Sections="@Message.Sections" />
+                    </SlideshowItem>
+                }
+
+                if (Message.MessageType.HasFlag(ChatMessageType.Document))
+                {
+                    foreach (var item in Message.Files)
+                    {
+                        <SlideshowItem TItem="string">
+                            <ChatMessageSlideShowItemDocument TItem="string" LoadingLabel="@LoadingLabel" Item="@item" />
+                        </SlideshowItem>
+                    }
+                }
+            }
+        </FluentCxSlideshow>
+    </ChildContent>
+</FluentDialogBody>

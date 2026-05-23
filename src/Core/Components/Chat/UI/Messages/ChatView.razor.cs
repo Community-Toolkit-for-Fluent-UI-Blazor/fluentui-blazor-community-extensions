@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using System.Text;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
+using FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
 using FluentUI.Blazor.Community.Components.Chat.UI.Writers;
 using FluentUI.Blazor.Community.Components.Clipboard;
 using FluentUI.Blazor.Community.Components.Components.Chat;
@@ -21,7 +22,7 @@ namespace FluentUI.Blazor.Community.Components.Chat.UI.Messages;
 /// <summary>
 /// Represents a component that displays a list of chat messages in a chat interface.
 /// </summary>
-public partial class ChatMessageListView
+public partial class ChatView<TItem>
     : FluentComponentBase
 {
     /// <summary>
@@ -55,10 +56,10 @@ public partial class ChatMessageListView
     private bool _isSending;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChatMessageListView"/> class.
+    /// Initializes a new instance of the <see cref="ChatView{TItem}"/> class.
     /// </summary>
     /// <param name="configuration">The library configuration.</param>
-    public ChatMessageListView(LibraryConfiguration configuration)
+    public ChatView(LibraryConfiguration configuration)
         : base(configuration)
     {
         Id = Identifier.NewId();
@@ -113,6 +114,12 @@ public partial class ChatMessageListView
     public RenderFragment? LoadingContent { get; set; }
 
     /// <summary>
+    /// Gets or sets the <see cref="RenderFragment{ChatFileEventArgs}"/> for a file in the chat message list view.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<ChatFileEventArgs>? FileTemplate { get; set; }
+
+    /// <summary>
     /// Gets or sets the <see cref="RenderFragment"/> for an empty room content.
     /// </summary>
     [Parameter]
@@ -154,6 +161,12 @@ public partial class ChatMessageListView
     /// <remarks>The gift must be implemented by the user.</remarks>
     [Parameter]
     public bool IsGiftAllowed { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the settings for the emoji dialog.
+    /// </summary>
+    [Parameter]
+    public EmojiDialogSettings EmojiSettings { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the render mode of the sending of a message.
@@ -368,48 +381,19 @@ public partial class ChatMessageListView
     }
 
     /// <summary>
-    /// Shows an internal dialog depending on <typeparamref name="TDialog"/>.
-    /// </summary>
-    /// <typeparam name="TDialog">Type of the dialog.</typeparam>
-    /// <param name="content">Content of the dialog.</param>
-    /// <returns>Returns a task which contains the result of the dialog when completed.</returns>
-    private async Task<DialogResult> ShowInternalDialogAsync<TDialog>(object content) where TDialog : IDialogContentComponent
-    {
-        var isFileUploaderDialogType = typeof(TDialog) == typeof(FileUploaderDialog);
-        var size = isFileUploaderDialogType ? null : (DeviceState?.DeviceInfo?.Mobile != Mobile.UnknownMobileDevice && DeviceState?.DeviceInfo?.Mobile != Mobile.NotMobileDevice ? "100%" : "80%");
-
-        var dialog = await DialogService.ShowDialogAsync<TDialog>(content, new DialogParameters()
-        {
-            PrimaryAction = ChatMessageListLabels.DialogOk,
-            SecondaryAction = ChatMessageListLabels.DialogCancel,
-            ShowDismiss = false,
-            PreventDismissOnOverlayClick = true,
-            PreventScroll = true,
-            Height = size,
-            Width = size,
-            Title = isFileUploaderDialogType ? ChatMessageListLabels.SelectFromHardDriveLabel : ChatMessageListLabels.SelectFromCloudDriveLabel
-        });
-
-        return await dialog.Result;
-    }
-
-    /// <summary>
     /// Shows the cloud import dialog in an asynchronous way.
     /// </summary>
     /// <returns>Returns a task which import the selected cloud files when completed.</returns>
     private async Task ShowCloudDialogAsync()
     {
-        var dialog = await ShowInternalDialogAsync<CloudFileManagerDialog<TItem>>(
-            new CloudFileUploaderContent(
-                DeviceState?.DeviceInfo?.Mobile != Mobile.UnknownMobileDevice && DeviceState?.DeviceInfo?.Mobile != Mobile.NotMobileDevice ? FileManagerView.Mobile : FileManagerView.Desktop,
-                ColumnLabels,
-                FileExtensionTypeLabels,
-                DetailsLabels,
-                FileManagerLabels
-        ));
+        var dialog = await DialogService.ShowDialogAsync<CloudFileManagerDialog<TItem>>(a =>
+        {
+            a.Header.Title = Localizer[LanguageResource.CX_Chat_Message_Import_FileSelectorDialogTitle];
+            a.Footer.PrimaryAction.Label = Localizer[LanguageResource.CX_Chat_Message_Import_DialogCancel];
+        });
 
         if (!dialog.Cancelled &&
-            dialog.Data is IEnumerable<ChatFileEventArgs> e)
+            dialog.Value is IEnumerable<ChatFileEventArgs> e)
         {
             if (_chatDraft is not null)
             {
@@ -429,15 +413,13 @@ public partial class ChatMessageListView
     /// <returns>Returns a task which import the selected files when completed.</returns>
     private async Task ShowInputFileDialogAsync()
     {
-        var dialog = await ShowInternalDialogAsync<FileUploaderDialog>(
-            new FileUploaderContent(
-                ChatMessageListLabels.DragDropFileLabel,
-                ChatMessageListLabels.Completed,
-                ChatMessageListLabels.Progression
-        ));
+        var dialog = await DialogService.ShowDialogAsync<ChatFileUploaderDialog>(a =>
+        {
+            a.Header.Title = Localizer[LanguageResource.CX_Chat_Message_Import_FileSelectorDialogTitle];
+        });
 
         if (!dialog.Cancelled &&
-            dialog.Data is IEnumerable<ChatFileEventArgs> e)
+            dialog.Value is IEnumerable<ChatFileEventArgs> e)
         {
             if (_chatDraft is not null)
             {

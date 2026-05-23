@@ -1,5 +1,6 @@
 ﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Messages
 @inherits FluentComponentBase
+@typeparam TItem where TItem : class, new()
 
 <CascadingValue Value="this" IsFixed>
     <FluentCard Id="@Id" MinimalStyle>
@@ -17,7 +18,7 @@
                                  HorizontalAlignment="HorizontalAlignment.Center">
                         <FluentProgressBar Width="340px" />
                         <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
-                            @ChatMessageListLabels.LoadingLabel
+                            @Localizer[LanguageResource.CX_Chat_Message_Loading]
                         </FluentLabel>
                     </FluentStack>
                 }
@@ -112,7 +113,7 @@
                     {
                         <ChatFileViewer Files="@_chatDraft?.SelectedChatFiles"
                                         OnDismiss="@OnDismissFile"
-                                        ItemTemplate="@ChatFileTemplate"
+                                        ItemTemplate="@FileTemplate"
                                         LoadingItemContent="@LoadingFileContent" />
                     }
 
@@ -179,14 +180,9 @@
     <FluentPopover AnchorId="EmojiButton"
                    @bind-Open=_isEmojiPopoverVisible
                    Style="width: 420px; height: 450px; max-height:450px">
-        @if (EmojiView is not null)
-        {
-            @EmojiView
-        }
-        else
-        {
-            <FluentCxEmojiPicker OnEmojiChanged="@(e => OnAddEmoji(e))" />
-        }
+        <FluentCxEmojiPicker EmojiFontProvider="@EmojiDialogSettings.FontProvider"
+                             EmojisPerRow="@EmojiDialogSettings.EmojisPerRow"
+                             OnEmojiChanged="@(e => OnAddEmoji(e))" />
     </FluentPopover>
 
     @if (ChatState.Room is not null &&

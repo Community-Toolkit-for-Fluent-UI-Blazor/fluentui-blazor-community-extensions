@@ -1,102 +1,99 @@
 ﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs
-
+@inherits FluentComponentBase
 
 <FluentDialogBody>
     <TitleTemplate>
         <FluentStack VerticalAlignment="VerticalAlignment.Center">
             <FluentIcon Value="@(new Size24.HardDrive())" />
 
-            <FluentLabel Typo="Typography.PaneHeader">
-                @Dialog.Instance.Parameters.Title
-            </FluentLabel>
+            <FluentText Size="TextSize.Size700">
+                @Dialog.Options.Header.Title
+            </FluentText>
         </FluentStack>
     </TitleTemplate>
-    <FluentInputFile Id="@_id"
-                     Mode=InputFileMode.Buffer
-                     MaximumFileCount=@_maximumFileCount
-                     MaximumFileSize=@(1024 * 1024 * 100)
-                     Multiple
-                     
-                     OnProgressChange="@OnProgressChangedAsync"
-                     OnFileUploaded=OnFileUploadedAsync
-                     Accept="@(AcceptFileProvider.Get(_acceptFiles))"
-                     Style="height: 300px"
-                     ProgressTemplate="@_progressTemplate">
-        <ChildContent>
-            <label for="@_id">
-                <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.ArrowUpload())" />
-            </label>
 
-            <div>
-                @((MarkupString)string.Format(Content.DragDropFileLabel, _id, _maximumFileCount))
-            </div>
-        </ChildContent>
-    </FluentInputFile>
+    <ChildContent>
+        <FluentInputFile Id="@Id"
+                         Mode=InputFileMode.Buffer
+                         MaximumFileCount=@_maximumFileCount
+                         MaximumFileSize=@(1024 * 1024 * 100)
+                         Multiple
+                         OnProgressChange="@OnProgressChangedAsync"
+                         OnFileUploaded=OnFileUploadedAsync
+                         Accept="@Accept"
+                         Style="height: 300px"
+                         ProgressTemplate="@_progressTemplate">
+            <ChildContent>
+                <label for="@Id">
+                    <FluentIcon Value="@(new Size24.ArrowUpload())" />
+                </label>
 
-    <div style="height: 140px; overflow-y: auto">
+                <div>
+                    @((MarkupString)Localizer[LanguageResource.CX_Chat_Message_DragDropFileLabel, Id!, _maximumFileCount])
+                </div>
+            </ChildContent>
+        </FluentInputFile>
 
-    @foreach(var item in _hardUploadedEventArgsList)
-    {
-        <FluentCard Height="75px" Style="margin-bottom: 2px; margin-top: 2px">
-            <FluentStack VerticalAlignment="VerticalAlignment.Center">
-                    @_iconTemplate(item)
+        <div style="height: 140px; overflow-y: auto">
+            @foreach (var item in _hardUploadedEventArgsList)
+            {
+                <FluentCard Height="75px" Margin="@(Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical1)">
+                    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                        <FluentIcon Value="@(FileIcons.GetIcon(Path.GetExtension(item.Name), FileView.SmallIcons))" />
 
-                <FluentStack Orientation="Orientation.Vertical">
-                    <FluentLabel>@item.Name</FluentLabel>
-                    <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">@ByteSize.FromBytes(item.Data.Length).ToString()</FluentLabel>
-                </FluentStack>
-                
-                <FluentButton OnClick="@(() => _hardUploadedEventArgsList.Remove(item))"
-                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size24.Delete())" />
-            </FluentStack>
-        </FluentCard>
-    }
-    </div>
+                        <FluentStack Orientation="Orientation.Vertical">
+                            <FluentLabel>@item.Name</FluentLabel>
+                            <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                                @ByteSize.FromBytes(item.GetLength()).ToString()
+                            </FluentLabel>
+                        </FluentStack>
+
+                        <FluentButton OnClick="@(() => _hardUploadedEventArgsList.Remove(item))"
+                                      IconStart="@(new Size24.Delete())" />
+                    </FluentStack>
+                </FluentCard>
+            }
+        </div>
+    </ChildContent>
+
+    <ActionTemplate>
+        <FluentButton Appearance="ButtonAppearance.Primary"
+                      OnClick="@OnCloseAsync"
+                      Disabled="@(_hardUploadedEventArgsList.Count == 0)">
+            @Localizer[LanguageResource.CX_Chat_Message_Import_DialogOK]
+        </FluentButton>
+
+        <FluentButton OnClick="@OnCancelAsync"
+                      Disabled="@(_hardUploadedEventArgsList.Count == 0)">
+            @Localizer[LanguageResource.CX_Chat_Message_Import_DialogCancel]
+        </FluentButton>
+    </ActionTemplate>
 </FluentDialogBody>
-
-<FluentDialogFooter>
-    <FluentButton Appearance="Appearance.Accent" OnClick="@OnCloseAsync">
-        @Dialog.Instance.Parameters.PrimaryAction
-    </FluentButton>
-
-    <FluentButton Appearance="Appearance.Neutral" OnClick="@OnCancelAsync">
-        @Dialog.Instance.Parameters.SecondaryAction
-    </FluentButton>
-</FluentDialogFooter>
 
 @code {
     /// <summary>
-    /// Initializes a new instance of the <see cref="FileUploaderDialog" /> class.
+    /// Initializes a new instance of the <see cref="ChatFileUploaderDialog" /> class.
     /// </summary>
-    public FileUploaderDialog()
+    public ChatFileUploaderDialog(LibraryConfiguration configuration)
+        : base(configuration)
     {
+        Id = Identifier.NewId();
+
         _progressTemplate = file => __builder =>
         {
             if (file.Percentage > 0)
             {
-                <FluentProgress Min="0" Max="100" Value="@file.Percentage" />
+                <FluentProgressBar Min="0" Max="100" Value="@file.Percentage" />
                 <br />
 
                 @if (file.Percentage < 100)
                 {
-                    @string.Format(Content.Progression, file.Index + 1, file.Name);
+                    @Localizer[LanguageResource.CX_Chat_Message_Import_Progression, file.Index + 1, file.Name]
                 }
                 else
                 {
-                    @Content.Completed
+                    @Localizer[LanguageResource.CX_Chat_Message_Import_Completed]
                 }
-            }
-        };
-
-        _iconTemplate = e => __builder =>
-        {
-            @if (e.ContentType.StartsWith("image/"))
-            {
-                <img width="32" height="32" src="@(Base64ContentHelper.GetBase64Content(e.Data, e.ContentType))" />
-            }
-            else
-            {
-                <FluentIcon Value="@(FileIcons.FromExtension(Path.GetExtension(e.Name)))" />
             }
         };
     }

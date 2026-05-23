@@ -1,0 +1,27 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs
+@inherits FluentDialogInstance
+@typeparam TItem where TItem : class, new()
+
+<FluentDialogBody>
+    <TitleTemplate>
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentIcon Value="@(new Size24.Cloud())" />
+
+            <FluentLabel Typo="Typography.PaneHeader">
+                @DialogInstance.Options.Header.Title
+            </FluentLabel>
+        </FluentStack>
+    </TitleTemplate>
+
+    <ChildContent>
+        <FluentCxFileManager TItem="TItem"
+                             FileStructureView="FileStructureView.Flat"
+                             ShowCreateFolderButton=false
+                             ShowPropertiesButton=false
+                             ShowSortButton=false
+                             ShowViewButton=false
+                             ShowUploadButton=false
+                             Provider="@Provider"
+                             @ref=_fileManager />
+    </ChildContent>
+</FluentDialogBody>

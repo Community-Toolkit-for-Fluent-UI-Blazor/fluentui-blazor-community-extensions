@@ -358,7 +358,7 @@ public partial class FluentCxFileManager<TItem>
     /// <remarks>If no items are explicitly selected, the collection contains the current entry if it exists;
     /// otherwise, it is empty. This property is useful for scenarios where multiple or single selection is
     /// supported.</remarks>
-    private IEnumerable<FileEntry<TItem>> SelectedItems =>
+    public IEnumerable<FileEntry<TItem>> SelectedItems =>
         _currentSelectedItems is null || _currentSelectedItems.Count == 0
             ? _currentEntry is null ? [] : new[] { _currentEntry }
             : _currentSelectedItems;

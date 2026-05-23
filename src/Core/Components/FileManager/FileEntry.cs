@@ -341,8 +341,7 @@ public sealed class FileEntry<TItem>
     /// <returns>Returns the content type as a string if determined; otherwise, returns "application/octet-stream".</returns>
     public string GetContentType()
     {
-        return s_contentTypeProvider.TryGetContentType(Name, out var ct)
-            ? ct : "application/octet-stream";
+        return s_contentTypeProvider.TryGetContentType(Name, out var ct) ? ct : "application/octet-stream";
     }
 
     /// <summary>

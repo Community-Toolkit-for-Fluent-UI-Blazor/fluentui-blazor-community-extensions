@@ -24,7 +24,7 @@ internal sealed class AcceptFileRules
     /// <summary>
     /// Gets the list of custom file extensions supported by the component.
     /// </summary>
-    public List<string> CustomExtensions { get; } = new();
+    public List<string> CustomExtensions { get; } = [];
 
     /// <summary>
     /// Adds a custom file extension to the collection if it is not already present.
