@@ -1,4 +1,3 @@
-using FluentUI.Blazor.Community.Components.Base;
 using FluentUI.Blazor.Community.Components.Chat;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Components.Chat;
@@ -52,7 +51,7 @@ public partial class ChatMessageCard
     /// <summary>
     /// Represents the fragment to render the react on the message.
     /// </summary>
-    private readonly RenderFragment<IEnumerable<IChatMessageReaction>> _renderReactions;
+    private readonly RenderFragment _renderReactions;
 
     /// <summary>
     /// Represents the fragment to render a footer.
@@ -95,22 +94,22 @@ public partial class ChatMessageCard
     private IDialogService DialogService { get; set; } = default!;
 
     /// <summary>
+    /// Gets or sets the dynamic state of the chat message.
+    /// </summary>
+    [Inject]
+    private ChatMessageDynamicState DynamicState { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the state of the chat.
+    /// </summary>
+    [Inject]
+    private ChatState ChatState { get; set; } = default!;
+
+    /// <summary>
     /// Gets or sets the message to render.
     /// </summary>
     [Parameter]
-    public IChatMessage? Message { get; set; }
-
-    /// <summary>
-    /// Gets or sets the read state of the chat message.
-    /// </summary>
-    [Parameter]
-    public ChatMessageReadState ReadState { get; set; }
-
-    /// <summary>
-    /// Gets or sets the size of the message.
-    /// </summary>
-    [Parameter]
-    public SizeD MessageSize { get; set; }
+    public ChatMessage? Message { get; set; }
 
     /// <summary>
     /// Gets or sets the owner of the message.
@@ -122,13 +121,13 @@ public partial class ChatMessageCard
     /// Gets or sets the callback to raise when the card is tapped.
     /// </summary>
     [Parameter]
-    public EventCallback<IChatMessage> Tapped { get; set; }
+    public EventCallback<ChatMessage> Tapped { get; set; }
 
     /// <summary>
     /// Gets or sets the callback to raise when the message is deleted.
     /// </summary>
     [Parameter]
-    public EventCallback<IChatMessage> Delete { get; set; }
+    public EventCallback<ChatMessage> Delete { get; set; }
 
     /// <summary>
     /// Gets or sets the callback to raise when a react occurs on the message.
@@ -140,19 +139,19 @@ public partial class ChatMessageCard
     /// Gets or sets the callback to raise when the message is edited.
     /// </summary>
     [Parameter]
-    public EventCallback<IChatMessage> Edit { get; set; }
+    public EventCallback<ChatMessage> Edit { get; set; }
 
     /// <summary>
     /// Gets or sets the callback to raise when the message is copied.
     /// </summary>
     [Parameter]
-    public EventCallback<IChatMessage> Copy { get; set; }
+    public EventCallback<ChatMessage> Copy { get; set; }
 
     /// <summary>
     /// Gets or sets the callback to raise when the message is replied.
     /// </summary>
     [Parameter]
-    public EventCallback<IChatMessage> Reply { get; set; }
+    public EventCallback<ChatMessage> Reply { get; set; }
 
     /// <summary>
     /// Gets or sets the callback to raise when the message is pinned or unpined.
@@ -170,7 +169,7 @@ public partial class ChatMessageCard
     /// Gets or sets the template of the message.
     /// </summary>
     [Parameter]
-    public RenderFragment<IChatMessage>? MessageTemplate { get; set; }
+    public RenderFragment<ChatMessage>? MessageTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets the template of a deleted message.
@@ -183,7 +182,7 @@ public partial class ChatMessageCard
     /// Gets or sets the settings of the emoji dialog.
     /// </summary>
     [Parameter]
-    public EmojiDialogSettings EmojiDialogSettings { get; set; } = new();
+    public EmojiSettings EmojiDialogSettings { get; set; } = new();
 
     /// <summary>
     /// Gets the CSS font-family string to use for rendering emojis, combining the specified emoji font family and fallback font family.
@@ -333,6 +332,28 @@ public partial class ChatMessageCard
         return section?.Content;
     }
 
+    private IReadOnlyList<ChatMessageReaction> GetReactions()
+    {
+        if (Message is null ||
+            ChatState.Room is null)
+        {
+            return [];
+        }
+
+        return DynamicState.GetReactions(ChatState.Room, Message.Id);
+    }
+
+    private ChatMessageReadState GetReadState()
+    {
+        if (Message is null ||
+            ChatState.Room is null)
+        {
+            return ChatMessageReadState.Unread;
+        }
+
+        return DynamicState.GetReadState(ChatState.Room, Message.Id);
+    }
+
     /*  /// <summary>
       /// Gets the number of documents visible on the message.
       /// </summary>
@@ -351,34 +372,6 @@ public partial class ChatMessageCard
               _ => 4,
           };
       }*/
-
-    /// <summary>
-    /// Gets the height value as a CSS pixel string.
-    /// </summary>
-    /// <returns>The height in pixels, or "150px" if the height is not set.</returns>
-    private string GetHeight()
-    {
-        if (MessageSize.Height <= 0)
-        {
-            return "150px";
-        }
-
-        return $"{MessageSize.Height}px";
-    }
-
-    /// <summary>
-    /// Gets the CSS width value.
-    /// </summary>
-    /// <returns>"100%" if the width is not positive, otherwise the width in pixels.</returns>
-    private string GetWidth()
-    {
-        if (MessageSize.Width <= 0)
-        {
-            return "100%";
-        }
-
-        return $"{MessageSize.Width}px";
-    }
 
     #endregion Methods
 }

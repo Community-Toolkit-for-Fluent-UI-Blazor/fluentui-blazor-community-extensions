@@ -3,7 +3,7 @@ namespace FluentUI.Blazor.Community.Components.Emojis;
 /// <summary>
 /// Represents the settings for the emoji dialog.
 /// </summary>
-public sealed record EmojiDialogSettings
+public sealed record EmojiSettings
 {
     /// <summary>
     /// Gets or sets the number of emojis to display per row in the emoji picker dialog.

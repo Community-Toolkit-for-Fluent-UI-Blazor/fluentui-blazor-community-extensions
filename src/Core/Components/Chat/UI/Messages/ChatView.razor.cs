@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Text;
+using FluentUI.Blazor.Community.Components.Chat.Engine;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
 using FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
@@ -12,10 +13,10 @@ using FluentUI.Blazor.Community.Components.Infrastructure;
 using FluentUI.Blazor.Community.Components.Localization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
-using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components.Chat.UI.Messages;
 
@@ -28,7 +29,7 @@ public partial class ChatView<TItem>
     /// <summary>
     /// Represents the virtualizer.
     /// </summary>
-    private Virtualize<IChatMessage>? _virtualizeMessageList;
+    private Virtualize<ChatMessage>? _virtualizeMessageList;
 
     /// <summary>
     /// Value indicating if the emoji popover is visible.
@@ -56,6 +57,21 @@ public partial class ChatView<TItem>
     private bool _isSending;
 
     /// <summary>
+    /// Value indicating whether the total message count should be refreshed.
+    /// </summary>
+    private bool _refreshTotalMessageCount = true;
+
+    /// <summary>
+    /// Value representing the total count of messages in the current chat room.
+    /// </summary>
+    private int _totalMessageCount;
+
+    /// <summary>
+    /// Cancellation token source for canceling asynchronous operations.
+    /// </summary>
+    private CancellationTokenSource? _cts;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ChatView{TItem}"/> class.
     /// </summary>
     /// <param name="configuration">The library configuration.</param>
@@ -69,7 +85,37 @@ public partial class ChatView<TItem>
     /// Gets or sets the state of the chat.
     /// </summary>
     [Inject]
-    private ChatState ChatState { get; set; } = default!;
+    private ChatState State { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the state of the chat room.
+    /// </summary>
+    [Inject]
+    private ChatRoomState RoomState { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the state of the chat messages.
+    /// </summary>
+    [Inject]
+    private ChatMessageState MessageState { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the state of the chat message dynamic properties.
+    /// </summary>
+    [Inject]
+    private ChatMessageDynamicState DynamicState { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the state of the chat room dynamic properties.
+    /// </summary>
+    [Inject]
+    private ChatRoomDynamicState RoomDynamicState { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the engine to manage the chat.
+    /// </summary>
+    [Inject]
+    private ChatEngine ChatEngine { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the state of the device info.
@@ -93,7 +139,7 @@ public partial class ChatView<TItem>
     /// Gets or sets the translation client.
     /// </summary>
     [Inject]
-    private ITranslationClient? TranslationClient { get; set; }
+    private IServiceProvider ServiceProvider{ get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the clipboard module.
@@ -129,7 +175,7 @@ public partial class ChatView<TItem>
     /// Gets or sets the template for a message.
     /// </summary>
     [Parameter]
-    public RenderFragment<IChatMessage>? MessageTemplate { get; set; }
+    public RenderFragment<ChatMessage>? MessageTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets the maximum number of item the view renders.
@@ -166,7 +212,7 @@ public partial class ChatView<TItem>
     /// Gets or sets the settings for the emoji dialog.
     /// </summary>
     [Parameter]
-    public EmojiDialogSettings EmojiSettings { get; set; } = new();
+    public EmojiSettings EmojiSettings { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the render mode of the sending of a message.
@@ -209,7 +255,7 @@ public partial class ChatView<TItem>
     /// Gets or sets the filter to filter the messages.
     /// </summary>
     [Parameter]
-    public Expression<Func<IChatMessage, bool>>? Filter { get; set; }
+    public Expression<Func<ChatMessage, bool>>? Filter { get; set; }
 
     /// <summary>
     /// Gets or sets the option to split the message into multiple parts or not.
@@ -317,6 +363,72 @@ public partial class ChatView<TItem>
     /// </summary>
     [Parameter]
     public bool IsMessageWriterVisible { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a provider to retrieve a specific chat message.
+    /// </summary>
+    [Parameter]
+    public ChatMessageItemCollectionProvider? ItemRetrieveProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets a provider to retrieve a chat files.
+    /// </summary>
+    [Parameter]
+    public ChatMessageFileCollectionProvider? FilesProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets a provider to retrieve reactions for a chat message.
+    /// </summary>
+    [Parameter]
+    public ChatMessageReactionCollectionProvider? ReactionsProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets a provider to retrieve the chat messages to render in the view.
+    /// </summary>
+    [Parameter]
+    public ChatMessageItemsProvider? ItemsProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the provider to retrieve the total count of messages.
+    /// </summary>
+    [Parameter]
+    public ChatMessageCountProvider? CountProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the provider to retrieve the user state of the messages.
+    /// </summary>
+    [Parameter]
+    public ChatMessageUserStateProvider? ReadUserStateProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback which is invoked when a message must be deleted.
+    /// </summary>
+    [Parameter]
+    public ChatMessageDeleteMessageProvider? OnDelete { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback which is invoked when a message must be pinned or unpinned.
+    /// </summary>
+    [Parameter]
+    public EventCallback<PinMessageEventArgs> OnPinOrUnpin { get; set; }
+
+    /// <summary>
+    /// Gets or sets the provider used to create chat message items.
+    /// </summary>
+    [Parameter]
+    public ChatMessageItemsCreationProvider? OnCreate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the provider used to edit chat message.
+    /// </summary>
+    [Parameter]
+    public ChatMessageEditProvider? OnEditMessage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the provider used to react to a message.
+    /// </summary>
+    [Parameter]
+    public ChatMessageReactProvider? OnReactMessage { get; set; }
 
     /// <summary>
     /// Occurs when the gift button is clicked.
@@ -438,9 +550,9 @@ public partial class ChatView<TItem>
     /// </summary>
     /// <param name="sender">Object which invokes the method.</param>
     /// <param name="e">Event associated to this method.</param>
-    private async void OnRoomChanged(object? sender, ChatRoom? e)
+    private async void OnRoomChanged(object? sender, System.EventArgs e)
     {
-        _chatDraft = ChatState.GetDraft();
+        _chatDraft = State.GetDraft();
         await RefreshDataAsync();
     }
 
@@ -450,17 +562,24 @@ public partial class ChatView<TItem>
     /// <returns>Returns a task which build and send the message at all other users.</returns>
     private async Task OnAddMessageAsync()
     {
+        if (_cts is not null)
+        {
+            await _cts.CancelAsync();
+            _cts.Dispose();
+        }
+
+        _cts = new CancellationTokenSource();
         _isSending = true;
         await InvokeAsync(StateHasChanged);
 
-        List<IChatMessage> messages = [];
+        List<ChatMessage> messages = [];
 
         if (IsTranslationEnabled)
         {
             await TranslateTextAsync();
         }
 
-        if (ChatState.Room is not null &&
+        if (State.Room is not null &&
             _chatDraft is not null &&
             Owner is not null)
         {
@@ -469,28 +588,16 @@ public partial class ChatView<TItem>
                 _chatDraft.AddCultureText(Owner.CultureName!, [_chatDraft.Text]);
             }
 
-            messages.AddRange(await ChatMessageService.CreateMessagesAsync(new(
-                ChatState.Room.Id,
-                Owner,
-                _chatDraft,
-                MessageSplitOption,
-                IsTranslationEnabled
-            )));
-
-            _refreshTotalMessageCount = true;
-
-            _chatDraft.Clear();
-            _isReply = false;
-            await RefreshDataAsync();
-        }
-
-        if (messages.Count == 1)
-        {
-            await SendMessageAsync(messages[0]);
-        }
-        else
-        {
-            await SendMessageAsync(messages);
+            if (OnCreate is not null)
+            {
+                var createdMessages = await OnCreate(new(State.Room.Id, Owner.Id, _chatDraft, MessageSplitOption, _cts.Token));
+                messages.AddRange(createdMessages);
+                _chatDraft.Clear();
+                _isReply = false;
+                _refreshTotalMessageCount = true;
+                await RefreshDataAsync();
+                await SendMessagesAsync(messages);
+            }
         }
 
         _isSending = false;
@@ -503,24 +610,26 @@ public partial class ChatView<TItem>
     /// <returns>Returns a task which translates the text into all users languages when completed.</returns>
     private async Task TranslateTextAsync()
     {
-        if (TranslationClient is null ||
-            ChatState.Room is null ||
+        if (State.Room is null ||
             Owner is null ||
-            _chatDraft is null)
+            _chatDraft is null ||
+            !IsTranslationEnabled)
         {
             return;
         }
 
-        var cultures = ChatState.Room.Users.Select(x => x.CultureName)
-                                           .Except([Owner.CultureName])
-                                           .Distinct()
-                                           .ToList();
+        var translationClient = ServiceProvider.GetService<ITranslationClient>() ?? throw new InvalidOperationException("If translation is enabled, an ITranslationClient must be registered.");
+        var cultures = RoomDynamicState.GetUsers(State.Room.Id)
+                                       .Select(x => x.CultureName)
+                                       .Except([Owner.CultureName])
+                                       .Distinct()
+                                       .ToList();
 
         if (cultures.Count > 0 &&
             !string.IsNullOrEmpty(_chatDraft.Text) &&
-            TranslationClient.IsConfigurationValid)
+            translationClient.IsConfigurationValid)
         {
-            var result = await TranslationClient.TranslateAsync(
+            var result = await translationClient.TranslateAsync(
                 _chatDraft.Text,
                 Owner.CultureName,
                 cultures
@@ -538,113 +647,28 @@ public partial class ChatView<TItem>
     /// </summary>
     /// <param name="messages">Messages to send.</param>
     /// <returns>Returns a task which send the messages when completed.</returns>
-    private async Task SendMessageAsync(IEnumerable<IChatMessage> messages)
+    private async Task SendMessagesAsync(IReadOnlyList<ChatMessage> messages)
     {
-        if (_messageService is not null &&
-            ChatState.Room is not null &&
-            messages.Any())
+        if (_cts is not null)
         {
-            await _messageService.SendAsync(ChatMessageListViewConstants.SendMessagesAsync, ChatState.Room.Id, messages.Select(x => x.Id), ChatState.Room.GetUsersBut(Owner));
+            await _cts.CancelAsync();
+            _cts.Dispose();
         }
-    }
 
-    /// <summary>
-    /// Send the <paramref name="message"/> in an asynchronous way.    
-    /// </summary>
-    /// <param name="message">Message to send.</param>
-    /// <returns>Returns a task which send the message when completed.</returns>
-    private async Task SendMessageAsync(IChatMessage message)
-    {
-        if (_messageService is not null &&
-            ChatState.Room is not null)
+        _cts = new CancellationTokenSource();
+        var count = messages.Count;
+
+        if (State.Room is not null &&
+            count > 0)
         {
-            await _messageService.SendAsync(ChatMessageListViewConstants.SendMessageAsync, ChatState.Room.Id, message.Id, ChatState.Room.GetUsersBut(Owner));
-        }
-    }
-
-    /// <summary>
-    /// Send the fact that the message was read in an asynchronous way.
-    /// </summary>
-    /// <param name="roomId">Identifier of the room.</param>
-    /// <param name="messageId">Identifier of the message.</param>
-    /// <param name="userIdCollection">List of users which read the message.</param>
-    /// <returns>Returns a task which send the fact that the message was read by <paramref name="userIdCollection"/> users.</returns>
-    private async Task SendMessageReadAsync(
-        long roomId,
-        long messageId,
-        IEnumerable<long> userIdCollection)
-    {
-        if (_messageService is not null)
-        {
-            await _messageService.SendAsync(ChatMessageListViewConstants.MessageReadAsync, roomId, messageId, userIdCollection);
-        }
-    }
-
-    /// <summary>
-    /// Occurs when a message was received.
-    /// </summary>
-    /// <param name="roomId">Identifier of the room.</param>
-    /// <param name="messageIdCollection">Identifier of the message.</param>
-    /// <returns>Returns a task which updates the view when completed.</returns>
-    private async Task OnReceivedMessagesAsync(long roomId, IEnumerable<long> messageIdCollection)
-    {
-        var room = ChatState.Room;
-
-        if (room?.Id == roomId &&
-            Owner is not null)
-        {
-            foreach (var messageId in messageIdCollection)
+            if (count == 1)
             {
-                var chatMessage = await ChatMessageService.GetMessageAsync(roomId, messageId);
-
-                if (chatMessage is not null)
-                {
-                    _refreshTotalMessageCount = true;
-                    await ChatMessageService.SetReadStateAsync(roomId, chatMessage.Id, Owner, true);
-                    await SendMessageReadAsync(room.Id, chatMessage.Id, room.GetUsersBut(Owner).Select(x => x.Id));
-                }
+                await ChatEngine.SendNewMessageAsync(State.Room, messages[0].Id, _cts.Token);
             }
-
-            await RefreshDataAsync();
-        }
-    }
-
-    /// <summary>
-    /// Occurs when a message was received.
-    /// </summary>
-    /// <param name="roomId">Identifier of the room.</param>
-    /// <param name="messageId">Identifier of the message.</param>
-    /// <returns>Returns a task which updates the view when completed.</returns>
-    private async Task OnReceivedMessageAsync(long roomId, long messageId)
-    {
-        var room = ChatState.Room;
-
-        if (room?.Id == roomId &&
-            Owner is not null)
-        {
-            var chatMessage = await ChatMessageService.GetMessageAsync(roomId, messageId);
-
-            if (chatMessage is not null)
+            else
             {
-                _refreshTotalMessageCount = true;
-                await ChatMessageService.SetReadStateAsync(roomId, chatMessage.Id, Owner, true);
-                await SendMessageReadAsync(room.Id, chatMessage.Id, room.GetUsersBut(Owner).Select(x => x.Id));
+                await ChatEngine.SendNewMessagesAsync(State.Room, messages.Select(x => x.Id), _cts.Token);
             }
-
-            await RefreshDataAsync();
-        }
-    }
-
-    /// <summary>
-    /// Occurs when a message was deleted.
-    /// </summary>
-    /// <param name="roomId">Identifier of the room.</param>
-    /// <returns>Returns a task which refresh the view when completed.</returns>
-    private async Task OnDeletedMessageAsync(long roomId)
-    {
-        if (ChatState.Room?.Id == roomId)
-        {
-            await RefreshDataAsync();
         }
     }
 
@@ -666,35 +690,35 @@ public partial class ChatView<TItem>
     /// </summary>
     /// <param name="request">Request to use to retrieve items.</param>
     /// <returns>Returns an <see cref="ItemsProviderResult{TItem}"/> which contains the messages to render.</returns>
-    private async ValueTask<ItemsProviderResult<IChatMessage>> GetItemsAsync(ItemsProviderRequest request)
+    private async ValueTask<ItemsProviderResult<ChatMessage>> GetItemsAsync(ItemsProviderRequest request)
     {
-        while (ChatState.IsLoading)
+        while (State.IsLoading)
         {
             await Task.Delay(10);
         }
 
-        ChatState.IsLoading = true;
+        State.IsLoading = true;
 
         if (Owner is null ||
-            ChatState.Room is null ||
-            ChatMessageService is null)
+            State.Room is null ||
+            ItemsProvider is null ||
+            CountProvider is null)
         {
-            ChatState.IsLoading = false;
+            State.IsLoading = false;
             return new();
         }
 
-        var filter = PredicateBuilder<IChatMessage>.True;
+        var filter = PredicateBuilder<ChatMessage>.True;
 
         if (!ShowDeletedMessages)
         {
-            filter = PredicateBuilder<IChatMessage>.And(x => !x.IsDeleted, Filter);
+            filter = PredicateBuilder<ChatMessage>.And(x => !x.IsDeleted, Filter);
         }
 
         if (_refreshTotalMessageCount || _totalMessageCount == 0)
         {
-            var current = await ChatMessageService.MessageCountAsync(new(ChatState.Room.Id, Owner.Id, filter));
+            var current = await CountProvider(new ChatMessageCountRequest(State.Room.Id, filter, request.CancellationToken));
             _refreshTotalMessageCount = false;
-            _scrollToBottom = true;
 
             if (current != _totalMessageCount)
             {
@@ -705,63 +729,21 @@ public partial class ChatView<TItem>
         if (_totalMessageCount > 0 &&
             request.Count > 0)
         {
-            var list = await ChatMessageService.GetMessageListAsync(new(ChatState.Room.Id, Owner.Id, request.StartIndex, request.Count, filter));
+            var list = await ItemsProvider(new(State.Room.Id, filter, request.StartIndex, request.Count, request.CancellationToken));
 
-            ChatState.IsLoading = false;
+            State.IsLoading = false;
             return new(list, _totalMessageCount);
         }
 
-        ChatState.IsLoading = false;
+        State.IsLoading = false;
         return new();
-    }
-
-    /// <summary>
-    /// Pin or unpin the message specified by <paramref name="id"/> in an asynchronous way.
-    /// </summary>
-    /// <param name="id">Identifier of the message.</param>
-    /// <returns>Returns a task which pin or unpin the message.</returns>
-    private async Task OnPinOrUnpinAsync(long id)
-    {
-        if (ChatState.Room?.Id == id)
-        {
-            await RefreshDataAsync();
-        }
-    }
-
-    /// <summary>
-    /// Occurs after a react was received.
-    /// </summary>
-    /// <param name="roomId">Identifier of the room.</param>
-    /// <returns>Returns a task which refresh the view when completed.</returns>
-    private async Task OnReactedMessageAsync(long roomId)
-    {
-        if (Owner is not null &&
-            ChatState.Room?.Id == roomId)
-        {
-            await RefreshDataAsync();
-        }
-    }
-
-    /// <summary>
-    /// Occurs after a message was read.
-    /// </summary>
-    /// <param name="roomId">Identifier of the room.</param>
-    /// <param name="messageId">Identifier of the message.</param>
-    /// <returns>Returns a task which refresh the view when completed.</returns>
-    private async Task OnMessageReadAsync(long roomId, long messageId)
-    {
-        if (Owner is not null &&
-            ChatState.Room?.Id == roomId)
-        {
-            await RefreshDataAsync();
-        }
     }
 
     /// <summary>
     /// Occurs when the edit button is clicked.
     /// </summary>
     /// <param name="message">Message to edit.</param>
-    private void OnEdit(IChatMessage message)
+    private void OnEdit(ChatMessage message)
     {
         _isEdit = true;
 
@@ -789,14 +771,30 @@ public partial class ChatView<TItem>
         var message = _chatDraft?.GetEditMessage();
 
         if (Owner is not null &&
-            ChatState.Room is not null &&
+            State.Room is not null &&
             _chatDraft is not null &&
             message is not null &&
-            !string.IsNullOrEmpty(_chatDraft.Text))
+            !string.IsNullOrEmpty(_chatDraft.Text) &&
+            OnEditMessage is not null)
         {
+            if (_cts is not null)
+            {
+                await _cts.CancelAsync();
+                _cts.Dispose();
+            }
+
+            _cts = new CancellationTokenSource();
             _isEdit = false;
-            await ChatMessageService.EditMessageAsync(new(ChatState.Room.Id, message, Owner, _chatDraft.Text));
+            await OnEditMessage(new(
+                State.Room.Id,
+                message,
+                Owner.Id,
+                _chatDraft.Text!,
+                _cts.Token
+            ));
+
             _chatDraft.ClearEditMessage();
+            await ChatEngine.SendEditedMessageAsync(State.Room, message.Id, _cts.Token);
             await RefreshDataAsync();
         }
     }
@@ -806,19 +804,17 @@ public partial class ChatView<TItem>
     /// </summary>
     /// <param name="message">Tapped message.</param>
     /// <returns>Returns a task which show the message in bigger view.</returns>
-    private async Task OnTappedAsync(IChatMessage message)
+    private async Task OnTappedAsync(ChatMessage message)
     {
-        var dialog = await DialogService.ShowDialogAsync<ChatMessageViewer>(new ChatMessageViewerContent(Owner!, message, ChatMessageListLabels.LoadingLabel), new DialogParameters()
+        await DialogService.ShowDialogAsync<ChatMessageDialog>(a =>
         {
-            Title = ChatMessageListLabels.MessageViewer,
-            PreventDismissOnOverlayClick = true,
-            DismissTitle = ChatMessageListLabels.DialogCancel,
-            PrimaryAction = ChatMessageListLabels.DialogCancel,
-            Width = "90%",
-            Height = "90%"
+            a.Header.Title = Localizer[LanguageResource.CX_Chat_Message_Viewer_Title];
+            a.Width = "90%";
+            a.Height = "90%";
+            a.Parameters.Add(nameof(ChatMessageDialog.Message), message);
+            a.Parameters.Add(nameof(ChatMessageDialog.ShowControls), true);
+            a.Parameters.Add(nameof(ChatMessageDialog.ShowIndicators), true);
         });
-
-        await dialog.Result;
     }
 
     /// <summary>
@@ -826,14 +822,22 @@ public partial class ChatView<TItem>
     /// </summary>
     /// <param name="message">Message to delete.</param>
     /// <returns>Returns a task which deletes the message when completed.</returns>
-    private async Task OnDeleteAsync(IChatMessage message)
+    private async Task OnDeleteAsync(ChatMessage message)
     {
-        if (_messageService is not null &&
-            ChatState.Room is not null)
+        if (State.Room is not null &&
+            OnDelete is not null)
         {
-            await ChatMessageService.DeleteAsync(ChatState.Room.Id, message);
+            if (_cts is not null)
+            {
+                await _cts.CancelAsync();
+                _cts.Dispose();
+            }
+
+            _cts = new CancellationTokenSource();
+            _refreshTotalMessageCount = true;
+            await OnDelete(message, _cts.Token);
             await RefreshDataAsync();
-            await _messageService.SendAsync(ChatMessageListViewConstants.DeleteMessageAsync, ChatState.Room.Id, ChatState.Room.GetUsersBut(Owner));
+            await ChatEngine.SendDeletedMessageAsync(State.Room, message.Id, _cts.Token);
         }
     }
 
@@ -842,7 +846,7 @@ public partial class ChatView<TItem>
     /// </summary>
     /// <param name="message">Message to copy.</param>
     /// <returns>Returns a task which copy the content of the message when completed.</returns>
-    private async Task OnCopyAsync(IChatMessage message)
+    private async Task OnCopyAsync(ChatMessage message)
     {
         if (Owner is not null)
         {
@@ -880,26 +884,10 @@ public partial class ChatView<TItem>
     /// Occurs when a message is replied.
     /// </summary>
     /// <param name="message">Replied message.</param>
-    private void OnReply(IChatMessage message)
+    private void OnReply(ChatMessage message)
     {
         _isReply = true;
         _chatDraft?.SetReplyMessage(message);
-    }
-
-    /// <summary>
-    /// Occurs when a message is pined or unpined.
-    /// </summary>
-    /// <param name="e">Event args associated to the method.</param>
-    /// <returns>Returns a task which pin or unpin a message.</returns>
-    private async Task OnPinOrUnpinAsync(PinMessageEventArgs e)
-    {
-        if (_messageService is not null &&
-            ChatState.Room is not null)
-        {
-            await ChatMessageService.PinOrUnpinAsync(new(ChatState.Room.Id, e.Message, e.Pin));
-            await RefreshDataAsync();
-            await _messageService.SendAsync(ChatMessageListViewConstants.PinOrUnpinAsync, ChatState.Room.Id, ChatState.Room.GetUsersBut(Owner));
-        }
     }
 
     /// <summary>
@@ -909,14 +897,22 @@ public partial class ChatView<TItem>
     /// <returns>Returns a task which reacts to a message when completed.</returns>
     private async Task OnReactAsync(ChatMessageReactEventArgs e)
     {
-        if (ChatState.Room is not null &&
+        if (State.Room is not null &&
             Owner is not null &&
             !string.IsNullOrEmpty(e.Reaction) &&
-            _messageService is not null)
+            OnReactMessage is not null)
         {
-            await ChatMessageService.AddReactionAsync(new(ChatState.Room.Id, Owner, e.Message, e.Reaction));
+            if (_cts is not null)
+            {
+                await _cts.CancelAsync();
+                _cts.Dispose();
+            }
+
+            _cts = new CancellationTokenSource();
+
+            await OnReactMessage(new(State.Room.Id, Owner.Id, e.Message, e.Reaction));
             await RefreshDataAsync();
-            await _messageService.SendAsync(ChatMessageListViewConstants.SendReactOnMessageAsync, ChatState.Room.Id, ChatState.Room.GetUsersBut(Owner));
+            await ChatEngine.SendReactedMessageAsync(State.Room, e.Message.Id, e.Reaction, _cts.Token);
         }
     }
 
@@ -940,65 +936,59 @@ public partial class ChatView<TItem>
             return;
         }
 
-        StringBuilder s = new();
-        s.Append(_chatDraft.Text);
-        s.Append(emoji.Unicode);
+        var builder = new StringBuilder();
+        builder.Append(_chatDraft.Text);
+        builder.Append(emoji.Unicode);
 
-        _chatDraft.Text = s.ToString();
+        _chatDraft.Text = builder.ToString();
+    }
+
+    private void OnUpdated(object? sender, System.EventArgs e)
+    {
+        InvokeAsync(StateHasChanged);
     }
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        ChatState.RoomChanged += OnRoomChanged;
-        _chatDraft = ChatState.GetDraft();
+        State.RoomChanged += OnRoomChanged;
 
-        _messageService = MessageServiceFactory.Create(HubName);
-        _messageService.ListenOn<long, IEnumerable<long>>(ChatMessageListViewConstants.ReceiveMessages, OnReceivedMessagesAsync)
-                       .ListenOn<long, long>(ChatMessageListViewConstants.ReceiveMessage, OnReceivedMessageAsync)
-                       .ListenOn<long>(ChatMessageListViewConstants.MessageDeleted, OnDeletedMessageAsync)
-                       .ListenOn<long>(ChatMessageListViewConstants.ReactOnMessage, OnReactedMessageAsync)
-                       .ListenOn<long>(ChatMessageListViewConstants.PinOrUnpin, OnPinOrUnpinAsync)
-                       .ListenOn<long, long>(ChatMessageListViewConstants.MessageRead, OnMessageReadAsync);
+        RoomState.RoomsChanged += OnUpdated;
+        RoomState.RoomUpdated += OnUpdated;
+
+        MessageState.MessageUpdated += OnUpdated;
+        MessageState.MessageRemoved += OnUpdated;
+
+        DynamicState.ReadStateUpdated += OnUpdated;
+        DynamicState.ReactionsUpdated += OnUpdated;
+        DynamicState.FilesUpdated += OnUpdated;
+
+        _chatDraft = State.GetDraft();
+
+        ChatEngine.SetFilesProvider(FilesProvider)
+                  .SetMessageItemProvider(ItemRetrieveProvider)
+                  .SetReactionsProvider(ReactionsProvider)
+                  .SetUserStateProvider(ReadUserStateProvider);
     }
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    public override ValueTask DisposeAsync()
     {
-        await base.OnAfterRenderAsync(firstRender);
+        State.RoomChanged -= OnRoomChanged;
+        RoomState.RoomsChanged -= OnUpdated;
+        RoomState.RoomUpdated -= OnUpdated;
 
-        if (firstRender)
-        {
-            if (_messageService is not null)
-            {
-                await _messageService.StartAsync();
-            }
+        MessageState.MessageUpdated -= OnUpdated;
+        MessageState.MessageRemoved -= OnUpdated;
 
-            _dotNetReference ??= DotNetObjectReference.Create(this);
-            _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", JAVASCRIPT_FILE);
-            await _module.InvokeVoidAsync("initialize", Id, _dotNetReference, ChunkSize);
-        }
-    }
-
-    /// <inheritdoc />
-    public async ValueTask DisposeAsync()
-    {
-        ChatState.RoomChanged -= OnRoomChanged;
-
-        if (_messageService is not null)
-        {
-            _messageService.ListenOff(ChatMessageListViewConstants.ReceiveMessages)
-                           .ListenOff(ChatMessageListViewConstants.ReceiveMessage)
-                           .ListenOff(ChatMessageListViewConstants.MessageDeleted)
-                           .ListenOff(ChatMessageListViewConstants.ReactOnMessage)
-                           .ListenOff(ChatMessageListViewConstants.PinOrUnpin);
-
-            await _messageService.DisposeAsync();
-            _messageService = null;
-        }
+        DynamicState.ReadStateUpdated -= OnUpdated;
+        DynamicState.ReactionsUpdated -= OnUpdated;
+        DynamicState.FilesUpdated -= OnUpdated;
 
         GC.SuppressFinalize(this);
+
+        return base.DisposeAsync();
     }
 
     private void OnAudioReady(byte[] data)

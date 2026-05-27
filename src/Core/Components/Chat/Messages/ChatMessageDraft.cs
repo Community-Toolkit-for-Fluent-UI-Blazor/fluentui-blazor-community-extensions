@@ -10,12 +10,12 @@ public sealed class ChatMessageDraft
     /// <summary>
     /// Represents the message to edit.
     /// </summary>
-    private IChatMessage? _editMessage;
+    private ChatMessage? _editMessage;
 
     /// <summary>
     /// Represents the replied message.
     /// </summary>
-    private IChatMessage? _replyMessage;
+    private ChatMessage? _replyMessage;
 
     /// <summary>
     /// Represents all cultures to convert a message.
@@ -50,7 +50,7 @@ public sealed class ChatMessageDraft
     /// <summary>
     /// Gets the replied message.
     /// </summary>
-    public IChatMessage? Reply => _replyMessage;
+    public ChatMessage? Reply => _replyMessage;
 
     /// <summary>
     /// Adds a culture of the translated texts.
@@ -104,7 +104,7 @@ public sealed class ChatMessageDraft
     /// Gets the edited message.
     /// </summary>
     /// <returns>Returns the edited message.</returns>
-    internal IChatMessage? GetEditMessage()
+    internal ChatMessage? GetEditMessage()
     {
         return _editMessage;
     }
@@ -134,7 +134,7 @@ public sealed class ChatMessageDraft
     /// </summary>
     /// <param name="owner">Owner of the message.</param>
     /// <param name="message">Message to edit.</param>
-    internal void SetEditMessage(ChatUser owner, IChatMessage message)
+    internal void SetEditMessage(ChatUser owner, ChatMessage message)
     {
         _editMessage = message;
         Text = message.Sections.FirstOrDefault(s => s.CultureId == owner.CultureId)?.Content;
@@ -144,7 +144,7 @@ public sealed class ChatMessageDraft
     /// Sets the reply message.
     /// </summary>
     /// <param name="message">Message to reply.</param>
-    internal void SetReplyMessage(IChatMessage message)
+    internal void SetReplyMessage(ChatMessage message)
     {
         _replyMessage = message;
     }

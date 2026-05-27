@@ -5,21 +5,21 @@ internal sealed class ChatRoomState
     private readonly Dictionary<long, ChatRoom> _rooms = [];
 
     public event EventHandler? RoomsChanged;
-    public event EventHandler<ChatRoom>? RoomUpdated;
+    public event EventHandler? RoomUpdated;
 
     public IReadOnlyCollection<ChatRoom> Rooms => _rooms.Values;
 
     public void AddOrUpdateRoom(ChatRoom room)
     {
         _rooms[room.Id] = room;
-        RoomsChanged?.Invoke(this, EventArgs.Empty);
+        RoomsChanged?.Invoke(this, System.EventArgs.Empty);
     }
 
     public void RemoveRoom(long roomId)
     {
         if (_rooms.Remove(roomId))
         {
-            RoomsChanged?.Invoke(this, EventArgs.Empty);
+            RoomsChanged?.Invoke(this, System.EventArgs.Empty);
         }
     }
 
@@ -35,9 +35,9 @@ internal sealed class ChatRoomState
             existing.IsHidden = room.IsHidden;
             existing.IsBlocked = room.IsBlocked;
             existing.IsArchived = room.IsArchived;
-            existing.LastMessage = room.LastMessage;
+            existing.IsEmpty = room.IsEmpty;
 
-            RoomUpdated?.Invoke(this, existing);
+            RoomUpdated?.Invoke(this, System.EventArgs.Empty);
         }
     }
 }

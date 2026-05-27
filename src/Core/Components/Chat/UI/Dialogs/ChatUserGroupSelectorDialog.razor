@@ -22,17 +22,24 @@
                             Autofocus
                             MaximumOptionsSearch="10"
                             MaximumSelectedOptions="5"
-                            @bind-SelectedOptions="_selectedItems">
+                            @bind-SelectedItems="_selectedItems">
             <LabelTemplate>
                 <FluentIcon Value="@(new Size20.Person())" Style="margin: 0 4px;" />
                 @Localizer[LanguageResource.CX_Chat_Room_SearchForUser]
             </LabelTemplate>
 
             <OptionTemplate>
-                <FluentAvatar Size="AvatarSize.Size24"
-                              Image="@context.Avatar"
-                              Name="@context.DisplayName"
-                              Initials="@context.Initials" />
+                <FluentStack Style="pointer-events: none"
+                             VerticalAlignment="VerticalAlignment.Center">
+                    <FluentAvatar Size="AvatarSize.Size24"
+                                  Image="@context.Avatar"
+                                  Name="@context.DisplayName"
+                                  Initials="@context.Initials" />
+
+                    <FluentText Margin="@Margin.Left4">
+                        @context.DisplayName
+                    </FluentText>
+                </FluentStack>
             </OptionTemplate>
 
             <MaximumSelectedOptionsMessage>

@@ -11,7 +11,7 @@ public partial class ChatUserGroupSelectorDialog
     /// <summary>
     /// Represents the selected users.
     /// </summary>
-    private IEnumerable<ChatUser>? _selectedItems;
+    private IEnumerable<ChatUser> _selectedItems = [];
 
     /// <summary>
     /// Gets or sets the dialog instance from the parent component.
@@ -23,7 +23,7 @@ public partial class ChatUserGroupSelectorDialog
     /// Gets or sets the function to search users.
     /// </summary>
     [Parameter]
-    public Func<string, StringComparison, Task<IEnumerable<ChatUser>>> OnSearchFunction { get; set; } = default!;
+    public Func<string, StringComparison, CancellationToken, Task<IEnumerable<ChatUser>>> OnSearchProvider { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the string comparison to use when searching users.
@@ -32,18 +32,26 @@ public partial class ChatUserGroupSelectorDialog
     public StringComparison StringComparison { get; set; } = StringComparison.OrdinalIgnoreCase;
 
     /// <summary>
+    /// Gets or sets the owner of the chat group, which is used to exclude the owner from the search results.
+    /// </summary>
+    [Parameter]
+    public ChatUser Owner { get; set; } = default!;
+
+    /// <summary>
     /// Occurs to search the user in an asynchronous way.
     /// </summary>
     /// <param name="e">Event args associated to the methods.</param>
     /// <returns>Returns a task which find the users when completed.</returns>
     private async Task OnSearchAsync(OptionsSearchEventArgs<ChatUser> e)
     {
-        if (OnSearchFunction is null)
+        if (OnSearchProvider is null)
         {
             throw new InvalidOperationException("OnSearchFunction cannot be null.");
         }
 
-        e.Items = await OnSearchFunction(e.Text, StringComparison);
+        using var cts = new CancellationTokenSource();
+        var items = await OnSearchProvider(e.Text, StringComparison, cts.Token);
+        e.Items = items.Except([Owner]);
     }
 
     /// <inheritdoc />

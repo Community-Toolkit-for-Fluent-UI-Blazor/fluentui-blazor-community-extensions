@@ -3,7 +3,7 @@ namespace FluentUI.Blazor.Community.Components.Chat.Messages;
 /// <summary>
 /// Represents a service that provides the read state of chat messages.
 /// </summary>
-public interface IChatMessageReadStateProvider
+public interface ChatMessageReadStateProvider
 {
     /// <summary>
     /// Retrieves the read state of the specified chat messages.

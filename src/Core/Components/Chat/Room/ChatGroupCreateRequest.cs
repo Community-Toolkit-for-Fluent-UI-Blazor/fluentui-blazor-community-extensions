@@ -11,12 +11,7 @@ public sealed record ChatGroupCreateRequest
     public required IEnumerable<ChatUser> Users { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the chat group (optional).
+    /// Gets the created room.
     /// </summary>
-    public string? GroupName { get; init; }
-
-    /// <summary>
-    /// Gets or sets the description of the chat group (optional).
-    /// </summary>
-    public string? Description { get; init; }
+    public required ChatRoom Room { get; init; }
 }

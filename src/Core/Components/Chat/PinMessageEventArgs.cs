@@ -8,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components.Components.Chat;
 /// <param name="Message">Message to pin or unpin.</param>
 /// <param name="Pin">Value indicating if the message is pinned or not.</param>
 public record PinMessageEventArgs(
-    IChatMessage Message,
+    ChatMessage Message,
     bool Pin)
 {
 }

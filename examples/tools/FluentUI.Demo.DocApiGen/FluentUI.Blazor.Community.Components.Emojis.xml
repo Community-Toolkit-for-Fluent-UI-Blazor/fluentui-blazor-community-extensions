@@ -15,17 +15,17 @@
         <member name="P:FluentUI.Blazor.Community.Components.Emojis.AppleEmojiProvider.FallbackFontFamily">
             <inheritdoc />
         </member>
-        <member name="T:FluentUI.Blazor.Community.Components.Emojis.EmojiDialogSettings">
+        <member name="T:FluentUI.Blazor.Community.Components.Emojis.EmojiSettings">
             <summary>
             Represents the settings for the emoji dialog.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.Emojis.EmojiDialogSettings.EmojisPerRow">
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.EmojiSettings.EmojisPerRow">
             <summary>
             Gets or sets the number of emojis to display per row in the emoji picker dialog.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.Emojis.EmojiDialogSettings.FontProvider">
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.EmojiSettings.FontProvider">
             <summary>
             Gets or sets the emoji font provider.
             </summary>

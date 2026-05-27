@@ -1,0 +1,42 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs
+@inherits FluentDialogInstance
+
+<FluentDialogBody>
+    <TitleTemplate>
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentIcon Value="@(new Size24.ContentView())" />
+
+            <FluentText Size="TextSize.Size700">
+                @DialogInstance.Options.Header.Title
+            </FluentText>
+        </FluentStack>
+    </TitleTemplate>
+
+    <ChildContent>
+        <FluentCxSlideshow ShowControls=@ShowControls
+                           ShowIndicators=@ShowIndicators>
+            @if (Message is not null &&
+                 Message.Type.HasFlag(ChatMessageType.Files))
+            {
+                var files = GetFiles();
+
+                if (files.Count > 0)
+                {
+                    foreach (var item in files.OfType<IUrlChatFile>())
+                    {
+                        <SlideshowItem>
+                            @if (item.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                            {
+                                <SlideshowImage Source="@item.Url" />
+                            }
+                            else if (item.ContentType.StartsWith("video/", StringComparison.OrdinalIgnoreCase))
+                            {
+                                <SlideshowVideo Source="@item.Url" />
+                            }
+                        </SlideshowItem>
+                    }
+                }
+            }
+        </FluentCxSlideshow>
+    </ChildContent>
+</FluentDialogBody>

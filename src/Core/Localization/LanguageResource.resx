@@ -657,4 +657,40 @@
   <data name="CX_Slideshow_Previous" xml:space="preserve">
     <value>Previous</value>
   </data>
+  <data name="CX_Chat_Message_Viewer_Title" xml:space="preserve">
+    <value>Viewer</value>
+  </data>
+  <data name="CX_Chat_Message_EmptyRoom" xml:space="preserve">
+    <value>Welcome from {0} 😀</value>
+  </data>
+  <data name="CX_Chat_Message_EmptyRoomWelcome" xml:space="preserve">
+    <value>You started a discussion with {0}.&lt;br /&gt;Creators are people first and foremost.&lt;br /&gt;Messages should be respectful...</value>
+  </data>
+  <data name="CX_Chat_Message_EmptyRoomLetsTalk" xml:space="preserve">
+    <value>Let's chat</value>
+  </data>
+  <data name="CX_Chat_Message_SendingMessage" xml:space="preserve">
+    <value>Message being sent...</value>
+  </data>
+  <data name="CX_Chat_Message_OwnerBlockMessage" xml:space="preserve">
+    <value>You have blocked this chat room. To continue chatting, you need to unblock the room.</value>
+  </data>
+  <data name="CX_Chat_Message_BlockMessage" xml:space="preserve">
+    <value>This chat room has been blocked by a user... You cannot communicate until the user unblock you.</value>
+  </data>
+  <data name="CX_Chat_Room_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="CX_Chat_Room_Normal" xml:space="preserve">
+    <value>Normal rooms</value>
+  </data>
+  <data name="CX_Chat_Room_Blocked" xml:space="preserve">
+    <value>Blocked rooms</value>
+  </data>
+  <data name="CX_Chat_Room_Archived" xml:space="preserve">
+    <value>Archived rooms</value>
+  </data>
+  <data name="CX_Chat_Room_Hidden" xml:space="preserve">
+    <value>Hidden rooms</value>
+  </data>
 </root>

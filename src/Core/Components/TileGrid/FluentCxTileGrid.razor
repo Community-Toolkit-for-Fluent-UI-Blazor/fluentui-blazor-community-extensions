@@ -6,32 +6,32 @@
 <CascadingValue Value="this" IsFixed>
     <FluentDragContainer TItem="TItem"
                          Id="@Id"
-                         OnDragEnd="@(CanActuallyReorder ? OnDragEnd : null)"
-                         OnDragEnter="@(CanActuallyReorder ? OnDragEnter : null)"
-                         OnDragLeave="@(CanActuallyReorder ? OnDragLeave : null)"
-                         OnDropEnd="@(CanActuallyReorder ? OnDropEnd : null)"
-                         OnDragStart="@(CanActuallyReorder ? OnDragStart : null)"
+                         OnDragEnd="@(GetDragEndCallback())"
+                         OnDragEnter="@(GetDragEnterCallback())"
+                         OnDragLeave="@(GetDragLeaveCallback())"
+                         OnDropEnd="@(GetDropEndCallback())"
+                         OnDragStart="@(GetDragStartCallback())"
                          Style="@($"width: 100%; {Style}")"
                          Class="@Class">
         <div class="fluentcx-tile-grid" style="@InternalStyle">
-                @if (ShowGrid &&
-                     _tileGridState.ColumnCount > 0 &&
-                     _tileGridState.RowHeights.Count > 0)
-                {
-                    <div class="debug-grid-overlay"
-                    style="grid-template-rows:@string.Join(" ", _tileGridState.RowHeights.Select(h => $"{h}px"));">
-                        @for (int r = 0; r < _tileGridState.RowHeights.Count; r++)
+            @if (ShowGrid &&
+                 _tileGridState.ColumnCount > 0 &&
+                 _tileGridState.RowHeights.Count > 0)
+            {
+                <div class="debug-grid-overlay"
+                     style="grid-template-rows:@string.Join(" ", _tileGridState.RowHeights.Select(h => $"{h}px"));">
+                    @for (int r = 0; r < _tileGridState.RowHeights.Count; r++)
+                    {
+                        for (int c = 0; c < _tileGridState.ColumnCount; c++)
                         {
-                            for (int c = 0; c < _tileGridState.ColumnCount; c++)
-                            {
-                                <div class="debug-cell"
-                                style="grid-row:@(r + 1); grid-column:@(c + 1);">
-                                    <span class="debug-label">@r,@c</span>
-                                </div>
-                            }
+                            <div class="debug-cell"
+                                 style="grid-row:@(r + 1); grid-column:@(c + 1);">
+                                <span class="debug-label">@r,@c</span>
+                            </div>
                         }
-                    </div>
-                }
+                    }
+                </div>
+            }
 
             @if (Items is null || Items.Count == 0)
             {
@@ -44,8 +44,8 @@
                 @if (CanActuallyReorder && ghostTile.IsActive)
                 {
                     <div class="ghost-tile"
-                    @key="ghostTile.Index"
-                    style="order: @(ghostTile.Index); grid-row-end: span @(ghostTile.RowSpan); grid-column-end: span @(ghostTile.ColumnSpan);">
+                         @key="ghostTile.Index"
+                         style="order: @(ghostTile.Index); grid-row-end: span @(ghostTile.RowSpan); grid-column-end: span @(ghostTile.ColumnSpan);">
                     </div>
                 }
 
@@ -69,22 +69,22 @@
                     var handler = _tileGridState.ResizeHandle;
 
                     <div class="ghost-resize-tile"
-                    style="order:@resizing.Index; grid-row-end:span @_tileGridState.ResizePreviewRowSpan; grid-column-end:span @_tileGridState.ResizePreviewColumnSpan;grid-column-start:@(GetColumn(_tileGridState.ResizeSource));grid-row-start:@(GetRow(_tileGridState.ResizeSource));">
+                         style="order:@resizing.Index; grid-row-end:span @_tileGridState.ResizePreviewRowSpan; grid-column-end:span @_tileGridState.ResizePreviewColumnSpan;grid-column-start:@(GetColumn(_tileGridState.ResizeSource));grid-row-start:@(GetRow(_tileGridState.ResizeSource));">
                         @ItemContent(_tileGridState.ResizeSource)
 
                         <div class="ghost-resize-handle-bottom @(handler == TileGridItemResizeHandle.Bottom ? "active" : "")"
-                        style="width: @GetHandleSize()" />
+                             style="width: @GetHandleSize()" />
 
                         <div class="ghost-resize-handle-right @(handler == TileGridItemResizeHandle.Right ? "active" : "")"
-                        style="height: @GetHandleSize()" />
+                             style="height: @GetHandleSize()" />
 
                         <div class="ghost-resize-handle-corner @(handler == TileGridItemResizeHandle.BottomRight ? "active" : "")" />
                     </div>
 
                     <div class="resize-overlay"
-                    style="cursor:@GetHandleCursor()"
-                    @onmousemove="OnResizeMove"
-                    @onmouseup="OnResizeEnd">
+                         style="cursor:@GetHandleCursor()"
+                         @onmousemove="OnResizeMove"
+                         @onmouseup="OnResizeEnd">
                     </div>
                 }
             }

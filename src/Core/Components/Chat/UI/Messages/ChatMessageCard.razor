@@ -313,7 +313,7 @@
 
         _renderReadState = __builder =>
         {
-            @switch (ReadState)
+            @switch (GetReadState())
             {
                 case ChatMessageReadState.Unread:
                     <FluentIcon Title="@Localizer[LanguageResource.CX_Chat_Message_Unread]" Value="@(new Size24.EyeOff().WithColor(Color.Primary))" />
@@ -329,9 +329,9 @@
             }
         };
 
-        _renderReactions = s => __builder =>
+        _renderReactions = __builder =>
         {
-            @foreach (var item in s.Where(x => !string.IsNullOrEmpty(x.Emoji)))
+            @foreach (var item in GetReactions().Where(x => !string.IsNullOrEmpty(x.Emoji)))
             {
                 <FluentBadge>
                     <FluentStack HorizontalGap="0">
@@ -349,7 +349,7 @@
 
         _renderCard = __builder =>
         {
-            <FluentCard Style="cursor: pointer;" @onclick=@OnTappedAsync Height="@GetHeight()" Width="@GetWidth()">
+            <FluentCard Style="cursor: pointer;" @onclick=@OnTappedAsync>
                 <FluentStack Style="height: 100%" Orientation="Orientation.Vertical">
                     @_renderMessage
 
@@ -362,7 +362,7 @@
 
                         <FluentSpacer />
 
-                        @_renderReactions(Message!.Reactions)
+                        @_renderReactions
 
                         <FluentSpacer />
                     </FluentStack>

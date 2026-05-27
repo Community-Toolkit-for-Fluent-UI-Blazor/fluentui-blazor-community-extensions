@@ -1,4 +1,4 @@
-﻿@namespace FluentUI.Blazor.Community.Components
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Viewers
 @inherits FluentComponentBase
 
 <FluentCard Id="@Id" Appearance="CardAppearance.Subtle" Shadow="CardShadow.Medium">
@@ -35,8 +35,7 @@
                 }
                 else
                 {
-                   @*  <FluentIcon Value="@(FileIcons.FromExtensionAndGridViewOptions(Path.GetExtension(Item.Name), FileView.MediumIcons))"
-                                Width="110px" /> *@
+                    <FluentIcon Value="@FileIcons.GetIcon(Path.GetExtension(Item.Name), FileView.VeryLargeIcons)" Width="110px" />
                 }
             }
         }

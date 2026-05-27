@@ -1,53 +1,53 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
-@typeparam TChatRoom where TChatRoom : IChatRoomCapabilities
 
 <div id="@Id" class="chatroom-root">
     @if (!ChatState.IsLoading)
     {
-        <div class="chatroom-layout">
-            @if (IsSearchEnabled && RoomSearchFunction is not null)
+        <FluentStack Height="100%" Orientation="Orientation.Vertical" VerticalGap="8px">
+            @if (IsSearchEnabled && RoomSearchProvider is not null)
             {
-                <FluentStack Orientation="Orientation.Horizontal"
-                             HorizontalAlignment="HorizontalAlignment.Center">
-                    <div class="chatroom-search">
-                        <FluentAutocomplete Placeholder="@Localizer[LanguageResource.CX_Chat_Room_SearchPlaceholder]"
-                                            TOption="ChatRoom"
-                                            TValue="string"
-                                            OptionText="@(e => e.Name)"
-                                            MaximumOptionsSearch="10"
-                                            OnOptionsSearch=OnChatRoomSearchAsync
-                                            MaximumSelectedOptions="10"
-                                            SelectedItems="@_selectedRooms"
-                                            SelectedItemsChanged="OnSelectedRoomsChanged">
-                            <LabelTemplate>
-                                <FluentIcon Value="@(new Size20.Person())" Style="margin: 0 4px;" />
-                                @Localizer[LanguageResource.CX_Chat_Room_SearchLabel]
-                            </LabelTemplate>
+                <div class="chatroom-search">
+                    <FluentAutocomplete Placeholder="@Localizer[LanguageResource.CX_Chat_Room_SearchPlaceholder]"
+                                        TOption="ChatRoom"
+                                        TValue="string"
+                                        OptionText="@(e => e.Name)"
+                                        MaximumOptionsSearch="10"
+                                        OnOptionsSearch=@OnChatRoomSearchAsync
+                                        MaximumSelectedOptions="10"
+                                        SelectedItems="@_selectedRooms"
+                                        SelectedItemsChanged="@OnSelectedRoomsChanged">
+                        <LabelTemplate>
+                            <FluentIcon Value="@(new Size20.Person())" Style="margin: 0 4px;" />
+                            @Localizer[LanguageResource.CX_Chat_Room_SearchLabel]
+                        </LabelTemplate>
 
-                            <MaximumSelectedOptionsMessage>
-                                @Localizer[LanguageResource.CX_Chat_Room_MaximumSelectedOptionsMessageLabel]
-                            </MaximumSelectedOptionsMessage>
+                        <MaximumSelectedOptionsMessage>
+                            @Localizer[LanguageResource.CX_Chat_Room_MaximumSelectedOptionsMessageLabel]
+                        </MaximumSelectedOptionsMessage>
 
-                            <HeaderContent>
-                                <FluentLabel Color="Color.Accent"
-                                             Style="padding: 8px; font-size: 11px; border-bottom: 1px solid var(--neutral-fill-stealth-hover);">
-                                    @Localizer[LanguageResource.CX_Chat_Room_SuggestedRooms]
+                        <HeaderContent>
+                            <FluentLabel Color="Color.Accent"
+                                         Style="padding: 8px; font-size: 11px; border-bottom: 1px solid var(--neutral-fill-stealth-hover);">
+                                @Localizer[LanguageResource.CX_Chat_Room_SuggestedRooms]
+                            </FluentLabel>
+                        </HeaderContent>
+
+                        <FooterContent>
+                            @if (!context.Items.Any())
+                            {
+                                <FluentLabel Style="font-size: 11px; text-align: center; width: 200px;">
+                                    @Localizer[LanguageResource.CX_Chat_Room_NoResultsFound]
                                 </FluentLabel>
-                            </HeaderContent>
-
-                            <FooterContent>
-                                @if (!context.Items.Any())
-                                {
-                                    <FluentLabel Style="font-size: 11px; text-align: center; width: 200px;">
-                                        @Localizer[LanguageResource.CX_Chat_Room_NoResultsFound]
-                                    </FluentLabel>
-                                }
-                            </FooterContent>
-                        </FluentAutocomplete>
-                    </div>
-                </FluentStack>
+                            }
+                        </FooterContent>
+                    </FluentAutocomplete>
+                </div>
             }
+
+            <FluentText>
+                @GetSelectedRoomsLabel()
+            </FluentText>
 
             <div class="chatroom-list-wrapper">
                 <div class="chatroom-virtualize-container">
@@ -82,58 +82,11 @@
                             else
                             {
                                 <ChatRoomItem IsSelected="@(room.Id.ToString() == _selectedRoom)"
-                                              IsDisabled=@(room.IsBlocked && Owner == room.Owner)
-                                              Id="@room.Id.ToString()"
+                                              Owner=@Owner
+                                              Room=@room
                                               OnClick="@(() => HandleRoomClick(room))"
                                               ShowMoreButton="@(CanBlock || CanHide || CanDelete || CanPin || CanMute || CanRename)"
-                                              MoreMenuActions="@GetPopoverActions()">
-                                    <FluentStack Orientation="Orientation.Horizontal"
-                                                 VerticalAlignment=VerticalAlignment.Center
-                                                 HorizontalAlignment="HorizontalAlignment.Stretch"
-                                                 HorizontalGap="10px">
-                                        <FluentStack Orientation="Orientation.Horizontal"
-                                                     HorizontalAlignment="HorizontalAlignment.Center"
-                                                     Style="width: fit-content">
-                                            @* Replace with AvatarGroup when available *@
-                                            @foreach (var user in room.Users.Take(4))
-                                            {
-                                                <FluentAvatar Image="@user.Avatar"
-                                                              Initials="@user.Initials"
-                                                              Shape="AvatarShape.Circle"
-                                                              Size="AvatarSize.Size40" />
-                                            }
-                                        </FluentStack>
-
-                                        <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px">
-                                            <FluentStack HorizontalGap="8px">
-                                                <FluentLabel>@room.Name</FluentLabel>
-                                                <FluentSpacer />
-
-                                                @if (room.IsPinned)
-                                                {
-                                                    <FluentIcon Value="@(s_Pin)" />
-                                                }
-
-                                                @if (room.IsMuted)
-                                                {
-                                                    <FluentIcon Value="@(s_Mute)" />
-                                                }
-                                            </FluentStack>
-
-                                            <div style="height:100%">
-                                                <FluentText Block Truncate Style="max-height: 48px">
-                                                    @GetRoomPreview(room)
-                                                </FluentText>                                                
-                                            </div>
-
-                                            <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
-                                                <FluentLabel Style="color: var(--input-placeholder-rest); font-size: 9px;">
-                                                    @(room.LastMessage?.CreatedDate.Date.ToShortDateString() ?? room.CreatedDate.Date.ToShortDateString())
-                                                </FluentLabel>
-                                            </FluentStack>
-                                        </FluentStack>
-                                    </FluentStack>
-                                </ChatRoomItem>
+                                              MoreMenuActions="@GetPopoverActions()" />
                             }
                         </ChildContent>
                     </Virtualize>
@@ -152,7 +105,7 @@
                     </FluentCxSleekDial>
                 }
             </div>
-        </div>
+        </FluentStack>
     }
     else
     {

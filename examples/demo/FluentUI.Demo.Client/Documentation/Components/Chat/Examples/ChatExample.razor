@@ -1,0 +1,153 @@
+﻿@using FluentUI.Blazor.Community.Components.Chat
+@using FluentUI.Blazor.Community.Components.Chat.Messages
+@using FluentUI.Blazor.Community.Components.Chat.Room
+
+<div style="height: 500px">
+
+    <FluentCxChat TFile="SampleFile"
+                  LastMessageProvider="@OnLastMessage"
+                  Owner="@_users[0]"
+                  RoomItemsProvider="@OnGetRoomItems"
+                  RoomUsersProvider="@OnGetRoomUsers"
+                  UnreadMessagesProvider="@OnGetUnreadMessageProvider"
+                  UserSearchProvider="@OnGetUserSearchProvider"
+                  OnRoomCreate="@OnCreateRoom" />
+</div>
+
+
+
+@code {
+    private class SampleFile : IMovable, IDownloadable, IDeletable, IRenamable
+    {
+        public SampleFile()
+        {
+        }
+
+        public bool IsMoveAllowed { get; set; }
+
+        public bool IsDownloadAllowed { get; set; }
+
+        public bool IsDeleteAllowed { get; set; }
+
+        public bool IsRenameAllowed { get; set; }
+    }
+
+    private readonly List<ChatUser> _users = new List<ChatUser>()
+    {
+        new ChatUser
+        {
+            Id = 1,
+            CultureId = 1,
+            CultureName = "fr-FR",
+            DisplayName = "Jérémy",
+            Initials = "JJ",
+            UserName = "jeremy"
+        },
+        new ChatUser
+        {
+            Id = 2,
+            CultureId = 2,
+            CultureName = "en-US",
+            DisplayName = "Marvin",
+            Initials = "MK",
+            UserName = "marvin"
+        },
+        new ChatUser
+        {
+            Id = 3,
+            CultureId = 2,
+            CultureName = "en-US",
+            DisplayName = "Pascal",
+            Initials = "PV",
+            UserName = "pascal"
+        }
+    };
+
+    private readonly List<ChatRoom> _chatRooms;
+    private readonly Dictionary<long, List<ChatUser>> _roomUsers = new Dictionary<long, List<ChatUser>>();
+
+    public ChatExample()
+    {
+        _chatRooms = new List<ChatRoom>()
+        {
+             new ChatRoom
+                {
+                    Id = 1,
+                    Name = "General",
+                    IsMuted = false,
+                    IsPinned = true,
+                    IsArchived = false,
+                    IsDeleted = false,
+                    OwnerId = _users[0].Id,
+                    Owner = _users[0]
+                },
+                new ChatRoom
+                {
+                    Id = 2,
+                    OwnerId = _users[1].Id,
+                    Name = "Random",
+                    IsMuted = true,
+                    IsPinned = false,
+                    IsArchived = false,
+                    IsDeleted = false
+                }
+        };
+
+        _roomUsers[1] = new List<ChatUser> { _users[0], _users[1] };
+        _roomUsers[2] = new List<ChatUser> { _users[1], _users[2] };
+    }
+
+    private Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatUser>>> OnGetUserSearchProvider =>
+        (searchText, comparison, cancellationToken) =>
+        {
+            var result = _users.Where(x => x.DisplayName?.Contains(searchText ?? string.Empty, comparison) == true);
+            return Task.FromResult(result);
+        };
+
+    private ValueTask<int> OnGetUnreadMessageProvider(
+        long roomId,
+        long ownerId,
+        CancellationToken cancellationToken)
+    {
+        return ValueTask.FromResult(0);
+    }
+
+    private ValueTask<IReadOnlyList<ChatUser>> OnGetRoomUsers(long roomId, CancellationToken cancellationToken)
+    {
+        return ValueTask.FromResult<IReadOnlyList<ChatUser>>(
+           _roomUsers.TryGetValue(roomId, out var users) ? users : []
+        );
+    }
+
+    private ValueTask<ChatMessage?> OnLastMessage(long roomId, CancellationToken token)
+    {
+        return new ValueTask<ChatMessage?>(new ChatMessage
+        {
+        });
+    }
+
+    private ValueTask<IEnumerable<ChatRoom>> OnGetRoomItems(ChatRoomItemsRequest request, CancellationToken token)
+    {
+        if (request.Filter is null)
+        {
+            return new ValueTask<IEnumerable<ChatRoom>>(_chatRooms);
+        }
+
+        var func = request.Filter.Compile();
+        return new ValueTask<IEnumerable<ChatRoom>>(_chatRooms.Where(x => func(x)));
+    }
+
+    private ValueTask<ChatGroupCreateResult> OnCreateRoom(
+        ChatGroupCreateRequest request,
+        CancellationToken cancellationToken)
+    {
+        request.Room.Id = _chatRooms.Max(x => x.Id) + 1;
+        _chatRooms.Add(request.Room);
+        _roomUsers[request.Room.Id] = request.Users.ToList();
+
+        return ValueTask.FromResult(new ChatGroupCreateResult()
+            {
+                Success = true
+            });
+    }
+}

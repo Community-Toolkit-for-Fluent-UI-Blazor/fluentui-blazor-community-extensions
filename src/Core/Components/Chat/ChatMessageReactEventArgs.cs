@@ -8,6 +8,6 @@ namespace FluentUI.Blazor.Community.Components.Components.Chat;
 /// <param name="Message">Message where the reaction occured.</param>
 /// <param name="Reaction">The reaction (an emoji)</param>
 public record ChatMessageReactEventArgs(
-    IChatMessage Message, string Reaction)
+    ChatMessage Message, string Reaction)
 {
 }

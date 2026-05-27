@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.Timers;
 using FluentUI.Blazor.Community.Components.Components.Base;
-using FluentUI.Blazor.Community.Components.Extensions;
 using FluentUI.Blazor.Community.Components.Localization;
 using FluentUI.Blazor.Community.Components.States;
+using FluentUI.Blazor.Community.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;

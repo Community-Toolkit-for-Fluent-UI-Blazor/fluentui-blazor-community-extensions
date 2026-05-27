@@ -4,20 +4,34 @@ namespace FluentUI.Blazor.Community.Components.Chat.Messages;
 /// Represents the reaction on a message.
 /// </summary>
 public sealed class ChatMessageReaction
-    : IChatMessageReaction
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets the unique identifier of the reaction.
+    /// </summary>
     public long Id { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets the unique identifier of the message that the reaction belongs to.
+    /// </summary>
     public long MessageId { get; set; }
 
-    /// <inheritdoc />
-    public ChatUser UserReactedBy { get; set; } = default!;
+    /// <summary>
+    /// Gets or sets the unique identifier of the user who reacted to the message.
+    /// </summary>
+    public long UserReactedById { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets the user who reacted to the message.
+    /// </summary>
+    public ChatUser UserReactedBy { get; set; } = new ChatUser();
+
+    /// <summary>
+    /// Gets or sets the reaction as an emoji.
+    /// </summary>
     public string Emoji { get; set; } = string.Empty;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets the date when the reaction was created.
+    /// </summary>
     public DateTime CreatedDate { get; set; }
 }

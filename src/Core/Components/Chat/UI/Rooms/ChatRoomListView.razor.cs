@@ -1,12 +1,10 @@
 using System.Globalization;
 using System.Linq.Expressions;
-using System.Text.Json;
 using FluentUI.Blazor.Community.Components.Chat;
 using FluentUI.Blazor.Community.Components.Chat.Engine;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
 using FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
-using FluentUI.Blazor.Community.Components.Enums;
 using FluentUI.Blazor.Community.Components.Infrastructure;
 using FluentUI.Blazor.Community.Components.Localization;
 using Microsoft.AspNetCore.Components;
@@ -20,8 +18,8 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// Represents a view for displaying a list of chat rooms. 
 /// </summary>
-public partial class ChatRoomListView<TChatRoom>
-    : FluentComponentBase where TChatRoom : IChatRoomCapabilities
+public partial class ChatRoomListView
+    : FluentComponentBase
 {
     /// <summary>
     /// Represents the different views available for the chat room list.
@@ -33,16 +31,6 @@ public partial class ChatRoomListView<TChatRoom>
         Hidden,
         Archived
     }
-
-    /// <summary>
-    /// Represents the icon used to indicate a pinned chat room in the list view.
-    /// </summary>
-    private static readonly Icon s_Pin = new Size16.Pin().WithColor(Color.Primary);
-
-    /// <summary>
-    /// Represents the icon used to indicate a muted chat room in the list view.
-    /// </summary>
-    private static readonly Icon s_Mute = new Size16.SpeakerMute().WithColor(Color.Error);
 
     /// <summary>
     /// Represents the cancellation token source used for canceling ongoing operations when updating the chat room list.
@@ -85,7 +73,7 @@ public partial class ChatRoomListView<TChatRoom>
     private ListView _listView;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChatRoomListView{TChatRoom}"/> class with the specified library configuration.
+    /// Initializes a new instance of the <see cref="ChatRoomListView"/> class with the specified library configuration.
     /// </summary>
     /// <param name="configuration">The library configuration.</param>
     public ChatRoomListView(LibraryConfiguration configuration)
@@ -128,7 +116,25 @@ public partial class ChatRoomListView<TChatRoom>
     /// Gets or sets the items provider for fetching chat rooms.
     /// </summary>
     [Parameter]
-    public ChatRoomItemsProvider<TChatRoom>? ItemsProvider { get; set; }
+    public ChatRoomItemsProvider? ItemsProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the users provider for fetching users in a chat room.
+    /// </summary>
+    [Parameter]
+    public ChatRoomUsersProvider? UsersProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the unread messages provider for fetching the count of unread messages in a chat room.
+    /// </summary>
+    [Parameter]
+    public ChatUnreadMessagesProvider? UnreadMessagesProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the last message provider for fetching the last message in a chat room.
+    /// </summary>
+    [Parameter]
+    public ChatLastMessageProvider? LastMessageProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the item template fragment to render a chat room option.
@@ -140,13 +146,13 @@ public partial class ChatRoomListView<TChatRoom>
     /// Gets or sets the function to search for users in the chat room.
     /// </summary>
     [Parameter]
-    public Func<string?, StringComparison, Task<IEnumerable<ChatUser>>>? UserSearchFunction { get; set; }
+    public Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatUser>>>? UserSearchProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the function to search for chat rooms.
     /// </summary>
     [Parameter]
-    public Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatRoom>>>? RoomSearchFunction { get; set; }
+    public Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatRoom>>>? RoomSearchProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the string comparison to compare the name of the room.
@@ -296,7 +302,7 @@ public partial class ChatRoomListView<TChatRoom>
     /// Gets or sets the logger for the component, which is used for logging information and errors related to the chat room list view.
     /// </summary>
     [Inject]
-    private ILogger<ChatRoomListView<TChatRoom>> Logger { get; set; } = default!;
+    private ILogger<ChatRoomListView> Logger { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the chat engine, which is used for managing chat rooms and messages in real-time.
@@ -308,6 +314,30 @@ public partial class ChatRoomListView<TChatRoom>
     protected override void OnInitialized()
     {
         base.OnInitialized();
+
+        if (ItemsProvider is null)
+        {
+            throw new InvalidOperationException("The ItemsProvider parameter must be set to a valid ChatRoomItemsProvider function.");
+        }
+
+        if (UsersProvider is null)
+        {
+            throw new InvalidOperationException("The UsersProvider parameter must be set to a valid ChatRoomUsersProvider function.");
+        }
+
+        if (LastMessageProvider is null)
+        {
+            throw new InvalidOperationException("The LastMessageProvider parameter must be set to a valid ChatLastMessageProvider function.");
+        }
+
+        if (UnreadMessagesProvider is null)
+        {
+            throw new InvalidOperationException("The UnreadMessagesProvider parameter must be set to a valid ChatUnreadMessagesProvider function.");
+        }
+
+        ChatEngine.SetLastMessageProvider(LastMessageProvider);
+        ChatEngine.SetUnreadProvider(UnreadMessagesProvider);
+        ChatEngine.SetUsersProvider(UsersProvider);
 
         RoomState.RoomsChanged += OnRoomsChanged;
         RoomState.RoomUpdated += OnRoomUpdated;
@@ -336,8 +366,8 @@ public partial class ChatRoomListView<TChatRoom>
     /// Handles the room updated event and triggers a UI refresh.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
-    /// <param name="room">The updated chat room.</param>
-    private void OnRoomUpdated(object? sender, ChatRoom room)
+    /// <param name="e">The event data.</param>
+    private void OnRoomUpdated(object? sender, EventArgs e)
     {
         InvokeAsync(StateHasChanged);
     }
@@ -384,7 +414,7 @@ public partial class ChatRoomListView<TChatRoom>
             }
             else
             {
-                return b.LastMessage?.CreatedDate.CompareTo(a.LastMessage?.CreatedDate ?? DateTimeOffset.MinValue) ?? 0;
+                return a.CreatedDate.CompareTo(b.CreatedDate);
             }
         });
 
@@ -403,7 +433,7 @@ public partial class ChatRoomListView<TChatRoom>
     private async Task OnUpdateRoomsAsync(
        ListView listViewValue,
        List<ChatRoom> rooms,
-       Expression<Func<TChatRoom, bool>> value,
+       Expression<Func<ChatRoom, bool>> value,
        string localizedMessage)
     {
         if (_cts is not null)
@@ -422,7 +452,16 @@ public partial class ChatRoomListView<TChatRoom>
         {
             try
             {
-                var items = await ItemsProvider(new(value), token);
+                var filter = PredicateBuilder<ChatRoom>.True;
+                filter = PredicateBuilder<ChatRoom>.And(filter, value);
+                filter = Owner is not null ? PredicateBuilder<ChatRoom>.And(filter, x => x.OwnerId == Owner.Id) : filter;
+
+                if (!ShowDeletedRoom)
+                {
+                    filter = PredicateBuilder<ChatRoom>.And(filter, x => !x.IsDeleted);
+                }
+
+                var items = await ItemsProvider(new(filter), token);
                 rooms.AddRange(items);
             }
             catch (OperationCanceledException ex)
@@ -442,7 +481,11 @@ public partial class ChatRoomListView<TChatRoom>
     /// <returns>A task that represents the asynchronous operation of updating the room list view.</returns>
     private async Task OnShowRoomsAsync()
     {
-        await OnUpdateRoomsAsync(ListView.Normal, _chatRooms, x => !x.IsBlocked && !x.IsHidden, LanguageResource.CX_Chat_Room_ShowAllRooms_OperationCanceled);
+        await OnUpdateRoomsAsync(
+            ListView.Normal,
+            _chatRooms,
+            x => !x.IsBlocked && !x.IsHidden && !x.IsArchived,
+            LanguageResource.CX_Chat_Room_ShowAllRooms_OperationCanceled);
     }
 
     /// <summary>
@@ -476,10 +519,10 @@ public partial class ChatRoomListView<TChatRoom>
     /// Occurs when the room search action is triggered.
     /// </summary>
     /// <param name="e">Events args associated to the method.</param>
-    /// <returns>Returns a task which displays the rooms based on the predicate <see cref="RoomSearchFunction"/> when completed.</returns>
+    /// <returns>Returns a task which displays the rooms based on the predicate <see cref="RoomSearchProvider"/> when completed.</returns>
     private async Task OnChatRoomSearchAsync(OptionsSearchEventArgs<ChatRoom> e)
     {
-        if (RoomSearchFunction is not null)
+        if (RoomSearchProvider is not null)
         {
             if (_cts is not null)
             {
@@ -490,7 +533,7 @@ public partial class ChatRoomListView<TChatRoom>
             _cts = new CancellationTokenSource();
             var token = _cts.Token;
 
-            e.Items = await RoomSearchFunction(e.Text, RoomNameComparison, token);
+            e.Items = await RoomSearchProvider(e.Text, RoomNameComparison, token);
         }
     }
 
@@ -498,7 +541,6 @@ public partial class ChatRoomListView<TChatRoom>
     /// Occurs when the new chat group action is triggered.
     /// </summary>
     /// <returns>Returns a task which creates a new chat group when completed.</returns>
-    /// <exception cref="ChatRoomListException">Occurs when the <see cref="ChatGroupCreateResult.GroupId"/> is below to 1.</exception>
     private async Task OnNewChatGroupAsync()
     {
         var dialog = await DialogService.ShowDialogAsync<ChatUserGroupSelectorDialog>(
@@ -506,7 +548,8 @@ public partial class ChatRoomListView<TChatRoom>
             {
                 a.Footer.PrimaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogOk];
                 a.Footer.SecondaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogCancel];
-                a.Parameters.Add(nameof(ChatUserGroupSelectorDialog.OnSearchFunction), UserSearchFunction);
+                a.Parameters.Add(nameof(ChatUserGroupSelectorDialog.OnSearchProvider), UserSearchProvider);
+                a.Parameters.Add(nameof(ChatUserGroupSelectorDialog.Owner), Owner);
                 a.Parameters.Add(nameof(ChatUserGroupSelectorDialog.StringComparison), UsernameComparison);
             }
         );
@@ -520,180 +563,49 @@ public partial class ChatRoomListView<TChatRoom>
             OnNewChatGroup is not null &&
             dialog.Value is IEnumerable<ChatUser> users)
         {
-            var result = await OnNewChatGroup(new ChatGroupCreateRequest()
+            var full = new List<string?>(users.Count() + 1)
             {
-                Users = [.. users, Owner],
-            });
-
-            if (!result.GroupId.HasValue ||
-                result.GroupId < 1)
-            {
-                throw new ChatRoomListException("The chat group must have an id greater than or equal to 1.");
-            }
-
-            var newRoom = new ChatRoom
-            {
-                Id = result.GroupId.Value,
-                Name = result.GroupName ?? string.Join(", ", users.Select(u => u.DisplayName)),
-                Users = [.. users, Owner],
-                Owner = Owner,
-                CreatedDate = DateTimeOffset.UtcNow,
-                IsEmpty = true
+                Owner.DisplayName   
             };
 
-            _chatRooms.Add(newRoom);
-            ChatState.Room = newRoom;
-            _selectedRoom = newRoom.Id.ToString(CultureInfo.InvariantCulture);
+            full.AddRange(users.Select(x => x.DisplayName));
 
-            await ChatEngine.RegisterRoomAsync(newRoom);
+            var room = new ChatRoom()
+            {
+                CreatedDate = DateTime.Now,
+                OwnerId = Owner.Id,
+                Owner = Owner,
+                Name = string.Join(" & ", full)
+            };
+
+            var result = await OnNewChatGroup(new ChatGroupCreateRequest()
+            {
+                Users = [Owner, .. users],
+                Room = room
+            });
+
+            if (!result.Success)
+            {
+                throw new ChatRoomListException("An error occured during the creation of the room.");
+            }
+
+            _chatRooms.Add(room);
+            ChatState.Room = room;
+            _selectedRoom = room.Id.ToString(CultureInfo.InvariantCulture);
+
             ChatEngine.SetOwner(Owner!.Id);
-            var payload = JsonSerializer.SerializeToElement(new { RoomId = newRoom.Id });
-            await ChatEngine.SendCreatedRoomAsync(newRoom.Id, Owner!.Id, payload);
+
+            if (_cts is not null)
+            {
+                await _cts.CancelAsync();
+                _cts.Dispose();
+            }
+
+            _cts = new CancellationTokenSource();
+            await ChatEngine.RegisterRoomAsync(room, _cts.Token);
+            await ChatEngine.SendCreatedRoomAsync(room, _cts.Token);
 
             await InvokeAsync(StateHasChanged);
-        }
-    }
-
-    /// <summary>
-    /// Formats the chat message for display in the chat room list view.
-    /// </summary>
-    /// <param name="message">Message to format.</param>
-    /// <returns>The formatted message into a <see cref="MarkupString"/>.</returns>
-    private MarkupString Format(IChatMessage message)
-    {
-        if (message.Sections.Count == 0)
-        {
-            return new(string.Empty);
-        }
-
-        switch (message.Type)
-        {
-            //case ChatMessageType.Audio:
-            //    {
-            //        var section = message.Sections[0];
-            //        int count = section?.Content?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length ?? 0;
-
-            //        if (count > 0)
-            //        {
-            //            if (message.Sender?.Id == Owner?.Id)
-            //            {
-            //                string text = string.Format(count <= 1 ? ChatRoomLabels.AudioSenderSingular : ChatRoomLabels.AudioSenderPlural, count);
-
-            //                return new(text);
-            //            }
-            //            else
-            //            {
-            //                string text = count <= 1 ? string.Format(ChatRoomLabels.AudioReceiverSingular, message.Sender?.DisplayName) :
-            //                                           string.Format(ChatRoomLabels.AudioReceiverPlural, message.Sender?.DisplayName, count);
-
-            //                return new(text);
-            //            }
-            //        }
-
-            //        return new(string.Empty);
-            //    }
-
-            //case ChatMessageType.Video:
-            //    {
-            //        var section = message.Sections[0];
-            //        int count = section?.Content?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length ?? 0;
-
-            //        if (count > 0)
-            //        {
-            //            if (message.Sender?.Id == Owner?.Id)
-            //            {
-            //                string text = string.Format(count <= 1 ? ChatRoomLabels.VideoSenderSingular : ChatRoomLabels.VideoSenderPlural, count);
-
-            //                return new(text);
-            //            }
-            //            else
-            //            {
-            //                string text = count <= 1 ? string.Format(ChatRoomLabels.VideoReceiverSingular, message.Sender?.DisplayName) :
-            //                                           string.Format(ChatRoomLabels.VideoReceiverPlural, message.Sender?.DisplayName, count);
-
-            //                return new(text);
-            //            }
-            //        }
-
-            //        return new(string.Empty);
-            //    }
-
-            //case ChatMessageType.Media:
-            //    {
-            //        var section = message.Sections[0];
-            //        int count = section?.Content?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length ?? 0;
-
-            //        if (count > 0)
-            //        {
-            //            if (message.Sender?.Id == Owner?.Id)
-            //            {
-            //                string text = string.Format(count <= 1 ? ChatRoomLabels.MediaSenderSingular : ChatRoomLabels.MediaSenderPlural, count);
-
-            //                return new(text);
-            //            }
-            //            else
-            //            {
-            //                string text = count <= 1 ? string.Format(ChatRoomLabels.MediaReceiverSingular, message.Sender?.DisplayName) :
-            //                                           string.Format(ChatRoomLabels.MediaReceiverPlural, message.Sender?.DisplayName, count);
-
-            //                return new(text);
-            //            }
-            //        }
-
-            //        return new(string.Empty);
-            //    }
-
-            //case ChatMessageType.Photo:
-            //    {
-            //        var section = message.Sections[0];
-            //        int count = section?.Content?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length ?? 0;
-
-            //        if (count > 0)
-            //        {
-            //            if (message.Sender?.Id == Owner?.Id)
-            //            {
-            //                string text = string.Format(count <= 1 ? ChatRoomLabels.PhotoSenderSingular : ChatRoomLabels.PhotoSenderPlural, count);
-
-            //                return new(text);
-            //            }
-            //            else
-            //            {
-            //                string text = count <= 1 ? string.Format(ChatRoomLabels.PhotoReceiverSingular, message.Sender?.DisplayName) :
-            //                                           string.Format(ChatRoomLabels.PhotoReceiverPlural, message.Sender?.DisplayName, count);
-
-            //                return new(text);
-            //            }
-            //        }
-
-            //        return new(string.Empty);
-            //    }
-
-            case ChatMessageType.Gift:
-                {
-                    if (message.Sender?.Id == Owner?.Id)
-                    {
-                        return new(Localizer[LanguageResource.CX_Chat_Room_GiftSender]);
-                    }
-                    else
-                    {
-                        return new(string.Format(CultureInfo.CurrentCulture, Localizer[LanguageResource.CX_Chat_Room_GiftReceiver], message.Sender?.DisplayName));
-                    }
-                }
-
-            case ChatMessageType.Text:
-                {
-                    var section = message.Sections.FirstOrDefault(x => x.CultureId == Owner?.CultureId);
-
-                    if (section is not null && !string.IsNullOrEmpty(section.Content))
-                    {
-                        return new(section.Content);
-                    }
-
-                    return new();
-                }
-
-            default:
-                return new();
         }
     }
 
@@ -722,21 +634,31 @@ public partial class ChatRoomListView<TChatRoom>
         {
             try
             {
-                var predicate = PredicateBuilder<TChatRoom>.True;
+                var predicate = PredicateBuilder<ChatRoom>.True;
 
                 if (!CanUnblock)
                 {
-                    predicate = PredicateBuilder<TChatRoom>.And(x => !x.IsBlocked);
+                    predicate = PredicateBuilder<ChatRoom>.And(x => !x.IsBlocked);
                 }
 
                 if (!CanUnhide)
                 {
-                    predicate = PredicateBuilder<TChatRoom>.And(x => !x.IsHidden);
+                    predicate = PredicateBuilder<ChatRoom>.And(x => !x.IsHidden);
                 }
 
                 if (!CanUnarchive)
                 {
-                    predicate = PredicateBuilder<TChatRoom>.And(x => !x.IsArchived);
+                    predicate = PredicateBuilder<ChatRoom>.And(x => !x.IsArchived);
+                }
+
+                if (!ShowDeletedRoom)
+                {
+                    predicate = PredicateBuilder<ChatRoom>.And(predicate, x => !x.IsDeleted);
+                }
+
+                if (Owner is not null)
+                {
+                    predicate = PredicateBuilder<ChatRoom>.And(predicate, x => x.OwnerId == Owner.Id);
                 }
 
                 var items = await ItemsProvider(new(predicate), token);
@@ -760,7 +682,7 @@ public partial class ChatRoomListView<TChatRoom>
                         _chatRooms.Add(item);
                     }
 
-                    await ChatEngine.RegisterRoomAsync(item);
+                    await ChatEngine.RegisterRoomAsync(item, _cts.Token);
                 }
             }
             catch (OperationCanceledException ex)
@@ -821,6 +743,7 @@ public partial class ChatRoomListView<TChatRoom>
             applyChange: async (value) =>
             {
                 ChatState.Room?.Name = value as string;
+                await ChatEngine.SendUpdatedRoomAsync(ChatState.Room);
             },
             callback: OnRename,
             clearRoom: false
@@ -833,13 +756,28 @@ public partial class ChatRoomListView<TChatRoom>
     /// <returns>Returns a task which deletes the chat room when completed.</returns>
     private async Task OnDeleteAsync()
     {
+        if (_cts is not null)
+        {
+            await _cts.CancelAsync();
+            _cts.Dispose();
+        }
+
+        _cts = new CancellationTokenSource();
         await ExecuteRoomActionAsync(
             showDialog: () => DialogService.ShowConfirmationAsync(
                 Localizer[LanguageResource.CX_Chat_Room_DeleteRoomMessage],
                 Localizer[LanguageResource.CX_Chat_Room_DeleteRoomTitle],
                 Localizer[LanguageResource.CX_Chat_Room_DialogYes],
                 Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
-            applyChange: null,
+            applyChange: (value) =>
+            {
+                if (value is ChatRoom cr)
+                {
+                    return ChatEngine.UnregisterRoomAsync(cr, _cts.Token);
+                }
+
+                return Task.CompletedTask;
+            },
             callback: OnDelete,
             clearRoom: true
         );
@@ -1466,40 +1404,6 @@ public partial class ChatRoomListView<TChatRoom>
     }
 
     /// <summary>
-    /// Gets the preview text for a chat room, displaying unread message count, empty room message, or the last message.
-    /// </summary>
-    /// <param name="room">The chat room to generate a preview for.</param>
-    /// <returns>A markup string containing the room preview text with appropriate localization and formatting.</returns>
-    private MarkupString GetRoomPreview(ChatRoom room)
-    {
-        if (Owner is null)
-        {
-            return new MarkupString(string.Empty);
-        }
-
-        if (room.UnreadMessagesForUserId.TryGetValue(Owner.Id, out var unread) && unread > 0)
-        {
-            var text = unread == 1
-                ? Localizer[LanguageResource.CX_Chat_Room_UnreadSingular, unread]
-                : Localizer[LanguageResource.CX_Chat_Room_UnreadPlural, unread];
-
-            return new MarkupString(text);
-        }
-
-        if (room.IsEmpty)
-        {
-            return new MarkupString(Localizer[LanguageResource.CX_Chat_Room_EmptyRoomMessage]);
-        }
-
-        if (room.LastMessage is not null)
-        {
-            return new MarkupString($"<b>{Format(room.LastMessage)}</b>");
-        }
-
-        return new MarkupString(string.Empty);
-    }
-
-    /// <summary>
     /// Handles the click event on a chat room item. If the clicked room is not already selected, it updates the selected room in the chat state and sets the selected room ID for UI purposes.
     /// </summary>
     /// <param name="room">The chat room that was clicked.</param>
@@ -1512,5 +1416,22 @@ public partial class ChatRoomListView<TChatRoom>
 
         ChatState.Room = room;
         _selectedRoom = room.Id.ToString(CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>
+    /// Retrieves the label for the currently selected list view of chat rooms, which can be "Normal", "Blocked", "Archived", or "Hidden".
+    /// </summary>
+    /// <returns>The label for the currently selected list view of chat rooms.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the list view state is invalid.</exception>
+    private string GetSelectedRoomsLabel()
+    {
+        return _listView switch
+        {
+            ListView.Normal => Localizer[LanguageResource.CX_Chat_Room_Normal],
+            ListView.Blocked => Localizer[LanguageResource.CX_Chat_Room_Blocked],
+            ListView.Archived => Localizer[LanguageResource.CX_Chat_Room_Archived],
+            ListView.Hidden => Localizer[LanguageResource.CX_Chat_Room_Hidden],
+            _ => throw new InvalidOperationException("Invalid list view state.")
+        };
     }
 }

@@ -8,7 +8,7 @@ namespace FluentUI.Blazor.Community.Components.Chat.UI.Viewers;
 /// <summary>
 /// Represents a document viewer.
 /// </summary>
-public partial class ChatDocumentItemViewer
+public partial class ChatDocumentViewItem
     : FluentComponentBase
 {
     /// <summary>
@@ -22,10 +22,10 @@ public partial class ChatDocumentItemViewer
     private string? _source;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChatDocumentItemViewer"/> class with a new identifier.
+    /// Initializes a new instance of the <see cref="ChatDocumentViewItem"/> class with a new identifier.
     /// </summary>
     /// <param name="configuration">The library configuration.</param>
-    public ChatDocumentItemViewer(LibraryConfiguration configuration)
+    public ChatDocumentViewItem(LibraryConfiguration configuration)
         : base(configuration)
     {
         Id = Identifier.NewId();

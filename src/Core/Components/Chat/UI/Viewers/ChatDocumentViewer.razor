@@ -1,15 +1,13 @@
 ﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Viewers
 @inherits FluentComponentBase
 
-<FluentCxTileGrid TItem="IChatFile"
+<FluentCxTileGrid TItem="ChatFileEventArgs"
                   ColumnWidth="250px"
-                  RowHeight="250px">
-    <Virtualize ItemSize="250"
-                ItemsProvider="@ItemsProvider">
-        <ItemContent>
-            <TileGridItem ColumnSpan="1" RowSpan="1">
-                <ChatFileViewItem Item=@context @key=context.Id />
-            </TileGridItem>
-        </ItemContent>
-    </Virtualize>
+                  RowHeight="250px"
+                  Items="Items.ToList()">
+    <ItemContent>
+        <TileGridItem TItem="ChatFileEventArgs" ColumnSpan="1" RowSpan="1">
+            <ChatFileViewItem Item=@context @key=context.Id />
+        </TileGridItem>
+    </ItemContent>
 </FluentCxTileGrid>

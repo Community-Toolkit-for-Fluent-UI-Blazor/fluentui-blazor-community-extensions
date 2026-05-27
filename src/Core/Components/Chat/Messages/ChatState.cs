@@ -20,7 +20,7 @@ internal record ChatState
     /// <summary>
     /// Events which occured when a room has changed.
     /// </summary>
-    public event EventHandler<ChatRoom?>? RoomChanged;
+    public event EventHandler? RoomChanged;
 
     /// <summary>
     /// Gets if the room is loading.
@@ -38,7 +38,7 @@ internal record ChatState
             if (_room != value)
             {
                 _room = value;
-                RoomChanged?.Invoke(this, value);
+                RoomChanged?.Invoke(this, System.EventArgs.Empty);
             }
         }
     }

@@ -6,6 +6,9 @@ using FluentUI.Blazor.Community.Components.Components.FileManager.Services;
 using FluentUI.Blazor.Community.Components.States;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
+using FluentUI.Blazor.Community.Components.Chat.Room;
+using FluentUI.Blazor.Community.Components.Chat.Engine;
+using FluentUI.Blazor.Community.Components.Chat.Transport;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -38,7 +41,12 @@ public static class ServiceCollectionExtensions
                        .AddScoped<FileManagerState>()
                        .AddScoped<IFileDownloader, FileDownloader>()
                        .AddScoped(typeof(IFileEntryZipService<>), typeof(DefaultFileEntryZipService<>))
-                       .AddScoped<SlideshowState>();
+                       .AddScoped<SlideshowState>()
+                       .AddScoped<ChatRoomState>()
+                       .AddScoped<ChatMessageState>()
+                       .AddScoped<ChatMessageDynamicState>()
+                       .AddScoped<ChatRoomDynamicState>()
+                       .AddScoped<ChatEngine>();
     }
 
     /// <summary>
@@ -49,5 +57,15 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAzureTranslationClient(this IServiceCollection services)
     {
         return services.AddScoped<ITranslationClient, AzureTranslationClient>();
+    }
+
+    /// <summary>
+    /// Adds the SignalR message transport to the service collection, which enables real-time communication for chat applications.
+    /// </summary>
+    /// <param name="services">The service collection to add the SignalR message transport to.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IServiceCollection AddSignalRChat(this IServiceCollection services)
+    {
+        return services.AddScoped<IMessageTransport, SignalRMessageTransport>();
     }
 }

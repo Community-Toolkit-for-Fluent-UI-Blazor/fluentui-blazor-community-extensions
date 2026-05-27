@@ -5,7 +5,7 @@
 <CascadingValue Value="this" IsFixed>
     <FluentCard Id="@Id" MinimalStyle>
         <FluentStack Style="height:100%" Orientation="Orientation.Vertical">
-            @if (ChatState.IsLoading)
+            @if (State.IsLoading)
             {
                 @if (LoadingContent is not null)
                 {
@@ -23,8 +23,8 @@
                     </FluentStack>
                 }
             }
-            else if (ChatState.Room is not null &&
-                     ChatState.Room.IsEmpty)
+            else if (State.Room is not null &&
+                     State.Room.IsEmpty)
             {
                 if (EmptyRoomContent is not null)
                 {
@@ -32,12 +32,13 @@
                 }
                 else
                 {
+                    var users = RoomDynamicState.GetUsersBut(State.Room.Id, Owner!.Id);
                     <FluentStack Orientation="Orientation.Vertical"
                                  HorizontalAlignment="HorizontalAlignment.Center"
                                  Style="height: 100%">
                         <FluentStack Orientation="Orientation.Horizontal"
                                      HorizontalAlignment="HorizontalAlignment.Center">
-                            @foreach (var user in ChatState.Room.GetUsersBut(Owner))
+                            @foreach (var user in users)
                             {
                                 <FluentStack HorizontalAlignment=HorizontalAlignment.Center
                                              Orientation="Orientation.Vertical">
@@ -51,7 +52,7 @@
                         </FluentStack>
 
                         <FluentLabel Alignment=HorizontalAlignment.Center Style="color: var(--input-placeholder-rest);">
-                            @((MarkupString)string.Format(ChatMessageListLabels.EmptyRoomMessage, string.Join(", ", ChatState.Room.GetUsersBut(Owner).Select(x => x.DisplayName)))!)
+                            @((MarkupString)Localizer[LanguageResource.CX_Chat_Message_EmptyRoom, string.Join(", ", users.Select(x => x.DisplayName))!])
                         </FluentLabel>
 
                         <FluentSpacer Orientation="Orientation.Vertical" />
@@ -61,10 +62,10 @@
                         <FluentStack Orientation="Orientation.Vertical"
                                      HorizontalAlignment="HorizontalAlignment.Center">
                             <FluentLabel Style="color: var(--input-placeholder-rest);">
-                                @((MarkupString)string.Format(ChatMessageListLabels.EmptyRoomWelcome, string.Join(", ", ChatState.Room.GetUsersBut(Owner).Select(x => x.DisplayName))))
+                                @((MarkupString)Localizer[LanguageResource.CX_Chat_Message_EmptyRoomWelcome, string.Join(", ", users.Select(x => x.DisplayName))])
                             </FluentLabel>
 
-                            <FluentLabel>@ChatMessageListLabels.EmptyRoomLetsTalk</FluentLabel>
+                            <FluentLabel>@Localizer[LanguageResource.CX_Chat_Message_EmptyRoomLetsTalk]</FluentLabel>
                         </FluentStack>
                     </FluentStack>
                 }
@@ -72,7 +73,7 @@
             else
             {
                 <div id="messages-container" style="overflow-y: auto; height: 100%; width: 100%">
-                    <Virtualize TItem="IChatMessage"
+                    <Virtualize TItem="ChatMessage"
                                 ItemsProvider="@GetItemsAsync"
                                 ItemSize="180"
                                 MaxItemCount="@MaxItemCount"
@@ -91,7 +92,7 @@
                                              Delete="@OnDeleteAsync"
                                              Edit="@OnEdit"
                                              React="@OnReactAsync"
-                                             PinOrUnpin="@OnPinOrUnpinAsync"
+                                             PinOrUnpin="@OnPinOrUnpin"
                                              Copy="@OnCopyAsync"
                                              Reply="@OnReply"
                                              Id="@($"message-item-{context.Id}")"
@@ -103,8 +104,8 @@
                 </div>
             }
 
-            @if (ChatState.Room is not null &&
-                 !ChatState.Room.IsBlocked &&
+            @if (State.Room is not null &&
+                 !State.Room.IsBlocked &&
                  IsMessageWriterVisible)
             {
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="2">
@@ -169,7 +170,7 @@
                                  Style="height: 100%">
                         <FluentProgressBar Width="340px" />
                         <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
-                            @ChatMessageListLabels.SendingMessageLabel
+                            @Localizer[LanguageResource.CX_Chat_Message_SendingMessage]
                         </FluentLabel>
                     </FluentStack>
                 }
@@ -180,18 +181,20 @@
     <FluentPopover AnchorId="EmojiButton"
                    @bind-Open=_isEmojiPopoverVisible
                    Style="width: 420px; height: 450px; max-height:450px">
-        <FluentCxEmojiPicker EmojiFontProvider="@EmojiDialogSettings.FontProvider"
-                             EmojisPerRow="@EmojiDialogSettings.EmojisPerRow"
+        <FluentCxEmojiPicker EmojiFontProvider="@EmojiSettings.FontProvider"
+                             EmojisPerRow="@EmojiSettings.EmojisPerRow"
                              OnEmojiChanged="@(e => OnAddEmoji(e))" />
     </FluentPopover>
 
-    @if (ChatState.Room is not null &&
-        !ChatState.Room.IsBlocked)
+    @if (State.Room is not null &&
+        !State.Room.IsBlocked)
     {
         <FluentOverlay Dismissable=false>
             <FluentStack VerticalAlignment=VerticalAlignment.Bottom
                          HorizontalAlignment="HorizontalAlignment.Center">
-                <FluentMessageBar Intent="MessageBarIntent.Info">@(ChatState.Room.Owner == Owner ? ChatMessageListLabels.OwnerBlockMessage : ChatMessageListLabels.BlockMessage)</FluentMessageBar>
+                <FluentMessageBar Intent="MessageBarIntent.Info">
+                    @(State.Room.Owner == Owner ? Localizer[LanguageResource.CX_Chat_Message_OwnerBlockMessage] : Localizer[LanguageResource.CX_Chat_Message_BlockMessage])
+                </FluentMessageBar>
             </FluentStack>
         </FluentOverlay>
     }

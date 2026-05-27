@@ -4,20 +4,29 @@ namespace FluentUI.Blazor.Community.Components.Chat.Messages;
 /// Represents a section of a message.
 /// </summary>
 public record ChatMessageSection
-    : IChatMessageSection
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets the unique identifier of the section.
+    /// </summary>
     public long Id { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets the unique identifier of the message that the section belongs to.
+    /// </summary>
     public long MessageId { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets the unique identifier of the culture.
+    /// </summary>
     public long CultureId { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets the content of the section.
+    /// </summary>
     public string? Content { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets or sets the date when the section was created.
+    /// </summary>
     public DateTime CreatedDate { get; set; }
 }

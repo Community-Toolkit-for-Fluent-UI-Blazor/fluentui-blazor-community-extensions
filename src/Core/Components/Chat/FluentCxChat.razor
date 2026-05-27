@@ -1,0 +1,64 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+@typeparam TFile where TFile : class, new()
+
+<div id="@Id" class="@InternalCss" style="@Style">
+    <div style="height: 100%" hidden-when="xs sm">
+        <FluentMultiSplitter Style="@TransparentBarStyle">
+            <FluentMultiSplitterPane Resizable="false" Size="30%">
+                @_renderChatRoom
+            </FluentMultiSplitterPane>
+            <FluentMultiSplitterPane>
+                @*  <ChatView TItem="TFile" Owner="@Owner" /> *@
+            </FluentMultiSplitterPane>
+        </FluentMultiSplitter>
+    </div>
+
+    <div hidden-when="md lg xl xxl">
+    </div>
+</div>
+
+
+@code {
+    public FluentCxChat(LibraryConfiguration configuration)
+        : base(configuration)
+    {
+        _renderChatRoom = __builder =>
+        {
+            <ChatRoomListView Owner="@Owner"
+                              CanArchive="@Capabilities.HasFlag(ChatRoomCapabilities.Archive)"
+                              CanBlock="@Capabilities.HasFlag(ChatRoomCapabilities.Block)"
+                              CanDelete="@Capabilities.HasFlag(ChatRoomCapabilities.Delete)"
+                              CanHide="@Capabilities.HasFlag(ChatRoomCapabilities.Hide)"
+                              CanMute="@Capabilities.HasFlag(ChatRoomCapabilities.Mute)"
+                              CanPin="@Capabilities.HasFlag(ChatRoomCapabilities.Pin)"
+                              CanRename="@Capabilities.HasFlag(ChatRoomCapabilities.Rename)"
+                              CanUnarchive="@Capabilities.HasFlag(ChatRoomCapabilities.Unarchive)"
+                              CanUnblock="@Capabilities.HasFlag(ChatRoomCapabilities.Unblock)"
+                              CanUnhide="@Capabilities.HasFlag(ChatRoomCapabilities.Unhide)"
+                              EmptyContent="@RoomEmptyContent"
+                              IsNewGroupChatEnabled="@Capabilities.HasFlag(ChatRoomCapabilities.NewGroup)"
+                              IsSearchEnabled="@Capabilities.HasFlag(ChatRoomCapabilities.Search)"
+                              ItemsProvider="@RoomItemsProvider"
+                              ItemTemplate="@RoomTemplate"
+                              LastMessageProvider="@LastMessageProvider"
+                              LoadingContent="@RoomLoadingContent"
+                              OnArchiveChanged="@OnRoomArchiveChanged"
+                              OnBlockChanged="@OnRoomBlockChanged"
+                              OnDelete="@OnRoomDelete"
+                              OnHideChanged="@OnRoomHideChanged"
+                              OnMuteChanged="@OnRoomMuteChanged"
+                              OnNewChatGroup="@OnRoomCreate"
+                              OnPinChanged="@OnRoomPinChanged"
+                              OnRename="@OnRoomRename"
+                              RoomNameComparison="@RoomNameComparison"
+                              RoomSearchProvider="@RoomSearchProvider"
+                              ShowDeletedRoom="@Capabilities.HasFlag(ChatRoomCapabilities.ShowDeleted)"
+                              UnreadMessagesProvider="@UnreadMessagesProvider"
+                              UserNameComparison="@UserNameComparison"
+                              UserSearchProvider="@UserSearchProvider"
+                              UsersProvider="@RoomUsersProvider" />
+
+        };
+    }
+}

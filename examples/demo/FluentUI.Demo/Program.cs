@@ -3,6 +3,7 @@ using FluentUI.Demo.Client;
 using FluentUI.Demo.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using FluentUI.Blazor.Community.Components.Localization;
+using FluentUI.Blazor.Community.Components.Chat.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ builder.Services.AddFluentUIComponents(config =>
 
 // Add FluentUI community extension services
 builder.Services.AddFluentCxUIComponents();
+builder.Services.AddSignalRChat();
 
 // Add Demo server services
 builder.Services.AddFluentUIDemoServices().ForServer();
@@ -52,6 +54,7 @@ app.UseHttpsRedirection();
 app.MapStaticAssets();
 
 app.UseAntiforgery();
+app.MapHub<ChatHub>("/chatHub");
 
 // Use the localization services
 app.UseRequestLocalization(new RequestLocalizationOptions().AddSupportedUICultures(["en"]));

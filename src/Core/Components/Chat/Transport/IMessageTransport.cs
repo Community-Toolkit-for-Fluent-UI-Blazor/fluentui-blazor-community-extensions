@@ -21,8 +21,9 @@ public interface IMessageTransport
     /// Sends a message envelope through the transport.
     /// </summary>
     /// <param name="envelope">The message envelope to send.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>Returns a task that represents the asynchronous send operation.</returns>
-    Task SendAsync(TransportEnvelope envelope);
+    Task SendAsync(TransportEnvelope envelope, CancellationToken cancellationToken);
 
     /// <summary>
     /// Registers a message handler that will be invoked whenever a message is received through the transport.
@@ -34,14 +35,16 @@ public interface IMessageTransport
     /// Joins the specified room asynchronously.
     /// </summary>
     /// <param name="roomId">The unique identifier of the room to join.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A task that represents the asynchronous join operation.</returns>
-    Task JoinRoomAsync(long roomId);
+    Task JoinRoomAsync(long roomId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Leaves the specified room asynchronously.
     /// </summary>
     /// <param name="roomId">The unique identifier of the room to leave.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A task that represents the asynchronous leave operation.</returns>
-    Task LeaveRoomAsync(long roomId);
+    Task LeaveRoomAsync(long roomId, CancellationToken cancellationToken);
 
 }

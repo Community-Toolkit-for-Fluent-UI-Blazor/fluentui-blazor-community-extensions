@@ -285,6 +285,84 @@ public partial class FluentCxTileGrid<TItem>
     internal int ColumnCount => !Columns.HasValue || Columns.Value <= 0 ? _tileGridState?.ColumnCount ?? 0 : Columns.Value;
 
     /// <summary>
+    /// Gets the callback for handling the drag start event, which initiates the drag-and-drop operation for items in the grid.
+    /// </summary>
+    /// <returns>An <see cref="EventCallback{TItem}"/> representing the drag start event handler.</returns>
+    private EventCallback<FluentDragEventArgs<TItem>> GetDragStartCallback()
+    {
+        return CreateDefaultCallback<FluentDragEventArgs<TItem>>(CanActuallyReorder, OnDragStart);
+    }
+
+    /// <summary>
+    /// Gets the callback for handling the drop end event, which finalizes the drag-and-drop operation and updates the grid layout accordingly.
+    /// </summary>
+    /// <returns>An <see cref="EventCallback"/> representing the drop end event handler.</returns>
+    private EventCallback GetDropEndCallback()
+    {
+        return CreateDefaultCallback(CanActuallyReorder, OnDropEnd);
+    }
+    
+    /// <summary>
+    /// Gets the callback for handling the drag end event, which occurs when a drag-and-drop operation is completed.
+    /// </summary>
+    /// <returns>An <see cref="EventCallback"/> representing the drag end event handler.</returns>
+    private EventCallback GetDragEndCallback()
+    {
+        return CreateDefaultCallback(CanActuallyReorder, OnDragEnd);
+    }
+
+    /// <summary>
+    /// Gets the callback for handling the drag enter event, which occurs when a dragged item enters a valid drop target area within the grid.
+    /// </summary>
+    /// <returns>An <see cref="EventCallback{TItem}"/> representing the drag enter event handler.</returns>
+    private EventCallback<FluentDragEventArgs<TItem>> GetDragEnterCallback()
+    {
+        return CreateDefaultCallback<FluentDragEventArgs<TItem>>(CanActuallyReorder, OnDragEnter);
+    }
+
+    /// <summary>
+    /// Gets the callback for handling the drag leave event, which occurs when a dragged item leaves a valid drop target area within the grid.
+    /// </summary>
+    /// <returns>An <see cref="EventCallback"/> representing the drag leave event handler.</returns>
+    private EventCallback GetDragLeaveCallback()
+    {
+        return CreateDefaultCallback(CanActuallyReorder, OnDragLeave);
+    }
+
+    /// <summary>
+    /// Creates an event callback for the specified action if the given condition is true; otherwise, returns an empty callback.
+    /// </summary>
+    /// <param name="condition">A boolean value indicating whether the callback should be created.</param>
+    /// <param name="action">The action to be invoked by the callback.</param>
+    /// <returns>An <see cref="EventCallback"/> representing the event handler.</returns>
+    private EventCallback CreateDefaultCallback(bool condition, Action action)
+    {
+        if (condition)
+        {
+            return EventCallback.Factory.Create(this, action);
+        }
+
+        return EventCallback.Empty;
+    }
+
+    /// <summary>
+    /// Creates an event callback for the specified action if the given condition is true; otherwise, returns an empty callback.
+    /// </summary>
+    /// <typeparam name="T">The type of the parameter passed to the action.</typeparam>
+    /// <param name="condition">A boolean value indicating whether the callback should be created.</param>
+    /// <param name="action">The action to be invoked by the callback.</param>
+    /// <returns>An <see cref="EventCallback{T}"/> representing the event handler.</returns>
+    private EventCallback<T> CreateDefaultCallback<T>(bool condition, Action<T> action)
+    {
+        if (condition)
+        {
+            return EventCallback.Factory.Create(this, action);
+        }
+
+        return EventCallback<T>.Empty;
+    }
+
+    /// <summary>
     /// Generates a CSS row height specification using the minimum and current row height values.
     /// </summary>
     /// <remarks>If the minimum row height is not specified, the value defaults to '0px'. This method is
@@ -468,8 +546,7 @@ public partial class FluentCxTileGrid<TItem>
     /// </summary>
     /// <remarks>This method resets the preview state of the drag target and triggers a UI update to reflect
     /// that the item is no longer a valid drop target.</remarks>
-    /// <param name="e">The event arguments that provide information about the drag operation.</param>
-    private void OnDragLeave(FluentDragEventArgs<TItem> e)
+    private void OnDragLeave()
     {
         if (!CanActuallyReorder)
         {
@@ -486,9 +563,7 @@ public partial class FluentCxTileGrid<TItem>
     /// </summary>
     /// <remarks>This method is typically called after a drop action is finalized, allowing for any necessary
     /// updates or cleanup related to the dropped item.</remarks>
-    /// <param name="e">The event arguments containing information about the drag-and-drop operation, including the item being dropped
-    /// and the drop target.</param>
-    private void OnDropEnd(FluentDragEventArgs<TItem> e)
+    private void OnDropEnd()
     {
         if (!CanActuallyReorder)
         {
@@ -505,8 +580,7 @@ public partial class FluentCxTileGrid<TItem>
     /// <remarks>This method resets the state of the drag source and all items involved in the drag-and-drop
     /// operation. It also triggers a UI refresh to reflect the updated state. Call this method when a drag operation
     /// concludes to ensure the component returns to its default state.</remarks>
-    /// <param name="e">The event data associated with the drag operation that has ended.</param>
-    private void OnDragEnd(FluentDragEventArgs<TItem> e)
+    private void OnDragEnd()
     {
         if (!CanActuallyReorder)
         {
