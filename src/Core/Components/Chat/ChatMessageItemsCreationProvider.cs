@@ -1,5 +1,3 @@
-using FluentUI.Blazor.Community.Components.Chat.Messages;
-
 namespace FluentUI.Blazor.Community.Components.Chat;
 
 /// <summary>
@@ -7,4 +5,4 @@ namespace FluentUI.Blazor.Community.Components.Chat;
 /// </summary>
 /// <param name="request">The request containing information needed to create chat message items.</param>
 /// <returns>A task that represents the asynchronous operation. The task result contains the created chat message.</returns>
-public delegate ValueTask<ChatMessage> ChatMessageItemsCreationProvider(ItemsCreationRequest request);
+public delegate ValueTask<ChatMessageCreationResult> ChatMessageItemsCreationProvider(ChatMessageItemsCreationRequest request);

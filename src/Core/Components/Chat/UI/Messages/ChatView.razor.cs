@@ -4,7 +4,6 @@ using FluentUI.Blazor.Community.Components.Chat.Engine;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
 using FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
-using FluentUI.Blazor.Community.Components.Chat.UI.Writers;
 using FluentUI.Blazor.Community.Components.Clipboard;
 using FluentUI.Blazor.Community.Components.Components.Chat;
 using FluentUI.Blazor.Community.Components.Emojis;
@@ -148,6 +147,12 @@ public partial class ChatView<TItem>
     private IClipboard Clipboard { get; set; } = default!;
 
     /// <summary>
+    /// Gets or sets the fragment to render when the room is undefined.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? RoomUndefinedContent { get; set; }
+
+    /// <summary>
     /// Gets or sets the owner of the view.
     /// </summary>
     [Parameter]
@@ -200,6 +205,12 @@ public partial class ChatView<TItem>
     /// </summary>
     [Parameter]
     public bool IsEmojiInsertionAllowed { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating if the chat allows to react to a message.
+    /// </summary>
+    [Parameter]
+    public bool IsReactEnabled { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating if the chat allows a gift to be send.
@@ -359,12 +370,6 @@ public partial class ChatView<TItem>
     public bool IsRecordingAudioEnabled { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating if the <see cref="ChatMessageWriter"/> is visible or not.
-    /// </summary>
-    [Parameter]
-    public bool IsMessageWriterVisible { get; set; } = true;
-
-    /// <summary>
     /// Gets or sets a provider to retrieve a specific chat message.
     /// </summary>
     [Parameter]
@@ -428,7 +433,7 @@ public partial class ChatView<TItem>
     /// Gets or sets the provider used to react to a message.
     /// </summary>
     [Parameter]
-    public ChatMessageReactProvider? OnReactMessage { get; set; }
+    public EventCallback<ChatMessageReactRequest> OnReactMessage { get; set; }
 
     /// <summary>
     /// Occurs when the gift button is clicked.
@@ -469,7 +474,7 @@ public partial class ChatView<TItem>
                     var dialog = await DialogService.ShowDialogAsync<ChatMediaImporterDialog>(a =>
                     {
                         a.Header.Title = Localizer[LanguageResource.CX_Chat_Message_Import_FileSelectorDialogTitle];
-                        a.Footer.PrimaryAction.Label = Localizer[LanguageResource.CX_Chat_Message_Import_DialogCancel];
+                        a.Footer.SecondaryAction.Label = Localizer[LanguageResource.CX_Chat_Message_Import_DialogCancel];
                     });
 
                     if (!dialog.Cancelled &&
@@ -553,6 +558,7 @@ public partial class ChatView<TItem>
     private async void OnRoomChanged(object? sender, System.EventArgs e)
     {
         _chatDraft = State.GetDraft();
+        _chatDraft?.SenderId = Owner?.Id ?? 0;
         await RefreshDataAsync();
     }
 
@@ -588,10 +594,18 @@ public partial class ChatView<TItem>
                 _chatDraft.AddCultureText(Owner.CultureName!, [_chatDraft.Text]);
             }
 
+            (var Messages, var Files) = await _chatDraft.BuildAsync(State.Room.Id, Owner.Id, MessageSplitOption);
+
             if (OnCreate is not null)
             {
-                var createdMessages = await OnCreate(new(State.Room.Id, Owner.Id, _chatDraft, MessageSplitOption, _cts.Token));
-                messages.AddRange(createdMessages);
+                var createdMessages = await OnCreate(new(Messages, Files, _cts.Token));
+
+                foreach (var item in createdMessages.Files)
+                {
+                    DynamicState.AppendFile(State.Room, item.MessageId, item);
+                }
+                
+                messages.AddRange(createdMessages.Messages);
                 _chatDraft.Clear();
                 _isReply = false;
                 _refreshTotalMessageCount = true;
@@ -681,8 +695,9 @@ public partial class ChatView<TItem>
         if (_virtualizeMessageList != null)
         {
             await _virtualizeMessageList.RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
         }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     /// <summary>
@@ -899,8 +914,7 @@ public partial class ChatView<TItem>
     {
         if (State.Room is not null &&
             Owner is not null &&
-            !string.IsNullOrEmpty(e.Reaction) &&
-            OnReactMessage is not null)
+            !string.IsNullOrEmpty(e.Reaction))
         {
             if (_cts is not null)
             {
@@ -908,11 +922,33 @@ public partial class ChatView<TItem>
                 _cts.Dispose();
             }
 
-            _cts = new CancellationTokenSource();
+            if (OnReactMessage.HasDelegate)
+            {
+                var request = new ChatMessageReactRequest(Owner.Id, e.Message.Id, e.Reaction);
+                await OnReactMessage.InvokeAsync(request);
 
-            await OnReactMessage(new(State.Room.Id, Owner.Id, e.Message, e.Reaction));
-            await RefreshDataAsync();
-            await ChatEngine.SendReactedMessageAsync(State.Room, e.Message.Id, e.Reaction, _cts.Token);
+                if (request.Reaction is null)
+                {
+                    return;
+                }
+
+                _cts = new CancellationTokenSource();
+                var allReaactions = DynamicState.GetReactions(State.Room, e.Message.Id).ToList();
+                var reactToReplace = allReaactions.Find(x => x.UserReactedById == Owner.Id);
+
+                if (reactToReplace is null)
+                {
+                    allReaactions.Add(request.Reaction);
+                }
+                else
+                {
+                    reactToReplace.Emoji = request.Reaction.Emoji;
+                }
+
+                DynamicState.SetReactions(State.Room, e.Message.Id, allReaactions);
+                await ChatEngine.SendReactedMessageAsync(State.Room, e.Message.Id, e.Reaction, _cts.Token);
+                await InvokeAsync(StateHasChanged);
+            }
         }
     }
 
@@ -966,9 +1002,9 @@ public partial class ChatView<TItem>
 
         _chatDraft = State.GetDraft();
 
-        ChatEngine.SetFilesProvider(FilesProvider)
+        ChatEngine.SetFilesProvider(FilesProvider, IsMediaInsertionAllowed)
                   .SetMessageItemProvider(ItemRetrieveProvider)
-                  .SetReactionsProvider(ReactionsProvider)
+                  .SetReactionsProvider(ReactionsProvider, IsReactEnabled)
                   .SetUserStateProvider(ReadUserStateProvider);
     }
 

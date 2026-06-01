@@ -3,41 +3,30 @@ namespace FluentUI.Blazor.Community.Components.Chat.Files;
 /// <summary>
 /// Represents a base chat file.
 /// </summary>
-public abstract class ChatFile
+public abstract record ChatFile
     : IChatFile
 {
-    /// <summary>
-    /// Gets or sets the identifier of the file.
-    /// </summary>
-    public long Id { get; set; }
+    /// <inheritdoc />
+    public long Id { get; init; }
 
-    /// <summary>
-    /// Gets or sets the identifier of the message the file belongs to.
-    /// </summary>
-    public long MessageId { get; set; }
+    /// <inheritdoc />
+    public long MessageId { get; init; }
 
-    /// <summary>
-    /// Gets or sets the created date.
-    /// </summary>
-    public DateTime CreatedDate { get; set; }
+    /// <inheritdoc />
+    public DateTimeOffset CreatedDate { get; init; }
 
-    /// <summary>
-    /// Gets or sets the content type.
-    /// </summary>
-    public string ContentType { get; set; } = string.Empty;
+    /// <inheritdoc />
+    public string ContentType { get; init; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the name of the file.
-    /// </summary>
-    public string Name { get; set; } = string.Empty;
+    /// <inheritdoc />
+    public string Name { get; init; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets the length of the file.
-    /// </summary>
-    public long Length { get; set; }
+    /// <inheritdoc />
+    public long OwnerId { get; init; } = default!;
 
-    /// <summary>
-    /// Gets or sets the owner of the file.
-    /// </summary>
-    public ChatUser Owner { get; set; } = default!;
+    /// <inheritdoc />
+    public DateTimeOffset? DeletedDate { get; init; }
+
+    /// <inheritdoc />
+    public bool IsDeleted { get; init; }
 }

@@ -1,4 +1,5 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
+@using FluentUI.Blazor.Community.Components.Chat.UI.Messages
 @inherits FluentComponentBase
 @typeparam TFile where TFile : class, new()
 
@@ -9,7 +10,7 @@
                 @_renderChatRoom
             </FluentMultiSplitterPane>
             <FluentMultiSplitterPane>
-                @*  <ChatView TItem="TFile" Owner="@Owner" /> *@
+                @_renderChatMessageList
             </FluentMultiSplitterPane>
         </FluentMultiSplitter>
     </div>
@@ -26,19 +27,19 @@
         _renderChatRoom = __builder =>
         {
             <ChatRoomListView Owner="@Owner"
-                              CanArchive="@Capabilities.HasFlag(ChatRoomCapabilities.Archive)"
-                              CanBlock="@Capabilities.HasFlag(ChatRoomCapabilities.Block)"
-                              CanDelete="@Capabilities.HasFlag(ChatRoomCapabilities.Delete)"
-                              CanHide="@Capabilities.HasFlag(ChatRoomCapabilities.Hide)"
-                              CanMute="@Capabilities.HasFlag(ChatRoomCapabilities.Mute)"
-                              CanPin="@Capabilities.HasFlag(ChatRoomCapabilities.Pin)"
-                              CanRename="@Capabilities.HasFlag(ChatRoomCapabilities.Rename)"
-                              CanUnarchive="@Capabilities.HasFlag(ChatRoomCapabilities.Unarchive)"
-                              CanUnblock="@Capabilities.HasFlag(ChatRoomCapabilities.Unblock)"
-                              CanUnhide="@Capabilities.HasFlag(ChatRoomCapabilities.Unhide)"
+                              CanArchive="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Archive)"
+                              CanBlock="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Block)"
+                              CanDelete="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Delete)"
+                              CanHide="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Hide)"
+                              CanMute="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Mute)"
+                              CanPin="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Pin)"
+                              CanRename="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Rename)"
+                              CanUnarchive="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Unarchive)"
+                              CanUnblock="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Unblock)"
+                              CanUnhide="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Unhide)"
                               EmptyContent="@RoomEmptyContent"
-                              IsNewGroupChatEnabled="@Capabilities.HasFlag(ChatRoomCapabilities.NewGroup)"
-                              IsSearchEnabled="@Capabilities.HasFlag(ChatRoomCapabilities.Search)"
+                              CanCreateNewGroup="@RoomCapabilities.HasFlag(ChatRoomCapabilities.NewGroup)"
+                              IsSearchEnabled="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Search)"
                               ItemsProvider="@RoomItemsProvider"
                               ItemTemplate="@RoomTemplate"
                               LastMessageProvider="@LastMessageProvider"
@@ -53,12 +54,63 @@
                               OnRename="@OnRoomRename"
                               RoomNameComparison="@RoomNameComparison"
                               RoomSearchProvider="@RoomSearchProvider"
-                              ShowDeletedRoom="@Capabilities.HasFlag(ChatRoomCapabilities.ShowDeleted)"
+                              ShowDeletedRoom="@RoomCapabilities.HasFlag(ChatRoomCapabilities.ShowDeleted)"
                               UnreadMessagesProvider="@UnreadMessagesProvider"
                               UserNameComparison="@UserNameComparison"
                               UserSearchProvider="@UserSearchProvider"
                               UsersProvider="@RoomUsersProvider" />
 
+        };
+
+        _renderChatMessageList = __builder =>
+        {
+            <ChatView TItem="TFile"
+                      AppendFiles=@AppendFiles
+                      AudioWaveVisualizerContent=@AudioWaveVisualizerContent
+                      ChatFileRenderingMode=@ChatFileRenderingMode
+                      CheckmarkIcon=@ChatViewIcons.Checkmark
+                      CountProvider=@MessageCountProvider
+                      DeletedMessageTemplate=@DeletedMessageTemplate
+                      DismissIcon=@ChatViewIcons.Dismiss
+                      EmojiIcon=@ChatViewIcons.Emoji
+                      EmojiSettings=@EmojiSettings
+                      EmptyRoomContent=@EmptyRoomContent
+                      FilesProvider=@FilesProvider
+                      FileTemplate=@FileTemplate
+                      Filter=@MessageFilter
+                      GiftIcon=@ChatViewIcons.Gift
+                      ImportOptions="@ImportOptions"
+                      IsEmojiInsertionAllowed="@ChatCapabilities.HasFlag(ChatViewCapabilities.Emoji)"
+                      IsGiftAllowed="@ChatCapabilities.HasFlag(ChatViewCapabilities.Gift)"
+                      IsMediaInsertionAllowed="@ChatCapabilities.HasFlag(ChatViewCapabilities.Media)"
+                      IsRecordingAudioEnabled="@ChatCapabilities.HasFlag(ChatViewCapabilities.Audio)"
+                      IsTranslationEnabled="@IsTranslationEnabled"
+                      IsReactEnabled="@ChatCapabilities.HasFlag(ChatViewCapabilities.React)"
+                      ItemRetrieveProvider="@ItemRetrieveProvider"
+                      ItemsProvider="@ItemsProvider"
+                      LoadingContent="@LoadingContent"
+                      LoadingFileContent="@LoadingFileContent"
+                      MaxItemCount="@MaxItemCount"
+                      MediaIcon="@ChatViewIcons.Media"
+                      MessageSplitOption="@MessageSplitOption"
+                      MessageTemplate="@MessageTemplate"
+                      MessageWriterOrientation="@MessageWriterOrientation"
+                      MicroIcon="@ChatViewIcons.Micro"
+                      MicroOffIcon="@ChatViewIcons.MicroOff"
+                      OnCreate="@OnCreateMessage"
+                      OnDelete="@OnDeleteMessage"
+                      OnEditMessage="@OnEditMessage"
+                      OnGift="@OnGift"
+                      OnPinOrUnpin="@OnPinOrUnpinMessage"
+                      OnReactMessage="@OnReactMessage"
+                      OverscanCount="@OverscanCount"
+                      Owner="@Owner"
+                      ReactionsProvider="@ReactionsProvider"
+                      ReadUserStateProvider="@ReadUserStateProvider"
+                      SendIcon="@ChatViewIcons.Send"
+                      SendingContent="@SendingContent"
+                      SendingRenderMode="@SendingRenderMode"
+                      ShowDeletedMessages=@ShowDeletedMessages />
         };
     }
 }

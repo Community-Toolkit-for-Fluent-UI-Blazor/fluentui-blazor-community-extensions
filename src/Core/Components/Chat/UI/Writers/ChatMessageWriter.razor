@@ -18,9 +18,9 @@
                          VerticalAlignment="VerticalAlignment.Center"
                          HorizontalAlignment="HorizontalAlignment.Center">
                 <FluentProgressBar Width="340px" />
-                <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                <FluentText Size="TextSize.Size100">
                     @Localizer[LanguageResource.CX_Chat_SendingMessageLabel];
-                </FluentLabel>
+                </FluentText>
             </FluentStack>
         }
     </FluentCard>
@@ -84,7 +84,9 @@ else
         {
             if (e == 0)
             {
-                <FluentStack Width="auto" VerticalGap="4px" Orientation="Orientation.Vertical">
+                <FluentStack Width="auto"
+                             VerticalGap="4px"
+                             Orientation="Orientation.Vertical">
 
                     @if (!IsEdit)
                     {
@@ -143,7 +145,10 @@ else
             }
             else if (e == 1)
             {
-                <FluentStack Height="100%" Width="auto" Orientation="Orientation.Vertical">
+                <FluentStack Height="100%"
+                             Width="auto"
+                             Orientation="Orientation.Vertical"
+                             VerticalAlignment="VerticalAlignment.Bottom">
                     @if (!IsEdit)
                     {
                         <FluentButton Title="@Localizer[LanguageResource.CX_Chat_SendMessage]"
@@ -152,8 +157,6 @@ else
                                       IconStart="@(SendIcon)"
                                       Shape="ButtonShape.Circular" />
                     }
-
-                    <FluentSpacer Orientation="Orientation.Vertical" />
 
                     @if (IsEdit)
                     {

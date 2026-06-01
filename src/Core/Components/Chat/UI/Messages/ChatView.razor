@@ -3,193 +3,219 @@
 @typeparam TItem where TItem : class, new()
 
 <CascadingValue Value="this" IsFixed>
-    <FluentCard Id="@Id" MinimalStyle>
-        <FluentStack Style="height:100%" Orientation="Orientation.Vertical">
-            @if (State.IsLoading)
+    <FluentCard Id="@Id" Height="100%" Shadow="CardShadow.Medium">
+        @if (State.Room is null)
+        {
+            if (RoomUndefinedContent is not null)
             {
-                @if (LoadingContent is not null)
-                {
-                    @LoadingContent
-                }
-                else
-                {
-                    <FluentStack VerticalAlignment="VerticalAlignment.Center"
-                                 Orientation="Orientation.Vertical"
-                                 HorizontalAlignment="HorizontalAlignment.Center">
-                        <FluentProgressBar Width="340px" />
-                        <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
-                            @Localizer[LanguageResource.CX_Chat_Message_Loading]
-                        </FluentLabel>
-                    </FluentStack>
-                }
-            }
-            else if (State.Room is not null &&
-                     State.Room.IsEmpty)
-            {
-                if (EmptyRoomContent is not null)
-                {
-                    @EmptyRoomContent
-                }
-                else
-                {
-                    var users = RoomDynamicState.GetUsersBut(State.Room.Id, Owner!.Id);
-                    <FluentStack Orientation="Orientation.Vertical"
-                                 HorizontalAlignment="HorizontalAlignment.Center"
-                                 Style="height: 100%">
-                        <FluentStack Orientation="Orientation.Horizontal"
-                                     HorizontalAlignment="HorizontalAlignment.Center">
-                            @foreach (var user in users)
-                            {
-                                <FluentStack HorizontalAlignment=HorizontalAlignment.Center
-                                             Orientation="Orientation.Vertical">
-                                    <FluentAvatar Image="@user.Avatar"
-                                                  Size="AvatarSize.Size64"
-                                                  Initials="@user.Initials" />
-
-                                    <FluentText Weight="TextWeight.Bold">@user?.DisplayName</FluentText>
-                                </FluentStack>
-                            }
-                        </FluentStack>
-
-                        <FluentLabel Alignment=HorizontalAlignment.Center Style="color: var(--input-placeholder-rest);">
-                            @((MarkupString)Localizer[LanguageResource.CX_Chat_Message_EmptyRoom, string.Join(", ", users.Select(x => x.DisplayName))!])
-                        </FluentLabel>
-
-                        <FluentSpacer Orientation="Orientation.Vertical" />
-
-                        <FluentDivider Appearance="DividerAppearance.Brand" />
-
-                        <FluentStack Orientation="Orientation.Vertical"
-                                     HorizontalAlignment="HorizontalAlignment.Center">
-                            <FluentLabel Style="color: var(--input-placeholder-rest);">
-                                @((MarkupString)Localizer[LanguageResource.CX_Chat_Message_EmptyRoomWelcome, string.Join(", ", users.Select(x => x.DisplayName))])
-                            </FluentLabel>
-
-                            <FluentLabel>@Localizer[LanguageResource.CX_Chat_Message_EmptyRoomLetsTalk]</FluentLabel>
-                        </FluentStack>
-                    </FluentStack>
-                }
+                @RoomUndefinedContent
             }
             else
             {
-                <div id="messages-container" style="overflow-y: auto; height: 100%; width: 100%">
-                    <Virtualize TItem="ChatMessage"
-                                ItemsProvider="@GetItemsAsync"
-                                ItemSize="180"
-                                MaxItemCount="@MaxItemCount"
-                                OverscanCount="@OverscanCount"
-                                @ref=_virtualizeMessageList>
+                <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                             Orientation="Orientation.Vertical"
+                             VerticalGap="48px"
+                             Height="100%"
+                             HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack HorizontalAlignment="HorizontalAlignment.Center" HorizontalGap="8px">
+                        <FluentEmoji Value="@(new Microsoft.FluentUI.AspNetCore.Components.Emojis.PeopleBody.Color.Default.ManInSteamyRoom())" Width="96px" />
+                        <FluentEmoji Value="@(new Microsoft.FluentUI.AspNetCore.Components.Emojis.PeopleBody.Color.Light.PersonInSteamyRoom())" Width="96px" />
+                        <FluentEmoji Value="@(new Microsoft.FluentUI.AspNetCore.Components.Emojis.PeopleBody.Color.Light.WomanInSteamyRoom())" Width="96px" />
+                    </FluentStack>
 
-                        @if (MessageTemplate is not null)
-                        {
-                            @MessageTemplate(context)
-                        }
-                        else
-                        {
-                            <ChatMessageCard Message="@context"
-                                             Owner="@Owner"
-                                             Tapped="@OnTappedAsync"
-                                             Delete="@OnDeleteAsync"
-                                             Edit="@OnEdit"
-                                             React="@OnReactAsync"
-                                             PinOrUnpin="@OnPinOrUnpin"
-                                             Copy="@OnCopyAsync"
-                                             Reply="@OnReply"
-                                             Id="@($"message-item-{context.Id}")"
-                                             DeletedMessageTemplate=@DeletedMessageTemplate
-                                             ShowDeleted=@ShowDeletedMessages
-                                             MessageTemplate=@MessageTemplate />
-                        }
-                    </Virtualize>
-                </div>
-            }
-
-            @if (State.Room is not null &&
-                 !State.Room.IsBlocked &&
-                 IsMessageWriterVisible)
-            {
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="2">
-                    @if (ChatFileRenderingMode == ChatFileRenderingMode.PreviewArea &&
-                         _chatDraft?.SelectedChatFiles.Count > 0)
-                    {
-                        <ChatFileViewer Files="@_chatDraft?.SelectedChatFiles"
-                                        OnDismiss="@OnDismissFile"
-                                        ItemTemplate="@FileTemplate"
-                                        LoadingItemContent="@LoadingFileContent" />
-                    }
-
-                    <ChatMessageWriter Draft="@_chatDraft"
-                                       Owner="@Owner"
-                                       IsReply="@_isReply"
-                                       IsEdit="@_isEdit"
-                                       ShowMediaButton="@IsMediaInsertionAllowed"
-                                       ShowEmojiButton="@IsEmojiInsertionAllowed"
-                                       ShowGiftButton="@IsGiftAllowed"
-                                       OnDismiss="OnDismiss"
-                                       OnImportMedia="@OnImportMediaAsync"
-                                       OnEmoji="@(()=>_isEmojiPopoverVisible = !_isEmojiPopoverVisible)"
-                                       OnGift="@OnAddGiftAsync"
-                                       OnCancel="@OnCancelEdit"
-                                       OnEditMessage=@OnEditMessageAsync
-                                       Orientation=@MessageWriterOrientation
-                                       IsMobile=@(DeviceState.DeviceInfo?.IsMobile ?? false)
-                                       OnSendMessage="OnAddMessageAsync"
-                                       SendIcon="@SendIcon"
-                                       CheckmarkIcon="@CheckmarkIcon"
-                                       DismissIcon="@DismissIcon"
-                                       EmojiIcon="@EmojiIcon"
-                                       MediaIcon="@MediaIcon"
-                                       GiftIcon="@GiftIcon"
-                                       SendingRenderMode="@SendingRenderMode"
-                                       IsSending=@_isSending
-                                       SendingContent="@SendingContent"
-                                       ShowCounterBadge="@(ChatFileRenderingMode == ChatFileRenderingMode.Badge)"
-                                       MicroIcon="@MicroIcon"
-                                       MicroOffIcon="@MicroOffIcon"
-                                       AudioWaveVisualizerContent="@AudioWaveVisualizerContent"
-                                       ShowLiveAudioRecordingButton=@IsRecordingAudioEnabled
-                                       OnAudioReady="@OnAudioReady"
-                                       />
+                    <FluentText Size="TextSize.Size100">
+                        @Localizer[LanguageResource.CX_Chat_Message_NoRoomSelected]
+                    </FluentText>
                 </FluentStack>
             }
-        </FluentStack>
-
-        @if (SendingRenderMode == ChatMessageSendingRenderMode.Overlay)
+        }
+        else
         {
-            <FluentOverlay @bind-Visible=_isSending
-                           Opacity="75">
-                @if (SendingContent is not null)
+            <FluentStack Style="height:100%" Orientation="Orientation.Vertical">
+                @if (State.IsLoading)
                 {
-                    @SendingContent
+                    @if (LoadingContent is not null)
+                    {
+                        @LoadingContent
+                    }
+                    else
+                    {
+                        <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                                     Orientation="Orientation.Vertical"
+                                     HorizontalAlignment="HorizontalAlignment.Center">
+                            <FluentProgressBar Width="340px" />
+                            <FluentText Size="TextSize.Size100">
+                                @Localizer[LanguageResource.CX_Chat_Message_Loading]
+                            </FluentText>
+                        </FluentStack>
+                    }
+                }
+                else if (State.Room is not null &&
+                         State.Room.IsEmpty)
+                {
+                    if (EmptyRoomContent is not null)
+                    {
+                        @EmptyRoomContent
+                    }
+                    else
+                    {
+                        var users = RoomDynamicState.GetUsersBut(State.Room.Id, Owner!.Id);
+                        <FluentStack Orientation="Orientation.Vertical"
+                                     HorizontalAlignment="HorizontalAlignment.Center"
+                                     Style="height: 100%">
+                            <FluentStack Orientation="Orientation.Horizontal"
+                                         HorizontalAlignment="HorizontalAlignment.Center">
+                                @foreach (var user in users)
+                                {
+                                    <FluentStack HorizontalAlignment=HorizontalAlignment.Center
+                                                 Orientation="Orientation.Vertical">
+                                        <FluentAvatar Image="@user.Avatar"
+                                                      Size="AvatarSize.Size64"
+                                                      Initials="@user.Initials" />
+
+                                        <FluentText Weight="TextWeight.Bold">@user?.DisplayName</FluentText>
+                                    </FluentStack>
+                                }
+                            </FluentStack>
+
+                            <FluentLabel Alignment=HorizontalAlignment.Center Style="color: var(--input-placeholder-rest);">
+                                @((MarkupString)Localizer[LanguageResource.CX_Chat_Message_EmptyRoom, string.Join(", ", users.Select(x => x.DisplayName))!])
+                            </FluentLabel>
+
+                            <FluentSpacer Orientation="Orientation.Vertical" />
+
+                            <FluentDivider Appearance="DividerAppearance.Brand" />
+
+                            <FluentStack Orientation="Orientation.Vertical"
+                                         HorizontalAlignment="HorizontalAlignment.Center">
+                                <FluentLabel Style="color: var(--input-placeholder-rest);">
+                                    @((MarkupString)Localizer[LanguageResource.CX_Chat_Message_EmptyRoomWelcome, string.Join(", ", users.Select(x => x.DisplayName))])
+                                </FluentLabel>
+
+                                <FluentLabel>@Localizer[LanguageResource.CX_Chat_Message_EmptyRoomLetsTalk]</FluentLabel>
+                            </FluentStack>
+                        </FluentStack>
+                    }
                 }
                 else
                 {
-                    <FluentStack VerticalAlignment="VerticalAlignment.Center"
-                                 Orientation="Orientation.Vertical"
-                                 HorizontalAlignment="HorizontalAlignment.Center"
-                                 Style="height: 100%">
-                        <FluentProgressBar Width="340px" />
-                        <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
-                            @Localizer[LanguageResource.CX_Chat_Message_SendingMessage]
-                        </FluentLabel>
+                    <div id="messages-container" style="overflow-y: auto; height: 100%; width: 100%">
+                        <Virtualize TItem="ChatMessage"
+                                    ItemsProvider="@GetItemsAsync"
+                                    ItemSize="105"
+                                    MaxItemCount="@MaxItemCount"
+                                    OverscanCount="@OverscanCount"
+                                    @ref=_virtualizeMessageList>
+
+                            @if (MessageTemplate is not null)
+                            {
+                                @MessageTemplate(context)
+                            }
+                            else
+                            {
+                                <ChatMessageCard Message="@context"
+                                                 Owner="@Owner"
+                                                 Tapped="@OnTappedAsync"
+                                                 Delete="@OnDeleteAsync"
+                                                 Edit="@OnEdit"
+                                                 React="@OnReactAsync"
+                                                 PinOrUnpin="@OnPinOrUnpin"
+                                                 Copy="@OnCopyAsync"
+                                                 Reply="@OnReply"
+                                                 Id="@($"message-item-{context.Id}")"
+                                                 DeletedMessageTemplate=@DeletedMessageTemplate
+                                                 ShowDeleted=@ShowDeletedMessages
+                                                 MessageTemplate=@MessageTemplate
+                                                 ReactEnabled="@IsReactEnabled" />
+                            }
+                        </Virtualize>
+                    </div>
+                }
+
+                @if (State.Room is not null &&
+                                                             !State.Room.IsBlocked)
+                {
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="2">
+                        @if (ChatFileRenderingMode == ChatFileRenderingMode.PreviewArea &&
+                                                                                     _chatDraft?.SelectedChatFiles.Count > 0)
+                        {
+                            <ChatFileViewer Files="@_chatDraft?.SelectedChatFiles"
+                                            OnDismiss="@OnDismissFile"
+                                            ItemTemplate="@FileTemplate"
+                                            LoadingItemContent="@LoadingFileContent" />
+                        }
+
+                        <ChatMessageWriter Draft="@_chatDraft"
+                                           Owner="@Owner"
+                                           IsReply="@_isReply"
+                                           IsEdit="@_isEdit"
+                                           ShowMediaButton="@IsMediaInsertionAllowed"
+                                           ShowEmojiButton="@IsEmojiInsertionAllowed"
+                                           ShowGiftButton="@IsGiftAllowed"
+                                           OnDismiss="OnDismiss"
+                                           OnImportMedia="@OnImportMediaAsync"
+                                           OnEmoji="@(() => _isEmojiPopoverVisible = !_isEmojiPopoverVisible)"
+                                           OnGift="@OnAddGiftAsync"
+                                           OnCancel="@OnCancelEdit"
+                                           OnEditMessage=@OnEditMessageAsync
+                                           Orientation=@MessageWriterOrientation
+                                           IsMobile=@(DeviceState.DeviceInfo?.IsMobile ?? false)
+                                           OnSendMessage="OnAddMessageAsync"
+                                           SendIcon="@SendIcon"
+                                           CheckmarkIcon="@CheckmarkIcon"
+                                           DismissIcon="@DismissIcon"
+                                           EmojiIcon="@EmojiIcon"
+                                           MediaIcon="@MediaIcon"
+                                           GiftIcon="@GiftIcon"
+                                           SendingRenderMode="@SendingRenderMode"
+                                           IsSending=@_isSending
+                                           SendingContent="@SendingContent"
+                                           ShowCounterBadge="@(ChatFileRenderingMode == ChatFileRenderingMode.Badge)"
+                                           MicroIcon="@MicroIcon"
+                                           MicroOffIcon="@MicroOffIcon"
+                                           AudioWaveVisualizerContent="@AudioWaveVisualizerContent"
+                                           ShowLiveAudioRecordingButton=@IsRecordingAudioEnabled
+                                           OnAudioReady="@OnAudioReady" />
                     </FluentStack>
                 }
-            </FluentOverlay>
+            </FluentStack>
+
+            @if (SendingRenderMode == ChatMessageSendingRenderMode.Overlay)
+            {
+                <FluentOverlay @bind-Visible=_isSending
+                               Opacity="75">
+                    @if (SendingContent is not null)
+                    {
+                        @SendingContent
+                    }
+                    else
+                    {
+                        <FluentStack VerticalAlignment="VerticalAlignment.Center"
+                                     Orientation="Orientation.Vertical"
+                                     HorizontalAlignment="HorizontalAlignment.Center"
+                                     Style="height: 100%">
+                            <FluentProgressBar Width="340px" />
+                            <FluentText Size="TextSize.Size100">
+                                @Localizer[LanguageResource.CX_Chat_Message_SendingMessage]
+                            </FluentText>
+                        </FluentStack>
+                    }
+                </FluentOverlay>
+            }
         }
     </FluentCard>
 
     <FluentPopover AnchorId="EmojiButton"
-                   @bind-Open=_isEmojiPopoverVisible
-                   Style="width: 420px; height: 450px; max-height:450px">
+                   @bind-Opened=_isEmojiPopoverVisible
+                   Style="width: 500px; height: 450px; max-height:450px">
         <FluentCxEmojiPicker EmojiFontProvider="@EmojiSettings.FontProvider"
                              EmojisPerRow="@EmojiSettings.EmojisPerRow"
                              OnEmojiChanged="@(e => OnAddEmoji(e))" />
     </FluentPopover>
 
-    @if (State.Room is not null &&
-        !State.Room.IsBlocked)
+    @if (State.Room?.IsBlocked == true)
     {
-        <FluentOverlay Dismissable=false>
+        <FluentOverlay>
             <FluentStack VerticalAlignment=VerticalAlignment.Bottom
                          HorizontalAlignment="HorizontalAlignment.Center">
                 <FluentMessageBar Intent="MessageBarIntent.Info">

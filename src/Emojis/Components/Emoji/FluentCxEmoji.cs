@@ -13,6 +13,7 @@ public sealed class FluentCxEmoji
     /// <param name="shortName">The short name or identifier for the emoji.</param>
     /// <param name="keywords">A collection of keywords associated with the emoji for search and discovery.</param>
     /// <param name="category">The category to which the emoji belongs.</param>
+    /// <param name="localizedCategory">The localized category name for the emoji, which may differ from the main category for certain languages.</param>
     /// <param name="subgroup">The subgroup classification of the emoji.</param>
     /// <param name="isSequence">A value indicating whether the emoji is composed of multiple codepoint sequences.</param>
     /// <param name="codepoints">A collection of Unicode codepoints that make up the emoji.</param>
@@ -29,6 +30,7 @@ public sealed class FluentCxEmoji
         string shortName,
         IEnumerable<string> keywords,
         string category,
+        string localizedCategory,
         string subgroup,
         bool isSequence,
         IEnumerable<string> codepoints,
@@ -46,6 +48,7 @@ public sealed class FluentCxEmoji
         DisplayName = shortName.Replace('_', ' ');
         Keywords = [.. keywords];
         Category = category;
+        LocalizedCategory = localizedCategory;
         Subgroup = subgroup;
         IsSequence = isSequence;
         Codepoints = [.. codepoints];
@@ -87,6 +90,11 @@ public sealed class FluentCxEmoji
     /// Gets the category of the emoji, such as "Smileys &amp; Emotion", "People &amp; Body", "Animals &amp; Nature", etc.
     /// </summary>
     public string Category { get; }
+
+    /// <summary>
+    /// Gets the localized category name of the emoji, which may differ from the main category for certain languages.
+    /// </summary>
+    public string LocalizedCategory { get; }
 
     /// <summary>
     /// Gets the subgroup of the emoji, which provides a more specific classification within the main category, such as "face-smiling", "hand-fingers-open", "animal-mammal", etc.

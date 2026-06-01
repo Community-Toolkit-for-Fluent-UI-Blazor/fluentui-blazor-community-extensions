@@ -3,6 +3,8 @@
 // ------------------------------------------------------------------------
 
 using System.Reflection;
+using FluentUI.Blazor.Community.Components;
+using FluentUI.Demo.Client.Infrastructure;
 using FluentUI.Demo.DocViewer;
 
 namespace FluentUI.Demo.Client;
@@ -27,6 +29,8 @@ public static class ServiceCollectionExtensions
         public IServiceCollection ForClient()
         {
             _services.AddHttpClient<IStaticAssetService, HttpBasedStaticAssetService>();
+            _services.AddScoped(typeof(LocalStorageFileManagerRepository<>));
+            _services.AddScoped(typeof(IFileProvider<>), typeof(LocalStorageFileProvider<>));
 
             // _services.AddSingleton<CacheStorageAccessor>();
             // _services.AddSingleton<DemoNavProvider>();
@@ -40,6 +44,8 @@ public static class ServiceCollectionExtensions
         public IServiceCollection ForServer()
         {
             _services.AddHttpClient<IStaticAssetService, ServerStaticAssetService>();
+            _services.AddScoped(typeof(LocalStorageFileManagerRepository<>));
+            _services.AddScoped(typeof(IFileProvider<>), typeof(LocalStorageFileProvider<>));
 
             // _services.AddSingleton<DemoNavProvider>();
             // _services.AddScoped<CacheStorageAccessor>();

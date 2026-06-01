@@ -24,7 +24,7 @@ public partial class EmojiPickerDialog
     /// Gets or sets the number of emojis to display per row in the emoji picker dialog.
     /// </summary>
     [Parameter]
-    public int EmojisPerRow { get; set; } = 8;
+    public int EmojisPerRow { get; set; } = 4;
 
     /// <summary>
     /// Handles the emoji selection change and closes the dialog with the selected emoji.

@@ -25,4 +25,6 @@ internal sealed class EmojiMeta
     public string Category { get; set; } = string.Empty;
 
     public string Subgroup { get; set; } = string.Empty;
+
+    public string LocalizedCategory { get; set; } = string.Empty;
 }

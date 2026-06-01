@@ -33,5 +33,5 @@ public sealed class ChatMessageReaction
     /// <summary>
     /// Gets or sets the date when the reaction was created.
     /// </summary>
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
 }

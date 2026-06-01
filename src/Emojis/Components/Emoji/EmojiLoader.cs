@@ -88,7 +88,7 @@ internal sealed class EmojiLoader
                 continue;
             }
 
-            kv.Value.Category = categoryLoc;
+            kv.Value.LocalizedCategory = categoryLoc;
             var emoji = FluentCxEmojiFactory.Create(kv.Key, kv.Value, loc);
             list.Add(emoji);
         }

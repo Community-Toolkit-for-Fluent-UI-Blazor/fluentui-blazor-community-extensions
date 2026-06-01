@@ -5,12 +5,16 @@ namespace FluentUI.Blazor.Community.Components.Chat;
 /// <summary>
 /// Represents a request to add a reaction to a chat message.
 /// </summary>
-/// <param name="RoomId">The identifier of the chat room containing the message.</param>
 /// <param name="OwnerId">The identifier of the user adding the reaction.</param>
-/// <param name="message">The chat message to react to.</param>
-/// <param name="Reaction">The reaction to add to the message.</param>
+/// <param name="MessageId">The identifier of the chat message to react to.</param>
+/// <param name="Emoji">The reaction to add to the message.</param>
 public sealed record ChatMessageReactRequest(
-    long RoomId,
     long OwnerId,
-    ChatMessage message,
-    string Reaction);
+    long MessageId,
+    string Emoji)
+{
+    /// <summary>
+    /// Gets or sets the reaction to add to the message.
+    /// </summary>
+    public ChatMessageReaction Reaction { get; set; } = default!;
+};

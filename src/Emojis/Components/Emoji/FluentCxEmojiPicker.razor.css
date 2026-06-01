@@ -22,9 +22,3 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-
-.fluent-cx-emoji-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
-  gap: 6px;
-}

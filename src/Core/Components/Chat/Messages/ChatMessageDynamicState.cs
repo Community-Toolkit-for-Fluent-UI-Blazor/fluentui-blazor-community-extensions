@@ -8,7 +8,8 @@ internal sealed class ChatMessageDynamicState
 {
     private readonly Dictionary<long, Dictionary<long, ChatMessageReadState>> _readStates = [];
     private readonly Dictionary<long, Dictionary<long, IReadOnlyList<ChatMessageReaction>>> _reactions = [];
-    private readonly Dictionary<long, Dictionary<long, IReadOnlyList<IChatFile>>> _files = [];
+    private readonly Dictionary<long, Dictionary<long, List<IChatFile>>> _files = [];
+    private readonly Dictionary<long, bool> _pinStates = [];
 
     public event EventHandler? ReadStateUpdated;
     public event EventHandler? ReactionsUpdated;
@@ -91,8 +92,27 @@ internal sealed class ChatMessageDynamicState
             _files[room.Id] = dict;
         }
 
-        dict[messageId] = files;
+        dict[messageId] = [.. files];
         FilesUpdated?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    public void AppendFile(ChatRoom room, long messageId, IChatFile file)
+    {
+        if (!_files.TryGetValue(room.Id, out var dict))
+        {
+            dict = [];
+            _files[room.Id] = dict;
+        }
+
+        if (!dict.TryGetValue(messageId, out _))
+        {
+            dict.Add(messageId, []);
+            dict[messageId].Add(file);
+        }
+        else
+        {
+            dict[messageId].Add(file);
+        }
     }
 
     public void Clear(ChatRoom room, long messageId)
@@ -114,5 +134,20 @@ internal sealed class ChatMessageDynamicState
             filesDict.Remove(messageId);
             FilesUpdated?.Invoke(this, System.EventArgs.Empty);
         }
+    }
+
+    public void SetPinState(long id, bool pin)
+    {
+        _pinStates[id] = pin;
+    }
+
+    public bool GetPinState(long id)
+    {
+        if (_pinStates.TryGetValue(id, out var pin))
+        {
+            return pin;
+        }
+
+        return false;
     }
 }

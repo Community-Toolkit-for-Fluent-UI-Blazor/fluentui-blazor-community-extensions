@@ -199,22 +199,6 @@
                     </FluentMultiSplitterPane>
                 }
             </FluentMultiSplitter>
-
-            <FluentOverlay Visible="@(_progressState != FileManagerProgressState.None)"
-                           CloseMode="OverlayCloseMode.Manual"
-                           Opacity="60">
-                <FluentStack Orientation="Orientation.Vertical"
-                             HorizontalAlignment="HorizontalAlignment.Center"
-                             VerticalGap="6px">
-                    <FluentProgressBar Value="@ProgressPercent"
-                                       Width="340px" />
-
-                    <FluentText Color="Color.Info"
-                                Size="TextSize.Size100">
-                        @GetProgressLabelFromState()
-                    </FluentText>
-                </FluentStack>
-            </FluentOverlay>
         </div>
 
         <div hidden-when="md lg xl xxl" style="height: 100%;">
@@ -231,24 +215,24 @@
                          ProgressLabel="@GetProgressLabelFromState()"
                          ProgressPercent="@ProgressPercent"
                          OnItemDoubleTapped="@OnUpdateEntryAsync" />
-
-            <FluentOverlay Visible="@(_progressState != FileManagerProgressState.None)"
-                           CloseMode="OverlayCloseMode.Manual"
-                           Opacity="60">
-                <FluentStack Orientation="Orientation.Vertical"
-                             HorizontalAlignment="HorizontalAlignment.Center"
-                             VerticalGap="6px">
-                    <FluentProgressBar Value="@ProgressPercent"
-                                       Width="340px" />
-
-                    <FluentText Color="Color.Info"
-                                Size="TextSize.Size100">
-                        @GetProgressLabelFromState()
-                    </FluentText>
-                </FluentStack>
-            </FluentOverlay>
         </div>
     </FluentStack>
+
+    <FluentOverlay Visible="@(_progressState != FileManagerProgressState.None)"
+                   CloseMode="OverlayCloseMode.Manual"
+                   Opacity="60">
+        <FluentStack Orientation="Orientation.Vertical"
+                     HorizontalAlignment="HorizontalAlignment.Center"
+                     VerticalGap="6px">
+            <FluentProgressBar Value="@ProgressPercent"
+                               Width="340px" />
+
+            <FluentText Color="Color.Info"
+                        Size="TextSize.Size100">
+                @GetProgressLabelFromState()
+            </FluentText>
+        </FluentStack>
+    </FluentOverlay>
 </CascadingValue>
 
 <FluentInputFile DragDropZoneVisible="false"

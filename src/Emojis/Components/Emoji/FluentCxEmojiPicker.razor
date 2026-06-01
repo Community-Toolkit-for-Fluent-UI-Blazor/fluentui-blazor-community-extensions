@@ -15,60 +15,44 @@
         </FluentTextInput>
     </div>
 
-    <FluentTabs ActiveTabId="@SelectedCategory"
-                ActiveTabIdChanged="@(SelectCategoryAsync)">
+    <FluentStack Wrap HorizontalGap="12px">
         @foreach (var cat in _emojiStore.Categories)
         {
             var iconEmoji = cat.Value.FirstOrDefault();
-            var icon = iconEmoji?.Unicode ?? "❓";
-
-            <FluentTab DeferredLoading Id="@cat.Key">
-                <HeaderTemplate>
-                    <FluentStack HorizontalAlignment="HorizontalAlignment.Center">
-                       <span title="@iconEmoji?.Category" style="@InternalFontFamilyStyle">@icon</span>
-                    </FluentStack>
-                </HeaderTemplate>
-
-                <ChildContent>
-                    <div class="fluent-cx-emoji-grid">
-                        <Virtualize @ref="_virtualize"
-                                    ItemsProvider="@LoadEmojisAsync"
-                                    ItemSize="56">
-                            <ItemContent Context="row">
-                                <FluentStack>
-                                    @foreach (var emoji in row.Items)
-                                    {
-                                        <FluentButton Appearance="@(SelectedEmoji == emoji ? ButtonAppearance.Primary : ButtonAppearance.Subtle)"
-                                                      Title="@emoji.DisplayName"
-                                                      OnClick="@(() => SelectEmojiAsync(emoji))"
-                                                      Size="ButtonSize.Large"
-                                                      Style="@InternalFontFamilyStyle">
-                                            @emoji.Unicode
-                                        </FluentButton>
-                                    }
-                                </FluentStack>
-                            </ItemContent>
-                        </Virtualize>
-                    </div>
-                </ChildContent>
-            </FluentTab>
-        }
-    </FluentTabs>
-    @* <FluentStack Wrap>
-        @foreach (var cat in _emojiStore.Categories)
-        {
-            var iconEmoji = cat.Value.FirstOrDefault();
-            var icon = iconEmoji?.Unicode ?? "❓";
 
             <FluentButton Appearance="@(SelectedCategory == cat.Key ? ButtonAppearance.Primary : ButtonAppearance.Subtle)"
-                          OnClick="@(() => SelectCategory(cat.Key))"
+                          Id="@cat.Key"
+                          Title="@iconEmoji?.LocalizedCategory"
+                          Style="@InternalFontFamilyStyle"
+                          IconOnly
                           Size="ButtonSize.Large"
-                          Title="@cat.Key"
-                          Style="@InternalFontFamilyStyle">
-                @icon
+                          OnClick=@(() => SelectCategoryAsync(cat.Key))>
+                <FluentEmoji Value="@GetEmojiFromCategory(cat.Key)" />
             </FluentButton>
         }
-    </FluentStack> *@
+    </FluentStack>
+
+    <div class="fluent-cx-emoji-grid">
+        <Virtualize @ref="_virtualize"
+                    ItemsProvider="@LoadEmojisAsync"
+                    ItemSize="40">
+            <ItemContent Context="row">
+                 <FluentStack HorizontalGap="18px">
+                    @foreach (var emoji in row.Items)
+                    {
+                        <FluentButton Appearance="@(SelectedEmoji == emoji ? ButtonAppearance.Primary : ButtonAppearance.Subtle)"
+                                      Title="@emoji.DisplayName"
+                                      IconOnly
+                                      OnClick="@(() => SelectEmojiAsync(emoji))"
+                                      Size="ButtonSize.Large"
+                                      Style="@InternalStyle">
+                            @emoji.Unicode
+                        </FluentButton>
+                    }
+                 </FluentStack>
+            </ItemContent>
+        </Virtualize>
+    </div>
 
     
 </div>

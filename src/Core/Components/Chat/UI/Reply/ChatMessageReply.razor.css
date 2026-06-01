@@ -4,7 +4,7 @@
   border: 1px solid var(--neutral-stroke-layer-rest);
   color: var(--neutral-foreground-rest);
   display: grid;
-  grid-template-columns: 24px 10px 1fr 10px auto auto;
+  grid-template-columns: 24px 10px auto 10px 1fr auto;
   width: 100%;
   padding: 0px 3px;
   align-items: center;
@@ -18,24 +18,20 @@
   background-color: var(--neutral-layer-1);
 }
 
-.chat-reply-measured {
-  grid-template-columns: 24px 10px auto 10px 1fr auto;
+.chat-reply-icon {
+  grid-column: 1;
 }
 
 .chat-reply-start-message {
   grid-column: 2;
 }
 
-.chat-reply-end-message {
-  grid-column: 4;
-}
-
-.chat-reply-icon {
-  grid-column: 1;
-}
-
 .chat-reply-messagebar {
   grid-column: 3;
+}
+
+.chat-reply-end-message {
+  grid-column: 4;
 }
 
 .chat-reply-messagebar-close {

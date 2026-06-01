@@ -92,7 +92,7 @@
                     </Virtualize>
                 </div>
 
-                @if (IsNewGroupChatEnabled || CanUnblock || CanUnhide || CanUnarchive)
+                @if (CanCreateNewGroup || CanUnblock || CanUnhide || CanUnarchive)
                 {
                     <FluentCxSleekDial Position="FloatingPosition.BottomLeft"
                                        Mode="SleekDialMode.Radial">
@@ -120,9 +120,9 @@
                          VerticalAlignment="VerticalAlignment.Center"
                          Style="height: 100%">
                 <FluentProgressBar Width="340px" />
-                <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                <FluentText Size="TextSize.Size100">
                     @Localizer[LanguageResource.CX_Chat_Room_ProgressLabel]
-                </FluentLabel>
+                </FluentText>
             </FluentStack>
         }
     }

@@ -23,6 +23,7 @@ internal static class FluentCxEmojiFactory
             loc.ShortName,
             loc.Keywords,
             meta.Category,
+            meta.LocalizedCategory,
             meta.Subgroup,
             meta.IsSequence,
             meta.Codepoints,

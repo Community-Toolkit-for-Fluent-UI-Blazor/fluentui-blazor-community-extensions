@@ -1,36 +1,43 @@
 ﻿@using FluentUI.Blazor.Community.Components.Chat
+@using FluentUI.Blazor.Community.Components.Chat.Files
 @using FluentUI.Blazor.Community.Components.Chat.Messages
 @using FluentUI.Blazor.Community.Components.Chat.Room
+@using FluentUI.Blazor.Community.Components.Components.Chat
+@using FluentUI.Blazor.Community.Components.Enums
+@using FluentUI.Demo.Client.Infrastructure
 
 <div style="height: 500px">
 
-    <FluentCxChat TFile="SampleFile"
+    <FluentCxChat TFile="FileManagerSampleFile"
                   LastMessageProvider="@OnLastMessage"
                   Owner="@_users[0]"
                   RoomItemsProvider="@OnGetRoomItems"
                   RoomUsersProvider="@OnGetRoomUsers"
                   UnreadMessagesProvider="@OnGetUnreadMessageProvider"
                   UserSearchProvider="@OnGetUserSearchProvider"
-                  OnRoomCreate="@OnCreateRoom" />
+                  OnRoomCreate="@OnCreateRoom"
+                  FilesProvider="@GetMessageFilesProvider"
+                  IsTranslationEnabled="false"
+                  ItemRetrieveProvider="@GetItemRetrieveProvider"
+                  ItemsProvider="@GetMessagesProvider"
+                  OnCreateMessage="@OnCreateMessage"
+                  OnDeleteMessage="@OnDeleteMessage"
+                  OnEditMessage="@OnEditMessage"
+                  OnReactMessage="@OnReactMessage"
+                  ReactionsProvider="@GetReactionsProvider"
+                  MessageCountProvider="@GetMessageCountProvider"
+                  OnPinOrUnpinMessage="@OnUnpinChanged"
+                  ReadUserStateProvider="@GetReadUserStateProvider" />
 </div>
 
 
 
 @code {
-    private class SampleFile : IMovable, IDownloadable, IDeletable, IRenamable
-    {
-        public SampleFile()
+    private Dictionary<string, long> _cultures = new()
         {
-        }
-
-        public bool IsMoveAllowed { get; set; }
-
-        public bool IsDownloadAllowed { get; set; }
-
-        public bool IsDeleteAllowed { get; set; }
-
-        public bool IsRenameAllowed { get; set; }
-    }
+            ["fr-FR"] = 1,
+            ["en-US"] = 2
+        };
 
     private readonly List<ChatUser> _users = new List<ChatUser>()
     {
@@ -65,6 +72,9 @@
 
     private readonly List<ChatRoom> _chatRooms;
     private readonly Dictionary<long, List<ChatUser>> _roomUsers = new Dictionary<long, List<ChatUser>>();
+    private readonly List<ChatMessage> _messages = [];
+    private readonly List<IChatFile> _files = [];
+    private readonly List<ChatMessageReaction> _reactions = [];
 
     public ChatExample()
     {
@@ -146,8 +156,164 @@
         _roomUsers[request.Room.Id] = request.Users.ToList();
 
         return ValueTask.FromResult(new ChatGroupCreateResult()
+        {
+            Success = true
+        });
+    }
+
+    private ValueTask<IReadOnlyList<ChatMessage>> GetMessagesProvider(ChatMessageProviderRequest request)
+    {
+        return ValueTask.FromResult<IReadOnlyList<ChatMessage>>(_messages.Where(request.Filter.Compile()).ToList());
+    }
+
+    private ValueTask<IReadOnlyList<ChatMessage>> GetItemRetrieveProvider(ChatMessageItemsRequest request)
+    {
+        return ValueTask.FromResult<IReadOnlyList<ChatMessage>>([]);
+    }
+
+    private ValueTask<IReadOnlyList<IChatFile>> GetMessageFilesProvider(ChatMessageFileCollectionRequest request)
+    {
+        var files = _files.Where(x => request.MessageIdCollection.Contains(x.MessageId)).Select(x => x).ToList();
+        return ValueTask.FromResult<IReadOnlyList<IChatFile>>(files);
+    }
+
+    private ValueTask<ChatMessageCreationResult> OnCreateMessage(ChatMessageItemsCreationRequest request)
+    {
+        var chatMessageResult = new List<ChatMessage>();
+        var chatFileResult = new List<IChatFile>();
+
+        _messages.AddRange(request.Messages);
+        _files.AddRange(request.Files);
+
+        foreach (var item in request.Messages)
+        {
+            chatMessageResult.Add(item with
             {
-                Success = true
+                Id = Math.Max(1, _messages.Max(x => x.Id) + 1),
+                Sender = _users.FirstOrDefault(x => x.Id == item.SenderId)!
             });
+        }
+
+        var fileMessageId = chatMessageResult.FirstOrDefault(x => x.Type.HasFlag(ChatMessageType.Files))?.Id;
+        var realFileMessageId = fileMessageId.HasValue ? fileMessageId.Value : request.Messages[0].Id;
+
+        foreach (var item in request.Files)
+        {
+            if (item is ChatFile c)
+            {
+                var file = c with
+                {
+                    Id = Math.Max(1, _files.Max(x => x.Id) + 1),
+                    MessageId = realFileMessageId
+                };
+
+                chatFileResult.Add(file);
+            }
+        }
+
+        _messages.RemoveAll(x => request.Messages.Any(m => m.Id == x.Id));
+        _messages.AddRange(chatMessageResult);
+
+        _files.RemoveAll(x => request.Files.Any(f => f.Id == x.Id));
+        _files.AddRange(chatFileResult);
+
+        return ValueTask.FromResult(new ChatMessageCreationResult()
+        {
+            Messages = chatMessageResult,
+            Files = chatFileResult
+        });
+    }
+
+    private ValueTask OnDeleteMessage(ChatMessage message, CancellationToken token)
+    {
+        var msg = _messages.Find(x => x.Id == message.Id);
+
+        if (msg is not null)
+        {
+            _messages.Remove(msg);
+
+            msg = msg with
+            {
+                IsDeleted = true,
+                DeletedDate = DateTimeOffset.UtcNow
+            };
+
+            _messages.Add(msg);
+        }
+
+        var files = _files.FindAll(x => x.MessageId == message.Id);
+        _files.RemoveAll(f => files.Contains(f));
+
+        foreach (var item in files.OfType<ChatFile>())
+        {
+            var file = item with
+            {
+                IsDeleted = true,
+                DeletedDate = DateTimeOffset.UtcNow
+            };
+
+            _files.Add(file);
+        }
+
+        return ValueTask.CompletedTask;
+    }
+
+    private void OnUnpinChanged(PinMessageEventArgs e)
+    {
+        var msg = _messages.Find(x => x.Id == e.Message.Id);
+
+        if (msg is not null)
+        {
+            _messages.Remove(msg!);
+            msg = msg with
+            {
+                IsPinned = e.Pin
+            };
+            _messages.Add(msg);
+        }
+    }
+
+    private ValueTask OnEditMessage(ChatMessageEditRequest request)
+    {
+        return ValueTask.CompletedTask;
+    }
+
+    private ValueTask<IReadOnlyList<ChatMessageReaction>> GetReactionsProvider(ChatMessageReactionCollectionRequest request)
+    {
+        return ValueTask.FromResult<IReadOnlyList<ChatMessageReaction>>([]);
+    }
+
+    private ValueTask<int> GetMessageCountProvider(ChatMessageCountRequest request)
+    {
+        var filter = request.Filter.Compile();
+        return ValueTask.FromResult(_messages.FindAll(x => x.RoomId == request.RoomId && filter(x)).Count);
+    }
+
+    private ValueTask<IReadOnlyList<ChatMessageUserState>> GetReadUserStateProvider(ChatMessageUserStateRequest request)
+    {
+        return ValueTask.FromResult<IReadOnlyList<ChatMessageUserState>>([]);
+    }
+
+    private void OnReactMessage(ChatMessageReactRequest request)
+    {
+        var existingReaction = _reactions.FirstOrDefault(x => x.MessageId == request.MessageId && x.UserReactedById == request.OwnerId);
+
+        if (existingReaction is not null)
+        {
+            _reactions.Remove(existingReaction);
+        }
+
+        var r = new ChatMessageReaction
+        {
+            Id = Math.Max(1, _reactions.Count > 0 ? _reactions.Max(x => x.Id) + 1 : 1),
+            MessageId = request.MessageId,
+            UserReactedById = request.OwnerId,
+            Emoji = request.Emoji,
+            CreatedDate = DateTimeOffset.UtcNow,
+            UserReactedBy = _users.FirstOrDefault(x => x.Id == request.OwnerId) ?? throw new InvalidOperationException("User not found")
+        };
+
+        _reactions.Add(r);
+        request.Reaction = r;
     }
 }

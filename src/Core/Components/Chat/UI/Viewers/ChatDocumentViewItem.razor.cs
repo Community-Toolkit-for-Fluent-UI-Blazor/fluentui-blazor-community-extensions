@@ -73,7 +73,7 @@ public partial class ChatDocumentViewItem
             }
             else if (Item is IBinaryChatFile binaryChatFile)
             {
-                _source = await FileUploader.UploadFileAsync(Id!, binaryChatFile.Data, Item.ContentType);
+                _source = await FileUploader.UploadFileAsync(Id!, binaryChatFile.Content, Item.ContentType);
             }
 
             _itemLoaded = true;

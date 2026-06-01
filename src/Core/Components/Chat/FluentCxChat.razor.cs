@@ -3,7 +3,6 @@ using FluentUI.Blazor.Community.Components.Chat;
 using FluentUI.Blazor.Community.Components.Chat.Engine;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
-using FluentUI.Blazor.Community.Components.Chat.UI.Writers;
 using FluentUI.Blazor.Community.Components.Components.Chat;
 using FluentUI.Blazor.Community.Components.Emojis;
 using FluentUI.Blazor.Community.Components.Enums;
@@ -19,7 +18,15 @@ namespace FluentUI.Blazor.Community.Components;
 public partial class FluentCxChat<TFile>
     : FluentComponentBase where TFile : class, new()
 {
+    /// <summary>
+    /// Represents the <see cref="RenderFragment"/> for the chat room.
+    /// </summary>
     private readonly RenderFragment _renderChatRoom;
+
+    /// <summary>
+    /// Represents the <see cref="RenderFragment" /> for the chat message list.
+    /// </summary>
+    private readonly RenderFragment _renderChatMessageList;
 
     /// <summary>
     /// Gets or sets the chat engine that manages the state and behavior of the chat component.
@@ -37,7 +44,13 @@ public partial class FluentCxChat<TFile>
     /// Gets or sets the capabilities of the chat room, such as whether it can be blocked, deleted, or hidden.
     /// </summary>
     [Parameter]
-    public ChatRoomCapabilities Capabilities { get; set; } = ChatRoomCapabilities.All;
+    public ChatRoomCapabilities RoomCapabilities { get; set; } = ChatRoomCapabilities.All;
+
+    /// <summary>
+    /// Gets or sets the capabilities of the chat view.
+    /// </summary>
+    [Parameter]
+    public ChatViewCapabilities ChatCapabilities { get; set; } = ChatViewCapabilities.All;
 
     /// <summary>
     /// Gets or sets the template for rendering a chat room. The template receives a <see cref="ChatRoom"/> as its context, allowing you to customize the appearance and behavior of each chat room in the chat component.
@@ -190,25 +203,6 @@ public partial class FluentCxChat<TFile>
     public int OverscanCount { get; set; } = 10;
 
     /// <summary>
-    /// Gets or sets a value indicating if the chat allows the insertion of medias.
-    /// </summary>
-    [Parameter]
-    public bool IsMediaInsertionAllowed { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating if the chat allows the insertion of emojis.
-    /// </summary>
-    [Parameter]
-    public bool IsEmojiInsertionAllowed { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating if the chat allows a gift to be send.
-    /// </summary>
-    /// <remarks>The gift must be implemented by the user.</remarks>
-    [Parameter]
-    public bool IsGiftAllowed { get; set; } = true;
-
-    /// <summary>
     /// Gets or sets the settings for the emoji dialog.
     /// </summary>
     [Parameter]
@@ -224,7 +218,7 @@ public partial class FluentCxChat<TFile>
     /// Gets or sets the orientation of the message writer in the chat message list view.
     /// </summary>
     [Parameter]
-    public Orientation MessageWriterOrientation { get; set; } = Orientation.Vertical;
+    public Orientation MessageWriterOrientation { get; set; } = Orientation.Horizontal;
 
     /// <summary>
     /// Gets or sets the options for the import of a media file.
@@ -255,7 +249,7 @@ public partial class FluentCxChat<TFile>
     /// Gets or sets the filter to filter the messages.
     /// </summary>
     [Parameter]
-    public Expression<Func<ChatMessage, bool>>? Filter { get; set; }
+    public Expression<Func<ChatMessage, bool>>? MessageFilter { get; set; }
 
     /// <summary>
     /// Gets or sets the option to split the message into multiple parts or not.
@@ -311,18 +305,6 @@ public partial class FluentCxChat<TFile>
     public RenderFragment? AudioWaveVisualizerContent { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating if the chat allows the record of an audio message.
-    /// </summary>
-    [Parameter]
-    public bool IsRecordingAudioEnabled { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating if the <see cref="ChatMessageWriter"/> is visible or not.
-    /// </summary>
-    [Parameter]
-    public bool IsMessageWriterVisible { get; set; } = true;
-
-    /// <summary>
     /// Gets or sets a provider to retrieve a specific chat message.
     /// </summary>
     [Parameter]
@@ -350,7 +332,7 @@ public partial class FluentCxChat<TFile>
     /// Gets or sets the provider to retrieve the total count of messages.
     /// </summary>
     [Parameter]
-    public ChatMessageCountProvider? CountProvider { get; set; }
+    public ChatMessageCountProvider? MessageCountProvider{ get; set; }
 
     /// <summary>
     /// Gets or sets the provider to retrieve the user state of the messages.
@@ -362,19 +344,19 @@ public partial class FluentCxChat<TFile>
     /// Gets or sets the callback which is invoked when a message must be deleted.
     /// </summary>
     [Parameter]
-    public ChatMessageDeleteMessageProvider? OnDelete { get; set; }
+    public ChatMessageDeleteMessageProvider? OnDeleteMessage { get; set; }
 
     /// <summary>
     /// Gets or sets the callback which is invoked when a message must be pinned or unpinned.
     /// </summary>
     [Parameter]
-    public EventCallback<PinMessageEventArgs> OnPinOrUnpin { get; set; }
+    public EventCallback<PinMessageEventArgs> OnPinOrUnpinMessage { get; set; }
 
     /// <summary>
     /// Gets or sets the provider used to create chat message items.
     /// </summary>
     [Parameter]
-    public ChatMessageItemsCreationProvider? OnCreate { get; set; }
+    public ChatMessageItemsCreationProvider? OnCreateMessage { get; set; }
 
     /// <summary>
     /// Gets or sets the provider used to edit chat message.
@@ -386,7 +368,7 @@ public partial class FluentCxChat<TFile>
     /// Gets or sets the provider used to react to a message.
     /// </summary>
     [Parameter]
-    public ChatMessageReactProvider? OnReactMessage { get; set; }
+    public EventCallback<ChatMessageReactRequest> OnReactMessage { get; set; }
 
     /// <summary>
     /// Gets the css class for the chat component.

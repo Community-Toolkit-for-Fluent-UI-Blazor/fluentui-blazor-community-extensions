@@ -5,6 +5,7 @@ using FluentUI.Blazor.Community.Components.Chat.Engine;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
 using FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
+using FluentUI.Blazor.Community.Components.Components.Base;
 using FluentUI.Blazor.Community.Components.Infrastructure;
 using FluentUI.Blazor.Community.Components.Localization;
 using Microsoft.AspNetCore.Components;
@@ -92,7 +93,7 @@ public partial class ChatRoomListView
     /// Gets or sets a value indicating whether the new group chat feature is enabled.
     /// </summary>
     [Parameter]
-    public bool IsNewGroupChatEnabled { get; set; }
+    public bool CanCreateNewGroup { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback for when a new chat group is created.
@@ -565,7 +566,7 @@ public partial class ChatRoomListView
         {
             var full = new List<string?>(users.Count() + 1)
             {
-                Owner.DisplayName   
+                Owner.DisplayName
             };
 
             full.AddRange(users.Select(x => x.DisplayName));
@@ -1137,7 +1138,7 @@ public partial class ChatRoomListView
     /// dial action.</returns>
     private IEnumerable<(string Title, Icon Icon, Func<Task> Action)> GetSleekDialActions()
     {
-        if (IsNewGroupChatEnabled &&
+        if (CanCreateNewGroup &&
             _listView == ListView.Normal)
         {
             yield return (Localizer[LanguageResource.CX_Chat_Room_NewGroup], new Size24.Add(), OnNewChatGroupAsync);
@@ -1415,7 +1416,7 @@ public partial class ChatRoomListView
         }
 
         ChatState.Room = room;
-        _selectedRoom = room.Id.ToString(CultureInfo.InvariantCulture);
+        _selectedRoom = Invariant.ToString(room.Id);
     }
 
     /// <summary>

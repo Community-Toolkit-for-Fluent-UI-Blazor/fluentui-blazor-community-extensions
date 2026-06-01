@@ -16,9 +16,24 @@ public interface IChatFile
     long MessageId { get; }
 
     /// <summary>
+    /// Gets the owner of the file.
+    /// </summary>
+    long OwnerId { get; }
+
+    /// <summary>
     /// Gets the creation date of the file.
     /// </summary>
-    DateTime CreatedDate { get; }
+    DateTimeOffset CreatedDate { get; }
+
+    /// <summary>
+    /// Gets the deletion date of the file, if it has been deleted.
+    /// </summary>
+    DateTimeOffset? DeletedDate { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the file has been deleted.
+    /// </summary>
+    bool IsDeleted { get; }
 
     /// <summary>
     /// Gets the content type of the file.
@@ -29,14 +44,4 @@ public interface IChatFile
     /// Gets the name of the file.
     /// </summary>
     string Name { get; }
-
-    /// <summary>
-    /// Gets the length of the file.
-    /// </summary>
-    long Length { get; }
-
-    /// <summary>
-    /// Gets the owner of the file.
-    /// </summary>
-    ChatUser Owner { get; }
 }

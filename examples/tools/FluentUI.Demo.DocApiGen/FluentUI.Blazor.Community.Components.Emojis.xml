@@ -62,7 +62,7 @@
             Represents a comprehensive model of an emoji, encapsulating all relevant properties and metadata for accurate rendering and categorization within Fluent UI Blazor components.
             </summary>
         </member>
-        <member name="M:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.#ctor(System.String,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.String,System.Boolean,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Boolean,System.String,System.String,System.Boolean,System.Boolean,System.Boolean)">
+        <member name="M:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.#ctor(System.String,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.String,System.String,System.Boolean,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Boolean,System.String,System.String,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji"/> class with the specified emoji metadata.
             </summary>
@@ -71,6 +71,7 @@
             <param name="shortName">The short name or identifier for the emoji.</param>
             <param name="keywords">A collection of keywords associated with the emoji for search and discovery.</param>
             <param name="category">The category to which the emoji belongs.</param>
+            <param name="localizedCategory">The localized category name for the emoji, which may differ from the main category for certain languages.</param>
             <param name="subgroup">The subgroup classification of the emoji.</param>
             <param name="isSequence">A value indicating whether the emoji is composed of multiple codepoint sequences.</param>
             <param name="codepoints">A collection of Unicode codepoints that make up the emoji.</param>
@@ -110,6 +111,11 @@
         <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.Category">
             <summary>
             Gets the category of the emoji, such as "Smileys &amp; Emotion", "People &amp; Body", "Animals &amp; Nature", etc.
+            </summary>
+        </member>
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.LocalizedCategory">
+            <summary>
+            Gets the localized category name of the emoji, which may differ from the main category for certain languages.
             </summary>
         </member>
         <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmoji.Subgroup">
@@ -207,7 +213,7 @@
             Gets the CSS font-family string to use for rendering emojis, combining the specified emoji font family and fallback font family.
             </summary>
         </member>
-        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.InternalFontFamilyStyle">
+        <member name="P:FluentUI.Blazor.Community.Components.Emojis.FluentCxEmojiPicker.InternalStyle">
             <summary>
             Gets the internal CSS style string for the component.
             </summary>

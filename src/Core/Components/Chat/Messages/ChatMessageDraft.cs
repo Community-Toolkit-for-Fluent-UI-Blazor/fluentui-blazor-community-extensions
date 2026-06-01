@@ -1,3 +1,4 @@
+using FluentUI.Blazor.Community.Components.Chat.Files;
 using FluentUI.Blazor.Community.Components.Enums;
 
 namespace FluentUI.Blazor.Community.Components.Chat.Messages;
@@ -25,27 +26,17 @@ public sealed class ChatMessageDraft
     /// <summary>
     /// Gets or sets the text of the message.
     /// </summary>
-    public string? Text { get; set; }
+    public string? Text { get; internal set; }
 
     /// <summary>
     /// Gets or sets the files to send with the message.
     /// </summary>
-    public List<ChatFileEventArgs> SelectedChatFiles { get; set; } = [];
-
-    /// <summary>
-    /// Gets or sets the type of the message.
-    /// </summary>
-    public ChatMessageType Type { get; set; } = ChatMessageType.Text;
-
-    /// <summary>
-    /// Gets or sets the identifier of the room for which the draft is created.
-    /// </summary>
-    public long RoomId { get; set; }
+    public List<ChatFileEventArgs> SelectedChatFiles { get; internal set; } = [];
 
     /// <summary>
     /// Gets or sets the identifier of the sender of the message.
     /// </summary>
-    public long SenderId { get; set; }
+    public long SenderId { get; internal set; }
 
     /// <summary>
     /// Gets the replied message.
@@ -149,32 +140,137 @@ public sealed class ChatMessageDraft
         _replyMessage = message;
     }
 
-  /*  public ChatMessageCreateRequest ToCreateRequest()
+    internal Task<(IReadOnlyList<ChatMessage> Messages, IReadOnlyList<IBinaryChatFile> Files)> BuildAsync(
+        long roomId,
+        long senderId,
+        ChatMessageSplitOption messageSplitOption)
     {
-        return new ChatMessageCreateRequest
+        return messageSplitOption switch
         {
-            RoomId = RoomId,
-            SenderId = SenderId,
-            Type = Type,
-            Text = Text,
-            ReplyToMessageId = _replyMessage?.Id,
-            Files = SelectedChatFiles.Select(f => f.ToUploadModel()).ToList(),
-            TranslatedTexts = GetTranslatedTexts()
+            ChatMessageSplitOption.None => BuildSingleMessageAsync(roomId, senderId),
+            ChatMessageSplitOption.SplitTextAndDocument => BuildMultipleMessagesAsync(roomId, senderId),
+            _ => throw new NotSupportedException("The ChatMessageSplitOption value is not recognized.")
         };
     }
 
-    public ChatMessageEditRequest ToEditRequest()
+    private async Task<(IReadOnlyList<ChatMessage> Messages, IReadOnlyList<IBinaryChatFile> Files)> BuildMultipleMessagesAsync(
+        long roomId,
+        long senderId)
     {
-        if (_editMessage is null)
-            throw new InvalidOperationException("No message is being edited.");
+        var messages = new List<ChatMessage>();
 
-        return new ChatMessageEditRequest
+        var textMessage = new ChatMessage()
         {
-            MessageId = _editMessage.Id,
-            Text = Text,
-            Files = SelectedChatFiles.Select(f => f.ToUploadModel()).ToList(),
-            TranslatedTexts = GetTranslatedTexts()
+            Id = -1,
+            CreatedDate = DateTime.UtcNow,
+            RoomId = roomId,
+            SenderId = senderId,
+            ReplyToMessageId = Reply?.Id,
+            ReplyToMessage = Reply,
+            Type = ChatMessageType.Text,
+            Sections = [.. GetTranslatedTexts().Select(t => new ChatMessageSection()
+            {
+                Id = -1,
+                CreatedDate = DateTime.UtcNow,
+                CultureName = t.Key,
+                MessageId = -1,
+                Content = string.Join(Environment.NewLine, t.Value)
+            })]
         };
+
+        var fileMessages = new ChatMessage()
+        {
+            Id = -2,
+            CreatedDate = DateTime.UtcNow,
+            RoomId = roomId,
+            SenderId = senderId,
+            ReplyToMessageId = Reply?.Id,
+            ReplyToMessage = Reply,
+            Type = ChatMessageType.Files,
+            Sections = []
+        };
+
+        messages.Add(textMessage);
+        messages.Add(fileMessages);
+
+        var files = new List<IBinaryChatFile>();
+
+        foreach(var item in SelectedChatFiles)
+        {
+            var content = await item.GetDataAsync();
+            var file = new BinaryChatFile()
+            {
+                Id = -2,
+                MessageId = -2,
+                CreatedDate = DateTime.UtcNow,
+                Name = item.Name,
+                Content = content,
+                Length = content.Length,
+                ContentType = item.ContentType
+            };
+
+            files.Add(file);
+        }
+
+        return (messages, files);
     }
-  */
+
+    private async Task<(IReadOnlyList<ChatMessage> Messages, IReadOnlyList<IBinaryChatFile> Files)> BuildSingleMessageAsync(
+        long roomId,
+        long senderId)
+    {
+        var type = ChatMessageType.None;
+        var texts = GetTranslatedTexts();
+
+        if (texts.Count > 0)
+        {
+            type |= ChatMessageType.Text;
+        }
+
+        if (SelectedChatFiles.Count > 0)
+        {
+            type |= ChatMessageType.Files;
+        }
+
+        var message = new ChatMessage()
+        {
+            Id = -1,
+            CreatedDate = DateTime.UtcNow,
+            RoomId = roomId,
+            SenderId = senderId,
+            ReplyToMessageId = Reply?.Id,
+            ReplyToMessage = Reply,
+            Type = type,
+            Sections = [.. texts.Select(t => new ChatMessageSection()
+            {
+                Id = -1,
+                CreatedDate = DateTime.UtcNow,
+                CultureName = t.Key,
+                MessageId = -1,
+                Content = string.Join(Environment.NewLine, t.Value)
+            })]
+        };
+
+        var files = new List<IBinaryChatFile>();
+
+        foreach(var item in SelectedChatFiles)
+        {
+            var content = await item.GetDataAsync();
+
+            var file = new BinaryChatFile()
+            {
+                Id = -1,
+                MessageId = -1,
+                CreatedDate = DateTime.UtcNow,
+                Name = item.Name,
+                Content = content,
+                Length = content.Length,
+                ContentType = item.ContentType
+            };
+
+            files.Add(file);
+        }
+
+        return ([message], files);
+    }
 }

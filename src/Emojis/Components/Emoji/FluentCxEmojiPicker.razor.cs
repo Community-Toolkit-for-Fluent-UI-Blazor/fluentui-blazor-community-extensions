@@ -20,6 +20,18 @@ public partial class FluentCxEmojiPicker : FluentComponentBase
     private bool _isCultureChanged;
     private Virtualize<EmojiRow>? _virtualize;
     private readonly EmojiStore _emojiStore = new();
+    private static readonly Dictionary<string, Emoji> s_cachedEmojis = new()
+    {
+        ["Smileys & Emotion"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.SmileysEmotion.Color.Default.GrinningFace(),
+        ["Animals & Nature"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.AnimalsNature.Color.Default.DogFace(),
+        ["Food & Drink"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.FoodDrink.Color.Default.Hamburger(),
+        ["Activities"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.Activities.Color.Default.Baseball(),
+        ["Travel & Places"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.TravelPlaces.Color.Default.Airplane(),
+        ["Objects"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.Objects.Color.Default.LightBulb(),
+        ["Symbols"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.SmileysEmotion.Color.Default.RedHeart(),
+        ["Flags"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.Flags.Color.Default.RainbowFlag(),
+        ["People & Body"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.PeopleBody.Color.Medium.Artist(),
+    };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluentCxEmojiPicker"/> class.
@@ -51,9 +63,13 @@ public partial class FluentCxEmojiPicker : FluentComponentBase
     /// <summary>
     /// Gets the internal CSS style string for the component.
     /// </summary>
+    private string? InternalStyle => new StyleBuilder()
+        .AddStyle("font-family", FontFamily)
+        .AddStyle("font-size", "32px")
+        .Build();
+
     private string? InternalFontFamilyStyle => new StyleBuilder()
         .AddStyle("font-family", FontFamily)
-        .AddStyle("font-size", "24px")
         .Build();
 
     /// <summary>
@@ -200,5 +216,15 @@ public partial class FluentCxEmojiPicker : FluentComponentBase
         var items = _rows.Skip(request.StartIndex).Take(request.Count).ToList();
 
         return ValueTask.FromResult(new ItemsProviderResult<EmojiRow>(items, _rows.Count));
+    }
+
+    private static Emoji GetEmojiFromCategory(string category)
+    {
+        if (s_cachedEmojis.TryGetValue(category, out var value))
+        {
+            return value;
+        }
+
+        throw new NotSupportedException($"Unsupported category: {category}");
     }
 }

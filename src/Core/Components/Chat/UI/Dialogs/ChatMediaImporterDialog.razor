@@ -2,18 +2,18 @@
 @inherits FluentComponentBase
 
 <FluentDialogBody>
-    <FluentStack Orientation="Orientation.Vertical">
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px">
         <FluentButton Style="width: 100%"
                       Shape="ButtonShape.Circular"
                       OnClick="@(() => OnCloseAsync(ChatMediaImporterDialogResult.Cloud))"
-                      IconStart="@(new Size20.Cloud())">
+                      IconStart="@(new Size20.Cloud().WithColor(Color.Primary))">
             @Localizer[LanguageResource.CX_Chat_Message_Import_SelectFromCloudDrive]
         </FluentButton>
 
         <FluentButton Style="width: 100%"
                       Shape="ButtonShape.Circular"
                       OnClick="@(() => OnCloseAsync(ChatMediaImporterDialogResult.Local))"
-                      IconStart="@(new Size20.HardDrive())">
+                      IconStart="@(new Size20.HardDrive().WithColor(Color.Primary))">
             @Localizer[LanguageResource.CX_Chat_Message_Import_SelectFromHardDrive]
         </FluentButton>
     </FluentStack>

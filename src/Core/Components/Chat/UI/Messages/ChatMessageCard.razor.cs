@@ -1,3 +1,4 @@
+using System.Globalization;
 using FluentUI.Blazor.Community.Components.Chat;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Components.Chat;
@@ -17,6 +18,11 @@ public partial class ChatMessageCard
     : FluentComponentBase
 {
     #region Fields
+
+    /// <summary>
+    /// Value indicating if the emoji popover is visible or not.
+    /// </summary>
+    private bool _isEmojiPopoverVisible;
 
     /// <summary>
     /// Represents the fragment to render the avatar.
@@ -59,6 +65,11 @@ public partial class ChatMessageCard
     private readonly RenderFragment _renderFooter;
 
     /// <summary>
+    /// Represents the fragment to render a header.
+    /// </summary>
+    private readonly RenderFragment _renderHeader;
+
+    /// <summary>
     /// Represents the fragment to render the text.
     /// </summary>
     private readonly RenderFragment _renderText;
@@ -79,9 +90,14 @@ public partial class ChatMessageCard
     private readonly RenderFragment _renderDeletedMessage;
 
     /// <summary>
-    /// Represents a value indicating if a click on the card is prevented if the click is on a button inside the card.
+    /// Represents the culture info of the owner of the message, used for formatting the date of the message.
     /// </summary>
-    private bool _preventTapped;
+    private CultureInfo _ownerCultureInfo = CultureInfo.CurrentCulture;
+
+    /// <summary>
+    /// Value indicating if the owner of the message has changed, used to update the culture info of the owner.
+    /// </summary>
+    private bool _hasOwnerChanged;
 
     #endregion Fields
 
@@ -185,6 +201,18 @@ public partial class ChatMessageCard
     public EmojiSettings EmojiDialogSettings { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets a value indicating if the react feature is enabled.
+    /// </summary>
+    [Parameter]
+    public bool ReactEnabled { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the provider used to get the font family for rendering emojis.
+    /// </summary>
+    [Parameter]
+    public IEmojiFontProvider EmojiFontProvider { get; set; } = new MicrosoftEmojiProvider();
+
+    /// <summary>
     /// Gets the CSS font-family string to use for rendering emojis, combining the specified emoji font family and fallback font family.
     /// </summary>
     private string FontFamily => $"{EmojiDialogSettings.FontProvider.FontFamily}, {EmojiDialogSettings.FontProvider.FallbackFontFamily}";
@@ -200,9 +228,43 @@ public partial class ChatMessageCard
         .AddStyle("font-size", "18px")
         .Build();
 
+    /// <summary>
+    /// Gets the formatted date message to show at the bottom of the message.
+    /// </summary>
+    private string? FormattedDateMessage => Message?.CreatedDate.DateTime.ToString("F", _ownerCultureInfo);
+
     #endregion Properties
 
     #region Methods
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (Message is not null)
+        {
+            DynamicState.SetPinState(Message.Id, Message.IsPinned);
+        }
+    }
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _hasOwnerChanged = parameters.TryGetValue<ChatUser>(nameof(Owner), out var newOwner) && !Equals(newOwner, Owner);
+        return base.SetParametersAsync(parameters);
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (_hasOwnerChanged && !string.IsNullOrEmpty(Owner?.CultureName))
+        {
+            _ownerCultureInfo = CultureInfo.GetCultureInfo(Owner.CultureName);
+        }
+    }
 
     /// <summary>
     /// Occurs when the message is pinned or unpinned.
@@ -211,33 +273,22 @@ public partial class ChatMessageCard
     /// <returns>Returns a task which pin or unpin the message when completed.</returns>
     private async Task OnPinOrUnpinAsync(bool pin)
     {
-        if (PinOrUnpin.HasDelegate)
+        if (Message is not null && PinOrUnpin.HasDelegate)
         {
             await PinOrUnpin.InvokeAsync(new(Message!, pin));
+            DynamicState.SetPinState(Message.Id, pin);
+            await InvokeAsync(StateHasChanged);
         }
     }
 
     /// <summary>
-    /// Shows the <see cref="EmojiPickerDialog"/> in an asynchronous way.
+    /// Occurs when a react occurs on the message.
     /// </summary>
-    /// <returns>Returns a task which show the explorer and react on the message if not cancelled.</returns>
-    private async Task OnShowEmojiExplorerAsync()
+    /// <param name="emoji">The emoji that was added as a reaction.</param>
+    /// <returns>Returns a task which adds the emoji reaction when completed.</returns>
+    private async Task OnAddEmojiAsync(FluentCxEmoji emoji)
     {
-        var panelResult = await DialogService.ShowDrawerAsync<EmojiPickerDialog>(a =>
-        {
-            a.Header.Title = Localizer[LanguageResource.CX_Chat_EmokiPicker_Dialog_Title];
-            a.Size = DialogSize.Small;
-            a.Parameters.Add(nameof(EmojiPickerDialog.FontProvider), EmojiDialogSettings.FontProvider);
-            a.Parameters.Add(nameof(EmojiPickerDialog.EmojisPerRow), EmojiDialogSettings.EmojisPerRow);
-        });
-
-        if (panelResult.Cancelled)
-        {
-            return;
-        }
-
-        if (panelResult.Value is not FluentCxEmoji emoji ||
-            Message is null ||
+        if (Message is null ||
             !React.HasDelegate)
         {
             return;
@@ -252,12 +303,6 @@ public partial class ChatMessageCard
     /// <returns>Returns a task which raise the <see cref="Tapped"/> callback if not prevented.</returns>
     private async Task OnTappedAsync()
     {
-        if (_preventTapped)
-        {
-            _preventTapped = false;
-            return;
-        }
-
         if (Tapped.HasDelegate)
         {
             await Tapped.InvokeAsync(Message);
@@ -313,7 +358,8 @@ public partial class ChatMessageCard
             Localizer[LanguageResource.CX_Chat_Message_DialogNo]
         );
 
-        if (!dialog.Cancelled && Delete.HasDelegate)
+        if (!dialog.Cancelled &&
+            Delete.HasDelegate)
         {
             await Delete.InvokeAsync(Message);
         }
@@ -327,11 +373,15 @@ public partial class ChatMessageCard
     {
         var section = Message?.ReplyToMessage?.Sections.FirstOrDefault(x => x.CultureId == Owner?.CultureId);
 
-        section ??= Message?.ReplyToMessage?.Sections[0];
+        section ??= Message?.ReplyToMessage?.Sections.Count > 0 ? Message?.ReplyToMessage?.Sections[0] : null;
 
         return section?.Content;
     }
 
+    /// <summary>
+    /// Retrieves the reactions of the message.
+    /// </summary>
+    /// <returns>Returns the reactions of the message.</returns>
     private IReadOnlyList<ChatMessageReaction> GetReactions()
     {
         if (Message is null ||
@@ -343,6 +393,10 @@ public partial class ChatMessageCard
         return DynamicState.GetReactions(ChatState.Room, Message.Id);
     }
 
+    /// <summary>
+    /// Retrieves the read state of the message.
+    /// </summary>
+    /// <returns>Returns the read state of the message.</returns>
     private ChatMessageReadState GetReadState()
     {
         if (Message is null ||
@@ -353,25 +407,6 @@ public partial class ChatMessageCard
 
         return DynamicState.GetReadState(ChatState.Room, Message.Id);
     }
-
-    /*  /// <summary>
-      /// Gets the number of documents visible on the message.
-      /// </summary>
-      /// <returns></returns>
-      private int GetDocumentVisibleCount()
-      {
-          if (DeviceInfoState is null ||
-              DeviceInfoState.DeviceInfo is null)
-          {
-              return 4;
-          }
-
-          return DeviceInfoState.DeviceInfo.Mobile switch
-          {
-              Mobile.UnknownMobileDevice or Mobile.NotMobileDevice => 5,
-              _ => 4,
-          };
-      }*/
 
     #endregion Methods
 }

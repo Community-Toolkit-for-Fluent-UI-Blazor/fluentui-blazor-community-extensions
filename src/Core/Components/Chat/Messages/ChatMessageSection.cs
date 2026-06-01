@@ -21,6 +21,11 @@ public record ChatMessageSection
     public long CultureId { get; set; }
 
     /// <summary>
+    /// Gets or sets the name of the culture.
+    /// </summary>
+    public string? CultureName { get; set; }
+
+    /// <summary>
     /// Gets or sets the content of the section.
     /// </summary>
     public string? Content { get; set; }

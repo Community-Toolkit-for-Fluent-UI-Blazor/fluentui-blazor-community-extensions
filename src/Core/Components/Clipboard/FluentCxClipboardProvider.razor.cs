@@ -1,9 +1,10 @@
+using FluentUI.Blazor.Community.Components.Clipboard;
 using FluentUI.Blazor.Community.Components.Components.Base;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace FluentUI.Blazor.Community.Components.Clipboard;
+namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
 /// Represents a provider component for clipboard functionality within the Fluent UI Blazor Community library.

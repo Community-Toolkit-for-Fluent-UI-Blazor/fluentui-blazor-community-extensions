@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Components.Chat.Room;
+namespace FluentUI.Blazor.Community.Components.Enums;
 
 /// <summary>
 /// Represents the capabilities of a chat room, such as whether it can be blocked, deleted, or hidden.

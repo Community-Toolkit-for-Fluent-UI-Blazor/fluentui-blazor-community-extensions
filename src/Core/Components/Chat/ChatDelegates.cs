@@ -30,18 +30,18 @@ public delegate ValueTask<IReadOnlyList<ChatMessage>> ChatMessageItemCollectionP
 /// <param name="request">The request containing the criteria for retrieving chat message user states.</param>
 /// <returns>Returns a task that represents the asynchronous operation. The task result contains a dictionary mapping message identifiers
 /// to their associated user states.</returns>
-public delegate ValueTask<IReadOnlyDictionary<long, IReadOnlyList<ChatMessageUserState>>> ChatMessageUserStateProvider(ChatMessageUserStateRequest request);
+public delegate ValueTask<IReadOnlyList<ChatMessageUserState>> ChatMessageUserStateProvider(ChatMessageUserStateRequest request);
 
 /// <summary>
 /// Represents an asynchronous operation that retrieves a collection of chat files associated with chat messages.
 /// </summary>
 /// <param name="request">The request containing the parameters for retrieving the chat message files.</param>
 /// <returns>Returns a task that represents the asynchronous operation. The task result contains a dictionary mapping message identifiers to their associated chat files.</returns>
-public delegate ValueTask<IReadOnlyDictionary<long, IReadOnlyList<IChatFile>>> ChatMessageFileCollectionProvider(ChatMessageFileCollectionRequest request);
+public delegate ValueTask<IReadOnlyList<IChatFile>> ChatMessageFileCollectionProvider(ChatMessageFileCollectionRequest request);
 
 /// <summary>
 /// Represents a delegate that retrieves collections of chat message reactions grouped by identifier.
 /// </summary>
 /// <param name="request">The request containing parameters for retrieving the reaction collections.</param>
 /// <returns>A dictionary mapping identifiers to read-only collections of chat message reactions.</returns>
-public delegate ValueTask<IReadOnlyDictionary<long, IReadOnlyList<ChatMessageReaction>>> ChatMessageReactionCollectionProvider(ChatMessageReactionCollectionRequest request);
+public delegate ValueTask<IReadOnlyList<ChatMessageReaction>> ChatMessageReactionCollectionProvider(ChatMessageReactionCollectionRequest request);

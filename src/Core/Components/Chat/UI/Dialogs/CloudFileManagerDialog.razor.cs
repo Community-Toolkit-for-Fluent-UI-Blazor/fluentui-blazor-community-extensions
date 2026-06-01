@@ -14,10 +14,10 @@ public partial class CloudFileManagerDialog<TItem>
     private FluentCxFileManager<TItem>? _fileManager;
 
     /// <summary>
-    /// Gets or sets the file provider responsible for handling file operations.
+    /// Gets or sets the file provider that supplies the files to be displayed in the file manager. 
     /// </summary>
-    [Parameter]
-    public IFileProvider<TItem> Provider { get; set; } = default!;
+    [Inject]
+    private IFileProvider<TItem> Provider { get; set; } = default!;
 
     /// <inheritdoc />
     protected override Task OnActionClickedAsync(bool primary)

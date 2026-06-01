@@ -40,6 +40,7 @@ public static class ServiceCollectionExtensions
                        .AddScoped<IClipboard, Clipboard.Clipboard>()
                        .AddScoped<FileManagerState>()
                        .AddScoped<IFileDownloader, FileDownloader>()
+                       .AddScoped<IFileUploader, FileUploader>()
                        .AddScoped(typeof(IFileEntryZipService<>), typeof(DefaultFileEntryZipService<>))
                        .AddScoped<SlideshowState>()
                        .AddScoped<ChatRoomState>()

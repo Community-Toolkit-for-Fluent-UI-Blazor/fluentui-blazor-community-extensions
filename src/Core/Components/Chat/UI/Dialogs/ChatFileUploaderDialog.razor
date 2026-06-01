@@ -4,7 +4,7 @@
 <FluentDialogBody>
     <TitleTemplate>
         <FluentStack VerticalAlignment="VerticalAlignment.Center">
-            <FluentIcon Value="@(new Size24.HardDrive())" />
+            <FluentIcon Value="@(new Size24.HardDrive().WithColor(Color.Primary))" />
 
             <FluentText Size="TextSize.Size700">
                 @Dialog.Options.Header.Title
@@ -25,7 +25,7 @@
                          ProgressTemplate="@_progressTemplate">
             <ChildContent>
                 <label for="@Id">
-                    <FluentIcon Value="@(new Size24.ArrowUpload())" />
+                    <FluentIcon Value="@(new Size24.ArrowUpload().WithColor(Color.Primary))" />
                 </label>
 
                 <div>
@@ -37,19 +37,25 @@
         <div style="height: 140px; overflow-y: auto">
             @foreach (var item in _hardUploadedEventArgsList)
             {
-                <FluentCard Height="75px" Margin="@(Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical1)">
+                <FluentCard Margin="@(Microsoft.FluentUI.AspNetCore.Components.Margin.Vertical1)">
                     <FluentStack VerticalAlignment="VerticalAlignment.Center">
                         <FluentIcon Value="@(FileIcons.GetIcon(Path.GetExtension(item.Name), FileView.SmallIcons))" />
 
-                        <FluentStack Orientation="Orientation.Vertical">
-                            <FluentLabel>@item.Name</FluentLabel>
-                            <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
+                        <FluentStack Orientation="Orientation.Vertical" Margin="@Microsoft.FluentUI.AspNetCore.Components.Margin.Horizontal2">
+                            <FluentText Truncate Weight="TextWeight.Semibold">
+                                @item.Name
+                            </FluentText>
+                            <FluentText Size="TextSize.Size200"
+                                        Color="@Color.Custom"
+                                        CustomColor="@SystemColors.Neutral.Foreground3">
                                 @ByteSize.FromBytes(item.GetLength()).ToString()
-                            </FluentLabel>
+                            </FluentText>
                         </FluentStack>
 
                         <FluentButton OnClick="@(() => _hardUploadedEventArgsList.Remove(item))"
-                                      IconStart="@(new Size24.Delete())" />
+                                      IconStart="@(new Size24.Delete())"
+                                      Appearance="ButtonAppearance.Subtle"
+                                      IconOnly="true" />
                     </FluentStack>
                 </FluentCard>
             }
@@ -63,8 +69,7 @@
             @Localizer[LanguageResource.CX_Chat_Message_Import_DialogOK]
         </FluentButton>
 
-        <FluentButton OnClick="@OnCancelAsync"
-                      Disabled="@(_hardUploadedEventArgsList.Count == 0)">
+        <FluentButton OnClick="@OnCancelAsync">
             @Localizer[LanguageResource.CX_Chat_Message_Import_DialogCancel]
         </FluentButton>
     </ActionTemplate>

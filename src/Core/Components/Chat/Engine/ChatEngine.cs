@@ -89,20 +89,28 @@ internal sealed class ChatEngine
         return this;
     }
 
-    public ChatEngine SetFilesProvider(ChatMessageFileCollectionProvider? provider)
+    public ChatEngine SetFilesProvider(
+        ChatMessageFileCollectionProvider? provider,
+        bool condition)
     {
-        ArgumentNullException.ThrowIfNull(provider);
-
-        _getFiles = provider;
+        if (condition)
+        {
+            ArgumentNullException.ThrowIfNull(provider);
+            _getFiles = provider;
+        }
 
         return this;
     }
 
-    public ChatEngine SetReactionsProvider(ChatMessageReactionCollectionProvider? provider)
+    public ChatEngine SetReactionsProvider(
+        ChatMessageReactionCollectionProvider? provider,
+        bool condition)
     {
-        ArgumentNullException.ThrowIfNull(provider);
-
-        _getReactions = provider;
+        if (condition)
+        {
+            ArgumentNullException.ThrowIfNull(provider);
+            _getReactions = provider;
+        }
 
         return this;
     }
@@ -320,11 +328,15 @@ internal sealed class ChatEngine
             return;
         }
 
-        _dynamicState.SetReactions(room, messageId, [new ChatMessageReaction
+        var list = _dynamicState.GetReactions(room, messageId)?.ToList() ?? [];
+        list.Add(new ChatMessageReaction
         {
+            MessageId = messageId,
             UserReactedById = userId,
             Emoji = reaction
-        }]);
+        });
+
+        _dynamicState.SetReactions(room, messageId, list);
     }
 
     private async Task HandleRoomCreatedAsync(JsonElement payload)
@@ -363,12 +375,28 @@ internal sealed class ChatEngine
             return;
         }
 
-        var filesDict = new Dictionary<long, IReadOnlyList<IChatFile>>();
-        var reactionsDict = new Dictionary<long, IReadOnlyList<ChatMessageReaction>>();
+        var filesDict = new Dictionary<long, List<IChatFile>>();
+        var reactionsDict = new Dictionary<long, List<ChatMessageReaction>>();
+        var readStatesDict = new Dictionary<long, List<ChatMessageUserState>>();
 
         using var cts = new CancellationTokenSource();
         var messages = await _getMessagesByIds(new(room.Id, messageIds, cts.Token));
-        var readStatesDict = await _getReadStates(new(room.Id, messageIds, cts.Token));
+
+        if (_getReadStates is not null)
+        {
+            var result = await _getReadStates(new(room.Id, messageIds, cts.Token));
+
+            foreach (var item in result)
+            {
+                if (!readStatesDict.TryGetValue(item.MessageId, out var list))
+                {
+                    list = [];
+                    readStatesDict[item.MessageId] = list;
+                }
+
+                readStatesDict[item.MessageId].Add(item);
+            }
+        }
 
         if (_getFiles is not null)
         {
@@ -376,7 +404,13 @@ internal sealed class ChatEngine
 
             foreach (var item in result)
             {
-                filesDict[item.Key] = item.Value;
+                if (!filesDict.TryGetValue(item.MessageId, out var list))
+                {
+                    list = [];
+                    filesDict[item.MessageId] = list;
+                }
+
+                filesDict[item.MessageId].Add(item);
             }
         }
 
@@ -386,7 +420,13 @@ internal sealed class ChatEngine
 
             foreach (var item in result)
             {
-                reactionsDict[item.Key] = item.Value;
+                if (!reactionsDict.TryGetValue(item.MessageId, out var list))
+                {
+                    list = [];
+                    reactionsDict[item.MessageId] = list;
+                }
+
+                reactionsDict[item.MessageId].Add(item);
             }
         }
 
@@ -483,7 +523,24 @@ internal sealed class ChatEngine
             return;
         }
 
-        var readStatesDict = await _getReadStates(new(room.Id, [messageId], cts.Token));
+        var readStatesDict = new Dictionary<long, List<ChatMessageUserState>>();
+
+        if (_getReadStates is not null)
+        {
+            var result = await _getReadStates(new(room.Id, [messageId], cts.Token));
+
+            foreach (var item in result)
+            {
+                if (!readStatesDict.TryGetValue(item.MessageId, out var list))
+                {
+                    list = [];
+                    readStatesDict[item.MessageId] = list;
+                }
+
+                readStatesDict[item.MessageId].Add(item);
+            }
+        }
+
         var userStates = readStatesDict.TryGetValue(messageId, out var s) ? s : [];
         var users = _roomDynamicState.GetUsers(room.Id);
 
@@ -544,7 +601,24 @@ internal sealed class ChatEngine
         }
 
         using var cts = new CancellationTokenSource();
-        var readStatesDict = await _getReadStates(new(room.Id, [messageId], cts.Token));
+        var readStatesDict = new Dictionary<long, List<ChatMessageUserState>>();
+
+        if (_getReadStates is not null)
+        {
+            var result = await _getReadStates(new(room.Id, [messageId], cts.Token));
+
+            foreach (var item in result)
+            {
+                if (!readStatesDict.TryGetValue(item.MessageId, out var list))
+                {
+                    list = [];
+                    readStatesDict[item.MessageId] = list;
+                }
+
+                readStatesDict[item.MessageId].Add(item);
+            }
+        }
+
         var userStates = readStatesDict.TryGetValue(messageId, out var s) ? s : [];
         var users = _roomDynamicState.GetUsers(room.Id);
         var readState = ChatMessageReadStateCalculator.Compute(
