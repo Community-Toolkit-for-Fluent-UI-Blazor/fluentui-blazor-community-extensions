@@ -91,12 +91,16 @@
     {
         Id = Identifier.NewId();
 
+        _tappedCallback = EventCallback.Factory.Create(this, OnTappedAsync);
+
         _renderHeader = __builder =>
         {
-            <FluentStack HorizontalAlignment="HorizontalAlignment.Left">
+            <FluentStack HorizontalGap="8px" HorizontalAlignment="HorizontalAlignment.Left">
                 <FluentText Size="TextSize.Size200">
                     @FormattedDateMessage
                 </FluentText>
+
+                <FluentSpacer />
 
                 @if (Message!.EditedDate.HasValue)
                 {
@@ -104,8 +108,6 @@
                         @Localizer[LanguageResource.CX_Chat_Message_Edited]
                     </FluentText>
                 }
-
-                <FluentSpacer />
 
                 @_renderReadState
             </FluentStack>
@@ -187,39 +189,11 @@
 
         _renderFooter = __builder =>
         {
-            if (Message!.SenderId == Owner!.Id)
-            {
-                <FluentStack HorizontalGap="8px">
-                    @_renderEmojiButton
-                    @_renderReactions
-                </FluentStack>
 
-            }
-            else
-            {
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="4px">
-                    <FluentStack HorizontalGap="8px">
-                        @_renderEmojiButton
-                        @_renderReactions
-                    </FluentStack>
-                    <FluentStack>
-                        @_renderReadState
-
-                        <FluentSpacer />
-
-                        @if (Message!.EditedDate.HasValue)
-                        {
-                            <FluentText Size="TextSize.Size200">
-                                @Localizer[LanguageResource.CX_Chat_Message_Edited]
-                            </FluentText>
-                        }
-
-                        <FluentText Size="TextSize.Size200">
-                            @FormattedDateMessage
-                        </FluentText>
-                    </FluentStack>
-                </FluentStack>
-            }
+            <FluentStack HorizontalGap="8px">
+                @_renderEmojiButton
+                @_renderReactions
+            </FluentStack>
         };
 
         _renderGift = __builder =>
@@ -272,74 +246,27 @@
 
         _renderMessage = __builder =>
         {
-            var type = Message!.Type;
+            <FluentStack Orientation="Orientation.Vertical">
+                @if (Message!.ReplyToMessageId.HasValue)
+                {
+                    <ChatMessageReply InsideCard Text="@GetReplyText()" />
+                }
 
-            if (type == ChatMessageType.Text)
-            {
-                <FluentStack Orientation="Orientation.Vertical">
-                    @if (Message!.ReplyToMessageId.HasValue)
-                    {
-                        <ChatMessageReply InsideCard Text="@GetReplyText()" />
-                    }
-
+                @if (Message.Type.HasFlag(ChatMessageType.Text))
+                {
                     @_renderText
-                </FluentStack>
+                }
 
-            }
-            else if (type == ChatMessageType.Files)
-            {
-                <FluentStack Orientation="Orientation.Vertical">
-                    @if (Message!.ReplyToMessageId.HasValue)
-                    {
-                        <FluentMessageBar Intent="MessageBarIntent.Custom"
-                                          AllowDismiss=false
-                                          Icon="@(new Size24.ArrowReply())">
-                            @Localizer[LanguageResource.CX_Chat_Message_ReplyFromDocumentOnly]
-                        </FluentMessageBar>
-                    }
-
-                    <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
-                        @_renderDocument
-                    </FluentStack>
-                </FluentStack>
-            }
-            else if (type == ChatMessageType.Gift)
-            {
-                <FluentStack Orientation="Orientation.Vertical">
-                    @if (Message!.ReplyToMessageId.HasValue)
-                    {
-                        <FluentMessageBar Intent="MessageBarIntent.Custom"
-                                          Icon="@(new Size24.ArrowReply())"
-                                          AllowDismiss=false>
-                            @Localizer[LanguageResource.CX_Chat_Message_ReplyFromGiftOnly]
-                        </FluentMessageBar>
-                    }
-
-                    @_renderGift
-                </FluentStack>
-            }
-            else
-            {
-                <FluentStack>
-                    <FluentStack Orientation="Orientation.Vertical">
-                        @if (Message!.ReplyToMessageId.HasValue)
-                        {
-                            <FluentMessageBar Intent="MessageBarIntent.Custom"
-                                              Icon="@(new Size24.ArrowReply())"
-                                              AllowDismiss=false>
-                                @GetReplyText()
-                            </FluentMessageBar>
-                        }
-
-                        @_renderText
-                    </FluentStack>
-
-                   
+                @if (Message.Type.HasFlag(ChatMessageType.Files))
+                {
                     @_renderDocument
+                }
 
+                @if (Message.Type.HasFlag(ChatMessageType.Gift))
+                {
                     @_renderGift
-                </FluentStack>
-            }
+                }
+            </FluentStack>
         };
 
         _renderEmojiButton = __builder =>
@@ -393,7 +320,7 @@
 
         _renderCard = __builder =>
         {
-            <FluentCard OnClick="@OnTappedAsync">
+            <FluentCard OnClick="@GetTappedCallback()">
                 @_renderMessage
             </FluentCard>
         };

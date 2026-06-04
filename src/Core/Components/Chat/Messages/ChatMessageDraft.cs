@@ -1,5 +1,7 @@
 using FluentUI.Blazor.Community.Components.Chat.Files;
 using FluentUI.Blazor.Community.Components.Enums;
+using FluentUI.Blazor.Community.Components.Localization;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace FluentUI.Blazor.Community.Components.Chat.Messages;
 
@@ -104,20 +106,35 @@ public sealed class ChatMessageDraft
     /// Gets the replied message from the culture of the owner.
     /// </summary>
     /// <param name="owner">Owner of the message to reply.</param>
+    /// <param name="localizer">Localizer to get the default reply text.</param>
     /// <returns>Returns the reply message of the owner.</returns>
-    internal string? GetReplyText(ChatUser? owner)
+    internal string? GetReplyText(ChatUser? owner, IFluentLocalizer localizer)
     {
-        if (_replyMessage is null ||
-            _replyMessage.Sections.Count == 0)
+        if (_replyMessage is null)
         {
             return null;
         }
 
-        var cultureId = owner?.CultureId;
+        if (_replyMessage.Type == ChatMessageType.Text)
+        {
+            var section = _replyMessage.Sections.FirstOrDefault(x => x.CultureId == owner?.CultureId);
 
-        var section = _replyMessage.Sections.FirstOrDefault(s => s.CultureId == cultureId) ?? _replyMessage.Sections[0];
+            section ??= _replyMessage.Sections.Count > 0 ? _replyMessage.Sections[0] : null;
 
-        return section?.Content;
+            return section?.Content;
+        }
+        else if (_replyMessage.Type == ChatMessageType.Files)
+        {
+            return localizer[LanguageResource.CX_Chat_Message_ReplyFromDocumentOnly];
+        }
+        else if (_replyMessage.Type == ChatMessageType.Gift)
+        {
+            return localizer[LanguageResource.CX_Chat_Message_ReplyFromGiftOnly];
+        }
+        else
+        {
+            return localizer[LanguageResource.CX_Chat_Message_ReplyFromMultipleSources];
+        }
     }
 
     /// <summary>
@@ -142,20 +159,20 @@ public sealed class ChatMessageDraft
 
     internal Task<(IReadOnlyList<ChatMessage> Messages, IReadOnlyList<IBinaryChatFile> Files)> BuildAsync(
         long roomId,
-        long senderId,
+        ChatUser sender,
         ChatMessageSplitOption messageSplitOption)
     {
         return messageSplitOption switch
         {
-            ChatMessageSplitOption.None => BuildSingleMessageAsync(roomId, senderId),
-            ChatMessageSplitOption.SplitTextAndDocument => BuildMultipleMessagesAsync(roomId, senderId),
+            ChatMessageSplitOption.None => BuildSingleMessageAsync(roomId, sender),
+            ChatMessageSplitOption.SplitTextAndDocument => BuildMultipleMessagesAsync(roomId, sender),
             _ => throw new NotSupportedException("The ChatMessageSplitOption value is not recognized.")
         };
     }
 
     private async Task<(IReadOnlyList<ChatMessage> Messages, IReadOnlyList<IBinaryChatFile> Files)> BuildMultipleMessagesAsync(
         long roomId,
-        long senderId)
+        ChatUser sender)
     {
         var messages = new List<ChatMessage>();
 
@@ -164,7 +181,7 @@ public sealed class ChatMessageDraft
             Id = -1,
             CreatedDate = DateTime.UtcNow,
             RoomId = roomId,
-            SenderId = senderId,
+            SenderId = sender.Id,
             ReplyToMessageId = Reply?.Id,
             ReplyToMessage = Reply,
             Type = ChatMessageType.Text,
@@ -173,6 +190,7 @@ public sealed class ChatMessageDraft
                 Id = -1,
                 CreatedDate = DateTime.UtcNow,
                 CultureName = t.Key,
+                CultureId = sender.CultureId,
                 MessageId = -1,
                 Content = string.Join(Environment.NewLine, t.Value)
             })]
@@ -183,7 +201,7 @@ public sealed class ChatMessageDraft
             Id = -2,
             CreatedDate = DateTime.UtcNow,
             RoomId = roomId,
-            SenderId = senderId,
+            SenderId = sender.Id,
             ReplyToMessageId = Reply?.Id,
             ReplyToMessage = Reply,
             Type = ChatMessageType.Files,
@@ -195,7 +213,7 @@ public sealed class ChatMessageDraft
 
         var files = new List<IBinaryChatFile>();
 
-        foreach(var item in SelectedChatFiles)
+        foreach (var item in SelectedChatFiles)
         {
             var content = await item.GetDataAsync();
             var file = new BinaryChatFile()
@@ -217,7 +235,7 @@ public sealed class ChatMessageDraft
 
     private async Task<(IReadOnlyList<ChatMessage> Messages, IReadOnlyList<IBinaryChatFile> Files)> BuildSingleMessageAsync(
         long roomId,
-        long senderId)
+        ChatUser sender)
     {
         var type = ChatMessageType.None;
         var texts = GetTranslatedTexts();
@@ -237,7 +255,7 @@ public sealed class ChatMessageDraft
             Id = -1,
             CreatedDate = DateTime.UtcNow,
             RoomId = roomId,
-            SenderId = senderId,
+            SenderId = sender.Id,
             ReplyToMessageId = Reply?.Id,
             ReplyToMessage = Reply,
             Type = type,
@@ -246,6 +264,7 @@ public sealed class ChatMessageDraft
                 Id = -1,
                 CreatedDate = DateTime.UtcNow,
                 CultureName = t.Key,
+                CultureId = sender.CultureId,
                 MessageId = -1,
                 Content = string.Join(Environment.NewLine, t.Value)
             })]
@@ -253,7 +272,7 @@ public sealed class ChatMessageDraft
 
         var files = new List<IBinaryChatFile>();
 
-        foreach(var item in SelectedChatFiles)
+        foreach (var item in SelectedChatFiles)
         {
             var content = await item.GetDataAsync();
 

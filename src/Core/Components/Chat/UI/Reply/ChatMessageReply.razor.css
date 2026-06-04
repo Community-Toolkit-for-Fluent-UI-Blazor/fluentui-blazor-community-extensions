@@ -23,6 +23,7 @@
 }
 
 .chat-reply-start-message {
+  color: var(--colorBrandForeground1);
   grid-column: 2;
 }
 
@@ -31,6 +32,7 @@
 }
 
 .chat-reply-end-message {
+  color: var(--colorBrandForeground1);
   grid-column: 4;
 }
 

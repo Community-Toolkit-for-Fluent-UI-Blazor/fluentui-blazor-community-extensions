@@ -99,6 +99,10 @@ public partial class ChatMessageCard
     /// </summary>
     private bool _hasOwnerChanged;
 
+    private readonly EventCallback _emptyCallback = EventCallback.Empty;
+
+    private readonly EventCallback _tappedCallback;
+
     #endregion Fields
 
     #region Properties
@@ -301,9 +305,20 @@ public partial class ChatMessageCard
     /// Occurs when the card is clicked.
     /// </summary>
     /// <returns>Returns a task which raise the <see cref="Tapped"/> callback if not prevented.</returns>
+    private EventCallback GetTappedCallback()
+    {
+        if (Message?.Type == ChatMessageType.Text)
+        {
+            return _emptyCallback;
+        }
+
+        return _tappedCallback;
+    }
+
     private async Task OnTappedAsync()
     {
-        if (Tapped.HasDelegate)
+        if (Message is not null &&
+            Tapped.HasDelegate)
         {
             await Tapped.InvokeAsync(Message);
         }
@@ -371,11 +386,33 @@ public partial class ChatMessageCard
     /// <returns>Returns the reply text.</returns>
     private string? GetReplyText()
     {
-        var section = Message?.ReplyToMessage?.Sections.FirstOrDefault(x => x.CultureId == Owner?.CultureId);
+        var msg = Message?.ReplyToMessage;
 
-        section ??= Message?.ReplyToMessage?.Sections.Count > 0 ? Message?.ReplyToMessage?.Sections[0] : null;
+        if (msg is null)
+        {
+            return null;
+        }
 
-        return section?.Content;
+        if (msg.Type == ChatMessageType.Text)
+        {
+            var section = Message?.ReplyToMessage?.Sections.FirstOrDefault(x => x.CultureId == Owner?.CultureId);
+
+            section ??= Message?.ReplyToMessage?.Sections.Count > 0 ? Message?.ReplyToMessage?.Sections[0] : null;
+
+            return section?.Content;
+        }
+        else if (msg.Type == ChatMessageType.Files)
+        {
+            return Localizer[LanguageResource.CX_Chat_Message_ReplyFromDocumentOnly];
+        }
+        else if (msg.Type == ChatMessageType.Gift)
+        {
+            return Localizer[LanguageResource.CX_Chat_Message_ReplyFromGiftOnly];
+        }
+        else
+        {
+            return Localizer[LanguageResource.CX_Chat_Message_ReplyFromMultipleSources];
+        }
     }
 
     /// <summary>

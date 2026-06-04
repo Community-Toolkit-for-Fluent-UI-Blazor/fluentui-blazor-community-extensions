@@ -696,4 +696,7 @@
   <data name="CX_Chat_Message_NoRoomSelected" xml:space="preserve">
     <value>No room selected.</value>
   </data>
+  <data name="CX_Chat_Message_ReplyFromMultipleSources" xml:space="preserve">
+    <value>This message contains many content sources.</value>
+  </data>
 </root>

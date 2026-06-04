@@ -1,40 +1,38 @@
 ﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs
 @inherits FluentDialogInstance
 
-<FluentDialogBody>
+<FluentDialogBody Id="@Id">
     <TitleTemplate>
         <FluentStack VerticalAlignment="VerticalAlignment.Center">
             <FluentIcon Value="@(new Size24.ContentView())" />
 
             <FluentText Size="TextSize.Size700">
-                @DialogInstance.Options.Header.Title
+                @Localizer[LanguageResource.CX_Chat_Message_Viewer_Title]
             </FluentText>
         </FluentStack>
     </TitleTemplate>
 
     <ChildContent>
-        <FluentCxSlideshow ShowControls=@ShowControls
-                           ShowIndicators=@ShowIndicators>
-            @if (Message is not null &&
-                 Message.Type.HasFlag(ChatMessageType.Files))
+        <FluentCxSlideshow ContentRatio="SlideshowContentRatio.Landscape"
+                           RatioMode="SlideshowRatioMode.Container"
+                           LoopMode="SlideshowLoopingMode.Infinite"
+                           IsTouchEnabled>
+            @if (_files.Count > 0)
             {
-                var files = GetFiles();
-
-                if (files.Count > 0)
+                foreach (var file in _files)
                 {
-                    foreach (var item in files.OfType<IUrlChatFile>())
-                    {
-                        <SlideshowItem>
-                            @if (item.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
-                            {
-                                <SlideshowImage Source="@item.Url" />
-                            }
-                            else if (item.ContentType.StartsWith("video/", StringComparison.OrdinalIgnoreCase))
-                            {
-                                <SlideshowVideo Source="@item.Url" />
-                            }
-                        </SlideshowItem>
-                    }
+                    var item = file;
+
+                    <SlideshowItem>
+                        @if (item.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <SlideshowImage Source="@item.Url" />
+                        }
+                        else if (item.ContentType.StartsWith("video/", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <SlideshowVideo Source="@item.Url" />
+                        }
+                    </SlideshowItem>
                 }
             }
         </FluentCxSlideshow>

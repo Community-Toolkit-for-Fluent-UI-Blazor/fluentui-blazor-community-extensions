@@ -384,7 +384,7 @@ internal sealed class ChatEngine
 
         if (_getReadStates is not null)
         {
-            var result = await _getReadStates(new(room.Id, messageIds, cts.Token));
+            var result = await _getReadStates(new(messageIds, cts.Token));
 
             foreach (var item in result)
             {
@@ -527,7 +527,7 @@ internal sealed class ChatEngine
 
         if (_getReadStates is not null)
         {
-            var result = await _getReadStates(new(room.Id, [messageId], cts.Token));
+            var result = await _getReadStates(new([messageId], cts.Token));
 
             foreach (var item in result)
             {
@@ -605,7 +605,7 @@ internal sealed class ChatEngine
 
         if (_getReadStates is not null)
         {
-            var result = await _getReadStates(new(room.Id, [messageId], cts.Token));
+            var result = await _getReadStates(new([messageId], cts.Token));
 
             foreach (var item in result)
             {

@@ -28,6 +28,11 @@ internal record ChatState
     public bool IsLoading { get; internal set; }
 
     /// <summary>
+    /// Gets if the room list is loading.
+    /// </summary>
+    public bool IsRoomLoading { get; internal set; }
+
+    /// <summary>
     /// Gets or sets the selected room.
     /// </summary>
     public ChatRoom? Room

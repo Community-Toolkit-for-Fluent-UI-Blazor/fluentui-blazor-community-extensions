@@ -20,17 +20,17 @@ public partial class FluentCxEmojiPicker : FluentComponentBase
     private bool _isCultureChanged;
     private Virtualize<EmojiRow>? _virtualize;
     private readonly EmojiStore _emojiStore = new();
-    private static readonly Dictionary<string, Emoji> s_cachedEmojis = new()
+    private static readonly Dictionary<string, string> s_cachedEmojis = new()
     {
-        ["Smileys & Emotion"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.SmileysEmotion.Color.Default.GrinningFace(),
-        ["Animals & Nature"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.AnimalsNature.Color.Default.DogFace(),
-        ["Food & Drink"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.FoodDrink.Color.Default.Hamburger(),
-        ["Activities"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.Activities.Color.Default.Baseball(),
-        ["Travel & Places"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.TravelPlaces.Color.Default.Airplane(),
-        ["Objects"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.Objects.Color.Default.LightBulb(),
-        ["Symbols"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.SmileysEmotion.Color.Default.RedHeart(),
-        ["Flags"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.Flags.Color.Default.RainbowFlag(),
-        ["People & Body"] = new Microsoft.FluentUI.AspNetCore.Components.Emojis.PeopleBody.Color.Medium.Artist(),
+        ["Smileys & Emotion"] = "😃",
+        ["Animals & Nature"] = "🦋",
+        ["Food & Drink"] = "🍋",
+        ["Activities"] = "⚾",
+        ["Travel & Places"] = "🛩️",
+        ["Objects"] = "💡",
+        ["Symbols"] = "🔣",
+        ["Flags"] = "🏳️",
+        ["People & Body"] = "🕴🏻",
     };
 
     /// <summary>
@@ -218,7 +218,7 @@ public partial class FluentCxEmojiPicker : FluentComponentBase
         return ValueTask.FromResult(new ItemsProviderResult<EmojiRow>(items, _rows.Count));
     }
 
-    private static Emoji GetEmojiFromCategory(string category)
+    private static string GetEmojiFromCategory(string category)
     {
         if (s_cachedEmojis.TryGetValue(category, out var value))
         {

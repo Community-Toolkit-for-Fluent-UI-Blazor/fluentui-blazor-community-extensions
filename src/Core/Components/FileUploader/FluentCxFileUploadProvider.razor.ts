@@ -1,4 +1,4 @@
-export namespace FluentUI.Blazor.Community.Components.FileDownloaderProvider {
+export namespace FluentUI.Blazor.Community.Components.FileUploaderProvider {
 
   interface FileBuffer {
     chunks: Uint8Array<ArrayBuffer>[];

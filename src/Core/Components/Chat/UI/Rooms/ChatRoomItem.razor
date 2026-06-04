@@ -57,9 +57,9 @@
                         </div>
 
                         <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
-                            <FluentLabel Style="color: var(--input-placeholder-rest); font-size: 9px;">
-                                @(_lastMessage?.CreatedDate.Date.ToShortDateString() ?? Room.CreatedDate.Date.ToShortDateString())
-                            </FluentLabel>
+                            <FluentText Size="TextSize.Size100">
+                                @(_lastMessage?.CreatedDate.DateTime.ToShortDateString() ?? Room.CreatedDate.DateTime.ToShortDateString())
+                            </FluentText>
                         </FluentStack>
                     </FluentStack>
                 </FluentStack>

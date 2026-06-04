@@ -41,6 +41,12 @@ public partial class FluentCxChat<TFile>
     public required ChatUser? Owner { get; set; }
 
     /// <summary>
+    /// Gets or sets the event callback that is invoked when the owner of the chat changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChatUser?> OwnerChanged { get; set; }
+
+    /// <summary>
     /// Gets or sets the capabilities of the chat room, such as whether it can be blocked, deleted, or hidden.
     /// </summary>
     [Parameter]

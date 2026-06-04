@@ -9,6 +9,7 @@ using FluentUI.Blazor.Community.Components.Components.Base;
 using FluentUI.Blazor.Community.Components.Infrastructure;
 using FluentUI.Blazor.Community.Components.Localization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
@@ -32,6 +33,11 @@ public partial class ChatRoomListView
         Hidden,
         Archived
     }
+
+    /// <summary>
+    /// Value indicating whether the owner of the chat room has changed, which is used to determine if the chat room list needs to be updated based on the new owner context.
+    /// </summary>
+    private bool _hasOwnerChanged;
 
     /// <summary>
     /// Represents the cancellation token source used for canceling ongoing operations when updating the chat room list.
@@ -72,6 +78,11 @@ public partial class ChatRoomListView
     /// Represents the list view type.
     /// </summary>
     private ListView _listView;
+
+    /// <summary>
+    /// Represents the virtualized component for rendering the chat rooms efficiently when there are a large number of rooms to display.
+    /// </summary>
+    private Virtualize<ChatRoom>? _virtualized;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatRoomListView"/> class with the specified library configuration.
@@ -172,6 +183,12 @@ public partial class ChatRoomListView
     /// </summary>
     [Parameter]
     public ChatUser? Owner { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback for when the owner of the chat room changes, allowing the component to update the displayed chat rooms based on the new owner context.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChatUser?> OwnerChanged { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the chat room can be deleted.
@@ -626,9 +643,7 @@ public partial class ChatRoomListView
         _cts = new CancellationTokenSource();
         var token = _cts.Token;
 
-        ChatState.IsLoading = true;
-        await InvokeAsync(StateHasChanged);
-
+        ChatState.IsRoomLoading = true;
         _chatRooms.Clear();
 
         if (ItemsProvider is not null)
@@ -723,7 +738,7 @@ public partial class ChatRoomListView
         }
 
         _selectedRoom = ChatState.Room is null ? "-1" : ChatState.Room.Id.ToString(CultureInfo.InvariantCulture);
-        ChatState.IsLoading = false;
+        ChatState.IsRoomLoading = false;
 
         await InvokeAsync(StateHasChanged);
     }
@@ -1100,7 +1115,7 @@ public partial class ChatRoomListView
         EventCallback<ChatRoom>? callback,
         bool clearRoom)
     {
-        ChatState.IsLoading = true;
+        ChatState.IsRoomLoading = true;
 
         if (applyChange is not null)
         {
@@ -1117,7 +1132,7 @@ public partial class ChatRoomListView
             ChatState.Room = null;
         }
 
-        ChatState.IsLoading = false;
+        ChatState.IsRoomLoading = false;
     }
 
     /// <inheritdoc />
@@ -1125,10 +1140,12 @@ public partial class ChatRoomListView
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (firstRender)
+        if (!firstRender)
         {
-            await LoadChatRoomsAsync();
+            return;
         }
+
+        await LoadChatRoomsAsync();
     }
 
     /// <summary>
@@ -1182,10 +1199,10 @@ public partial class ChatRoomListView
     }
 
     /// <summary>
-    /// Gets the available popover actions for the current chat room based on the list view and user permissions.
+    /// Gets the available more menu actions for the current chat room based on the list view and user permissions.
     /// </summary>
     /// <returns>A collection of chat room actions available for the current context.</returns>
-    private IEnumerable<ChatRoomAction> GetPopoverActions()
+    private IEnumerable<ChatRoomAction> GetMoreMenuActions()
     {
         if (ChatState.Room is null)
         {
@@ -1434,5 +1451,31 @@ public partial class ChatRoomListView
             ListView.Hidden => Localizer[LanguageResource.CX_Chat_Room_Hidden],
             _ => throw new InvalidOperationException("Invalid list view state.")
         };
+    }
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _hasOwnerChanged = parameters.TryGetValue<ChatUser>(nameof(Owner), out var newOwner) && newOwner?.Id != Owner?.Id;
+        return base.SetParametersAsync(parameters);
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (_hasOwnerChanged)
+        {
+            _hasOwnerChanged = false;
+            ChatState.Room = null;
+
+            if (OwnerChanged.HasDelegate)
+            {
+                await OwnerChanged.InvokeAsync(Owner);
+            }
+
+            await LoadChatRoomsAsync();
+        }
     }
 }

@@ -23,11 +23,12 @@
             <FluentButton Appearance="@(SelectedCategory == cat.Key ? ButtonAppearance.Primary : ButtonAppearance.Subtle)"
                           Id="@cat.Key"
                           Title="@iconEmoji?.LocalizedCategory"
-                          Style="@InternalFontFamilyStyle"
                           IconOnly
                           Size="ButtonSize.Large"
                           OnClick=@(() => SelectCategoryAsync(cat.Key))>
-                <FluentEmoji Value="@GetEmojiFromCategory(cat.Key)" />
+                <FluentText Style="@InternalFontFamilyStyle">
+                    @GetEmojiFromCategory(cat.Key)
+                </FluentText>
             </FluentButton>
         }
     </FluentStack>
@@ -37,7 +38,7 @@
                     ItemsProvider="@LoadEmojisAsync"
                     ItemSize="40">
             <ItemContent Context="row">
-                 <FluentStack HorizontalGap="18px">
+                <FluentStack HorizontalGap="18px">
                     @foreach (var emoji in row.Items)
                     {
                         <FluentButton Appearance="@(SelectedEmoji == emoji ? ButtonAppearance.Primary : ButtonAppearance.Subtle)"
@@ -49,11 +50,9 @@
                             @emoji.Unicode
                         </FluentButton>
                     }
-                 </FluentStack>
+                </FluentStack>
             </ItemContent>
         </Virtualize>
     </div>
-
-    
 </div>
 

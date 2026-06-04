@@ -2,7 +2,7 @@
 @inherits FluentComponentBase
 
 <div id="@Id" class="chatroom-root">
-    @if (!ChatState.IsLoading)
+    @if (!ChatState.IsRoomLoading)
     {
         <FluentStack Height="100%" Orientation="Orientation.Vertical" VerticalGap="8px">
             @if (IsSearchEnabled && RoomSearchProvider is not null)
@@ -54,7 +54,8 @@
                     <Virtualize Items="@CurrentRooms"
                                 TItem="ChatRoom"
                                 Context="room"
-                                ItemSize="90">
+                                ItemSize="90"
+                                @ref="_virtualized">
                         <EmptyContent>
                             @if (EmptyContent is not null)
                             {
@@ -81,12 +82,12 @@
                             }
                             else
                             {
-                                <ChatRoomItem IsSelected="@(room.Id.ToString() == _selectedRoom)"
+                                <ChatRoomItem IsSelected="@(Invariant.ToString(room.Id) == _selectedRoom)"
                                               Owner=@Owner
                                               Room=@room
                                               OnClick="@(() => HandleRoomClick(room))"
                                               ShowMoreButton="@(CanBlock || CanHide || CanDelete || CanPin || CanMute || CanRename)"
-                                              MoreMenuActions="@GetPopoverActions()" />
+                                              MoreMenuActions="@GetMoreMenuActions()" />
                             }
                         </ChildContent>
                     </Virtualize>

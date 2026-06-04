@@ -31,6 +31,11 @@ public partial class ChatView<TItem>
     private Virtualize<ChatMessage>? _virtualizeMessageList;
 
     /// <summary>
+    /// Value indicating if the owner of the view has changed since the last render.
+    /// </summary>
+    private bool _hasOwnerChanged;
+
+    /// <summary>
     /// Value indicating if the emoji popover is visible.
     /// </summary>
     private bool _isEmojiPopoverVisible;
@@ -138,7 +143,7 @@ public partial class ChatView<TItem>
     /// Gets or sets the translation client.
     /// </summary>
     [Inject]
-    private IServiceProvider ServiceProvider{ get; set; } = default!;
+    private IServiceProvider ServiceProvider { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the clipboard module.
@@ -157,6 +162,12 @@ public partial class ChatView<TItem>
     /// </summary>
     [Parameter]
     public ChatUser? Owner { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback which is invoked when the owner of the view has changed.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChatUser?> OwnerChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="RenderFragment"/> for the loading content.
@@ -559,6 +570,8 @@ public partial class ChatView<TItem>
     {
         _chatDraft = State.GetDraft();
         _chatDraft?.SenderId = Owner?.Id ?? 0;
+        _totalMessageCount = 0;
+        _refreshTotalMessageCount = true;
         await RefreshDataAsync();
     }
 
@@ -594,7 +607,7 @@ public partial class ChatView<TItem>
                 _chatDraft.AddCultureText(Owner.CultureName!, [_chatDraft.Text]);
             }
 
-            (var Messages, var Files) = await _chatDraft.BuildAsync(State.Room.Id, Owner.Id, MessageSplitOption);
+            (var Messages, var Files) = await _chatDraft.BuildAsync(State.Room.Id, Owner, MessageSplitOption);
 
             if (OnCreate is not null)
             {
@@ -604,7 +617,7 @@ public partial class ChatView<TItem>
                 {
                     DynamicState.AppendFile(State.Room, item.MessageId, item);
                 }
-                
+
                 messages.AddRange(createdMessages.Messages);
                 _chatDraft.Clear();
                 _isReply = false;
@@ -632,10 +645,9 @@ public partial class ChatView<TItem>
             return;
         }
 
-        var translationClient = ServiceProvider.GetService<ITranslationClient>() ?? throw new InvalidOperationException("If translation is enabled, an ITranslationClient must be registered.");
-        var cultures = RoomDynamicState.GetUsers(State.Room.Id)
+        var translationClient = ServiceProvider.GetRequiredService<ITranslationClient>();
+        var cultures = RoomDynamicState.GetUsersBut(State.Room.Id, Owner.Id)
                                        .Select(x => x.CultureName)
-                                       .Except([Owner.CultureName])
                                        .Distinct()
                                        .ToList();
 
@@ -661,7 +673,7 @@ public partial class ChatView<TItem>
     /// </summary>
     /// <param name="messages">Messages to send.</param>
     /// <returns>Returns a task which send the messages when completed.</returns>
-    private async Task SendMessagesAsync(IReadOnlyList<ChatMessage> messages)
+    private async Task SendMessagesAsync(List<ChatMessage> messages)
     {
         if (_cts is not null)
         {
@@ -730,9 +742,12 @@ public partial class ChatView<TItem>
             filter = PredicateBuilder<ChatMessage>.And(x => !x.IsDeleted, Filter);
         }
 
-        if (_refreshTotalMessageCount || _totalMessageCount == 0)
+        filter = PredicateBuilder<ChatMessage>.And(filter, x => x.RoomId == State.Room.Id);
+
+        if (_refreshTotalMessageCount ||
+            _totalMessageCount == 0)
         {
-            var current = await CountProvider(new ChatMessageCountRequest(State.Room.Id, filter, request.CancellationToken));
+            var current = await CountProvider(new ChatMessageCountRequest(filter, request.CancellationToken));
             _refreshTotalMessageCount = false;
 
             if (current != _totalMessageCount)
@@ -744,7 +759,29 @@ public partial class ChatView<TItem>
         if (_totalMessageCount > 0 &&
             request.Count > 0)
         {
-            var list = await ItemsProvider(new(State.Room.Id, filter, request.StartIndex, request.Count, request.CancellationToken));
+            var list = await ItemsProvider(new(filter, request.StartIndex, request.Count, request.CancellationToken));
+
+            if (IsReactEnabled && ReactionsProvider is not null)
+            {
+                var reactions = await ReactionsProvider(new([.. list.Select(x => x.Id)], request.CancellationToken));
+
+                foreach (var item in reactions)
+                {
+                    DynamicState.AppendReactions(State.Room, item.MessageId, item);
+                }
+            }
+
+            if (ReadUserStateProvider is not null)
+            {
+                var readStates = await ReadUserStateProvider(new([.. list.Select(x => x.Id)], request.CancellationToken));
+                DynamicState.SetReadStates(State.Room, Owner.Id, readStates, RoomDynamicState.GetUsers(State.Room.Id));
+            }
+
+            if (FilesProvider is not null)
+            {
+                var files = await FilesProvider(new([.. list.Select(x => x.Id)], request.CancellationToken));
+                DynamicState.SetFiles(State.Room, files);
+            }
 
             State.IsLoading = false;
             return new(list, _totalMessageCount);
@@ -783,15 +820,19 @@ public partial class ChatView<TItem>
     /// <returns>Returns a task which edit the message when completed.</returns>
     private async Task OnEditMessageAsync()
     {
-        var message = _chatDraft?.GetEditMessage();
-
         if (Owner is not null &&
             State.Room is not null &&
             _chatDraft is not null &&
-            message is not null &&
             !string.IsNullOrEmpty(_chatDraft.Text) &&
             OnEditMessage is not null)
         {
+            var message = _chatDraft.GetEditMessage();
+
+            if (message is null)
+            {
+                return;
+            }
+
             if (_cts is not null)
             {
                 await _cts.CancelAsync();
@@ -800,11 +841,16 @@ public partial class ChatView<TItem>
 
             _cts = new CancellationTokenSource();
             _isEdit = false;
+            message = message with
+            {
+                EditedDate = DateTimeOffset.UtcNow,
+            };
+
+            var section = message.Sections.FirstOrDefault(s => s.CultureId == Owner.CultureId);
+            section?.Content = _chatDraft.Text;
+
             await OnEditMessage(new(
-                State.Room.Id,
                 message,
-                Owner.Id,
-                _chatDraft.Text!,
                 _cts.Token
             ));
 
@@ -823,12 +869,12 @@ public partial class ChatView<TItem>
     {
         await DialogService.ShowDialogAsync<ChatMessageDialog>(a =>
         {
-            a.Header.Title = Localizer[LanguageResource.CX_Chat_Message_Viewer_Title];
+            //a.Header.CloseAction.Visible = true;
             a.Width = "90%";
             a.Height = "90%";
             a.Parameters.Add(nameof(ChatMessageDialog.Message), message);
-            a.Parameters.Add(nameof(ChatMessageDialog.ShowControls), true);
-            a.Parameters.Add(nameof(ChatMessageDialog.ShowIndicators), true);
+            a.Footer.SecondaryAction.Label = Localizer[LanguageResource.CX_Chat_Cancel];
+            a.Footer.PrimaryAction.Visible = false;
         });
     }
 
@@ -1032,5 +1078,23 @@ public partial class ChatView<TItem>
         var fileName = Path.GetRandomFileName();
         fileName = Path.ChangeExtension(fileName, "webm");
         _chatDraft?.SelectedChatFiles.Add(new(fileName, "audio/webm", data, true));
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (_hasOwnerChanged)
+        {
+            _hasOwnerChanged = false;
+
+            if (OwnerChanged.HasDelegate)
+            {
+                await OwnerChanged.InvokeAsync(Owner);
+            }
+
+            await RefreshDataAsync();
+        }
     }
 }

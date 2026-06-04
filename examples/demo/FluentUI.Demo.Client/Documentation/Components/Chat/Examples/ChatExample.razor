@@ -6,11 +6,15 @@
 @using FluentUI.Blazor.Community.Components.Enums
 @using FluentUI.Demo.Client.Infrastructure
 
-<div style="height: 500px">
+<div style="height: 700px">
+    <FluentRadioGroup Items="@_users"
+                      @bind-Value="_selectedUser"
+                      RadioLabel="@(i => $"{i?.DisplayName}")"
+                      RadioValue="@(i => i?.Id.ToString())" />
 
     <FluentCxChat TFile="FileManagerSampleFile"
                   LastMessageProvider="@OnLastMessage"
-                  Owner="@_users[0]"
+                  @bind-Owner="_selectedUser"
                   RoomItemsProvider="@OnGetRoomItems"
                   RoomUsersProvider="@OnGetRoomUsers"
                   UnreadMessagesProvider="@OnGetUnreadMessageProvider"
@@ -27,17 +31,20 @@
                   ReactionsProvider="@GetReactionsProvider"
                   MessageCountProvider="@GetMessageCountProvider"
                   OnPinOrUnpinMessage="@OnUnpinChanged"
-                  ReadUserStateProvider="@GetReadUserStateProvider" />
+                  ReadUserStateProvider="@GetReadUserStateProvider"
+                  @ref="_chat"/>
 </div>
 
 
 
 @code {
+    private FluentCxChat<FileManagerSampleFile>? _chat;
+
     private Dictionary<string, long> _cultures = new()
-        {
-            ["fr-FR"] = 1,
-            ["en-US"] = 2
-        };
+    {
+        ["fr-FR"] = 1,
+        ["en-US"] = 2
+    };
 
     private readonly List<ChatUser> _users = new List<ChatUser>()
     {
@@ -70,6 +77,7 @@
         }
     };
 
+    private ChatUser _selectedUser;
     private readonly List<ChatRoom> _chatRooms;
     private readonly Dictionary<long, List<ChatUser>> _roomUsers = new Dictionary<long, List<ChatUser>>();
     private readonly List<ChatMessage> _messages = [];
@@ -78,6 +86,7 @@
 
     public ChatExample()
     {
+        _selectedUser = _users[0];
         _chatRooms = new List<ChatRoom>()
         {
              new ChatRoom
@@ -89,7 +98,8 @@
                     IsArchived = false,
                     IsDeleted = false,
                     OwnerId = _users[0].Id,
-                    Owner = _users[0]
+                    Owner = _users[0],
+                    CreatedDate = DateTimeOffset.UtcNow.AddDays(-10)
                 },
                 new ChatRoom
                 {
@@ -99,7 +109,8 @@
                     IsMuted = true,
                     IsPinned = false,
                     IsArchived = false,
-                    IsDeleted = false
+                    IsDeleted = false,
+                    CreatedDate = DateTimeOffset.UtcNow.AddDays(-5),
                 }
         };
 
@@ -144,7 +155,22 @@
         }
 
         var func = request.Filter.Compile();
-        return new ValueTask<IEnumerable<ChatRoom>>(_chatRooms.Where(x => func(x)));
+        var rooms = _chatRooms.Where(x => func(x));
+
+        // Now for each room, we need to ensure that the owner of the chat is included in the room users.
+        // For example, Jérémy can create a room with Marvin,
+        // Marvin is not the owner of the room but should be able to see it in his list with Jérémy as part of the room users.
+        var selectedRooms = new HashSet<ChatRoom>();
+
+        foreach (var item in _chatRooms)
+        {
+            if (_roomUsers.TryGetValue(item.Id, out var users) && users.Any(u => u.Id == _selectedUser?.Id))
+            {
+                selectedRooms.Add(item);
+            }
+        }
+
+        return new ValueTask<IEnumerable<ChatRoom>>(selectedRooms);
     }
 
     private ValueTask<ChatGroupCreateResult> OnCreateRoom(
@@ -168,7 +194,7 @@
 
     private ValueTask<IReadOnlyList<ChatMessage>> GetItemRetrieveProvider(ChatMessageItemsRequest request)
     {
-        return ValueTask.FromResult<IReadOnlyList<ChatMessage>>([]);
+        return ValueTask.FromResult<IReadOnlyList<ChatMessage>>(_messages.Where(x => request.MessageIdCollection.Contains(x.Id)).ToList());
     }
 
     private ValueTask<IReadOnlyList<IChatFile>> GetMessageFilesProvider(ChatMessageFileCollectionRequest request)
@@ -187,11 +213,18 @@
 
         foreach (var item in request.Messages)
         {
-            chatMessageResult.Add(item with
+            var copy = item with
             {
                 Id = Math.Max(1, _messages.Max(x => x.Id) + 1),
                 Sender = _users.FirstOrDefault(x => x.Id == item.SenderId)!
-            });
+            };
+
+            chatMessageResult.Add(copy);
+
+            foreach (var section in copy.Sections)
+            {
+                section.MessageId = copy.Id;
+            }
         }
 
         var fileMessageId = chatMessageResult.FirstOrDefault(x => x.Type.HasFlag(ChatMessageType.Files))?.Id;
@@ -203,7 +236,7 @@
             {
                 var file = c with
                 {
-                    Id = Math.Max(1, _files.Max(x => x.Id) + 1),
+                    Id = Math.Max(1, chatFileResult.Count > 0 ? chatFileResult.Max(x => x.Id) + 1 : 1),
                     MessageId = realFileMessageId
                 };
 
@@ -275,18 +308,21 @@
 
     private ValueTask OnEditMessage(ChatMessageEditRequest request)
     {
+        _messages.RemoveAll(x => x.Id == request.Message.Id);
+        _messages.Add(request.Message);
+
         return ValueTask.CompletedTask;
     }
 
     private ValueTask<IReadOnlyList<ChatMessageReaction>> GetReactionsProvider(ChatMessageReactionCollectionRequest request)
     {
-        return ValueTask.FromResult<IReadOnlyList<ChatMessageReaction>>([]);
+        return ValueTask.FromResult<IReadOnlyList<ChatMessageReaction>>(_reactions.Where(x => request.MessageIdCollection.Contains(x.Id)).ToList());
     }
 
     private ValueTask<int> GetMessageCountProvider(ChatMessageCountRequest request)
     {
         var filter = request.Filter.Compile();
-        return ValueTask.FromResult(_messages.FindAll(x => x.RoomId == request.RoomId && filter(x)).Count);
+        return ValueTask.FromResult(_messages.FindAll(x => filter(x)).Count);
     }
 
     private ValueTask<IReadOnlyList<ChatMessageUserState>> GetReadUserStateProvider(ChatMessageUserStateRequest request)

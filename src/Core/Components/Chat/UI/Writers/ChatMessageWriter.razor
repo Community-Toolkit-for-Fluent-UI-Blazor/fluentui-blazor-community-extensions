@@ -42,7 +42,7 @@ else
                      Orientation="Orientation.Vertical">
             @if (IsReply)
             {
-                <ChatMessageReply Text="@(Draft.GetReplyText(Owner))"
+                <ChatMessageReply Text="@(Draft.GetReplyText(Owner, Localizer))"
                                   AllowDismiss=true
                                   OnDismiss="@(OnDismiss)" />
             }
@@ -148,7 +148,8 @@ else
                 <FluentStack Height="100%"
                              Width="auto"
                              Orientation="Orientation.Vertical"
-                             VerticalAlignment="VerticalAlignment.Bottom">
+                             VerticalAlignment="VerticalAlignment.Bottom"
+                             VerticalGap="8px">
                     @if (!IsEdit)
                     {
                         <FluentButton Title="@Localizer[LanguageResource.CX_Chat_SendMessage]"
@@ -160,12 +161,12 @@ else
 
                     @if (IsEdit)
                     {
+                        <FluentSpacer Orientation="Orientation.Vertical" />
+
                         <FluentButton Title="@Localizer[LanguageResource.CX_Chat_Cancel]"
                                       OnClick="@OnCancel"
                                       IconStart="@DismissIcon"
                                       Shape="ButtonShape.Circular" />
-
-                        <FluentSpacer Orientation="Orientation.Vertical" />
 
                         <FluentButton Title="@Localizer[LanguageResource.CX_Chat_Ok]"
                                       OnClick="@OnEditMessage"
