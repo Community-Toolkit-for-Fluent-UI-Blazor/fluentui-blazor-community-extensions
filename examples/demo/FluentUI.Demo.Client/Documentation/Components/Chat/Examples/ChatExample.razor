@@ -275,7 +275,7 @@
 
     private ValueTask<IReadOnlyList<ChatMessage>> GetMessagesProvider(ChatMessageProviderRequest request)
     {
-        return ValueTask.FromResult<IReadOnlyList<ChatMessage>>(_messages.Where(request.Filter.Compile()).ToList());
+        return ValueTask.FromResult<IReadOnlyList<ChatMessage>>(_messages.Where(request.Filter.Compile()).OrderBy(x => x.CreatedDate).ToList());
     }
 
     private ValueTask<IReadOnlyList<ChatMessage>> GetItemRetrieveProvider(ChatMessageItemsRequest request)
