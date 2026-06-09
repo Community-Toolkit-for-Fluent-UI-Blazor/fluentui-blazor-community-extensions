@@ -9,84 +9,28 @@ namespace FluentUI.Blazor.Community.Components.Chat.Engine;
 internal sealed class ChatEngine
 {
     private readonly IMessageTransport _transport;
-    private readonly ChatRoomState _roomState;
+    private readonly ChatRoomViewState _roomState;
     private readonly ChatMessageState _messageState;
     private readonly ChatMessageDynamicState _dynamicState;
-    private readonly ChatRoomDynamicState _roomDynamicState;
-    private readonly Dictionary<long, ChatRoom> _rooms = [];
+    private readonly Dictionary<long, ChatRoomView> _rooms = [];
     private long _currentUserId;
     private ChatMessageItemCollectionProvider? _getMessagesByIds;
     private ChatMessageUserStateProvider? _getReadStates;
     private ChatMessageFileCollectionProvider? _getFiles;
     private ChatMessageReactionCollectionProvider? _getReactions;
-    private ChatRoomUsersProvider? _getUsers;
-    private ChatLastMessageProvider? _getLastMessage;
-    private ChatUnreadMessagesProvider? _getUnread;
 
     public ChatEngine(
         IMessageTransport transport,
-        ChatRoomState roomState,
+        ChatRoomViewState roomState,
         ChatMessageState messageState,
-        ChatMessageDynamicState dynamicState,
-        ChatRoomDynamicState roomDynamicState)
+        ChatMessageDynamicState dynamicState)
     {
         _transport = transport;
         _roomState = roomState;
         _messageState = messageState;
         _dynamicState = dynamicState;
-        _roomDynamicState = roomDynamicState;
 
         _transport.RegisterMessageHandler(OnEnvelopeReceivedAsync);
-    }
-
-    private async Task LoadRoomDynamicDataAsync(long roomId)
-    {
-        using var cts = new CancellationTokenSource();
-
-        if (_getUsers is not null)
-        {
-            var users = await _getUsers(roomId, cts.Token);
-            _roomDynamicState.SetUsers(roomId, users);
-        }
-
-        if (_getLastMessage is not null)
-        {
-            var last = await _getLastMessage(roomId, cts.Token);
-            _roomDynamicState.SetLastMessage(roomId, last);
-        }
-
-        if (_getUnread is not null)
-        {
-            var unread = await _getUnread(roomId, _currentUserId, cts.Token);
-            _roomDynamicState.SetUnreadCount(roomId, unread);
-        }
-    }
-
-    public ChatEngine SetUsersProvider(ChatRoomUsersProvider provider)
-    {
-        ArgumentNullException.ThrowIfNull(provider);
-
-        _getUsers = provider;
-
-        return this;
-    }
-
-    public ChatEngine SetLastMessageProvider(ChatLastMessageProvider provider)
-    {
-        ArgumentNullException.ThrowIfNull(provider);
-
-        _getLastMessage = provider;
-
-        return this;
-    }
-
-    public ChatEngine SetUnreadProvider(ChatUnreadMessagesProvider provider)
-    {
-        ArgumentNullException.ThrowIfNull(provider);
-
-        _getUnread = provider;
-
-        return this;
     }
 
     public ChatEngine SetFilesProvider(
@@ -152,10 +96,10 @@ internal sealed class ChatEngine
         }, cancellationToken);
     }
 
-    public Task SendNewMessageAsync(ChatRoom room, long messageId, CancellationToken cancellationToken)
-        => SendSimpleEventAsync(ChatMessageTypes.MessageNew, room.Id, messageId, cancellationToken);
+    public Task SendNewMessageAsync(ChatRoomView room, long messageId, CancellationToken cancellationToken)
+        => SendSimpleEventAsync(ChatMessageTypes.MessageNew, room.Room.Id, messageId, cancellationToken);
 
-    public Task SendNewMessagesAsync(ChatRoom room, IEnumerable<long> messageIds, CancellationToken cancellationToken)
+    public Task SendNewMessagesAsync(ChatRoomView room, IEnumerable<long> messageIds, CancellationToken cancellationToken)
     {
         var payload = JsonSerializer.SerializeToElement(new
         {
@@ -165,49 +109,51 @@ internal sealed class ChatEngine
         return _transport.SendAsync(new TransportEnvelope
         {
             Type = ChatMessageTypes.MessagesNew,
-            RoomId = room.Id,
+            RoomId = room.Room.Id,
             SenderId = _currentUserId,
             Payload = payload
         }, cancellationToken);
     }
 
-    public Task SendEditedMessageAsync(ChatRoom room, long messageId, CancellationToken cancellationToken)
-        => SendSimpleEventAsync(ChatMessageTypes.MessageEdit, room.Id, messageId, cancellationToken);
+    public Task SendEditedMessageAsync(ChatRoomView room, long messageId, CancellationToken cancellationToken)
+        => SendSimpleEventAsync(ChatMessageTypes.MessageEdit, room.Room.Id, messageId, cancellationToken);
 
-    public Task SendDeletedMessageAsync(ChatRoom room, long messageId, CancellationToken cancellationToken)
-        => SendSimpleEventAsync(ChatMessageTypes.MessageDelete, room.Id, messageId, cancellationToken);
+    public Task SendDeletedMessageAsync(ChatRoomView room, long messageId, CancellationToken cancellationToken)
+        => SendSimpleEventAsync(ChatMessageTypes.MessageDelete, room.Room.Id, messageId, cancellationToken);
 
-    public Task SendMessageReadAsync(ChatRoom room, long messageId, IEnumerable<long> readers, CancellationToken cancellationToken)
+    public Task SendMessageReadAsync(ChatRoomView room, long messageId, CancellationToken cancellationToken)
     {
         var payload = JsonSerializer.SerializeToElement(new
         {
-            MessageId = messageId,
-            Readers = readers.ToArray()
+            MessageId = messageId
         });
 
         return _transport.SendAsync(new TransportEnvelope
         {
             Type = ChatMessageTypes.MessageRead,
-            RoomId = room.Id,
+            RoomId = room.Room.Id,
             SenderId = _currentUserId,
             Payload = payload
         }, cancellationToken);
     }
 
-    public async Task RegisterRoomAsync(ChatRoom room, CancellationToken cancellationToken)
+    public async Task RegisterRoomAsync(ChatRoomView room, CancellationToken cancellationToken)
     {
-        _rooms[room.Id] = room;
-        await _transport.JoinRoomAsync(room.Id, cancellationToken);
-        await LoadRoomDynamicDataAsync(room.Id);
+        _rooms[room.Room.Id] = room;
+        await _transport.JoinRoomAsync(room.Room.Id, cancellationToken);
     }
 
-    public async Task UnregisterRoomAsync(ChatRoom room, CancellationToken cancellationToken)
+    public async Task UnregisterRoomAsync(ChatRoomView room, CancellationToken cancellationToken)
     {
-        _rooms.Remove(room.Id);
-        await _transport.LeaveRoomAsync(room.Id, cancellationToken);
+        _rooms.Remove(room.Room.Id);
+        await _transport.LeaveRoomAsync(room.Room.Id, cancellationToken);
     }
 
-    public Task SendReactedMessageAsync(ChatRoom room, long messageId, string reaction, CancellationToken cancellationToken)
+    public Task SendReactedMessageAsync(
+        ChatRoomView roomView,
+        long messageId,
+        string reaction,
+        CancellationToken cancellationToken)
     {
         var payload = JsonSerializer.SerializeToElement(new
         {
@@ -219,40 +165,23 @@ internal sealed class ChatEngine
         return _transport.SendAsync(new TransportEnvelope
         {
             Type = ChatMessageTypes.MessageReact,
-            RoomId = room.Id,
+            RoomId = roomView.Room.Id,
             SenderId = _currentUserId,
             Payload = payload
         }, cancellationToken);
     }
 
-    public Task SendMessageReadAsync(ChatRoom room, long messageId, CancellationToken cancellationToken)
+    public Task SendCreatedRoomAsync(ChatRoomView roomView, CancellationToken cancellationToken)
     {
         var payload = JsonSerializer.SerializeToElement(new
         {
-            MessageId = messageId,
-            UserId = _currentUserId
-        });
-
-        return _transport.SendAsync(new TransportEnvelope
-        {
-            Type = ChatMessageTypes.MessageRead,
-            RoomId = room.Id,
-            SenderId = _currentUserId,
-            Payload = payload
-        }, cancellationToken);
-    }
-
-    public Task SendCreatedRoomAsync(ChatRoom room, CancellationToken cancellationToken)
-    {
-        var payload = JsonSerializer.SerializeToElement(new
-        {
-            RoomId = room.Id
+            RoomId = roomView.Room.Id
         });
 
         return _transport.SendAsync(new TransportEnvelope
         {
             Type = ChatMessageTypes.RoomCreated,
-            RoomId = room.Id,
+            RoomId = roomView.Room.Id,
             SenderId = _currentUserId,
             Payload = payload
         }, cancellationToken);
@@ -271,7 +200,7 @@ internal sealed class ChatEngine
             return;
         }
 
-        if (!_rooms.TryGetValue(envelope.RoomId, out var room))
+        if (!_rooms.TryGetValue(envelope.RoomId, out var roomView))
         {
             return;
         }
@@ -279,36 +208,36 @@ internal sealed class ChatEngine
         switch (envelope.Type)
         {
             case ChatMessageTypes.MessagesNew:
-                await HandleNewMessagesAsync(room, envelope.Payload);
+                await HandleNewMessagesAsync(roomView, envelope.Payload);
                 break;
 
             case ChatMessageTypes.MessageNew:
-                await HandleNewMessageAsync(room, envelope.Payload);
+                await HandleNewMessageAsync(roomView, envelope.Payload);
                 break;
 
             case ChatMessageTypes.MessageEdit:
-                await HandleEditedMessageAsync(room, envelope.Payload);
+                await HandleEditedMessageAsync(roomView, envelope.Payload);
                 break;
 
             case ChatMessageTypes.MessageDelete:
-                HandleDeletedMessage(room, envelope.Payload);
+                HandleDeletedMessage(roomView, envelope.Payload);
                 break;
 
             case ChatMessageTypes.MessageRead:
-                await HandleMessageReadAsync(room, envelope.Payload);
+                await HandleMessageReadAsync(roomView, envelope.Payload);
                 break;
 
             case ChatMessageTypes.MessageReact:
-                HandleMessageReacted(room, envelope.Payload);
+                HandleMessageReacted(roomView, envelope.Payload);
                 break;
 
             case ChatMessageTypes.RoomUpdated:
-                HandleRoomUpdated(room, envelope.Payload);
+                HandleRoomUpdated(roomView, envelope.Payload);
                 break;
         }
     }
 
-    private void HandleMessageReacted(ChatRoom room, JsonElement payload)
+    private void HandleMessageReacted(ChatRoomView roomView, JsonElement payload)
     {
         if (!payload.TryGetProperty("MessageId", out var idProp) ||
             !idProp.TryGetInt64(out var messageId))
@@ -328,7 +257,7 @@ internal sealed class ChatEngine
             return;
         }
 
-        var list = _dynamicState.GetReactions(room, messageId)?.ToList() ?? [];
+        var list = _dynamicState.GetReactions(roomView.Room, messageId)?.ToList() ?? [];
         list.Add(new ChatMessageReaction
         {
             MessageId = messageId,
@@ -336,7 +265,7 @@ internal sealed class ChatEngine
             Emoji = reaction
         });
 
-        _dynamicState.SetReactions(room, messageId, list);
+        _dynamicState.SetReactions(roomView.Room, messageId, list);
     }
 
     private async Task HandleRoomCreatedAsync(JsonElement payload)
@@ -354,15 +283,13 @@ internal sealed class ChatEngine
             return;
         }
 
-        _rooms[room.Id] = room;
+        _rooms[room.Room.Id] = room;
         using var cts = new CancellationTokenSource();
-        await _transport.JoinRoomAsync(room.Id, cts.Token);
+        await _transport.JoinRoomAsync(room.Room.Id, cts.Token);
         _roomState.AddOrUpdateRoom(room);
-
-        await LoadRoomDynamicDataAsync(room.Id);
     }
 
-    private async Task HandleMessagesAsync(ChatRoom room, long[] messageIds)
+    private async Task HandleMessagesAsync(ChatRoomView roomView, long[] messageIds)
     {
         if (messageIds.Length == 0)
         {
@@ -380,7 +307,7 @@ internal sealed class ChatEngine
         var readStatesDict = new Dictionary<long, List<ChatMessageUserState>>();
 
         using var cts = new CancellationTokenSource();
-        var messages = await _getMessagesByIds(new(room.Id, messageIds, cts.Token));
+        var messages = await _getMessagesByIds(new(roomView.Room.Id, messageIds, cts.Token));
 
         if (_getReadStates is not null)
         {
@@ -441,40 +368,30 @@ internal sealed class ChatEngine
 
             var id = messageIds[i];
 
-            _messageState.AddOrUpdateMessage(room, message);
+            _messageState.AddOrUpdateMessage(roomView.Room, message);
 
             var userStates = readStatesDict.TryGetValue(id, out var s) ? s : [];
-            var users = _roomDynamicState.GetUsers(room.Id);
+            var users = roomView.Users;
             var readState = ChatMessageReadStateCalculator.Compute(
                 _currentUserId,
                 userStates,
                 users);
 
-            _dynamicState.SetReadState(room, id, readState);
+            _dynamicState.SetReadState(roomView.Room, id, readState);
 
             if (filesDict.TryGetValue(id, out var files))
             {
-                _dynamicState.SetFiles(room, id, files);
+                _dynamicState.SetFiles(roomView.Room, id, files);
             }
 
             if (reactionsDict.TryGetValue(id, out var reactions))
             {
-                _dynamicState.SetReactions(room, id, reactions);
-            }
-
-            var lastMessage = _roomDynamicState.GetLastMessage(room.Id);
-
-            if (lastMessage is null ||
-                lastMessage.CreatedDate < message.CreatedDate)
-            {
-                _roomDynamicState.SetLastMessage(room.Id, message);
-                room.IsEmpty = false;
-                _roomState.UpdateRoom(room);
+                _dynamicState.SetReactions(roomView.Room, id, reactions);
             }
         }
     }
 
-    private async Task HandleNewMessagesAsync(ChatRoom room, JsonElement payload)
+    private async Task HandleNewMessagesAsync(ChatRoomView roomView, JsonElement payload)
     {
         if (!payload.TryGetProperty("MessageIds", out var idsProp) ||
             idsProp.ValueKind != JsonValueKind.Array)
@@ -487,20 +404,20 @@ internal sealed class ChatEngine
             .Select(x => x.GetInt64())
             .ToArray();
 
-        await HandleMessagesAsync(room, messageIds);
+        await HandleMessagesAsync(roomView, messageIds);
     }
 
-    private async Task HandleNewMessageAsync(ChatRoom room, JsonElement payload)
+    private async Task HandleNewMessageAsync(ChatRoomView roomView, JsonElement payload)
     {
         if (!TryGetMessageId(payload, out var messageId))
         {
             return;
         }
 
-        await HandleMessagesAsync(room, [messageId]);
+        await HandleMessagesAsync(roomView, [messageId]);
     }
 
-    private async Task HandleEditedMessageAsync(ChatRoom room, JsonElement payload)
+    private async Task HandleEditedMessageAsync(ChatRoomView roomView, JsonElement payload)
     {
         if (!TryGetMessageId(payload, out var messageId))
         {
@@ -515,7 +432,7 @@ internal sealed class ChatEngine
 
         using var cts = new CancellationTokenSource();
 
-        var message = await _getMessagesByIds(new(room.Id, [messageId], cts.Token));
+        var message = await _getMessagesByIds(new(roomView.Room.Id, [messageId], cts.Token));
 
         if (message is null ||
             message.Count == 0)
@@ -542,52 +459,29 @@ internal sealed class ChatEngine
         }
 
         var userStates = readStatesDict.TryGetValue(messageId, out var s) ? s : [];
-        var users = _roomDynamicState.GetUsers(room.Id);
+        var users = roomView.Users;
 
         var readState = ChatMessageReadStateCalculator.Compute(
             _currentUserId,
             userStates,
             users);
 
-        _messageState.AddOrUpdateMessage(room, message[0]);
-        _dynamicState.SetReadState(room, messageId, readState);
-
-        var lastMessage = _roomDynamicState.GetLastMessage(room.Id);
-
-        if (lastMessage is null ||
-            lastMessage.CreatedDate < message[0].CreatedDate)
-        {
-            _roomDynamicState.SetLastMessage(room.Id, message[0]);
-            room.IsEmpty = false;
-            _roomState.UpdateRoom(room);
-        }
+        _messageState.AddOrUpdateMessage(roomView.Room, message[0]);
+        _dynamicState.SetReadState(roomView.Room, messageId, readState);
     }
 
-    private void HandleDeletedMessage(ChatRoom room, JsonElement payload)
+    private void HandleDeletedMessage(ChatRoomView roomView, JsonElement payload)
     {
         if (!TryGetMessageId(payload, out var messageId))
         {
             return;
         }
 
-        _messageState.RemoveMessage(room, messageId);
-        _dynamicState.Clear(room, messageId);
-
-        var last = _messageState.GetLastMessage(room.Id);
-        _roomDynamicState.SetLastMessage(room.Id, last);
-
-        var unread = ChatUnreadCalculator.Compute(
-            room,
-            _currentUserId,
-            _messageState,
-            _dynamicState
-        );
-
-        _roomDynamicState.SetUnreadCount(room.Id, unread);
-        _roomState.UpdateRoom(room);
+        _messageState.RemoveMessage(roomView.Room, messageId);
+        _dynamicState.Clear(roomView.Room, messageId);
     }
 
-    private async Task HandleMessageReadAsync(ChatRoom room, JsonElement payload)
+    private async Task HandleMessageReadAsync(ChatRoomView roomView, JsonElement payload)
     {
         if (_getReadStates is null)
         {
@@ -620,16 +514,16 @@ internal sealed class ChatEngine
         }
 
         var userStates = readStatesDict.TryGetValue(messageId, out var s) ? s : [];
-        var users = _roomDynamicState.GetUsers(room.Id);
+        var users = roomView.Users;
         var readState = ChatMessageReadStateCalculator.Compute(
             _currentUserId,
             userStates,
             users);
 
-        _dynamicState.SetReadState(room, messageId, readState);
+        _dynamicState.SetReadState(roomView.Room, messageId, readState);
     }
 
-    private void HandleRoomUpdated(ChatRoom room, JsonElement payload)
+    private void HandleRoomUpdated(ChatRoomView roomView, JsonElement payload)
     {
         var updated = JsonSerializer.Deserialize<ChatRoom>(payload.GetRawText());
 
@@ -638,10 +532,19 @@ internal sealed class ChatEngine
             return;
         }
 
-        if (room.Id == updated.Id)
+        if (roomView.Room.Id == updated.Id)
         {
-            room.Name = updated.Name;
-            _roomState.UpdateRoom(room);
+            roomView = roomView with
+            {
+                Room = roomView.Room with
+                {
+                    Name = updated.Name,
+                    IsLocked = updated.IsLocked,
+                    IsDeleted = updated.IsDeleted
+                }
+            };
+
+            _roomState.UpdateRoom(roomView);
         }
     }
 

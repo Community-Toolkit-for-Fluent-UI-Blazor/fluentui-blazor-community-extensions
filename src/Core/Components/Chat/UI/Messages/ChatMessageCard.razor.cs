@@ -1,5 +1,6 @@
 using System.Globalization;
 using FluentUI.Blazor.Community.Components.Chat;
+using FluentUI.Blazor.Community.Components.Chat.Engine;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Components.Chat;
 using FluentUI.Blazor.Community.Components.Emojis;
@@ -18,6 +19,11 @@ public partial class ChatMessageCard
     : FluentComponentBase
 {
     #region Fields
+
+    /// <summary>
+    /// Represents a value indicating whether the message was unread on the first render.
+    /// </summary>
+    private bool _wasUnreadOnFirstRender;
 
     /// <summary>
     /// Value indicating if the emoji popover is visible or not.
@@ -99,6 +105,11 @@ public partial class ChatMessageCard
     /// </summary>
     private bool _hasOwnerChanged;
 
+    /// <summary>
+    /// Value indicating if the message has changed, used to update the read state of the message if the message is changed.
+    /// </summary>
+    private bool _hasMesssageChanged;
+
     private readonly EventCallback _emptyCallback = EventCallback.Empty;
 
     private readonly EventCallback _tappedCallback;
@@ -106,6 +117,12 @@ public partial class ChatMessageCard
     #endregion Fields
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the chat engine.
+    /// </summary>
+    [Inject]
+    private ChatEngine ChatEngine { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the dialog service.
@@ -237,6 +254,12 @@ public partial class ChatMessageCard
     /// </summary>
     private string? FormattedDateMessage => Message?.CreatedDate.DateTime.ToString("F", _ownerCultureInfo);
 
+    /// <summary>
+    /// Gets or sets the callback to raise when the message is read.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChatMessageReadEventArgs> OnRead { get; set; }
+
     #endregion Properties
 
     #region Methods
@@ -246,9 +269,10 @@ public partial class ChatMessageCard
     {
         base.OnInitialized();
 
-        if (Message is not null)
+        if (Message is not null &&
+            Owner is not null)
         {
-            DynamicState.SetPinState(Message.Id, Message.IsPinned);
+            DynamicState.SetPinState(Message.Id, Owner!.Id, Message.IsPinned);
         }
     }
 
@@ -256,6 +280,8 @@ public partial class ChatMessageCard
     public override Task SetParametersAsync(ParameterView parameters)
     {
         _hasOwnerChanged = parameters.TryGetValue<ChatUser>(nameof(Owner), out var newOwner) && !Equals(newOwner, Owner);
+        _hasMesssageChanged = parameters.TryGetValue<ChatMessage>(nameof(Message), out var newMessage) && !Equals(newMessage, Message);
+
         return base.SetParametersAsync(parameters);
     }
 
@@ -267,6 +293,14 @@ public partial class ChatMessageCard
         if (_hasOwnerChanged && !string.IsNullOrEmpty(Owner?.CultureName))
         {
             _ownerCultureInfo = CultureInfo.GetCultureInfo(Owner.CultureName);
+        }
+
+        if (_hasMesssageChanged &&
+            ChatState.RoomView is not null &&
+            Message is not null)
+        {
+            var state = DynamicState.GetReadState(ChatState.RoomView.Room, Message.Id);
+            _wasUnreadOnFirstRender = state == ChatMessageReadState.Unread;
         }
     }
 
@@ -280,7 +314,7 @@ public partial class ChatMessageCard
         if (Message is not null && PinOrUnpin.HasDelegate)
         {
             await PinOrUnpin.InvokeAsync(new(Message!, pin));
-            DynamicState.SetPinState(Message.Id, pin);
+            DynamicState.SetPinState(Message.Id, Owner!.Id, pin);
             await InvokeAsync(StateHasChanged);
         }
     }
@@ -422,12 +456,12 @@ public partial class ChatMessageCard
     private IReadOnlyList<ChatMessageReaction> GetReactions()
     {
         if (Message is null ||
-            ChatState.Room is null)
+            ChatState.RoomView is null)
         {
             return [];
         }
 
-        return DynamicState.GetReactions(ChatState.Room, Message.Id);
+        return DynamicState.GetReactions(ChatState.RoomView.Room, Message.Id);
     }
 
     /// <summary>
@@ -437,12 +471,33 @@ public partial class ChatMessageCard
     private ChatMessageReadState GetReadState()
     {
         if (Message is null ||
-            ChatState.Room is null)
+            ChatState.RoomView is null)
         {
             return ChatMessageReadState.Unread;
         }
 
-        return DynamicState.GetReadState(ChatState.Room, Message.Id);
+        return DynamicState.GetReadState(ChatState.RoomView.Room, Message.Id);
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender &&
+            _wasUnreadOnFirstRender &&
+            Message is not null &&
+            OnRead.HasDelegate)
+        {
+            await OnRead.InvokeAsync(new ChatMessageReadEventArgs(
+                Message.Id,
+                Owner?.Id ?? 0,
+                true,
+                DateTimeOffset.UtcNow));
+
+            await ChatEngine.SendMessageReadAsync(ChatState.RoomView!, Message.Id, default);
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     #endregion Methods

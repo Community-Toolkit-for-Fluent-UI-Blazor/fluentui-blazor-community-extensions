@@ -18,19 +18,33 @@ public enum ChatMessageType
     Text = 1,
 
     /// <summary>
-    /// The message contains some documents.
+    /// The message contains audio files.
     /// </summary>
-    /// <remarks>Files means : audio or video or image files, but pdf, doc, docx, pptx are files too.</remarks>
-    Files = 2,
+    Audio = 2,
+
+    /// <summary>
+    /// The message contains image files.
+    /// </summary>
+    Images = 4,
+
+    /// <summary>
+    /// The message contains video files.
+    /// </summary>
+    Videos = 8,
+
+    /// <summary>
+    /// The message contains other files (pdf, doc, docx, pptx, etc).
+    /// </summary>
+    Files = 16,
 
     /// <summary>
     /// The message contains a gift.
     /// </summary>
-    Gift = 4,
+    Gift = 32,
 
     /// <summary>
     /// The message contains a custom content.
     /// </summary>
     /// <remarks>Custom is defined by the user.</remarks>
-    Custom = 8,
+    Custom = 64,
 }

@@ -14,4 +14,9 @@ public sealed record ChatGroupCreateResult
     /// Gets the error message if the group creation failed, otherwise null.
     /// </summary>
     public string? ErrorMessage { get; init; }
+
+    /// <summary>
+    /// Gets the created chat room if the group creation was successful, otherwise null.
+    /// </summary>
+    public required ChatRoom Room { get; init; } = default!;
 }

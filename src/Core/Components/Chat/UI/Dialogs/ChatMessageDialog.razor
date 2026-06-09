@@ -15,7 +15,6 @@
     <ChildContent>
         <FluentCxSlideshow ContentRatio="SlideshowContentRatio.Landscape"
                            RatioMode="SlideshowRatioMode.Container"
-                           LoopMode="SlideshowLoopingMode.Infinite"
                            IsTouchEnabled>
             @if (_files.Count > 0)
             {
@@ -24,11 +23,11 @@
                     var item = file;
 
                     <SlideshowItem>
-                        @if (item.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                        @if (item.ContentType.StartsWith(FluentCxConstants.ImageContentType, StringComparison.OrdinalIgnoreCase))
                         {
                             <SlideshowImage Source="@item.Url" />
                         }
-                        else if (item.ContentType.StartsWith("video/", StringComparison.OrdinalIgnoreCase))
+                        else if (item.ContentType.StartsWith(FluentCxConstants.VideoContentType, StringComparison.OrdinalIgnoreCase))
                         {
                             <SlideshowVideo Source="@item.Url" />
                         }

@@ -7,17 +7,26 @@
 @using FluentUI.Demo.Client.Infrastructure
 
 <div style="height: 700px">
-    <FluentRadioGroup Items="@_users"
-                      @bind-Value="_selectedUser"
-                      RadioLabel="@(i => $"{i?.DisplayName}")"
-                      RadioValue="@(i => i?.Id.ToString())" />
+    <FluentStack HorizontalGap="8px">
+        <FluentRadioGroup Items="@_users"
+                          Label="Available Users"
+                          @bind-Value="_selectedUser"
+                          RadioLabel="@(i => $"{i?.DisplayName}")"
+                          RadioValue="@(i => i?.Id.ToString())" />
 
+        <FluentSpacer />
+
+        <FluentSwitch Label="Split message in multi parts"
+                      @bind-Value="splitMessage" />
+
+        <FluentSwitch Label="Enable file preview"
+                      @bind-Value="enableFileArea" />
+    </FluentStack>
+
+    
     <FluentCxChat TFile="FileManagerSampleFile"
-                  LastMessageProvider="@OnLastMessage"
                   @bind-Owner="_selectedUser"
                   RoomItemsProvider="@OnGetRoomItems"
-                  RoomUsersProvider="@OnGetRoomUsers"
-                  UnreadMessagesProvider="@OnGetUnreadMessageProvider"
                   UserSearchProvider="@OnGetUserSearchProvider"
                   OnRoomCreate="@OnCreateRoom"
                   FilesProvider="@GetMessageFilesProvider"
@@ -32,12 +41,24 @@
                   MessageCountProvider="@GetMessageCountProvider"
                   OnPinOrUnpinMessage="@OnUnpinChanged"
                   ReadUserStateProvider="@GetReadUserStateProvider"
-                  @ref="_chat"/>
+                  MessageSplitOption="@(splitMessage ? ChatMessageSplitOption.SplitTextAndDocument : ChatMessageSplitOption.None)"
+                  ChatFileRenderingMode="@(enableFileArea ? ChatFileRenderingMode.PreviewArea : ChatFileRenderingMode.Badge)"
+                  OnRead="@OnRead"
+                  OnRoomBlockChanged="@OnRoomBlockedChanged"
+                  OnRoomArchiveChanged="@OnRoomArchiveChanged"
+                  OnRoomHideChanged="@OnRoomHideChanged"
+                  OnRoomMuteChanged="@OnRoomMuteChanged"
+                  OnRoomPinChanged="@OnRoomPinChanged"
+                  OnRoomDelete="@OnRoomDelete"
+                  OnRoomRename="@OnRoomRename"
+                  @ref="_chat" />
 </div>
 
 
 
 @code {
+    private bool splitMessage = false;
+    private bool enableFileArea = false;
     private FluentCxChat<FileManagerSampleFile>? _chat;
 
     private Dictionary<string, long> _cultures = new()
@@ -45,6 +66,8 @@
         ["fr-FR"] = 1,
         ["en-US"] = 2
     };
+
+    private readonly List<ChatMessageUserState> _chatMessageUserStates = [];
 
     private readonly List<ChatUser> _users = new List<ChatUser>()
     {
@@ -79,10 +102,16 @@
 
     private ChatUser _selectedUser;
     private readonly List<ChatRoom> _chatRooms;
-    private readonly Dictionary<long, List<ChatUser>> _roomUsers = new Dictionary<long, List<ChatUser>>();
+    private readonly List<ChatRoomUser> _roomUsers;
     private readonly List<ChatMessage> _messages = [];
     private readonly List<IChatFile> _files = [];
     private readonly List<ChatMessageReaction> _reactions = [];
+
+    private static long messageIdCounter = 0;
+    private static long fileIdCounter = 0;
+    private static long reactionIdCounter = 0;
+    private static long roomUserIdCounter = 0;
+    private static long roomIdCounter = 0;
 
     public ChatExample()
     {
@@ -93,29 +122,57 @@
                 {
                     Id = 1,
                     Name = "General",
-                    IsMuted = false,
-                    IsPinned = true,
-                    IsArchived = false,
                     IsDeleted = false,
                     OwnerId = _users[0].Id,
                     Owner = _users[0],
-                    CreatedDate = DateTimeOffset.UtcNow.AddDays(-10)
+                    CreatedDate = DateTimeOffset.UtcNow.AddDays(-10),
+                    IsEmpty = true
                 },
                 new ChatRoom
                 {
                     Id = 2,
                     OwnerId = _users[1].Id,
                     Name = "Random",
-                    IsMuted = true,
-                    IsPinned = false,
-                    IsArchived = false,
                     IsDeleted = false,
                     CreatedDate = DateTimeOffset.UtcNow.AddDays(-5),
+                    IsEmpty = true
                 }
         };
 
-        _roomUsers[1] = new List<ChatUser> { _users[0], _users[1] };
-        _roomUsers[2] = new List<ChatUser> { _users[1], _users[2] };
+        _roomUsers = new List<ChatRoomUser>
+        {
+            new ChatRoomUser { RoomId = 1, User = _users[0], UserId = _users[0].Id },
+            new ChatRoomUser { RoomId = 1, User = _users[1], UserId = _users[1].Id },
+            new ChatRoomUser { RoomId = 2, User = _users[1], UserId = _users[1].Id },
+            new ChatRoomUser { RoomId = 2, User = _users[2], UserId = _users[2].Id }
+        };
+
+        roomIdCounter = _chatRooms.Max(r => r.Id);
+    }
+
+    private static long NextRoomId()
+    {
+        return Interlocked.Increment(ref roomIdCounter);
+    }
+
+    private static long NextRoomUserId()
+    {
+        return Interlocked.Increment(ref roomUserIdCounter);
+    }
+
+    private static long NextMessageId()
+    {
+        return Interlocked.Increment(ref messageIdCounter);
+    }
+
+    private static long NextFileId()
+    {
+        return Interlocked.Increment(ref fileIdCounter);
+    }
+
+    private static long NextReactionId()
+    {
+        return Interlocked.Increment(ref reactionIdCounter);
     }
 
     private Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatUser>>> OnGetUserSearchProvider =>
@@ -125,65 +182,94 @@
             return Task.FromResult(result);
         };
 
-    private ValueTask<int> OnGetUnreadMessageProvider(
-        long roomId,
-        long ownerId,
-        CancellationToken cancellationToken)
-    {
-        return ValueTask.FromResult(0);
-    }
 
-    private ValueTask<IReadOnlyList<ChatUser>> OnGetRoomUsers(long roomId, CancellationToken cancellationToken)
+    private ValueTask<ItemsProviderResult<ChatRoomView>> OnGetRoomItems(ChatRoomItemsRequest request, CancellationToken token)
     {
-        return ValueTask.FromResult<IReadOnlyList<ChatUser>>(
-           _roomUsers.TryGetValue(roomId, out var users) ? users : []
-        );
-    }
+        var roomViews = new List<ChatRoomView>();
 
-    private ValueTask<ChatMessage?> OnLastMessage(long roomId, CancellationToken token)
-    {
-        return new ValueTask<ChatMessage?>(new ChatMessage
+        // 1. UserRooms determines the visible rooms.
+        var userRooms = request.UserFilter is not null
+            ? _roomUsers.Where(request.UserFilter.Compile()).ToList()
+            : _roomUsers.ToList();
+
+        // 2. Gets the Id of the rooms where the user is participant
+        var visibleRoomIds = userRooms
+            .Where(x => x.UserId == _selectedUser.Id)
+            .Select(x => x.RoomId)
+            .ToHashSet();
+
+        // 3. Gets the rooms based on the visible room ids and eventually apply the RoomFilter if any.
+        var rooms = request.RoomFilter is not null
+            ? _chatRooms.Where(request.RoomFilter.Compile()).Where(r => visibleRoomIds.Contains(r.Id)).ToList()
+            : _chatRooms.Where(r => visibleRoomIds.Contains(r.Id)).ToList();
+
+        foreach (var room in rooms)
         {
-        });
-    }
+            var users = _roomUsers
+                .Where(x => x.RoomId == room.Id)
+                .Select(x => x.User)
+                .ToList();
 
-    private ValueTask<IEnumerable<ChatRoom>> OnGetRoomItems(ChatRoomItemsRequest request, CancellationToken token)
-    {
-        if (request.Filter is null)
-        {
-            return new ValueTask<IEnumerable<ChatRoom>>(_chatRooms);
-        }
+            var userState = _roomUsers
+                .FirstOrDefault(x => x.RoomId == room.Id && x.UserId == _selectedUser.Id);
 
-        var func = request.Filter.Compile();
-        var rooms = _chatRooms.Where(x => func(x));
+            var roomMessages = _messages
+                .Where(m => m.RoomId == room.Id)
+                .OrderBy(m => m.Id)
+                .ToList();
 
-        // Now for each room, we need to ensure that the owner of the chat is included in the room users.
-        // For example, Jérémy can create a room with Marvin,
-        // Marvin is not the owner of the room but should be able to see it in his list with Jérémy as part of the room users.
-        var selectedRooms = new HashSet<ChatRoom>();
+            var lastMessage = roomMessages.LastOrDefault();
 
-        foreach (var item in _chatRooms)
-        {
-            if (_roomUsers.TryGetValue(item.Id, out var users) && users.Any(u => u.Id == _selectedUser?.Id))
+            var userReadStates = _chatMessageUserStates
+                .Where(s => s.UserId == _selectedUser.Id && s.IsRead);
+
+            var lastReadMessageId = userReadStates
+                .Select(s => s.MessageId)
+                .DefaultIfEmpty(0)
+                .Max();
+
+            var unread = roomMessages
+                .Where(m => m.Id > lastReadMessageId && m.SenderId != _selectedUser.Id)
+                .Count();
+
+            roomViews.Add(new ChatRoomView
             {
-                selectedRooms.Add(item);
-            }
+                Room = room,
+                Users = users,
+                UserState = userState,
+                LastMessage = lastMessage,
+                UnreadCount = unread
+            });
         }
 
-        return new ValueTask<IEnumerable<ChatRoom>>(selectedRooms);
+        return ValueTask.FromResult(new ItemsProviderResult<ChatRoomView>(
+            roomViews,
+            roomViews.Count
+        ));
     }
 
     private ValueTask<ChatGroupCreateResult> OnCreateRoom(
         ChatGroupCreateRequest request,
         CancellationToken cancellationToken)
     {
-        request.Room.Id = _chatRooms.Max(x => x.Id) + 1;
-        _chatRooms.Add(request.Room);
-        _roomUsers[request.Room.Id] = request.Users.ToList();
+        var newRoom = request.Room with
+        {
+            Id = NextRoomId()
+        };
+
+        _chatRooms.Add(newRoom);
+        _roomUsers.AddRange(request.Users.Select(u => new ChatRoomUser
+        {
+            RoomId = newRoom.Id,
+            Id = NextRoomUserId(),
+            UserId = u.Id,
+            User = u
+        }));
 
         return ValueTask.FromResult(new ChatGroupCreateResult()
         {
-            Success = true
+            Success = true,
+            Room = newRoom
         });
     }
 
@@ -205,50 +291,49 @@
 
     private ValueTask<ChatMessageCreationResult> OnCreateMessage(ChatMessageItemsCreationRequest request)
     {
-        var chatMessageResult = new List<ChatMessage>();
-        var chatFileResult = new List<IChatFile>();
+        List<ChatMessage> chatMessageResult = [];
+        List<IChatFile> chatFileResult = [];
 
-        _messages.AddRange(request.Messages);
-        _files.AddRange(request.Files);
-
-        foreach (var item in request.Messages)
+        foreach (var item in request.Items)
         {
-            var copy = item with
+            var messageId = NextMessageId();
+            var message = item.Message with
             {
-                Id = Math.Max(1, _messages.Max(x => x.Id) + 1),
-                Sender = _users.FirstOrDefault(x => x.Id == item.SenderId)!
+                Id = messageId,
+                Sender = _users.FirstOrDefault(x => x.Id == item.Message.SenderId)!,
+                Sections = item.Message.Sections.Select(s => s with { MessageId = messageId }).ToList()
             };
 
-            chatMessageResult.Add(copy);
+            chatMessageResult.Add(message);
+            _messages.Add(message);
 
-            foreach (var section in copy.Sections)
+            foreach (var file in item.Files.OfType<ChatFile>())
             {
-                section.MessageId = copy.Id;
-            }
-        }
-
-        var fileMessageId = chatMessageResult.FirstOrDefault(x => x.Type.HasFlag(ChatMessageType.Files))?.Id;
-        var realFileMessageId = fileMessageId.HasValue ? fileMessageId.Value : request.Messages[0].Id;
-
-        foreach (var item in request.Files)
-        {
-            if (item is ChatFile c)
-            {
-                var file = c with
+                var chatFile = file with
                 {
-                    Id = Math.Max(1, chatFileResult.Count > 0 ? chatFileResult.Max(x => x.Id) + 1 : 1),
-                    MessageId = realFileMessageId
+                    Id = NextFileId(),
+                    MessageId = messageId
                 };
 
-                chatFileResult.Add(file);
+                _files.Add(chatFile);
+                chatFileResult.Add(chatFile);
             }
         }
 
-        _messages.RemoveAll(x => request.Messages.Any(m => m.Id == x.Id));
-        _messages.AddRange(chatMessageResult);
+        var room = _chatRooms.FirstOrDefault(r => r.Id == request.RoomId);
 
-        _files.RemoveAll(x => request.Files.Any(f => f.Id == x.Id));
-        _files.AddRange(chatFileResult);
+        if (room is not null &&
+            room.IsEmpty)
+        {
+            _chatRooms.Remove(room);
+
+            room = room with
+            {
+                IsEmpty = false
+            };
+
+            _chatRooms.Add(room);
+        }
 
         return ValueTask.FromResult(new ChatMessageCreationResult()
         {
@@ -327,7 +412,7 @@
 
     private ValueTask<IReadOnlyList<ChatMessageUserState>> GetReadUserStateProvider(ChatMessageUserStateRequest request)
     {
-        return ValueTask.FromResult<IReadOnlyList<ChatMessageUserState>>([]);
+        return ValueTask.FromResult<IReadOnlyList<ChatMessageUserState>>(_chatMessageUserStates.Where(x => request.MessageIds.Contains(x.MessageId)).ToList());
     }
 
     private void OnReactMessage(ChatMessageReactRequest request)
@@ -341,7 +426,7 @@
 
         var r = new ChatMessageReaction
         {
-            Id = Math.Max(1, _reactions.Count > 0 ? _reactions.Max(x => x.Id) + 1 : 1),
+            Id = NextReactionId(),
             MessageId = request.MessageId,
             UserReactedById = request.OwnerId,
             Emoji = request.Emoji,
@@ -351,5 +436,153 @@
 
         _reactions.Add(r);
         request.Reaction = r;
+    }
+
+    private void OnRead(ChatMessageReadEventArgs e)
+    {
+        var item = _chatMessageUserStates.Find(x => x.MessageId == e.MessageId && x.UserId == e.UserId);
+
+        if (item is null)
+        {
+            _chatMessageUserStates.Add(new ChatMessageUserState
+            {
+                MessageId = e.MessageId,
+                UserId = e.UserId,
+                IsRead = e.IsRead,
+                ReadDate = e.ReadDate
+            });
+        }
+        else
+        {
+            _chatMessageUserStates.Remove(item);
+
+            item = item with
+            {
+                IsRead = e.IsRead,
+                ReadDate = e.ReadDate
+            };
+
+            _chatMessageUserStates.Add(item);
+        }
+    }
+
+    private void OnRoomBlockedChanged(ChatRoomEventArgs e)
+    {
+        var user = _roomUsers.FirstOrDefault(x => x.UserId == e.User.UserId && x.RoomId == e.User.RoomId);
+
+        if (user is not null)
+        {
+            _roomUsers.Remove(user);
+
+            user = user with
+            {
+                IsBlocked = e.User.IsBlocked
+            };
+
+            _roomUsers.Add(user);
+        }
+    }
+
+    private void OnRoomArchiveChanged(ChatRoomEventArgs e)
+    {
+        var user = _roomUsers.FirstOrDefault(x => x.UserId == e.User.UserId && x.RoomId == e.User.RoomId);
+
+        if (user is not null)
+        {
+            _roomUsers.Remove(user);
+
+            user = user with
+            {
+                IsArchived = e.User.IsArchived
+            };
+
+            _roomUsers.Add(user);
+        }
+    }
+
+    private void OnRoomHideChanged(ChatRoomEventArgs e)
+    {
+        var user = _roomUsers.FirstOrDefault(x => x.UserId == e.User.UserId && x.RoomId == e.User.RoomId);
+
+        if (user is not null)
+        {
+            _roomUsers.Remove(user);
+
+            user = user with
+            {
+                IsHidden = e.User.IsHidden
+            };
+
+            _roomUsers.Add(user);
+        }
+    }
+
+    private void OnRoomMuteChanged(ChatRoomEventArgs e)
+    {
+        var user = _roomUsers.FirstOrDefault(x => x.UserId == e.User.UserId && x.RoomId == e.User.RoomId);
+
+        if (user is not null)
+        {
+            _roomUsers.Remove(user);
+
+            user = user with
+            {
+                IsMuted = e.User.IsMuted
+            };
+
+            _roomUsers.Add(user);
+        }
+    }
+
+    private void OnRoomPinChanged(ChatRoomEventArgs e)
+    {
+        var user = _roomUsers.FirstOrDefault(x => x.UserId == e.User.UserId && x.RoomId == e.User.RoomId);
+
+        if (user is not null)
+        {
+            _roomUsers.Remove(user);
+
+            user = user with
+            {
+                IsPinned = e.User.IsPinned
+            };
+
+            _roomUsers.Add(user);
+        }
+    }
+
+    private void OnRoomDelete(ChatRoom e)
+    {
+        var room = _chatRooms.FirstOrDefault(x => x.Id == e.Id);
+
+        if (room is not null)
+        {
+            _chatRooms.Remove(room);
+
+            room = room with
+            {
+                IsDeleted = true,
+                DeletedDate = DateTimeOffset.UtcNow
+            };
+
+            _chatRooms.Add(room);
+        }
+    }
+
+    private void OnRoomRename(ChatRoom e)
+    {
+        var room = _chatRooms.FirstOrDefault(x => x.Id == e.Id);
+
+        if (room is not null)
+        {
+            _chatRooms.Remove(room);
+
+            room = room with
+            {
+                Name = e.Name
+            };
+
+            _chatRooms.Add(room);
+        }
     }
 }

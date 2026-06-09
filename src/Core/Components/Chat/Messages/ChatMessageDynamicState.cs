@@ -10,7 +10,7 @@ internal sealed class ChatMessageDynamicState
     private readonly Dictionary<long, Dictionary<long, ChatMessageReadState>> _readStates = [];
     private readonly Dictionary<long, Dictionary<long, List<ChatMessageReaction>>> _reactions = [];
     private readonly Dictionary<long, Dictionary<long, List<IChatFile>>> _files = [];
-    private readonly Dictionary<long, bool> _pinStates = [];
+    private readonly Dictionary<long, Dictionary<long, bool>> _pinStates = [];
 
     public event EventHandler? ReadStateUpdated;
     public event EventHandler? ReactionsUpdated;
@@ -92,7 +92,7 @@ internal sealed class ChatMessageDynamicState
         }
 
         dict[messageId] = state;
-        ReadStateUpdated?.Invoke(this, System.EventArgs.Empty);
+        ReadStateUpdated?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ internal sealed class ChatMessageDynamicState
         }
 
         dict[messageId] = [.. files];
-        FilesUpdated?.Invoke(this, System.EventArgs.Empty);
+        FilesUpdated?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
@@ -172,40 +172,49 @@ internal sealed class ChatMessageDynamicState
         if (_readStates.TryGetValue(room.Id, out var readStatesDict))
         {
             readStatesDict.Remove(messageId);
-            ReadStateUpdated?.Invoke(this, System.EventArgs.Empty);
+            ReadStateUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         if (_reactions.TryGetValue(room.Id, out var reactionsDict))
         {
             reactionsDict.Remove(messageId);
-            ReactionsUpdated?.Invoke(this, System.EventArgs.Empty);
+            ReactionsUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         if (_files.TryGetValue(room.Id, out var filesDict))
         {
             filesDict.Remove(messageId);
-            FilesUpdated?.Invoke(this, System.EventArgs.Empty);
+            FilesUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 
     /// <summary>
     /// Sets the pin state of a message. If the pin state is not found, it adds a new entry.
     /// </summary>
-    /// <param name="id">The ID of the message.</param>
+    /// <param name="messageId">The ID of the message.</param>
+    /// <param name="userId">The ID of the user.</param>
     /// <param name="pin">The pin state to set.</param>
-    public void SetPinState(long id, bool pin)
+    public void SetPinState(long messageId, long userId, bool pin)
     {
-        _pinStates[id] = pin;
+        if (!_pinStates.TryGetValue(messageId, out var dict))
+        {
+            dict = [];
+            _pinStates[messageId] = dict;
+        }
+
+        dict[userId] = pin;
     }
 
     /// <summary>
     /// Gets the pin state of a message. If the pin state is not found, it returns false by default.
     /// </summary>
-    /// <param name="id">The ID of the message.</param>
-    /// <returns>The pin state of the message.</returns>
-    public bool GetPinState(long id)
+    /// <param name="messageId">The ID of the message.</param>
+    /// <param name="userId">The ID of the user.</param>
+    /// <returns>The pin state of the message for the specified user.</returns>
+    public bool GetPinState(long messageId, long userId)
     {
-        if (_pinStates.TryGetValue(id, out var pin))
+        if (_pinStates.TryGetValue(messageId, out var dict) &&
+            dict.TryGetValue(userId, out var pin))
         {
             return pin;
         }
@@ -245,15 +254,13 @@ internal sealed class ChatMessageDynamicState
     /// <summary>
     /// Sets the read states of messages in a chat room based on the provided user states and users.
     /// </summary>
-    /// <param name="room">The chat room.</param>
+    /// <param name="roomView">The chat room view.</param>
     /// <param name="ownerId">The ID of the owner.</param>
     /// <param name="readStates">The read states of the messages.</param>
-    /// <param name="users">The users in the chat room.</param>
     internal void SetReadStates(
-        ChatRoom room,
+        ChatRoomView roomView,
         long ownerId,
-        IReadOnlyList<ChatMessageUserState> readStates,
-        IReadOnlyList<ChatUser> users)
+        IReadOnlyList<ChatMessageUserState> readStates)
     {
         var dict = new Dictionary<long, List<ChatMessageUserState>>();
 
@@ -270,8 +277,8 @@ internal sealed class ChatMessageDynamicState
 
         foreach (var item in dict)
         {
-            var state = ChatMessageReadStateCalculator.Compute(ownerId, item.Value, users);
-            SetReadState(room, item.Key, state);
+            var state = ChatMessageReadStateCalculator.Compute(ownerId, item.Value, roomView.Users);
+            SetReadState(roomView.Room, item.Key, state);
         }
     }
 
@@ -298,6 +305,32 @@ internal sealed class ChatMessageDynamicState
         foreach (var item in dict)
         {
             SetFiles(room, item.Key, item.Value);
+        }
+    }
+
+    /// <summary>
+    /// Sets the reactions of messages in a chat room based on the provided reactions.
+    /// </summary>
+    /// <param name="room">The chat room.</param>
+    /// <param name="reactions">The reactions to set for the messages.</param>
+    internal void SetReactions(ChatRoom room, IReadOnlyList<ChatMessageReaction> reactions)
+    {
+        var dict = new Dictionary<long, List<ChatMessageReaction>>();
+
+        foreach (var item in reactions)
+        {
+            if (!dict.TryGetValue(item.MessageId, out var listForMessage))
+            {
+                listForMessage = [];
+                dict[item.MessageId] = listForMessage;
+            }
+
+            listForMessage.Add(item);
+        }
+
+        foreach (var item in dict)
+        {
+            SetReactions(room, item.Key, item.Value);
         }
     }
 }

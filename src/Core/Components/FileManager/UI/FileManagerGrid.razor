@@ -2,18 +2,18 @@
 @inherits FileManagerBase<TItem>
 @typeparam TItem where TItem : class, new()
 
-@if (!IsBusy && Entry is not null)
-{
-    <FluentCxTileGrid MinimumColumnWidth="@ColumnWidth"
-                      ColumnWidth="@ColumnWidth"
-                      RowHeight="@RowHeight"
-                      MinimumRowHeight="@RowHeight"
-                      RowGap="8px"
-                      ColumnGap="8px"
-                      CanReorder="false"
-                      CanResize="false"
-                      Margin="10px 10px 10px 10px"
-                      TItem="FileEntry<TItem>">
+<FluentCxTileGrid MinimumColumnWidth="@ColumnWidth"
+                  ColumnWidth="@ColumnWidth"
+                  RowHeight="@RowHeight"
+                  MinimumRowHeight="@RowHeight"
+                  RowGap="8px"
+                  ColumnGap="8px"
+                  CanReorder="false"
+                  CanResize="false"
+                  Margin="10px 10px 10px 10px"
+                  TItem="FileEntry<TItem>">
+    @if (Entry is not null)
+    {
         @foreach (var item in Entry.Children)
         {
             <TileGridItem TItem="FileEntry<TItem>"
@@ -31,21 +31,8 @@
                 }
             </TileGridItem>
         }
-    </FluentCxTileGrid>
-}
-else
-{
-    <FluentStack Orientation="Orientation.Vertical"
-                 HorizontalAlignment="HorizontalAlignment.Center"
-                 VerticalAlignment="VerticalAlignment.Center"
-                 Style="height: 100%">
-        <FluentProgressBar Min="0" Max="100" Width="340px"
-                           Value="@(IsIndeterminateProgress ? null : ProgressPercent)" />
-        <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">
-            @ProgressLabel
-        </FluentLabel>
-    </FluentStack>
-}
+    }
+</FluentCxTileGrid>
 
 @code {
     private RenderFragment RenderDefaultTile(FileEntry<TItem> item) => __builder =>
@@ -58,7 +45,7 @@ else
                    <FileManagerGridItem IsSmall
                                         IsChecked="@(SelectedItems.Contains(item))"
                                         IsCheckedChanged="@(e => OnCheckedItemChangedAsync(item, e))"
-                                        Entry="@(item)"/>
+                                        Entry="@(item)" />
                    break;
 
                case FileView.MediumIcons:

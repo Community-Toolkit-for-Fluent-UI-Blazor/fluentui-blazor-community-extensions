@@ -3,59 +3,63 @@
 
 @if (Item is not null)
 {
-    <div id="@Id" Style="@Style" class="@Css">
-        @if (_itemLoaded)
-        {
-            if (Template is not null)
+    <FluentCard Width="150px" Height="115px">
+        <FluentStack Id="@Id"
+                     Style="@Style"
+                     Class="@Css"
+                     VerticalAlignment="VerticalAlignment.Center">
+            @if (_itemLoaded)
             {
-                @Template(Item)
-            }
-            else
-            {
-                if (Item.ContentType.StartsWith("image"))
+                if (Template is not null)
                 {
-                    <img width="110" height="110" src="@_url" style="object-fit: cover" />
-                }
-                else if (Item.ContentType.StartsWith("video"))
-                {
-                    <video src="@_url" width="110" height="110" />
-                }
-                else if (Item.ContentType.StartsWith("audio"))
-                {
-                    <ChatAudioFileViewer Source="@_url" />
+                    @Template(Item)
                 }
                 else
                 {
-                    @* <FluentIcon Value="@(FileIcons.FromExtensionAndGridViewOptions(Path.GetExtension(Item.Name), FileView.MediumIcons))"
-                                Width="110px" /> *@
+                    if (Item.ContentType.StartsWith("image"))
+                    {
+                        <img width="90" height="90" src="@_url" style="object-fit: cover" />
+                    }
+                    else if (Item.ContentType.StartsWith("video"))
+                    {
+                        <video src="@_url" width="90" height="90" />
+                    }
+                    else if (Item.ContentType.StartsWith("audio"))
+                    {
+                        <ChatAudioFileViewer IsMinimal Source="@_url" />
+                    }
+                    else
+                    {
+                        <FluentIcon Value="@(FileIcons.GetIcon(Path.GetExtension(Item.Name), FileView.MediumIcons))"
+                                    Width="90px" />
+                    }
                 }
-            }
-        }
-        else
-        {
-            @if (LoadingContent is not null)
-            {
-                @LoadingContent
             }
             else
             {
-                <FluentStack Orientation="Orientation.Vertical"
-                             HorizontalAlignment="HorizontalAlignment.Center"
-                             VerticalAlignment="VerticalAlignment.Center">
-                    <FluentSpinner />
-                    <FluentLabel Style="font-size: 8px; line-height: 8px;">
-                        @Localizer[LanguageResource.CX_Chat_FileView_Loading]
-                    </FluentLabel>
-                </FluentStack>
+                @if (LoadingContent is not null)
+                {
+                    @LoadingContent
+                }
+                else
+                {
+                    <FluentStack Orientation="Orientation.Vertical"
+                                 HorizontalAlignment="HorizontalAlignment.Center"
+                                 VerticalAlignment="VerticalAlignment.Center">
+                        <FluentSpinner />
+                        <FluentText Size="TextSize.Size200">
+                            @Localizer[LanguageResource.CX_Chat_FileView_Loading]
+                        </FluentText>
+                    </FluentStack>
+                }
             }
-        }
 
+            <FluentSpacer />
 
-        <FluentButton IconStart=@(new Size24.Dismiss())
-                      Shape="ButtonShape.Circular"
-                      Size="ButtonSize.Small"
-                      OnClick="@OnDismissAsync"
-                      Appearance="ButtonAppearance.Subtle"
-                      />
-    </div>
+            <FluentButton IconStart=@(new Size24.Dismiss())
+                          Shape="ButtonShape.Circular"
+                          OnClick="@OnDismissAsync"
+                          Appearance="ButtonAppearance.Subtle" />
+        </FluentStack>
+    </FluentCard>
 }

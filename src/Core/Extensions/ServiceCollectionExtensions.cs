@@ -43,10 +43,9 @@ public static class ServiceCollectionExtensions
                        .AddScoped<IFileUploader, FileUploader>()
                        .AddScoped(typeof(IFileEntryZipService<>), typeof(DefaultFileEntryZipService<>))
                        .AddScoped<SlideshowState>()
-                       .AddScoped<ChatRoomState>()
+                       .AddScoped<ChatRoomViewState>()
                        .AddScoped<ChatMessageState>()
                        .AddScoped<ChatMessageDynamicState>()
-                       .AddScoped<ChatRoomDynamicState>()
                        .AddScoped<ChatEngine>();
     }
 

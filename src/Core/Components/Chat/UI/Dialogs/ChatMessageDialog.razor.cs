@@ -78,12 +78,12 @@ public partial class ChatMessageDialog : IAsyncDisposable
 
     private IReadOnlyList<IChatFile> GetFiles()
     {
-        if (State.Room is null)
+        if (State.RoomView is null)
         {
             return [];
         }
 
-        return DynamicState.GetFiles(State.Room, Message.Id);
+        return DynamicState.GetFiles(State.RoomView.Room, Message.Id);
     }
 
     /// <inheritdoc />

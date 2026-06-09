@@ -31,6 +31,11 @@ public partial class ChatView<TItem>
     private Virtualize<ChatMessage>? _virtualizeMessageList;
 
     /// <summary>
+    /// Represents the orchestrator which manage the loading state of the messages and avoid multiple simultaneous loading.
+    /// </summary>
+    private readonly ChatOrchestrator<ChatMessage> _chatOrchestrator = new();
+
+    /// <summary>
     /// Value indicating if the owner of the view has changed since the last render.
     /// </summary>
     private bool _hasOwnerChanged;
@@ -76,6 +81,11 @@ public partial class ChatView<TItem>
     private CancellationTokenSource? _cts;
 
     /// <summary>
+    /// Value indicating if the messages are loading.
+    /// </summary>
+    private bool _isLoading;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ChatView{TItem}"/> class.
     /// </summary>
     /// <param name="configuration">The library configuration.</param>
@@ -95,7 +105,7 @@ public partial class ChatView<TItem>
     /// Gets or sets the state of the chat room.
     /// </summary>
     [Inject]
-    private ChatRoomState RoomState { get; set; } = default!;
+    private ChatRoomViewState RoomState { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the state of the chat messages.
@@ -108,12 +118,6 @@ public partial class ChatView<TItem>
     /// </summary>
     [Inject]
     private ChatMessageDynamicState DynamicState { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the state of the chat room dynamic properties.
-    /// </summary>
-    [Inject]
-    private ChatRoomDynamicState RoomDynamicState { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the engine to manage the chat.
@@ -447,6 +451,12 @@ public partial class ChatView<TItem>
     public EventCallback<ChatMessageReactRequest> OnReactMessage { get; set; }
 
     /// <summary>
+    /// Gets or sets the callback to raise when the message is read.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChatMessageReadEventArgs> OnRead { get; set; }
+
+    /// <summary>
     /// Occurs when the gift button is clicked.
     /// </summary>
     /// <returns>Returns a task which invokes the <see cref="OnGift"/> when completed.</returns>
@@ -517,7 +527,8 @@ public partial class ChatView<TItem>
         var dialog = await DialogService.ShowDialogAsync<CloudFileManagerDialog<TItem>>(a =>
         {
             a.Header.Title = Localizer[LanguageResource.CX_Chat_Message_Import_FileSelectorDialogTitle];
-            a.Footer.PrimaryAction.Label = Localizer[LanguageResource.CX_Chat_Message_Import_DialogCancel];
+            a.Footer.PrimaryAction.Label = Localizer[LanguageResource.CX_Chat_Message_Import_DialogOK];
+            a.Footer.SecondaryAction.Label = Localizer[LanguageResource.CX_Chat_Message_Import_DialogCancel];
         });
 
         if (!dialog.Cancelled &&
@@ -566,13 +577,18 @@ public partial class ChatView<TItem>
     /// </summary>
     /// <param name="sender">Object which invokes the method.</param>
     /// <param name="e">Event associated to this method.</param>
-    private async void OnRoomChanged(object? sender, System.EventArgs e)
+    private void OnRoomChanged(object? sender, EventArgs e)
     {
-        _chatDraft = State.GetDraft();
-        _chatDraft?.SenderId = Owner?.Id ?? 0;
+        if (State.RoomView is not null)
+        {
+            _chatDraft = State.GetDraft();
+            _chatDraft?.SenderId = Owner?.Id ?? 0;
+        }
+
         _totalMessageCount = 0;
         _refreshTotalMessageCount = true;
-        await RefreshDataAsync();
+        InvokeAsync(RefreshDataAsync);
+        StateHasChanged();
     }
 
     /// <summary>
@@ -598,7 +614,7 @@ public partial class ChatView<TItem>
             await TranslateTextAsync();
         }
 
-        if (State.Room is not null &&
+        if (State.RoomView is not null &&
             _chatDraft is not null &&
             Owner is not null)
         {
@@ -607,15 +623,15 @@ public partial class ChatView<TItem>
                 _chatDraft.AddCultureText(Owner.CultureName!, [_chatDraft.Text]);
             }
 
-            (var Messages, var Files) = await _chatDraft.BuildAsync(State.Room.Id, Owner, MessageSplitOption);
+            var buildResult = await _chatDraft.BuildAsync(State.RoomView.Room.Id, Owner, MessageSplitOption);
 
             if (OnCreate is not null)
             {
-                var createdMessages = await OnCreate(new(Messages, Files, _cts.Token));
+                var createdMessages = await OnCreate(new(State.RoomView.Room.Id, [.. buildResult.Items.Select(ChatMessageBuildResult.ToCreationItem)], _cts.Token));
 
                 foreach (var item in createdMessages.Files)
                 {
-                    DynamicState.AppendFile(State.Room, item.MessageId, item);
+                    DynamicState.AppendFile(State.RoomView.Room, item.MessageId, item);
                 }
 
                 messages.AddRange(createdMessages.Messages);
@@ -624,6 +640,19 @@ public partial class ChatView<TItem>
                 _refreshTotalMessageCount = true;
                 await RefreshDataAsync();
                 await SendMessagesAsync(messages);
+
+                if (State.RoomView.Room.IsEmpty)
+                {
+                    State.RoomView = State.RoomView with
+                    {
+                        Room = State.RoomView.Room with
+                        {
+                            IsEmpty = false,
+                        }
+                    };
+
+                    RoomState.AddOrUpdateRoom(State.RoomView);
+                }
             }
         }
 
@@ -637,7 +666,7 @@ public partial class ChatView<TItem>
     /// <returns>Returns a task which translates the text into all users languages when completed.</returns>
     private async Task TranslateTextAsync()
     {
-        if (State.Room is null ||
+        if (State.RoomView is null ||
             Owner is null ||
             _chatDraft is null ||
             !IsTranslationEnabled)
@@ -646,10 +675,10 @@ public partial class ChatView<TItem>
         }
 
         var translationClient = ServiceProvider.GetRequiredService<ITranslationClient>();
-        var cultures = RoomDynamicState.GetUsersBut(State.Room.Id, Owner.Id)
-                                       .Select(x => x.CultureName)
-                                       .Distinct()
-                                       .ToList();
+        var cultures = State.RoomView.Users.Except([Owner])
+                                           .Select(x => x.CultureName)
+                                           .Distinct()
+                                           .ToList();
 
         if (cultures.Count > 0 &&
             !string.IsNullOrEmpty(_chatDraft.Text) &&
@@ -684,16 +713,16 @@ public partial class ChatView<TItem>
         _cts = new CancellationTokenSource();
         var count = messages.Count;
 
-        if (State.Room is not null &&
+        if (State.RoomView is not null &&
             count > 0)
         {
             if (count == 1)
             {
-                await ChatEngine.SendNewMessageAsync(State.Room, messages[0].Id, _cts.Token);
+                await ChatEngine.SendNewMessageAsync(State.RoomView, messages[0].Id, _cts.Token);
             }
             else
             {
-                await ChatEngine.SendNewMessagesAsync(State.Room, messages.Select(x => x.Id), _cts.Token);
+                await ChatEngine.SendNewMessagesAsync(State.RoomView, messages.Select(x => x.Id), _cts.Token);
             }
         }
     }
@@ -708,8 +737,21 @@ public partial class ChatView<TItem>
         {
             await _virtualizeMessageList.RefreshDataAsync();
         }
+    }
 
+    /// <summary>
+    /// Sets the loading state of the view in an asynchronous way.
+    /// </summary>
+    /// <param name="isLoading">Value indicating if the view is loading or not.</param>
+    /// <returns>Returns a task which sets the loading state when completed.</returns>
+    private async ValueTask SetLoadingAsync(bool isLoading)
+    {
+        _isLoading = isLoading;
         await InvokeAsync(StateHasChanged);
+
+        // Delay to ensure the loading state. Sometime the statehaschanged doesn't update the UI and
+        // the loading content is not hidden after the loading is finished, this delay ensure that the loading content is hidden.
+        await Task.Delay(50);
     }
 
     /// <summary>
@@ -719,19 +761,30 @@ public partial class ChatView<TItem>
     /// <returns>Returns an <see cref="ItemsProviderResult{TItem}"/> which contains the messages to render.</returns>
     private async ValueTask<ItemsProviderResult<ChatMessage>> GetItemsAsync(ItemsProviderRequest request)
     {
-        while (State.IsLoading)
-        {
-            await Task.Delay(10);
-        }
+        await SetLoadingAsync(true);
 
-        State.IsLoading = true;
+        var result = await _chatOrchestrator.ProvideAsync(LoadMessagesAsync, request);
 
+        await SetLoadingAsync(false);
+
+        return result;
+    }
+
+    /// <summary>
+    /// Loads the messages to render in the view in an asynchronous way.
+    /// </summary>
+    /// <param name="request">Request to use to retrieve items.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel the operation.</param>
+    /// <returns>Returns an <see cref="ItemsProviderResult{TItem}"/> which contains the messages to render.</returns>
+    private async ValueTask<ItemsProviderResult<ChatMessage>> LoadMessagesAsync(
+        ItemsProviderRequest request,
+        CancellationToken cancellationToken)
+    {
         if (Owner is null ||
-            State.Room is null ||
+            State.RoomView is null ||
             ItemsProvider is null ||
             CountProvider is null)
         {
-            State.IsLoading = false;
             return new();
         }
 
@@ -742,12 +795,12 @@ public partial class ChatView<TItem>
             filter = PredicateBuilder<ChatMessage>.And(x => !x.IsDeleted, Filter);
         }
 
-        filter = PredicateBuilder<ChatMessage>.And(filter, x => x.RoomId == State.Room.Id);
+        filter = PredicateBuilder<ChatMessage>.And(filter, x => x.RoomId == State.RoomView.Room.Id);
 
         if (_refreshTotalMessageCount ||
             _totalMessageCount == 0)
         {
-            var current = await CountProvider(new ChatMessageCountRequest(filter, request.CancellationToken));
+            var current = await CountProvider(new ChatMessageCountRequest(filter, cancellationToken));
             _refreshTotalMessageCount = false;
 
             if (current != _totalMessageCount)
@@ -759,35 +812,29 @@ public partial class ChatView<TItem>
         if (_totalMessageCount > 0 &&
             request.Count > 0)
         {
-            var list = await ItemsProvider(new(filter, request.StartIndex, request.Count, request.CancellationToken));
+            var list = await ItemsProvider(new(filter, request.StartIndex, request.Count, cancellationToken));
 
             if (IsReactEnabled && ReactionsProvider is not null)
             {
-                var reactions = await ReactionsProvider(new([.. list.Select(x => x.Id)], request.CancellationToken));
-
-                foreach (var item in reactions)
-                {
-                    DynamicState.AppendReactions(State.Room, item.MessageId, item);
-                }
+                var reactions = await ReactionsProvider(new([.. list.Select(x => x.Id)], cancellationToken));
+                DynamicState.SetReactions(State.RoomView.Room, reactions);
             }
 
             if (ReadUserStateProvider is not null)
             {
-                var readStates = await ReadUserStateProvider(new([.. list.Select(x => x.Id)], request.CancellationToken));
-                DynamicState.SetReadStates(State.Room, Owner.Id, readStates, RoomDynamicState.GetUsers(State.Room.Id));
+                var readStates = await ReadUserStateProvider(new([.. list.Select(x => x.Id)], cancellationToken));
+                DynamicState.SetReadStates(State.RoomView, Owner.Id, readStates);
             }
 
             if (FilesProvider is not null)
             {
-                var files = await FilesProvider(new([.. list.Select(x => x.Id)], request.CancellationToken));
-                DynamicState.SetFiles(State.Room, files);
+                var files = await FilesProvider(new([.. list.Select(x => x.Id)], cancellationToken));
+                DynamicState.SetFiles(State.RoomView.Room, files);
             }
 
-            State.IsLoading = false;
             return new(list, _totalMessageCount);
         }
 
-        State.IsLoading = false;
         return new();
     }
 
@@ -821,7 +868,7 @@ public partial class ChatView<TItem>
     private async Task OnEditMessageAsync()
     {
         if (Owner is not null &&
-            State.Room is not null &&
+            State.RoomView is not null &&
             _chatDraft is not null &&
             !string.IsNullOrEmpty(_chatDraft.Text) &&
             OnEditMessage is not null)
@@ -855,7 +902,7 @@ public partial class ChatView<TItem>
             ));
 
             _chatDraft.ClearEditMessage();
-            await ChatEngine.SendEditedMessageAsync(State.Room, message.Id, _cts.Token);
+            await ChatEngine.SendEditedMessageAsync(State.RoomView, message.Id, _cts.Token);
             await RefreshDataAsync();
         }
     }
@@ -885,7 +932,7 @@ public partial class ChatView<TItem>
     /// <returns>Returns a task which deletes the message when completed.</returns>
     private async Task OnDeleteAsync(ChatMessage message)
     {
-        if (State.Room is not null &&
+        if (State.RoomView is not null &&
             OnDelete is not null)
         {
             if (_cts is not null)
@@ -898,7 +945,7 @@ public partial class ChatView<TItem>
             _refreshTotalMessageCount = true;
             await OnDelete(message, _cts.Token);
             await RefreshDataAsync();
-            await ChatEngine.SendDeletedMessageAsync(State.Room, message.Id, _cts.Token);
+            await ChatEngine.SendDeletedMessageAsync(State.RoomView, message.Id, _cts.Token);
         }
     }
 
@@ -958,7 +1005,7 @@ public partial class ChatView<TItem>
     /// <returns>Returns a task which reacts to a message when completed.</returns>
     private async Task OnReactAsync(ChatMessageReactEventArgs e)
     {
-        if (State.Room is not null &&
+        if (State.RoomView is not null &&
             Owner is not null &&
             !string.IsNullOrEmpty(e.Reaction))
         {
@@ -979,7 +1026,7 @@ public partial class ChatView<TItem>
                 }
 
                 _cts = new CancellationTokenSource();
-                var allReaactions = DynamicState.GetReactions(State.Room, e.Message.Id).ToList();
+                var allReaactions = DynamicState.GetReactions(State.RoomView.Room, e.Message.Id).ToList();
                 var reactToReplace = allReaactions.Find(x => x.UserReactedById == Owner.Id);
 
                 if (reactToReplace is null)
@@ -991,8 +1038,8 @@ public partial class ChatView<TItem>
                     reactToReplace.Emoji = request.Reaction.Emoji;
                 }
 
-                DynamicState.SetReactions(State.Room, e.Message.Id, allReaactions);
-                await ChatEngine.SendReactedMessageAsync(State.Room, e.Message.Id, e.Reaction, _cts.Token);
+                DynamicState.SetReactions(State.RoomView.Room, e.Message.Id, allReaactions);
+                await ChatEngine.SendReactedMessageAsync(State.RoomView, e.Message.Id, e.Reaction, _cts.Token);
                 await InvokeAsync(StateHasChanged);
             }
         }
@@ -1034,7 +1081,7 @@ public partial class ChatView<TItem>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        State.RoomChanged += OnRoomChanged;
+        State.RoomViewChanged += OnRoomChanged;
 
         RoomState.RoomsChanged += OnUpdated;
         RoomState.RoomUpdated += OnUpdated;
@@ -1057,7 +1104,7 @@ public partial class ChatView<TItem>
     /// <inheritdoc />
     public override ValueTask DisposeAsync()
     {
-        State.RoomChanged -= OnRoomChanged;
+        State.RoomViewChanged -= OnRoomChanged;
         RoomState.RoomsChanged -= OnUpdated;
         RoomState.RoomUpdated -= OnUpdated;
 
@@ -1096,5 +1143,30 @@ public partial class ChatView<TItem>
 
             await RefreshDataAsync();
         }
+    }
+
+    /// <summary>
+    /// Determines if the current user is blocked or not.
+    /// </summary>
+    /// <returns>True if the room is blocked, otherwise false.</returns>
+    private bool IsBlocked()
+    {
+        if (State.RoomView is null ||
+            Owner is null)
+        {
+            return true;
+        }
+
+        if (State.RoomView.Room.IsLocked == true)
+        {
+            return true;
+        }
+
+        if (State.RoomView.UserState?.IsBlocked == true)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

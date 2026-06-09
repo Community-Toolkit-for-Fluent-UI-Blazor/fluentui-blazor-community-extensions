@@ -16,7 +16,7 @@ public partial class ChatAudioFileViewer
 {
     private bool _isPlaying;
     private IJSObjectReference? _chatAudioReference;
-    private const string ChatAudioFileName = "./_content/FluentUI.Blazor.Community.Components/Components/Chat/Viewers/ChatAudioFileViewer.razor.js";
+    private const string ChatAudioFileName = "./_content/FluentUI.Blazor.Community.Components/Components/Chat/UI/Viewers/ChatAudioFileViewer.razor.js";
     private readonly DotNetObjectReference<ChatAudioFileViewer> _chatAudioFileViewer;
 
     /// <summary>
@@ -49,7 +49,7 @@ public partial class ChatAudioFileViewer
     /// <summary>
     /// Gets the title to display on the play/pause button, which changes based on the current playback state of the audio file. When the audio is playing, it shows a pause label; when paused, it shows a play label.
     /// </summary>
-    private string Title => _isPlaying ? Localizer[LanguageResource.CH_Chat_FileViewer_Pause] : Localizer[LanguageResource.CH_Chat_FileViewer_Play];
+    private string Title => _isPlaying ? Localizer[LanguageResource.CX_Chat_FileViewer_Pause] : Localizer[LanguageResource.CX_Chat_FileViewer_Play];
 
     /// <summary>
     /// Gets the style to apply to the audio player component, which is set to occupy the full width and height of its container. This style is used to ensure that the audio player fits appropriately within the chat interface, regardless of the display mode or additional styling applied to the component.

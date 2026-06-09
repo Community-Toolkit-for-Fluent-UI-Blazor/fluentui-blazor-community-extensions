@@ -3,53 +3,50 @@ namespace FluentUI.Blazor.Community.Components.Chat.Room;
 /// <summary>
 /// Represents a chat room.
 /// </summary>
-public sealed class ChatRoom : IChatRoomCapabilities
+public sealed record ChatRoom
 {
     /// <summary>
     /// Gets the creation date of the chat room.
     /// </summary>
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; init; }
 
     /// <summary>
     /// Gets the unique identifier of the chat room.
     /// </summary>
-    public long Id { get; set; }
+    public long Id { get; init; }
 
     /// <summary>
     /// Gets or sets the unique identifier of the owner of the chat room.
     /// </summary>
-    public long OwnerId { get; set; }
+    public long OwnerId { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether the chat room is empty.
     /// </summary>
-    public bool IsEmpty { get; set; }
+    public bool IsEmpty { get; init; }
 
     /// <summary>
     /// Gets the name of the chat room.
     /// </summary>
-    public string? Name { get; set; }
+    public string? Name { get; init; }
 
     /// <summary>
     /// Gets the owner of the chat room.
     /// </summary>
-    public ChatUser? Owner { get; set; }
+    public ChatUser? Owner { get; init; }
 
-    /// <inheritdoc />
-    public bool IsBlocked { get; set; }
+    /// <summary>
+    /// Gets a value indicating whether the chat room is locked.
+    /// </summary>
+    public bool IsLocked { get; init; }
 
-    /// <inheritdoc />
-    public bool IsDeleted { get; set; }
+    /// <summary>
+    /// Gets a value indicating whether the chat room is deleted.
+    /// </summary>
+    public bool IsDeleted { get; init; }
 
-    /// <inheritdoc />
-    public bool IsHidden { get; set; }
-
-    /// <inheritdoc />
-    public bool IsMuted { get; set; }
-
-    /// <inheritdoc />
-    public bool IsPinned { get; set; }
-
-    /// <inheritdoc />
-    public bool IsArchived { get; set; }
+    /// <summary>
+    /// Gets the deletion date of the chat room if it is deleted, <see langword="null" /> otherwise.
+    /// </summary>
+    public DateTimeOffset? DeletedDate { get; init; }
 }

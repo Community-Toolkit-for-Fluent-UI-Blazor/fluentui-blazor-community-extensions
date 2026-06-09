@@ -118,7 +118,7 @@
             <FluentStack Width="auto"
                          Orientation="Orientation.Vertical"
                          VerticalAlignment="VerticalAlignment.Stretch">
-                @if (DynamicState.GetPinState(Message!.Id))
+                @if (DynamicState.GetPinState(Message!.Id, Owner!.Id))
                 {
                     <FluentIcon Value="@(new Size24.Pin().WithColor(Color.Primary))" />
                 }
@@ -131,7 +131,7 @@
 
             <FluentMenu Trigger="@($"MoreButton{Message!.Id}")">
                 <FluentMenuList>
-                    @if (DynamicState.GetPinState(Message!.Id))
+                    @if (DynamicState.GetPinState(Message!.Id, Owner!.Id))
                     {
                         <FluentMenuItem OnClick="@(() => OnPinOrUnpinAsync(false))"
                                         IconStart="@(new Size24.PinOff())">
@@ -203,18 +203,25 @@
 
         _renderDocument = __builder =>
         {
-            var files = DynamicState.GetFiles(ChatState.Room!, Message!.Id);
+            var files = DynamicState.GetFiles(ChatState.RoomView!.Room!, Message!.Id);
 
             <FluentStack HorizontalGap="8px">
                 @foreach (var file in files)
                 {
                     if (file is IUrlChatFile f)
                     {
-                        <img src="@f.Url" width="120" height="120" />
+                        if (f.ContentType.StartsWith(FluentCxConstants.ImageContentType, StringComparison.OrdinalIgnoreCase))
+                        {
+                            <img src="@f.Url" width="120" height="120" alt="@f.Name" fetchpriority="auto" title="@f.Name" loading="lazy" />
+                        }
+                        else
+                        {
+                            <FluentIcon Value="@FileIcons.GetIcon(Path.GetExtension(f.Name), FileView.VeryLargeIcons)" Width="120px" />
+                        }
                     }
                     else if (file is BinaryChatFile b)
                     {
-                        if (b.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                        if (b.ContentType.StartsWith(FluentCxConstants.ImageContentType, StringComparison.OrdinalIgnoreCase))
                         {
                             <img src="@($"data:{b.ContentType};base64,{Convert.ToBase64String(b.Content)}")" width="120" height="120" />
                         }
@@ -257,7 +264,10 @@
                     @_renderText
                 }
 
-                @if (Message.Type.HasFlag(ChatMessageType.Files))
+                @if (Message.Type.HasFlag(ChatMessageType.Files) ||
+                     Message.Type.HasFlag(ChatMessageType.Videos) ||
+                     Message.Type.HasFlag(ChatMessageType.Audio) ||
+                     Message.Type.HasFlag(ChatMessageType.Images))
                 {
                     @_renderDocument
                 }

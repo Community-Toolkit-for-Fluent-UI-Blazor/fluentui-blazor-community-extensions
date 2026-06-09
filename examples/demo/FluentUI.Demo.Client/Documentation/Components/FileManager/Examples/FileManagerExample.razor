@@ -16,7 +16,7 @@
 
 @code {
     private IFileProvider<FileManagerSampleFile>? _fileProvider;
-    private LocalStorageFileManagerRepository<FileManagerSampleFile>? _repo;
+    private LocalStorageFileManagerRepository? _repo;
     private List<FileManagerSampleFile> _files = new();
     private readonly Dictionary<int, (string, MemoryStream)> _uploadStreams = new();
 
@@ -26,8 +26,8 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        _repo = new LocalStorageFileManagerRepository<FileManagerSampleFile>(JSRuntime);
-        _fileProvider = new LocalStorageFileProvider<FileManagerSampleFile>(_repo);
+        _repo = new LocalStorageFileManagerRepository(JSRuntime);
+        _fileProvider = new LocalStorageFileProvider(_repo);
 
         _files.AddRange(await _repo.LoadAsync());
     }

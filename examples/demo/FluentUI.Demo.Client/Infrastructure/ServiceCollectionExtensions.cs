@@ -29,8 +29,8 @@ public static class ServiceCollectionExtensions
         public IServiceCollection ForClient()
         {
             _services.AddHttpClient<IStaticAssetService, HttpBasedStaticAssetService>();
-            _services.AddScoped(typeof(LocalStorageFileManagerRepository<>));
-            _services.AddScoped(typeof(IFileProvider<>), typeof(LocalStorageFileProvider<>));
+            _services.AddScoped<LocalStorageFileManagerRepository>();
+            _services.AddScoped<IFileProvider<FileManagerSampleFile>, LocalStorageFileProvider>();
 
             // _services.AddSingleton<CacheStorageAccessor>();
             // _services.AddSingleton<DemoNavProvider>();
@@ -44,8 +44,8 @@ public static class ServiceCollectionExtensions
         public IServiceCollection ForServer()
         {
             _services.AddHttpClient<IStaticAssetService, ServerStaticAssetService>();
-            _services.AddScoped(typeof(LocalStorageFileManagerRepository<>));
-            _services.AddScoped(typeof(IFileProvider<>), typeof(LocalStorageFileProvider<>));
+            _services.AddScoped<LocalStorageFileManagerRepository>();
+            _services.AddScoped<IFileProvider<FileManagerSampleFile>, LocalStorageFileProvider>();
 
             // _services.AddSingleton<DemoNavProvider>();
             // _services.AddScoped<CacheStorageAccessor>();

@@ -27,22 +27,9 @@
         _renderChatRoom = __builder =>
         {
             <ChatRoomListView Owner="@Owner"
-                              CanArchive="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Archive)"
-                              CanBlock="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Block)"
-                              CanDelete="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Delete)"
-                              CanHide="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Hide)"
-                              CanMute="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Mute)"
-                              CanPin="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Pin)"
-                              CanRename="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Rename)"
-                              CanUnarchive="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Unarchive)"
-                              CanUnblock="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Unblock)"
-                              CanUnhide="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Unhide)"
                               EmptyContent="@RoomEmptyContent"
-                              CanCreateNewGroup="@RoomCapabilities.HasFlag(ChatRoomCapabilities.NewGroup)"
-                              IsSearchEnabled="@RoomCapabilities.HasFlag(ChatRoomCapabilities.Search)"
                               ItemsProvider="@RoomItemsProvider"
                               ItemTemplate="@RoomTemplate"
-                              LastMessageProvider="@LastMessageProvider"
                               LoadingContent="@RoomLoadingContent"
                               OnArchiveChanged="@OnRoomArchiveChanged"
                               OnBlockChanged="@OnRoomBlockChanged"
@@ -54,11 +41,10 @@
                               OnRename="@OnRoomRename"
                               RoomNameComparison="@RoomNameComparison"
                               RoomSearchProvider="@RoomSearchProvider"
-                              ShowDeletedRoom="@RoomCapabilities.HasFlag(ChatRoomCapabilities.ShowDeleted)"
-                              UnreadMessagesProvider="@UnreadMessagesProvider"
+                              ShowDeletedRoom="@ShowDeletedRooms"
                               UserNameComparison="@UserNameComparison"
                               UserSearchProvider="@UserSearchProvider"
-                              UsersProvider="@RoomUsersProvider" />
+                              />
 
         };
 
@@ -110,7 +96,8 @@
                       SendIcon="@ChatViewIcons.Send"
                       SendingContent="@SendingContent"
                       SendingRenderMode="@SendingRenderMode"
-                      ShowDeletedMessages=@ShowDeletedMessages />
+                      ShowDeletedMessages=@ShowDeletedMessages
+                      OnRead="@OnRead"/>
         };
     }
 }

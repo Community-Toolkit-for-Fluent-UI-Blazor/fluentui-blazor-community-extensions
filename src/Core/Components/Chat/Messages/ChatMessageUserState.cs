@@ -3,7 +3,7 @@ namespace FluentUI.Blazor.Community.Components.Chat.Messages;
 /// <summary>
 /// Represents the state of a message for a specific user, including whether the message has been read and the date it was read.
 /// </summary>
-public sealed class ChatMessageUserState
+public sealed record ChatMessageUserState
 {
     /// <summary>
     /// Gets the unique identifier for the message user state.

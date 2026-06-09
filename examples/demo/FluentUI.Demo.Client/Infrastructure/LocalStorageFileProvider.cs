@@ -2,13 +2,12 @@ using FluentUI.Blazor.Community.Components;
 
 namespace FluentUI.Demo.Client.Infrastructure;
 
-public sealed class LocalStorageFileProvider<TItem> : IFileProvider<TItem>
-    where TItem : class, new()
+public sealed class LocalStorageFileProvider : IFileProvider<FileManagerSampleFile>
 {
-    private readonly LocalStorageFileManagerRepository<TItem> _repo;
+    private readonly LocalStorageFileManagerRepository _repo;
     private List<FileManagerSampleFile>? _files;
 
-    public LocalStorageFileProvider(LocalStorageFileManagerRepository<TItem> repo)
+    public LocalStorageFileProvider(LocalStorageFileManagerRepository repo)
     {
         _repo = repo;
     }
@@ -20,7 +19,7 @@ public sealed class LocalStorageFileProvider<TItem> : IFileProvider<TItem>
         _files = await _repo.LoadAsync();
     }
 
-    public async ValueTask<IReadOnlyList<EntryDescriptor<TItem>>> GetChildrenAsync(string parentId)
+    public async ValueTask<IReadOnlyList<EntryDescriptor<FileManagerSampleFile>>> GetChildrenAsync(string parentId)
     {
         await EnsureLoadedAsync();
 
@@ -36,22 +35,22 @@ public sealed class LocalStorageFileProvider<TItem> : IFileProvider<TItem>
         return _files!.Any(f => f.ParentId == parentId);
     }
 
-    private static EntryDescriptor<TItem> ToDescriptor(FileManagerSampleFile f)
+    private static EntryDescriptor<FileManagerSampleFile> ToDescriptor(FileManagerSampleFile f)
     {
         if (f.IsDirectory)
         {
-            return EntryDescriptor<TItem>.Directory(
+            return EntryDescriptor<FileManagerSampleFile>.Directory(
                 id: f.Id,
                 name: f.Name ?? "",
                 parentId: f.ParentId,
                 created: f.Created.UtcDateTime,
                 modified: f.LastModified.UtcDateTime,
                 size: f.Size,
-                value: new TItem()
+                value: new FileManagerSampleFile()
             );
         }
 
-        return EntryDescriptor<TItem>.File(
+        return EntryDescriptor<FileManagerSampleFile>.File(
             id: f.Id,
             name: f.Name ?? "",
             parentId: f.ParentId,
@@ -59,7 +58,7 @@ public sealed class LocalStorageFileProvider<TItem> : IFileProvider<TItem>
             created: f.Created.UtcDateTime,
             modified: f.LastModified.UtcDateTime,
             getBytesAsync: () => Task.FromResult(f.Data),
-            value: new TItem()
+            value: new FileManagerSampleFile()
         );
     }
 }

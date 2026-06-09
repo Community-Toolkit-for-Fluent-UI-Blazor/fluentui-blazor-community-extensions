@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components.Chat.Files;
+using FluentUI.Blazor.Community.Components.Components.Base;
 using FluentUI.Blazor.Community.Components.Enums;
 using FluentUI.Blazor.Community.Components.Localization;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -157,7 +158,7 @@ public sealed class ChatMessageDraft
         _replyMessage = message;
     }
 
-    internal Task<(IReadOnlyList<ChatMessage> Messages, IReadOnlyList<IBinaryChatFile> Files)> BuildAsync(
+    internal Task<ChatMessageBuildResult> BuildAsync(
         long roomId,
         ChatUser sender,
         ChatMessageSplitOption messageSplitOption)
@@ -170,70 +171,127 @@ public sealed class ChatMessageDraft
         };
     }
 
-    private async Task<(IReadOnlyList<ChatMessage> Messages, IReadOnlyList<IBinaryChatFile> Files)> BuildMultipleMessagesAsync(
+    private async Task<ChatMessageBuildResult> BuildMultipleMessagesAsync(
         long roomId,
         ChatUser sender)
     {
-        var messages = new List<ChatMessage>();
+        var result = new List<ChatMessageBuildItem>();
+        var texts = GetTranslatedTexts();
 
-        var textMessage = new ChatMessage()
+        if (texts.Count > 0)
         {
-            Id = -1,
-            CreatedDate = DateTime.UtcNow,
-            RoomId = roomId,
-            SenderId = sender.Id,
-            ReplyToMessageId = Reply?.Id,
-            ReplyToMessage = Reply,
-            Type = ChatMessageType.Text,
-            Sections = [.. GetTranslatedTexts().Select(t => new ChatMessageSection()
+            var textMessage = new ChatMessage()
             {
-                Id = -1,
+                Id = FluentCxConstants.NewTextMessageIdentifier,
                 CreatedDate = DateTime.UtcNow,
-                CultureName = t.Key,
-                CultureId = sender.CultureId,
-                MessageId = -1,
-                Content = string.Join(Environment.NewLine, t.Value)
-            })]
-        };
-
-        var fileMessages = new ChatMessage()
-        {
-            Id = -2,
-            CreatedDate = DateTime.UtcNow,
-            RoomId = roomId,
-            SenderId = sender.Id,
-            ReplyToMessageId = Reply?.Id,
-            ReplyToMessage = Reply,
-            Type = ChatMessageType.Files,
-            Sections = []
-        };
-
-        messages.Add(textMessage);
-        messages.Add(fileMessages);
-
-        var files = new List<IBinaryChatFile>();
-
-        foreach (var item in SelectedChatFiles)
-        {
-            var content = await item.GetDataAsync();
-            var file = new BinaryChatFile()
-            {
-                Id = -2,
-                MessageId = -2,
-                CreatedDate = DateTime.UtcNow,
-                Name = item.Name,
-                Content = content,
-                Length = content.Length,
-                ContentType = item.ContentType
+                RoomId = roomId,
+                SenderId = sender.Id,
+                ReplyToMessageId = Reply?.Id,
+                ReplyToMessage = Reply,
+                Type = ChatMessageType.Text,
+                Sections = [.. texts.Select(t => new ChatMessageSection()
+                {
+                    Id = -1,
+                    CreatedDate = DateTime.UtcNow,
+                    CultureName = t.Key,
+                    CultureId = sender.CultureId,
+                    MessageId = -1,
+                    Content = string.Join(Environment.NewLine, t.Value)
+                })]
             };
 
-            files.Add(file);
+            result.Add(new ChatMessageBuildItem(textMessage, []));
         }
 
-        return (messages, files);
+        // Split messages works like that :
+        // * Audio ! One message each file.
+        // * Images : One message for all image files.
+        // * Videos : One message for all video files.
+        // * Other files : One message for all other files.
+
+        var audioFiles = SelectedChatFiles.Where(f => f.ContentType.StartsWith(FluentCxConstants.AudioContentType, StringComparison.OrdinalIgnoreCase));
+
+        if (audioFiles.Any())
+        {
+            foreach (var audioFile in audioFiles)
+            {
+                await BuildAsync(ChatMessageType.Audio, [audioFile]);
+            }
+        }
+
+        var videoFiles = SelectedChatFiles.Where(f => f.ContentType.StartsWith(FluentCxConstants.VideoContentType, StringComparison.OrdinalIgnoreCase));
+
+        if (videoFiles.Any())
+        {
+            await BuildAsync(ChatMessageType.Videos, videoFiles);
+        }
+
+        var imageFiles = SelectedChatFiles.Where(f => f.ContentType.StartsWith(FluentCxConstants.ImageContentType, StringComparison.OrdinalIgnoreCase));
+
+        if (imageFiles.Any())
+        {
+            await BuildAsync(ChatMessageType.Images, imageFiles);
+        }
+
+        var otherFiles = SelectedChatFiles.Where(f => !f.ContentType.StartsWith(FluentCxConstants.AudioContentType, StringComparison.OrdinalIgnoreCase)
+            && !f.ContentType.StartsWith(FluentCxConstants.VideoContentType, StringComparison.OrdinalIgnoreCase)
+            && !f.ContentType.StartsWith(FluentCxConstants.ImageContentType, StringComparison.OrdinalIgnoreCase));
+
+        if (otherFiles.Any())
+        {
+            await BuildAsync(ChatMessageType.Files, otherFiles);
+        }
+
+        async Task BuildAsync(ChatMessageType type, IEnumerable<ChatFileEventArgs> e)
+        {
+            var messageIdentifier = type switch
+            {
+                ChatMessageType.Audio => FluentCxConstants.NewAudioMessageIdentifier,
+                ChatMessageType.Videos => FluentCxConstants.NewVideoMessageIdentifier,
+                ChatMessageType.Images => FluentCxConstants.NewImageMessageIdentifier,
+                ChatMessageType.Files => FluentCxConstants.NewFileMessageIdentifier,
+                _ => throw new NotSupportedException("The ChatMessageType value is not recognized.")
+            };
+
+            var message = new ChatMessage()
+            {
+                Id = messageIdentifier,
+                CreatedDate = DateTime.UtcNow,
+                RoomId = roomId,
+                SenderId = sender.Id,
+                ReplyToMessageId = Reply?.Id,
+                ReplyToMessage = Reply,
+                Type = type,
+                Sections = []
+            };
+
+            var files = new List<IBinaryChatFile>();
+
+            foreach (var item in e)
+            {
+                var content = await item.GetDataAsync();
+
+                var file = new BinaryChatFile()
+                {
+                    Id = -2,
+                    MessageId = messageIdentifier,
+                    CreatedDate = DateTime.UtcNow,
+                    Name = item.Name,
+                    Content = content,
+                    Length = content.Length,
+                    ContentType = item.ContentType
+                };
+
+                files.Add(file);
+            }
+
+            result.Add(new ChatMessageBuildItem(message, files));
+        }
+
+        return new(result);
     }
 
-    private async Task<(IReadOnlyList<ChatMessage> Messages, IReadOnlyList<IBinaryChatFile> Files)> BuildSingleMessageAsync(
+    private async Task<ChatMessageBuildResult> BuildSingleMessageAsync(
         long roomId,
         ChatUser sender)
     {
@@ -245,7 +303,24 @@ public sealed class ChatMessageDraft
             type |= ChatMessageType.Text;
         }
 
-        if (SelectedChatFiles.Count > 0)
+        if (SelectedChatFiles.FindIndex(f => f.ContentType.StartsWith(FluentCxConstants.AudioContentType, StringComparison.OrdinalIgnoreCase)) >= 0)
+        {
+            type |= ChatMessageType.Audio;
+        }
+
+        if (SelectedChatFiles.FindIndex(f => f.ContentType.StartsWith(FluentCxConstants.VideoContentType, StringComparison.OrdinalIgnoreCase)) >= 0)
+        {
+            type |= ChatMessageType.Videos;
+        }
+
+        if (SelectedChatFiles.FindIndex(f => f.ContentType.StartsWith(FluentCxConstants.ImageContentType, StringComparison.OrdinalIgnoreCase)) >= 0)
+        {
+            type |= ChatMessageType.Images;
+        }
+
+        if (SelectedChatFiles.FindIndex(f => !f.ContentType.StartsWith(FluentCxConstants.AudioContentType, StringComparison.OrdinalIgnoreCase)
+            && !f.ContentType.StartsWith(FluentCxConstants.VideoContentType, StringComparison.OrdinalIgnoreCase)
+            && !f.ContentType.StartsWith(FluentCxConstants.ImageContentType, StringComparison.OrdinalIgnoreCase)) >= 0)
         {
             type |= ChatMessageType.Files;
         }
@@ -290,6 +365,6 @@ public sealed class ChatMessageDraft
             files.Add(file);
         }
 
-        return ([message], files);
+        return new ChatMessageBuildResult([new(message, files)]);
     }
 }

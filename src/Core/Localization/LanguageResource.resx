@@ -564,10 +564,10 @@
   <data name="CX_Chat_FileView_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="CH_Chat_FileViewer_Pause" xml:space="preserve">
+  <data name="CX_Chat_FileViewer_Pause" xml:space="preserve">
     <value>Pause</value>
   </data>
-  <data name="CH_Chat_FileViewer_Play" xml:space="preserve">
+  <data name="CX_Chat_FileViewer_Play" xml:space="preserve">
     <value>Play</value>
   </data>
   <data name="CX_Chat_EmokiPicker_Dialog_Title" xml:space="preserve">
@@ -698,5 +698,11 @@
   </data>
   <data name="CX_Chat_Message_ReplyFromMultipleSources" xml:space="preserve">
     <value>This message contains many content sources.</value>
+  </data>
+  <data name="CX_Chat_Message_VideoNotSupported" xml:space="preserve">
+    <value>The video is not supported on your browser.</value>
+  </data>
+  <data name="CX_Chat_Message_AudioNotSupported" xml:space="preserve">
+    <value>Audio is not supported on your browser.</value>
   </data>
 </root>

@@ -11,13 +11,10 @@
 
     @if (IsMinimal)
     {
-        <FluentStack HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center"
-                     Style="height: 100%">
-            <FluentButton OnClick="OnTappedAsync"
-                          Title="@Title"
-                          IconStart="@(_isPlaying ? new Size24.Pause() : new Size24.Play())"
-                          Style="width: 75%; height: 75%;"
-                          Shape="ButtonShape.Circular" />
-        </FluentStack>
+        <FluentButton OnClick="OnTappedAsync"
+                      Title="@Title"
+                      IconStart="@(_isPlaying ? new Size24.Pause() : new Size24.Play())"
+                      Size="ButtonSize.Large"
+                      Shape="ButtonShape.Circular" />
     }
 </div>

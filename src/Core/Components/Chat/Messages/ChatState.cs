@@ -10,7 +10,7 @@ internal record ChatState
     /// <summary>
     /// Represents the selected room.
     /// </summary>
-    private ChatRoom? _room;
+    private ChatRoomView? _room;
 
     /// <summary>
     /// Represents the draft message for different rooms.
@@ -20,22 +20,12 @@ internal record ChatState
     /// <summary>
     /// Events which occured when a room has changed.
     /// </summary>
-    public event EventHandler? RoomChanged;
-
-    /// <summary>
-    /// Gets if the room is loading.
-    /// </summary>
-    public bool IsLoading { get; internal set; }
-
-    /// <summary>
-    /// Gets if the room list is loading.
-    /// </summary>
-    public bool IsRoomLoading { get; internal set; }
+    public event EventHandler? RoomViewChanged;
 
     /// <summary>
     /// Gets or sets the selected room.
     /// </summary>
-    public ChatRoom? Room
+    public ChatRoomView? RoomView
     {
         get => _room;
         internal set
@@ -43,20 +33,8 @@ internal record ChatState
             if (_room != value)
             {
                 _room = value;
-                RoomChanged?.Invoke(this, System.EventArgs.Empty);
+                RoomViewChanged?.Invoke(this, System.EventArgs.Empty);
             }
-        }
-    }
-
-    /// <summary>
-    /// Clear the draft of the <paramref name="roomId"/>.
-    /// </summary>
-    /// <param name="roomId">Identifer of the room.</param>
-    public void ClearDraft(long roomId)
-    {
-        if (_drafts.Remove(roomId))
-        {
-            _drafts.TryAdd(roomId, new());
         }
     }
 
@@ -84,11 +62,11 @@ internal record ChatState
     }
 
     /// <summary>
-    /// Gets the draft for the <see cref="Room"/>.
+    /// Gets the draft for the <see cref="RoomView"/>.
     /// </summary>
     /// <returns>Returns the draft for the room.</returns>
     public ChatMessageDraft? GetDraft()
     {
-        return GetDraft(Room?.Id);
+        return GetDraft(RoomView?.Room.Id);
     }
 }

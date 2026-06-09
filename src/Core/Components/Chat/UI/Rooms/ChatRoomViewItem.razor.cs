@@ -1,5 +1,4 @@
 using System.Globalization;
-using FluentUI.Blazor.Community.Components.Chat.EventArgs;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
 using FluentUI.Blazor.Community.Components.Enums;
@@ -15,7 +14,7 @@ namespace FluentUI.Blazor.Community.Components.Chat.UI.Rooms;
 /// Represents an item in a chat room list, which can be selected or disabled.
 /// It provides visual feedback based on its state and allows for interaction through click events.
 /// </summary>
-public partial class ChatRoomItem : FluentComponentBase
+public partial class ChatRoomViewItem : FluentComponentBase
 {
     /// <summary>
     /// Represents the icon used to indicate a pinned chat room in the list view.
@@ -33,26 +32,11 @@ public partial class ChatRoomItem : FluentComponentBase
     private bool _hover;
 
     /// <summary>
-    /// Represents the list of users in the chat room.
-    /// </summary>
-    private IReadOnlyList<ChatUser> _users = [];
-
-    /// <summary>
-    /// Represents the count of unread messages in the chat room for the current user.
-    /// </summary>
-    private int _unreadMessageCount;
-
-    /// <summary>
-    /// Represents the last message in the chat room.
-    /// </summary>
-    private ChatMessage? _lastMessage;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ChatRoomItem"/> class with the specified library configuration and
+    /// Initializes a new instance of the <see cref="ChatRoomViewItem"/> class with the specified library configuration and
     /// generates a unique identifier.
     /// </summary>
     /// <param name="configuration">The library configuration to use for initializing the chat room item.</param>
-    public ChatRoomItem(LibraryConfiguration configuration)
+    public ChatRoomViewItem(LibraryConfiguration configuration)
         : base(configuration)
     {
         Id = Identifier.NewId();
@@ -74,7 +58,7 @@ public partial class ChatRoomItem : FluentComponentBase
     /// Gets or sets the chat room associated with this item.
     /// </summary>
     [Parameter]
-    public ChatRoom? Room { get; set; }
+    public ChatRoomView? RoomView { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the component is selected.
@@ -85,7 +69,7 @@ public partial class ChatRoomItem : FluentComponentBase
     /// <summary>
     /// Gets or sets a value indicating whether the component is disabled.
     /// </summary>
-    private bool IsDisabled => Room?.IsBlocked == true && Owner == Room?.Owner;
+    private bool IsDisabled => RoomView?.Room.IsLocked == true && Owner == RoomView?.Room.Owner;
 
     /// <summary>
     /// Gets or sets an event callback that is invoked when the component is clicked.
@@ -99,12 +83,6 @@ public partial class ChatRoomItem : FluentComponentBase
     [Parameter]
     public IEnumerable<ChatRoomAction> MoreMenuActions { get; set; } = [];
 
-    /// <summary>
-    /// Gets or sets the function that provides the list of users in the chat room based on the room ID.
-    /// </summary>
-    [Inject]
-    private ChatRoomDynamicState DynamicState { get; set; } = null!;
-    
     /// <summary>
     /// Gets the css for the item.
     /// </summary>
@@ -137,7 +115,7 @@ public partial class ChatRoomItem : FluentComponentBase
     {
         base.OnInitialized();
 
-        if (Room is null)
+        if (RoomView is null)
         {
             throw new InvalidOperationException("Room is required for ChatRoomItem.");
         }
@@ -146,72 +124,6 @@ public partial class ChatRoomItem : FluentComponentBase
         {
             throw new InvalidOperationException("Owner is required for ChatRoomItem.");
         }
-
-        _users = DynamicState.GetUsers(Room.Id);
-        _lastMessage = DynamicState.GetLastMessage(Room.Id);
-        _unreadMessageCount = DynamicState.GetUnreadCount(Room.Id);
-
-        DynamicState.UsersUpdated += OnUsersUpdated;
-        DynamicState.LastMessageUpdated += OnLastMessageUpdated;
-        DynamicState.UnreadCountUpdated += OnUnreadCountUpdated;
-    }
-
-    /// <summary>
-    /// Occurs when the unread message count for the chat room is updated, allowing the component to refresh its display accordingly.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event arguments containing the updated unread message count.</param>
-    private void OnUnreadCountUpdated(object? sender, UnreadCountUpdatedEventArgs e)
-    {
-        if (Room?.Id != e.RoomId)
-        {
-            return;
-        }
-
-        _unreadMessageCount = e.Count;
-        StateHasChanged();
-    }
-
-    /// <summary>
-    /// Occurs when the last message in the chat room is updated, allowing the component to refresh its display with the new message preview.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event arguments containing the updated last message.</param>
-    private void OnLastMessageUpdated(object? sender, LastMessageUpdatedEventArgs e)
-    {
-        if (Room?.Id != e.RoomId)
-        {
-            return;
-        }
-
-        _lastMessage = e.Message;
-        StateHasChanged();
-    }
-
-    /// <summary>
-    /// Occurs when the list of users in the chat room is updated, allowing the component to refresh its display with the new user information.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event arguments containing the updated list of users.</param>
-    private void OnUsersUpdated(object? sender, UsersUpdatedEventArgs e)
-    {
-        if (Room?.Id != e.RoomId)
-        {
-            return;
-        }
-
-        _users = e.Users;
-        StateHasChanged();
-    }
-
-    /// <inheritdoc />
-    public override ValueTask DisposeAsync()
-    {
-        DynamicState.UsersUpdated -= OnUsersUpdated;
-        DynamicState.LastMessageUpdated -= OnLastMessageUpdated;
-        DynamicState.UnreadCountUpdated -= OnUnreadCountUpdated;
-
-        return base.DisposeAsync();
     }
 
     /// <summary>
@@ -226,11 +138,11 @@ public partial class ChatRoomItem : FluentComponentBase
             return new MarkupString(string.Empty);
         }
 
-        if (_unreadMessageCount >= 1)
+        if (RoomView?.UnreadCount >= 1)
         {
-            var text = _unreadMessageCount == 1
-                ? Localizer[LanguageResource.CX_Chat_Room_UnreadSingular, _unreadMessageCount]
-                : Localizer[LanguageResource.CX_Chat_Room_UnreadPlural, _unreadMessageCount];
+            var text = RoomView.UnreadCount == 1
+                ? Localizer[LanguageResource.CX_Chat_Room_UnreadSingular, RoomView.UnreadCount]
+                : Localizer[LanguageResource.CX_Chat_Room_UnreadPlural, RoomView.UnreadCount];
 
             return new MarkupString(text);
         }
@@ -240,12 +152,26 @@ public partial class ChatRoomItem : FluentComponentBase
             return new MarkupString(Localizer[LanguageResource.CX_Chat_Room_EmptyRoomMessage]);
         }
 
-        if (_lastMessage is not null)
+        if (RoomView?.LastMessage is not null)
         {
-            return new MarkupString($"<b>{Format(_lastMessage)}</b>");
+            return new MarkupString($"<b>{Format(RoomView.LastMessage)}</b>");
         }
 
         return new MarkupString(string.Empty);
+    }
+
+    /// <summary>
+    /// Gets the date and time of the last message in the chat room, or the room creation date if there are no messages, formatted as a short date string.
+    /// </summary>
+    /// <returns>A string representing the date and time of the last message or room creation date.</returns>
+    private string GetRoomDateTime()
+    {
+        if (RoomView?.LastMessage is not null)
+        {
+            return RoomView.LastMessage.CreatedDate.ToLocalTime().DateTime.ToShortDateString();
+        }
+
+        return RoomView?.Room.CreatedDate.ToLocalTime().DateTime.ToShortDateString() ?? string.Empty;
     }
 
     /// <summary>

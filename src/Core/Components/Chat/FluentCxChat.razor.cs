@@ -47,10 +47,10 @@ public partial class FluentCxChat<TFile>
     public EventCallback<ChatUser?> OwnerChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the capabilities of the chat room, such as whether it can be blocked, deleted, or hidden.
+    /// Gets or sets a value indicating whether deleted chat rooms should be shown in the chat room list.
     /// </summary>
     [Parameter]
-    public ChatRoomCapabilities RoomCapabilities { get; set; } = ChatRoomCapabilities.All;
+    public bool ShowDeletedRooms { get; set; }
 
     /// <summary>
     /// Gets or sets the capabilities of the chat view.
@@ -62,7 +62,7 @@ public partial class FluentCxChat<TFile>
     /// Gets or sets the template for rendering a chat room. The template receives a <see cref="ChatRoom"/> as its context, allowing you to customize the appearance and behavior of each chat room in the chat component.
     /// </summary>
     [Parameter]
-    public RenderFragment<ChatRoom>? RoomTemplate { get; set; }
+    public RenderFragment<ChatRoomView>? RoomTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets the template for rendering the content when a chat room is empty.
@@ -83,28 +83,10 @@ public partial class FluentCxChat<TFile>
     public required ChatRoomItemsProvider? RoomItemsProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the provider for the last message in a chat room.
-    /// </summary>
-    [Parameter]
-    public required ChatLastMessageProvider? LastMessageProvider { get; set; }
-
-    /// <summary>
-    /// Gets or sets the provider for chat room users.
-    /// </summary>
-    [Parameter]
-    public required ChatRoomUsersProvider? RoomUsersProvider { get; set; }
-
-    /// <summary>
-    /// Gets or sets the provider for unread messages in a chat room.
-    /// </summary>
-    [Parameter]
-    public required ChatUnreadMessagesProvider? UnreadMessagesProvider { get; set; }
-
-    /// <summary>
     /// Gets or sets the provider for searching chat rooms.
     /// </summary>
     [Parameter]
-    public Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatRoom>>>? RoomSearchProvider { get; set; }
+    public Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatRoomView>>>? RoomSearchProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the provider for searching chat users.
@@ -116,31 +98,31 @@ public partial class FluentCxChat<TFile>
     /// Gets or sets the event callback that is invoked when the archive state of a chat room changes.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnRoomArchiveChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnRoomArchiveChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the block state of a chat room changes.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnRoomBlockChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnRoomBlockChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the hide state of a chat room changes.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnRoomHideChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnRoomHideChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the mute state of a chat room changes.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnRoomMuteChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnRoomMuteChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when the pin state of a chat room changes.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnRoomPinChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnRoomPinChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback that is invoked when a delete action is performed on a chat room.
@@ -375,6 +357,12 @@ public partial class FluentCxChat<TFile>
     /// </summary>
     [Parameter]
     public EventCallback<ChatMessageReactRequest> OnReactMessage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback to raise when the message is read.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChatMessageReadEventArgs> OnRead { get; set; }
 
     /// <summary>
     /// Gets the css class for the chat component.

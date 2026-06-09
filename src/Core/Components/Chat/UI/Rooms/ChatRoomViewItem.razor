@@ -1,0 +1,100 @@
+﻿@namespace FluentUI.Blazor.Community.Components.Chat.UI.Rooms
+@inherits FluentComponentBase
+
+<div class="@CssClass"
+     style="@Style"
+     id="@Id"
+     @onclick="HandleClick"
+     @onmouseover="() => _hover = true"
+     @onmouseout="() => _hover = false">
+    @if (RoomView is not null)
+    {
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentStack VerticalAlignment=VerticalAlignment.Center HorizontalGap="8px">
+
+                @if (IsSelected)
+                {
+                    <div class="selection-bar"></div>
+                }
+
+                <div class="content-wrapper">
+                    <FluentStack VerticalAlignment=VerticalAlignment.Center
+                                 HorizontalAlignment="HorizontalAlignment.Stretch"
+                                 HorizontalGap="10px">
+                        <FluentStack Width="auto" VerticalGap="8px" Orientation="Orientation.Vertical">
+                            <FluentStack Width="auto">
+                                @if (RoomView.UserState?.IsPinned == true)
+                                {
+                                    <FluentIcon Value="@(s_Pin)" />
+                                }
+
+                                @if (RoomView.UserState?.IsMuted == true)
+                                {
+                                    <FluentIcon Value="@(s_Mute)" />
+                                }
+                            </FluentStack>
+
+                            <FluentStack Width="auto">
+                                @* Replace with AvatarGroup when available *@
+                                @foreach (var user in RoomView.Users.Take(4))
+                                {
+                                    <FluentAvatar Image="@user.Avatar"
+                                                  Initials="@user.Initials"
+                                                  Shape="AvatarShape.Circle"
+                                                  Size="AvatarSize.Size40" />
+                                }
+                            </FluentStack>
+                        </FluentStack>
+
+                        <FluentStack Orientation="Orientation.Vertical" Height="100%" VerticalGap="8px">
+                            <FluentText Block Tooltip="@RoomView.Room.Name" Truncate>@RoomView.Room.Name</FluentText>
+
+                            <FluentText Block Truncate Style="max-height: 48px">
+                                @GetRoomPreview(RoomView.Room)
+                            </FluentText>
+                        </FluentStack>
+                    </FluentStack>
+                </div>
+
+                @if (ShowMoreButton)
+                {
+                    <FluentButton Id="@($"chat-room-menu-{Id}")" IconEnd="@(new Size24.MoreVertical())" />
+
+                    <FluentMenu Trigger="@($"chat-room-menu-{Id}")">
+                        <FluentMenuList>
+                            @foreach (var chatRoomAction in MoreMenuActions)
+                            {
+                                if (chatRoomAction.IsSeparator)
+                                {
+                                    <FluentDivider />
+                                }
+                                else
+                                {
+                                    <FluentMenuItem OnClick="@chatRoomAction.Action"
+                                                    IconStart="@chatRoomAction.Icon">
+                                        @chatRoomAction.Label
+                                    </FluentMenuItem>
+                                }
+                            }
+                        </FluentMenuList>
+                    </FluentMenu>
+                }
+            </FluentStack>
+
+            <FluentStack HorizontalAlignment="HorizontalAlignment.Right">
+                <FluentText Size="TextSize.Size100">
+                    @(GetRoomDateTime())
+                </FluentText>
+            </FluentStack>
+        </FluentStack>
+    }
+    else
+    {
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="8px">
+            <FluentSpinner Size="SpinnerSize.Large" />
+            <FluentText Size="TextSize.Size100">
+                @Localizer[LanguageResource.CX_Chat_Room_Loading]
+            </FluentText>
+        </FluentStack>
+    }
+</div>

@@ -60,16 +60,6 @@
                         </TemplateColumn>
                     }
                 </ChildContent>
-
-                <LoadingContent>
-                    <FluentStack Orientation="Orientation.Vertical"
-                                 HorizontalAlignment="HorizontalAlignment.Center"
-                                 VerticalAlignment="VerticalAlignment.Center"
-                                 Style="height: 100%">
-                        <FluentProgressBar Min="0" Max="100" Width="340px" Value="@(IsIndeterminateProgress ? null : ProgressPercent)" />
-                        <FluentLabel Style="font-size: var(--type-ramp-minus-2-font-size); line-height: 8px;">@ProgressLabel</FluentLabel>
-                    </FluentStack>
-                </LoadingContent>
             </FluentDataGrid>
         };
     }

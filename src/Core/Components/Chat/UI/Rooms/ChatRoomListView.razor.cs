@@ -1,16 +1,15 @@
 using System.Globalization;
-using System.Linq.Expressions;
 using FluentUI.Blazor.Community.Components.Chat;
 using FluentUI.Blazor.Community.Components.Chat.Engine;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Chat.Room;
 using FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
 using FluentUI.Blazor.Community.Components.Components.Base;
+using FluentUI.Blazor.Community.Components.Enums;
 using FluentUI.Blazor.Community.Components.Infrastructure;
 using FluentUI.Blazor.Community.Components.Localization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
@@ -24,17 +23,6 @@ public partial class ChatRoomListView
     : FluentComponentBase
 {
     /// <summary>
-    /// Represents the different views available for the chat room list.
-    /// </summary>
-    private enum ListView
-    {
-        Normal,
-        Blocked,
-        Hidden,
-        Archived
-    }
-
-    /// <summary>
     /// Value indicating whether the owner of the chat room has changed, which is used to determine if the chat room list needs to be updated based on the new owner context.
     /// </summary>
     private bool _hasOwnerChanged;
@@ -47,27 +35,7 @@ public partial class ChatRoomListView
     /// <summary>
     /// Represents the selected chat rooms.
     /// </summary>
-    private List<ChatRoom> _selectedRooms = [];
-
-    /// <summary>
-    /// Represents all chat rooms.
-    /// </summary>
-    private readonly List<ChatRoom> _chatRooms = [];
-
-    /// <summary>
-    /// Represents the blocked chat rooms.
-    /// </summary>
-    private readonly List<ChatRoom> _blockedRooms = [];
-
-    /// <summary>
-    /// Represents the hidden chat rooms.
-    /// </summary>
-    private readonly List<ChatRoom> _hiddenRooms = [];
-
-    /// <summary>
-    /// Represents the archived chat rooms.
-    /// </summary>
-    private readonly List<ChatRoom> _archivedRooms = [];
+    private List<ChatRoomView> _selectedRooms = [];
 
     /// <summary>
     /// Represents the selected chat room.
@@ -77,12 +45,17 @@ public partial class ChatRoomListView
     /// <summary>
     /// Represents the list view type.
     /// </summary>
-    private ListView _listView;
+    private RoomListView _listView;
 
     /// <summary>
     /// Represents the virtualized component for rendering the chat rooms efficiently when there are a large number of rooms to display.
     /// </summary>
-    private Virtualize<ChatRoom>? _virtualized;
+    private Virtualize<ChatRoomView>? _virtualizeRooms;
+
+    /// <summary>
+    /// Represents the chat orchestrator for managing the loading state and refreshing of the chat room list, ensuring that the UI remains responsive and up-to-date with the latest chat room data.
+    /// </summary>
+    private readonly ChatOrchestrator<ChatRoomView> _chatOrchestrator = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatRoomListView"/> class with the specified library configuration.
@@ -94,17 +67,13 @@ public partial class ChatRoomListView
         Id = Identifier.NewId();
     }
 
+    private bool IsLoading { get; set; }
+
     /// <summary>
     /// Gets or sets the dialog service for showing dialogs.
     /// </summary>
     [Inject]
     private IDialogService DialogService { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the new group chat feature is enabled.
-    /// </summary>
-    [Parameter]
-    public bool CanCreateNewGroup { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback for when a new chat group is created.
@@ -122,7 +91,7 @@ public partial class ChatRoomListView
     /// Gets or sets the chat room state, which contains the state of the chat rooms, such as blocked, hidden, or archived rooms.
     /// </summary>
     [Inject]
-    private ChatRoomState RoomState { get; set; } = default!;
+    private ChatRoomViewState RoomState { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the items provider for fetching chat rooms.
@@ -131,28 +100,10 @@ public partial class ChatRoomListView
     public ChatRoomItemsProvider? ItemsProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the users provider for fetching users in a chat room.
-    /// </summary>
-    [Parameter]
-    public ChatRoomUsersProvider? UsersProvider { get; set; }
-
-    /// <summary>
-    /// Gets or sets the unread messages provider for fetching the count of unread messages in a chat room.
-    /// </summary>
-    [Parameter]
-    public ChatUnreadMessagesProvider? UnreadMessagesProvider { get; set; }
-
-    /// <summary>
-    /// Gets or sets the last message provider for fetching the last message in a chat room.
-    /// </summary>
-    [Parameter]
-    public ChatLastMessageProvider? LastMessageProvider { get; set; }
-
-    /// <summary>
     /// Gets or sets the item template fragment to render a chat room option.
     /// </summary>
     [Parameter]
-    public RenderFragment<ChatRoom>? ItemTemplate { get; set; }
+    public RenderFragment<ChatRoomView>? ItemTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets the function to search for users in the chat room.
@@ -164,7 +115,7 @@ public partial class ChatRoomListView
     /// Gets or sets the function to search for chat rooms.
     /// </summary>
     [Parameter]
-    public Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatRoom>>>? RoomSearchProvider { get; set; }
+    public Func<string?, StringComparison, CancellationToken, Task<IEnumerable<ChatRoomView>>>? RoomSearchProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the string comparison to compare the name of the room.
@@ -191,54 +142,6 @@ public partial class ChatRoomListView
     public EventCallback<ChatUser?> OwnerChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the chat room can be deleted.
-    /// </summary>
-    [Parameter]
-    public bool CanDelete { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the chat room can be hidden.
-    /// </summary>
-    [Parameter]
-    public bool CanHide { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the chat room can be blocked.
-    /// </summary>
-    [Parameter]
-    public bool CanBlock { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the chat room can be renamed.
-    /// </summary>
-    [Parameter]
-    public bool CanRename { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the chat room can be pinned.
-    /// </summary>
-    [Parameter]
-    public bool CanPin { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the chat room can be muted.
-    /// </summary>
-    [Parameter]
-    public bool CanMute { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the chat room can be archived.
-    /// </summary>
-    [Parameter]
-    public bool CanArchive { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the chat room can be unarchived.
-    /// </summary>
-    [Parameter]
-    public bool CanUnarchive { get; set; }
-
-    /// <summary>
     /// Gets or sets the event callback for when a chat room is deleted.
     /// </summary>
     [Parameter]
@@ -248,31 +151,31 @@ public partial class ChatRoomListView
     /// Gets or sets the event callback for when a chat room is blocked.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnBlockChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnBlockChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback for when a chat room is hidden.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnHideChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnHideChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback for when a chat room is archived or unarchived.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnArchiveChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnArchiveChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback for when a chat room is pinned.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnPinChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnPinChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback for when a chat room is muted.
     /// </summary>
     [Parameter]
-    public EventCallback<ChatRoom> OnMuteChanged { get; set; }
+    public EventCallback<ChatRoomEventArgs> OnMuteChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event callback for when a chat room is renamed.
@@ -287,24 +190,6 @@ public partial class ChatRoomListView
     public RenderFragment? LoadingContent { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the search functionality is enabled for the chat room list.
-    /// </summary>
-    [Parameter]
-    public bool IsSearchEnabled { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the unblock functionality is enabled for the chat room list.
-    /// </summary>
-    [Parameter]
-    public bool CanUnblock { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the unblock functionality is enabled for the chat room list.
-    /// </summary>
-    [Parameter]
-    public bool CanUnhide { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether to show deleted rooms in the chat room list.
     /// </summary>
     [Parameter]
@@ -317,16 +202,20 @@ public partial class ChatRoomListView
     public RenderFragment? EmptyContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the logger for the component, which is used for logging information and errors related to the chat room list view.
-    /// </summary>
-    [Inject]
-    private ILogger<ChatRoomListView> Logger { get; set; } = default!;
-
-    /// <summary>
     /// Gets or sets the chat engine, which is used for managing chat rooms and messages in real-time.
     /// </summary>
     [Inject]
     private ChatEngine ChatEngine { get; set; } = default!;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private bool ShowMoreButton => OnBlockChanged.HasDelegate ||
+                                   OnHideChanged.HasDelegate ||
+                                   OnDelete.HasDelegate ||
+                                   OnPinChanged.HasDelegate ||
+                                   OnMuteChanged.HasDelegate ||
+                                   OnRename.HasDelegate;
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -338,25 +227,6 @@ public partial class ChatRoomListView
             throw new InvalidOperationException("The ItemsProvider parameter must be set to a valid ChatRoomItemsProvider function.");
         }
 
-        if (UsersProvider is null)
-        {
-            throw new InvalidOperationException("The UsersProvider parameter must be set to a valid ChatRoomUsersProvider function.");
-        }
-
-        if (LastMessageProvider is null)
-        {
-            throw new InvalidOperationException("The LastMessageProvider parameter must be set to a valid ChatLastMessageProvider function.");
-        }
-
-        if (UnreadMessagesProvider is null)
-        {
-            throw new InvalidOperationException("The UnreadMessagesProvider parameter must be set to a valid ChatUnreadMessagesProvider function.");
-        }
-
-        ChatEngine.SetLastMessageProvider(LastMessageProvider);
-        ChatEngine.SetUnreadProvider(UnreadMessagesProvider);
-        ChatEngine.SetUsersProvider(UsersProvider);
-
         RoomState.RoomsChanged += OnRoomsChanged;
         RoomState.RoomUpdated += OnRoomUpdated;
     }
@@ -366,6 +236,8 @@ public partial class ChatRoomListView
     {
         RoomState.RoomsChanged -= OnRoomsChanged;
         RoomState.RoomUpdated -= OnRoomUpdated;
+
+        GC.SuppressFinalize(this);
 
         return base.DisposeAsync();
     }
@@ -394,23 +266,11 @@ public partial class ChatRoomListView
     /// Handles changes to the selected chat rooms and updates the component state.
     /// </summary>
     /// <param name="value">The new collection of selected chat rooms.</param>
-    private void OnSelectedRoomsChanged(IEnumerable<ChatRoom> value)
+    private void OnSelectedRoomsChanged(IEnumerable<ChatRoomView> value)
     {
         _selectedRooms = [.. value];
         StateHasChanged();
     }
-
-    /// <summary>
-    /// Gets the current list of chat rooms based on the selected view (normal, blocked, or hidden).
-    /// </summary>
-    private ICollection<ChatRoom> CurrentRooms => _listView switch
-    {
-        ListView.Normal => OrderRooms(_selectedRooms.Count > 0 ? _selectedRooms : _chatRooms),
-        ListView.Blocked => OrderRooms(_blockedRooms),
-        ListView.Hidden => OrderRooms(_hiddenRooms),
-        ListView.Archived => OrderRooms(_archivedRooms),
-        _ => []
-    };
 
     /// <summary>
     /// Sorts chat rooms by pinned status and last message date.
@@ -418,78 +278,41 @@ public partial class ChatRoomListView
     /// <remarks>The input list is sorted in-place.</remarks>
     /// <param name="value">The list of chat rooms to sort.</param>
     /// <returns>The sorted collection with pinned rooms first, ordered by most recent message date.</returns>
-    private static List<ChatRoom> OrderRooms(List<ChatRoom> value)
+    private static List<ChatRoomView> OrderRooms(List<ChatRoomView> value)
     {
         value.Sort((a, b) =>
         {
-            if (a.IsPinned && !b.IsPinned)
+            var aPinned = a.UserState?.IsPinned ?? false;
+            var bPinned = b.UserState?.IsPinned ?? false;
+
+            if (aPinned && !bPinned)
             {
                 return -1;
             }
-            else if (!a.IsPinned && b.IsPinned)
+            else if (!aPinned && bPinned)
             {
                 return 1;
             }
-            else
-            {
-                return a.CreatedDate.CompareTo(b.CreatedDate);
-            }
+
+            var aDate = a.LastMessage?.CreatedDate ?? a.Room.CreatedDate;
+            var bDate = b.LastMessage?.CreatedDate ?? b.Room.CreatedDate;
+
+            return bDate.CompareTo(aDate);
         });
 
         return value;
     }
 
     /// <summary>
-    /// Updates the chat rooms collection by canceling any pending operations, clearing the existing rooms, and fetching
-    /// new rooms using the provided filter expression.
+    /// Refreshes the chat room data by invoking the chat orchestrator to manage the loading state and calling the RefreshDataAsync method on the virtualized component to update the displayed chat rooms based on the current view and filters.
     /// </summary>
-    /// <param name="listViewValue">The list view mode to set for the room display.</param>
-    /// <param name="rooms">The collection to populate with filtered chat rooms.</param>
-    /// <param name="value">The filter expression to apply when retrieving chat rooms.</param>
-    /// <param name="localizedMessage">The localization key for the log message in case of operation cancellation.</param>
-    /// <returns>A task representing the asynchronous update operation.</returns>
-    private async Task OnUpdateRoomsAsync(
-       ListView listViewValue,
-       List<ChatRoom> rooms,
-       Expression<Func<ChatRoom, bool>> value,
-       string localizedMessage)
+    /// <returns>A task that represents the asynchronous operation of refreshing the chat room data.</returns>
+    private async Task RefreshDataAsync()
     {
-        if (_cts is not null)
+        if (_virtualizeRooms is not null)
         {
-            await _cts.CancelAsync();
-            _cts.Dispose();
-        }
-
-        _cts = new CancellationTokenSource();
-        var token = _cts.Token;
-
-        _listView = listViewValue;
-        rooms.Clear();
-
-        if (ItemsProvider is not null)
-        {
-            try
-            {
-                var filter = PredicateBuilder<ChatRoom>.True;
-                filter = PredicateBuilder<ChatRoom>.And(filter, value);
-                filter = Owner is not null ? PredicateBuilder<ChatRoom>.And(filter, x => x.OwnerId == Owner.Id) : filter;
-
-                if (!ShowDeletedRoom)
-                {
-                    filter = PredicateBuilder<ChatRoom>.And(filter, x => !x.IsDeleted);
-                }
-
-                var items = await ItemsProvider(new(filter), token);
-                rooms.AddRange(items);
-            }
-            catch (OperationCanceledException ex)
-            {
-                if (Logger.IsEnabled(LogLevel.Information))
-                {
-                    var message = Localizer[localizedMessage];
-                    Logger.LogInformation(ex, message, Owner?.UserName);
-                }
-            }
+            await _virtualizeRooms.RefreshDataAsync();
+            await Task.Yield();
         }
     }
 
@@ -499,11 +322,8 @@ public partial class ChatRoomListView
     /// <returns>A task that represents the asynchronous operation of updating the room list view.</returns>
     private async Task OnShowRoomsAsync()
     {
-        await OnUpdateRoomsAsync(
-            ListView.Normal,
-            _chatRooms,
-            x => !x.IsBlocked && !x.IsHidden && !x.IsArchived,
-            LanguageResource.CX_Chat_Room_ShowAllRooms_OperationCanceled);
+        _listView = RoomListView.Normal;
+        await RefreshDataAsync();
     }
 
     /// <summary>
@@ -512,7 +332,8 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which displays the blocked rooms view.</returns>
     private async Task OnUnblockRoomsAsync()
     {
-        await OnUpdateRoomsAsync(ListView.Blocked, _blockedRooms, x => x.IsBlocked, LanguageResource.CX_Chat_Room_Blocked_OperationCanceled);
+        _listView = RoomListView.Blocked;
+        await RefreshDataAsync();
     }
 
     /// <summary>
@@ -521,7 +342,8 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which displays the hidden rooms view.</returns>
     private async Task OnUnhideRoomsAsync()
     {
-        await OnUpdateRoomsAsync(ListView.Hidden, _hiddenRooms, x => x.IsHidden, LanguageResource.CX_Chat_Room_Hidden_OperationCanceled);
+        _listView = RoomListView.Hidden;
+        await RefreshDataAsync();
     }
 
     /// <summary>
@@ -530,7 +352,8 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which displays the archived rooms view.</returns>
     private async Task OnUnarchiveRoomsAsync()
     {
-        await OnUpdateRoomsAsync(ListView.Archived, _archivedRooms, x => x.IsArchived, LanguageResource.CX_Chat_Room_Archived_OperationCanceled);
+        _listView = RoomListView.Archived;
+        await RefreshDataAsync();
     }
 
     /// <summary>
@@ -538,7 +361,7 @@ public partial class ChatRoomListView
     /// </summary>
     /// <param name="e">Events args associated to the method.</param>
     /// <returns>Returns a task which displays the rooms based on the predicate <see cref="RoomSearchProvider"/> when completed.</returns>
-    private async Task OnChatRoomSearchAsync(OptionsSearchEventArgs<ChatRoom> e)
+    private async Task OnChatRoomSearchAsync(OptionsSearchEventArgs<ChatRoomView> e)
     {
         if (RoomSearchProvider is not null)
         {
@@ -593,7 +416,8 @@ public partial class ChatRoomListView
                 CreatedDate = DateTime.Now,
                 OwnerId = Owner.Id,
                 Owner = Owner,
-                Name = string.Join(" & ", full)
+                Name = string.Join(" & ", full),
+                IsEmpty = true
             };
 
             var result = await OnNewChatGroup(new ChatGroupCreateRequest()
@@ -607,8 +431,12 @@ public partial class ChatRoomListView
                 throw new ChatRoomListException("An error occured during the creation of the room.");
             }
 
-            _chatRooms.Add(room);
-            ChatState.Room = room;
+            ChatState.RoomView = new ChatRoomView()
+            {
+                Room = room,
+                Users = [Owner, .. users],
+            };
+
             _selectedRoom = room.Id.ToString(CultureInfo.InvariantCulture);
 
             ChatEngine.SetOwner(Owner!.Id);
@@ -620,127 +448,73 @@ public partial class ChatRoomListView
             }
 
             _cts = new CancellationTokenSource();
-            await ChatEngine.RegisterRoomAsync(room, _cts.Token);
-            await ChatEngine.SendCreatedRoomAsync(room, _cts.Token);
+            var roomView = ChatState.RoomView;
+            await ChatEngine.RegisterRoomAsync(roomView, _cts.Token);
+            await ChatEngine.SendCreatedRoomAsync(roomView, _cts.Token);
 
-            await InvokeAsync(StateHasChanged);
+            await RefreshDataAsync();
         }
     }
 
     /// <summary>
-    /// Loads the chat rooms asynchronously based on the provided ID.
+    /// Loads the chat rooms asynchronously.
     /// </summary>
-    /// <param name="id">Identifier of the room.</param>
     /// <returns>Returns a task which loads the room when completed.</returns>
-    private async Task LoadChatRoomsAsync(long id = -1)
+    private async ValueTask<ItemsProviderResult<ChatRoomView>> LoadRoomsAsync(
+        ItemsProviderRequest request,
+        CancellationToken token)
     {
-        if (_cts is not null)
+        var roomFilter = PredicateBuilder<ChatRoom>.True;
+        var userFilter = PredicateBuilder<ChatRoomUser>.True;
+
+        if (!ShowDeletedRoom)
         {
-            await _cts.CancelAsync();
-            _cts.Dispose();
+            roomFilter = PredicateBuilder<ChatRoom>.And(roomFilter, x => !x.IsDeleted);
         }
 
-        _cts = new CancellationTokenSource();
-        var token = _cts.Token;
-
-        ChatState.IsRoomLoading = true;
-        _chatRooms.Clear();
-
-        if (ItemsProvider is not null)
+        if (!OnBlockChanged.HasDelegate)
         {
-            try
-            {
-                var predicate = PredicateBuilder<ChatRoom>.True;
-
-                if (!CanUnblock)
-                {
-                    predicate = PredicateBuilder<ChatRoom>.And(x => !x.IsBlocked);
-                }
-
-                if (!CanUnhide)
-                {
-                    predicate = PredicateBuilder<ChatRoom>.And(x => !x.IsHidden);
-                }
-
-                if (!CanUnarchive)
-                {
-                    predicate = PredicateBuilder<ChatRoom>.And(x => !x.IsArchived);
-                }
-
-                if (!ShowDeletedRoom)
-                {
-                    predicate = PredicateBuilder<ChatRoom>.And(predicate, x => !x.IsDeleted);
-                }
-
-                if (Owner is not null)
-                {
-                    predicate = PredicateBuilder<ChatRoom>.And(predicate, x => x.OwnerId == Owner.Id);
-                }
-
-                var items = await ItemsProvider(new(predicate), token);
-
-                foreach (var item in items)
-                {
-                    if (item.IsBlocked)
-                    {
-                        _blockedRooms.Add(item);
-                    }
-                    else if (item.IsHidden)
-                    {
-                        _hiddenRooms.Add(item);
-                    }
-                    else if (item.IsArchived)
-                    {
-                        _archivedRooms.Add(item);
-                    }
-                    else
-                    {
-                        _chatRooms.Add(item);
-                    }
-
-                    await ChatEngine.RegisterRoomAsync(item, _cts.Token);
-                }
-            }
-            catch (OperationCanceledException ex)
-            {
-                if (Logger.IsEnabled(LogLevel.Information))
-                {
-                    var message = Localizer[LanguageResource.CX_Chat_Room_Loading_OperationCanceled];
-                    Logger.LogInformation(ex, message, Owner?.UserName);
-                }
-            }
+            userFilter = PredicateBuilder<ChatRoomUser>.And(userFilter, x => !x.IsBlocked);
         }
 
-        if (id != -1)
+        if (!OnHideChanged.HasDelegate)
         {
-            var sources = new (IEnumerable<ChatRoom> Rooms, ListView View)[]
-            {
-                (_chatRooms, ListView.Normal),
-                (_blockedRooms, ListView.Blocked),
-                (_hiddenRooms, ListView.Hidden),
-                (_archivedRooms, ListView.Archived)
-            };
-
-            ChatRoom? found = null;
-
-            foreach (var (rooms, view) in sources)
-            {
-                found = rooms.FirstOrDefault(x => x.Id == id);
-
-                if (found is not null)
-                {
-                    _listView = view;
-                    break;
-                }
-            }
-
-            ChatState.Room = found;
+            userFilter = PredicateBuilder<ChatRoomUser>.And(userFilter, x => !x.IsHidden);
         }
 
-        _selectedRoom = ChatState.Room is null ? "-1" : ChatState.Room.Id.ToString(CultureInfo.InvariantCulture);
-        ChatState.IsRoomLoading = false;
+        if (!OnArchiveChanged.HasDelegate)
+        {
+            userFilter = PredicateBuilder<ChatRoomUser>.And(userFilter, x => !x.IsArchived);
+        }
 
-        await InvokeAsync(StateHasChanged);
+        userFilter = _listView switch
+        {
+            RoomListView.Normal => PredicateBuilder<ChatRoomUser>.And(userFilter, x => !x.IsBlocked && !x.IsHidden && !x.IsArchived),
+            RoomListView.Blocked => PredicateBuilder<ChatRoomUser>.And(userFilter, x => x.IsBlocked),
+            RoomListView.Hidden => PredicateBuilder<ChatRoomUser>.And(userFilter, x => x.IsHidden),
+            RoomListView.Archived => PredicateBuilder<ChatRoomUser>.And(userFilter, x => x.IsArchived),
+            _ => userFilter
+        };
+
+        var ownerId = Owner?.Id ?? 0;
+
+        var result = await ItemsProvider!(
+            new ChatRoomItemsRequest(
+                roomFilter,
+                userFilter,
+                ownerId,
+                request.StartIndex,
+                request.Count),
+            token);
+
+        foreach (var item in result.Items)
+        {
+            await ChatEngine.RegisterRoomAsync(item, token);
+        }
+
+        var ordered = OrderRooms([.. result.Items]);
+
+        return new ItemsProviderResult<ChatRoomView>(ordered, result.TotalItemCount);
     }
 
     /// <summary>
@@ -749,17 +523,27 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which renames the chat room when completed.</returns>
     private async Task OnRenameAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoom>(
             showDialog: () => DialogService.ShowDialogAsync<ChatRoomRenameDialog>(a =>
             {
                 a.Footer.PrimaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogOk];
                 a.Footer.SecondaryAction.Label = Localizer[LanguageResource.CX_Chat_Room_DialogCancel];
-                a.Parameters.Add(nameof(ChatRoomRenameDialog.Value), ChatState.Room?.Name);
+                a.Parameters.Add(nameof(ChatRoomRenameDialog.Value), ChatState.RoomView?.Room.Name);
             }),
             applyChange: async (value) =>
             {
-                ChatState.Room?.Name = value as string;
-                await ChatEngine.SendUpdatedRoomAsync(ChatState.Room);
+                if (ChatState.RoomView is not null)
+                {
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        Room = ChatState.RoomView.Room with
+                        {
+                            Name = value as string
+                        }
+                    };
+
+                    await ChatEngine.SendUpdatedRoomAsync(ChatState.RoomView.Room);
+                }
             },
             callback: OnRename,
             clearRoom: false
@@ -779,7 +563,7 @@ public partial class ChatRoomListView
         }
 
         _cts = new CancellationTokenSource();
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoom>(
             showDialog: () => DialogService.ShowConfirmationAsync(
                 Localizer[LanguageResource.CX_Chat_Room_DeleteRoomMessage],
                 Localizer[LanguageResource.CX_Chat_Room_DeleteRoomTitle],
@@ -787,12 +571,7 @@ public partial class ChatRoomListView
                 Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
             applyChange: (value) =>
             {
-                if (value is ChatRoom cr)
-                {
-                    return ChatEngine.UnregisterRoomAsync(cr, _cts.Token);
-                }
-
-                return Task.CompletedTask;
+                return ChatEngine.UnregisterRoomAsync(ChatState.RoomView!, _cts.Token);
             },
             callback: OnDelete,
             clearRoom: true
@@ -805,7 +584,7 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which hides the chat room when completed.</returns>
     private async Task OnHideAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             showDialog: () => DialogService.ShowConfirmationAsync(
                 Localizer[LanguageResource.CX_Chat_Room_HideRoomMessage],
                 Localizer[LanguageResource.CX_Chat_Room_HideRoomTitle],
@@ -813,11 +592,16 @@ public partial class ChatRoomListView
                 Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
             applyChange: (e) =>
             {
-                if (ChatState.Room is not null)
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
                 {
-                    ChatState.Room.IsHidden = true;
-                    _hiddenRooms.Add(ChatState.Room);
-                    _chatRooms.Remove(ChatState.Room);
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsHidden = true
+                        }
+                    };
                 }
 
                 return Task.CompletedTask;
@@ -832,7 +616,7 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which archives the chat room when completed.</returns>
     private async Task OnArchiveAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             showDialog: () => DialogService.ShowConfirmationAsync(
                 Localizer[LanguageResource.CX_Chat_Room_ArchiveRoomMessage],
                 Localizer[LanguageResource.CX_Chat_Room_ArchiveRoomTitle],
@@ -840,11 +624,16 @@ public partial class ChatRoomListView
                 Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
             applyChange: (e) =>
             {
-                if (ChatState.Room is not null)
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
                 {
-                    ChatState.Room.IsArchived = true;
-                    _archivedRooms.Add(ChatState.Room);
-                    _chatRooms.Remove(ChatState.Room);
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsArchived = true
+                        }
+                    };
                 }
 
                 return Task.CompletedTask;
@@ -859,7 +648,7 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which blocks the room when completed.</returns>
     private async Task OnBlockAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             showDialog: () => DialogService.ShowConfirmationAsync(
                 Localizer[LanguageResource.CX_Chat_Room_BlockRoomMessage],
                 Localizer[LanguageResource.CX_Chat_Room_BlockRoomTitle],
@@ -867,11 +656,28 @@ public partial class ChatRoomListView
                 Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
             applyChange: (e) =>
             {
-                if (ChatState.Room is not null)
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
                 {
-                    ChatState.Room.IsBlocked = true;
-                    _blockedRooms.Add(ChatState.Room);
-                    _chatRooms.Remove(ChatState.Room);
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsBlocked = true
+                        }
+                    };
+
+                    if (ChatState.RoomView.UserState.UserId == Owner?.Id)
+                    {
+                        ChatState.RoomView = ChatState.RoomView with
+                        {
+                            Room = ChatState.RoomView.Room with
+                            {
+                                IsLocked = true
+                            }
+                        };
+                        return ChatEngine.SendUpdatedRoomAsync(ChatState.RoomView.Room);
+                    }
                 }
 
                 return Task.CompletedTask;
@@ -886,13 +692,24 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which pins the room when completed.</returns>
     private async Task OnPinAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             applyChange: () =>
             {
-                ChatState.Room?.IsPinned = true;
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
+                {
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsPinned = true
+                        }
+                    };
+                }
 
                 return Task.CompletedTask;
             },
+
             callback: OnPinChanged
         );
     }
@@ -903,10 +720,20 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which pins the room when completed.</returns>
     private async Task OnUnpinAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             applyChange: () =>
             {
-                ChatState.Room?.IsPinned = false;
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
+                {
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsPinned = false
+                        }
+                    };
+                }
 
                 return Task.CompletedTask;
             },
@@ -920,10 +747,20 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which mutes the room when completed.</returns>
     private async Task OnMuteAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             applyChange: () =>
             {
-                ChatState.Room?.IsMuted = true;
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
+                {
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsMuted = true
+                        }
+                    };
+                }
 
                 return Task.CompletedTask;
             },
@@ -937,10 +774,20 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which unmutes the room when completed.</returns>
     private async Task OnUnmuteAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             applyChange: () =>
             {
-                ChatState.Room?.IsMuted = false;
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
+                {
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsMuted = false
+                        }
+                    };
+                }
 
                 return Task.CompletedTask;
             },
@@ -954,7 +801,7 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which unblocks the room when completed.</returns>
     private async Task OnUnblockAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             showDialog: () => DialogService.ShowConfirmationAsync(
                 Localizer[LanguageResource.CX_Chat_Room_UnblockRoomMessage],
                 Localizer[LanguageResource.CX_Chat_Room_UnblockRoomTitle],
@@ -962,11 +809,29 @@ public partial class ChatRoomListView
                 Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
             applyChange: (e) =>
             {
-                if (ChatState.Room is not null)
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
                 {
-                    ChatState.Room.IsBlocked = false;
-                    _blockedRooms.Remove(ChatState.Room);
-                    _chatRooms.Add(ChatState.Room);
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsBlocked = false
+                        }
+                    };
+
+                    if (ChatState.RoomView.UserState.UserId == Owner?.Id)
+                    {
+                        ChatState.RoomView = ChatState.RoomView with
+                        {
+                            Room = ChatState.RoomView.Room with
+                            {
+                                IsLocked = false
+                            }
+                        };
+
+                        return ChatEngine.SendUpdatedRoomAsync(ChatState.RoomView.Room);
+                    }
                 }
 
                 return Task.CompletedTask;
@@ -982,7 +847,7 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which unhides the room when completed.</returns>
     private async Task OnUnhideAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             showDialog: () => DialogService.ShowConfirmationAsync(
                 Localizer[LanguageResource.CX_Chat_Room_UnhideRoomMessage],
                 Localizer[LanguageResource.CX_Chat_Room_UnhideRoomTitle],
@@ -990,11 +855,16 @@ public partial class ChatRoomListView
                 Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
             applyChange: (e) =>
             {
-                if (ChatState.Room is not null)
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
                 {
-                    ChatState.Room.IsHidden = false;
-                    _hiddenRooms.Remove(ChatState.Room);
-                    _chatRooms.Add(ChatState.Room);
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsHidden = false
+                        }
+                    };
                 }
 
                 return Task.CompletedTask;
@@ -1010,7 +880,7 @@ public partial class ChatRoomListView
     /// <returns>Returns a task which unarchives the room when completed.</returns>
     private async Task OnUnarchiveAsync()
     {
-        await ExecuteRoomActionAsync(
+        await ExecuteRoomActionAsync<ChatRoomEventArgs>(
             showDialog: () => DialogService.ShowConfirmationAsync(
                 Localizer[LanguageResource.CX_Chat_Room_UnarchiveRoomMessage],
                 Localizer[LanguageResource.CX_Chat_Room_UnarchiveRoomTitle],
@@ -1018,11 +888,16 @@ public partial class ChatRoomListView
                 Localizer[LanguageResource.CX_Chat_Room_DialogNo]),
             applyChange: (e) =>
             {
-                if (ChatState.Room is not null)
+                if (ChatState.RoomView is not null &&
+                    ChatState.RoomView.UserState is not null)
                 {
-                    ChatState.Room.IsArchived = false;
-                    _archivedRooms.Remove(ChatState.Room);
-                    _chatRooms.Add(ChatState.Room);
+                    ChatState.RoomView = ChatState.RoomView with
+                    {
+                        UserState = ChatState.RoomView.UserState with
+                        {
+                            IsArchived = false
+                        }
+                    };
                 }
 
                 return Task.CompletedTask;
@@ -1038,31 +913,31 @@ public partial class ChatRoomListView
     /// </summary>
     /// <param name="showDialog">A function that shows a dialog and returns the result.</param>
     /// <param name="applyChange">A function that applies changes to the chat room based on the dialog result.</param>
-    /// <param name="callback">A callback to invoke after the action is applied.</param>
+    /// <param name="callback">A callback to invoke with the affected chat room after the action is applied.</param>
     /// <param name="clearRoom">Indicates whether to clear the selected chat room after the action.</param>
     /// <returns>Returns a task representing the asynchronous operation.</returns>
-    private Task ExecuteRoomActionAsync(
+    private Task ExecuteRoomActionAsync<T>(
         Func<Task<DialogResult>> showDialog,
         Func<object?, Task>? applyChange = null,
-        EventCallback<ChatRoom>? callback = null,
+        EventCallback<T>? callback = null,
         bool clearRoom = true)
     {
-        return ExecuteRoomActionCoreAsync(showDialog, applyChange, callback, clearRoom);
+        return ExecuteRoomActionCoreAsync<T>(showDialog, applyChange, callback, clearRoom);
     }
 
     /// <summary>
     /// Executes a chat room action by applying changes to the chat room, invoking a callback, and optionally reloading the chat rooms.
     /// </summary>
     /// <param name="applyChange">A function that applies changes to the chat room based on the dialog result.</param>
-    /// <param name="callback">A callback to invoke after the action is applied.</param>
+    /// <param name="callback">A callback to invoke with the affected chat room view after the action is applied.</param>
     /// <param name="clearRoom">Indicates whether to clear the selected chat room after the action.</param>
     /// <returns>Returns a task representing the asynchronous operation.</returns>
-    private Task ExecuteRoomActionAsync(
+    private Task ExecuteRoomActionAsync<T>(
         Func<Task> applyChange,
-        EventCallback<ChatRoom>? callback = null,
+        EventCallback<T>? callback = null,
         bool clearRoom = false)
     {
-        return ExecuteRoomActionCoreAsync(
+        return ExecuteRoomActionCoreAsync<T>(
             showDialog: null,
             applyChange: async _ => await applyChange(),
             callback: callback,
@@ -1074,14 +949,14 @@ public partial class ChatRoomListView
     /// </summary>
     /// <param name="showDialog">Optional function to display a dialog and return its result.</param>
     /// <param name="applyChange">Optional function to apply changes with the provided value.</param>
-    /// <param name="callback">Optional event callback to invoke with the affected chat room.</param>
+    /// <param name="callback">Optional event callback to invoke with the affected chat room view.</param>
     /// <param name="clearRoom">Indicates whether to clear the room during execution.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task ExecuteRoomActionCoreAsync(
+    private async Task ExecuteRoomActionCoreAsync<T>(
         Func<Task<DialogResult>>? showDialog,
         Func<object?, Task>? applyChange,
-        EventCallback<ChatRoom>? callback,
-        bool clearRoom)
+        EventCallback<T>? callback = null,
+        bool clearRoom = false)
     {
         if (showDialog is not null)
         {
@@ -1106,46 +981,42 @@ public partial class ChatRoomListView
     /// </summary>
     /// <param name="value">The value to pass to the change application function.</param>
     /// <param name="applyChange">An optional function to apply changes using the provided value.</param>
-    /// <param name="callback">An optional event callback to invoke with the current chat room.</param>
+    /// <param name="callback">A callback to invoke with the affected chat room view after the action is applied.</param>
     /// <param name="clearRoom">Indicates whether to clear the chat room after execution.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task ExecuteInternalAsync(
+    private async Task ExecuteInternalAsync<T>(
         object? value,
         Func<object?, Task>? applyChange,
-        EventCallback<ChatRoom>? callback,
-        bool clearRoom)
+        EventCallback<T>? callback = null,
+        bool clearRoom = false)
     {
-        ChatState.IsRoomLoading = true;
-
         if (applyChange is not null)
         {
             await applyChange(value);
         }
 
-        if (callback?.HasDelegate == true && ChatState.Room is not null)
+        if (ChatState.RoomView is not null &&
+            callback.HasValue &&
+            callback.Value.HasDelegate)
         {
-            await callback.Value.InvokeAsync(ChatState.Room);
+            if (typeof(T) == typeof(ChatRoom))
+            {
+                await callback.Value.InvokeAsync((T)(object)ChatState.RoomView.Room);
+            }
+            else if (typeof(T) == typeof(ChatRoomEventArgs))
+            {
+                var args = new ChatRoomEventArgs(ChatState.RoomView.UserState!);
+                await callback.Value.InvokeAsync((T)(object)args);
+            }
         }
 
         if (clearRoom)
         {
-            ChatState.Room = null;
+            ChatState.RoomView = null;
+            _selectedRoom = null;
         }
 
-        ChatState.IsRoomLoading = false;
-    }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (!firstRender)
-        {
-            return;
-        }
-
-        await LoadChatRoomsAsync();
+        await RefreshDataAsync();
     }
 
     /// <summary>
@@ -1155,15 +1026,15 @@ public partial class ChatRoomListView
     /// dial action.</returns>
     private IEnumerable<(string Title, Icon Icon, Func<Task> Action)> GetSleekDialActions()
     {
-        if (CanCreateNewGroup &&
-            _listView == ListView.Normal)
+        if (OnNewChatGroup is not null &&
+            _listView == RoomListView.Normal)
         {
             yield return (Localizer[LanguageResource.CX_Chat_Room_NewGroup], new Size24.Add(), OnNewChatGroupAsync);
         }
 
-        if (CanUnblock)
+        if (OnBlockChanged.HasDelegate)
         {
-            if (_listView != ListView.Blocked)
+            if (_listView != RoomListView.Blocked)
             {
                 yield return (Localizer[LanguageResource.CX_Chat_Room_ShowBlockedRooms], new Size24.PresenceBlocked(), OnUnblockRoomsAsync);
             }
@@ -1173,9 +1044,9 @@ public partial class ChatRoomListView
             }
         }
 
-        if (CanUnhide)
+        if (OnHideChanged.HasDelegate)
         {
-            if (_listView != ListView.Hidden)
+            if (_listView != RoomListView.Hidden)
             {
                 yield return (Localizer[LanguageResource.CX_Chat_Room_ShowHiddenRooms], new Size24.Eye(), OnUnhideRoomsAsync);
             }
@@ -1185,9 +1056,9 @@ public partial class ChatRoomListView
             }
         }
 
-        if (CanUnarchive)
+        if (OnArchiveChanged.HasDelegate)
         {
-            if (_listView != ListView.Archived)
+            if (_listView != RoomListView.Archived)
             {
                 yield return (Localizer[LanguageResource.CX_Chat_Room_ShowArchivedRooms], new Size24.Archive(), OnUnarchiveRoomsAsync);
             }
@@ -1204,16 +1075,16 @@ public partial class ChatRoomListView
     /// <returns>A collection of chat room actions available for the current context.</returns>
     private IEnumerable<ChatRoomAction> GetMoreMenuActions()
     {
-        if (ChatState.Room is null)
+        if (ChatState.RoomView is null)
         {
             yield break;
         }
 
-        var room = ChatState.Room;
+        var room = ChatState.RoomView;
 
-        if (_listView == ListView.Normal)
+        if (_listView == RoomListView.Normal)
         {
-            if (CanRename)
+            if (OnRename.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1223,29 +1094,35 @@ public partial class ChatRoomListView
                 };
             }
 
-            if (CanPin)
+            if (OnPinChanged.HasDelegate)
             {
+                var state = ChatState.RoomView.UserState;
+                var isPinned = state?.IsPinned ?? false;
+
                 yield return new ChatRoomAction
                 {
-                    Label = room.IsPinned ? Localizer[LanguageResource.CX_Chat_Room_Unpin] : Localizer[LanguageResource.CX_Chat_Room_Pin],
-                    Icon = room.IsPinned ? new Size24.PinOff() : new Size24.Pin(),
-                    Action = room.IsPinned ? OnUnpinAsync : OnPinAsync
+                    Label = isPinned ? Localizer[LanguageResource.CX_Chat_Room_Unpin] : Localizer[LanguageResource.CX_Chat_Room_Pin],
+                    Icon = isPinned ? new Size24.PinOff() : new Size24.Pin(),
+                    Action = isPinned ? OnUnpinAsync : OnPinAsync
                 };
             }
 
-            if (CanMute)
+            if (OnMuteChanged.HasDelegate)
             {
+                var state = ChatState.RoomView.UserState;
+                var isMuted = state?.IsMuted ?? false;
+
                 yield return new ChatRoomAction
                 {
-                    Label = room.IsMuted ? Localizer[LanguageResource.CX_Chat_Room_Unmute] : Localizer[LanguageResource.CX_Chat_Room_Mute],
-                    Icon = room.IsMuted ? new Size24.Speaker2() : new Size24.SpeakerMute(),
-                    Action = room.IsMuted ? OnUnmuteAsync : OnMuteAsync
+                    Label = isMuted ? Localizer[LanguageResource.CX_Chat_Room_Unmute] : Localizer[LanguageResource.CX_Chat_Room_Mute],
+                    Icon = isMuted ? new Size24.Speaker2() : new Size24.SpeakerMute(),
+                    Action = isMuted ? OnUnmuteAsync : OnMuteAsync
                 };
             }
 
             yield return ChatRoomAction.Separator;
 
-            if (CanArchive)
+            if (OnArchiveChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1255,7 +1132,7 @@ public partial class ChatRoomListView
                 };
             }
 
-            if (CanBlock)
+            if (OnBlockChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1265,7 +1142,7 @@ public partial class ChatRoomListView
                 };
             }
 
-            if (CanHide)
+            if (OnHideChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1277,7 +1154,7 @@ public partial class ChatRoomListView
 
             yield return ChatRoomAction.Separator;
 
-            if (CanDelete)
+            if (OnDelete.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1287,9 +1164,9 @@ public partial class ChatRoomListView
                 };
             }
         }
-        else if (_listView == ListView.Blocked)
+        else if (_listView == RoomListView.Blocked)
         {
-            if (CanArchive)
+            if (OnArchiveChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1299,7 +1176,7 @@ public partial class ChatRoomListView
                 };
             }
 
-            if (CanUnblock)
+            if (OnBlockChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1309,7 +1186,7 @@ public partial class ChatRoomListView
                 };
             }
 
-            if (CanHide)
+            if (OnHideChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1321,7 +1198,7 @@ public partial class ChatRoomListView
 
             yield return ChatRoomAction.Separator;
 
-            if (CanDelete)
+            if (OnDelete.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1331,9 +1208,9 @@ public partial class ChatRoomListView
                 };
             }
         }
-        else if (_listView == ListView.Hidden)
+        else if (_listView == RoomListView.Hidden)
         {
-            if (CanArchive)
+            if (OnArchiveChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1343,7 +1220,7 @@ public partial class ChatRoomListView
                 };
             }
 
-            if (CanUnhide)
+            if (OnHideChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1353,7 +1230,7 @@ public partial class ChatRoomListView
                 };
             }
 
-            if (CanBlock)
+            if (OnBlockChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1365,7 +1242,7 @@ public partial class ChatRoomListView
 
             yield return ChatRoomAction.Separator;
 
-            if (CanDelete)
+            if (OnDelete.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1375,9 +1252,9 @@ public partial class ChatRoomListView
                 };
             }
         }
-        else if (_listView == ListView.Archived)
+        else if (_listView == RoomListView.Archived)
         {
-            if (CanUnarchive)
+            if (OnArchiveChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1387,7 +1264,7 @@ public partial class ChatRoomListView
                 };
             }
 
-            if (CanBlock)
+            if (OnBlockChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1397,7 +1274,7 @@ public partial class ChatRoomListView
                 };
             }
 
-            if (CanHide)
+            if (OnHideChanged.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1409,7 +1286,7 @@ public partial class ChatRoomListView
 
             yield return ChatRoomAction.Separator;
 
-            if (CanDelete)
+            if (OnDelete.HasDelegate)
             {
                 yield return new ChatRoomAction
                 {
@@ -1424,16 +1301,12 @@ public partial class ChatRoomListView
     /// <summary>
     /// Handles the click event on a chat room item. If the clicked room is not already selected, it updates the selected room in the chat state and sets the selected room ID for UI purposes.
     /// </summary>
-    /// <param name="room">The chat room that was clicked.</param>
-    private void HandleRoomClick(ChatRoom room)
+    /// <param name="roomView">The chat room that was clicked.</param>
+    private void HandleRoomClick(ChatRoomView roomView)
     {
-        if (ChatState.Room?.Id == room.Id)
-        {
-            return;
-        }
+        ChatState.RoomView = roomView;
 
-        ChatState.Room = room;
-        _selectedRoom = Invariant.ToString(room.Id);
+        _selectedRoom = Invariant.ToString(roomView.Room.Id);
     }
 
     /// <summary>
@@ -1445,10 +1318,10 @@ public partial class ChatRoomListView
     {
         return _listView switch
         {
-            ListView.Normal => Localizer[LanguageResource.CX_Chat_Room_Normal],
-            ListView.Blocked => Localizer[LanguageResource.CX_Chat_Room_Blocked],
-            ListView.Archived => Localizer[LanguageResource.CX_Chat_Room_Archived],
-            ListView.Hidden => Localizer[LanguageResource.CX_Chat_Room_Hidden],
+            RoomListView.Normal => Localizer[LanguageResource.CX_Chat_Room_Normal],
+            RoomListView.Blocked => Localizer[LanguageResource.CX_Chat_Room_Blocked],
+            RoomListView.Archived => Localizer[LanguageResource.CX_Chat_Room_Archived],
+            RoomListView.Hidden => Localizer[LanguageResource.CX_Chat_Room_Hidden],
             _ => throw new InvalidOperationException("Invalid list view state.")
         };
     }
@@ -1468,14 +1341,34 @@ public partial class ChatRoomListView
         if (_hasOwnerChanged)
         {
             _hasOwnerChanged = false;
-            ChatState.Room = null;
+            ChatState.RoomView = null;
+            _selectedRoom = null;
+            _selectedRooms.Clear();
 
             if (OwnerChanged.HasDelegate)
             {
                 await OwnerChanged.InvokeAsync(Owner);
             }
 
-            await LoadChatRoomsAsync();
+            await RefreshDataAsync();
         }
+    }
+
+    private async Task SetLoadingAsync(bool loading)
+    {
+        IsLoading = loading;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(50);
+    }
+
+    private async ValueTask<ItemsProviderResult<ChatRoomView>> GetRoomsAsync(ItemsProviderRequest request)
+    {
+        await SetLoadingAsync(true);
+
+        var result = await _chatOrchestrator!.ProvideAsync(LoadRoomsAsync, request);
+
+        await SetLoadingAsync(false);
+
+        return result;
     }
 }
