@@ -46,7 +46,8 @@ public static class ServiceCollectionExtensions
                        .AddScoped<ChatRoomViewState>()
                        .AddScoped<ChatMessageState>()
                        .AddScoped<ChatMessageDynamicState>()
-                       .AddScoped<ChatEngine>();
+                       .AddScoped<ChatEngine>()
+                       .AddScoped<VideoState>();
     }
 
     /// <summary>

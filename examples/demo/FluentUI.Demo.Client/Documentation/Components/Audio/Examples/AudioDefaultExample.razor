@@ -1,0 +1,191 @@
+﻿﻿@using Microsoft.AspNetCore.StaticFiles
+@using Microsoft.JSInterop
+@implements IDisposable
+
+<p>
+    The FluentCxAudio component can plays many audio files.
+    You can play, pause, move to next or previous track, show the playlist, manage volume, download track.
+    To download a track, if the track is on an outside website, you need to configure CORS.
+    To be able to use the metadata of the audio media, you need to implement your own extractor using <code>IAudioMetadataProvider</code>
+
+    The FluentCxAudio has 4 views :
+
+    <FluentStack Wrap HorizontalGap="4px">
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Default" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Compact" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Minimal" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Floating" />
+    </FluentStack>
+
+    The visualizer has 8 modes for now :
+
+    <FluentStack HorizontalGap="4px" Wrap>
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Spectrum" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Waveform" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Spatial" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Vortex" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Particles" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="RadialWaveform" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Tunnel" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Constellation" />
+        <FluentBadge Appearance="BadgeAppearance.Tint" Color="BadgeColor.Brand" Content="Fractal" />
+    </FluentStack>
+</p>
+
+<FluentStack Orientation="Orientation.Vertical">
+    <FluentMessageBar Intent="MessageBarIntent.Warning" AllowDismiss=false>
+        The HTML Audio Element has an issue when the user uses the seek bar.
+    </FluentMessageBar>
+
+    <div style="height: 600px; margin-top: 5px">
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentStack HorizontalGap="4px">
+                <FluentSelect Items="@(Enum.GetValues<AudioPlayerView>())"
+                              TOption="AudioPlayerView"
+                              Label="View"
+                              @bind-Value=_view />
+
+                <FluentSelect Items="@(Enum.GetValues<VisualizerMode>())"
+                              TOption="VisualizerMode"
+                              Label="Visualizer"
+                              @bind-Value=_mode />
+            </FluentStack>
+
+            <FluentStack Style="flex:1; min-height:0;">
+                <FluentInputFile Id="my-file-uploader"
+                                 Mode="InputFileMode.SaveToTemporaryFolder"
+                                 Multiple="true"
+                                 MaximumFileCount="10"
+                                 MaximumFileSize="@(10*1024*1024)"
+                                 Accept="audio/*"
+                                 @bind-ProgressPercent="@ProgressPercent"
+                                 OnCompleted="@OnCompletedAsync"
+                                 Style="height: 300px;">
+                    <ChildContent>
+                        <label for="my-file-uploader">
+                            <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+                        </label>
+
+                        <div>
+                            Drag files here you wish to upload,
+                            or <label for="my-file-uploader">browse</label>
+                            for them<span style="color: red;">*</span>.
+                            <br />
+                            <em>Maximum of 10 files allowed.</em>
+                        </div>
+                    </ChildContent>
+                </FluentInputFile>
+
+                <FluentCxAudio VisualizerMode="@_mode" View="@_view">
+                    @foreach (var item in _audioFiles)
+                    {
+                        <AudioTrackItem Source="@GetPath(item.Value)" />
+                    }
+                </FluentCxAudio>
+            </FluentStack>
+        </FluentStack>
+    </div>
+
+</FluentStack>
+
+@code {
+    private VisualizerMode _mode;
+    private AudioPlayerView _view = AudioPlayerView.Default;
+
+    int ProgressPercent = 0;
+    private readonly Dictionary<string, string> _audioFiles = [];
+    private readonly List<FluentInputFileEventArgs> _files = [];
+    private readonly Dictionary<string, AudioMetadata> _metadataCache = [];
+
+    [Inject]
+    private IJSRuntime Runtime { get; set; } = null!;
+
+    private static string GetPath(string path)
+    {
+        if (path.StartsWith("blob"))
+        {
+            return path;
+        }
+
+        var index = path.IndexOf("uploads");
+
+        if (index >= 0)
+        {
+            return path[(index - 1)..].Replace("\\", "/");
+        }
+
+        return path.Replace(Directory.GetCurrentDirectory(), string.Empty)
+                   .Replace("wwwroot", string.Empty)
+                   .Replace("\\", "/")
+                   .Substring(2);
+    }
+
+    private async Task OnCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
+    {
+        foreach (var file in files)
+        {
+            var newFileName = $"RenamedFile_{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
+            var filePath = newFileName;
+
+            if (System.OperatingSystem.IsBrowser())
+            {
+                var provider = new FileExtensionContentTypeProvider();
+                if (!provider.TryGetContentType(file.Name, out var contentType))
+                {
+                    contentType = "application/octet-stream";
+                }
+
+                filePath = await Runtime.InvokeAsync<string>("getBlobUrl", contentType, File.ReadAllBytes(file.LocalFile!.FullName));
+            }
+            else
+            {
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
+                var directory = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory!);
+                }
+
+                await using var stream = File.OpenRead(file.LocalFile!.FullName);
+                await using var fileStream = File.Create(filePath);
+                await stream.CopyToAsync(fileStream);
+            }
+
+            if (!_audioFiles.ContainsKey(file.Name))
+            {
+                _audioFiles.Add(file.Name, filePath);
+            }
+
+            if (!_files.Contains(file))
+            {
+                _files.Add(file);
+            }
+        }
+
+        await Task.Delay(500);
+        ProgressPercent = 0;
+    }
+
+    public void Dispose()
+    {
+        try
+        {
+            foreach (var file in _audioFiles)
+            {
+                if (File.Exists(file.Value))
+                {
+                    File.Delete(file.Value);
+                }
+            }
+
+            foreach (var file in _files)
+            {
+                if (file.LocalFile is not null && File.Exists(file.LocalFile.FullName))
+                {
+                    File.Delete(file.LocalFile.FullName);
+                }
+            }
+        }
+        catch { }
+    }
+}

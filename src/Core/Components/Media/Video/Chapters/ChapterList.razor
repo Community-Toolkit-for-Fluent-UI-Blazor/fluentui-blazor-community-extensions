@@ -1,0 +1,10 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div id="@Id"
+         class="chapter-list @Orientation.ToString().ToLower() @Class"
+         style="@Style">
+        @ChildContent
+    </div>
+</CascadingValue>

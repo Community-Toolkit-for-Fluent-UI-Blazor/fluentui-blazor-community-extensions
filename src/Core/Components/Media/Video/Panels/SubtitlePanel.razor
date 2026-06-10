@@ -1,0 +1,28 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using System.Globalization
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical"
+                 VerticalGap="0"
+                 Style="width: 95%">
+        
+        <FluentTextInput TextInputType="TextInputType.Color"
+                         Label="@Labels.SubtitleBackgroundColorLabel"
+                         AriaLabel="@Labels.SubtitleBackgroundColorLabel"
+                         @bind-Value="SubtitleOptions.BackgroundColor"
+                         Style="margin-bottom: 20px; width: 100%" />
+
+        <FluentSelect Label="@Labels.SubtitleBackgroundOpacity"
+                      AriaLabel="@Labels.SubtitleBackgroundOpacity"
+                      Items="@(Enum.GetValues<SubtitleBackground>())"
+                      OptionText="@(e => GetOptionText(e))"
+                      @bind-SelectedOption="SubtitleOptions.Background"
+                      Style="width: 100%"/>
+
+        <FluentSelect Items="@Content"
+                      Label="@Labels.SubtitleLanguageLabel"
+                      @bind-SelectedOption="SubtitleOptions.SelectedLanguage"
+                      OptionText="@(e => e?.Name)"
+                      OptionValue="@(e => e?.Code)" />
+    </FluentStack>
+</FluentDialogBody>

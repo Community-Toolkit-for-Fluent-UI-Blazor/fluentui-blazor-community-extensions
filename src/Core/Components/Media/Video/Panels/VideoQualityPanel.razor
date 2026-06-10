@@ -1,0 +1,13 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using System.Globalization
+
+<FluentDialogBody>
+    <FluentSelect Label="@Labels.VideoQualityLabel"
+                  Placeholder="@Labels.VideoQualityLabel"
+                  Items="@Content.Sources.Select(e => e.Quality)"
+                  TOption="int"
+                  OptionText="@(e => $"{e}p")"
+                  OptionValue="@(e => e.ToString())"
+                  OptionSelectedComparer="@GetIsSelected"
+                  @bind-Value="@VideoState.SelectedQuality" />
+</FluentDialogBody>

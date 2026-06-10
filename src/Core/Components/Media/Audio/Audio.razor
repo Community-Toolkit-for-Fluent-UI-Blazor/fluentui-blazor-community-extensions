@@ -1,0 +1,19 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using Microsoft.FluentUI.AspNetCore.Components.Utilities
+@inherits FluentComponentBase
+
+<audio id="@Id"
+       preload="metadata"
+       style="display: none;"
+       @key=@Id
+       @ref="Element"></audio>
+
+@code {
+    public ElementReference Element { get; private set; }
+
+    public Audio(LibraryConfiguration libraryConfiguration)
+        : base(libraryConfiguration)
+    {
+        Id = $"audio-{Identifier.NewId()}";
+    }
+}

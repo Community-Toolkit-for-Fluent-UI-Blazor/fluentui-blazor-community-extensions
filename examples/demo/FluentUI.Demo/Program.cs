@@ -51,7 +51,6 @@ else
 }
 
 app.UseHttpsRedirection();
-app.MapStaticAssets();
 
 app.UseAntiforgery();
 app.MapHub<ChatHub>("/chatHub");

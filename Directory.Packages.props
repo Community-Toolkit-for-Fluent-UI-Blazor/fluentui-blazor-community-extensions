@@ -8,8 +8,11 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.7" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.7" />
     <PackageVersion Include="LoxSmoke.DocXml" Version="3.9.0" />
+    <PackageVersion Include="FFMpegCore" Version="5.4.0" />
+    <PackageVersion Include="MetadataExtractor" Version="2.9.0" />
     <!-- Main dependencies -->
     <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.9" />
     <PackageVersion Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.8" />
     <PackageVersion Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="10.0.7" />
     <PackageVersion Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.10" />
@@ -33,5 +36,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
+    <PackageVersion Include="TagLibSharp" Version="2.3.0" />
+    <PackageVersion Include="TagLibSharp2" Version="0.6.0" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,10 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<video id="@Id"
+       preload="metadata"
+       @key=@Id
+       @ref="Element"
+       class="video @(IsVisible ? "" : "hidden") @(IsCompact ? "compact" : "") @Class"
+       style="@Style">
+</video>
