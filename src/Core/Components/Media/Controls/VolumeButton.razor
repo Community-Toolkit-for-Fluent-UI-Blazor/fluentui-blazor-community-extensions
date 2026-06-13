@@ -15,12 +15,12 @@
         <FluentIcon Value="@VolumeIcon" />
         <FluentStack Orientation="Orientation.Vertical"
                      VerticalGap="0">
-            <FluentSlider TValue="double"
+            <FluentSlider TValue="int"
                           AriaLabel="@AriaLabel"
                           Label="@AriaLabel"
                           Min="0"
-                          Max="1"
-                          Step="0.01"
+                          Max="100"
+                          Step="1"
                           Value="@_volume"
                           ValueChanged="@(e => OnVolumeChangedAsync(e))" />
         </FluentStack>

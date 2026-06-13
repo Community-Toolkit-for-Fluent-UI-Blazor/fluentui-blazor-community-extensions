@@ -1,6 +1,7 @@
 using FluentUI.Blazor.Community.Components.Chat.Files;
 using FluentUI.Blazor.Community.Components.Chat.Messages;
 using FluentUI.Blazor.Community.Components.Components.Base;
+using FluentUI.Blazor.Community.Components.Media;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 using Microsoft.JSInterop;
@@ -55,6 +56,18 @@ public partial class ChatMessageDialog : IAsyncDisposable
     /// </summary>
     [Parameter]
     public ChatMessage Message { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the event callback that is triggered to retrieve the chapters for the message, allowing for dynamic content loading and interaction within the viewer.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChapterEventArgs> GetChapters { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback that is triggered to retrieve the video metadata.
+    /// </summary>
+    [Parameter]
+    public EventCallback<VideoMetadataEventArgs> GetVideoMetadata { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnActionClickedAsync(bool primary)

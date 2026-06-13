@@ -18,20 +18,39 @@
                            IsTouchEnabled>
             @if (_files.Count > 0)
             {
-                foreach (var file in _files)
-                {
-                    var item = file;
+                var videoFiles = _files.Where(f => f.ContentType.StartsWith(FluentCxConstants.VideoContentType, StringComparison.OrdinalIgnoreCase)).ToList();
 
+                if (videoFiles.Count > 0)
+                {
                     <SlideshowItem>
-                        @if (item.ContentType.StartsWith(FluentCxConstants.ImageContentType, StringComparison.OrdinalIgnoreCase))
-                        {
-                            <SlideshowImage Source="@item.Url" />
-                        }
-                        else if (item.ContentType.StartsWith(FluentCxConstants.VideoContentType, StringComparison.OrdinalIgnoreCase))
-                        {
-                            <SlideshowVideo Source="@item.Url" />
-                        }
+                        <SlideshowVideo Files="@videoFiles"
+                                        GetChapters="@GetChapters"
+                                        IsDownloadVisible="false"
+                                        IsFullscreenDisabled
+                                        IsPlaybackSpeedVisible
+                                        ShowThumbnails
+                                        GetVideoMetadata="@GetVideoMetadata" />
                     </SlideshowItem>
+                    
+                }
+
+                var imageFiles = _files.Where(f => f.ContentType.StartsWith(FluentCxConstants.ImageContentType, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                if (imageFiles.Count > 0)
+                {
+                    foreach (var file in imageFiles)
+                    {
+                        <SlideshowItem>
+                            <SlideshowImage Source="@file.Url" />
+                        </SlideshowItem>
+                    }
+                }
+
+                var audioFiles = _files.Where(f => f.ContentType.StartsWith(FluentCxConstants.AudioContentType, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                if (audioFiles.Count > 0)
+                {
+                    
                 }
             }
         </FluentCxSlideshow>

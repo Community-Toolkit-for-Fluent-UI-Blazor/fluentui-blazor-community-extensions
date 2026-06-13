@@ -438,10 +438,10 @@ public sealed partial class FluentCxAudio
     /// <summary>
     /// Asynchronously updates the volume level and notifies the associated audio module.
     /// </summary>
-    /// <param name="value">The new volume level to set. Must be a value between 0.0 and 1.0, where 0.0 represents mute and 1.0 represents
+    /// <param name="value">The new volume level to set. Must be a value between 0 and 100, where 0 represents mute and 100 represents
     /// the maximum volume.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    private async Task OnChangeVolumeAsync(double value)
+    private async Task OnChangeVolumeAsync(int value)
     {
         _volume = value;
 

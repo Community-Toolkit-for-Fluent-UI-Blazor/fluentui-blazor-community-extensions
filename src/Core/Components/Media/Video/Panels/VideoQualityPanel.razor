@@ -6,8 +6,8 @@
                   Placeholder="@Labels.VideoQualityLabel"
                   Items="@Content.Sources.Select(e => e.Quality)"
                   TOption="int"
+                  TValue="int"
                   OptionText="@(e => $"{e}p")"
-                  OptionValue="@(e => e.ToString())"
-                  OptionSelectedComparer="@GetIsSelected"
+                  OptionValue="@(e => e)"
                   @bind-Value="@VideoState.SelectedQuality" />
 </FluentDialogBody>

@@ -27,9 +27,4 @@ public partial class VideoQualityPanel
     /// </summary>
     [Inject]
     private VideoState VideoState { get; set; } = null!;
-
-    private static bool GetIsSelected(int value, int current)
-    {
-        return value == current;
-    }
 }

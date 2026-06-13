@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 
@@ -20,20 +19,16 @@ internal sealed class SignalRMessageTransport : IMessageTransport
     /// Initializes a new instance of the <see cref="SignalRMessageTransport"/> class with the specified configuration.
     /// </summary>
     /// <param name="configuration">The configuration used to retrieve the Hub URL.</param>
-    /// <param name="navigationManager">The navigation manager used to construct the full Hub URL.</param>
     public SignalRMessageTransport(
-        IConfiguration configuration,
-        NavigationManager navigationManager)
+        IConfiguration configuration)
     {
         var hubUrlValue = configuration.GetValue<string>("FluentUI:Blazor:Hubs:Chat");
-        var baseUri = navigationManager.BaseUri;
-        var hubUrl = new Uri(new Uri(baseUri), hubUrlValue).ToString();
 
         ArgumentException.ThrowIfNullOrEmpty(hubUrlValue, "HubUrl configuration value is required.");
 
         _connection = new HubConnectionBuilder()
             .WithAutomaticReconnect()
-            .WithUrl(hubUrl)
+            .WithUrl(hubUrlValue)
             .Build();
     }
 

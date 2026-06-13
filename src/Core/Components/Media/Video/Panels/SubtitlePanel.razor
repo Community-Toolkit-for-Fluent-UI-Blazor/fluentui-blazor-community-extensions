@@ -16,13 +16,15 @@
                       AriaLabel="@Labels.SubtitleBackgroundOpacity"
                       Items="@(Enum.GetValues<SubtitleBackground>())"
                       OptionText="@(e => GetOptionText(e))"
-                      @bind-SelectedOption="SubtitleOptions.Background"
+                      @bind-Value="SubtitleOptions.Background"
                       Style="width: 100%"/>
 
         <FluentSelect Items="@Content"
+                      TOption="SubtitleLanguage"
+                      TValue="SubtitleLanguage"
                       Label="@Labels.SubtitleLanguageLabel"
-                      @bind-SelectedOption="SubtitleOptions.SelectedLanguage"
+                      @bind-Value="SubtitleOptions.SelectedLanguage"
                       OptionText="@(e => e?.Name)"
-                      OptionValue="@(e => e?.Code)" />
+                      OptionValue="@(e => e)" />
     </FluentStack>
 </FluentDialogBody>

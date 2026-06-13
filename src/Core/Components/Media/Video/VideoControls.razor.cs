@@ -107,7 +107,7 @@ public partial class VideoControls
     /// Gets or sets the callback to be invoked when the volume changes.
     /// </summary>
     [Parameter]
-    public EventCallback<double> OnVolumeChanged { get; set; }
+    public EventCallback<int> OnVolumeChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the callback to be invoked when the properties button is clicked.

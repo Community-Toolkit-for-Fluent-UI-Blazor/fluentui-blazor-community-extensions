@@ -41,12 +41,10 @@
         <FluentStack Orientation="Orientation.Vertical">
             <FluentStack HorizontalGap="4px">
                 <FluentSelect Items="@(Enum.GetValues<AudioPlayerView>())"
-                              TOption="AudioPlayerView"
                               Label="View"
                               @bind-Value=_view />
 
                 <FluentSelect Items="@(Enum.GetValues<VisualizerMode>())"
-                              TOption="VisualizerMode"
                               Label="Visualizer"
                               @bind-Value=_mode />
             </FluentStack>

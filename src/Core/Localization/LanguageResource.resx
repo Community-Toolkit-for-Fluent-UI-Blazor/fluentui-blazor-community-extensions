@@ -705,4 +705,7 @@
   <data name="CX_Chat_Message_AudioNotSupported" xml:space="preserve">
     <value>Audio is not supported on your browser.</value>
   </data>
+  <data name="CX_SlideshowVideo_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
 </root>

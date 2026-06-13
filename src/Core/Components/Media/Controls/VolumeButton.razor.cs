@@ -35,7 +35,7 @@ public partial class VolumeButton
     /// <summary>
     /// Represents the volume level, where 1.0 is the default maximum value.
     /// </summary>
-    private double _volume = 1.0;
+    private int _volume = 1;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VolumeButton"/> class.
@@ -52,8 +52,8 @@ public partial class VolumeButton
     /// </summary>
     private Icon VolumeIcon => _volume switch
     {
-        > 0.5 => VolumeTwo,
-        > 0.0 => VolumeOne,
+        > 50 => VolumeTwo,
+        > 0 => VolumeOne,
         _ => VolumeZero
     };
 
@@ -61,7 +61,7 @@ public partial class VolumeButton
     /// Gets or sets the callback that is invoked when the volume changes.
     /// </summary>
     [Parameter]
-    public EventCallback<double> OnVolumeChanged { get; set; }
+    public EventCallback<int> OnVolumeChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the label for the volume button.
@@ -72,7 +72,7 @@ public partial class VolumeButton
     /// <summary>
     /// Gets the ARIA label for the volume button, combining the volume label and the current volume percentage.
     /// </summary>
-    private string AriaLabel => $"{Label} ({_volume * 100:0}%)";
+    private string AriaLabel => $"{Label} ({_volume}%)";
 
     /// <summary>
     /// Handles the volume change event asynchronously.
@@ -82,7 +82,7 @@ public partial class VolumeButton
     /// <param name="value">The new volume level. Must be a value between 0.0 and 1.0, where 0.0 represents mute and 1.0 represents the
     /// maximum volume.</param>
     /// <returns></returns>
-    private async Task OnVolumeChangedAsync(double value)
+    private async Task OnVolumeChangedAsync(int value)
     {
         _volume = value;
 

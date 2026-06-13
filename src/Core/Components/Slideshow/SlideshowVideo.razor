@@ -1,12 +1,35 @@
 ﻿@namespace FluentUI.Blazor.Community.Components
 @inherits FluentComponentBase
+@using FluentUI.Blazor.Community.Components.Localization
 
-<video id="@Id"
-       class="fuicx-slideshow-video @Class"
-       style="@Style"
-       preload="@(IsLazy ? "metadata" : "auto")"
-       src="@Source"
-       poster="@Poster"
-       playsinline
-       @attributes="@AdditionalAttributes">
-</video>
+<FluentCxVideo IsDownloadVisible="@IsDownloadVisible"
+               IsFullscreenDisabled="@IsFullscreenDisabled"
+               IsPlaybackSpeedVisible="@IsPlaybackSpeedVisible"
+               IsPlaylistDisabled="@IsPlaylistDisabled"
+               IsSettingsVisible="@IsSettingsVisible"
+               IsSubtitleOptionVisible="@IsSubtitleOptionVisible"
+               IsVideoQualityOptionVisible="@IsVideoQualityOptionVisible"
+               ShowThumbnails="@ShowThumbnails"
+               Subtitles="@Subtitles"
+               VideoQualityContent="@VideoQualityContent"
+               VideoSettingsContent="@VideoSettingsContent"
+               View="@View"
+               ViewChanged="@ViewChanged">
+    @if (_isLoading)
+    {
+        <FluentStack Orientation="Orientation.Vertical"
+                     VerticalAlignment="VerticalAlignment.Center"
+                     HorizontalAlignment="HorizontalAlignment.Center"
+                     Height="100%">
+            <FluentSpinner Size="SpinnerSize.Large" />
+            <FluentText Size="TextSize.Size200">@Localizer[LanguageResource.CX_SlideshowVideo_Loading]</FluentText>
+        </FluentStack>
+    }
+    else
+    {
+        foreach(var item in _urlFiles)
+        {
+            <VideoTrackItem Source="@item.Url" Chapters="@(item.Chapters)" Metadata="@item.Metadata" />
+        }
+    }
+</FluentCxVideo>
