@@ -1,6 +1,7 @@
 using System.Text;
 using System.Xml.Linq;
 using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Components.Enums;
 using Xunit;
 
 namespace FluentUI.Blazor.Community.Tests.Components.Console;

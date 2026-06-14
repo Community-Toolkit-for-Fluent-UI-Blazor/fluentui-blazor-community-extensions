@@ -278,22 +278,9 @@ public partial class FluentCxConsole : FluentComponentBase
     }
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (firstRender)
-        {
-            await FileDownloader.InitializeAsync();
-        }
-    }
-
-    /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {
         ConsoleState.Changed -= ConsoleState_Changed;
-        await FileDownloader.DisposeAsync();
-
         await base.DisposeAsync();
 
         GC.SuppressFinalize(this);

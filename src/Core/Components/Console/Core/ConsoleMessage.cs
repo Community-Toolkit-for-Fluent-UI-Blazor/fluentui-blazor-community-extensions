@@ -1,3 +1,5 @@
+using FluentUI.Blazor.Community.Components.Enums;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>

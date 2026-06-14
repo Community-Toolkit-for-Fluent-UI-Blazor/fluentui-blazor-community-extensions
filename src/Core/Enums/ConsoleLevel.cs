@@ -1,4 +1,4 @@
-namespace FluentUI.Blazor.Community.Components;
+namespace FluentUI.Blazor.Community.Components.Enums;
 
 /// <summary>
 /// Specifies the severity level of a log message for console output.

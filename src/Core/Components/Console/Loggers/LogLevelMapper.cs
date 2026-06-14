@@ -1,3 +1,4 @@
+using FluentUI.Blazor.Community.Components.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace FluentUI.Blazor.Community.Components;

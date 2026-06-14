@@ -1,4 +1,5 @@
 using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Components.Enums;
 using Xunit;
 
 namespace FluentUI.Blazor.Community.Tests.Components.Console;

@@ -1,4 +1,6 @@
-﻿<FluentStack Orientation="Orientation.Vertical" VerticalGap="20px">
+﻿@using FluentUI.Blazor.Community.Components.Enums
+
+<FluentStack Orientation="Orientation.Vertical" VerticalGap="20px">
     <FluentCxConsole />
     <FluentStack>
         <FluentButton OnClick="@(() => AddMessageAsync(ConsoleLevel.Information))">
