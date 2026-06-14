@@ -1,0 +1,18 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits MotionNode
+
+<CascadingValue Value="this">
+    <div id="@Id"
+         class="motion-group @Class"
+         style="@Style; @BuildStyle()">
+        <div class="motion-group-content">
+            @ChildContent
+            @Layout
+
+            @foreach (var exiting in _exitingItems)
+            {
+                @exiting.RenderFragment
+            }
+        </div>
+    </div>
+</CascadingValue>

@@ -1,0 +1,8 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this">
+    <div id="@Id" class="fluent-cx-motion @Class" style="@Style">
+        @ChildContent
+    </div>
+</CascadingValue>
