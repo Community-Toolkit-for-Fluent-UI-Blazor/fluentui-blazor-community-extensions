@@ -1,0 +1,53 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@inherits FluentComponentBase
+
+<FluentCard Height="@Height" Id="@Id">
+    <div @ref="_datagridContainer" style="height: calc(@Height - 20px); width: 100%; overflow-y: auto">
+        <FluentDataGrid Items="@ConsoleState.FilteredMessages.AsQueryable()"
+                        DisplayMode="DataGridDisplayMode.Table"
+                        RowSize="DataGridRowSize.Medium"
+                        @ref="_consoleMessageDataGrid"
+                        GenerateHeader="@DataGridGeneratedHeaderType.Sticky">
+            <ChildContent>
+                <PropertyColumn Width="25%"
+                                Property="@(c => c.Timestamp)"
+                                Align="DataGridCellAlignment.Center"
+                                Sortable="true" />
+
+                <TemplateColumn Width="10%"
+                                Title="Level"
+                                Align="DataGridCellAlignment.Center">
+                    <span style="font-weight: 600; text-transform: uppercase; color: @(GetLevelColor(context.Level))">
+                        @context.Level
+                    </span>
+                </TemplateColumn>
+
+                <PropertyColumn Width="25%"
+                                Property="@(c => c.Category)" />
+
+                <PropertyColumn Width="40%"
+                                Property="@(c => c.Message)" />
+
+                <TemplateColumn Title="Actions"
+                                Align="DataGridCellAlignment.Center">
+                    <FluentButton OnClick="@(() => OnMessageSelectedAsync(context))"
+                                  Title="Show the details of the message"
+                                  IconOnly>
+                        <FluentIcon Value="@(s_infoIcon)" />
+                    </FluentButton>
+                </TemplateColumn>
+            </ChildContent>
+            <EmptyContent>
+                <FluentIcon Value="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24.Crown())" Color="@Color.Primary" />&nbsp; Nothing to see here. Carry on!
+            </EmptyContent>
+            <LoadingContent>
+                <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+                    Loading...<br />
+                    <FluentProgressBar Width="240px" />
+                </FluentStack>
+            </LoadingContent>
+        </FluentDataGrid>
+    </div> 
+</FluentCard>
+
