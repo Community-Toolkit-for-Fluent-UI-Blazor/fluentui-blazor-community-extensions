@@ -1,3 +1,4 @@
+// @ts-nocheck
 export declare module DotNet {
   export type JsonReviver = ((key: any, value: any) => any);
   /**
