@@ -49,7 +49,6 @@ export namespace FluentUI.Blazor.Community.Slideshow {
       resizeObserver: null
     };
 
-    // ResizeObserver → informe Blazor de la taille du slideshow
     instance.resizeObserver = new ResizeObserver(entries => {
       for (const entry of entries) {
         const rect = entry.contentRect;
@@ -210,6 +209,48 @@ export namespace FluentUI.Blazor.Community.Slideshow {
 
       instance.touchHandlers = null;
     }
+  }
+
+  export function InsideDialog(id: string) {
+    const body = document.getElementById(id);
+
+    if (!body) {
+      return;
+    }
+
+    const shadow = body.shadowRoot;
+
+    if (!shadow) {
+      return;
+    }
+
+    const content = shadow.querySelector('[part="content"]') as HTMLElement | null;
+
+    if (!content) {
+      return;
+    }
+
+    const slot = content.querySelector('slot') as HTMLSlotElement | null;
+
+    if (!slot) {
+      return;
+    }
+
+    const nodes = slot.assignedElements ? slot.assignedElements() : slot.assignedNodes();
+
+    if (!nodes || nodes.length === 0) {
+      return;
+    }
+
+    const wrapper = nodes[0] as HTMLElement;
+
+    if (!wrapper) {
+      return;
+    }
+
+    wrapper.style.display = 'flex';
+    wrapper.style.height = '100%';
+    wrapper.style.minHeight = '0';
   }
 
   export function Destroy(id: string) {
