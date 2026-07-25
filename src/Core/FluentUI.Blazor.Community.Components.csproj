@@ -61,5 +61,4 @@
       <NoWarn>CS1591</NoWarn>
     </EmbeddedResource>
   </ItemGroup>
-
 </Project>

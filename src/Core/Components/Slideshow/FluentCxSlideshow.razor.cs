@@ -85,6 +85,11 @@ public partial class FluentCxSlideshow : FluentComponentBase
     private IJSObjectReference? _module;
 
     /// <summary>
+    /// 
+    /// </summary>
+    private bool _hasInsideDialogChanged;
+
+    /// <summary>
     /// Represents the relative path to the JavaScript file that provides functionality for the FluentCxSlideshow
     /// component.
     /// </summary>
@@ -104,6 +109,12 @@ public partial class FluentCxSlideshow : FluentComponentBase
         Id = Identifier.NewId();
         _dotnetReference = DotNetObjectReference.Create(this);
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating that the slideshow is inside a dialog component.
+    /// </summary>
+    [Parameter]
+    public bool InsideDialog { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the slideshow controls (previous and next buttons) should be displayed.
@@ -688,6 +699,7 @@ public partial class FluentCxSlideshow : FluentComponentBase
         _isTouchEnabledChanged = parameters.HasValueChanged(nameof(IsTouchEnabled), IsTouchEnabled);
         _isLoopingModeChanged = parameters.HasValueChanged(nameof(LoopMode), LoopMode);
         _showIndicatorChanged = parameters.HasValueChanged(nameof(ShowIndicators), ShowIndicators);
+        _hasInsideDialogChanged = parameters.HasValueChanged(nameof(InsideDialog), InsideDialog);
 
         return base.SetParametersAsync(parameters);
     }
@@ -792,6 +804,12 @@ public partial class FluentCxSlideshow : FluentComponentBase
         {
             _module = await JSModule.ImportJavaScriptModuleAsync(JavascriptFileName);
             await _module.InvokeVoidAsync("FluentUI.Blazor.Community.Slideshow.Initialize", Id, _dotnetReference);
+
+            if (InsideDialog)
+            {
+                await _module.InvokeVoidAsync("FluentUI.Blazor.Community.Slideshow.InsideDialog", Id);
+            }
+
             await OnEnableOrDisableTouchAsync();
             await OnLoopingModeChangedAsync(true);
             OnShowIndicatorChanged();
