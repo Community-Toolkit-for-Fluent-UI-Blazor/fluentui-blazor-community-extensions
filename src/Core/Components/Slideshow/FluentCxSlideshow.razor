@@ -1,0 +1,75 @@
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Extensions
+@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="(this)" IsFixed="true">
+    <FluentKeyCode PreventDefault Anchor="@Id" OnKeyDown="@OnKeyDownAsync" />
+
+    <div id="@Id"
+         class="@InternalClass"
+         style="@InternalStyle"
+         role="list"
+         tabindex="0"
+         @attributes="@AdditionalAttributes">
+
+        <div id="@($"slide-show-items-container-{Id}")"
+             class="slideshow-container"
+             animate="@InternalOrientation.ToAttributeValue()"
+             translate-enabled="@(LoopMode != SlideshowLoopingMode.Infinite ? "true" : "false")"
+             translate="@InternalOrientation.ToAttributeValue()">
+            @ChildContent
+        </div>
+
+        @if (ShowControls)
+        {
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          OnClick="@OnMovePreviousAsync"
+                          aria-label="@PreviousLabel"
+                          Title="@PreviousLabel"
+                          Disabled=@IsPreviousDisabled
+                          IconStart="@(PreviousIcon)"
+                          Style="@PreviousButtonStyle" />
+
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          OnClick="@OnMoveNextAsync"
+                          aria-label="@NextLabel"
+                          Title="@NextLabel"
+                          Disabled=@IsNextDisabled
+                          IconStart="@(NextIcon)"
+                          Style="@NextButtonStyle" />
+        }
+
+        @if (ShowIndicators &&
+             LoopMode != SlideshowLoopingMode.Infinite)
+        {
+            <div class="slideshow-indicators"
+                 orientation="@(InternalOrientation.ToAttributeValue())"
+                 position="@(IndicatorPosition.ToAttributeValue())">
+                <FluentStack Style="height: 100%;"
+                             Orientation="@InternalOrientation"
+                             HorizontalAlignment="HorizontalAlignment.Center"
+                             VerticalAlignment="VerticalAlignment.Center">
+                    @for (var index = 0; index < Count; index++)
+                    {
+                        var tempIndex = index;
+
+                        @if (IndicatorTemplate is not null)
+                        {
+                            @IndicatorTemplate(tempIndex)
+                        }
+                        else
+                        {
+                            <span role="button"
+                                  aria-label="@($"Slide {tempIndex + 1}")"
+                                  aria-roledescription="slide"
+                                  class="dot-indicator"
+                                  active="@(tempIndex == Index - 1 ? "true" : "false")"
+                                  orientation="@(InternalOrientation.ToAttributeValue())"
+                                  @onclick=@(() => MoveToIndexAsync(tempIndex)) />
+                        }
+                    }
+                </FluentStack>
+            </div>
+        }
+    </div>
+</CascadingValue>

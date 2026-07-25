@@ -123,4 +123,10 @@
   <data name="CX_ColorPalette_NoColorGenerated" xml:space="preserve">
     <value>No valid color was generated.</value>
   </data>
+  <data name="CX_Slideshow_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="CX_Slideshow_Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
 </root>

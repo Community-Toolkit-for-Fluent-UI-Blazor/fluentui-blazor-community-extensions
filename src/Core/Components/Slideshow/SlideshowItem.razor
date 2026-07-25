@@ -1,0 +1,18 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<CascadingValue Value="this" IsFixed>
+    <div aria-label="@AriaLabel"
+         id="@Id"
+         class="slideshow-item @Css"
+         style="@Style"
+         aria-hidden="@Parent?.GetAriaHiddenValue(this)"
+         role="listitem"
+         @attributes="@AdditionalAttributes">
+        <div class="slideshow-item-inner">
+            <div class="slideshow-item-ratio-box" style="width: @(Width)px; height: @(Height)px">
+                @ChildContent
+            </div>
+        </div>
+    </div>
+</CascadingValue>
