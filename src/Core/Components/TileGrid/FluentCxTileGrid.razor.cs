@@ -113,6 +113,12 @@ public partial class FluentCxTileGrid<TItem>
     public string RowHeight { get; set; } = "1fr";
 
     /// <summary>
+    /// Gets or sets the number of rows of the grid.
+    /// </summary>
+    [Parameter]
+    public int? Rows { get; set; }
+
+    /// <summary>
     /// Gets or sets the width of the grid.
     /// </summary>
     [Parameter]
@@ -256,7 +262,8 @@ public partial class FluentCxTileGrid<TItem>
         .AddStyle("height", Height, !string.IsNullOrEmpty(Height))
         .AddStyle("grid-row-gap", RowGap, !string.IsNullOrEmpty(RowGap))
         .AddStyle("grid-column-gap", ColumnGap, !string.IsNullOrEmpty(ColumnGap))
-        .AddStyle("grid-auto-rows", GetRows(), !string.IsNullOrEmpty(RowHeight))
+        .AddStyle("grid-auto-rows", GetRows(), !string.IsNullOrEmpty(RowHeight) && !Rows.HasValue)
+        .AddStyle("grid-template-rows", $"repeat({Rows.GetValueOrDefault()}, 1fr)", Rows.HasValue && Rows > 0)
         .AddStyle("--columns", Columns.HasValue ? Columns.Value.ToString(CultureInfo.InvariantCulture) : "auto-fit")
         .AddStyle("--minimum-column-width", string.IsNullOrEmpty(MinimumColumnWidth) ? "0px" : MinimumColumnWidth)
         .AddStyle("--column-width", ColumnWidth)

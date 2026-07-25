@@ -40,12 +40,12 @@ public abstract class MotionLayoutBase
     /// <summary>
     /// Gets or sets the width value.
     /// </summary>
-    internal double Width { get; set; }
+    public double Width { get; private set; }
 
     /// <summary>
     /// Gets or sets the height value.
     /// </summary>
-    internal double Height { get; set; }
+    public double Height { get; private set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()

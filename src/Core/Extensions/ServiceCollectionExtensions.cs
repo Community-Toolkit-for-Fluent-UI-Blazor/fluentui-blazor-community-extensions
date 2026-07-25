@@ -36,7 +36,6 @@ public static class ServiceCollectionExtensions
         }
 
         return services.AddScoped<DeviceInfoState>()
-                       .AddScoped<ChatState>()
                        .AddScoped<IClipboardInitializer, ClipboardInitializer>()
                        .AddScoped<IClipboard, Clipboard.Clipboard>()
                        .AddScoped<FileManagerState>()
@@ -44,10 +43,6 @@ public static class ServiceCollectionExtensions
                        .AddScoped<IFileUploader, FileUploader>()
                        .AddScoped(typeof(IFileEntryZipService<>), typeof(DefaultFileEntryZipService<>))
                        .AddScoped<SlideshowState>()
-                       .AddScoped<ChatRoomViewState>()
-                       .AddScoped<ChatMessageState>()
-                       .AddScoped<ChatMessageDynamicState>()
-                       .AddScoped<ChatEngine>()
                        .AddScoped<VideoState>()
                        .AddConsole();
     }
@@ -60,6 +55,20 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAzureTranslationClient(this IServiceCollection services)
     {
         return services.AddScoped<ITranslationClient, AzureTranslationClient>();
+    }
+
+    /// <summary>
+    /// Adds the chat services to the service collection, which includes the chat room view state, chat message state, chat message dynamic state, chat engine, and chat state.
+    /// </summary>
+    /// <param name="services">The service collection to add the chat services to.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IServiceCollection AddChat(this IServiceCollection services)
+    {
+        return services.AddScoped<ChatRoomViewState>()
+                       .AddScoped<ChatMessageState>()
+                       .AddScoped<ChatMessageDynamicState>()
+                       .AddScoped<ChatEngine>()
+                       .AddScoped<ChatState>();
     }
 
     /// <summary>

@@ -11,6 +11,7 @@
     <DebugType>embedded</DebugType>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>$(SolutionDir).generated</CompilerGeneratedFilesOutputPath>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
   </PropertyGroup>
 

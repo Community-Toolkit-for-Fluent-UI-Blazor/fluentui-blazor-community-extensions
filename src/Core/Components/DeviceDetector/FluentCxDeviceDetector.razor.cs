@@ -110,8 +110,14 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
     {
         if (_jsInstance is not null)
         {
-            await _jsInstance.InvokeVoidAsync("FluentUI.Blazor.Community.DeviceDetector.Dispose");
-            await _jsInstance.DisposeAsync().ConfigureAwait(false);
+            try
+            {
+                await _jsInstance.InvokeVoidAsync("FluentUI.Blazor.Community.DeviceDetector.Dispose");
+                await _jsInstance.DisposeAsync().ConfigureAwait(false);
+            }
+            catch (JSDisconnectedException)
+            {
+            }
         }
 
         _dotNetHelper?.Dispose();

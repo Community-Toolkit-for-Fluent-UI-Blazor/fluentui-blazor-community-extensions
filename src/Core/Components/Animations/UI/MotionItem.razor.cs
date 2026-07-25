@@ -77,7 +77,7 @@ public partial class MotionItem
     /// <summary>
     /// Gets the current state of the layout transition for the component.
     /// </summary>
-    internal MotionTransitionState LayoutTransition { get; } = new();
+    public MotionTransitionState LayoutTransition { get; } = new();
 
     /// <inheritdoc />
     protected override void OnInitialized()
