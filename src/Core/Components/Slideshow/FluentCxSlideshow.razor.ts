@@ -212,7 +212,17 @@ export namespace FluentUI.Blazor.Community.Slideshow {
   }
 
   export function InsideDialog(id: string) {
-    const body = document.getElementById(id);
+    const slideshow = document.getElementById(id);
+
+    if (!slideshow) {
+      return;
+    }
+
+    const body = slideshow.closest("fluent-dialog-body") as HTMLElement | null;
+
+    if (!body) {
+      return;
+    }
 
     if (!body) {
       return;
