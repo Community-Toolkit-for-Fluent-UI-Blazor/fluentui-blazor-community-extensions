@@ -15,7 +15,8 @@
     <ChildContent>
         <FluentCxSlideshow ContentRatio="SlideshowContentRatio.Landscape"
                            RatioMode="SlideshowRatioMode.Container"
-                           IsTouchEnabled>
+                           IsTouchEnabled
+                           InsideDialog>
             @if (_files.Count > 0)
             {
                 var videoFiles = _files.Where(f => f.ContentType.StartsWith(FluentCxConstants.VideoContentType, StringComparison.OrdinalIgnoreCase)).ToList();

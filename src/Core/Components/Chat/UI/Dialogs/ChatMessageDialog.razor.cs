@@ -4,7 +4,6 @@ using FluentUI.Blazor.Community.Components.Components.Base;
 using FluentUI.Blazor.Community.Components.Media;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Utilities;
-using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
 
@@ -14,8 +13,6 @@ namespace FluentUI.Blazor.Community.Components.Chat.UI.Dialogs;
 public partial class ChatMessageDialog : IAsyncDisposable
 {
     private readonly string Id = Identifier.NewId();
-
-    private const string JavascriptModulePath = FluentCxConstants.JAVASCRIPT_ROOT + "Chat/UI/Dialogs/ChatMessageDialog.razor.js";
 
     /// <summary>
     /// Represents the files to be displayed in the viewer.
@@ -46,12 +43,6 @@ public partial class ChatMessageDialog : IAsyncDisposable
     private IFileUploader FileUploader { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the JavaScript runtime for invoking JavaScript functions.
-    /// </summary>
-    [Inject]
-    private IJSRuntime Runtime { get; set; } = default!;
-
-    /// <summary>
     /// Gets or sets the message to be displayed in the viewer.
     /// </summary>
     [Parameter]
@@ -73,20 +64,6 @@ public partial class ChatMessageDialog : IAsyncDisposable
     protected override async Task OnActionClickedAsync(bool primary)
     {
         await DialogInstance.CloseAsync();
-    }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (!firstRender)
-        {
-            return;
-        }
-
-        var module = await Runtime.InvokeAsync<IJSObjectReference>("import", JavascriptModulePath);
-        await module.InvokeVoidAsync("FluentUI.Blazor.Community.ChatMessageDialog.SetDialogContentHeight", Id);
     }
 
     private IReadOnlyList<IChatFile> GetFiles()

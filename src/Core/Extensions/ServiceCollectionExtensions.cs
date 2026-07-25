@@ -44,7 +44,8 @@ public static class ServiceCollectionExtensions
                        .AddScoped(typeof(IFileEntryZipService<>), typeof(DefaultFileEntryZipService<>))
                        .AddScoped<SlideshowState>()
                        .AddScoped<VideoState>()
-                       .AddConsole();
+                       .AddConsole()
+                       .AddChat();
     }
 
     /// <summary>
@@ -62,7 +63,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The service collection to add the chat services to.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IServiceCollection AddChat(this IServiceCollection services)
+    private static IServiceCollection AddChat(this IServiceCollection services)
     {
         return services.AddScoped<ChatRoomViewState>()
                        .AddScoped<ChatMessageState>()
