@@ -1,0 +1,7 @@
+.motion-item {
+  display: block;
+  position: absolute;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  pointer-events: auto;
+}
