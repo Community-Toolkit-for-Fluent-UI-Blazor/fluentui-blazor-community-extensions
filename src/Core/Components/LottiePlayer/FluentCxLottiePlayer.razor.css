@@ -1,0 +1,5 @@
+.fluentcx-lottie-player {
+  width: var(--lottie-player-width, 100%);
+  height: var(--lottie-player-height, 100%);
+  position: relative;
+}

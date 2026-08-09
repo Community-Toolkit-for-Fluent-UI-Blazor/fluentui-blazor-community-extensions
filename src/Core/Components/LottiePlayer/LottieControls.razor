@@ -1,0 +1,52 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div id="@Id">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <FluentStack>
+            <FluentSwitch Value="@_isLooping"
+                          ValueChanged="@(e => ToggleLoopAsync(e))"
+                          Label="@Labels.Loop" />
+
+            @if (!_isPlaying)
+            {
+                <FluentButton Appearance="ButtonAppearance.Default"
+                              IconStart="@(new Regular.Size24.Play())"
+                              OnClick="@PlayAsync"
+                              Title="@Labels.Play"
+                              ChildContent="@(IsMobile ? null : _renderLabel(@Labels.Play))" />
+            }
+            else
+            {
+                <FluentButton Appearance="ButtonAppearance.Default"
+                              IconStart="@(new Regular.Size24.Pause())"
+                              OnClick="@PauseAsync"
+                              Title="@Labels.Pause"
+                              ChildContent="@(IsMobile ? null : _renderLabel(@Labels.Pause))" />
+            }
+
+            <FluentButton Appearance="ButtonAppearance.Default"
+                          IconStart="@(new Regular.Size24.Stop())"
+                          OnClick="@StopAsync"
+                          Title="@Labels.Stop"
+                          ChildContent="@(IsMobile ? null : _renderLabel(@Labels.Stop))" />
+        </FluentStack>
+    }
+</div>
+
+@code {
+    public LottieControls(LibraryConfiguration configuration)
+        : base(configuration)
+    {
+        Id = Identifier.NewId();
+        _renderLabel = label => __builder =>
+        {
+            <FluentLabel>@label</FluentLabel>
+        };
+    }
+}
