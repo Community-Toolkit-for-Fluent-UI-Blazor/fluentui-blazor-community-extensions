@@ -39,6 +39,22 @@ public partial class FluentCxCarousel : FluentComponentBase
     [Parameter]
     public Icon? NextIcon { get; set; }
 
+    /// <summary>
+    /// Gets or sets the height of the component.
+    /// </summary>
+    [Parameter]
+    public string? Height { get; set; }
+
+    /// <summary />
+    private string? InternalClass => DefaultClassBuilder
+        .AddClass("fluentcx-carousel")
+        .Build();
+
+    /// <summary />
+    private string? InternalStyle => DefaultStyleBuilder
+        .AddStyle("height", Height)
+        .Build();
+
     private readonly List<FluentCxSlide> _slides = [];
     internal int CurrentIndex { get; private set; }
 

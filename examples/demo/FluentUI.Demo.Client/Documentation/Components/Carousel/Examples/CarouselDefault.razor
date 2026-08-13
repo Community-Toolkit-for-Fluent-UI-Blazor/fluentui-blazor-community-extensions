@@ -5,7 +5,15 @@
                   @bind-Value="orientation"
                   Label="Orientation" />
 </FluentStack>
-<FluentCxCarousel Orientation="orientation">
+<FluentCxCarousel Orientation="orientation"
+                  Height="600px">
+    <FluentCxSlide>
+        <img src="images/ship-1.png" />
+    </FluentCxSlide>
+
+    <FluentCxSlide>
+        <img src="images/ship-2.png" />
+    </FluentCxSlide>
 
     <FluentCxSlide>
         <h2>Slide 1</h2>
@@ -21,7 +29,6 @@
     <FluentCxSlide>
         <h2>Slide 3</h2>
     </FluentCxSlide>
-
 </FluentCxCarousel>
 
 @code {
