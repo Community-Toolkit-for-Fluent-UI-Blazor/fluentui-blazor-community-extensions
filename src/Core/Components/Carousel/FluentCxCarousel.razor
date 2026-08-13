@@ -1,0 +1,43 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div class="fluentcx-carousel-wrapper">
+
+    <div class="fluentcx-carousel">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </div>
+
+    @if (_slides.Count > 1)
+    {
+        @if (ShowControls)
+        {
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          Class="fluentcx-carousel-button prev"
+                          OnClick="Previous"
+                          IconStart="@(new Icons.Regular.Size24.ChevronLeft())"
+                          IconOnly="true" />
+
+
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          Class="fluentcx-carousel-button next"
+                          OnClick="Next"
+                          IconStart="@(new Icons.Regular.Size24.ChevronRight())"
+                          IconOnly="true" />
+        }
+
+        <div class="dots">
+            @for (var i = 0; i < _slides.Count; i++)
+            {
+                var index = i;
+
+                <button class="dot @(index == CurrentIndex ? "active" : "")"
+                        @onclick="() => GoTo(index)">
+                </button>
+            }
+        </div>
+    }
+
+</div>
+

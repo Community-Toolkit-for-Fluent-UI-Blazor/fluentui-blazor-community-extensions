@@ -1,22 +1,25 @@
-﻿<FluentStack>
-    <FluentSelect TOption="Orientation"
-                  TValue="Orientation"
-                  Label="Orientation"
-                  @bind-Value="orientation"
-                  Items="Enum.GetValues<Orientation>()" />
-</FluentStack>
+﻿<FluentCxCarousel>
 
-<FluentCxSlideShow Orientation="@orientation">
-    <FluentCxSlideShowItem>
-        Hello World
-    </FluentCxSlideShowItem>
+    <FluentCxSlide>
+        <h2>Slide 1</h2>
+    </FluentCxSlide>
 
-    <FluentCxSlideShowItem>
-        Hello World2
-    </FluentCxSlideShowItem>
-</FluentCxSlideShow>
+    <FluentCxSlide>
+        <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+            <h2>Slide 2</h2>
+            <FluentButton OnClick="HandleClick">Click me</FluentButton>
+        </FluentStack>
+    </FluentCxSlide>
+
+    <FluentCxSlide>
+        <h2>Slide 3</h2>
+    </FluentCxSlide>
+
+</FluentCxCarousel>
 
 @code {
-
-    Orientation orientation = Orientation.Horizontal;
+    private void HandleClick()
+    {
+        Console.WriteLine("Hello!");
+    }
 }
