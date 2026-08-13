@@ -28,6 +28,7 @@
     right: 15px;
   }
 
+  /* TODO: Rename */
 .dots {
   display: flex;
   justify-content: center;
