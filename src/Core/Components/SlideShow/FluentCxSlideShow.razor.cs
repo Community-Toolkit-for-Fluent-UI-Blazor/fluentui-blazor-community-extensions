@@ -20,7 +20,7 @@ public partial class FluentCxSlideShow : FluentComponentBase
     /// Gets or sets the position of the indicator.
     /// </summary>
     [Parameter]
-    public SlideShowControlPosition ControlPosition { get; set; } = SlideShowControlPosition.Bottom;
+    public SlideShowIndicatorPosition ControlPosition { get; set; } = SlideShowIndicatorPosition.Bottom;
 
     /// <summary>
     /// Gets or sets the previous icon.
