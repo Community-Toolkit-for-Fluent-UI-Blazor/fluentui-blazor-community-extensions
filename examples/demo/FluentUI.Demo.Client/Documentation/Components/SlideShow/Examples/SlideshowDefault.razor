@@ -1,1 +1,14 @@
-﻿<FluentCxSlideShow />
+﻿<FluentStack>
+    <FluentSelect TOption="Orientation"
+                  TValue="Orientation"
+                  Label="Orientation"
+                  @bind-Value="orientation"
+                  Items="Enum.GetValues<Orientation>()" />
+</FluentStack>
+
+<FluentCxSlideShow Orientation="@orientation" />
+
+@code {
+
+    Orientation orientation = Orientation.Horizontal;
+}

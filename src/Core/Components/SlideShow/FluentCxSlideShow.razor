@@ -11,10 +11,10 @@
         @if (ShowControls)
         {
             <FluentButton Appearance="ButtonAppearance.Subtle"
-                          IconStart="@PreviousIcon" />
+                          IconStart="@GetPreviousButtonIcon()" />
 
             <FluentButton Appearance="ButtonAppearance.Subtle"
-                          IconStart="@NextIcon" />
+                          IconStart="@GetNextButtonIcon()" />
         }
     </div>
 </CascadingValue>
