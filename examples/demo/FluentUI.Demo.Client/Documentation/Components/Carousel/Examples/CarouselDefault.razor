@@ -1,4 +1,11 @@
-﻿<FluentCxCarousel>
+﻿<FluentStack>
+    <FluentSelect TValue="Orientation"
+                  TOption="Orientation"
+                  Items="Enum.GetValues<Orientation>()"
+                  @bind-Value="orientation"
+                  Label="Orientation" />
+</FluentStack>
+<FluentCxCarousel Orientation="orientation">
 
     <FluentCxSlide>
         <h2>Slide 1</h2>
@@ -18,6 +25,7 @@
 </FluentCxCarousel>
 
 @code {
+    Orientation orientation = Orientation.Horizontal;
     private void HandleClick()
     {
         Console.WriteLine("Hello!");

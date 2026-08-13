@@ -15,15 +15,17 @@
         {
             <FluentButton Appearance="ButtonAppearance.Subtle"
                           Class="fluentcx-carousel-button prev"
+                          orientation="@Orientation.ToString().ToLowerInvariant()"
                           OnClick="Previous"
-                          IconStart="@(new Icons.Regular.Size24.ChevronLeft())"
+                          IconStart="@GetPreviousIcon()"
                           IconOnly="true" />
 
 
             <FluentButton Appearance="ButtonAppearance.Subtle"
                           Class="fluentcx-carousel-button next"
+                          orientation="@Orientation.ToString().ToLowerInvariant()"
                           OnClick="Next"
-                          IconStart="@(new Icons.Regular.Size24.ChevronRight())"
+                          IconStart="@GetNextIcon()"
                           IconOnly="true" />
         }
 

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -15,21 +14,39 @@ public partial class FluentCxCarousel : FluentComponentBase
     [Parameter]
     public bool ShowControls { get; set; } = true;
 
-    /// <summary />
-    public FluentCxCarousel(LibraryConfiguration configuration) : base(configuration)
-    {
-        Id = Identifier.NewId();
-    }
-
-    private readonly List<FluentCxSlide> _slides = [];
-
-    internal int CurrentIndex { get; private set; }
+    /// <summary>
+    /// Gets or sets the orientation of the slide show.
+    /// </summary>
+    /// <remarks>If the indicator is visible, the position of it override this value.</remarks>
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Horizontal;
 
     /// <summary>
-    /// 
+    /// Gets or sets the render fragment for the child content.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the previous icon.
+    /// </summary>
+    [Parameter]
+    public Icon? PreviousIcon { get; set; }
+
+    /// <summary>
+    /// Gets or sets the next icon.
+    /// </summary>
+    [Parameter]
+    public Icon? NextIcon { get; set; }
+
+    private readonly List<FluentCxSlide> _slides = [];
+    internal int CurrentIndex { get; private set; }
+
+    /// <summary />
+    public FluentCxCarousel(LibraryConfiguration configuration) : base(configuration)
+    {
+
+    }
 
     internal void Register(FluentCxSlide slide)
     {
@@ -89,5 +106,35 @@ public partial class FluentCxCarousel : FluentComponentBase
         }
 
         CurrentIndex = index;
+    }
+
+    private Icon GetPreviousIcon()
+    {
+        if (PreviousIcon is not null)
+        {
+            return PreviousIcon;
+        }
+
+        if (Orientation is Orientation.Horizontal)
+        {
+            return new Icons.Regular.Size24.ChevronLeft();
+        }
+
+        return new Icons.Regular.Size24.ChevronUp();
+    }
+
+    private Icon GetNextIcon()
+    {
+        if (NextIcon is not null)
+        {
+            return NextIcon;
+        }
+
+        if (Orientation is Orientation.Horizontal)
+        {
+            return new Icons.Regular.Size24.ChevronRight();
+        }
+
+        return new Icons.Regular.Size24.ChevronDown();
     }
 }

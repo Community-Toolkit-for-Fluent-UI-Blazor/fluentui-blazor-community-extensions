@@ -11,24 +11,47 @@
   border-radius: 20px;
 }
 
+
+/* Controls */
 ::deep .fluentcx-carousel-button {
   position: absolute;
-  top: 50%;
   width: 50px;
   height: 50px;
-  transform: translateY(-50%);
   z-index: 10;
 }
 
-  ::deep .fluentcx-carousel-button.prev {
+  /* Horizontal */
+  ::deep .fluentcx-carousel-button[orientation="horizontal"] {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  ::deep .fluentcx-carousel-button.prev[orientation="horizontal"] {
     left: 15px;
   }
 
-  ::deep .fluentcx-carousel-button.next {
+  ::deep .fluentcx-carousel-button.next[orientation="horizontal"] {
     right: 15px;
   }
 
-  /* TODO: Rename */
+
+  /* Vertical */
+  ::deep .fluentcx-carousel-button[orientation="vertical"] {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  ::deep .fluentcx-carousel-button.prev[orientation="vertical"] {
+    top: 15px;
+  }
+
+  ::deep .fluentcx-carousel-button.next[orientation="vertical"] {
+    bottom: 15px;
+  }
+
+/* Controls end */
+
+/* TODO: Rename */
 .dots {
   display: flex;
   justify-content: center;
