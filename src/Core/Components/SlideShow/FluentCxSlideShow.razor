@@ -8,6 +8,10 @@
          style="@StyleValue"
          @attributes="@AdditionalAttributes">
 
+        <div>
+            @ChildContent
+        </div>
+
         @if (ShowControls)
         {
             <FluentButton Appearance="ButtonAppearance.Subtle"

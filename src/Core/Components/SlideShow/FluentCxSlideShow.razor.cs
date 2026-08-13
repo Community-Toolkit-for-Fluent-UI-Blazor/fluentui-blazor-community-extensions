@@ -17,6 +17,12 @@ public partial class FluentCxSlideShow : FluentComponentBase
     public bool ShowControls { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets the render fragment for the child content.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
     /// Gets or sets the orientation of the slide show.
     /// </summary>
     [Parameter]
