@@ -8,6 +8,16 @@ namespace FluentUI.Blazor.Community.Components;
 /// </summary>
 public partial class FluentCxSlideShow : FluentComponentBase
 {
+
+    /// <summary />
+    private string? ClassValue => DefaultClassBuilder
+        .AddClass("fluentcx-color-palette")
+        .Build();
+
+    /// <summary />
+    private string? StyleValue => DefaultStyleBuilder
+        .Build();
+
     /// <summary />
     public FluentCxSlideShow(LibraryConfiguration configuration) : base(configuration)
     {

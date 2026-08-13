@@ -2,7 +2,11 @@
 @inherits FluentComponentBase
 
 <CascadingValue Value="this" IsFixed="true">
-    <div id="@Id">
+    <div id="@Id"
+         fuibcx
+         class="@ClassValue"
+         style="@StyleValue"
+         @attributes="@AdditionalAttributes">
     </div>
 </CascadingValue>
 
