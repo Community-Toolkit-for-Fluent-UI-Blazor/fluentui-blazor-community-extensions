@@ -20,7 +20,7 @@
     <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="18.7.23" />
     <PackageVersion Include="Microsoft.VisualStudioEng.MicroBuild.Core" Version="1.0.0" />
     <PackageVersion Include="Microsoft.TypeScript.MSBuild" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.14.3" />
+    <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="5.0.0-rc.5-26219.1" />
     <PackageVersion Include="Microsoft.FluentUI.AspNetCore.Components.Emoji" Version="4.14.3" />
     <PackageVersion Include="Microsoft.CodeAnalysis.ResxSourceGenerator" Version="3.12.0-beta1.25155.1" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.CommandLine" Version="10.0.10" />

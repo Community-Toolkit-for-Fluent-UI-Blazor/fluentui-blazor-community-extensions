@@ -7,6 +7,15 @@
          class="@ClassValue"
          style="@StyleValue"
          @attributes="@AdditionalAttributes">
+
+        @if (ShowControls)
+        {
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          IconStart="@PreviousIcon" />
+
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          IconStart="@NextIcon" />
+        }
     </div>
 </CascadingValue>
 
