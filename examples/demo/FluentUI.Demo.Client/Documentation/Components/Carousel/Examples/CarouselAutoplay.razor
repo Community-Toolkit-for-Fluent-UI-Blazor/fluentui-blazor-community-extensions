@@ -1,0 +1,49 @@
+﻿<FluentStack Orientation="Orientation.Vertical">
+    <FluentStack>
+        <FluentSelect TValue="CarouselAutoplayMode"
+                      TOption="CarouselAutoplayMode"
+                      Items="Enum.GetValues<CarouselAutoplayMode>()"
+                      @bind-Value="autoplayMode"
+                      Label="Autoplay Mode"
+                      Style="width: 200px;" />
+
+        <FluentNumberInput @bind-Value="autoplayInterval"
+                           Min="500"
+                           Max="10000"
+                           Step="500"
+                           Label="Interval (ms)" />
+
+    </FluentStack>
+
+    <FluentCxCarousel AutoplayMode="autoplayMode"
+                      AutoplayInterval="autoplayInterval"
+                      Height="400px"
+                      Width="600px">
+        <FluentCxSlide>
+            <img src="images/ship-1.png" />
+        </FluentCxSlide>
+
+        <FluentCxSlide>
+            <img src="images/ship-2.png" />
+        </FluentCxSlide>
+
+        <FluentCxSlide>
+            <h2>Slide 1</h2>
+        </FluentCxSlide>
+
+        <FluentCxSlide>
+            <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+                <h2>Slide 2</h2>
+            </FluentStack>
+        </FluentCxSlide>
+
+        <FluentCxSlide>
+            <h2>Slide 3</h2>
+        </FluentCxSlide>
+    </FluentCxCarousel>
+</FluentStack>
+
+@code {
+    CarouselAutoplayMode autoplayMode = CarouselAutoplayMode.Rewind;
+    int autoplayInterval = 3000;
+}
