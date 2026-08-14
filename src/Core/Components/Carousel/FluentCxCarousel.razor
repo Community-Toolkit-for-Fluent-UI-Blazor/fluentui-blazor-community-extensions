@@ -16,7 +16,7 @@
         {
             <FluentButton Appearance="ButtonAppearance.Subtle"
                           Class="fluentcx-carousel-button prev"
-                          orientation="@Orientation.ToString().ToLowerInvariant()"
+                          orientation="@GetOrientationAttribute()"
                           OnClick="Previous"
                           aria-label="@Localizer[LanguageResource.CX_Carousel_PreviousLabel]"
                           Title="@Localizer[LanguageResource.CX_Carousel_PreviousLabel]"
@@ -26,7 +26,7 @@
 
             <FluentButton Appearance="ButtonAppearance.Subtle"
                           Class="fluentcx-carousel-button next"
-                          orientation="@Orientation.ToString().ToLowerInvariant()"
+                          orientation="@GetOrientationAttribute()"
                           OnClick="Next"
                           aria-label="@Localizer[LanguageResource.CX_Carousel_NextLabel]"
                           Title="@Localizer[LanguageResource.CX_Carousel_NextLabel]"

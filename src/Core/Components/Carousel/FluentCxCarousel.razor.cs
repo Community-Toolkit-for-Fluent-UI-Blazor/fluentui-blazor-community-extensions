@@ -160,4 +160,9 @@ public partial class FluentCxCarousel : FluentComponentBase
 
         return new Icons.Regular.Size24.ChevronDown();
     }
+
+    private string GetOrientationAttribute()
+    {
+        return Orientation.ToString().ToLowerInvariant();
+    }
 }
