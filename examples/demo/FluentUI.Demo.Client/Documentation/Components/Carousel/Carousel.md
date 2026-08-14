@@ -13,3 +13,12 @@ The `FluentCxCarousel` component is a UI element that displays multiple pieces o
 ### Default
 
 {{ CarouselDefault }}
+
+### Autoplay
+
+The carousel supports autoplay with three different modes:
+- **None**: No autoplay
+- **Rewind**: After reaching the end, the carousel will jump back to the start
+- **Infinite**: Creates a seamless infinite loop
+
+{{ CarouselAutoplay }}

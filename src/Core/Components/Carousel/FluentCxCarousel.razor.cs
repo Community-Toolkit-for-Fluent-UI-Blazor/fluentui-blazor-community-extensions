@@ -1,3 +1,4 @@
+using System.Timers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -6,7 +7,7 @@ namespace FluentUI.Blazor.Community.Components;
 /// <summary>
 /// The FluentCxCarousel component is a carousel which display content with a slide effect.
 /// </summary>
-public partial class FluentCxCarousel : FluentComponentBase
+public partial class FluentCxCarousel : FluentComponentBase, IDisposable
 {
     /// <summary>
     /// Gets or sets a value indicating that the controls are shown.
@@ -51,6 +52,18 @@ public partial class FluentCxCarousel : FluentComponentBase
     [Parameter]
     public string? Width { get; set; }
 
+    /// <summary>
+    /// Gets or sets the autoplay mode for the carousel.
+    /// </summary>
+    [Parameter]
+    public CarouselAutoplayMode AutoplayMode { get; set; } = CarouselAutoplayMode.None;
+
+    /// <summary>
+    /// Gets or sets the autoplay interval in milliseconds.
+    /// </summary>
+    [Parameter]
+    public int AutoplayInterval { get; set; } = 3000;
+
     /// <summary />
     private string? InternalClass => DefaultClassBuilder
         .AddClass("fluentcx-carousel")
@@ -64,6 +77,7 @@ public partial class FluentCxCarousel : FluentComponentBase
 
     private readonly List<FluentCxSlide> _slides = [];
     internal int CurrentIndex { get; private set; }
+    private System.Timers.Timer? _autoplayTimer;
 
     /// <summary />
     public FluentCxCarousel(LibraryConfiguration configuration) : base(configuration)
@@ -108,6 +122,7 @@ public partial class FluentCxCarousel : FluentComponentBase
         }
 
         CurrentIndex = (CurrentIndex + 1) % _slides.Count;
+        ResetAutoplayTimer();
     }
 
     private void Previous()
@@ -119,6 +134,7 @@ public partial class FluentCxCarousel : FluentComponentBase
 
         CurrentIndex =
             (CurrentIndex - 1 + _slides.Count) % _slides.Count;
+        ResetAutoplayTimer();
     }
 
     private void GoTo(int index)
@@ -129,6 +145,16 @@ public partial class FluentCxCarousel : FluentComponentBase
         }
 
         CurrentIndex = index;
+        ResetAutoplayTimer();
+    }
+
+    private void ResetAutoplayTimer()
+    {
+        if (_autoplayTimer != null && AutoplayMode != CarouselAutoplayMode.None)
+        {
+            _autoplayTimer.Stop();
+            _autoplayTimer.Start();
+        }
     }
 
     private Icon GetPreviousIcon()
@@ -164,5 +190,104 @@ public partial class FluentCxCarousel : FluentComponentBase
     private string GetOrientationAttribute()
     {
         return Orientation.ToString().ToLowerInvariant();
+    }
+
+    /// <inheritdoc />
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ConfigureAutoplay();
+        }
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        var configureAutoplay = false;
+        if (parameters.TryGetValue<CarouselAutoplayMode>(nameof(AutoplayMode), out var newAutoplayMode) && newAutoplayMode != AutoplayMode)
+        {
+            AutoplayMode = newAutoplayMode;
+            configureAutoplay = true;
+        }
+
+        if (parameters.TryGetValue<int>(nameof(AutoplayInterval), out var newAutoplayInterval) && newAutoplayInterval != AutoplayInterval)
+        {
+            AutoplayInterval = newAutoplayInterval;
+            configureAutoplay = true;
+        }
+
+        if (configureAutoplay)
+        {
+            ConfigureAutoplay();
+        }
+
+        return base.SetParametersAsync(parameters);
+    }
+
+    private void ConfigureAutoplay()
+    {
+        _autoplayTimer?.Stop();
+        _autoplayTimer?.Dispose();
+        _autoplayTimer = null;
+
+        if (AutoplayMode == CarouselAutoplayMode.None || AutoplayInterval <= 0)
+        {
+            return;
+        }
+
+        _autoplayTimer = new System.Timers.Timer(AutoplayInterval);
+        _autoplayTimer.Elapsed += OnAutoplayTick;
+        _autoplayTimer.AutoReset = true;
+        _autoplayTimer.Start();
+    }
+
+    private void OnAutoplayTick(object? sender, ElapsedEventArgs e)
+    {
+        InvokeAsync(() =>
+        {
+            if (_slides.Count == 0)
+            {
+                return;
+            }
+
+            switch (AutoplayMode)
+            {
+                case CarouselAutoplayMode.Rewind:
+                    if (CurrentIndex >= _slides.Count - 1)
+                    {
+                        CurrentIndex = 0;
+                    }
+                    else
+                    {
+                        CurrentIndex++;
+                    }
+
+                    break;
+
+                case CarouselAutoplayMode.Infinite:
+                    // For infinite mode, we just move to next slide
+                    // The CSS transitions will handle the smooth looping effect
+                    CurrentIndex = (CurrentIndex + 1) % _slides.Count;
+                    break;
+
+                case CarouselAutoplayMode.None:
+                default:
+                    // Stop the timer if mode is None
+                    _autoplayTimer?.Stop();
+                    break;
+            }
+
+            StateHasChanged();
+        });
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        _autoplayTimer?.Stop();
+        _autoplayTimer?.Dispose();
     }
 }

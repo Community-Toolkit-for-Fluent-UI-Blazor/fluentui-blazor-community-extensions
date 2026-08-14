@@ -1,0 +1,53 @@
+﻿<FluentStack Orientation="Orientation.Vertical">
+    <FluentStack>
+        <FluentSelect TValue="CarouselAutoplayMode"
+                      TOption="CarouselAutoplayMode"
+                      Items="Enum.GetValues<CarouselAutoplayMode>()"
+                      @bind-Value="autoplayMode"
+                      Label="Autoplay Mode"
+                      Style="width: 200px;" />
+
+        <FluentNumberInput @bind-Value="autoplayInterval"
+                           Min="500"
+                           Max="10000"
+                           Step="500"
+                           Label="Interval (ms)" />
+
+    </FluentStack>
+
+    <FluentCxCarousel AutoplayMode="autoplayMode"
+                      AutoplayInterval="autoplayInterval"
+                      Height="400px"
+                      Width="600px">
+        <FluentCxSlide>
+            <img src="images/ship-1.png" style="width: 100%; height: 100%; object-fit: cover;" />
+        </FluentCxSlide>
+
+        <FluentCxSlide>
+            <img src="images/ship-2.png" style="width: 100%; height: 100%; object-fit: cover;" />
+        </FluentCxSlide>
+
+        <FluentCxSlide>
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h2 style="color: white; font-size: 3rem;">Slide 1</h2>
+            </div>
+        </FluentCxSlide>
+
+        <FluentCxSlide>
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <h2 style="color: white; font-size: 3rem;">Slide 2</h2>
+            </div>
+        </FluentCxSlide>
+
+        <FluentCxSlide>
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <h2 style="color: white; font-size: 3rem;">Slide 3</h2>
+            </div>
+        </FluentCxSlide>
+    </FluentCxCarousel>
+</FluentStack>
+
+@code {
+    private CarouselAutoplayMode autoplayMode = CarouselAutoplayMode.Rewind;
+    private int autoplayInterval = 3000;
+}
