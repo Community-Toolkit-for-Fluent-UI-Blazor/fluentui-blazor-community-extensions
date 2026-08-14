@@ -45,6 +45,12 @@ public partial class FluentCxCarousel : FluentComponentBase
     [Parameter]
     public string? Height { get; set; }
 
+    /// <summary>
+    /// Gets or sets the width of the component.
+    /// </summary>
+    [Parameter]
+    public string? Width { get; set; }
+
     /// <summary />
     private string? InternalClass => DefaultClassBuilder
         .AddClass("fluentcx-carousel")
@@ -53,6 +59,7 @@ public partial class FluentCxCarousel : FluentComponentBase
     /// <summary />
     private string? InternalStyle => DefaultStyleBuilder
         .AddStyle("height", Height)
+        .AddStyle("width", Width)
         .Build();
 
     private readonly List<FluentCxSlide> _slides = [];
