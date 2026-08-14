@@ -18,6 +18,8 @@
                           Class="fluentcx-carousel-button prev"
                           orientation="@Orientation.ToString().ToLowerInvariant()"
                           OnClick="Previous"
+                          aria-label="@Localizer[LanguageResource.CX_Carousel_PreviousLabel]"
+                          Title="@Localizer[LanguageResource.CX_Carousel_PreviousLabel]"
                           IconStart="@GetPreviousIcon()"
                           IconOnly="true" />
 
@@ -26,6 +28,8 @@
                           Class="fluentcx-carousel-button next"
                           orientation="@Orientation.ToString().ToLowerInvariant()"
                           OnClick="Next"
+                          aria-label="@Localizer[LanguageResource.CX_Carousel_NextLabel]"
+                          Title="@Localizer[LanguageResource.CX_Carousel_NextLabel]"
                           IconStart="@GetNextIcon()"
                           IconOnly="true" />
         }
