@@ -17,6 +17,11 @@ internal sealed class FileEntryFlattenService<TItem> : IFileEntryFlattenService<
     private readonly IFileProvider<TItem> _provider;
 
     /// <summary>
+    /// 
+    /// </summary>
+    private CancellationTokenSource? _cancellationTokenSource;
+
+    /// <summary>
     /// Initializes a new instance of the FileEntryFlattenService class using the specified file provider.
     /// </summary>
     /// <param name="provider">The file provider used to retrieve file entries of type TItem. Cannot be null.</param>
@@ -40,10 +45,23 @@ internal sealed class FileEntryFlattenService<TItem> : IFileEntryFlattenService<
             yield break;
         }
 
-        var descriptors = await _provider.GetChildrenAsync(root.Id);
+        if (_cancellationTokenSource is not null)
+        {
+            await _cancellationTokenSource.CancelAsync();
+            _cancellationTokenSource.Dispose();
+        }
+
+        _cancellationTokenSource = new();
+
+        var descriptors = await _provider.GetChildrenAsync(root.Id, _cancellationTokenSource.Token);
 
         foreach (var desc in descriptors)
         {
+            if (_cancellationTokenSource.IsCancellationRequested)
+            {
+                yield break;
+            }
+
             var child = FileManagerEngine<TItem>.Map(desc, root);
             root.AddChild(child);
 

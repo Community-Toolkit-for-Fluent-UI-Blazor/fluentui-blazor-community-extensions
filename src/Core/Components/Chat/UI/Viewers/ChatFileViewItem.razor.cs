@@ -90,7 +90,7 @@ public partial class ChatFileViewItem
             return;
         }
 
-        var data = await Item.GetDataAsync();
+        var data = await Item.GetDataAsync(CancellationToken.None);
 
         if (data.Length == 0)
         {

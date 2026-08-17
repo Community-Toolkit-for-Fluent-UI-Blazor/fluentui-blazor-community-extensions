@@ -20,7 +20,7 @@ public sealed record EntryDescriptor<TItem>(
     long? Size,
     DateTime CreatedDate,
     DateTime ModifiedDate,
-    Func<Task<byte[]>>? GetBytesAsync,
+    Func<CancellationToken, Task<byte[]>>? GetBytesAsync,
     TItem? Value = default)
 {
     /// <summary>
@@ -63,7 +63,7 @@ public sealed record EntryDescriptor<TItem>(
         long size,
         DateTime created,
         DateTime modified,
-        Func<Task<byte[]>> getBytesAsync,
+        Func<CancellationToken, Task<byte[]>> getBytesAsync,
         TItem? value = default)
         => new(id, name, parentId, false, size, created, modified, getBytesAsync, value);
 }

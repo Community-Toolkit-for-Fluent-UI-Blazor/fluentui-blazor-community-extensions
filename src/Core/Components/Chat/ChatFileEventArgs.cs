@@ -15,7 +15,12 @@ public record ChatFileEventArgs
     /// <param name="contentType">Content type of the file.</param>
     /// <param name="data">Data of the file.</param>
     /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
-    public ChatFileEventArgs(string id, string name, string contentType, byte[] data, bool isRecordedAudio = false)
+    public ChatFileEventArgs(
+        string id,
+        string name,
+        string contentType,
+        byte[] data,
+        bool isRecordedAudio = false)
     {
         Id = id;
         Name = name;
@@ -31,7 +36,11 @@ public record ChatFileEventArgs
     /// <param name="contentType">Content type of the file.</param>
     /// <param name="data">Data of the file.</param>
     /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
-    public ChatFileEventArgs(string name, string contentType, byte[] data, bool isRecordedAudio = false)
+    public ChatFileEventArgs(
+        string name,
+        string contentType,
+        byte[] data,
+        bool isRecordedAudio = false)
         : this (Identifier.NewId(), name, contentType, data, isRecordedAudio)
     {
     }
@@ -44,7 +53,11 @@ public record ChatFileEventArgs
     /// <param name="contentType">Content type of the file.</param>
     /// <param name="dataFunc">Function that retrieves the data of the file asynchronously.</param>
     /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
-    public ChatFileEventArgs(string id, string name, string contentType, Func<Task<byte[]>> dataFunc, bool isRecordedAudio = false)
+    public ChatFileEventArgs(
+        string id,
+        string name,
+        string contentType,
+        Func<CancellationToken, Task<byte[]>> dataFunc, bool isRecordedAudio = false)
     {
         Id = id;
         Name = name;
@@ -60,7 +73,7 @@ public record ChatFileEventArgs
     /// <param name="contentType">Content type of the file.</param>
     /// <param name="dataFunc">Function that retrieves the data of the file asynchronously.</param>
     /// <param name="isRecordedAudio">Value indicating if the chat file is a recorded audio file.</param>
-    public ChatFileEventArgs(string name, string contentType, Func<Task<byte[]>> dataFunc, bool isRecordedAudio = false)
+    public ChatFileEventArgs(string name, string contentType, Func<CancellationToken, Task<byte[]>> dataFunc, bool isRecordedAudio = false)
         : this(Identifier.NewId(), name, contentType, dataFunc, isRecordedAudio)
     { }
 
@@ -82,7 +95,7 @@ public record ChatFileEventArgs
     /// <summary>
     /// Gets the function that retrieves the data of the file asynchronously.
     /// </summary>
-    private Func<Task<byte[]>>? DataFunc { get; }
+    private Func<CancellationToken, Task<byte[]>>? DataFunc { get; }
 
     /// <summary>
     /// Gets the data of the file.
@@ -98,7 +111,7 @@ public record ChatFileEventArgs
     /// Gets the data of the file asynchronously.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains the data of the file.</returns>
-    public Task<byte[]> GetDataAsync() => DataFunc != null ? DataFunc() : Task.FromResult(Data ?? []);
+    public Task<byte[]> GetDataAsync(CancellationToken cancellationToken) => DataFunc != null ? DataFunc(cancellationToken) : Task.FromResult(Data ?? []);
 
     /// <summary>
     /// Retrieves the length of the file data.

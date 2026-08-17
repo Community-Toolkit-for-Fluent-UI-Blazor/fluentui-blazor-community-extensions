@@ -34,9 +34,10 @@ internal sealed class TrailMenuEngine<TItem>
     /// with the ability to expand directories to show their immediate children. This method is typically used to
     /// generate breadcrumb navigation for file system-like structures.</remarks>
     /// <param name="entry">The file or directory entry for which to build the trail menu. If null, the method returns null.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the root menu item of the
     /// constructed trail, or null if the entry is null.</returns>
-    public async Task<ITrailMenuItem?> BuildAsync(FileEntry<TItem>? entry)
+    public async Task<ITrailMenuItem?> BuildAsync(FileEntry<TItem>? entry, CancellationToken cancellationToken)
     {
         if (entry is null)
         {
@@ -65,7 +66,7 @@ internal sealed class TrailMenuEngine<TItem>
 
             if (seg.IsDirectory)
             {
-                var descriptors = await _provider.GetChildrenAsync(seg.Id);
+                var descriptors = await _provider.GetChildrenAsync(seg.Id, cancellationToken);
 
                 item.Items = descriptors
                     .Where(d => d.IsDirectory)

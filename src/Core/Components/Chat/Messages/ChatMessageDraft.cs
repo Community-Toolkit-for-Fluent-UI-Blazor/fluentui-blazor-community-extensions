@@ -22,6 +22,11 @@ public sealed class ChatMessageDraft
     private ChatMessage? _replyMessage;
 
     /// <summary>
+    /// 
+    /// </summary>
+    private CancellationTokenSource? _cancellationTokenSource;
+
+    /// <summary>
     /// Represents all cultures to convert a message.
     /// </summary>
     private readonly Dictionary<string, IEnumerable<string>> _textCultures = [];
@@ -267,9 +272,17 @@ public sealed class ChatMessageDraft
 
             var files = new List<IBinaryChatFile>();
 
+            if (_cancellationTokenSource is not null)
+            {
+                await _cancellationTokenSource.CancelAsync();
+                _cancellationTokenSource.Dispose();
+            }
+
+            _cancellationTokenSource = new();
+
             foreach (var item in e)
             {
-                var content = await item.GetDataAsync();
+                var content = await item.GetDataAsync(_cancellationTokenSource.Token);
 
                 var file = new BinaryChatFile()
                 {
@@ -285,7 +298,7 @@ public sealed class ChatMessageDraft
                 files.Add(file);
             }
 
-            result.Add(new ChatMessageBuildItem(message, files));
+            result.Add(new(message, files));
         }
 
         return new(result);
@@ -347,9 +360,22 @@ public sealed class ChatMessageDraft
 
         var files = new List<IBinaryChatFile>();
 
+        if (_cancellationTokenSource is not null)
+        {
+            await _cancellationTokenSource.CancelAsync();
+            _cancellationTokenSource.Dispose();
+        }
+
+        _cancellationTokenSource = new();
+
         foreach (var item in SelectedChatFiles)
         {
-            var content = await item.GetDataAsync();
+            if (_cancellationTokenSource.IsCancellationRequested)
+            {
+                break;
+            }
+
+            var content = await item.GetDataAsync(_cancellationTokenSource.Token);
 
             var file = new BinaryChatFile()
             {

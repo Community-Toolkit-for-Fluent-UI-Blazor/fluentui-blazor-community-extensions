@@ -19,7 +19,9 @@ public sealed class LocalStorageFileProvider : IFileProvider<FileManagerSampleFi
         _files = await _repo.LoadAsync();
     }
 
-    public async ValueTask<IReadOnlyList<EntryDescriptor<FileManagerSampleFile>>> GetChildrenAsync(string parentId)
+    public async ValueTask<IReadOnlyList<EntryDescriptor<FileManagerSampleFile>>> GetChildrenAsync(
+        string? parentId,
+        CancellationToken cancellationToken)
     {
         await EnsureLoadedAsync();
 
@@ -28,7 +30,7 @@ public sealed class LocalStorageFileProvider : IFileProvider<FileManagerSampleFi
             .Select(ToDescriptor)];
     }
 
-    public async ValueTask<bool> HasChildrenAsync(string parentId)
+    public async ValueTask<bool> HasChildrenAsync(string? parentId, CancellationToken cancellationToken)
     {
         await EnsureLoadedAsync();
 
@@ -57,7 +59,7 @@ public sealed class LocalStorageFileProvider : IFileProvider<FileManagerSampleFi
             size: f.Size,
             created: f.Created.UtcDateTime,
             modified: f.LastModified.UtcDateTime,
-            getBytesAsync: () => Task.FromResult(f.Data),
+            getBytesAsync: (CancellationToken cancellation) => Task.FromResult(f.Data),
             value: new FileManagerSampleFile()
         );
     }

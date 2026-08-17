@@ -3,10 +3,11 @@
 @inherits FluentComponentBase
 
 <CascadingValue Value="this" IsFixed="true">
-    <FluentStack Style="height: calc(100% - 50px);"
+    <FluentStack Style="@(!InsideDialog ? "height: calc(100% - 50px)" : "height: 100%")"
                  VerticalAlignment="VerticalAlignment.Center"
-                 Orientation="Orientation.Vertical">
-        <FluentStack HorizontalGap="4px" Wrap>
+                 Orientation="Orientation.Vertical"
+                 Id="@Id">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalGap="4px" Wrap>
             @if (ShowCreateFolderButton)
             {
                 <FluentButton IconStart="@(new Size20.FolderAdd())"

@@ -121,6 +121,7 @@ internal sealed class FileManagerTreeEngine<TItem>
         var children = await _core.LoadChildrenAsync(entry);
 
         uiNode.Items = children
+            .Where(c => c.IsDirectory)
             .Select(c => ToTreeViewItem(c, onExpandedAsync))
             .ToList();
     }

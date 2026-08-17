@@ -41,6 +41,11 @@ public partial class FileEntryDetails<TItem> where TItem : class, new()
     private bool _isImage;
 
     /// <summary>
+    /// 
+    /// </summary>
+    private CancellationTokenSource? _cancellationTokenSource;
+
+    /// <summary>
     /// Provides a static instance of the file extension content type provider for resolving MIME types based on file
     /// extensions.
     /// </summary>
@@ -87,8 +92,15 @@ public partial class FileEntryDetails<TItem> where TItem : class, new()
             if (!entry.IsDirectory &&
                 _contentType?.StartsWith("image/") == true)
             {
+                if (_cancellationTokenSource is not null)
+                {
+                    await _cancellationTokenSource.CancelAsync();
+                    _cancellationTokenSource.Dispose();
+                }
+
+                _cancellationTokenSource = new();
                 _isImage = true;
-                _entryDataContent = await entry.GetContentAsync();
+                _entryDataContent = await entry.GetContentAsync(_cancellationTokenSource.Token);
             }
         }
     }

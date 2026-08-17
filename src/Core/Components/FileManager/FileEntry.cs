@@ -126,7 +126,7 @@ public sealed class FileEntry<TItem>
     /// This is typically used for file download or preview scenarios.
     /// For directories, this value is usually <see langword="null"/>.
     /// </summary>
-    public Func<Task<byte[]>>? DataProviderAsync { get; set; }
+    public Func<CancellationToken, Task<byte[]>>? DataProviderAsync { get; set; }
 
     /// <summary>
     /// Gets or sets a delegate that can synchronously provide the raw data of the file.
@@ -349,11 +349,11 @@ public sealed class FileEntry<TItem>
     /// </summary>
     /// <returns>Returns a byte array containing the content of the file entry.
     ///  If no data provider is set, returns an empty byte array.</returns>
-    public async Task<byte[]> GetContentAsync()
+    public async Task<byte[]> GetContentAsync(CancellationToken cancellationToken)
     {
         if (DataProviderAsync is not null)
         {
-            return await DataProviderAsync();
+            return await DataProviderAsync(cancellationToken);
         }
 
         if (DataProvider is not null)

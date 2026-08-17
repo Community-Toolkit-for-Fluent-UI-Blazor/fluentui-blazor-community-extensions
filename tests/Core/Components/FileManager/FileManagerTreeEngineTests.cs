@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Components.Tests.Components.FileManager.TestDoubles;
 using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Components.Localization;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Xunit;
 
@@ -21,7 +22,7 @@ public class FileManagerTreeEngineTests
         {
             ["home"] = [EntryDescriptor<DummyItem>.Directory("dir", "Dir", "home", DateTime.UtcNow, DateTime.UtcNow)]
         });
-        var core = new FileManagerEngine<DummyItem>(provider, new FileManagerState());
+        var core = new FileManagerEngine<DummyItem>(provider, new FileManagerState(), new FluentCxLocalizer());
         var engine = new FileManagerTreeEngine<DummyItem>(core);
 
         var root = await engine.CreateRootAsync(_ => Task.CompletedTask);
@@ -38,7 +39,7 @@ public class FileManagerTreeEngineTests
         {
             ["home"] = [EntryDescriptor<DummyItem>.Directory("dir", "Dir", "home", DateTime.UtcNow, DateTime.UtcNow)]
         });
-        var core = new FileManagerEngine<DummyItem>(provider, new FileManagerState());
+        var core = new FileManagerEngine<DummyItem>(provider, new FileManagerState(), new FluentCxLocalizer());
         var engine = new FileManagerTreeEngine<DummyItem>(core);
         var root = await engine.CreateRootAsync(_ => Task.CompletedTask);
 
@@ -52,7 +53,7 @@ public class FileManagerTreeEngineTests
     public async Task TryGetItem_ReturnsItemFromIndex()
     {
         var provider = new TestFileProvider<DummyItem>(new Dictionary<string, IReadOnlyList<EntryDescriptor<DummyItem>>>());
-        var core = new FileManagerEngine<DummyItem>(provider, new FileManagerState());
+        var core = new FileManagerEngine<DummyItem>(provider, new FileManagerState(), new FluentCxLocalizer());
         var engine = new FileManagerTreeEngine<DummyItem>(core);
         await engine.CreateRootAsync(_ => Task.CompletedTask);
 

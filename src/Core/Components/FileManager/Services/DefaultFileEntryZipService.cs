@@ -15,13 +15,23 @@ namespace FluentUI.Blazor.Community.Components.Components.FileManager.Services;
 internal sealed class DefaultFileEntryZipService<TItem> : IFileEntryZipService<TItem>
     where TItem : class, new()
 {
+    private CancellationTokenSource? _cancellationTokenSource;
+
     /// <inheritdoc />
     public async ValueTask<FileEntry<TItem>> ZipAsync(IEnumerable<FileEntry<TItem>> entries)
     {
+        if (_cancellationTokenSource is not null)
+        {
+            await _cancellationTokenSource.CancelAsync();
+            _cancellationTokenSource.Dispose();
+        }
+
+        _cancellationTokenSource = new();
+
         var tempFolder = Path.Combine(Path.GetTempPath(), "FileManagerZip_" + Guid.NewGuid());
         Directory.CreateDirectory(tempFolder);
 
-        await CopyEntriesAsync(entries, tempFolder);
+        await CopyEntriesAsync(entries, tempFolder, _cancellationTokenSource.Token);
 
         var zipPath = Path.Combine(Path.GetTempPath(), $"archive_{DateTime.Now:yyyyMMdd_HHmmss}.zip");
         ZipFile.CreateFromDirectory(tempFolder, zipPath);
@@ -37,7 +47,7 @@ internal sealed class DefaultFileEntryZipService<TItem> : IFileEntryZipService<T
             modifiedDate: DateTime.Now,
             item: new TItem())
         {
-            DataProviderAsync = async () => await File.ReadAllBytesAsync(zipPath)
+            DataProviderAsync = async (CancellationToken cancellationToken) => await File.ReadAllBytesAsync(zipPath, cancellationToken)
         };
     }
 
@@ -51,10 +61,12 @@ internal sealed class DefaultFileEntryZipService<TItem> : IFileEntryZipService<T
     /// <param name="entries">The collection of file and directory entries to copy. Each entry may represent a file or a directory and may
     /// contain child entries if it is a directory.</param>
     /// <param name="folder">The target folder path where the entries will be copied. If the folder does not exist, it will be created.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>A task that represents the asynchronous copy operation.</returns>
     private static async Task CopyEntriesAsync(
         IEnumerable<FileEntry<TItem>> entries,
-        string folder)
+        string folder,
+        CancellationToken cancellationToken)
     {
         foreach (var entry in entries)
         {
@@ -62,15 +74,15 @@ internal sealed class DefaultFileEntryZipService<TItem> : IFileEntryZipService<T
             {
                 var dir = Path.Combine(folder, entry.Name);
                 Directory.CreateDirectory(dir);
-                await CopyEntriesAsync(entry.Children, dir);
+                await CopyEntriesAsync(entry.Children, dir, cancellationToken);
             }
             else
             {
                 var data = entry.DataProviderAsync != null
-                    ? await entry.DataProviderAsync()
+                    ? await entry.DataProviderAsync(cancellationToken)
                     : entry.DataProvider?.Invoke() ?? [];
 
-                await File.WriteAllBytesAsync(Path.Combine(folder, entry.Name), data);
+                await File.WriteAllBytesAsync(Path.Combine(folder, entry.Name), data, cancellationToken);
             }
         }
     }

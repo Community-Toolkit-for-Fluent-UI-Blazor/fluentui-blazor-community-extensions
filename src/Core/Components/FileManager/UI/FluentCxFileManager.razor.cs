@@ -1,6 +1,8 @@
+using FluentUI.Blazor.Community.Components.Components.Base;
 using FluentUI.Blazor.Community.Components.Components.FileManager.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace FluentUI.Blazor.Community.Components;
 
@@ -11,6 +13,14 @@ namespace FluentUI.Blazor.Community.Components;
 public partial class FluentCxFileManager<TItem>
     : FluentComponentBase where TItem : class, new()
 {
+    /// <summary>
+    /// Represents the relative path to the JavaScript file that provides functionality for the FluentCxSlideshow
+    /// component.
+    /// </summary>
+    /// <remarks>This file must be available at runtime for the slideshow component to operate correctly.
+    /// Ensure that the specified path matches the deployment structure of your application.</remarks>
+    private const string JavascriptFileName = FluentCxConstants.JAVASCRIPT_ROOT + "FileManager/UI/FluentCxFileManager.razor.js";
+
     /// <summary>
     /// Represents the menu used for sorting operations, or null if no sort menu is available.
     /// </summary>
@@ -45,6 +55,11 @@ public partial class FluentCxFileManager<TItem>
     /// Provides the internal engine used to manage the trail menu state and operations.
     /// </summary>
     private TrailMenuEngine<TItem> _trailEngine = default!;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private CancellationTokenSource? _cancellationTokenSource;
 
     /// <summary>
     /// Value indicating whether the file manager shows detailed information about files and folders.
@@ -572,6 +587,12 @@ public partial class FluentCxFileManager<TItem>
     private IFileEntryZipService<TItem> ZipService { get; set; } = default!;
 
     /// <summary>
+    /// Gets or sets a value indicating that the file manager is inside a dialog component.
+    /// </summary>
+    [Parameter]
+    public bool InsideDialog { get; set; }
+
+    /// <summary>
     /// Determines whether the current selection is considered disabled based on the specified predicate and internal
     /// state.
     /// </summary>
@@ -600,15 +621,28 @@ public partial class FluentCxFileManager<TItem>
     [Parameter]
     public bool ShowSearchOptions { get; set; } = true;
 
+    private static async Task<CancellationTokenSource> GetCancellationTokenSourceAsync(CancellationTokenSource? cancellationTokenSource)
+    {
+        if (cancellationTokenSource is not null)
+        {
+            await cancellationTokenSource.CancelAsync();
+            cancellationTokenSource.Dispose();
+        }
+
+        return new();
+    }
+
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        _engine = new FileManagerEngine<TItem>(Provider, State);
+        _engine = new FileManagerEngine<TItem>(Provider, State, Localizer);
         _treeEngine = new FileManagerTreeEngine<TItem>(_engine);
         _trailEngine = new TrailMenuEngine<TItem>(Provider);
         _currentEntry = _engine.MasterRoot;
+
+        _cancellationTokenSource = await GetCancellationTokenSourceAsync(_cancellationTokenSource);
 
         _engine.SortUpdated += OnSortUpdated;
         await _engine.InitializeAsync();
@@ -619,7 +653,7 @@ public partial class FluentCxFileManager<TItem>
         }
 
         _flattenEntry = await _engine.BuildFlatViewAsync();
-        _rootTrail = await _trailEngine.BuildAsync(_currentEntry);
+        _rootTrail = await _trailEngine.BuildAsync(_currentEntry, _cancellationTokenSource.Token);
     }
 
     /// <inheritdoc />
@@ -633,6 +667,18 @@ public partial class FluentCxFileManager<TItem>
         }
 
         DeviceInfoState?.DeviceInfo?.OnBreakpointChanged += OnBreakpointChanged;
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender && InsideDialog)
+        {
+            var module = await JSModule.ImportJavaScriptModuleAsync(JavascriptFileName);
+            await module.InvokeVoidAsync("FluentUI.Blazor.Community.FileManager.InsideDialog", Id);
+        }
     }
 
     /// <inheritdoc />
@@ -792,11 +838,12 @@ public partial class FluentCxFileManager<TItem>
             return;
         }
 
+        _cancellationTokenSource = await GetCancellationTokenSourceAsync(_cancellationTokenSource);
         await _engine.LoadChildrenWhenAsync(entry);
         _currentSelectedItems.Clear();
         _currentEntry = entry;
         _searchEntry = null;
-        _rootTrail = await _trailEngine!.BuildAsync(entry);
+        _rootTrail = await _trailEngine!.BuildAsync(entry, _cancellationTokenSource.Token);
         _path = string.Join(Path.DirectorySeparatorChar, FileManagerEngine<TItem>.GetPath(entry).Select(e => e.Name));
 
         if (IsTreeViewVisible)
@@ -1107,7 +1154,8 @@ public partial class FluentCxFileManager<TItem>
             entry.IsAncestorOf(_currentEntry) ||
             _currentEntry.IsAncestorOf(entry))
         {
-            _rootTrail = await _trailEngine.BuildAsync(_currentEntry);
+            _cancellationTokenSource = await GetCancellationTokenSourceAsync(_cancellationTokenSource);
+            _rootTrail = await _trailEngine.BuildAsync(_currentEntry, _cancellationTokenSource.Token);
             await InvokeAsync(StateHasChanged);
         }
     }
@@ -1203,13 +1251,15 @@ public partial class FluentCxFileManager<TItem>
 
         try
         {
+            _cancellationTokenSource = await GetCancellationTokenSourceAsync(_cancellationTokenSource);
+
             if (items.Count == 1)
             {
-                await DownloadSingleEntryAsync(items[0]);
+                await DownloadSingleEntryAsync(items[0], _cancellationTokenSource.Token);
             }
             else
             {
-                await DownloadZippedEntriesAsync(items);
+                await DownloadZippedEntriesAsync(items, _cancellationTokenSource.Token);
             }
         }
         finally
@@ -1223,11 +1273,12 @@ public partial class FluentCxFileManager<TItem>
     /// Downloads a single file entry by retrieving its content and invoking the file downloader service.
     /// </summary>
     /// <param name="entry">Entry to download. Must not be null and must represent a downloadable file.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>Returns a task that represents the asynchronous download operation.</returns>
-    private async Task DownloadSingleEntryAsync(FileEntry<TItem> entry)
+    private async Task DownloadSingleEntryAsync(FileEntry<TItem> entry, CancellationToken cancellationToken)
     {
         var contentType = entry.GetContentType();
-        var content = await entry.GetContentAsync();
+        var content = await entry.GetContentAsync(cancellationToken);
 
         await FileDownloader.DownloadFileAsync(entry.Name, contentType, content);
     }
@@ -1238,12 +1289,15 @@ public partial class FluentCxFileManager<TItem>
     /// <remarks>The resulting ZIP file will contain all provided entries. The download is initiated in the
     /// user's browser and may prompt for a save location depending on browser settings.</remarks>
     /// <param name="entries">The collection of file entries to include in the ZIP archive. Cannot be null or contain null elements.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>A task that represents the asynchronous download operation.</returns>
-    private async Task DownloadZippedEntriesAsync(IEnumerable<FileEntry<TItem>> entries)
+    private async Task DownloadZippedEntriesAsync(
+        IEnumerable<FileEntry<TItem>> entries,
+        CancellationToken cancellationToken)
     {
         var zipEntry = await ZipService.ZipAsync(entries);
         var contentType = zipEntry.GetContentType();
-        var content = await zipEntry.GetContentAsync();
+        var content = await zipEntry.GetContentAsync(cancellationToken);
 
         await FileDownloader.DownloadFileAsync(zipEntry.Name, contentType, content);
     }

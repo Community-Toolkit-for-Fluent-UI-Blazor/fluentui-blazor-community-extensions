@@ -1,3 +1,6 @@
+using FluentUI.Blazor.Community.Components.Localization;
+using Microsoft.FluentUI.AspNetCore.Components;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
@@ -42,6 +45,11 @@ internal sealed class FileManagerEngine<TItem>
     private readonly FileEntrySortComparer<TItem> _comparer;
 
     /// <summary>
+    /// 
+    /// </summary>
+    private CancellationTokenSource? _cancellationTokenSource;
+
+    /// <summary>
     /// Représente la racine logique utilisée par le FileManager (typiquement le MASTERROOT du composant).
     /// Elle peut être vide (aucun enfant).
     /// </summary>
@@ -59,8 +67,12 @@ internal sealed class FileManagerEngine<TItem>
     /// </summary>
     /// <param name="provider">The file provider used to retrieve file and directory information. Cannot be null.</param>
     /// <param name="state">The state of the file manager, which retains sort states. Cannot be null.</param>
+    /// <param name="localizer"></param>
     /// <exception cref="ArgumentNullException">Occurs when the provided file provider is null.</exception>
-    public FileManagerEngine(IFileProvider<TItem> provider, FileManagerState state)
+    public FileManagerEngine(
+        IFileProvider<TItem> provider,
+        FileManagerState state,
+        IFluentLocalizer localizer)
     {
         _provider = provider ?? throw new ArgumentNullException(nameof(provider));
         _state = state ?? throw new ArgumentNullException(nameof(state));
@@ -68,8 +80,8 @@ internal sealed class FileManagerEngine<TItem>
         _flattenService = new FileEntryFlattenService<TItem>(provider);
         _comparer = new FileEntrySortComparer<TItem>(state);
         MasterRoot = new(
-            id: "home",
-            name: "Home",
+            id: Guid.Empty.ToString(),
+            name: localizer[LanguageResource.CX_FileManager_Home_Label],
             isDirectory: true,
             size: 0,
             createdDate: DateTime.UtcNow,
@@ -133,9 +145,17 @@ internal sealed class FileManagerEngine<TItem>
             return [];
         }
 
+        if (_cancellationTokenSource is not null)
+        {
+            await _cancellationTokenSource.CancelAsync();
+            _cancellationTokenSource.Dispose();
+        }
+
+        _cancellationTokenSource = new();
+
         parent.Children.Clear();
 
-        var descriptors = await _provider.GetChildrenAsync(parent.Id) ?? [];
+        var descriptors = await _provider.GetChildrenAsync(parent.Id, _cancellationTokenSource.Token) ?? [];
 
         foreach (var desc in descriptors)
         {

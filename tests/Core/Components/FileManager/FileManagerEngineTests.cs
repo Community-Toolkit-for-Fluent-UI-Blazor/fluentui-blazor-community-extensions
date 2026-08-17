@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Components.Tests.Components.FileManager.TestDoubles;
 using FluentUI.Blazor.Community.Components;
+using FluentUI.Blazor.Community.Components.Localization;
 using Xunit;
 
 namespace Components.Tests.Components.FileManager;
@@ -21,7 +22,7 @@ public class FileManagerEngineTests
         {
             ["home"] = [EntryDescriptor<DummyItem>.Directory("dir", "Dir", "home", DateTime.UtcNow, DateTime.UtcNow)]
         });
-        var engine = new FileManagerEngine<DummyItem>(provider, new FileManagerState());
+        var engine = new FileManagerEngine<DummyItem>(provider, new FileManagerState(), new FluentCxLocalizer());
 
         await engine.InitializeAsync();
 
@@ -35,9 +36,9 @@ public class FileManagerEngineTests
         var provider = CreateProvider(new Dictionary<string, IReadOnlyList<EntryDescriptor<DummyItem>>>
         {
             ["home"] = [EntryDescriptor<DummyItem>.Directory("dir", "Dir", "home", DateTime.UtcNow, DateTime.UtcNow)],
-            ["dir"] = [EntryDescriptor<DummyItem>.File("file", "file.txt", "dir", 10, DateTime.UtcNow, DateTime.UtcNow, () => Task.FromResult(Array.Empty<byte>()))]
+            ["dir"] = [EntryDescriptor<DummyItem>.File("file", "file.txt", "dir", 10, DateTime.UtcNow, DateTime.UtcNow, (ct) => Task.FromResult(Array.Empty<byte>()))]
         });
-        var engine = new FileManagerEngine<DummyItem>(provider, new FileManagerState());
+        var engine = new FileManagerEngine<DummyItem>(provider, new FileManagerState(), new FluentCxLocalizer());
 
         await engine.LoadChildrenRecursiveAsync(engine.MasterRoot);
 
@@ -82,7 +83,7 @@ public class FileManagerEngineTests
             SortMode = FileSortMode.Ascending,
             SortLayout = FileSortLayout.None
         };
-        var engine = new FileManagerEngine<DummyItem>(CreateProvider([]), state);
+        var engine = new FileManagerEngine<DummyItem>(CreateProvider([]), state, new FluentCxLocalizer());
         var parent = CreateDirectory("parent");
         var beta = CreateFile("beta.txt", 1);
         var alpha = CreateFile("alpha.txt", 1);

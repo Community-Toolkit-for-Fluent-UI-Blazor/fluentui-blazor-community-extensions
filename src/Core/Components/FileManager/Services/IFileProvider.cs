@@ -20,15 +20,17 @@ public interface IFileProvider<TItem>
     /// Asynchronously retrieves the child entries associated with the specified parent identifier.
     /// </summary>
     /// <param name="parentId">The unique identifier of the parent entry for which to retrieve child entries. Cannot be null.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete. The operation should be canceled when the token is signaled.</param>
     /// <returns>A value task that represents the asynchronous operation. The result contains a read-only list of child entry
     /// descriptors. The list is empty if the parent has no children.</returns>
-    ValueTask<IReadOnlyList<EntryDescriptor<TItem>>> GetChildrenAsync(string parentId);
+    ValueTask<IReadOnlyList<EntryDescriptor<TItem>>> GetChildrenAsync(string? parentId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Determines asynchronously whether the specified parent item has any child items.
     /// </summary>
     /// <param name="parentId">The identifier of the parent item to check for child items. Cannot be null.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used to cancel the asynchronous operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains <see langword="true"/> if the parent
     /// item has one or more children; otherwise, <see langword="false"/>.</returns>
-    ValueTask<bool> HasChildrenAsync(string parentId);
+    ValueTask<bool> HasChildrenAsync(string? parentId, CancellationToken cancellationToken);
 }

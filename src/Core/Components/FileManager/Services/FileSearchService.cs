@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace FluentUI.Blazor.Community.Components;
 
 /// <summary>
@@ -15,6 +17,11 @@ internal sealed class FileSearchService<TItem> : IFileSearchService<TItem>
     /// Reference to the file provider used to access file entries and their associated data.
     /// </summary>
     private readonly IFileProvider<TItem> _provider;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private CancellationTokenSource? _cancellationTokenSource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FileSearchService{TItem}"/> class with the specified file provider.
@@ -52,11 +59,24 @@ internal sealed class FileSearchService<TItem> : IFileSearchService<TItem>
             yield break;
         }
 
+        if (_cancellationTokenSource is not null)
+        {
+            await _cancellationTokenSource.CancelAsync();
+            _cancellationTokenSource.Dispose();
+        }
+
+        _cancellationTokenSource = new();
+
         var normalized = query.Trim();
 
-        await foreach (var entry in EnumerateAsync(root, options.Recursive))
+        await foreach (var entry in EnumerateAsync(root, options.Recursive, _cancellationTokenSource.Token))
         {
-            if (await MatchesAsync(entry, normalized, options, metadataExtractor))
+            if (_cancellationTokenSource.IsCancellationRequested)
+            {
+                yield break;
+            }
+
+            if (await MatchesAsync(entry, normalized, options, metadataExtractor, _cancellationTokenSource.Token))
             {
                 yield return entry;
             }
@@ -71,13 +91,15 @@ internal sealed class FileSearchService<TItem> : IFileSearchService<TItem>
     /// <param name="query">The search query string to match against the file entry's name, metadata, or content.</param>
     /// <param name="options">The options that specify which parts of the file entry (name, metadata, content) to include in the search.</param>
     /// <param name="metadataExtractor">A function that extracts metadata from the file entry's item for use in metadata-based searching.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>A task that represents the asynchronous operation. The task result contains <see langword="true"/> if the file
     /// entry matches the search query according to the specified options; otherwise, <see langword="false"/>.</returns>
     private static async ValueTask<bool> MatchesAsync(
         FileEntry<TItem> entry,
         string query,
         FileSearchOptions options,
-        Func<TItem, string> metadataExtractor)
+        Func<TItem, string> metadataExtractor,
+        CancellationToken cancellationToken)
     {
         if (options.Extensions?.Length > 0 &&
             !options.Extensions.Contains(entry.Extension, StringComparer.OrdinalIgnoreCase))
@@ -140,7 +162,7 @@ internal sealed class FileSearchService<TItem> : IFileSearchService<TItem>
         }
 
         if (options.SearchInContent &&
-            await MatchesContentAsync(entry, query))
+            await MatchesContentAsync(entry, query, cancellationToken))
         {
             return true;
         }
@@ -170,8 +192,12 @@ internal sealed class FileSearchService<TItem> : IFileSearchService<TItem>
     /// </summary>
     /// <param name="entry">Entry to evaluate against the search query.</param>
     /// <param name="query">Query to match against the content of the entry.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async ValueTask<bool> MatchesContentAsync(FileEntry<TItem> entry, string query)
+    private static async ValueTask<bool> MatchesContentAsync(
+        FileEntry<TItem> entry,
+        string query,
+        CancellationToken cancellationToken)
     {
         if (entry.DataProvider is not null)
         {
@@ -182,7 +208,7 @@ internal sealed class FileSearchService<TItem> : IFileSearchService<TItem>
         }
         else if (entry.DataProviderAsync is not null)
         {
-            var data = await entry.DataProviderAsync();
+            var data = await entry.DataProviderAsync(cancellationToken);
             var text = System.Text.Encoding.UTF8.GetString(data);
 
             return text.Contains(query, StringComparison.OrdinalIgnoreCase);
@@ -201,11 +227,13 @@ internal sealed class FileSearchService<TItem> : IFileSearchService<TItem>
     /// <param name="root">The root file system entry to begin enumeration from. This entry is always included in the results.</param>
     /// <param name="recursive">true to recursively enumerate all subdirectories and their contents; otherwise, false to enumerate only the
     /// immediate children of the root entry.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>An asynchronous stream of file system entries, starting with the root entry and including its children. If
     /// recursive is true, all descendants are included; otherwise, only immediate children are returned.</returns>
     private async IAsyncEnumerable<FileEntry<TItem>> EnumerateAsync(
         FileEntry<TItem> root,
-        bool recursive)
+        bool recursive,
+        [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         yield return root;
 
@@ -214,7 +242,7 @@ internal sealed class FileSearchService<TItem> : IFileSearchService<TItem>
             yield break;
         }
 
-        var descriptors = await _provider.GetChildrenAsync(root.Id);
+        var descriptors = await _provider.GetChildrenAsync(root.Id, cancellationToken);
 
         foreach (var desc in descriptors)
         {
@@ -223,7 +251,7 @@ internal sealed class FileSearchService<TItem> : IFileSearchService<TItem>
 
             if (recursive && child.IsDirectory)
             {
-                await foreach (var sub in EnumerateAsync(child, recursive))
+                await foreach (var sub in EnumerateAsync(child, recursive, cancellationToken))
                 {
                     yield return sub;
                 }
