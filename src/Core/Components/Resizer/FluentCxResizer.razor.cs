@@ -83,9 +83,12 @@ public partial class FluentCxResizer : FluentComponentBase
 
         if (firstRender)
         {
+            if (!await JSModule.TryImportJavaScriptModuleAsync(JAVASCRIPT_FILE))
+            {
+                return;
+            }
 
-            var module = await JSModule.ImportJavaScriptModuleAsync(JAVASCRIPT_FILE);
-            await module.InvokeVoidAsync("FluentUI.Blazor.Community.Resizer.Initialize", Id, _dotNetHelper);
+            await JSModule.ObjectReference.InvokeVoidAsync("FluentUI.Blazor.Community.Resizer.Initialize", Id, _dotNetHelper);
         }
 
         //if (_resetInitialization && JSModule.Imported)

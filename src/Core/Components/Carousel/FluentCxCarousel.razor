@@ -1,0 +1,50 @@
+﻿@namespace FluentUI.Blazor.Community.Components
+@inherits FluentComponentBase
+
+<div class="fluentcx-carousel-wrapper">
+
+    <div class="@InternalClass"
+         style="@InternalStyle">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </div>
+
+    @if (_slides.Count > 1)
+    {
+        @if (ShowControls)
+        {
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          Class="fluentcx-carousel-button prev"
+                          orientation="@GetOrientationAttribute()"
+                          OnClick="Previous"
+                          aria-label="@Localizer[LanguageResource.CX_Carousel_PreviousLabel]"
+                          Title="@Localizer[LanguageResource.CX_Carousel_PreviousLabel]"
+                          IconStart="@GetPreviousIcon()"
+                          IconOnly="true" />
+
+
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          Class="fluentcx-carousel-button next"
+                          orientation="@GetOrientationAttribute()"
+                          OnClick="Next"
+                          aria-label="@Localizer[LanguageResource.CX_Carousel_NextLabel]"
+                          Title="@Localizer[LanguageResource.CX_Carousel_NextLabel]"
+                          IconStart="@GetNextIcon()"
+                          IconOnly="true" />
+        }
+
+        <div class="dots">
+            @for (var i = 0; i < _slides.Count; i++)
+            {
+                var index = i;
+
+                <button class="dot @(index == CurrentIndex ? "active" : "")"
+                        @onclick="() => GoTo(index)">
+                </button>
+            }
+        </div>
+    }
+
+</div>
+

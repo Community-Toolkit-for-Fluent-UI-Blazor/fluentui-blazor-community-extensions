@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CX_Carousel_NextLabel" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="CX_Carousel_PreviousLabel" xml:space="preserve">
+    <value>Previous</value>
+  </data>
   <data name="CX_ColorPalette_CustomGradient_Error" xml:space="preserve">
     <value>GradientStart and GradientEnd are required in CustomGradient mode.</value>
   </data>

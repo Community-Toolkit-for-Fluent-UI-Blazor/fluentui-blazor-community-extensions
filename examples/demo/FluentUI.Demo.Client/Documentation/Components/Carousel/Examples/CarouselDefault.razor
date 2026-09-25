@@ -1,0 +1,40 @@
+﻿<FluentStack>
+    <FluentSelect TValue="Orientation"
+                  TOption="Orientation"
+                  Items="Enum.GetValues<Orientation>()"
+                  @bind-Value="orientation"
+                  Label="Orientation" />
+</FluentStack>
+<FluentCxCarousel Orientation="orientation"
+                  Height="600px">
+    <FluentCxSlide>
+        <img src="images/ship-1.png" />
+    </FluentCxSlide>
+
+    <FluentCxSlide>
+        <img src="images/ship-2.png" />
+    </FluentCxSlide>
+
+    <FluentCxSlide>
+        <h2>Slide 1</h2>
+    </FluentCxSlide>
+
+    <FluentCxSlide>
+        <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+            <h2>Slide 2</h2>
+            <FluentButton OnClick="HandleClick">Click me</FluentButton>
+        </FluentStack>
+    </FluentCxSlide>
+
+    <FluentCxSlide>
+        <h2>Slide 3</h2>
+    </FluentCxSlide>
+</FluentCxCarousel>
+
+@code {
+    Orientation orientation = Orientation.Horizontal;
+    private void HandleClick()
+    {
+        Console.WriteLine("Hello!");
+    }
+}

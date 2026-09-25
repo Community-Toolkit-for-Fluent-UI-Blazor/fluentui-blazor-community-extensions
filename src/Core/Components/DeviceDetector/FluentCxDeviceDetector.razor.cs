@@ -53,9 +53,13 @@ public partial class FluentCxDeviceDetector : FluentComponentBase
 
         if (firstRender)
         {
-            var module = await JSModule.ImportJavaScriptModuleAsync(JAVASCRIPT_FILE);
+            if (!await JSModule.TryImportJavaScriptModuleAsync(JAVASCRIPT_FILE))
+            {
+                return;
+            }
+
             _jsInstance = await JSModule.ObjectReference.InvokeAsync<IJSObjectReference>("FluentUI.Blazor.Community.DeviceDetector.Initialize", _dotNetHelper);
-            State.DeviceInfo = await module.InvokeAsync<DeviceInfo>("FluentUI.Blazor.Community.DeviceDetector.GetDeviceInfo");
+            State.DeviceInfo = await JSModule.ObjectReference.InvokeAsync<DeviceInfo>("FluentUI.Blazor.Community.DeviceDetector.GetDeviceInfo");
 
             if (DeviceInfoUpdated.HasDelegate)
             {
